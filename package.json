@@ -1,0 +1,29 @@
+{
+  "name": "sd-explorer",
+  "version": "1.0.0",
+  "description": "A simple snippet to be included into Google Chrome DevTools to extract Structured Data from any web page",
+  "main": "src/snippet.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --progress --color --mode production --stats-error-details --config webpack.snippet.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/folini/SD-Explorer.git"
+  },
+  "author": "Franco Folini",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/folini/SD-Explorer/issues"
+  },
+  "homepage": "https://github.com/folini/SD-Explorer#readme",
+  "dependencies": {
+    "@types/node": "^16.3.2",
+    "prettier": "^2.3.2",
+    "prettier-cli": "^0.1.0",
+    "ts-loader": "^9.2.3",
+    "typescript": "^4.3.5",
+    "webpack": "^5.44.0",
+    "webpack-cli": "^4.7.2"
+  }
+}

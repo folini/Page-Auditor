@@ -1,0 +1,26 @@
+// TOP LEVEL TSCONFIG
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "noEmit": false,
+        "outDir": "dist",
+        "module": "ES2020",
+        "target": "ES2019",
+        "moduleResolution": "node",
+        "allowJs": true,
+        "sourceMap": false,
+        "removeComments": true,
+        "strict": true /* Enable all strict type-checking options. */,
+        "noImplicitAny": true /* Raise error on expressions and declarations with an implied 'any' type. */,
+        "strictNullChecks": true /* Enable strict null checks. */,
+        "strictFunctionTypes": true /* Enable strict checking of function types. */,
+        "strictBindCallApply": true /* Enable strict 'bind', 'call', and 'apply' methods on functions. */,
+        "strictPropertyInitialization": true /* Enable strict checking of property initialization in classes. */,
+        "noImplicitThis": true /* Raise error on 'this' expressions with an implied 'any' type. */,
+        "alwaysStrict": true /* Parse in strict mode and emit "use strict" for each source file. */,
+        "types": ["node"],
+        "baseUrl": "./",
+    },
+    "include": ["src/*.ts"],
+    "exclude": ["node_modules"]
+}
