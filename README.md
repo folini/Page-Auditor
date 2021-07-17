@@ -36,4 +36,5 @@ To make this exploration a little bit easier and simpler for non technical peopl
 - [ ] Add more SEO features, like highlighting of images missing the `alt` attribute
 
 ---
-&copy; e-Commerce Boosters
+Copyright (c) 2021, Franco Folini
+All rights reserved.
