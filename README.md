@@ -8,7 +8,10 @@ To look at the Structured Data we need to scan the HTML source code of the page 
 
 To make this exploration a little bit easier and simpler for non technical people, I created this small _Google Chrome Snippet_ that can easily be added to any Google Chrome and used on any webpage. The snippet will automatically locate the Structured Data and will present it in a nicely formatted way.
 
-![SD-Explorer snapshot](https://storage.googleapis.com/ecommerce-boosters-bucket/GIT/SD_Explorer.png)
+![SD-Explorer snapshot](./images/SD_Explorer.png)
+
+## License
+This code snippet is released under [__BSD-3-Clause__](./LICENSE.md) license.
 
 ## Deploy the Snippet
 1. Open the Google Chrome DevTools. The are several ways, and the simplest is to use a keyboard shortcut from any webpage: on Windows, press `F12` or `CTRL+SHIFT+I`, on a Mac, press `Command+Option+I`.

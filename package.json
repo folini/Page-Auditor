@@ -12,7 +12,7 @@
     "url": "git+https://github.com/folini/SD-Explorer.git"
   },
   "author": "Franco Folini",
-  "license": "ISC",
+  "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/folini/SD-Explorer/issues"
   },
