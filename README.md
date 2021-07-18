@@ -26,6 +26,8 @@ This code snippet is released under [__BSD-3-Clause__](./LICENSE.md) license.
 
 6. Right-click on the snippet name and select the _Rename_ command. I suggest naming the snippet _getStructuredData_ as in the image below, but the name is not so important.
 
+![Screenshot](./images/screenshot.png)
+
 ## Execute the Snippet
 1. Open the Google Chrome DevTools. The are several ways, and the simplest is to use a keyboard shortcut from any webpage: on Windows, press `F12` or `CTRL+SHIFT+I`, on a Mac, press `Command+Option+I`.
 
