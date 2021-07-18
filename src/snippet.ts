@@ -3,83 +3,86 @@
 // To be installed as a Google Chrome Snippet
 // Franco Folini - May 2021
 //
-export var a:number = 1 
+export var a: number = 1
 ;(() => {
-
-    const schemaCSS = "color:darkblue;"
-    const labelCSS = "color:darkgreen;"
-    const valueCSS = "color:black;"
-    const titleCSS =
+  const css = {
+    schema: "color:darkblue;",
+    label: "color:darkgreen;",
+    value: "color:black;",
+    title:
       "font-size:1.4em;" +
       "font-weight:bold;" +
       "border:solid 1px #ccc;" +
       "padding: 0 16px;" +
       "background-color: #fffbec;" +
-      "border-radius:3px;"
-    const pageCSS = "color:#444"
-    const descCSS = "font-size:0.8em"
-    const subTitleCSS = "font-size:1.2em;" + "font-weight:bold;"
+      "border-radius:3px;",
+    page: "color:#444",
+    desc: "font-size:0.8em",
+    subTitle: "font-size:1.2em;" + "font-weight:bold;",
+  }
 
-    const renderLine = (line: string) => {
+  const renderLine = (() => {
+    var level = 0
+    return (line: string) => {
       if (line.length === 0) {
         return
       }
       line = line.replace(': "', ': %c"')
       level += line.includes("}") ? -1 : 0
-      const labelFmt = `margin-left:${(20 * level).toFixed()}px;${labelCSS}`
-      const valueFmt = line.includes("%c") ? valueCSS : ""
+      const labelFmt = `margin-left:${(20 * level).toFixed()}px;${css.label}`
+      const valueFmt = line.includes("%c") ? css.value : ""
       level += line.includes("{") ? 1 : 0
-      console.info("%c" + line, labelFmt, valueFmt)
+      console.info("%c " + line, labelFmt, valueFmt)
     }
-  
-    const getLines = (script: string) => {
-      if (script.includes("\n")) {
-        return script.split("\n").map(line => line.trim())
-      }
-      return script
-        .replace(/\{/g, "{#")
-        .replace(/\}/g, "#}")
-        .replace(/\,\"/g, ',#"')
-        .replace(/\\/g, "")
-        .split("#")
-        .map(line => line.trim())
-    }
-  
-  
-    console.clear()
-    console.info("%cStructured-Data Explorer", titleCSS)
-    console.info("%cSimple LD+JSON extractor. Franco Folini, 2021", descCSS)
-    console.info("%cPage URL: " + document.URL, pageCSS)
-    console.info("%cPage Title: " + document.title, pageCSS)
-  
-    var jsonScripts = [...document.scripts].filter(
-      s => s.type === "application/ld+json"
-    )
-  
-    if (jsonScripts.length == 0) {
-      console.info("No Structured Data found on this page")
-      return
-    }
-  
-    var level = 0
-    jsonScripts
-      .map(s => JSON.parse(s.text.trim()))
-      .forEach((json, i) => {
-        const schemaType = json["@type"]
-        const blockName = `%c${(i + 1).toFixed()}. Structured Data${
-          schemaType !== undefined ? ": " + schemaType : ""
-        }`
-        console.group("")
-        console.info(blockName, subTitleCSS)
-        if (schemaType !== undefined) {
-          console.info("%cSchema: https://shema.org/" + schemaType, schemaCSS)
-        }
-  
-        const script = JSON.stringify(json)
-        getLines(script).forEach(line => renderLine(line))
-  
-        console.groupEnd()
-      })
-    return ""
   })()
-  
+
+  const getLines = (script: string) => {
+    if (!script.includes("\n")) {
+      // Decompress LD+JSON without newlines
+      script = script.replace(/\{/g, "{\n")
+        .replace(/\}/g, "\n}")
+        .replace(/\,\"/g, ',\n"')
+        .replace(/\\/g, "")
+    }
+    return script
+      .split("\n")
+      .map(line => line.trim())
+  }
+
+  const header = () => {
+    console.clear()
+    console.info("%c Structured-Data Explorer", css.title)
+    console.info("%c Simple LD+JSON extractor. Franco Folini, 2021", css.desc)
+    console.info("%c Page URL: " + document.URL, css.page)
+    console.info("%c Page Title: " + document.title, css.page)
+  }
+
+  var jsonScripts = [...document.scripts].filter(
+    s => s.type === "application/ld+json"
+  )
+
+  header()
+
+  if (jsonScripts.length == 0) {
+    console.info("No Structured Data found on this page")
+    return
+  }
+
+  var level = 0
+  jsonScripts
+    .map(s => JSON.parse(s.text.trim()))
+    .forEach((json, i) => {
+      const schemaType = json["@type"] === undefined ? "n/a" : json["@type"]
+      const blockName = `%c ${(i + 1).toFixed()}. Structured Data${schemaType}`
+
+      console.group()
+      console.info(blockName, css.subTitle)
+      if (schemaType !== "n/a") {
+        console.info("%c Schema: https://shema.org/" + schemaType, css.schema)
+      }
+      const script = JSON.stringify(json)
+      getLines(script).forEach(line => renderLine(line))
+      console.groupEnd()
+    })
+  return ""
+})()
