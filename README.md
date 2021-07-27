@@ -8,7 +8,7 @@ To look at the Structured Data we need to scan the HTML source code of the page 
 
 To make this exploration a little bit easier and simpler for non technical people, I created this small _Google Chrome Snippet_ that can easily be added to any Google Chrome and used on any webpage. The snippet will automatically locate the Structured Data and will present it in a nicely formatted way.
 
-![SD-Explorer snapshot](./images/SD_Explorer.png)
+![SD-Explorer snapshot](./doc-images/SD_Explorer.png)
 
 ## License
 This code snippet is released under [__BSD-3-Clause__](./LICENSE.md) license.
@@ -26,7 +26,7 @@ This code snippet is released under [__BSD-3-Clause__](./LICENSE.md) license.
 
 6. Right-click on the snippet name and select the _Rename_ command. I suggest naming the snippet _getStructuredData_ as in the image below, but the name is not so important.
 
-![Screenshot](./images/screenshot.png)
+![Screenshot](./doc-images/screenshot.png)
 
 ## Execute the Snippet
 1. Open the Google Chrome DevTools. The are several ways, and the simplest is to use a keyboard shortcut from any webpage: on Windows, press `F12` or `CTRL+SHIFT+I`, on a Mac, press `Command+Option+I`.
@@ -40,7 +40,7 @@ I published an article on Medium.com to describe this snippet,. how to install i
 the article is available here: [Exploring Structured Data With A Google Chrome Snippet](https://folini.medium.com/exploring-structured-data-with-a-google-chrome-snippet-944ad4ef831) 
 
 ## In case you don't want to build the JS
-```
+```js
 //
 // Structured-Data Explorer
 // To be installed as a Google Chrome Snippet

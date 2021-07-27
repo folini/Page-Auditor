@@ -3,7 +3,7 @@ const path = require('path')
 module.exports = {
     entry: './src/snippet.ts',
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'dist-snippet'),
         filename: 'snippet.js',
     },
     module: {

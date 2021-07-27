@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+
+  "name": "eCommerce Boosters SEO Auditor",
+  "description": "This extension will analyze a page using ECB SEO Auditor",
+  "version": "1.0",
+
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["ext.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_title": "SEO Auditor",
+    "default_icon": {
+      "256": "Logo256x256.png"
+    },
+    "default_popup": "popup.htm"
+  },
+  "permissions": ["storage", "declarativeContent", "activeTab", "scripting"]
+}

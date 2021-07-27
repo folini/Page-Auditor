@@ -5,7 +5,8 @@
   "main": "src/snippet.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --progress --color --mode production --stats-error-details --config webpack.snippet.js"
+    "build-snippet": "webpack --progress --color --mode production --stats-error-details --config webpack.snippet.js",
+    "build": "webpack --progress --color --mode production --stats-error-details --config webpack.ext.js"
   },
   "repository": {
     "type": "git",
@@ -25,5 +26,14 @@
     "typescript": "^4.3.5",
     "webpack": "^5.44.0",
     "webpack-cli": "^4.7.2"
+  },
+  "devDependencies": {
+    "@types/chrome": "0.0.148",
+    "copy-webpack-plugin": "^9.0.1",
+    "css-loader": "^6.2.0",
+    "file-loader": "^6.2.0",
+    "less": "^4.1.1",
+    "less-loader": "^10.0.1",
+    "style-loader": "^3.2.1"
   }
 }

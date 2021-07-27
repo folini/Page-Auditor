@@ -1,0 +1,139 @@
+// out: ../dist-ext/, compress: true, sourceMap: false
+// ----------------------------------------------------------------------------
+// © 2021 - Franco Folini
+// ----------------------------------------------------------------------------
+
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
+
+:root {
+  ---bg-color: #fafafe;
+}
+body {
+  min-width: 470px;
+  max-width: 570px;
+  height: 400px;
+  margin: 0;
+  padding: 0;
+  font-family: Roboto, Arial;
+}
+
+header {
+  padding: 8px 0 0;
+  text-align: center;
+  h1 {
+    text-align: left;
+    margin-left: 16px;
+    font-family: Lobster;
+    margin-bottom: 4px;
+    margin-top: 4px;
+  }
+  .product-by {
+    text-align: left;
+    margin-left: 16px;
+    font-size: 12px;
+  }
+}
+
+.schema {
+  color: darkblue;
+  margin-bottom: 16px;
+  a {
+    text-decoration: none;
+  }
+}
+.label {
+  color: darkgreen;
+}
+.value {
+  color: darkblue;
+}
+h1.title {
+  font-size: 1.4em;
+  border-top: solid 1px #ccc;
+  padding: 4px 16px;
+  background-color: #fffbec;
+}
+.page {
+  color: #444;
+}
+.desc {
+  font-size: 1em;
+}
+
+main {
+  font-size: 14px;
+  background-color: var(---bg-color);
+  height: 100%;
+
+  #id-container {
+    padding: 16px;
+    .box-card {
+      border: 1px solid rgba(0, 0, 0, 0.125);
+      padding: 16px 12px;
+      margin-bottom: 16px;
+      background-color: #fff;
+      overflow: hidden;
+
+      .track-url {
+        padding:4px 0;
+      }
+
+      h2.subTitle {
+        font-size: 1.2em;
+        margin: 0 0 8px;
+        background-size: 22px 22px;
+        background-repeat: no-repeat;
+        padding: 1px 0 1px 28px;
+
+        &.icon-ld-json {
+          background-image: url(JSON-LD_100x100.png);
+        }
+        &.icon-error {
+          background-image: url(ERROR_100x100.png);
+        }
+        &.icon-warning {
+          background-image: url(WARNING_100x100.png);
+        }
+      }
+    }
+  }
+}
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+  width: 100%;
+  border-bottom: solid 1px #dee2e6;
+  li {
+    border: 1px solid transparent;
+    border-color: transparent transparent #dee2e6 transparent;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    display: block;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    color: darkblue;
+    border-radius: 3px 0 0 3px;
+
+    position: relative;
+    bottom: -1px;
+
+    &.active {
+      border-color: #dee2e6 #dee2e6 transparent;
+      background-color: var(---bg-color);
+    }
+
+    &:not(.active):not(.gap-mini):hover {
+      color: #888;
+      border-color: #dee2e6;
+    }
+
+    &.gap-mini {
+      width: 16px;
+      padding: 0.5rem 0;
+    }
+  }
+}
