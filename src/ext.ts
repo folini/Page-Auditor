@@ -9,9 +9,19 @@ import "./img/Logo256x256.png"
 import "./img/JSON-LD_100x100.png"
 import "./img/ERROR_100x100.png"
 import "./img/WARNING_100x100.png"
+import "./img/DoubleClick_100x100.png"
+import "./img/GoogleAds_100x100.png"
+import "./img/GoogleTagManager_100x100.png"
+import "./img/FacebookPixel_100x100.png"
+import "./img/TwitterAds_100x100.png"
+import "./img/TwitterAnalytics_100x100.png"
+import "./img/LinkedInAds_100x100.png"
+import "./img/BingAds_100x100.png"
+import "./img/Pinterest_100x100.png"
+import "./img/GoogleAnalyticsV3_100x100.png"
 import * as LdJson from "./LdJSON"
 import * as Card from "./card"
-import * as Tracking from './tracking'
+import * as Tracking from "./tracking"
 
 async function action(injector: () => any, reporter: (data: any) => string[]) {
   var report: string[] = []
@@ -28,14 +38,24 @@ async function action(injector: () => any, reporter: (data: any) => string[]) {
   document.getElementById("id-container")!.innerHTML = report.join("")
 }
 
+const tabIds = ["id-ld-json", "id-tracking", "id-meta"]
+
+const activateTab = (tabId: string) => {
+  tabIds.forEach(t => document.getElementById(t)!.classList.remove("active"))
+  document.getElementById(tabId)?.classList.add("active")
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("id-ld-json")!.addEventListener("click", () => {
+    activateTab("id-ld-json")
     action(LdJson.injectableScript, LdJson.report)
   })
   document.getElementById("id-tracking")!.addEventListener("click", () => {
+    activateTab("id-tracking")
     action(Tracking.injectableScript, Tracking.report)
   })
   document.getElementById("id-meta")!.addEventListener("click", () => {
+    activateTab("id-meta")
     action(LdJson.injectableScript, LdJson.report)
   })
 })

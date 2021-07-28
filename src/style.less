@@ -8,6 +8,7 @@
 
 :root {
   ---bg-color: #fafafe;
+  ---fc-brand-dark-color: #0a5394;
 }
 body {
   min-width: 470px;
@@ -19,14 +20,17 @@ body {
 }
 
 header {
-  padding: 8px 0 0;
-  text-align: center;
+  padding: 8px 0;
+  background-color: var(---fc-brand-dark-color);
+  color: #fff;
+
   h1 {
     text-align: left;
     margin-left: 16px;
     font-family: Lobster;
     margin-bottom: 4px;
     margin-top: 4px;
+    font-size: 28px;
   }
   .product-by {
     text-align: left;
@@ -94,6 +98,36 @@ main {
         }
         &.icon-warning {
           background-image: url(WARNING_100x100.png);
+        }
+        &.icon-google-ads {
+          background-image: url(GoogleAds_100x100.png);
+        }
+        &.icon-double-click {
+          background-image: url(DoubleClick_100x100.png);
+        }
+        &.icon-tag-manager {
+          background-image: url(GoogleTagManager_100x100.png);
+        }
+        &.icon-facebook-pixel {
+          background-image: url(FacebookPixel_100x100.png);
+        }
+        &.icon-twitter-ads {
+          background-image: url(TwitterAds_100x100.png);
+        }
+        &.icon-twitter-analytics {
+          background-image: url(TwitterAnalytics_100x100.png);
+        }
+        &.icon-linkedin-ads {
+          background-image: url(LinkedInAds_100x100.png);
+        }
+        &.icon-bing-ads {
+          background-image: url(BingAds_100x100.png);
+        }
+        &.icon-pinterest {
+          background-image: url(Pinterest_100x100.png);
+        }
+        &.icon-google-analytics-v3 {
+          background-image: url(GoogleAnalyticsV3_100x100.png);
         }
       }
     }
