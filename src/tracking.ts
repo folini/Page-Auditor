@@ -24,7 +24,7 @@ export const injectableScript = (): iTracker[] => {
       iconClass: "icon-twitter-analytics",
     },
     {
-      pattern: "https\\:/\/www\.googleadservices\.com\/",
+      pattern: "/\/www\.googleadservices\.com\/",
       name: "Google Ads",
       iconClass: "icon-google-ads",
     },
@@ -34,29 +34,44 @@ export const injectableScript = (): iTracker[] => {
       iconClass: "icon-facebook-pixel",
     },
     {
-      pattern: "https\:\/\/googleads\.g\.doubleclick\.net\/",
+      pattern: "\/\/googleads\.g\.doubleclick\.net\/",
       name: "Google DoubleClick Digital Marketing",
       iconClass: "icon-double-click",
     },
     {
-      pattern: "https\:\/\/snap\.licdn\.com\/",
+      pattern: "\/\/snap\.licdn\.com\/",
       name: "LinkedIn Ads",
       iconClass: "icon-linkedin-ads"
     },
     {
-      pattern: "https\:\/\/bat\.bing\.com\/",
+      pattern: "\/\/bat\.bing\.com\/",
       name: "Bing Ads",
       iconClass: "icon-bing-ads"
     },
     {
-      pattern: "https\:\/\/s\.pinimg\.com\/",
+      pattern: "\/\/s\.pinimg\.com\/",
       name: "Pinterest Tracking",
       iconClass: "icon-pinterest"
     },
     {
-      pattern: "https\:\/\/www\.google\-analytics\.com\/analytics.js",
+      pattern: "\/\/www\.google\-analytics\.com\/analytics.js",
       name: "Google Analytics Tracking v3",
       iconClass: "icon-google-analytics-v3"
+    },
+    {
+      pattern: "\/\/cdn\.pdst\.fm\/",
+      name: "Podsights Tracking",
+      iconClass: "icon-podsights"
+    },
+    {
+      pattern: "\/\/siteimproveanalytics.com\/",
+      name: "Site Improve Analytics",
+      iconClass: "icon-site-improve"
+    },
+    {
+      pattern: "\/\/pagead2.googlesyndication.com\/",
+      name: "Google AdSense",
+      iconClass: "icon-google-adsense"
     }
   ]
 
