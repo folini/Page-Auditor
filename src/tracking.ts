@@ -9,8 +9,13 @@ interface iTracker {
 export const injectableScript = (): iTracker[] => {
   const trackerTypes = [
     {
-      pattern: "tagmanager",
-      name: "Google Tag Manager",
+      pattern: "tagmanager\.com\/",
+      name: "GTM - Google Tag Manager",
+      iconClass: "icon-tag-manager",
+    },
+    {
+      pattern: "googletagservices\.com\/",
+      name: "Google Tag Services (GTM)",
       iconClass: "icon-tag-manager",
     },
     {
@@ -19,13 +24,18 @@ export const injectableScript = (): iTracker[] => {
       iconClass: "icon-twitter-ads",
     },
     {
-      pattern: "analytics.twitter",
+      pattern: "analytics\.twitter",
       name: "Twitter Analytics",
       iconClass: "icon-twitter-analytics",
     },
     {
       pattern: "/\/www\.googleadservices\.com\/",
-      name: "Google Ads",
+      name: "Google Remarketing Ads",
+      iconClass: "icon-google-ads",
+    },
+    {
+      pattern: "adservice\.google",
+      name: "Google Remarketing Ads",
       iconClass: "icon-google-ads",
     },
     {
@@ -34,7 +44,7 @@ export const injectableScript = (): iTracker[] => {
       iconClass: "icon-facebook-pixel",
     },
     {
-      pattern: "\/\/googleads\.g\.doubleclick\.net\/",
+      pattern: "\.doubleclick\.net\/",
       name: "Google DoubleClick Digital Marketing",
       iconClass: "icon-double-click",
     },
@@ -44,8 +54,18 @@ export const injectableScript = (): iTracker[] => {
       iconClass: "icon-linkedin-ads"
     },
     {
-      pattern: "\/\/bat\.bing\.com\/",
-      name: "Bing Ads",
+      pattern: "linkedin\.com\/js\/analytics",
+      name: "LinkedIn Analytics",
+      iconClass: "icon-linkedin-ads"
+    },
+    {
+      pattern: "\/\/bat\.bing\.com\/p\/action",
+      name: "Bing Ads (3rd Party Cookies)",
+      iconClass: "icon-bing-ads"
+    },
+    {
+      pattern: "\/\/bat\.bing\.com\/bat\.js",
+      name: "Bing Tracker",
       iconClass: "icon-bing-ads"
     },
     {
@@ -64,14 +84,114 @@ export const injectableScript = (): iTracker[] => {
       iconClass: "icon-podsights"
     },
     {
-      pattern: "\/\/siteimproveanalytics.com\/",
+      pattern: "\/\/siteimproveanalytics\.com\/",
       name: "Site Improve Analytics",
       iconClass: "icon-site-improve"
     },
     {
-      pattern: "\/\/pagead2.googlesyndication.com\/",
-      name: "Google AdSense",
-      iconClass: "icon-google-adsense"
+      pattern: "\/\/pagead2\.googlesyndication\.com\/",
+      name: "Google Syndication",
+      iconClass: "icon-google-syndication"
+    },
+    {
+      pattern: "\.wts2\.one\/",
+      name: "Web-Stat Analytics",
+      iconClass: "icon-web-stat"
+    },
+    {
+      pattern: "\/\/replayapp\.io\/",
+      name: "Better-Replay (Shopify App)",
+      iconClass: "icon-replay-app"
+    },
+    {
+      pattern: "cartkitcdn\.com\/",
+      name: "CartKit (Shopify and Wix App)",
+      iconClass: "icon-cartkit"
+    },
+    {
+      pattern: "herokuapp\.com\/",
+      name: "Heroku (Apps management) ",
+      iconClass: "icon-heroku"
+    },
+    {
+      pattern: "hsadspixel\.net\/",
+      name: "HubSpot Tracking Pixel",
+      iconClass: "icon-hubspot"
+    },
+    {
+      pattern: "hscollectedforms\.net\/",
+      name: "HubSpot Forms Tracker",
+      iconClass: "icon-hubspot"
+    },
+    {
+      pattern: "hs-banner\.com\/",
+      name: "HubSpot Banner Tracker",
+      iconClass: "icon-hubspot"
+    },
+    {
+      pattern: "hs-analytics\.net\/",
+      name: "HubSpot Analytics",
+      iconClass: "icon-hubspot"
+    },
+    {
+      pattern: "krxd\.net\/",
+      name: "Krux (SalesForce) Tracking Pixel",
+      iconClass: "icon-krux-pixel"
+    },
+    {
+      pattern: "amazon\-adsystem\.com\/",
+      name: "Amazon Ads Tracker",
+      iconClass: "icon-amazon-ads"
+    },
+    {
+      pattern: "segment\.com\/analytics",
+      name: "Segment Analytics",
+      iconClass: "icon-segment-analytics"
+    },
+    {
+      pattern: "turner\.com\/analytics",
+      name: "Warner Media Analytics",
+      iconClass: "icon-warnermedia-analytics"
+    },
+    {
+      pattern: "criteo\.net\/",
+      name: "Criteo Tracking",
+      iconClass: "icon-criteo"
+    },
+    {
+      pattern: "boomtrain\.com\/",
+      name: "Zeta Global Tracking",
+      iconClass: "icon-zeta-global"
+    },
+    {
+      pattern: "quantcount\.com\/",
+      name: "QuantCast Tracking",
+      iconClass: "icon-quantcast"
+    },
+    {
+      pattern: "quantserve\.com\/",
+      name: "QuantCast Tracking",
+      iconClass: "icon-quantcast"
+    },
+    {
+      pattern: "washingtonpost\.com\/wp-stat\/",
+      name: "Washington Post Tracking",
+      iconClass: "icon-washingtonpost"
+    },
+    {
+      pattern: "track\.adform\.net\/",
+      name: "ADForm Tracking",
+      iconClass: "icon-adform"
+    },
+    {
+      pattern: "ntv.io\/",
+      name: "Nativo Tracking",
+      iconClass: "icon-nativo"
+    },
+    {
+      pattern: "driftt\.com\/",
+      name: "Drift Tracking",
+      iconClass: "icon-drift"
     }
   ]
 
