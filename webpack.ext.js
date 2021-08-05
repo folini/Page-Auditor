@@ -24,7 +24,10 @@ module.exports = {
       {
         test: /\.(png)$/,
         loader: "file-loader", 
-        options: {name: '[name].png'},
+        options: {
+          name: '[name].png',
+          outputPath: 'logos'
+        },
       },
       {
         test: /\.(json)$/,

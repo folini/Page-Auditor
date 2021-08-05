@@ -49,10 +49,10 @@ export const report = (scripts: any): string[] => {
   var level = 0
   const report: string[] = []
   jsonScripts.forEach((json, i) => {
-    const schemaType = json["@type"] === undefined ? "n/a" : json["@type"]
+    const schemaType = json["@type"] === undefined ? "" : `"${json["@type"]}"`
     const scriptAsString = JSON.stringify(json)
 
-    report.push(Card.open(`Structured Data "${schemaType}"`, "icon-ld-json"))
+    report.push(Card.open(`Structured Data ${schemaType}`, "icon-ld-json"))
 
     if (schemaType !== "n/a") {
       report.push(
