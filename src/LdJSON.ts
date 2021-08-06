@@ -8,7 +8,7 @@ var level = 0
 
 const renderLine = (report: string[], line: string) => {
   if (line.length === 0) {
-    return
+    return ""
   }
   level += line.match(/\}|\]/g) !== null ? -1 : 0
   const indent = `margin-left:${(20 * level).toFixed()}px;`
@@ -20,7 +20,7 @@ const renderLine = (report: string[], line: string) => {
           `</span>: <span class='value'>"`
         )}</span>`
       : `<span class='label' style='${indent}'>${line}</span>`
-  report.push(`<div>${line}</div>`)
+  return `<div class='ld-json-line'>${line}</div>`
 }
 
 const getLines = (script: string) => {
@@ -59,7 +59,9 @@ export const report = (scripts: any): string[] => {
         `<div class='schema'>Schema: <a href='https://shema.org/${schemaType}'>shema.org/${schemaType}</a></div>`
       )
     }
-    getLines(scriptAsString).forEach(line => renderLine(report, line))
+    report.push(`<div class='ld-json'>`)
+    getLines(scriptAsString).forEach(line => report.push(renderLine(report, line)))
+    report.push(`</div>`)
     report.push(Card.close())
   })
 
