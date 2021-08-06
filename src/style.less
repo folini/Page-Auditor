@@ -11,7 +11,7 @@
   ---fc-brand-dark-color: #0a5394;
   ---border-color: rgba(0, 0, 0, 0.125);
   --fc-brand-white: #ffffff;
-  --fc-brand-black: #08090aCC;
+  --fc-brand-black: #08090acc;
   ---bg-light-color: #dee2e6;
   ---fc-brand-red: #900;
 }
@@ -86,6 +86,16 @@ main {
       background-color: var(--fc-brand-white);
       overflow: hidden;
 
+      .support {
+        text-align: center;
+        padding: 16px 0 0;
+      }
+      
+      .track-category {
+        font-variant: small-caps;
+        font-size: 13px;
+      }
+
       .track-matches {
         padding: 8px 0 0 0;
         position: relative;
@@ -130,8 +140,8 @@ main {
       }
 
       .track-description {
-        padding: 4px 0;
-        font-size: 13px;;
+        padding: 0 0 4px 0;
+        font-size: 14px;
       }
 
       a.button-in-card {
@@ -166,11 +176,12 @@ main {
         }
       }
       h2.subTitle {
-        font-size: 16px;
-        margin: 0 0 8px;
-        background-size: 22px 22px;
+        font-size: 18px;
+        margin: 0 0 4px;
+        background-size: 24px 24px;
         background-repeat: no-repeat;
-        padding: 1px 0 1px 28px;
+        background-position: 0 5px;
+        padding: 6px 0 5px 30px;
         position: relative;
         font-weight: normal;
 
@@ -343,7 +354,7 @@ main {
     &:focus {
       outline: none;
     }
-    
+
     &.active {
       border-color: var(---bg-light-color) var(---bg-light-color) transparent;
       background-color: var(---bg-color);

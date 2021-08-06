@@ -58,6 +58,7 @@ import "./logos/Cookielaw_100x100.png"
 import * as LdJson from "./LdJSON"
 import * as Card from "./card"
 import * as Tracking from "./tracking"
+import * as Credits from "./Credits"
 
 async function action(injector: () => any, reporter: (data: any) => string[], eventManager?: () => void) {
   var report: string[] = []
@@ -77,7 +78,7 @@ async function action(injector: () => any, reporter: (data: any) => string[], ev
   }
 }
 
-const tabIds = ["id-ld-json", "id-tracking", "id-meta"]
+const tabIds = ["id-ld-json", "id-tracking", "id-meta", "id-credits"]
 
 const activateTab = (tabId: string) => {
   tabIds.forEach(t => document.getElementById(t)!.classList.remove("active"))
@@ -96,5 +97,9 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("id-meta")!.addEventListener("click", () => {
     activateTab("id-meta")
     action(LdJson.injectableScript, LdJson.report)
+  })
+  document.getElementById("id-credits")!.addEventListener("click", () => {
+    activateTab("id-credits")
+    action(Credits.injectableScript, Credits.report)
   })
 })
