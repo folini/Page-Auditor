@@ -1,4 +1,4 @@
-import * as Card from "./card"
+import {Card} from "./Card"
 
 interface iTracker {
   patterns: string[]
@@ -425,10 +425,11 @@ export const injectableScript = (): iTracker[] => {
   return trackers
 }
 
-export const report = (trackersUntyped: any): string[] => {
-  const trackers: iTracker[] = trackersUntyped as iTracker[]
+export const report = (trackersUntyped: any): string => {
 
-  const report: string[] = []
+  const trackers: iTracker[] = trackersUntyped as iTracker[]
+  var report: string = ""
+
   trackers
     .sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
     .forEach((t, i) => {
@@ -452,11 +453,12 @@ export const report = (trackersUntyped: any): string[] => {
           .join("<br/><span></span>")
       )
 
-      report.push(Card.open(`${t.category}`, `${t.name + link}`, `${t.iconClass}`))
-      report.push(`
-        <div class='track-description'>${t.description}</div>
-        <div class='track-matches'>
-          <a class='link-in-card n-scripts'>
+      const card = new Card()
+      card.open(`${t.category}`, `${t.name + link}`, `${t.iconClass}`)
+      card.add(`
+        <div class='card-description'>${t.description}</div>
+        <div class='card-options'>
+          <a class='link-in-card left-option n-scripts'>
             ${matches.length.toFixed()} script${
             matches.length === 1 ? "" : "s"
           } found. </a>
@@ -465,7 +467,8 @@ export const report = (trackersUntyped: any): string[] => {
           </ul>
         </div>`
       )
-      report.push(Card.close())
+      card.close()
+      report += card.render()
     })
   return report
 }

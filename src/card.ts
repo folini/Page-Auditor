@@ -1,12 +1,51 @@
-export const open = (preTitle: string, title: string, cssClass: string) =>
-  `<div class='box-card'>` +
-  (preTitle.length > 0 ? `<div class='track-category'>${preTitle}</div>` : ``) +
-  `<h2 class='subTitle ${cssClass}'>${title}</h2>`
+export class Card {
+  #report: string[]
 
-export const close = () => `</div>`
+  constructor() {
+    this.#report = []
+  }
 
-export const error = (msg: string) =>
-  open("", "Error", "icon-error") + `<div>${msg}</div>` + close()
+  public open(preTitle: string, title: string, cssClass: string) {
+    this.#report.length = 0
+    this.#report.push(`
+    <div class='box-card'>
+      ${
+        preTitle.length > 0
+          ? `<div class='track-category'>${preTitle}</div>`
+          : ``
+      }
+      <h2 class='subTitle ${cssClass}'>${title}</h2>
+    `)
+    return this
+  }
 
-export const warning = (msg: string) =>
-  open("", "Warning", "icon-warning") + `<div>${msg}</div>` + close()
+  public close() {
+    this.#report.push(`</div>`)
+    return this
+  }
+
+  public error(msg: string) {
+    this.open("", "Error", "icon-error")
+    .add(`<div>${msg}</div>`)
+    .close()
+    return this
+  }
+
+  public warning(msg: string) {
+    this.open("", "Warning", "icon-warning")
+    .add(`<div>${msg}</div>`)
+    .close()
+    return this
+  }
+
+  public add(str: string) {
+    if (str.length > 0) {
+      this.#report.push(str)
+    }
+    return this
+  }
+
+  public render() {
+    return this.#report.join("")
+  }
+}

@@ -60,14 +60,17 @@ import "./logos/Wordpress_100x100.png"
 import "./logos/Git_100x100.png"
 import "./logos/Gmail_100x100.png"
 import "./logos/Avatar_200x200.png"
+import "./logos/Tag_100x100.png"
+import "./logos/OpenGraph_100x100.png"
 
 import * as LdJson from "./LdJSON"
-import * as Card from "./card"
+import {Card} from "./Card"
 import * as Tracking from "./tracking"
 import * as Credits from "./Credits"
+import * as Meta from "./Meta" 
 
-async function action(injector: () => any, reporter: (data: any) => string[], eventManager?: () => void) {
-  var report: string[] = []
+async function action(injector: () => any, reporter: (data: any) => string, eventManager?: () => void) {
+  var report: string = ""
   const [tab] = await chrome.tabs.query({active: true, currentWindow: true})
   try {
     let res = await chrome.scripting.executeScript({
@@ -76,9 +79,9 @@ async function action(injector: () => any, reporter: (data: any) => string[], ev
     })
     report = reporter(res[0].result)
   } catch (err) {
-    report.push(Card.error(err.message))
+    report = new Card().error(err.message).render()
   }
-  document.getElementById("id-container")!.innerHTML = report.join("")
+  document.getElementById("id-container")!.innerHTML = report
   if(eventManager !== undefined) {
     eventManager()
   }
@@ -102,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
   })
   document.getElementById("id-meta")!.addEventListener("click", () => {
     activateTab("id-meta")
-    action(LdJson.injectableScript, LdJson.report)
+    action(Meta.injectableScript, Meta.report, Meta.eventManager)
   })
   document.getElementById("id-credits")!.addEventListener("click", () => {
     activateTab("id-credits")

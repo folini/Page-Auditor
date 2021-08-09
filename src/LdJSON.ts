@@ -1,4 +1,4 @@
-import * as Card from "./card"
+import {Card} from "./Card"
 
 export interface iJsonLD {
   [name: string]: string
@@ -6,7 +6,7 @@ export interface iJsonLD {
 
 var level = 0
 
-const renderLine = (report: string[], line: string) => {
+const renderLine = (line: string) => {
   if (line.length === 0) {
     return ""
   }
@@ -20,7 +20,7 @@ const renderLine = (report: string[], line: string) => {
           `</span>: <span class='value'>"`
         )}</span>`
       : `<span class='label' style='${indent}'>${line}</span>`
-  return `<div class='ld-json-line'>${line}</div>`
+  return `<div class='single-line-forced'>${line}</div>`
 }
 
 const getLines = (script: string) => {
@@ -39,30 +39,33 @@ const getLines = (script: string) => {
   return script.split("\n").map(line => line.trim())
 }
 
-export const report = (scripts: any): string[] => {
+export const report = (scripts: any): string => {
+
   const jsonScripts: iJsonLD[] = scripts as iJsonLD[]
+  var report: string = ""
 
   if (jsonScripts.length == 0) {
-    return [Card.warning(`No Structured Data found on this page.`)]
+    return new Card().warning(`No Structured Data found on this page.`).render()
   }
 
-  var level = 0
-  const report: string[] = []
-  jsonScripts.forEach((json, i) => {
-    const schemaType = json["@type"] === undefined ? "" : `"${json["@type"]}"`
+   jsonScripts.forEach((json, i) => {
+    const schemaType = json["@type"] === undefined ? "" : `${json["@type"]}`
     const scriptAsString = JSON.stringify(json)
 
-    report.push(Card.open(``, `Structured Data ${schemaType}`, "icon-ld-json"))
+    const card = new Card()
+    card.open(``, `${schemaType}`, "icon-ld-json")
 
     if (schemaType !== "n/a") {
-      report.push(
-        `<div class='schema'>Schema: <a href='https://shema.org/${schemaType}'>shema.org/${schemaType}</a></div>`
+      card.add(
+        `<div class='schema'><a href='https://shema.org/${schemaType}'>shema.org/${schemaType}</a></div>`
       )
     }
-    report.push(`<div class='ld-json'>`)
-    getLines(scriptAsString).forEach(line => report.push(renderLine(report, line)))
-    report.push(`</div>`)
-    report.push(Card.close())
+    card.add(`<div class='ld-json'>`)
+    getLines(scriptAsString)
+      .forEach(line => card.add(renderLine(line)))
+    card.add(`</div>`)
+    card.close()
+    report += card.render()
   })
 
   return report

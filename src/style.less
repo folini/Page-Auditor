@@ -29,14 +29,23 @@ header {
   padding: 8px 0;
   background-color: var(---fc-brand-dark-color);
   color: var(--fc-brand-white);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
 
   h1 {
     text-align: left;
-    margin-left: 16px;
+    margin-left: 0;
+    padding-left: 57px;
     font-family: Lobster;
     margin-bottom: 4px;
     margin-top: 4px;
     font-size: 28px;
+    background-image: url(logos/FC_100x100.png);
+    background-repeat: no-repeat;
+    background-position: -8px center;
+    background-size: 72px;
   }
   .product-by {
     text-align: left;
@@ -86,6 +95,12 @@ main {
       background-color: var(--fc-brand-white);
       overflow: hidden;
 
+      .single-line-forced {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
       .support-form {
         text-align: center;
         padding: 16px 0 0;
@@ -96,10 +111,16 @@ main {
         font-size: 13px;
       }
 
-      .track-matches {
+      .show {
+        display: block;
+      }
+      .hide {
+        display: none;
+      }
+      .card-options {
         padding: 8px 0 0 0;
         position: relative;
-        .n-scripts {
+        .left-option {
           font-size: 12px;
           position: initial;
           cursor: pointer;
@@ -114,12 +135,6 @@ main {
           border: dotted 1px var(---border-color);
           overflow-x: hidden;
 
-          &.show {
-            display: block;
-          }
-          &.hide {
-            display: none;
-          }
           li {
             margin: 4px 0;
             font-family: courier;
@@ -139,9 +154,13 @@ main {
         }
       }
 
-      .track-description {
+      .card-description {
         padding: 0 0 4px 0;
         font-size: 14px;
+      }
+
+      .meta-items {
+        padding: 8px 0 8px 16px;
       }
 
       a.button-in-card {
@@ -188,44 +207,83 @@ main {
     }
   }
 }
-.tabs {
-  display: flex;
-  flex-wrap: wrap;
-  padding-left: 0;
-  margin-bottom: 0;
-  list-style: none;
-  width: 100%;
-  border-bottom: solid 1px var(---bg-light-color);
-  li {
-    border: 1px solid transparent;
-    border-color: transparent transparent var(---bg-light-color) transparent;
-    border-top-left-radius: 0.25rem;
-    border-top-right-radius: 0.25rem;
-    display: block;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    color: darkblue;
-    border-radius: 3px 0 0 3px;
-    position: relative;
-    bottom: -1px;
 
-    &:focus {
-      outline: none;
-    }
+#id-facebook-card,
+#id-twitter-card {
+  margin: 8px -12px;
+  border-top: solid 1px var(---border-color);
+  padding: 16px 12px 0;
+  h2 {
+    color: #000;
+    color: #000;
+  }
+  img {
+    width: 100%;
+  }
+  div {
+    padding-top: 8px;
+  }
+}
 
-    &.active {
-      border-color: var(---bg-light-color) var(---bg-light-color) transparent;
-      background-color: var(---bg-color);
-    }
+#id-facebook-card {
+  h2 {
+    font-size: 14px;
+    padding-top: 0;
+    margin-top: 0;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  img {
+    width: 33%;
+    float: left;
+    padding-right: 8px;
+  }
+  div {
+    padding-top: 0;
+  }
+}
 
-    &:not(.active):not(.gap-mini):hover {
-      color: #888;
-      border-color: var(---bg-light-color);
-    }
+nav {
+  padding-top: 72px;
 
-    &.gap-mini {
-      width: 16px;
-      padding: 0.5rem 0;
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    width: 100%;
+    border-bottom: solid 1px var(---bg-light-color);
+    li {
+      border: 1px solid transparent;
+      border-color: transparent transparent var(---bg-light-color) transparent;
+      border-top-left-radius: 0.25rem;
+      border-top-right-radius: 0.25rem;
+      display: block;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      color: darkblue;
+      border-radius: 3px 0 0 3px;
+      position: relative;
+      bottom: -1px;
+      user-select: none;
+
+      &.active {
+        border-color: var(---bg-light-color) var(---bg-light-color) transparent;
+        background-color: var(---bg-color);
+      }
+
+      &:not(.active):not(.gap-mini):hover {
+        color: #888;
+        border-color: var(---bg-light-color);
+      }
+
+      &.gap-mini {
+        width: 16px;
+        padding: 0.5rem 0;
+      }
     }
   }
 }
@@ -410,4 +468,10 @@ main {
 }
 .icon-gmail {
   background-image: url(logos/Gmail_100x100.png);
+}
+.icon-tag {
+  background-image: url(logos/Tag_100x100.png);
+}
+.icon-open-graph {
+  background-image: url(logos/Tag_100x100.png);
 }
