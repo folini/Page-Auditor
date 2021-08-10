@@ -1,23 +1,23 @@
 {
   "manifest_version": 3,
 
-  "name": "eCommerce Boosters SEO Auditor",
-  "description": "This extension will analyze a page using ECB SEO Auditor",
-  "version": "1.0",
+  "name": "Page Auditor",
+  "description": "PageAuditor is an eCommerce Boosters project. Analyze the tracking system, the Structured Data (LD-JSON), and all the meta tags.",
+  "version": "1.02",
 
   "content_scripts": [
     {
-      "matches": ["http://*/*", "https://*/*"],
+      "matches": ["https://*/*"],
       "js": ["ext.js"],
       "run_at": "document_end"
     }
   ],
   "action": {
-    "default_title": "SEO Auditor",
+    "default_title": "Page Auditor",
     "default_icon": {
       "256": "logos/Logo256x256.png"
     },
     "default_popup": "popup.htm"
   },
-  "permissions": ["storage", "declarativeContent", "activeTab", "scripting"]
+  "permissions": ["activeTab", "scripting"]
 }
