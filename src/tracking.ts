@@ -454,7 +454,7 @@ export const report = (trackersUntyped: any): string => {
       )
 
       const card = new Card()
-      card.open(`${t.category}`, `${t.name + link}`, `${t.iconClass}`)
+      card.open(t.category, `${t.name + link}`, t.iconClass)
       card.add(`
         <div class='card-description'>${t.description}</div>
         <div class='card-options'>
