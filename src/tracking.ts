@@ -374,14 +374,6 @@ export const injectableScript = (): iTracker[] => {
       url: "https://www.heroku.com/",
       matches: [],
     },
-    // {
-    //   patterns: ["//pagead2.googlesyndication.com/"],
-    //   name: "Google Syndication",
-    //   iconClass: "icon-google-syndication",
-    //   description: "",
-    //   url: "",
-    //   matches: [],
-    // },
     {
       patterns: ["turner.com/analytics"],
       name: "Warner Media",

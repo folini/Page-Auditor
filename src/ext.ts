@@ -22,7 +22,7 @@ import "./logos/Pinterest_100x100.png"
 import "./logos/GoogleAnalyticsV3_100x100.png"
 import "./logos/Podsights_100x100.png"
 import "./logos/SiteImprove_100x100.png"
-import "./logos/GoogleSyndication_100x100.png"
+import "./logos/Google_100x100.png"
 import "./logos/WebStat_100x100.png"
 import "./logos/ReplayApp_100x100.png"
 import "./logos/CartKit_100x100.png"
@@ -55,6 +55,7 @@ import "./logos/Iubenda_100x100.png"
 import "./logos/Cxense_100x100.png"
 import "./logos/Cookielaw_100x100.png"
 import "./logos/FC_100x100.png"
+import "./logos/FC_White_100x100.png"
 import "./logos/Medium_100x100.png"
 import "./logos/Wordpress_100x100.png"
 import "./logos/Git_100x100.png"
@@ -78,22 +79,35 @@ import * as LdJson from "./LdJSON"
 import {Card} from "./Card"
 import * as Tracking from "./tracking"
 import * as Credits from "./Credits"
-import * as Meta from "./Meta" 
+import * as Meta from "./Meta"
 
-async function action(injector: () => any, reporter: (data: any) => string, eventManager?: () => void) {
+async function action(
+  injector: undefined | (() => any),
+  reporter: (data: any) => string,
+  eventManager?: () => void
+) {
   var report: string = ""
   const [tab] = await chrome.tabs.query({active: true, currentWindow: true})
-  try {
+  inject: try {
+    if (injector === undefined) {
+      report = reporter(undefined)
+      break inject
+    }
+
     let res = await chrome.scripting.executeScript({
       target: {tabId: tab.id} as chrome.scripting.InjectionTarget,
       function: injector,
     })
     report = reporter(res[0].result)
   } catch (err) {
-    report = new Card().error(err.message).render()
+    const emptyTab = `Cannot access a chrome:// URL`
+    const emptyTabMsg = `PageAuditor can not run on aqn empty tab. Please activate the Page Auditor on a regular web page.`
+    report = new Card()
+      .error(err.message === emptyTab ? emptyTabMsg : err.message)
+      .render()
   }
   document.getElementById("id-container")!.innerHTML = report
-  if(eventManager !== undefined) {
+  if (eventManager !== undefined) {
     eventManager()
   }
 }

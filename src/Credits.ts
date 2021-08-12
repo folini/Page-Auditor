@@ -1,12 +1,12 @@
 import {Card} from "./Card"
 
-export const injectableScript = () => undefined
+export const injectableScript = undefined
 
 export const report = (data: any): string => {
   var report: string = ""
 
   report += new Card()
-    .open(``, `Page Auditor`, "icon-fc")
+    .open(``, `Technical SEO: Page Auditor`, "icon-fc")
     .add(
       `
         <div class='credits'><b>Page Auditor</b> is a free Google Chrome Extension created by Franco Folini.
@@ -34,11 +34,21 @@ export const report = (data: any): string => {
         and a Web Developer with a passion for Digital Marketing.
         You can check Franco work and contact him on the following platforms:
         <ul class='pointers'>
-            <li class='credits-pointer icon-linkedin'><a href='https://www.linkedin.com/in/francofolini/'>LinkedIn</a></li>
-            <li class='credits-pointer icon-medium'><a href='https://folini.medium.com/'>Medium</a></li>
-            <li class='credits-pointer icon-wordpress'><a href='https://francofolini.com/'>Personal Blog</a></li>
-            <li class='credits-pointer icon-git'><a href='https://github.com/folini'>GIT profile</a></li>
-            <li class='credits-pointer icon-gmail'><a href='mailto:folini@gmail.com'>eMail</a></li>
+            <li class='credits-pointer icon-linkedin'>
+              <a href='https://www.linkedin.com/in/francofolini/' target='_new'>LinkedIn</a>
+            </li>
+            <li class='credits-pointer icon-medium'>
+              <a href='https://folini.medium.com/' target='_new'>Medium</a>
+            </li>
+            <li class='credits-pointer icon-wordpress'>
+              <a href='https://francofolini.com/' target='_new'>Personal Blog</a>
+            </li>
+            <li class='credits-pointer icon-git'>
+              <a href='https://github.com/folini' target='_new'>GIT profile</a>
+            </li>
+            <li class='credits-pointer icon-gmail'>
+              <a href='mailto:folini@gmail.com' target='_new'>eMail</a>
+            </li>
         </ul>`
     )
     .close()

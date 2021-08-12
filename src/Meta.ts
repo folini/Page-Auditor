@@ -13,6 +13,8 @@ interface iMetaCategory {
   cssClass: string
 }
 
+const twitterLinkIcon = `<svg viewBox="0 0 24 24" aria-hidden="true" class="r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr"><g><path d="M11.96 14.945c-.067 0-.136-.01-.203-.027-1.13-.318-2.097-.986-2.795-1.932-.832-1.125-1.176-2.508-.968-3.893s.942-2.605 2.068-3.438l3.53-2.608c2.322-1.716 5.61-1.224 7.33 1.1.83 1.127 1.175 2.51.967 3.895s-.943 2.605-2.07 3.438l-1.48 1.094c-.333.246-.804.175-1.05-.158-.246-.334-.176-.804.158-1.05l1.48-1.095c.803-.592 1.327-1.463 1.476-2.45.148-.988-.098-1.975-.69-2.778-1.225-1.656-3.572-2.01-5.23-.784l-3.53 2.608c-.802.593-1.326 1.464-1.475 2.45-.15.99.097 1.975.69 2.778.498.675 1.187 1.15 1.992 1.377.4.114.633.528.52.928-.092.33-.394.547-.722.547z"></path><path d="M7.27 22.054c-1.61 0-3.197-.735-4.225-2.125-.832-1.127-1.176-2.51-.968-3.894s.943-2.605 2.07-3.438l1.478-1.094c.334-.245.805-.175 1.05.158s.177.804-.157 1.05l-1.48 1.095c-.803.593-1.326 1.464-1.475 2.45-.148.99.097 1.975.69 2.778 1.225 1.657 3.57 2.01 5.23.785l3.528-2.608c1.658-1.225 2.01-3.57.785-5.23-.498-.674-1.187-1.15-1.992-1.376-.4-.113-.633-.527-.52-.927.112-.4.528-.63.926-.522 1.13.318 2.096.986 2.794 1.932 1.717 2.324 1.224 5.612-1.1 7.33l-3.53 2.608c-.933.693-2.023 1.026-3.105 1.026z"></path></g></svg>`
+
 const twitterMetaCat: iMetaCategory = {
   title: `Twitter Meta Tags`,
   description:
@@ -125,9 +127,16 @@ const ieMetaCat: iMetaCategory = {
 
 const csrfMetaCat: iMetaCategory = {
   title: `CSRF Meta Tags`,
-  description: `CSRF (Cross-Site Request Forgery) meta tags are indications for ajax requests to use these as one of the form parameters to make a request to the server. Rails expects the csrf as part of your form body (params) to process your requests. Using these meta tags you can construct the form body or the csrf header to suit your needs..`,
+  description: `CSRF (Cross-Site Request Forgery) meta tags are indications for ajax requests to use these as one of the form parameters to make a request to the server. Rails expects the csrf as part of your form body (params) to process your requests. Using these meta tags you can construct the form body or the csrf header to suit your needs.`,
   url: "http://cwe.mitre.org/data/definitions/352.html",
   cssClass: "icon-lock",
+}
+
+const gpseMetaCat: iMetaCategory = {
+  title: `Google Programmable Search Engine Meta Tags`,
+  description: `Google Programmable Search Engine meta tags are used by Google Programmable Search Engine to render the result of a search local to a website.`,
+  url: "https://cse.google.com/",
+  cssClass: "icon-google",
 }
 
 const otherMetaCat: iMetaCategory = {
@@ -144,219 +153,232 @@ export const injectableScript = () => {
         m.getAttribute(`property`) ||
         m.getAttribute("name") ||
         m.getAttribute("http-equiv") ||
-        "n/a"
+        ""
       ).toLowerCase(),
-      content: m.content || "n/a",
+      content: m.content || "",
       class: m.getAttribute("class"),
     }))
-    .filter(m => m.content !== "n/a" && m.property !== "n/a")
+    .filter(m => m.content !== "" && m.property !== "")
 }
 
 export const report = (data: any): string => {
   var meta = data as iMeta[]
   var report: string = ""
 
-  // ---------- TWITTER
-  const twitterMeta = meta.filter(m => m.property.startsWith("twitter:"))
-  meta = meta.filter(m => !twitterMeta.includes(m))
+  var defaultTitle = meta.find(m => m.property === "og:title" || m.property === "title")?.content || ""
+  var defaultDescription =
+    meta.find(m => m.property === "description")?.content || ""
+  var defaultImg = meta.find(m => m.property === "og:image")?.content || ""
+  var defaultUrl = meta.find(m => m.property === "og:url")?.content || ""
 
-  if (twitterMeta.length > 0) {
-    const listOfMeta = twitterMeta
-      .map(
-        m =>
-          `<div class='single-line-forced'>
-            <span class='label'>${m.property}:</span> 
-            <span class='value'>${m.content}</span>
-          </div>`
-      )
-      .join("")
+  {
+    // ---------- SEO
+    const seoMeta = meta.filter(
+      m =>
+        m.property === "title" ||
+        m.property === `author` ||
+        m.property === `description` ||
+        m.property === `language` ||
+        m.property === `keywords` ||
+        m.property === `viewport` ||
+        m.property === `generator` ||
+        m.property === `abstract` ||
+        m.property === `content-type` ||
+        m.property === `expires` ||
+        m.property === `refresh`
+    )
+    meta = meta.filter(m => !seoMeta.includes(m))
+    report += showMetaCat(seoMetaCat, seoMeta, "")
+  }
+
+  {
+    // ---------- TWITTER
+    const twitterMeta = meta.filter(m => m.property.startsWith("twitter:"))
 
     const title =
-      twitterMeta.find(m => m.property === "twitter:title")?.content || "n/a"
+      twitterMeta.find(m => m.property === "twitter:title")?.content || defaultTitle
     const img =
-      twitterMeta.find(m => m.property === "twitter:image")?.content || "n/a"
+      twitterMeta.find(
+        m =>
+          m.property === "twitter:image" || m.property === "twitter:image:src"
+      )?.content || defaultImg
     var description =
       twitterMeta.find(m => m.property === "twitter:description")?.content ||
-      "n/a"
+      defaultDescription
     description =
-      description.length < 215
+      description.length < 128
         ? description
-        : description.substr(0, 214) + "&mldr;"
-    const link =
-      twitterMetaCat.url.length > 0
-        ? `<a target='_new' class='link-in-card' href='${twitterMetaCat.url}'>website</a>`
-        : ``
+        : description.substr(0, 128) + "&mldr;"
+    var domain =
+      twitterMeta.find(
+        m => m.property === "twitter:domain" || m.property === "twitter:url"
+      )?.content || defaultUrl
+    if (domain.startsWith("http")) {
+      domain = domain.replace(/https?:\/\/(www.)?((\w+\.)?\w+\.\w+).*/i, `$2`)
+    }
 
-    report += new Card()
-      .open(``, twitterMetaCat.title + link, twitterMetaCat.cssClass)
-      .add(
-        `
-      <div class='card-description'>${twitterMetaCat.description}</div>
-      <div class='meta-items'>${listOfMeta}</div>
-      <div class='card-options'>
-          <a class='link-in-card left-option' id='id-twitter-card-preview'>Preview Twitter Post</a>
-          <div class='hide' id='id-twitter-card'>
-          <h2>${title}</h2>
-          <img src='${img}'>
-          <div>${description}</div>
-          </div>
-      </div>`
-      )
-      .close()
-      .render()
+    meta = meta.filter(m => !twitterMeta.includes(m))
+    report += showMetaCat(
+      twitterMetaCat,
+      twitterMeta,
+      twitterPreview(title, img, description, domain)
+    )
   }
 
-  // ---------- OPEN GRAPH
-  const openGraphMeta = meta.filter(
-    m =>
-      m.property.startsWith("og:") ||
-      m.property.startsWith("fb:") ||
-      m.property.startsWith("product:") ||
-      m.property.startsWith("article:") ||
-      m.property.startsWith("music") ||
-      m.property.startsWith("video") ||
-      m.property.startsWith("profile")
-  )
-  meta = meta.filter(m => !openGraphMeta.includes(m))
-
-  if (openGraphMeta.length > 0) {
-    const listOfMeta = openGraphMeta
-      .map(
-        m =>
-          `<div class='single-line-forced'>
-            <span class='label'>${m.property}:</span> 
-            <span class='value'>${m.content}</span>
-          </div>`
-      )
-      .join("")
-
+  {
+    // ---------- OPEN GRAPH
+    const openGraphMeta = meta.filter(
+      m =>
+        m.property.startsWith("og:") ||
+        m.property.startsWith("fb:") ||
+        m.property.startsWith("ia:") ||
+        m.property.startsWith("product:") ||
+        m.property.startsWith("article:") ||
+        m.property.startsWith("music") ||
+        m.property.startsWith("video") ||
+        m.property.startsWith("profile")
+    )
     const title =
-      openGraphMeta.find(m => m.property === "og:title")?.content || "n/a"
+      openGraphMeta.find(m => m.property === "og:title")?.content || ""
     const img =
-      openGraphMeta.find(m => m.property === "og:image")?.content || "n/a"
+      openGraphMeta.find(m => m.property === "og:image")?.content || ""
     var description =
-      openGraphMeta.find(m => m.property === "og:description")?.content || "n/a"
+      openGraphMeta.find(m => m.property === "og:description")?.content || ""
     description =
       description.length < 215
         ? description
         : description.substr(0, 214) + "&mldr;"
-    const link =
-      openGraphMetaCat.url.length > 0
-        ? `<a target='_new' class='link-in-card' href='${openGraphMetaCat.url}'>website</a>`
-        : ``
+    var domain =
+      openGraphMeta.find(
+        m => m.property === "og:url"
+      )?.content || ""
+    if (domain.startsWith("http")) {
+      domain = domain.replace(/https?:\/\/(www.)?((\w+\.)?\w+\.\w+).*/i, `$2`)
+    }
+    domain = domain.toUpperCase()
 
-    report += new Card()
-      .open(``, openGraphMetaCat.title + link, openGraphMetaCat.cssClass)
-      .add(
-        `
-      <div class='card-description'>${openGraphMetaCat.description}</div>
-      <div class='meta-items'>${listOfMeta}</div>
-      <div class='card-options'>
-          <a class='link-in-card left-option' id='id-open-graph-card-preview'>Preview Facebook Post</a>
-          <div class='hide' id='id-facebook-card'>        
-          <img src='${img}'>
-          <div>
-            <h2>${title}</h2>
-            ${description}</div>
-          </div>
-      </div>`
-      )
-      .close()
-      .render()
+    meta = meta.filter(m => !openGraphMeta.includes(m))
+    report += showMetaCat(
+      openGraphMetaCat,
+      openGraphMeta,
+      openGraphPreview(title, img, description, domain)
+    )
   }
 
-  // ---------- SWIFTYPE
-  const swiftTypeMeta = meta.filter(m => m.class === "swiftype")
-  meta = meta.filter(m => !swiftTypeMeta.includes(m))
-  report += showMetaCat(swiftypeMetaCat, swiftTypeMeta)
+  {
+    // ---------- SWIFTYPE
+    const swiftTypeMeta = meta.filter(m => m.class === "swiftype")
+    meta = meta.filter(m => !swiftTypeMeta.includes(m))
+    report += showMetaCat(swiftypeMetaCat, swiftTypeMeta, "")
+  }
 
-  // ---------- REP
-  const repMeta = meta.filter(
-    m => m.property === "robots" || m.property === "googlebot"
-  )
-  meta = meta.filter(m => !repMeta.includes(m))
-  report += showMetaCat(repMetaCat, repMeta)
+  {
+    // ---------- REP
+    const repMeta = meta.filter(
+      m => m.property === "robots" || m.property === "googlebot"
+    )
+    meta = meta.filter(m => !repMeta.includes(m))
+    report += showMetaCat(repMetaCat, repMeta, "")
+  }
 
-  // ---------- AUTHORIZATION
-  const authorizationMeta = meta.filter(
-    m =>
-      m.property.includes("verification") ||
-      m.property.includes(`validate`) ||
-      m.property.includes(`verify`)
-  )
-  meta = meta.filter(m => !authorizationMeta.includes(m))
-  report += showMetaCat(authorizationMetaCat, authorizationMeta)
+  {
+    // ---------- AUTHORIZATION
+    const authorizationMeta = meta.filter(
+      m =>
+        m.property.includes("verification") ||
+        m.property.includes(`validate`) ||
+        m.property.includes(`verify`)
+    )
+    meta = meta.filter(m => !authorizationMeta.includes(m))
+    report += showMetaCat(authorizationMetaCat, authorizationMeta, "")
+  }
 
-  // ---------- SEO
-  const seoMeta = meta.filter(
-    m =>
-      m.property === "title" ||
-      m.property === `author` ||
-      m.property === `description` ||
-      m.property === `language` ||
-      m.property === `keywords` ||
-      m.property === `viewport` ||
-      m.property === `generator` ||
-      m.property === `abstract` ||
-      m.property === `content-type` ||
-      m.property === `refresh`
-  )
-  meta = meta.filter(m => !seoMeta.includes(m))
-  report += showMetaCat(seoMetaCat, seoMeta)
+  {
+    // ---------- WINDOWS
+    const windowsMeta = meta.filter(m => m.property.includes("msapplication-"))
+    meta = meta.filter(m => !windowsMeta.includes(m))
+    report += showMetaCat(windowsMetaCat, windowsMeta, "")
+  }
 
-  // ---------- WINDOWS
-  const windowsMeta = meta.filter(m => m.property.includes("msapplication-"))
-  meta = meta.filter(m => !windowsMeta.includes(m))
-  report += showMetaCat(windowsMetaCat, windowsMeta)
+  {
+    // ---------- ORIGIN TRIALS
+    const originTrialsMeta = meta.filter(m => m.property === "origin-trial")
+    meta = meta.filter(m => !originTrialsMeta.includes(m))
+    report += showMetaCat(originTrialsMetaCat, originTrialsMeta, "")
+  }
 
-  // ---------- ORIGIN TRIALS
-  const originTrialsMeta = meta.filter(m => m.property === "origin-trial")
-  meta = meta.filter(m => !originTrialsMeta.includes(m))
-  report += showMetaCat(originTrialsMetaCat, originTrialsMeta)
+  {
+    // ---------- CXENSE
+    const cxenseMeta = meta.filter(
+      m =>
+        m.property.startsWith("cxense:") ||
+        m.property.startsWith("cxenseparse:")
+    )
+    meta = meta.filter(m => !cxenseMeta.includes(m))
+    report += showMetaCat(cxenseMetaCat, cxenseMeta, "")
+  }
 
-  // ---------- CXENSE
-  const cxenseMeta = meta.filter(m => m.property.startsWith("cxense:") || m.property.startsWith("cxenseparse:"))
-  meta = meta.filter(m => !cxenseMeta.includes(m))
-  report += showMetaCat(cxenseMetaCat, cxenseMeta)
+  {
+    // ---------- OUTBRAIN
+    const outbrainMeta = meta.filter(m => m.property.startsWith("vr:"))
+    meta = meta.filter(m => !outbrainMeta.includes(m))
+    report += showMetaCat(outbrainMetaCat, outbrainMeta, "")
+  }
 
-  // ---------- OUTBRAIN
-  const outbrainMeta = meta.filter(m => m.property.startsWith("vr:"))
-  meta = meta.filter(m => !outbrainMeta.includes(m))
-  report += showMetaCat(outbrainMetaCat, outbrainMeta)
+  {
+    // ---------- APPLE
+    const appleMeta = meta.filter(m => m.property.startsWith("apple-"))
+    meta = meta.filter(m => !appleMeta.includes(m))
+    report += showMetaCat(appleMetaCat, appleMeta, "")
+  }
 
-  // ---------- APPLE
-  const appleMeta = meta.filter(m => m.property.startsWith("apple-"))
-  meta = meta.filter(m => !appleMeta.includes(m))
-  report += showMetaCat(appleMetaCat, appleMeta)
+  {
+    // ---------- SHOPIFY
+    const shopifyMeta = meta.filter(m => m.property.startsWith("shopify-"))
+    meta = meta.filter(m => !shopifyMeta.includes(m))
+    report += showMetaCat(shopifyMetaCat, shopifyMeta, "")
+  }
 
-  // ---------- SHOPIFY
-  const shopifyMeta = meta.filter(m => m.property.startsWith("shopify-"))
-  meta = meta.filter(m => !shopifyMeta.includes(m))
-  report += showMetaCat(shopifyMetaCat, shopifyMeta)
+  {
+    // ---------- BRANCH
+    const branchMeta = meta.filter(m => m.property.startsWith("branch:"))
+    meta = meta.filter(m => !branchMeta.includes(m))
+    report += showMetaCat(branchMetaCat, branchMeta, "")
+  }
 
-  // ---------- BRANCH
-  const branchMeta = meta.filter(m => m.property.startsWith("branch:"))
-  meta = meta.filter(m => !branchMeta.includes(m))
-  report += showMetaCat(branchMetaCat, branchMeta)
+  {
+    // ---------- IE
+    const ieMeta = meta.filter(m => m.property === `x-ua-compatible` || m.property == 'cleartype')
+    meta = meta.filter(m => !ieMeta.includes(m))
+    report += showMetaCat(ieMetaCat, ieMeta, "")
+  }
 
-  // ---------- IE
-  const ieMeta = meta.filter(m => m.property === `x-ua-compatible`)
-  meta = meta.filter(m => !ieMeta.includes(m))
-  report += showMetaCat(ieMetaCat, ieMeta)
+  {
+    // ---------- MS
+    const msMeta = meta.filter(m => m.property.startsWith(`ms.`))
+    meta = meta.filter(m => !msMeta.includes(m))
+    report += showMetaCat(msMetaCat, msMeta, "")
+  }
 
-  // ---------- MS
-  const msMeta = meta.filter(m => m.property.startsWith(`ms.`))
-  meta = meta.filter(m => !msMeta.includes(m))
-  report += showMetaCat(msMetaCat, msMeta)
+  {
+    // ---------- CSRF
+    const csrfMeta = meta.filter(m => m.property.startsWith(`csrf-`))
+    meta = meta.filter(m => !csrfMeta.includes(m))
+    report += showMetaCat(csrfMetaCat, csrfMeta, "")
+  }
 
-  // ---------- CSRF
-  const csrfMeta = meta.filter(m => m.property.startsWith(`csrf-`))
-  meta = meta.filter(m => !csrfMeta.includes(m))
-  report += showMetaCat(csrfMetaCat, csrfMeta)
+  {
+    // ---------- Google Programmable Search Engine
+    const gpseMeta = meta.filter(m => m.property.startsWith(`thumbnail`))
+    meta = meta.filter(m => !gpseMeta.includes(m))
+    report += showMetaCat(gpseMetaCat, gpseMeta, "")
+  }
 
-  // ---------- OTHERS
-  const othersMeta = meta
-  report += showMetaCat(otherMetaCat, othersMeta)
+  {
+    // ---------- OTHERS
+    const othersMeta = meta
+    report += showMetaCat(otherMetaCat, othersMeta, "")
+  }
 
   if (report.length == 0) {
     report = new Card().warning(`No Meta Tags found on this page.`).render()
@@ -401,7 +423,11 @@ export const toggle = (btn: HTMLAnchorElement) => {
   }
 }
 
-const showMetaCat = (metaCat: iMetaCategory, metaList: iMeta[]): string => {
+const showMetaCat = (
+  metaCat: iMetaCategory,
+  metaList: iMeta[],
+  preview: string
+): string => {
   if (metaList.length === 0) {
     return ""
   }
@@ -417,7 +443,7 @@ const showMetaCat = (metaCat: iMetaCategory, metaList: iMeta[]): string => {
 
   const link =
     metaCat.url.length > 0
-      ? `<a target='_new' class='link-in-card' href='${metaCat.url}'>website</a>`
+      ? `<a target='_new' class='link-in-card' href='${metaCat.url}'>reference</a>`
       : ``
 
   return new Card()
@@ -426,8 +452,52 @@ const showMetaCat = (metaCat: iMetaCategory, metaList: iMeta[]): string => {
       `
         <div class='card-description'>${metaCat.description}</div>
         <div class='meta-items'>${listOfMeta}</div>
+        ${preview}
       `
     )
     .close()
     .render()
 }
+
+const twitterPreview = (
+  title: string,
+  img: string,
+  description: string,
+  domain: string
+) => `
+<div class='card-options'>
+  <a class='link-in-card left-option' id='id-twitter-card-preview'>Preview Twitter Post</a>
+  <div class='hide' id='id-twitter-card'>
+  ${img.length>0 ? `<img src='${img}'>` : ``}
+  <div class='twitter-card-legend'>
+      <div class='twitter-card-title'>${title}</div>
+      <div class='twitter-card-description'>${description}</div>
+      ${
+        domain.length > 0
+          ? `<div class='twitter-card-domain'>${twitterLinkIcon} ${domain}</div>`
+          : ""
+      }
+    </div>
+  </div>
+</div>`
+
+const openGraphPreview = (
+  title: string,
+  img: string,
+  description: string,
+  domain: string
+) => `
+<div class='card-options'>
+    <a class='link-in-card left-option' id='id-open-graph-card-preview'>Preview Facebook Post</a>
+    <div class='hide' id='id-facebook-card'>        
+      ${img.length>0 ? `<img src='${img}'>` : ``}
+      <div class='open-graph-card-legend'>
+        ${
+          domain.length > 0
+            ? `<div class='open-graph-card-domain'>${domain}</div>`
+            : ""
+        }
+        <h2>${title}</h2>
+      </div>
+    </div>
+</div>`
