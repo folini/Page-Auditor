@@ -30,13 +30,13 @@ module.exports = {
         },
       },
       {
-        test: /\.(json)$/,
+        test: /manifest\.(json)$/,
         loader: "file-loader",
         options: {name: '[name].json'},
         type: 'javascript/auto'
       },
       {
-        test: /\.less$/,
+        test: /\.(less)$/,
         use: ['style-loader', 'css-loader', 'less-loader'],
       },
     ],

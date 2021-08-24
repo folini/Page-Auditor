@@ -6,13 +6,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
 
 :root {
-  ---bg-color: #fafafe;
-  ---fc-brand-dark-color: #0a5394;
-  ---border-color: rgba(0, 0, 0, 0.125);
+  --bg-color: #fafafe;
+  --bg-inactive-color: #eaeaea;
+  --fc-brand-dark-color: #0a5394;
+  --border-color: rgba(0, 0, 0, 0.125);
   --fc-brand-white: #ffffff;
   --fc-brand-black: #08090acc;
-  ---bg-light-color: #dee2e6;
-  ---fc-brand-red: #900;
+  --bg-light-color: #dee2e6;
+  --fc-brand-red: #900;
 }
 body {
   min-width: 540px;
@@ -26,8 +27,8 @@ body {
 
 header {
   padding: 8px 0;
-  background-color: var(---fc-brand-dark-color);
-  color: var(--fc-brand-white);
+  background-color: var(--fc-brand-white);
+  color: var(--fc-brand-dark-color);
   position: fixed;
   top: 0;
   width: 100%;
@@ -41,7 +42,7 @@ header {
     margin-bottom: 4px;
     margin-top: 4px;
     font-size: 28px;
-    background-image: url(logos/FC_White_100x100.png);
+    background-image: url(logos/FC_100x100.png);
     background-repeat: no-repeat;
     background-position: 10px center;
     background-size: 48px;
@@ -81,16 +82,16 @@ h1.title {
 
 main {
   font-size: 14px;
-  background-color: var(---bg-color);
+  background-color: var(--bg-color);
   height: 100%;
 
   #id-container {
     padding: 16px;
     .box-card {
-      border: 1px solid var(---border-color);
+      border: 1px solid var(--border-color);
       border-radius: 0.25rem;
       padding: 16px 12px;
-      margin-bottom: 16px;
+      margin-bottom: 24px;
       background-color: var(--fc-brand-white);
       overflow: hidden;
 
@@ -103,11 +104,6 @@ main {
       .support-form {
         text-align: center;
         padding: 16px 0 0;
-      }
-
-      .track-category {
-        font-variant: small-caps;
-        font-size: 13px;
       }
 
       .show {
@@ -131,13 +127,13 @@ main {
           list-style: none;
           padding: 0;
           margin: 4px 0;
-          border: dotted 1px var(---border-color);
+          border: dotted 1px var(--border-color);
           overflow-x: hidden;
 
           li {
             margin: 4px 0;
             font-family: courier;
-            border-top: dotted 1px var(---border-color);
+            border-top: dotted 1px var(--border-color);
             padding: 4px;
             font-size: 0.9em;
 
@@ -175,33 +171,40 @@ main {
         cursor: pointer;
 
         &:hover {
-          background-color: var(---fc-brand-dark-color);
+          background-color: var(--fc-brand-dark-color);
           color: var(--fc-brand-white);
-          border-color: var(---fc-brand-dark-color);
+          border-color: var(--fc-brand-dark-color);
         }
       }
       a.link-in-card {
         position: absolute;
-        right: 0;
+        right: 24px;
         text-decoration: none;
         font-weight: normal;
         font-size: 10.2px;
-        color: var(---fc-brand-dark-color);
+        color: var(--fc-brand-dark-color);
 
         &:hover {
-          color: var(---fc-brand-red);
+          color: var(--fc-brand-red);
           text-decoration: underline;
         }
       }
       h2.subTitle {
         font-size: 18px;
         margin: 0 0 4px;
-        background-size: 24px 24px;
+        background-size: 42px 42px;
         background-repeat: no-repeat;
-        background-position: 0 5px;
-        padding: 6px 0 5px 30px;
+        background-position: 0 0;
+        padding: 0 0 16px 52px;
         position: relative;
         font-weight: normal;
+
+      .track-category {
+        font-variant: small-caps;
+        font-size: 13px;
+        min-height: 15px;
+      }
+
       }
     }
   }
@@ -213,7 +216,6 @@ main {
   margin: 16px -12px 8px;
   padding: 0;
   h2 {
-    color: #000;
     color: #000;
   }
   img {
@@ -257,7 +259,7 @@ main {
 }
 
 #id-facebook-card {
-  border: solid 1px var(---border-color);
+  border: solid 1px var(--border-color);
   max-width: 504px;
   margin: 12px auto 0;
   border-radius: 8px;
@@ -277,13 +279,17 @@ main {
       font-size: 17px;
       line-height: 22px;
       margin: 0;
-      padding: 5px 0;
+    }
+    .og-description {
+      font-size: 12px;
+      color: rgb(176, 179, 184);
+      line-height: 16.08px;
     }
   }
 }
 
 nav {
-  padding-top: 72px;
+  padding-top: 66px;
 
   .tabs {
     display: flex;
@@ -292,34 +298,48 @@ nav {
     margin-bottom: 0;
     list-style: none;
     width: 100%;
-    border-bottom: solid 1px var(---bg-light-color);
+    border-bottom: solid 1px var(--fc-brand-dark-color);
+
     li {
-      border: 1px solid transparent;
-      border-color: transparent transparent var(---bg-light-color) transparent;
-      border-top-left-radius: 0.25rem;
-      border-top-right-radius: 0.25rem;
+      border-style: solid;
+      border-width: 4px 1px 1px;
+      border-color:  var(--fc-brand-dark-color) var(--fc-brand-dark-color) transparent var(--fc-brand-dark-color);
+      border-radius: .25rem .25rem 0 0!important;
+      display: block;
       display: block;
       padding: 0.5rem 1rem;
       cursor: pointer;
-      color: darkblue;
-      border-radius: 3px 0 0 3px;
+      color: var(--fc-brand-white);
+      background-color: var(--fc-brand-dark-color);
       position: relative;
       bottom: -1px;
       user-select: none;
 
       &.active {
-        border-color: var(---bg-light-color) var(---bg-light-color) transparent;
-        background-color: var(---bg-color);
+        border-bottom-color: transparent;
+        background-color: var(--bg-color);
+        color: var(--fc-brand-dark-color);
       }
 
       &:not(.active):not(.gap-mini):hover {
         color: #888;
-        border-color: var(---bg-light-color);
+        background-color: var(--bg-color);
+        color: var(--fc-brand-dark-color);
+        border-color: var(--fc-brand-dark-color);
       }
 
       &.gap-mini {
         width: 16px;
-        padding: 0.5rem 0;
+        padding: 0;
+        background-color: transparent;
+        border-color: transparent;
+      }
+
+      &.gap-sep {
+        width: 4px;
+        padding: 0;
+        background-color: transparent;
+        border-color: transparent;
       }
     }
   }
@@ -339,7 +359,7 @@ nav {
       color: var(--fc-brand-black);
 
       &:hover {
-        color: var(---fc-brand-red);
+        color: var(--fc-brand-red);
         text-decoration: underline;
       }
     }
@@ -544,4 +564,85 @@ nav {
 }
 .icon-ms {
   background-image: url(logos/MS_100x100.png);
+}
+.icon-unclassified {
+  background-image: url(logos/Unclassified_100x100.png);
+}
+.icon-xandr {
+  background-image: url(logos/Xandr_100x100.png);
+}
+.icon-ias {
+  background-image: url(logos/IAS_100x100.png);
+}
+.icon-wunderkind {
+  background-image: url(logos/Wunderkind_100x100.png);
+}
+.icon-heap {
+  background-image: url(logos/Heap_100x100.png);
+}
+.icon-marketo {
+  background-image: url(logos/Marketo_100x100.png);
+}
+.icon-vwo {
+  background-image: url(logos/VWO_100x100.png);
+}
+.icon-cookiebot {
+  background-image: url(logos/Cookiebot_100x100.png);
+}
+.icon-pardot {
+  background-image: url(logos/Pardot_100x100.png);
+}
+.icon-adroll {
+  background-image: url(logos/AdRoll_100x100.png);
+}
+.icon-quora {
+  background-image: url(logos/Quora_100x100.png);
+}
+.icon-hotjar {
+  background-image: url(logos/Hotjar_100x100.png);
+}
+.icon-trustpilot {
+  background-image: url(logos/Trustpilot_100x100.png);
+}
+.icon-liveperson {
+  background-image: url(logos/LivePerson_100x100.png);
+}
+.icon-reddit {
+  background-image: url(logos/Reddit_100x100.png);
+}
+.icon-buy-sell-ads {
+  background-image: url(logos/BuySellAds_100x100.png);
+}
+.icon-cloudflare {
+  background-image: url(logos/CloudFlare_100x100.png);
+}
+.icon-google-optimize {
+  background-image: url(logos/GoogleOptimize_100x100.png);
+}
+.icon-firebase {
+  background-image: url(logos/Firebase_100x100.png);
+}
+.icon-wordpress {
+  background-image: url(logos/Wordpress_100x100.png);
+}
+.icon-riskified {
+  background-image: url(logos/Riskified_100x100.png);
+}
+.icon-onetrust {
+  background-image: url(logos/Onetrust_100x100.png);
+}
+.icon-amplitude {
+  background-image: url(logos/Amplitude_100x100.png);
+}
+.icon-new-relic {
+  background-image: url(logos/NewRelic_100x100.png);
+}
+.icon-squarespace {
+  background-image: url(logos/Squarespace_100x100.png);
+}
+.icon-stripe {
+  background-image: url(logos/Stripe_100x100.png);
+}
+.icon-apps-flyer {
+  background-image: url(logos/AppsFlyer_100x100.png);
 }

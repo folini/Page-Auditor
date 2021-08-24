@@ -1,3 +1,6 @@
+// ----------------------------------------------------------------------------
+// © 2021 - Franco Folini
+// ----------------------------------------------------------------------------
 import {Card} from "./Card"
 
 export const injectableScript = undefined
@@ -6,13 +9,13 @@ export const report = (data: any): string => {
   var report: string = ""
 
   report += new Card()
-    .open(``, `Technical SEO: Page Auditor`, "icon-fc")
+    .open(``, `Page Auditor for Technical SEO`, "icon-fc")
     .add(
       `
-        <div class='credits'><b>Page Auditor</b> is a free Google Chrome Extension created by Franco Folini.
-        The purpose of <i>PageAuditor</i> is to show, in a way that is simple and easy to understand, all the tracking technologies implemented by a website or single webpage.
+        <div class='credits'><b>Page Auditor for Technical SEO</b> is a free Google Chrome Extension created by <a href='https://www.linkedin.com/in/francofolini/' target='_new'>Franco Folini</a>.
+        The purpose of <i>Page Auditor for Technical SEO</i> is to show, in a way that is simple and easy to understand, all the tracking technologies implemented by a website or single webpage.
         <br/><br/>
-        This project was inspired by my students' questions while teaching the Digital Marketing Bootcamp for UC Berkeley Extension.
+        My students' questions inspired this project while teaching the <a href='https://bootcamp.berkeley.edu/digitalmarketing/' target='+new'>Digital Marketing Bootcamp</a> for UC Berkeley Extension.
             <div class='support-form'>
                 <form action="https://www.paypal.com/donate" method="post" target="_new">
                     <input type="hidden" name="business" value="UZ2HN43RZVJGA" />

@@ -1,7 +1,5 @@
 // ----------------------------------------------------------------------------
-// Structured-Data Explorer
-// To be installed as a Google Chrome Snippet
-// Franco Folini - May 2021
+// © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
 import "./popup.htm"
 import "./manifest.json"
@@ -74,12 +72,40 @@ import "./logos/Shopify_100x100.png"
 import "./logos/Branch_100x100.png"
 import "./logos/IE_100x100.png"
 import "./logos/MS_100x100.png"
+import "./logos/Unclassified_100x100.png"
+import "./logos/Xandr_100x100.png"
+import "./logos/IAS_100x100.png"
+import "./logos/Wunderkind_100x100.png"
+import "./logos/Heap_100x100.png"
+import "./logos/Marketo_100x100.png"
+import "./logos/VWO_100x100.png"
+import "./logos/Cookiebot_100x100.png"
+import "./logos/Pardot_100x100.png"
+import "./logos/AdRoll_100x100.png"
+import "./logos/Quora_100x100.png"
+import "./logos/Hotjar_100x100.png"
+import "./logos/Trustpilot_100x100.png"
+import "./logos/LivePerson_100x100.png"
+import "./logos/Reddit_100x100.png"
+import "./logos/BuySellAds_100x100.png"
+import "./logos/CloudFlare_100x100.png"
+import "./logos/GoogleOptimize_100x100.png"
+import "./logos/Firebase_100x100.png"
+import "./logos/Wordpress_100x100.png"
+import "./logos/Riskified_100x100.png"
+import "./logos/Onetrust_100x100.png"
+import "./logos/Amplitude_100x100.png"
+import "./logos/NewRelic_100x100.png"
+import "./logos/Squarespace_100x100.png"
+import "./logos/Stripe_100x100.png"
+import "./logos/AppsFlyer_100x100.png"
 
 import * as LdJson from "./LdJSON"
 import {Card} from "./Card"
 import * as Tracking from "./tracking"
 import * as Credits from "./Credits"
 import * as Meta from "./Meta"
+import * as Intro from "./Intro"
 
 async function action(
   injector: undefined | (() => any),
@@ -101,7 +127,7 @@ async function action(
     report = reporter(res[0].result)
   } catch (err) {
     const emptyTab = `Cannot access a chrome:// URL`
-    const emptyTabMsg = `PageAuditor can not run on aqn empty tab. Please activate the Page Auditor on a regular web page.`
+    const emptyTabMsg = `PageAuditor can not run on empty or internal Chrome tabs.<br/><br/>Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
     report = new Card()
       .error(err.message === emptyTab ? emptyTabMsg : err.message)
       .render()
@@ -112,7 +138,7 @@ async function action(
   }
 }
 
-const tabIds = ["id-ld-json", "id-tracking", "id-meta", "id-credits"]
+const tabIds = ["id-intro", "id-ld-json", "id-tracking", "id-meta", "id-credits"]
 
 const activateTab = (tabId: string) => {
   tabIds.forEach(t => document.getElementById(t)!.classList.remove("active"))
@@ -120,6 +146,10 @@ const activateTab = (tabId: string) => {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("id-intro")!.addEventListener("click", () => {
+    activateTab("id-intro")
+    action(Intro.injectableScript, Intro.report)
+  })
   document.getElementById("id-ld-json")!.addEventListener("click", () => {
     activateTab("id-ld-json")
     action(LdJson.injectableScript, LdJson.report)
@@ -136,4 +166,6 @@ document.addEventListener("DOMContentLoaded", () => {
     activateTab("id-credits")
     action(Credits.injectableScript, Credits.report)
   })
+
+  action(Intro.injectableScript, Intro.report)
 })
