@@ -2,8 +2,8 @@
   "manifest_version": 3,
 
   "name": "Page Auditor for Technical SEO",
-  "description": "PageAuditor for Technical SEO is an eCommerce Boosters project to analyze tracking code, Structured Data (LD-JSON), and all the meta tags.",
-  "version": "1.04",
+  "description": "PageAuditor for Technical SEO is an eCommerce Boosters project to analyze tracking code, Structured Data, and meta tags.",
+  "version": "1.05",
 
   "content_scripts": [
     {
