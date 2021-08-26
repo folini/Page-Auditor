@@ -43,8 +43,9 @@ export const injectableScript = (): iTrackCat[] => {
     {
       patterns: [
         ".doubleclick.net/",
-        "//www.googleadservices.com/",
+        ".googleadservices.com/",
         "adservice.google",
+        "/adsense/"
       ],
       name: "Google Ads",
       category: "Search, Display, and Remarketing Ads",
@@ -232,7 +233,7 @@ export const injectableScript = (): iTrackCat[] => {
       url: "https://www.hubspot.com/",
     },
     {
-      patterns: ["segment.com/analytics"],
+      patterns: ["segment.com/analytics", ".segment.com/"],
       name: "Segment",
       category: "Tracking &amp; Analytics",
       iconClass: "icon-segment-analytics",
@@ -313,8 +314,8 @@ export const injectableScript = (): iTrackCat[] => {
       url: "https://site.adform.com/",
     },
     {
-      patterns: [".taboola.com/"],
-      name: "Taboola",
+      patterns: [".taboola.com/", ".perfectmarket.com/"],
+      name: "Taboola / Perfect Market",
       category: "Tracking &amp; Analytics",
       iconClass: "icon-taboola",
       description:
@@ -661,6 +662,51 @@ export const injectableScript = (): iTrackCat[] => {
         "AppsFlyer is a SaaS mobile marketing analytics and attribution platform, headquartered in San Francisco, California. ",
       url: "https://www.appsflyer.com/",
     },  
+    {
+      patterns: [".appcues.com/"],
+      name: "Appcues",
+      category: "User onboarding and retention",
+      iconClass: "icon-appcues",
+      description:
+        "Appcues is an in-app user engagement platform meant to empower your non-technical colleagues. It allows them to create targeted modals, guided tours and other types of user experiences without having to burden engineering with the implementation.",
+      url: "https://www.appcues.com/",
+    },  
+    {
+      patterns: [".brandmetrics.com/"],
+      name: "Brand Metrics",
+      category: "User onboarding and retention",
+      iconClass: "icon-brand-metrics",
+      description:
+        "Brand Metrics is a software solution for publishers that allows for measurement of even small campaigns, formats, creatives and audience segments, in an easy to implement, privacy-first and future-proof way.",
+      url: "https://www.brandmetrics.com/",
+    },  
+    {
+      patterns: [".parrable.com/"],
+      name: "Parrable",
+      category: "Cookies and Privacy Management",
+      iconClass: "icon-parrable",
+      description:
+        "Parrable is a consumer privacy and consent progressive ID platform. Parrable is not a data broker and does not share information with third parties. Parrable encrypts every ID so that no bad actors can leverage the identity, fixing the uncontrollable tracking issue of cookies.",
+      url: "https://parrable.com/",
+    },  
+    {
+      patterns: [".agkn.com/"],
+      name: "AGKN",
+      category: "Tracking",
+      iconClass: "icon-neustar",
+      description:
+        "Neustar, Inc., is an American technology company that provides real-time information and analytics for the Internet, risk, digital performance, and defense, telecommunications, entertainment, and marketing industries, and also provides clearinghouse and directory services to the global communications and Internet industries.",
+      url: "https://www.home.neustar/",
+    },  
+    {
+      patterns: [".adsrvr.org/"],
+      name: "TheTradeDesk",
+      category: "Ads Tracking",
+      iconClass: "icon-thetradedesk",
+      description:
+        "The Trade Desk Inc is a global technology company that markets a software platform used by digital ad buyers to purchase data-driven digital advertising campaigns across various ad formats and devices.",
+      url: "https://www.thetradedesk.com/",
+    },  
   ].map(track => ({
     ...track,
     matches: [],
@@ -716,7 +762,7 @@ export const injectableScript = (): iTrackCat[] => {
   return trackers
 }
 
-export const report = (trackersUntyped: any): string => {
+export const report = async (trackersUntyped: any): Promise<string> => {
   const trackers: iTrackCat[] = trackersUntyped as iTrackCat[]
 
   var report: string = ""

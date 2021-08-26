@@ -5,7 +5,7 @@ import {Card} from "./Card"
 
 export const injectableScript = undefined
 
-export const report = (data: any): string => {
+export const report = async (data: any): Promise<string> => {
   var report: string = ""
 
   report += new Card()

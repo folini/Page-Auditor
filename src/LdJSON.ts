@@ -42,7 +42,7 @@ const getLines = (script: string) => {
   return script.split("\n").map(line => line.trim())
 }
 
-export const report = (scripts: any): string => {
+export const report = async (scripts: any): Promise<string> => {
 
   const jsonScripts: iJsonLD[] = scripts as iJsonLD[]
   var report: string = ""
@@ -52,17 +52,16 @@ export const report = (scripts: any): string => {
   }
 
    jsonScripts.forEach((json, i) => {
-    const schemaType = json["@type"] === undefined ? "" : `${json["@type"]}`
+    const schemaType = json["@type"] || (json["@graph"] !== undefined ? "Graph" : "")
     const scriptAsString = JSON.stringify(json)
 
-    const card = new Card()
-    card.open(``, `${schemaType}`, "icon-ld-json")
+    const link = schemaType !== "n/a"
+        ? `<a target="_new" class='link-in-card' href='https://shema.org/${schemaType}'>shema.org/${schemaType}</a>`
+        : ``
 
-    if (schemaType !== "n/a") {
-      card.add(
-        `<div class='schema'><a href='https://shema.org/${schemaType}'>shema.org/${schemaType}</a></div>`
-      )
-    }
+    const card = new Card()
+    card.open(``, schemaType + link, "icon-ld-json")
+
     card.add(`<div class='ld-json'>`)
     getLines(scriptAsString)
       .forEach(line => card.add(renderLine(line)))

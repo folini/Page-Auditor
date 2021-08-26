@@ -1,7 +1,7 @@
 {
   "name": "sd-explorer",
-  "version": "1.0.0",
-  "description": "A simple snippet to be included into Google Chrome DevTools to extract Structured Data from any web page",
+  "version": "1.06",
+  "description": "A Google Chrome Extension to extract Structured Data, Meta tags, and JavaScript from any web page",
   "main": "src/snippet.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

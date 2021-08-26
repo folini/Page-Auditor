@@ -179,7 +179,7 @@ export const injectableScript = () => {
     .filter(m => m.content !== "" && m.property !== "")
 }
 
-export const report = (data: any): string => {
+export const report = async (data: any): Promise<string> => {
   var meta = data as iMeta[]
   var report: string = ""
 
@@ -420,42 +420,6 @@ export const report = (data: any): string => {
   return report
 }
 
-export const eventManager = () => {
-  const twitterBtn = document.getElementById(
-    "id-twitter-card-preview"
-  ) as HTMLAnchorElement
-  if (twitterBtn !== null) {
-    twitterBtn.addEventListener("click", () => toggle(twitterBtn))
-  }
-
-  const openGraphBtn = document.getElementById(
-    "id-open-graph-card-preview"
-  ) as HTMLAnchorElement
-  if (openGraphBtn !== null) {
-    openGraphBtn.addEventListener("click", () => toggle(openGraphBtn))
-  }
-
-  const swiftypeBtn = document.getElementById(
-    "id-swiftype-card-preview"
-  ) as HTMLAnchorElement
-  if (swiftypeBtn !== null) {
-    swiftypeBtn.addEventListener("click", () => toggle(swiftypeBtn))
-  }
-}
-
-export const toggle = (btn: HTMLAnchorElement) => {
-  const div: HTMLDivElement = btn.parentElement?.children[1] as HTMLDivElement
-  if (div.classList.contains("hide")) {
-    btn.innerHTML = btn.innerHTML.replace("Preview", "Hide")
-    div.classList.remove("hide")
-    div.classList.add("show")
-  } else {
-    btn.innerHTML = btn.innerHTML.replace("Hide", "Preview")
-    div.classList.remove("show")
-    div.classList.add("hide")
-  }
-}
-
 const showMetaCat = (
   metaCat: iMetaCategory,
   metaList: iMeta[],
@@ -499,9 +463,8 @@ const twitterPreview = (
   domain: string
 ) => `
 <div class='card-options'>
-  <a class='link-in-card left-option' id='id-twitter-card-preview'>Preview Twitter Post</a>
-  <div class='hide' id='id-twitter-card'>
-  ${img.length>0 ? `<img src='${img}'>` : ``}
+  <div id='id-twitter-card'>
+  ${img.length>0 && img.startsWith("http") ? `<img src='${img}'>` : ``}
   <div class='twitter-card-legend'>
       <div class='twitter-card-title'>${title}</div>
       <div class='twitter-card-description'>${description}</div>
@@ -521,9 +484,8 @@ const openGraphPreview = (
   domain: string
 ) => `
 <div class='card-options'>
-    <a class='link-in-card left-option' id='id-open-graph-card-preview'>Preview Facebook Post</a>
-    <div class='hide' id='id-facebook-card'>        
-      ${img.length>0 ? `<img src='${img}'>` : ``}
+    <div id='id-facebook-card'>        
+      ${img.length>0 && img.startsWith("http") ? `<img src='${img}'>` : ``}
       <div class='open-graph-card-legend'>
         ${
           domain.length > 0

@@ -1,9 +1,6 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import "./popup.htm"
-import "./manifest.json"
-
 import "./logos/Logo256x256.png"
 import "./logos/JSON-LD_100x100.png"
 import "./logos/ERROR_100x100.png"
@@ -99,6 +96,14 @@ import "./logos/NewRelic_100x100.png"
 import "./logos/Squarespace_100x100.png"
 import "./logos/Stripe_100x100.png"
 import "./logos/AppsFlyer_100x100.png"
+import "./logos/Appcues_100x100.png"
+import "./logos/BrandMetrics_100x100.png"
+import "./logos/Parrable_100x100.png"
+import "./logos/Neustar_100x100.png"
+import "./logos/TheTradeDesk_100x100.png"
+
+import "./popup.htm"
+import "./manifest.json"
 
 import * as LdJson from "./LdJSON"
 import {Card} from "./Card"
@@ -106,17 +111,18 @@ import * as Tracking from "./tracking"
 import * as Credits from "./Credits"
 import * as Meta from "./Meta"
 import * as Intro from "./Intro"
+import * as Robots from "./Robots"
 
 async function action(
   injector: undefined | (() => any),
-  reporter: (data: any) => string,
+  reporter: (data: any) => Promise<string>,
   eventManager?: () => void
 ) {
   var report: string = ""
   const [tab] = await chrome.tabs.query({active: true, currentWindow: true})
   inject: try {
     if (injector === undefined) {
-      report = reporter(undefined)
+      report = await reporter(undefined)
       break inject
     }
 
@@ -124,7 +130,7 @@ async function action(
       target: {tabId: tab.id} as chrome.scripting.InjectionTarget,
       function: injector,
     })
-    report = reporter(res[0].result)
+    report = await reporter(res[0].result)
   } catch (err) {
     const emptyTab = `Cannot access a chrome:// URL`
     const emptyTabMsg = `PageAuditor can not run on empty or internal Chrome tabs.<br/><br/>Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
@@ -133,12 +139,13 @@ async function action(
       .render()
   }
   document.getElementById("id-container")!.innerHTML = report
+
   if (eventManager !== undefined) {
     eventManager()
   }
 }
 
-const tabIds = ["id-intro", "id-ld-json", "id-tracking", "id-meta", "id-credits"]
+const tabIds = ["id-intro", "id-ld-json", "id-tracking", "id-meta", "id-credits", "id-robots"]
 
 const activateTab = (tabId: string) => {
   tabIds.forEach(t => document.getElementById(t)!.classList.remove("active"))
@@ -160,11 +167,15 @@ document.addEventListener("DOMContentLoaded", () => {
   })
   document.getElementById("id-meta")!.addEventListener("click", () => {
     activateTab("id-meta")
-    action(Meta.injectableScript, Meta.report, Meta.eventManager)
+    action(Meta.injectableScript, Meta.report)
   })
   document.getElementById("id-credits")!.addEventListener("click", () => {
     activateTab("id-credits")
     action(Credits.injectableScript, Credits.report)
+  })
+  document.getElementById("id-robots")!.addEventListener("click", () => {
+    activateTab("id-robots")
+    action(Robots.injectableScript, Robots.report)
   })
 
   action(Intro.injectableScript, Intro.report)
