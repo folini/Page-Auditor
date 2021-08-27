@@ -133,9 +133,12 @@ the article is available here: [Exploring Structured Data With A Google Chrome S
 })()
 ```
 
+## Google Chrome Extension Deployment
+To deploy the 
+
 ## Roadmap
 - [x] Porting the snippet from JavScript to TypeScript
-- [ ] Transform the snippet into a regular Google Chrome Extension
+- [x] Transform the snippet into a regular Google Chrome Extension
 - [ ] Add more SEO features, like highlighting of images missing the `alt` attribute
 
 ---

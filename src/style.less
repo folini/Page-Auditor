@@ -38,7 +38,7 @@ header {
     text-align: left;
     margin-left: 0;
     padding-left: 70px;
-    font-family: 'Lobster Two';
+    font-family: "Lobster Two";
     margin-bottom: 4px;
     margin-top: 4px;
     font-size: 28px;
@@ -88,6 +88,7 @@ main {
 
   #id-container {
     padding: 16px;
+
     .box-card {
       border: 1px solid var(--border-color);
       border-radius: 0.25rem;
@@ -177,6 +178,7 @@ main {
           border-color: var(--fc-brand-dark-color);
         }
       }
+
       a.link-in-card {
         position: absolute;
         right: 24px;
@@ -190,6 +192,7 @@ main {
           text-decoration: underline;
         }
       }
+
       h2.subTitle {
         font-size: 18px;
         margin: 0 0 4px;
@@ -200,12 +203,20 @@ main {
         position: relative;
         font-weight: normal;
 
-      .track-category {
-        font-variant: small-caps;
-        font-size: 13px;
-        min-height: 15px;
+        .track-category {
+          font-variant: small-caps;
+          font-size: 13px;
+          min-height: 15px;
+        }
       }
 
+      div.firstLine {
+        padding-bottom: 12px;
+      }
+
+      .x-scrollable {
+        width: 100%;
+        overflow-x: auto;
       }
     }
   }
@@ -292,9 +303,9 @@ main {
 nav {
   padding-top: 66px;
   position: fixed;
-    background-color: #fff;
-    width: 100%;
-    z-index: 99;
+  background-color: #fff;
+  width: 100%;
+  z-index: 99;
 
   .tabs {
     display: flex;
@@ -308,8 +319,9 @@ nav {
     li {
       border-style: solid;
       border-width: 4px 1px 1px;
-      border-color:  var(--fc-brand-dark-color) var(--fc-brand-dark-color) transparent var(--fc-brand-dark-color);
-      border-radius: .25rem .25rem 0 0!important;
+      border-color: var(--fc-brand-dark-color) var(--fc-brand-dark-color)
+        transparent var(--fc-brand-dark-color);
+      border-radius: 0.25rem 0.25rem 0 0 !important;
       display: block;
       display: block;
       padding: 0.5rem 1rem;
@@ -666,3 +678,40 @@ nav {
 .icon-thetradedesk {
   background-image: url(logos/TheTradeDesk_100x100.png);
 }
+.icon-tidio {
+  background-image: url(logos/TIDIO_100x100.png);
+}
+.icon-jquery {
+  background-image: url(logos/jQuery_100x100.png);
+}
+.icon-tapfiliate {
+  background-image: url(logos/Tapfiliate_100x100.png);
+}
+.icon-intercom {
+  background-image: url(logos/Intercom_100x100.png);
+}
+.icon-clearbit {
+  background-image: url(logos/Clearbit_100x100.png);
+}
+.icon-chartbeat {
+  background-image: url(logos/Chartbeat_100x100.png);
+}
+.icon-onetag {
+  background-image: url(logos/Onetag_100x100.png);
+}
+.icon-insurads {
+  background-image: url(logos/InsurAds_100x100.png);
+}
+.icon-userzoom {
+  background-image: url(logos/UserZoom_100x100.png);
+}
+.icon-consensu {
+  background-image: url(logos/Consensu_100x100.png);
+}
+.icon-adobe {
+  background-image: url(logos/Adobe_100x100.png);
+}
+.icon-tiktok {
+  background-image: url(logos/TikTok_100x100.png);
+}
+

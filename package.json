@@ -4,7 +4,7 @@
   "description": "A Google Chrome Extension to extract Structured Data, Meta tags, and JavaScript from any web page",
   "main": "src/snippet.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build-snippet": "webpack --progress --color --mode production --stats-error-details --config webpack.snippet.js",
     "build": "webpack --progress --color --mode production --stats-error-details --config webpack.ext.js"
   },
@@ -29,11 +29,15 @@
   },
   "devDependencies": {
     "@types/chrome": "0.0.148",
+    "@types/jest": "^27.0.1",
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.2.0",
     "file-loader": "^6.2.0",
+    "html-validate": "^5.3.0",
+    "jest-chain": "^1.1.5",
     "less": "^4.1.1",
     "less-loader": "^10.0.1",
-    "style-loader": "^3.2.1"
+    "style-loader": "^3.2.1",
+    "ts-jest": "^27.0.5"
   }
 }

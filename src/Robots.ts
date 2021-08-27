@@ -7,16 +7,23 @@ export const injectableScript = () => {
   return document.location.origin
 }
 
-export const report = async (data: any): Promise<string> => {
+export const report = (data: any): Promise<string> => {
   const robotsUrl = `${data as string}/robots.txt`
 
-  let response = await fetch(robotsUrl)
-
-  let robotsStr = await response.text()
-
-  return new Card()
-          .open(``, `Robots.txt`, "icon-rep")
-          .add(`<pre>${robotsStr}</pre>`)
-          .close()
-          .render()
+  return global.fetch(robotsUrl)
+    .then(response => {
+      if (response.status !== 200) {
+        throw `File ${robotsUrl} not found.`
+      }
+      return response.text()
+    })
+    .then(robotsStr =>
+      new Card()
+        .open(``, `Robots.txt`, "icon-rep")
+        .add(`<div class='firstLine'>File name: ${robotsUrl}</div>`)
+        .add(`<pre class='x-scrollable'>${robotsStr}</pre>`)
+        .close()
+        .render()
+    )
+    .catch(err => new Card().warning(err).render())
 }

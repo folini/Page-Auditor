@@ -27,3 +27,7 @@ export const report = async (data: any): Promise<string> => {
 
   return report
 }
+
+export function mul(a: number, b: number) {
+  return a * b;
+}

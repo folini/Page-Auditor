@@ -21,7 +21,7 @@
         "resolveJsonModule": true,
         "esModuleInterop": true,
         "allowSyntheticDefaultImports": true,
-        "types": ["node", "chrome"],
+        "types": ["node", "chrome", "jest"],
         "baseUrl": "./",
     },
     "exclude": ["node_modules"]

@@ -10,13 +10,11 @@ export class Card {
 
   public open(preTitle: string, title: string, cssClass: string) {
     this.#report.length = 0
-    this.#report.push(`
-    <div class='box-card'>
+    this.#report.push(`<div class='box-card'>
       <h2 class='subTitle ${cssClass}'>
         <div class='track-category'>${preTitle}</div>
         ${title}
-      </h2>
-    `)
+      </h2>`)
     return this
   }
 
