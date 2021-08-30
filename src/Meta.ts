@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import {Card as Card} from "./Card"
+import {Card as Card} from "./card"
 
 interface iMeta {
   property: string
@@ -179,7 +179,7 @@ export const injectableScript = () => {
     .filter(m => m.content !== "" && m.property !== "")
 }
 
-export const report = async (data: any): Promise<string> => {
+export const report = async (url: string|undefined, data: any): Promise<string> => {
   var meta = data as iMeta[]
   var report: string = ""
 

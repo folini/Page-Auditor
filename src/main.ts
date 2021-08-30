@@ -1,7 +1,8 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import "./logos/Logo256x256.png"
+import "./logos/Logo_256x256.png"
+import "./logos/Logo_128x128.png"
 import "./logos/JSON-LD_100x100.png"
 import "./logos/ERROR_100x100.png"
 import "./logos/WARNING_100x100.png"
@@ -113,28 +114,53 @@ import "./logos/UserZoom_100x100.png"
 import "./logos/Consensu_100x100.png"
 import "./logos/Adobe_100x100.png"
 import "./logos/TikTok_100x100.png"
+import "./logos/YouTube_100x100.png"
+import "./logos/SnapChat_100x100.png"
+import "./logos/ContentSquare_100x100.png"
+import "./logos/USER1st_100x100.png"
+import "./logos/FontAwesome_100x100.png"
+import "./logos/Cloudfront_100x100.png"
+import "./logos/AWS_100x100.png"
+import "./logos/JS_100x100.png"
+import "./logos/Mailchimp_100x100.png"
+import "./logos/Yahoo_100x100.png"
+import "./logos/Jivox_100x100.png"
+import "./logos/LeadLander_100x100.png"
+import "./logos/Fastly_100x100.png"
+import "./logos/Demandbase_100x100.png"
+import "./logos/AdLightning_100x100.png"
+import "./logos/Mather_100x100.png"
+import "./logos/Lytics_100x100.png"
+import "./logos/Sitemap_100x100.png"
+import "./logos/MOAT_100x100.png"
+import "./logos/RichAudience_100x100.png"
+import "./logos/Gladly_100x100.png"
+import "./logos/Tealium_100x100.png"
+import "./logos/Algonomy_100x100.png"
+import "./logos/Teads_100x100.png"
+import "./logos/SalesForce_100x100.png"
 
 import "./popup.htm"
 import "./manifest.json"
 
-import * as LdJson from "./LdJSON"
-import {Card} from "./Card"
+import * as LdJson from "./structured-data"
+import {Card} from "./card"
 import * as Tracking from "./tracking"
-import * as Credits from "./Credits"
-import * as Meta from "./Meta"
-import * as Intro from "./Intro"
-import * as Robots from "./Robots"
+import * as Credits from "./credits"
+import * as Meta from "./meta"
+import * as Intro from "./intro"
+import * as Robots from "./robots"
 
 async function action(
   injector: undefined | (() => any),
-  reporter: (data: any) => Promise<string>,
+  reporter: (url: string|undefined, data: any) => Promise<string>,
   eventManager?: () => void
 ) {
   var report: string = ""
   const [tab] = await chrome.tabs.query({active: true, currentWindow: true})
   inject: try {
     if (injector === undefined) {
-      report = await reporter(undefined)
+      report = await reporter(tab.url, undefined)
       break inject
     }
 
@@ -142,12 +168,12 @@ async function action(
       target: {tabId: tab.id} as chrome.scripting.InjectionTarget,
       function: injector,
     })
-    report = await reporter(res[0].result)
-  } catch (err) {
+    report = await reporter(tab.url, res[0].result)
+  } catch (err: any) {
     const emptyTab = `Cannot access a chrome:// URL`
     const emptyTabMsg = `PageAuditor can not run on empty or internal Chrome tabs.<br/><br/>Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
     report = new Card()
-      .error(err.message === emptyTab ? emptyTabMsg : err.message)
+      .error((err as Error).message === emptyTab ? emptyTabMsg : err.message)
       .render()
   }
   document.getElementById("id-container")!.innerHTML = report

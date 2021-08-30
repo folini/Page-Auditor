@@ -1,7 +1,8 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import {Card} from "./Card"
+import {Console} from "console"
+import {Card} from "./card"
 const trackingClasses = require("./trackingClasses.json") as iTrackClass[]
 
 interface iTrackClass {
@@ -22,17 +23,16 @@ interface iScript {
   done: boolean
 }
 
-  const unresolvedCat: iTrackMatch = {
-    patterns: [],
-    name: "Unresolved Javascript Code",
-    category: "JavaScript",
-    iconClass: "icon-unclassified",
-    description:
-      "Page Auditor for Technical SEO is not yet able to classify the following JavaScript code.",
-    url: "",
-    matches: [],
-  }
-
+const unresolvedCat: iTrackMatch = {
+  patterns: [],
+  name: "Unresolved Javascript Code",
+  category: "JavaScript",
+  iconClass: "icon-unclassified",
+  description:
+    "Page Auditor for Technical SEO is not yet able to classify the following JavaScript code.",
+  url: "",
+  matches: [],
+}
 
 export const injectableScript = (): iScript[] => {
   return [...document.scripts]
@@ -42,15 +42,20 @@ export const injectableScript = (): iScript[] => {
     .map(s => ({script: s, done: false})) as iScript[]
 }
 
-
-export const report = async (untypedScripts: any): Promise<string> => {
-
+export const report = async (
+  url: string | undefined,
+  untypedScripts: any
+): Promise<string> => {
   var scripts = untypedScripts as iScript[]
 
   const trackMatches: iTrackMatch[] = trackingClasses.map(track => ({
     ...track,
     matches: [],
   })) as iTrackMatch[]
+
+  if(url!== undefined) {
+    trackMatches.push(localJsMatch(url))
+  }
 
   var trackingItems: iTrackMatch[] = []
 
@@ -79,18 +84,20 @@ export const report = async (untypedScripts: any): Promise<string> => {
       unresolvedCat.matches.push(scr.script)
     })
 
-  if (unresolvedCat.matches.length > 0) {
-    trackingItems.push(unresolvedCat)
-  }
-
   var report: string = ""
 
   if (trackingItems === null) {
     throw new Error("No trackers found.")
   }
 
-  trackingItems
+  trackingItems = trackingItems
     .sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
+
+  if (unresolvedCat.matches.length > 0) {
+    trackingItems.push(unresolvedCat)
+  }
+
+  trackingItems
     .forEach((t, i) => {
       const link =
         t.url.length > 0
@@ -151,4 +158,26 @@ export const toggle = (btn: HTMLAnchorElement) => {
     ul.classList.remove("show")
     ul.classList.add("hide")
   }
+}
+
+const localJsMatch = (url: string): iTrackMatch => {
+    var domainParts = url.split("/")[2].split('.')
+    if(domainParts[0]='www') {
+      domainParts = domainParts.splice(1)
+    }
+    var patterns = [`.${domainParts.join('.')}/`]
+
+    if(domainParts.length===2) {
+      patterns.push(`.${domainParts[0]}cdn.${domainParts[1]}/`)
+    }
+
+    return {
+      patterns: patterns,
+      name: "Local Javascript Code",
+      category: "JavaScript",
+      iconClass: "icon-js",
+      description: "Javascript Code local to this website.",
+      url: "",
+      matches: [],
+    }
 }

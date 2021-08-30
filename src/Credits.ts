@@ -1,11 +1,11 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import {Card} from "./Card"
+import {Card} from "./card"
 
 export const injectableScript = undefined
 
-export const report = async (data: any): Promise<string> => {
+export const report = async (url: string|undefined, data: any): Promise<string> => {
   var report: string = ""
 
   report += new Card()

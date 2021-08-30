@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import {Card} from "./Card"
+import {Card} from "./card"
 
 export interface iJsonLD {
   [name: string]: string
@@ -42,7 +42,7 @@ const getLines = (script: string) => {
   return script.split("\n").map(line => line.trim())
 }
 
-export const report = async (scripts: any): Promise<string> => {
+export const report = async (url: string|undefined, scripts: any): Promise<string> => {
 
   const jsonScripts: iJsonLD[] = scripts as iJsonLD[]
   var report: string = ""

@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import {Card} from "./Card"
+import {Card} from "./card"
 
 export const injectableScript = undefined
 

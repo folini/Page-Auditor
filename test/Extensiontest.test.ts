@@ -1,6 +1,6 @@
-import * as Intro from "../src/Intro"
-import * as Robots from "../src/Robots"
-import * as Meta from "../src/Meta"
+import * as Intro from "../src/intro"
+import * as Robots from "../src/robots"
+import * as Meta from "../src/meta"
 
 import "jest-get-type"
 import "html-validate/jest"

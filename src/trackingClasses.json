@@ -180,7 +180,9 @@
       "hs-banner.com/",
       "hs-analytics.net/",
       ".hubspot.com/",
-      ".hubspot.net/"
+      ".hubspot.net/",
+      ".hs-scripts.com/",
+      ".hsleadflows.net/"
     ],
     "name": "HubSpot Analytics",
     "category": "Social Media &amp; Websites Tracking",
@@ -301,8 +303,8 @@
     "url": "https://www.cookielaw.org/"
   },
   {
-    "patterns": [".cxense.com/", ".piano.io/"],
-    "name": "Cxense and Piano",
+    "patterns": [".cxense.com/", ".piano.io/", ".tinypass.com/"],
+    "name": "Cxense,TinyPass, and Piano",
     "category": "Tracking &amp; Analytics",
     "iconClass": "icon-cxense",
     "description": "Cxense ASA was a technology company, formed in Oslo, Norway in 2010. In 2019 it was acquired by Piano Media.",
@@ -341,7 +343,7 @@
     "url": "https://www.heroku.com/"
   },
   {
-    "patterns": ["turner.com/analytics", ".cnn.com/", "ugdturner.com/"],
+    "patterns": ["turner.com/analytics", "ugdturner.com/"],
     "name": "Warner Media",
     "category": "Tracking &amp; Analytics",
     "iconClass": "icon-warnermedia-analytics",
@@ -397,8 +399,8 @@
     "url": "https://heap.io/"
   },
   {
-    "patterns": [".marketo.net/", ".marketo.com/"],
-    "name": "Marketo",
+    "patterns": [".marketo.net/", ".marketo.com/", ".bizible.com/"],
+    "name": "Marketo &amp; Bizible",
     "category": "Marketing Automation",
     "iconClass": "icon-marketo",
     "description": "Marketo develops and sells marketing automation software for account-based marketing and other marketing services and products including SEO and content creation.",
@@ -713,11 +715,195 @@
     "url": "https://adobe.com/"
   },
   {
+    "patterns": [".tiqcdn.com/", ".tealium.com/", ".tealiumiq.com/"],
+    "name": "Tealium Tag Manager",
+    "category": "Ads &amp; Tracking",
+    "iconClass": "icon-tealium",
+    "description": "Tealium is a US headquartered American company founded in 2008 in San Diego, California that sells enterprise tag management, an API hub, a customer data platform with machine learning, and data management products.",
+    "url": "https://tealium.com/"
+  },
+  {
     "patterns": [".tiktok.com/"],
     "name": "TikTok",
     "category": "Ads &amp; Tracking",
     "iconClass": "icon-tiktok",
     "description": "TikTok offers advertisers a selection of advertising formats. In addition to classic In Feed Video Ads, the platform offers innovative attention-grabbing formats, such as the Top View or the Hashtag Challenge.",
     "url": "https://www.tiktok.com/business/en-US"
+  },
+  {
+    "patterns": [".youtube.com/"],
+    "name": "YouTube",
+    "category": "Video Embedding",
+    "iconClass": "icon-youtube",
+    "description": "YouTube is a free video sharing website that makes it easy to watch online videos. YouTube is owned by Google. It was launched in February 2005 by Steve Chen, Chad Hurley, and Jawed Karim.",
+    "url": "https://www.tiktok.com/business/en-US"
+  },
+  {
+    "patterns": ["sc-static.net/"],
+    "name": "SnapChat",
+    "category": "Ads &amp; Tracking",
+    "iconClass": "icon-snapchat",
+    "description": "Snap Ads are full-screen vertical video ads that can be up to 10 seconds long. Snapchat users can swipe up, anytime when the video ad is playing, for more - watch a longer video, read an article, install an app, or visit a website.",
+    "url": "https://forbusiness.snapchat.com/"
+  },
+  {
+    "patterns": [".clicktale.net/", ".contentsquare.net/"],
+    "name": "ContentSquare &amp; ClickTale",
+    "category": "Tracking &amp; Analytics",
+    "iconClass": "icon-contentsquare",
+    "description": "Contentsquare transforms this anonymous data into actionable insights and recommendations for your team. The platform collects all digital experience data without the need for a tagging plan, so you can dig into any data you need retroactively.",
+    "url": "https://contentsquare.com/"
+  },
+  {
+    "patterns": [".user1st.info/", ".user1st.com/"],
+    "name": "USER1st",
+    "category": "Web Accessibility &amp; ADA Compliance",
+    "iconClass": "icon-user1st",
+    "description": "User1st 's digital and web accessibility solutions and services enable organizations to rapidly discover and continually test, implement, and maintain digital content accessibility to reach more customers while meeting compliance obligations.",
+    "url": "https://www.user1st.com/"
+  },
+  {
+    "patterns": [".fontawesome.com/", ".fortawesome.com/"],
+    "name": "FontAwesome",
+    "category": "Web Font",
+    "iconClass": "icon-fontawesome",
+    "description": "Font Awesome is a font and icon toolkit based on CSS and Less. As of 2020, Font Awesome was used by 38% of sites that use third-party font scripts, placing Font Awesome in second place after Google Fonts.",
+    "url": "https://fontawesome.com/"
+  },
+  {
+    "patterns": [".cloudfront.net/"],
+    "name": "CloudFront",
+    "category": "Content Delivery Network",
+    "iconClass": "icon-cloudfront",
+    "description": "Cloudfront.net is a legitimate and safe content delivery network owned by Amazon, however cyber criminals are abusing this CDN to deliver malicious content. And. This CloudFront.net redirect is usually caused by adware installed on your computer.",
+    "url": "https://aws.amazon.com/cloudfront/"
+  },
+  {
+    "patterns": [".awsstatic.com/", ".aws.com/"],
+    "name": "Amazon AWS",
+    "category": "Content Delivery Network",
+    "iconClass": "icon-aws",
+    "description": "Amazon Web Services offers a broad set of global cloud-based products including compute, storage, databases, analytics, networking, mobile, developer tools, management tools, IoT, security and enterprise applications.",
+    "url": "https://aws.amazon.com/"
+  },
+  {
+    "patterns": [".yimg.com/"],
+    "name": "Yahoo!",
+    "category": "Content Delivery Network",
+    "iconClass": "icon-yahoo",
+    "description": "Yahoo! is an Internet portal that incorporates a search engine and a directory of World Wide Web sites organized in a hierarchy of topic categories.",
+    "url": "https://www.yahoo.com/"
+  },
+  {
+    "patterns": [".mailchimp.com/", "chimpstatic.com/"],
+    "name": "Mailchimp",
+    "category": "Content Delivery Network",
+    "iconClass": "icon-mailchimp",
+    "description": "Mailchimp is an American marketing automation platform and email marketing service.",
+    "url": "https://mailchimp.com/"
+  },
+  {
+    "patterns": [".fastly.net/", ".fastly.com/", ".fastly-insights.com/"],
+    "name": "Fastly",
+    "category": "Content Delivery Network",
+    "iconClass": "icon-fastly",
+    "description": "Fastly is an American cloud computing services provider. It describes its network as an edge cloud platform, which is designed to help developers extend their core cloud infrastructure to the edge of the network, closer to users.",
+    "url": "https://www.fastly.com/"
+  },
+  {
+    "patterns": [".jivox.com/"],
+    "name": "Jivox",
+    "category": "Advertising",
+    "iconClass": "icon-jivox",
+    "description": "Jivox IQ is a cloud-based, data-driven platform for delivering personalized digital advertising and marketing experiences at scale.",
+    "url": "https://jivox.com/"
+  },
+  {
+    "patterns": [".leadlander.com/"],
+    "name": "LeadLander",
+    "category": "Tracking",
+    "iconClass": "icon-leadlander",
+    "description": "LeadLander helps marketing departments to identify anonymous website visitors.",
+    "url": "https://leadlander.com/"
+  },
+  {
+    "patterns": [".demandbase.com/", ".engagio.com/"],
+    "name": "DemandBase &amp; Engagio",
+    "category": "Ads",
+    "iconClass": "icon-demandbase",
+    "description": "Demandbase is a targeting and personalization platform for business-to-business companies. Marketers can target online ads to companies that fit pre-determined criteria based on attributes and metrics like industry, revenue, customer status, or products purchased.",
+    "url": "https://www.demandbase.com/"
+  },
+  {
+    "patterns": [".adlightning.com/"],
+    "name": "AdLightning",
+    "category": "Ads",
+    "iconClass": "icon-adlightning",
+    "description": "Ad Lightning offers the most comprehensive ad intelligence platform, focused on bringing transparency and control to a chaotic programmatic world by helping publishers and exchanges manage their ad quality more effectively.",
+    "url": "https://www.adlightning.com/"
+  },
+  {
+    "patterns": [".matheranalytics.com/"],
+    "name": "MatherEconomics",
+    "category": "Tracking &amp; Analytics",
+    "iconClass": "icon-mather",
+    "description": "Mather Economics. applies predictive modeling and rigorous testing to improve business performance.",
+    "url": "https://www.mathereconomics.com/"
+  },
+  {
+    "patterns": [".lytics.io/", "lytics.com/"],
+    "name": "Lytics",
+    "category": "AI Based Analytics",
+    "iconClass": "icon-lytics",
+    "description": "Lytics is a customer data platform (CDP) built for marketing teams to improve business performance by connecting the right data to Lytics’ powerful AI engine.",
+    "url": "https://www.lytics.com/"
+  },
+  {
+    "patterns": [".moatads.com/"],
+    "name": "MOAT",
+    "category": "Analytics",
+    "iconClass": "icon-moat",
+    "description": "Moat is a digital ad analytics tool that goes way beyond informing you about click-through rates and impressions. It digs deeper to give you advanced insights that will help you fine-tune your marketing campaigns for optimal reach.",
+    "url": "https://www.moat.com/"
+  },
+  {
+    "patterns": [".richaudience.com/"],
+    "name": "Rich Audience",
+    "category": "Ads",
+    "iconClass": "icon-rich-audience",
+    "description": "Rich Audience is a Rich Media Platform, a marketplace which connects publishers and advertisers, serving high impact Rich-Media formats. Our unique technology stack solves the key pain points of the current programmatic digital media market.",
+    "url": "https://richaudience.com/"
+  },
+  {
+    "patterns": [".gladly.com/"],
+    "name": "Gladly",
+    "category": "Customer Service",
+    "iconClass": "icon-gladly",
+    "description": "Gladly is a customer service platform.",
+    "url": "https://www.gladly.com/"
+  },
+  {
+    "patterns": [".richrelevance.com/", "algonomy.com/"],
+    "name": "Algonomy &amp; RichRelevance",
+    "category": "Web Experience Personalization",
+    "iconClass": "icon-algonomy",
+    "description": "RichRelevance is a company based in San Francisco, California, that offers personalized shopping experiences for large retail brands, including Macy's, Barneys New York, Office Depot and others.",
+    "url": "https://richrelevance.com/"
+  },
+  {
+    "patterns": [".teads.tv/"],
+    "name": "Teads",
+    "category": "Ads",
+    "iconClass": "icon-teads",
+    "description": "Teads, founded in 2011, is the inventor of outstream video advertising and the leading native video advertising marketplace. Publishers work with Teads to create new video inventory, monetizing it through programmatic buying.",
+    "url": "https://www.teads.com/"
+  },
+  {
+    "patterns": [".salesforceliveagent.com/", ".sfdcstatic.com/", "force.com/"],
+    "name": "SalesForce",
+    "category": "CRM",
+    "iconClass": "icon-salesforce",
+    "description": "Salesforce.com, Inc. is an American cloud-based software company. It provides customer relationship management service and also provides a complementary suite of enterprise applications focused on customer service, marketing automation, analytics, and application development.",
+    "url": "https://www.salesforce.com/"
   }
 ]

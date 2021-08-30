@@ -2,11 +2,11 @@ const path = require("path")
 
 module.exports = {
   entry: {
-    main: "./src/ext.ts"
+    main: "./src/main.ts"
   },
   output: {
     path: path.resolve(__dirname, "dist-ext"),
-    filename: "ext.js",
+    filename: "main.js",
   },
   module: {
     rules: [

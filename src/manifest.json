@@ -3,19 +3,19 @@
 
   "name": "Page Auditor for Technical SEO",
   "description": "PageAuditor for Technical SEO is an eCommerce Boosters project to analyze tracking code, Structured Data, and meta tags.",
-  "version": "1.06",
+  "version": "1.07",
 
   "content_scripts": [
     {
       "matches": ["https://*/*"],
-      "js": ["ext.js"],
+      "js": ["main.js"],
       "run_at": "document_end"
     }
   ],
   "action": {
     "default_title": "Page Auditor for Technical SEO",
     "default_icon": {
-      "256": "logos/Logo256x256.png"
+      "256": "logos/Logo_256x256.png"
     },
     "default_popup": "popup.htm"
   },

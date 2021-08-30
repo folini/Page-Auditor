@@ -1,29 +1,74 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import {Card} from "./Card"
+import {Card} from "./card"
 
 export const injectableScript = () => {
   return document.location.origin
 }
 
-export const report = (data: any): Promise<string> => {
-  const robotsUrl = `${data as string}/robots.txt`
+export const report = async (
+  url: string | undefined,
+  data: any
+): Promise<string> => {
+  const robotsTxtUrl = `${data as string}/robots.txt`
 
-  return global.fetch(robotsUrl)
-    .then(response => {
-      if (response.status !== 200) {
-        throw `File ${robotsUrl} not found.`
-      }
-      return response.text()
-    })
-    .then(robotsStr =>
-      new Card()
-        .open(``, `Robots.txt`, "icon-rep")
-        .add(`<div class='firstLine'>File name: ${robotsUrl}</div>`)
-        .add(`<pre class='x-scrollable'>${robotsStr}</pre>`)
-        .close()
-        .render()
-    )
-    .catch(err => new Card().warning(err).render())
+  var report: string = ""
+  var robotsTxtBody: string = ""
+
+  try {
+    var response = await fetch(robotsTxtUrl)
+    if (response.status !== 200) {
+      throw `File '${robotsTxtUrl}' not found.`
+    }
+    robotsTxtBody = await response.text()
+
+    report += new Card()
+      .open(``, `Robots.txt`, "icon-rep")
+      .add(`<div class='firstLine'>File name: ${robotsTxtUrl}</div>`)
+      .add(`<pre class='x-scrollable'>${robotsTxtBody}</pre>`)
+      .close()
+      .render()
+  } catch (err) {
+    report += new Card().warning(err as string).render()
+  }
+
+  var sitemap = await getSiteMap(robotsTxtBody)
+  if((await sitemap).length>0) {
+    report += sitemap
+  }
+  return report
+}
+
+const getSiteMap = async (robotsTxt: string): Promise<string> => {
+  console.table(robotsTxt.split("\n"))
+  var lines = robotsTxt
+    .split("\n")
+    .filter(line => line.startsWith("Sitemap: "))
+  console.table(lines)
+  if (lines.length === 0) {
+    return ""
+  }
+  var url = lines[0].split(": ")[1]
+  console.log(`URL=[${url}]`)
+  if (url === "") {
+    return ""
+  }
+
+  var sitemapBody = ""
+  try {
+    var response = await fetch(url)
+    if (response.status !== 200) {
+      throw `Sitemap '${url}' not found.`
+    }
+    sitemapBody = await response.text()
+    return new Card()
+      .open(``, `Sitemap.xml`, "icon-sitemap")
+      .add(`<div class='firstLine'>File name: ${url}</div>`)
+      .add(`<pre class='x-scrollable'>${sitemapBody.replace(/\</g, '&lt;').replace(/\>/g, '&gt;')}</pre>`)
+      .close()
+      .render()
+  } catch (err) {
+    return new Card().warning(err as string).render()
+  }
 }
