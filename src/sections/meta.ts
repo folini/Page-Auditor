@@ -1,8 +1,8 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import {Card as Card} from "./card"
-import {sectionActions} from "./main"
+import {Card as Card} from "../card"
+import {sectionActions} from "../main"
 
 interface iMeta {
   property: string

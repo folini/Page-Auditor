@@ -145,12 +145,12 @@ import "./default.htm"
 import "./manifest.json"
 
 import {Card} from "./card"
-import * as Section_JsonLd from "./s_jsonld"
-import * as Section_Scripts from "./s_scripts"
-import * as Section_Credits from "./s_credits"
-import * as Section_Meta from "./s_meta"
-import * as Section_Intro from "./s_intro"
-import * as Section_Robots from "./s_robots"
+import * as Section_JsonLd from "./sections/jsonld"
+import * as Section_Scripts from "./sections/scripts"
+import * as Section_Credits from "./sections/credits"
+import * as Section_Meta from "./sections/meta"
+import * as Section_Intro from "./sections/intro"
+import * as Section_Robots from "./sections/robots"
 
 export type sectionActions = {
   injector: undefined | (() => any)

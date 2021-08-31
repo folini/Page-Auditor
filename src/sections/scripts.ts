@@ -1,9 +1,9 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import {Card} from "./card"
-import {sectionActions} from "./main"
-const trackingClasses = require("./trackingClasses.json") as iTrackClass[]
+import {Card} from "../card"
+import {sectionActions} from "../main"
+const scriptClasses = require("../scriptClasses.json") as iTrackClass[]
 
 interface iTrackClass {
   patterns: string[]
@@ -48,12 +48,12 @@ const report = async (
 ): Promise<string> => {
   var scripts = untypedScripts as iScript[]
 
-  const trackMatches: iTrackMatch[] = trackingClasses.map(track => ({
+  const trackMatches: iTrackMatch[] = scriptClasses.map(track => ({
     ...track,
     matches: [],
   })) as iTrackMatch[]
 
-  if(url!== undefined) {
+  if (url !== undefined) {
     trackMatches.push(localJsMatch(url))
   }
 
@@ -90,54 +90,54 @@ const report = async (
     throw new Error("No trackers found.")
   }
 
-  trackingItems = trackingItems
-    .sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
+  trackingItems = trackingItems.sort((a, b) =>
+    a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+  )
 
   if (unresolvedCat.matches.length > 0) {
     trackingItems.push(unresolvedCat)
   }
 
-  trackingItems
-    .forEach((t, i) => {
-      const link =
-        t.url.length > 0
-          ? `<a target='_new' class='link-in-card' href='${t.url}'>website</a>`
-          : ``
-      const matches = t.matches.map(match =>
-        match
-          .replace(/\&/g, `&amp;`)
-          .replace(/(\?|\&)/gi, "\n$1")
-          .split("\n")
-          .map(m => {
-            if (!m.includes("=")) {
-              return m
-            }
-            try {
-              const labelValue = m.split("=")
-              return `${labelValue[0]}=${decodeURI(labelValue[1])}`
-            } catch (_) {
-              return m
-            }
-          })
-          .join("<br/><span></span>")
-      )
+  trackingItems.forEach((t, i) => {
+    const link =
+      t.url.length > 0
+        ? `<a target='_new' class='link-in-card' href='${t.url}'>website</a>`
+        : ``
+    const matches = t.matches.map(match =>
+      match
+        .replace(/\&/g, `&amp;`)
+        .replace(/(\?|\&)/gi, "\n$1")
+        .split("\n")
+        .map(m => {
+          if (!m.includes("=")) {
+            return m
+          }
+          try {
+            const labelValue = m.split("=")
+            return `${labelValue[0]}=${decodeURI(labelValue[1])}`
+          } catch (_) {
+            return m
+          }
+        })
+        .join("<br/><span></span>")
+    )
 
-      const card = new Card()
-      card.open(t.category, `${t.name + link}`, t.iconClass)
-      card.add(`
+    const card = new Card()
+    card.open(t.category, `${t.name + link}`, t.iconClass)
+    card.add(`
         <div class='card-description'>${t.description}</div>
         <div class='card-options'>
           <a class='link-in-card left-option n-scripts'>
             ${matches.length.toFixed()} script${
-        matches.length === 1 ? "" : "s"
-      } found. </a>
+      matches.length === 1 ? "" : "s"
+    } found. </a>
           <ul class='hide'>
             <li>${matches.join("</li><li>")}</li>
           </ul>
         </div>`)
-      card.close()
-      report += card.render()
-    })
+    card.close()
+    report += card.render()
+  })
   return report
 }
 
@@ -151,6 +151,9 @@ const eventManager = () => {
 const toggle = (btn: HTMLAnchorElement) => {
   const ul: HTMLUListElement = btn.parentElement
     ?.children[1] as HTMLUListElement
+  if (ul === undefined) {
+    return
+  }
   if (ul.classList.contains("hide")) {
     ul.classList.remove("hide")
     ul.classList.add("show")
@@ -161,29 +164,29 @@ const toggle = (btn: HTMLAnchorElement) => {
 }
 
 const localJsMatch = (url: string): iTrackMatch => {
-    var domainParts = url.split("/")[2].split('.')
-    if(domainParts[0]='www') {
-      domainParts = domainParts.splice(1)
-    }
-    var patterns = [`.${domainParts.join('.')}/`]
+  var domainParts = url.split("/")[2].split(".")
+  if ((domainParts[0] = "www")) {
+    domainParts = domainParts.splice(1)
+  }
+  var patterns = [`.${domainParts.join(".")}/`]
 
-    if(domainParts.length===2) {
-      patterns.push(`.${domainParts[0]}cdn.${domainParts[1]}/`)
-    }
+  if (domainParts.length === 2) {
+    patterns.push(`.${domainParts[0]}cdn.${domainParts[1]}/`)
+  }
 
-    return {
-      patterns: patterns,
-      name: "Local Javascript Code",
-      category: "JavaScript",
-      iconClass: "icon-js",
-      description: "Javascript Code local to this website.",
-      url: "",
-      matches: [],
-    }
+  return {
+    patterns: patterns,
+    name: "Local Javascript Code",
+    category: "JavaScript",
+    iconClass: "icon-js",
+    description: "Javascript Code local to this website.",
+    url: "",
+    matches: [],
+  }
 }
 
 export const actions: sectionActions = {
   injector: injectableScript,
   reporter: report,
-  eventManager: eventManager
+  eventManager: eventManager,
 }

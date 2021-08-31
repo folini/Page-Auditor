@@ -1,8 +1,8 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import {Card} from "./card"
-import {sectionActions} from "./main"
+import {Card} from "../card"
+import {sectionActions} from "../main"
 
 const injectableScript = () => {
   return document.location.origin
