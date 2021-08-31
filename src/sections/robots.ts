@@ -29,9 +29,8 @@ const report = async (
       .add(`<div class='firstLine'>File name: ${robotsTxtUrl}</div>`)
       .add(`<pre class='x-scrollable'>${robotsTxtBody}</pre>`)
       .close()
-      .render()
   } catch (err) {
-    report += new Card().warning(err as string).render()
+    report += new Card().warning(err as string)
   }
 
   var sitemap = await getSiteMap(robotsTxtBody)
@@ -68,9 +67,8 @@ const getSiteMap = async (robotsTxt: string): Promise<string> => {
       .add(`<div class='firstLine'>File name: ${url}</div>`)
       .add(`<pre class='x-scrollable'>${sitemapBody.replace(/\</g, '&lt;').replace(/\>/g, '&gt;')}</pre>`)
       .close()
-      .render()
   } catch (err) {
-    return new Card().warning(err as string).render()
+    return new Card().warning(err as string)
   }
 }
 

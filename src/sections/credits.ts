@@ -29,7 +29,6 @@ const report = async (url: string | undefined, data: any): Promise<string> => {
         </div>`
     )
     .close()
-    .render()
 
   report += new Card()
     .open(``, `About the Author`, "icon-franco-avatar")
@@ -56,7 +55,6 @@ const report = async (url: string | undefined, data: any): Promise<string> => {
         </ul>`
     )
     .close()
-    .render()
 
   return report
 }

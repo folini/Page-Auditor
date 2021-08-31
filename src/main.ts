@@ -144,6 +144,7 @@ import "./logos/MovableInk_100x100.png"
 import "./logos/Skai_100x100.png"
 import "./logos/Zync_100x100.png"
 import "./logos/Bombora_100x100.png"
+import "./logos/Why_100x100.png"
 
 import "./default.htm"
 import "./manifest.json"
@@ -196,7 +197,7 @@ const sections: sectionType[] = [
   },
   {
     tabId: "id-robots",
-    name: "Robots<br/>Sitemaps",
+    name: "Robots.Txt<br/>Sitemaps",
     reportId: "id-report-robots",
     actions: Robots.actions,
   },
@@ -227,7 +228,6 @@ async function action(section: sectionType, actions: sectionActions) {
     const emptyTabMsg = `PageAuditor can not run on empty or internal Chrome tabs.<br/><br/>Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
     report = new Card()
       .error((err as Error).message === emptyTab ? emptyTabMsg : err.message)
-      .render()
   }
   document.getElementById(section.reportId)!.innerHTML = report
 
@@ -248,22 +248,25 @@ const activateSection = (activeSec: sectionType) => {
 
 document.addEventListener("DOMContentLoaded", () => {
   const tabsContainer = document.getElementById("id-tabs") as HTMLUListElement
-  const reportContainer = document.getElementById("id-report-outer-container") as HTMLDivElement
+  const reportContainer = document.getElementById(
+    "id-report-outer-container"
+  ) as HTMLDivElement
   sections.forEach((section, i) => {
     const sep = document.createElement("li")
-      sep.className = i === 0 ? "gap-mini" : "gap-sep"
-      tabsContainer.append(sep)
+    sep.className = i === 0 ? "gap-mini" : "gap-sep"
+    tabsContainer.append(sep)
     const tab = document.createElement("li")
-      tab.id = section.tabId
-      tab.innerHTML = section.name
-      tab.addEventListener("click", () => 
-        activateSection(section)
-      )
-      tabsContainer.append(tab)
-    const report = document.createElement('div')
-      report.id = section.reportId
-      report.className = 'inner-report-container'
-      reportContainer.append(report)
+    tab.id = section.tabId
+    tab.innerHTML = section.name
+    tab.addEventListener("click", () => activateSection(section))
+    tabsContainer.append(tab)
+    const report = document.createElement("div")
+    report.id = section.reportId
+    report.className = "inner-report-container"
+    reportContainer.append(report)
+    const spinner = document.createElement("div")
+    spinner.className = "loading-spinner"
+    report.append(spinner)
   })
   activateSection(sections[0])
 })

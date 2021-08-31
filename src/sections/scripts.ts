@@ -135,8 +135,7 @@ const report = async (
             <li>${matches.join("</li><li>")}</li>
           </ul>
         </div>`)
-    card.close()
-    report += card.render()
+    report += card.close()
   })
   return report
 }

@@ -813,3 +813,58 @@ nav {
 .icon-bombora {
   background-image: url(logos/Bombora_100x100.png);
 }
+.icon-why {
+  background-image: url(logos/Why_100x100.png);
+}
+
+
+// ----------------------------------------------------------------------------
+@-webkit-keyframes spinner {
+  0% {
+      transform: translate3d(-50%, -50%, 0) rotate(0deg);
+  }
+
+  100% {
+      transform: translate3d(-50%, -50%, 0) rotate(360deg);
+  }
+}
+
+@keyframes spinner {
+  0% {
+      transform: translate3d(-50%, -50%, 0) rotate(0deg);
+  }
+
+  100% {
+      transform: translate3d(-50%, -50%, 0) rotate(360deg);
+  }
+}
+
+.loading-spinner {
+  animation-play-state: running;
+  opacity: 1;
+  position: relative;
+  height: 300px;
+
+  &.-paused {
+      animation-play-state: paused;
+      opacity: 0.2;
+      transition: opacity linear 0.1s;
+  }
+
+  &:before {
+      animation: 1.5s linear infinite spinner;
+      animation-play-state: inherit;
+      border: solid 3px #dedede;
+      border-bottom-color: #ef6565;
+      border-radius: 50%;
+      content: '';
+      height: 80px;
+      left: 50%;
+      opacity: inherit;
+      position: absolute;
+      top: 50%;
+      transform: translate3d(-50%, -50%, 0);
+      width: 80px;
+      will-change: transform;
+  }
+}

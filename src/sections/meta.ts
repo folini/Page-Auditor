@@ -415,7 +415,7 @@ const report = async (url: string|undefined, data: any): Promise<string> => {
   }
 
   if (report.length == 0) {
-    report = new Card().warning(`No Meta Tags found on this page.`).render()
+    report = new Card().warning(`No Meta Tags found on this page.`)
   }
 
   return report
@@ -454,7 +454,6 @@ const showMetaCat = (
       `
     )
     .close()
-    .render()
 }
 
 const twitterPreview = (

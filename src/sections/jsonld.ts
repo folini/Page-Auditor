@@ -49,7 +49,7 @@ const report = async (url: string|undefined, scripts: any): Promise<string> => {
   var report: string = ""
 
   if (jsonScripts.length == 0) {
-    return new Card().warning(`No Structured Data found on this page.`).render()
+    return new Card().warning(`No Structured Data found on this page.`)
   }
 
    jsonScripts.forEach((json, i) => {
@@ -67,8 +67,7 @@ const report = async (url: string|undefined, scripts: any): Promise<string> => {
     getLines(scriptAsString)
       .forEach(line => card.add(renderLine(line)))
     card.add(`</div>`)
-    card.close()
-    report += card.render()
+    report += card.close()
   })
 
   return report

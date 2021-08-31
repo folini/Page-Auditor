@@ -3,6 +3,7 @@
 // ----------------------------------------------------------------------------
 import {Card} from "../card"
 import {sectionActions} from "../main"
+const scriptClasses = require("../scriptClasses.json") as any[]
 
 const injectableScript = undefined
 
@@ -24,8 +25,25 @@ const report = async (data: any): Promise<string> => {
       Once the page is loaded launch the <b>Page Auditor for Technical SEO</b> extension and check all the hidden content.`
     )
     .close()
-    .render()
 
+  report += new Card()
+  .open(``, `Why Page Auditor`, "icon-why")
+  .add(
+    `
+    <b>Page Auditor</b> is one of the best tool to analyze the technical features of a web page.
+    <br/>
+    <b>Page Auditor</b> can recognize ${scriptClasses.length.toFixed()} different types of JavaScript code injected into a web page.
+    Among the categories of JavaScript identified by P<b>Page Auditor</b>:
+    <ul>
+      <li>Advertising</li>
+      <li>Tracking</li>
+      <li>Email &amp; marketing Automation</li>
+      <li>Analytics</li>
+      <li>Tag Managers</li>
+    </ul>`
+  )
+  .close()
+  
   return report
 }
 
