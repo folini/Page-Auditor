@@ -30,7 +30,7 @@
     "url": "https://ads.google.com/"
   },
   {
-    "patterns": ["connect.facebook.net/"],
+    "patterns": ["connect.facebook.net/", "graph.facebook.com/"],
     "name": "Facebook Pixel",
     "category": "Ads Tracking",
     "iconClass": "icon-facebook-pixel",
@@ -54,7 +54,7 @@
     "url": "https://ads.microsoft.com/"
   },
   {
-    "patterns": ["//s.pinimg.com/"],
+    "patterns": ["//s.pinimg.com/", ".pinterest.com/"],
     "name": "Pinterest",
     "category": "Ads Tracking",
     "iconClass": "icon-pinterest",
@@ -533,7 +533,8 @@
       ".google.com/recaptcha",
       ".gstatic.com/",
       ".google.com/maps",
-      ".google.com/"
+      ".google.com/",
+      ".appspot.com/"
     ],
     "name": "Google APIs",
     "category": "Regular JavaScript Code",
@@ -905,5 +906,13 @@
     "iconClass": "icon-salesforce",
     "description": "Salesforce.com, Inc. is an American cloud-based software company. It provides customer relationship management service and also provides a complementary suite of enterprise applications focused on customer service, marketing automation, analytics, and application development.",
     "url": "https://www.salesforce.com/"
+  },
+  {
+    "patterns": [".crwdcntrl.net/"],
+    "name": "Lotame",
+    "category": "CRM",
+    "iconClass": "icon-lotame",
+    "description": "Lotame is a provider of data enrichment solutions for global enterprises. Their data technologies, curated second- and third-party data exchanges, and high-touch customer service make them a trusted choice for marketers, agencies and media companies that want to build a panoramic view of their customers and activate across the cookieless web, mobile app and OTT environments.",
+    "url": "https://www.lotame.com/"
   }
 ]

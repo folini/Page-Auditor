@@ -3,7 +3,7 @@
     "compileOnSave": true,
     "compilerOptions": {
         "noEmit": false,
-        "outDir": "dist-ext",
+        "outDir": "dist",
         "module": "ES2020",
         "target": "ES2019",
         "moduleResolution": "node",

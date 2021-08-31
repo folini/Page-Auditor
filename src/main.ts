@@ -139,36 +139,39 @@ import "./logos/Tealium_100x100.png"
 import "./logos/Algonomy_100x100.png"
 import "./logos/Teads_100x100.png"
 import "./logos/SalesForce_100x100.png"
+import "./logos/Lotame_100x100.png"
 
-import "./popup.htm"
+import "./default.htm"
 import "./manifest.json"
 
-import * as LdJson from "./structured-data"
 import {Card} from "./card"
-import * as Tracking from "./tracking"
-import * as Credits from "./credits"
-import * as Meta from "./meta"
-import * as Intro from "./intro"
-import * as Robots from "./robots"
+import * as Section_JsonLd from "./s_jsonld"
+import * as Section_Scripts from "./s_scripts"
+import * as Section_Credits from "./s_credits"
+import * as Section_Meta from "./s_meta"
+import * as Section_Intro from "./s_intro"
+import * as Section_Robots from "./s_robots"
 
-async function action(
-  injector: undefined | (() => any),
-  reporter: (url: string|undefined, data: any) => Promise<string>,
-  eventManager?: () => void
-) {
+export type sectionActions = {
+  injector: undefined | (() => any)
+  reporter: (url: string | undefined, data: any) => Promise<string>
+  eventManager: undefined | (() => void)
+}
+
+async function action(section: sectionActions) {
   var report: string = ""
   const [tab] = await chrome.tabs.query({active: true, currentWindow: true})
   inject: try {
-    if (injector === undefined) {
-      report = await reporter(tab.url, undefined)
+    if (section.injector === undefined) {
+      report = await section.reporter(tab.url, undefined)
       break inject
     }
 
     let res = await chrome.scripting.executeScript({
       target: {tabId: tab.id} as chrome.scripting.InjectionTarget,
-      function: injector,
+      function: section.injector,
     })
-    report = await reporter(tab.url, res[0].result)
+    report = await section.reporter(tab.url, res[0].result)
   } catch (err: any) {
     const emptyTab = `Cannot access a chrome:// URL`
     const emptyTabMsg = `PageAuditor can not run on empty or internal Chrome tabs.<br/><br/>Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
@@ -178,43 +181,78 @@ async function action(
   }
   document.getElementById("id-container")!.innerHTML = report
 
-  if (eventManager !== undefined) {
-    eventManager()
+  if (section.eventManager !== undefined) {
+    section.eventManager()
   }
 }
 
-const tabIds = ["id-intro", "id-ld-json", "id-tracking", "id-meta", "id-credits", "id-robots"]
+type sectionType = {
+  id: string
+  name: string
+  reportId: string
+  actions: sectionActions
+}
 
-const activateTab = (tabId: string) => {
-  tabIds.forEach(t => document.getElementById(t)!.classList.remove("active"))
-  document.getElementById(tabId)?.classList.add("active")
+const sections: sectionType[] = [
+  {
+    id: "id-intro",
+    name: "Intro",
+    reportId: "id-report-intro",
+    actions: Section_Intro.actions,
+  },
+  {
+    id: "id-jsonld",
+    name: "Structured<br/>Data",
+    reportId: "id-report-jsonld",
+    actions: Section_JsonLd.actions,
+  },
+  {
+    id: "id-scripts",
+    name: "JavaScript<br/>Code",
+    reportId: "id-report-scripts",
+    actions: Section_Scripts.actions,
+  },
+  {
+    id: "id-meta",
+    name: "Meta<br/>Tags",
+    reportId: "id-report-meta",
+    actions: Section_Meta.actions,
+  },
+  {
+    id: "id-robots",
+    name: "Robots<br/>Sitemaps",
+    reportId: "id-report-robots",
+    actions: Section_Robots.actions,
+  },
+  {
+    id: "id-credits",
+    name: "Credits",
+    reportId: "id-report-credits",
+    actions: Section_Credits.actions,
+  },
+]
+
+const activateSection = (section: sectionType) => {
+  sections.forEach(tab =>
+    document.getElementById(tab.id)!.classList.remove("active")
+  )
+  document.getElementById(section.id)?.classList.add("active")
+  action(section.actions)
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("id-intro")!.addEventListener("click", () => {
-    activateTab("id-intro")
-    action(Intro.injectableScript, Intro.report)
+  const tabsContainer = document.getElementById("id-tabs") as HTMLUListElement
+  sections.forEach((section, i) => {
+    const sep = document.createElement("li")
+    sep.className = i === 0 ? "gap-mini" : "gap-sep"
+    tabsContainer.append(sep)
+    const tab = document.createElement("li")
+    tab.id = section.id
+    tab.innerHTML = section.name
+    tab.addEventListener("click", () => {
+      activateSection(section)
+    })
+    tabsContainer.append(tab)
   })
-  document.getElementById("id-ld-json")!.addEventListener("click", () => {
-    activateTab("id-ld-json")
-    action(LdJson.injectableScript, LdJson.report)
-  })
-  document.getElementById("id-tracking")!.addEventListener("click", () => {
-    activateTab("id-tracking")
-    action(Tracking.injectableScript, Tracking.report, Tracking.eventManager)
-  })
-  document.getElementById("id-meta")!.addEventListener("click", () => {
-    activateTab("id-meta")
-    action(Meta.injectableScript, Meta.report)
-  })
-  document.getElementById("id-credits")!.addEventListener("click", () => {
-    activateTab("id-credits")
-    action(Credits.injectableScript, Credits.report)
-  })
-  document.getElementById("id-robots")!.addEventListener("click", () => {
-    activateTab("id-robots")
-    action(Robots.injectableScript, Robots.report)
-  })
-
-  action(Intro.injectableScript, Intro.report)
+  activateSection(sections[0])
 })
