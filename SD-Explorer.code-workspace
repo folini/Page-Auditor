@@ -31,6 +31,7 @@
 			"awsstatic",
 			"bizible",
 			"bnwqim",
+			"bombora",
 			"boomtrain",
 			"bounceexchange",
 			"brandmetrics",
@@ -107,6 +108,7 @@
 			"jquery",
 			"jsonld",
 			"karim",
+			"kenshoo",
 			"krux",
 			"krxd",
 			"ldjson",
@@ -125,8 +127,10 @@
 			"marketo",
 			"matheranalytics",
 			"meta",
+			"micpn",
 			"mldr",
 			"moatads",
+			"movableink",
 			"msapplication",
 			"nativo",
 			"neodata",
@@ -160,6 +164,7 @@
 			"redditstatic",
 			"remarketing",
 			"replayapp",
+			"rezync",
 			"richaudience",
 			"richrelevance",
 			"riskfied",
@@ -172,6 +177,7 @@
 			"scrollable",
 			"sfdcstatic",
 			"siteimproveanalytics",
+			"skai",
 			"sophus",
 			"squarespace",
 			"swiftypecdn",
@@ -199,7 +205,8 @@
 			"xvli",
 			"yimg",
 			"youtube",
-			"yyyyoo"
+			"yyyyoo",
+			"zync"
 		]
 	}
 }

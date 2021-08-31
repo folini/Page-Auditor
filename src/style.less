@@ -1,4 +1,4 @@
-// out: ../dist-ext/, compress: true, sourceMap: false
+// out: ../dist/, compress: true, sourceMap: false
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
@@ -87,137 +87,141 @@ main {
   padding-top: 124px;
 
   .show {
-    display: block;
+    display: block!important;
   }
   .hide {
-    display: none;
+    display: none!important;
   }
-  
-  #id-container {
+
+  #id-report-outer-container {
     padding: 16px;
 
-    .box-card {
-      border: 1px solid var(--border-color);
-      border-radius: 0.25rem;
-      padding: 16px 12px;
-      margin-bottom: 24px;
-      background-color: var(--fc-brand-white);
-      overflow: hidden;
+    .inner-report-container {
+      display: none;
 
-      .single-line-forced {
-        white-space: nowrap;
+      .box-card {
+        border: 1px solid var(--border-color);
+        border-radius: 0.25rem;
+        padding: 16px 12px;
+        margin-bottom: 24px;
+        background-color: var(--fc-brand-white);
         overflow: hidden;
-        text-overflow: ellipsis;
-      }
 
-      .support-form {
-        text-align: center;
-        padding: 16px 0 0;
-      }
-
-      .card-options {
-        padding: 8px 0 0 0;
-        position: relative;
-        .left-option {
-          font-size: 12px;
-          position: initial;
-          cursor: pointer;
-          &:focus {
-            outline: none;
-          }
+        .single-line-forced {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
-        ul {
-          list-style: none;
-          padding: 0;
-          margin: 4px 0;
-          border: dotted 1px var(--border-color);
-          overflow-x: hidden;
 
-          li {
+        .support-form {
+          text-align: center;
+          padding: 16px 0 0;
+        }
+
+        .card-options {
+          padding: 8px 0 0 0;
+          position: relative;
+          .left-option {
+            font-size: 12px;
+            position: initial;
+            cursor: pointer;
+            &:focus {
+              outline: none;
+            }
+          }
+          ul {
+            list-style: none;
+            padding: 0;
             margin: 4px 0;
-            font-family: courier;
-            border-top: dotted 1px var(--border-color);
-            padding: 4px;
-            font-size: 0.9em;
+            border: dotted 1px var(--border-color);
+            overflow-x: hidden;
 
-            &:first-child {
-              border-top: none;
-            }
+            li {
+              margin: 4px 0;
+              font-family: courier;
+              border-top: dotted 1px var(--border-color);
+              padding: 4px;
+              font-size: 0.9em;
 
-            span {
-              width: 44px;
-              display: inline-block;
+              &:first-child {
+                border-top: none;
+              }
+
+              span {
+                width: 44px;
+                display: inline-block;
+              }
             }
           }
         }
-      }
 
-      .card-description {
-        padding: 0 0 4px 0;
-        font-size: 14px;
-      }
-
-      .meta-items {
-        padding: 8px 0 8px 16px;
-      }
-
-      a.button-in-card {
-        position: absolute;
-        right: 0;
-        text-decoration: none;
-        font-weight: normal;
-        font-size: 0.7em;
-        border: solid 1px #ccc;
-        padding: 0 4px;
-        border-radius: 3px;
-        color: var(--fc-brand-black);
-        cursor: pointer;
-
-        &:hover {
-          background-color: var(--fc-brand-dark-color);
-          color: var(--fc-brand-white);
-          border-color: var(--fc-brand-dark-color);
+        .card-description {
+          padding: 0 0 4px 0;
+          font-size: 14px;
         }
-      }
 
-      a.link-in-card {
-        position: absolute;
-        right: 24px;
-        text-decoration: none;
-        font-weight: normal;
-        font-size: 10.2px;
-        color: var(--fc-brand-dark-color);
-
-        &:hover {
-          color: var(--fc-brand-red);
-          text-decoration: underline;
+        .meta-items {
+          padding: 8px 0 8px 16px;
         }
-      }
 
-      h2.subTitle {
-        font-size: 18px;
-        margin: 0 0 4px;
-        background-size: 42px 42px;
-        background-repeat: no-repeat;
-        background-position: 0 0;
-        padding: 0 0 16px 52px;
-        position: relative;
-        font-weight: normal;
+        a.button-in-card {
+          position: absolute;
+          right: 0;
+          text-decoration: none;
+          font-weight: normal;
+          font-size: 0.7em;
+          border: solid 1px #ccc;
+          padding: 0 4px;
+          border-radius: 3px;
+          color: var(--fc-brand-black);
+          cursor: pointer;
 
-        .track-category {
-          font-variant: small-caps;
-          font-size: 13px;
-          min-height: 15px;
+          &:hover {
+            background-color: var(--fc-brand-dark-color);
+            color: var(--fc-brand-white);
+            border-color: var(--fc-brand-dark-color);
+          }
         }
-      }
 
-      div.firstLine {
-        padding-bottom: 12px;
-      }
+        a.link-in-card {
+          position: absolute;
+          right: 24px;
+          text-decoration: none;
+          font-weight: normal;
+          font-size: 10.2px;
+          color: var(--fc-brand-dark-color);
 
-      .x-scrollable {
-        width: 100%;
-        overflow-x: auto;
+          &:hover {
+            color: var(--fc-brand-red);
+            text-decoration: underline;
+          }
+        }
+
+        h2.subTitle {
+          font-size: 18px;
+          margin: 0 0 4px;
+          background-size: 42px 42px;
+          background-repeat: no-repeat;
+          background-position: 0 0;
+          padding: 0 0 16px 52px;
+          position: relative;
+          font-weight: normal;
+
+          .track-category {
+            font-variant: small-caps;
+            font-size: 13px;
+            min-height: 15px;
+          }
+        }
+
+        div.firstLine {
+          padding-bottom: 12px;
+        }
+
+        .x-scrollable {
+          width: 100%;
+          overflow-x: auto;
+        }
       }
     }
   }
@@ -796,4 +800,16 @@ nav {
 }
 .icon-lotame {
   background-image: url(logos/Lotame_100x100.png);
+}
+.icon-movableink {
+  background-image: url(logos/MovableInk_100x100.png);
+}
+.icon-skai {
+  background-image: url(logos/Skai_100x100.png);
+}
+.icon-zync {
+  background-image: url(logos/Zync_100x100.png);
+}
+.icon-bombora {
+  background-image: url(logos/Bombora_100x100.png);
 }

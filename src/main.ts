@@ -140,17 +140,21 @@ import "./logos/Algonomy_100x100.png"
 import "./logos/Teads_100x100.png"
 import "./logos/SalesForce_100x100.png"
 import "./logos/Lotame_100x100.png"
+import "./logos/MovableInk_100x100.png"
+import "./logos/Skai_100x100.png"
+import "./logos/Zync_100x100.png"
+import "./logos/Bombora_100x100.png"
 
 import "./default.htm"
 import "./manifest.json"
 
 import {Card} from "./card"
-import * as Section_JsonLd from "./sections/jsonld"
-import * as Section_Scripts from "./sections/scripts"
-import * as Section_Credits from "./sections/credits"
-import * as Section_Meta from "./sections/meta"
-import * as Section_Intro from "./sections/intro"
-import * as Section_Robots from "./sections/robots"
+import * as JsonLd from "./sections/jsonld"
+import * as Scripts from "./sections/scripts"
+import * as Credits from "./sections/credits"
+import * as Meta from "./sections/meta"
+import * as Intro from "./sections/intro"
+import * as Robots from "./sections/robots"
 
 export type sectionActions = {
   injector: undefined | (() => any)
@@ -158,36 +162,8 @@ export type sectionActions = {
   eventManager: undefined | (() => void)
 }
 
-async function action(section: sectionActions) {
-  var report: string = ""
-  const [tab] = await chrome.tabs.query({active: true, currentWindow: true})
-  inject: try {
-    if (section.injector === undefined) {
-      report = await section.reporter(tab.url, undefined)
-      break inject
-    }
-
-    let res = await chrome.scripting.executeScript({
-      target: {tabId: tab.id} as chrome.scripting.InjectionTarget,
-      function: section.injector,
-    })
-    report = await section.reporter(tab.url, res[0].result)
-  } catch (err: any) {
-    const emptyTab = `Cannot access a chrome:// URL`
-    const emptyTabMsg = `PageAuditor can not run on empty or internal Chrome tabs.<br/><br/>Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
-    report = new Card()
-      .error((err as Error).message === emptyTab ? emptyTabMsg : err.message)
-      .render()
-  }
-  document.getElementById("id-container")!.innerHTML = report
-
-  if (section.eventManager !== undefined) {
-    section.eventManager()
-  }
-}
-
 type sectionType = {
-  id: string
+  tabId: string
   name: string
   reportId: string
   actions: sectionActions
@@ -195,64 +171,99 @@ type sectionType = {
 
 const sections: sectionType[] = [
   {
-    id: "id-intro",
+    tabId: "id-intro",
     name: "Intro",
     reportId: "id-report-intro",
-    actions: Section_Intro.actions,
+    actions: Intro.actions,
   },
   {
-    id: "id-jsonld",
-    name: "Structured<br/>Data",
-    reportId: "id-report-jsonld",
-    actions: Section_JsonLd.actions,
-  },
-  {
-    id: "id-scripts",
-    name: "JavaScript<br/>Code",
-    reportId: "id-report-scripts",
-    actions: Section_Scripts.actions,
-  },
-  {
-    id: "id-meta",
+    tabId: "id-meta",
     name: "Meta<br/>Tags",
     reportId: "id-report-meta",
-    actions: Section_Meta.actions,
+    actions: Meta.actions,
   },
   {
-    id: "id-robots",
+    tabId: "id-jsonld",
+    name: "Structured<br/>Data",
+    reportId: "id-report-jsonld",
+    actions: JsonLd.actions,
+  },
+  {
+    tabId: "id-scripts",
+    name: "JavaScript<br/>Code",
+    reportId: "id-report-scripts",
+    actions: Scripts.actions,
+  },
+  {
+    tabId: "id-robots",
     name: "Robots<br/>Sitemaps",
     reportId: "id-report-robots",
-    actions: Section_Robots.actions,
+    actions: Robots.actions,
   },
   {
-    id: "id-credits",
+    tabId: "id-credits",
     name: "Credits",
     reportId: "id-report-credits",
-    actions: Section_Credits.actions,
+    actions: Credits.actions,
   },
 ]
 
-const activateSection = (section: sectionType) => {
-  sections.forEach(tab =>
-    document.getElementById(tab.id)!.classList.remove("active")
-  )
-  document.getElementById(section.id)?.classList.add("active")
-  action(section.actions)
+async function action(section: sectionType, actions: sectionActions) {
+  var report: string = ""
+  const [tab] = await chrome.tabs.query({active: true, currentWindow: true})
+  inject: try {
+    if (actions.injector === undefined) {
+      report = await actions.reporter(tab.url, undefined)
+      break inject
+    }
+
+    let res = await chrome.scripting.executeScript({
+      target: {tabId: tab.id} as chrome.scripting.InjectionTarget,
+      function: actions.injector,
+    })
+    report = await actions.reporter(tab.url, res[0].result)
+  } catch (err: any) {
+    const emptyTab = `Cannot access a chrome:// URL`
+    const emptyTabMsg = `PageAuditor can not run on empty or internal Chrome tabs.<br/><br/>Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
+    report = new Card()
+      .error((err as Error).message === emptyTab ? emptyTabMsg : err.message)
+      .render()
+  }
+  document.getElementById(section.reportId)!.innerHTML = report
+
+  if (actions.eventManager !== undefined) {
+    actions.eventManager()
+  }
+}
+
+const activateSection = (activeSec: sectionType) => {
+  sections.forEach(sec => {
+    document.getElementById(sec.tabId)!.classList.remove("active")
+    document.getElementById(sec.reportId)!.classList.remove("show")
+  })
+  document.getElementById(activeSec.tabId)?.classList.add("active")
+  document.getElementById(activeSec.reportId)?.classList.add("show")
+  action(activeSec, activeSec.actions)
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   const tabsContainer = document.getElementById("id-tabs") as HTMLUListElement
+  const reportContainer = document.getElementById("id-report-outer-container") as HTMLDivElement
   sections.forEach((section, i) => {
     const sep = document.createElement("li")
-    sep.className = i === 0 ? "gap-mini" : "gap-sep"
-    tabsContainer.append(sep)
+      sep.className = i === 0 ? "gap-mini" : "gap-sep"
+      tabsContainer.append(sep)
     const tab = document.createElement("li")
-    tab.id = section.id
-    tab.innerHTML = section.name
-    tab.addEventListener("click", () => {
-      activateSection(section)
-    })
-    tabsContainer.append(tab)
+      tab.id = section.tabId
+      tab.innerHTML = section.name
+      tab.addEventListener("click", () => 
+        activateSection(section)
+      )
+      tabsContainer.append(tab)
+    const report = document.createElement('div')
+      report.id = section.reportId
+      report.className = 'inner-report-container'
+      reportContainer.append(report)
   })
   activateSection(sections[0])
 })

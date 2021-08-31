@@ -23,7 +23,7 @@ interface iScript {
   done: boolean
 }
 
-const unresolvedCat: iTrackMatch = {
+const unresolvedJS: iTrackMatch = {
   patterns: [],
   name: "Unresolved Javascript Code",
   category: "JavaScript",
@@ -81,7 +81,7 @@ const report = async (
   scripts
     .filter(scr => !scr.done && scr.script.match(/^https\:\/\//))
     .forEach(scr => {
-      unresolvedCat.matches.push(scr.script)
+      unresolvedJS.matches.push(scr.script)
     })
 
   var report: string = ""
@@ -94,8 +94,8 @@ const report = async (
     a.name > b.name ? 1 : b.name > a.name ? -1 : 0
   )
 
-  if (unresolvedCat.matches.length > 0) {
-    trackingItems.push(unresolvedCat)
+  if (unresolvedJS.matches.length > 0) {
+    trackingItems.push(unresolvedJS)
   }
 
   trackingItems.forEach((t, i) => {
@@ -165,7 +165,7 @@ const toggle = (btn: HTMLAnchorElement) => {
 
 const localJsMatch = (url: string): iTrackMatch => {
   var domainParts = url.split("/")[2].split(".")
-  if ((domainParts[0] = "www")) {
+  if ((domainParts[0] === "www")) {
     domainParts = domainParts.splice(1)
   }
   var patterns = [`.${domainParts.join(".")}/`]
@@ -173,6 +173,8 @@ const localJsMatch = (url: string): iTrackMatch => {
   if (domainParts.length === 2) {
     patterns.push(`.${domainParts[0]}cdn.${domainParts[1]}/`)
   }
+
+  console.table(patterns)
 
   return {
     patterns: patterns,

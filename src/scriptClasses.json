@@ -914,5 +914,37 @@
     "iconClass": "icon-lotame",
     "description": "Lotame is a provider of data enrichment solutions for global enterprises. Their data technologies, curated second- and third-party data exchanges, and high-touch customer service make them a trusted choice for marketers, agencies and media companies that want to build a panoramic view of their customers and activate across the cookieless web, mobile app and OTT environments.",
     "url": "https://www.lotame.com/"
+  },
+  {
+    "patterns": [".micpn.com/"],
+    "name": "MovableInk",
+    "category": "Email Service Provider",
+    "iconClass": "icon-movableink",
+    "description": "Movable Ink has an Intelligent Content Platform that adds a layer of intelligence to any ESP that automatically adapts your content to your customer's needs at the moment of open.",
+    "url": "https://movableink.com/"
+  },
+  {
+    "patterns": [".xg4ken.com/"],
+    "name": "Skai &amp; Kenshoo",
+    "category": "Go To market Platform",
+    "iconClass": "icon-skai",
+    "description": "Skai, formerly Kenshoo, is a go-to-market engine that powers brand decisions and execution with actionable intelligence for accuracy, speed and agility in making customer connections.",
+    "url": "https://skai.io/"
+  },
+  {
+    "patterns": [".rezync.com/"],
+    "name": "Zync",
+    "category": "Marketing Agency",
+    "iconClass": "icon-zync",
+    "description": "An award winning brand and digital marketing agency helping organizations define their intent and connect with their audiences.",
+    "url": "https://zync.ca/"
+  },
+  {
+    "patterns": [".ml314.com/"],
+    "name": "Bombora",
+    "category": "Tracking",
+    "iconClass": "icon-bombora",
+    "description": "Bombora is the leading provider of B2B Intent data for sales and marketing. Bombora tracks the content consumption of business users at millions of companies through our B2B data collective of leading media companies and niche special interest destinations.",
+    "url": "https://bombora.com/"
   }
 ]
