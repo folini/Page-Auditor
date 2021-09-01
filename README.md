@@ -11,14 +11,17 @@ To make this exploration a little bit easier and simpler for non technical peopl
 ## License
 This code snippet is released under [__BSD-3-Clause__](./LICENSE.md) license.
 
-## Deploy the Extension
-...
+## Testing the Extension
+This is how to test the Extension or any variation opf it on your Google Chrome:
+1. Open your Google Chrome Extensions page by entering the following URL: [`chrome://extensions/`](chrome://extensions/)
+2. Select the [**Load Unpacked]**] button on the top left corner of the page.
+3. When the [Select Folder] panel opens, select the `/dist` folder of the extension on your computer.
+4. Now you can run your local copy of the extension jus clicking on the extension icon on the top right corner of the Chrome browser. If you don't see the Extension logo on the browser corner, select the _extensions_ icon  and pin the _PageAuditor_ extension.
+5. To test new changes (fresh files in teh `./dist` folder) click the refresh icon on the Extension box in the same [`chrome://extensions/`](chrome://extensions/) page.
 
-## Activate the Extension
-...
 
 ## Additional Information
-This extension is based on a Google Chroem Snippet I described in an article on Medium.com.
+This extension is based on a Google Chrome Snippet I described in an article on Medium.com.
 The article is available here: [Exploring Structured Data With A Google Chrome Snippet](https://folini.medium.com/exploring-structured-data-with-a-google-chrome-snippet-944ad4ef831) 
 
 

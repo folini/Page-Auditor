@@ -69,23 +69,27 @@ const sections: sectionType[] = [
 async function action(section: sectionType, actions: sectionActions) {
   var report: string = ""
   const [tab] = await chrome.tabs.query({active: true, currentWindow: true})
-  inject: try {
-    if (actions.injector === undefined) {
-      report = await actions.reporter(tab.url, undefined)
-      break inject
-    }
+  let res: chrome.scripting.InjectionResult[] = []
 
-    let res = await chrome.scripting.executeScript({
-      target: {tabId: tab.id} as chrome.scripting.InjectionTarget,
-      function: actions.injector,
-    })
-    report = await actions.reporter(tab.url, res[0].result)
+  try {
+    if (actions.injector !== undefined) {
+      res = await chrome.scripting.executeScript({
+        target: {tabId: tab.id} as chrome.scripting.InjectionTarget,
+        function: actions.injector,
+      })
+    }
+    report = await actions.reporter(
+      tab.url,
+      res.length > 0 ? res[0].result : undefined
+    )
   } catch (err: any) {
     const emptyTab = `Cannot access a chrome:// URL`
     const emptyTabMsg = `PageAuditor can not run on empty or internal Chrome tabs.<br/><br/>Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
-    report = new Card()
-      .error((err as Error).message === emptyTab ? emptyTabMsg : err.message)
+    report = new Card().error(
+      (err as Error).message === emptyTab ? emptyTabMsg : err.message
+    )
   }
+
   document.getElementById(section.reportId)!.innerHTML = report
 
   if (actions.eventManager !== undefined) {

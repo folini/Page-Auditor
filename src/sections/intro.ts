@@ -12,7 +12,7 @@ const report = async (data: any): Promise<string> => {
   var report: string = ""
 
   report += new Card()
-    .open(``, `How to use Page Auditor for Technical SEO`, "icon-fc")
+    .open(``, `How to use Page Auditor for Technical SEO`, "icon-how")
     .add(
       `
       Page Auditor shows the hidden parts of the HTML code of any web page.
