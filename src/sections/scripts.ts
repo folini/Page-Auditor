@@ -3,7 +3,8 @@
 // ----------------------------------------------------------------------------
 import {Card} from "../card"
 import {sectionActions} from "../main"
-const scriptClasses = require("../scriptClasses.json") as iTrackClass[]
+
+const scriptClasses = require("../jsons/scriptClasses.json") as iTrackClass[]
 
 interface iTrackClass {
   patterns: string[]

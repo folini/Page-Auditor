@@ -3,7 +3,8 @@
 // ----------------------------------------------------------------------------
 import {Card} from "../card"
 import {sectionActions} from "../main"
-const scriptClasses = require("../scriptClasses.json") as any[]
+
+const scriptClasses = require("../jsons/scriptClasses.json") as any[]
 
 const injectableScript = undefined
 

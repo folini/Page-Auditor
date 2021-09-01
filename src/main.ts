@@ -2,10 +2,9 @@
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
 import "./logos/Logo_256x256.png"
-
 import "./default.htm"
 import "./manifest.json"
-import "./style.less"
+import "./styles/style.less"
 
 import {Card} from "./card"
 import * as JsonLd from "./sections/jsonld"
