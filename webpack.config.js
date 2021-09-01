@@ -23,18 +23,18 @@ module.exports = {
         options: {name: '[name].htm'},
       },
       {
-        test: /\.(png)$/,
+        test: /manifest\.(json)$/,
+        loader: "file-loader",
+        options: {name: '[name].json'},
+        type: 'javascript/auto'
+      },
+      {
+        test: /Logo_256x256\.(png)$/,
         loader: "file-loader", 
         options: {
           name: '[name].png',
           outputPath: 'logos'
         },
-      },
-      {
-        test: /manifest\.(json)$/,
-        loader: "file-loader",
-        options: {name: '[name].json'},
-        type: 'javascript/auto'
       },
       {
         test: /\.(less)$/,

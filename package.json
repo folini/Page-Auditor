@@ -5,7 +5,7 @@
   "main": "src/snippet.ts",
   "scripts": {
     "test": "jest",
-    "build": "webpack --progress --color --mode production --stats-error-details --config webpack.ext.js"
+    "build": "webpack --progress --color --mode production --stats-error-details --config webpack.config.js"
   },
   "repository": {
     "type": "git",
