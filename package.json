@@ -5,6 +5,7 @@
   "main": "src/snippet.ts",
   "scripts": {
     "test": "jest",
+    "test-coverage": "jest --coverage",
     "build": "webpack --progress --color --mode production --stats-error-details --config webpack.config.js"
   },
   "repository": {

@@ -10,6 +10,7 @@ To make this exploration a little bit easier and simpler for non technical peopl
 
 ## License
 This code snippet is released under [__BSD-3-Clause__](./LICENSE.md) license.
+Run `npm run test-coverage` to check also for tests coverage. 
 
 ## Testing the Extension
 This is how to test the Extension or any variation opf it on your Google Chrome:
@@ -18,6 +19,10 @@ This is how to test the Extension or any variation opf it on your Google Chrome:
 3. When the [Select Folder] panel opens, select the `/dist` folder of the extension on your computer.
 4. Now you can run your local copy of the extension jus clicking on the extension icon on the top right corner of the Chrome browser. If you don't see the Extension logo on the browser corner, select the _extensions_ icon  and pin the _PageAuditor_ extension.
 5. To test new changes (fresh files in teh `./dist` folder) click the refresh icon on the Extension box in the same [`chrome://extensions/`](chrome://extensions/) page.
+
+## Testing the Code
+There is a basic battery of tests implements with [`jest`](https://jestjs.io/).
+The resulting report will be available here: [`coverage/lcov-report/index.html`](coverage/lcov-report/index.html)
 
 
 ## Additional Information
