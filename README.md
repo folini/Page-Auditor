@@ -24,6 +24,8 @@ This is how to test the Extension or any variation opf it on your Google Chrome:
 There is a basic battery of tests implements with [`jest`](https://jestjs.io/).
 The resulting report will be available here: [`coverage/lcov-report/index.html`](coverage/lcov-report/index.html)
 
+## Format the Code
+To format the code with [Prettier](https://prettier.io/) run `npm run format`.
 
 ## Additional Information
 This extension is based on a Google Chrome Snippet I described in an article on Medium.com.
