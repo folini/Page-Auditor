@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import {iMetaTag, iDefaultTagValues} from "./meta"
+import {iMetaTag, iDefaultTagValues} from './meta'
 
 interface iTagCategoryPreviewer {
     (m: iMetaTag[], t: iDefaultTagValues): string
@@ -23,7 +23,7 @@ export interface iTagCategory {
 const noPreview: iTagCategoryPreviewer = (
     m: iMetaTag[],
     t: iDefaultTagValues
-) => ""
+) => ''
 
 const twitterPreview = (
     tags: iMetaTag[],
@@ -36,40 +36,40 @@ const twitterPreview = (
         `</g>` +
         `</svg>`
     const title =
-        tags.find(m => m.property === "twitter:title")?.content ||
+        tags.find(m => m.property === 'twitter:title')?.content ||
         defaults.title
     const img =
         tags.find(
             m =>
-                m.property === "twitter:image" ||
-                m.property === "twitter:image:src"
+                m.property === 'twitter:image' ||
+                m.property === 'twitter:image:src'
         )?.content || defaults.img
     var description =
-        tags.find(m => m.property === "twitter:description")?.content ||
+        tags.find(m => m.property === 'twitter:description')?.content ||
         defaults.description
     description =
         description.length < 128
             ? description
-            : description.substr(0, 128) + "&mldr;"
+            : description.substr(0, 128) + '&mldr;'
     var domain =
         tags.find(
-            m => m.property === "twitter:domain" || m.property === "twitter:url"
+            m => m.property === 'twitter:domain' || m.property === 'twitter:url'
         )?.content || defaults.domain
-    if (domain.startsWith("http")) {
+    if (domain.startsWith('http')) {
         domain = domain.replace(/https?:\/\/(www.)?((\w+\.)?\w+\.\w+).*/i, `$2`)
     }
 
     return `
       <div class='card-options'>
         <div id='id-twitter-card'>
-        ${img.length > 0 && img.startsWith("http") ? `<img src='${img}'>` : ``}
+        ${img.length > 0 && img.startsWith('http') ? `<img src='${img}'>` : ``}
         <div class='twitter-card-legend'>
             <div class='twitter-card-title'>${title}</div>
             <div class='twitter-card-description'>${description}</div>
             ${
                 domain.length > 0
                     ? `<div class='twitter-card-domain'>${linkIcon} ${domain}</div>`
-                    : ""
+                    : ''
             }
           </div>
         </div>
@@ -77,16 +77,16 @@ const twitterPreview = (
 }
 
 const openGraphPreview = (tags: iMetaTag[], defaults: iDefaultTagValues) => {
-    const title = tags.find(m => m.property === "og:title")?.content || ""
-    const img = tags.find(m => m.property === "og:image")?.content || ""
+    const title = tags.find(m => m.property === 'og:title')?.content || ''
+    const img = tags.find(m => m.property === 'og:image')?.content || ''
     var description =
-        tags.find(m => m.property === "og:description")?.content || ""
+        tags.find(m => m.property === 'og:description')?.content || ''
     description =
         description.length < 215
             ? description
-            : description.substr(0, 214) + "&mldr;"
-    var domain = tags.find(m => m.property === "og:url")?.content || ""
-    if (domain.startsWith("http")) {
+            : description.substr(0, 214) + '&mldr;'
+    var domain = tags.find(m => m.property === 'og:url')?.content || ''
+    if (domain.startsWith('http')) {
         domain = domain.replace(/https?:\/\/(www.)?((\w+\.)?\w+\.\w+).*/i, `$2`)
     }
     domain = domain.toUpperCase()
@@ -95,7 +95,7 @@ const openGraphPreview = (tags: iMetaTag[], defaults: iDefaultTagValues) => {
       <div class='card-options'>
           <div id='id-facebook-card'>        
             ${
-                img.length > 0 && img.startsWith("http")
+                img.length > 0 && img.startsWith('http')
                     ? `<img src='${img}'>`
                     : ``
             }
@@ -103,7 +103,7 @@ const openGraphPreview = (tags: iMetaTag[], defaults: iDefaultTagValues) => {
               ${
                   domain.length > 0
                       ? `<div class='open-graph-card-domain'>${domain}</div>`
-                      : ""
+                      : ''
               }
               <h2>${title}</h2>
               <div class='og-description'>${description}</div>
@@ -118,9 +118,9 @@ export const tagCategories: iTagCategory[] = [
         description:
             `With Twitter Cards, you can attach rich photos, videos and media experiences to Tweets, helping to drive traffic to your website. ` +
             `Simply add a few lines of markup to your webpage, and users who Tweet links to your content will have a "Card" added to the Tweet that's visible to their followers.`,
-        url: "https://developer.twitter.com/en/docs/twitter-for-websites/cards/guides/getting-started",
+        url: 'https://developer.twitter.com/en/docs/twitter-for-websites/cards/guides/getting-started',
         cssClass: `icon-twitter`,
-        filter: m => m.property.startsWith("twitter:"),
+        filter: m => m.property.startsWith('twitter:'),
         preview: twitterPreview,
     },
     {
@@ -128,58 +128,58 @@ export const tagCategories: iTagCategory[] = [
         description:
             `Open Graph meta tags are snippets of code that control how URLs are displayed when shared on social media. They're part of Facebook's Open Graph protocol and are also used by other social media sites, including LinkedIn and Twitter (if Twitter Cards are absent). ` +
             `Open Graph meta tags are in the &lt;head&gt; section of a webpage.`,
-        url: "https://ogp.me/",
-        cssClass: "icon-open-graph",
+        url: 'https://ogp.me/',
+        cssClass: 'icon-open-graph',
         filter: m =>
-            m.property.startsWith("og:") ||
-            m.property.startsWith("fb:") ||
-            m.property.startsWith("ia:") ||
-            m.property.startsWith("product:") ||
-            m.property.startsWith("article:") ||
-            m.property.startsWith("music") ||
-            m.property.startsWith("video") ||
-            m.property.startsWith("profile"),
+            m.property.startsWith('og:') ||
+            m.property.startsWith('fb:') ||
+            m.property.startsWith('ia:') ||
+            m.property.startsWith('product:') ||
+            m.property.startsWith('article:') ||
+            m.property.startsWith('music') ||
+            m.property.startsWith('video') ||
+            m.property.startsWith('profile'),
         preview: openGraphPreview,
     },
     {
         title: `AppLinks Tags (Facebook)`,
         description: `Deprecated since February 2, 2020. Publishing App Link metadata is as simple as adding a few lines to the <head> tag in the HTML for your content. Apps that link to your content can then use this metadata to deep-link into your app, take users to an app store to download the app, or take them directly to the web to view the content. This allows developers to provide the best possible experience for their users when linking to their content.`,
-        url: "https://developers.facebook.com/docs/applinks/metadata-reference/",
-        cssClass: "icon-open-graph",
-        filter: m => m.property.startsWith("al:"),
+        url: 'https://developers.facebook.com/docs/applinks/metadata-reference/',
+        cssClass: 'icon-open-graph',
+        filter: m => m.property.startsWith('al:'),
         preview: noPreview,
     },
     {
         title: `Swiftype Tags`,
         description: `Swiftype Site Search is a powerful, customizable, cloud-based site search platform. Create and manage a tailored search experience for your public facing website with best-in-class relevance, intuitive customization, and rich analytics.`,
-        url: "https://swiftype.com/documentation/site-search/crawler-configuration/meta-tags",
-        cssClass: "icon-swiftype",
-        filter: m => m.class === "swiftype",
+        url: 'https://swiftype.com/documentation/site-search/crawler-configuration/meta-tags',
+        cssClass: 'icon-swiftype',
+        filter: m => m.class === 'swiftype',
         preview: noPreview,
     },
     {
         title: `Google Tags`,
         description: `Google supports both page-level meta-tags and inline directives to help control how your site's pages will appear in Google Search.`,
-        url: "https://developers.google.com/search/docs/advanced/crawling/special-tags",
-        cssClass: "icon-google",
-        filter: m => m.property === "google",
+        url: 'https://developers.google.com/search/docs/advanced/crawling/special-tags',
+        cssClass: 'icon-google',
+        filter: m => m.property === 'google',
         preview: noPreview,
     },
     {
         title: `REP Tags`,
         description: `REP (Robots Exclusion Protocol) are directive to control the way pages are indexed by Search Engines. In addition to root-level robots.txt files, robots exclusion directives can be applied at a more granular level through the use of Robots meta tags and X-Robots-Tag HTTP headers. The robots meta tag cannot be used for non-HTML files such as images, text files, or PDF documents.`,
-        url: "https://www.metatags.org/all-meta-tags-overview/the-important-meta-tags/meta-name-robots-tag/",
-        cssClass: "icon-rep",
-        filter: m => m.property === "robots" || m.property === "googlebot",
+        url: 'https://www.metatags.org/all-meta-tags-overview/the-important-meta-tags/meta-name-robots-tag/',
+        cssClass: 'icon-rep',
+        filter: m => m.property === 'robots' || m.property === 'googlebot',
         preview: noPreview,
     },
     {
         title: `Authorization Tags`,
         description: `Authorization Meta Tags are used to certify the ownership of a website or page. If you have access to the source code of the &lt;head&gt; section of a page you are trusted as owner or authorized manager of that page.`,
-        url: "https://support.google.com/webmasters/answer/9008080?hl=en#zippy=%2Chtml-tag",
-        cssClass: "icon-lock",
+        url: 'https://support.google.com/webmasters/answer/9008080?hl=en#zippy=%2Chtml-tag',
+        cssClass: 'icon-lock',
         filter: m =>
-            m.property.includes("verification") ||
+            m.property.includes('verification') ||
             m.property.includes(`validate`) ||
             m.property.includes(`verify`),
         preview: noPreview,
@@ -187,10 +187,10 @@ export const tagCategories: iTagCategory[] = [
     {
         title: `Standard Tags`,
         description: `Standard Meta tags are used by Search Engines to gather additional information about ta web page or website. The meta tag "keywords" is currently ignored (because it was abused in the past).`,
-        url: "https://moz.com/blog/the-ultimate-guide-to-seo-meta-tags",
-        cssClass: "icon-seo",
+        url: 'https://moz.com/blog/the-ultimate-guide-to-seo-meta-tags',
+        cssClass: 'icon-seo',
         filter: m =>
-            m.property === "title" ||
+            m.property === 'title' ||
             m.property === `author` ||
             m.property === `description` ||
             m.property === `language` ||
@@ -207,16 +207,16 @@ export const tagCategories: iTagCategory[] = [
     {
         title: `Windows Meta Tags`,
         description: `Optional meta &lt;meta&gt; elements can be used to help Microsoft Windows to customize the default behavior of the pinned site shortcut.`,
-        url: "https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/ff976295(v=vs.85)",
-        cssClass: "icon-windows",
-        filter: m => m.property.includes("msapplication-"),
+        url: 'https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/ff976295(v=vs.85)',
+        cssClass: 'icon-windows',
+        filter: m => m.property.includes('msapplication-'),
         preview: noPreview,
     },
     {
         title: `Microsoft Docs Tags`,
         description: `Microsoft uses metadata on Docs for reporting, discoverability of the content via search, and to drive aspects of the site experience. Metadata can be applied in the article (in the YAML front matter) or globally in the docfx.json file for the repo.`,
-        url: "https://docs.microsoft.com/en-us/contribute/metadata",
-        cssClass: "icon-ms",
+        url: 'https://docs.microsoft.com/en-us/contribute/metadata',
+        cssClass: 'icon-ms',
         filter: m => m.property.startsWith(`ms.`),
         preview: noPreview,
     },
@@ -224,83 +224,83 @@ export const tagCategories: iTagCategory[] = [
         title: `Chromium Origin Trials Tags`,
         description: `Origin trials are an approach to enable safe experimentation with web platform features.
     Briefly, the web needs new features, and iteration yields the best designs and implementations for those features. However, previous efforts have seen experiments prematurely become de-facto standards, with browser vendors scrambling to implement the features, and web developers coming to rely on these features. These experimental features became burned-in, and resistant to change (or removal), even though better implementations were identified/available.`,
-        url: "http://googlechrome.github.io/OriginTrials/",
-        cssClass: "icon-chromium",
-        filter: m => m.property === "origin-trial",
+        url: 'http://googlechrome.github.io/OriginTrials/',
+        cssClass: 'icon-chromium',
+        filter: m => m.property === 'origin-trial',
         preview: noPreview,
     },
     {
         title: `Cxense Tags`,
         description: `Cxense proprietary meta tags. Cxense was a Norwegian technology company, acquired by Piano.`,
-        url: "https://www.cxense.com/",
-        cssClass: "icon-cxense",
+        url: 'https://www.cxense.com/',
+        cssClass: 'icon-cxense',
         filter: m =>
-            m.property.startsWith("cxense:") ||
-            m.property.startsWith("cxenseparse:"),
+            m.property.startsWith('cxense:') ||
+            m.property.startsWith('cxenseparse:'),
         preview: noPreview,
     },
     {
         title: `OutBrain Tags`,
         description: `OutBrain proprietary meta tags. Outbrain is a marketing company.`,
-        url: "https://www.outbrain.com/",
-        cssClass: "icon-outbrain",
-        filter: m => m.property.startsWith("vr:"),
+        url: 'https://www.outbrain.com/',
+        cssClass: 'icon-outbrain',
+        filter: m => m.property.startsWith('vr:'),
         preview: noPreview,
     },
     {
         title: `Apple Tags`,
         description: `Apple proprietary meta tags.`,
-        url: "https://www.apple.com/",
-        cssClass: "icon-apple",
-        filter: m => m.property.startsWith("apple-"),
+        url: 'https://www.apple.com/',
+        cssClass: 'icon-apple',
+        filter: m => m.property.startsWith('apple-'),
         preview: noPreview,
     },
     {
         title: `Shopify Tags`,
         description: `Shopify proprietary meta tags.`,
-        url: "https://www.shopify.com/",
-        cssClass: "icon-shopify",
-        filter: m => m.property.startsWith("shopify-"),
+        url: 'https://www.shopify.com/',
+        cssClass: 'icon-shopify',
+        filter: m => m.property.startsWith('shopify-'),
         preview: noPreview,
     },
     {
         title: `Branch Tags`,
         description: `Branch proprietary meta tags. Branch isa a mobile measurement and deep linking platform, trusted by the most top ranking apps to increase efficiency and revenue.`,
-        url: "https://www.branch.com/",
-        cssClass: "icon-branch",
-        filter: m => m.property.startsWith("branch:"),
+        url: 'https://www.branch.com/',
+        cssClass: 'icon-branch',
+        filter: m => m.property.startsWith('branch:'),
         preview: noPreview,
     },
     {
         title: `Internet Explorer Tags`,
         description: `X-UA-Compatible is a document mode meta tag that allows web authors to choose what version of Internet Explorer the page should be rendered as. It is used by Internet Explorer 8 to specify whether a page should be rendered as IE 7 (compatibility view) or IE 8 (standards view).`,
-        url: "https://docs.microsoft.com/en-us/openspecs/ie_standards/ms-iedoco/380e2488-f5eb-4457-a07a-0cb1b6e4b4b5",
-        cssClass: "icon-ie",
+        url: 'https://docs.microsoft.com/en-us/openspecs/ie_standards/ms-iedoco/380e2488-f5eb-4457-a07a-0cb1b6e4b4b5',
+        cssClass: 'icon-ie',
         filter: m =>
-            m.property === `x-ua-compatible` || m.property == "cleartype",
+            m.property === `x-ua-compatible` || m.property == 'cleartype',
         preview: noPreview,
     },
     {
         title: `CSRF Tags`,
         description: `CSRF (Cross-Site Request Forgery) meta tags are indications for ajax requests to use these as one of the form parameters to make a request to the server. Rails expects the csrf as part of your form body (params) to process your requests. Using these meta tags you can construct the form body or the csrf header to suit your needs.`,
-        url: "http://cwe.mitre.org/data/definitions/352.html",
-        cssClass: "icon-lock",
+        url: 'http://cwe.mitre.org/data/definitions/352.html',
+        cssClass: 'icon-lock',
         filter: m => m.property.startsWith(`csrf-`),
         preview: noPreview,
     },
     {
         title: `Google Programmable Search Engine Tags`,
         description: `Google Programmable Search Engine meta tags are used by Google Programmable Search Engine to render the result of a search local to a website.`,
-        url: "https://cse.google.com/",
-        cssClass: "icon-google",
+        url: 'https://cse.google.com/',
+        cssClass: 'icon-google',
         filter: m => m.property.startsWith(`thumbnail`),
         preview: noPreview,
     },
     {
         title: `Other Tags`,
         description: `Many development, optimization, and tracking tools are leveraging the &lt;meta&gt; tags to inject information in a web page minimizing the impact on the loading and rendering time.`,
-        url: "",
-        cssClass: "icon-tag",
+        url: '',
+        cssClass: 'icon-tag',
         filter: m => true,
         preview: noPreview,
     },

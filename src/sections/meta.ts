@@ -1,9 +1,9 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import {Card as Card} from "../card"
-import {sectionActions} from "../main"
-import {tagCategories, iTagCategory} from "./meta-categories"
+import {Card as Card} from '../card'
+import {sectionActions} from '../main'
+import {tagCategories, iTagCategory} from './meta-categories'
 
 export interface iMetaTag {
     property: string
@@ -23,28 +23,28 @@ const injectableScript = () => {
         .map(m => ({
             property: (
                 m.getAttribute(`property`) ||
-                m.getAttribute("name") ||
-                m.getAttribute("http-equiv") ||
-                ""
+                m.getAttribute('name') ||
+                m.getAttribute('http-equiv') ||
+                ''
             ).toLowerCase(),
-            content: m.content || "",
-            class: m.getAttribute("class"),
+            content: m.content || '',
+            class: m.getAttribute('class'),
         }))
-        .filter(m => m.content !== "" && m.property !== "")
+        .filter(m => m.content !== '' && m.property !== '')
 }
 
 const report = async (url: string | undefined, data: any): Promise<string> => {
     var meta = data as iMetaTag[]
-    var report: string = ""
+    var report: string = ''
 
     var defaultTags: iDefaultTagValues = {
         title:
-            meta.find(m => m.property === "og:title" || m.property === "title")
-                ?.content || "",
+            meta.find(m => m.property === 'og:title' || m.property === 'title')
+                ?.content || '',
         description:
-            meta.find(m => m.property === "description")?.content || "",
-        img: meta.find(m => m.property === "og:image")?.content || "",
-        domain: meta.find(m => m.property === "og:url")?.content || "",
+            meta.find(m => m.property === 'description')?.content || '',
+        img: meta.find(m => m.property === 'og:image')?.content || '',
+        domain: meta.find(m => m.property === 'og:url')?.content || '',
     }
 
     tagCategories.forEach(mc => {
@@ -70,7 +70,7 @@ const renderMetaCategory = (
     preview: string
 ): string => {
     if (metaList.length === 0) {
-        return ""
+        return ''
     }
     const listOfMeta = metaList
         .map(
@@ -80,7 +80,7 @@ const renderMetaCategory = (
                     <span class='value'>${m.content}</span>
                   </div>`
         )
-        .join("")
+        .join('')
 
     const link =
         metaCat.url.length > 0

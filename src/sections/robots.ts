@@ -1,8 +1,8 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import {Card} from "../card"
-import {sectionActions} from "../main"
+import {Card} from '../card'
+import {sectionActions} from '../main'
 
 const injectableScript = () => {
     return document.location.origin
@@ -11,8 +11,8 @@ const injectableScript = () => {
 const report = async (url: string | undefined, data: any): Promise<string> => {
     const robotsTxtUrl = `${data as string}/robots.txt`
 
-    var report: string = ""
-    var robotsTxtBody: string = ""
+    var report: string = ''
+    var robotsTxtBody: string = ''
 
     try {
         var response = await fetch(robotsTxtUrl)
@@ -22,8 +22,8 @@ const report = async (url: string | undefined, data: any): Promise<string> => {
         robotsTxtBody = await response.text()
 
         report += new Card()
-            .open(``, `Robots.txt`, "icon-rep")
-            .add(`<div class='firstLine'>File name: ${robotsTxtUrl}</div>`)
+            .open(``, `Robots.txt`, 'icon-rep')
+            .add(`<div class='firstLine'><a href='${robotsTxtUrl}' target='_new'>${robotsTxtUrl}</a></div>`)
             .add(`<pre class='x-scrollable'>${robotsTxtBody}</pre>`)
             .close()
     } catch (err) {
@@ -39,17 +39,17 @@ const report = async (url: string | undefined, data: any): Promise<string> => {
 
 const getSiteMap = async (robotsTxt: string): Promise<string> => {
     var lines = robotsTxt
-        .split("\n")
-        .filter(line => line.startsWith("Sitemap: "))
+        .split('\n')
+        .filter(line => line.startsWith('Sitemap: '))
     if (lines.length === 0) {
-        return ""
+        return ''
     }
-    var url = lines[0].split(": ")[1]
-    if (url === "") {
-        return ""
+    var url = lines[0].split(': ')[1]
+    if (url === '') {
+        return ''
     }
 
-    var sitemapBody = ""
+    var sitemapBody = ''
     try {
         var response = await fetch(url)
         if (response.status !== 200) {
@@ -57,12 +57,12 @@ const getSiteMap = async (robotsTxt: string): Promise<string> => {
         }
         sitemapBody = await response.text()
         return new Card()
-            .open(``, `Sitemap.xml`, "icon-sitemap")
-            .add(`<div class='firstLine'>File name: ${url}</div>`)
+            .open(``, `Sitemap.xml`, 'icon-sitemap')
+            .add(`<div class='firstLine'><a href='${url}' target='_new'>${url}</a></div>`)
             .add(
                 `<pre class='x-scrollable'>${sitemapBody
-                    .replace(/\</g, "&lt;")
-                    .replace(/\>/g, "&gt;")}</pre>`
+                    .replace(/\</g, '&lt;')
+                    .replace(/\>/g, '&gt;')}</pre>`
             )
             .close()
     } catch (err) {

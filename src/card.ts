@@ -9,7 +9,7 @@ export class Card {
     }
 
     #render() {
-        return this.#report.join("")
+        return this.#report.join('')
     }
 
     public open(preTitle: string, title: string, cssClass: string) {
@@ -30,13 +30,13 @@ export class Card {
     }
 
     public error(msg: string) {
-        return this.open("", "Error", "icon-error")
+        return this.open('', 'Error', 'icon-error')
             .add(`<div>${msg}</div>`)
             .close()
     }
 
     public warning(msg: string) {
-        return this.open("", "Warning", "icon-warning")
+        return this.open('', 'Warning', 'icon-warning')
             .add(`<div>${msg}</div>`)
             .close()
     }

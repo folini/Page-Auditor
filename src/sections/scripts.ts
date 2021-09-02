@@ -1,10 +1,10 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import {Card} from "../card"
-import {sectionActions} from "../main"
+import {Card} from '../card'
+import {sectionActions} from '../main'
 
-const scriptClasses = require("../jsons/scriptClasses.json") as iTrackClass[]
+const scriptClasses = require('../jsons/scriptClasses.json') as iTrackClass[]
 
 interface iTrackClass {
     patterns: string[]
@@ -26,19 +26,19 @@ interface iScript {
 
 const unresolvedJS: iTrackMatch = {
     patterns: [],
-    name: "Unresolved Javascript Code",
-    category: "JavaScript",
-    iconClass: "icon-unclassified",
+    name: 'Unresolved Javascript Code',
+    category: 'JavaScript',
+    iconClass: 'icon-unclassified',
     description:
-        "Page Auditor for Technical SEO is not yet able to classify the following JavaScript code.",
-    url: "",
+        'Page Auditor for Technical SEO is not yet able to classify the following JavaScript code.',
+    url: '',
     matches: [],
 }
 
 const injectableScript = (): iScript[] => {
     return [...document.scripts]
-        .filter(s => s.type !== "application/ld+json")
-        .map(s => (s.src === "" ? s.text : s.src))
+        .filter(s => s.type !== 'application/ld+json')
+        .map(s => (s.src === '' ? s.text : s.src))
         .filter(Boolean)
         .map(s => ({script: s, done: false})) as iScript[]
 }
@@ -63,14 +63,14 @@ const report = async (
     trackMatches.forEach(cat => {
         scripts.forEach(scr => {
             cat.patterns
-                .map(pattern => scr.script.match(new RegExp(pattern, "ig")))
+                .map(pattern => scr.script.match(new RegExp(pattern, 'ig')))
                 .filter(match => match !== null && match.length > 0)
                 .forEach(m => {
                     const script =
                         scr.script.length > 80
                             ? `${scr.script.substr(0, 80)}...`
                             : scr.script
-                    cat.matches.push(script.replace(/\s/g, " "))
+                    cat.matches.push(script.replace(/\s/g, ' '))
                     scr.done = true
                 })
         })
@@ -85,10 +85,10 @@ const report = async (
             unresolvedJS.matches.push(scr.script)
         })
 
-    var report: string = ""
+    var report: string = ''
 
     if (trackingItems === null) {
-        throw new Error("No trackers found.")
+        throw new Error('No trackers found.')
     }
 
     trackingItems = trackingItems.sort((a, b) =>
@@ -107,20 +107,20 @@ const report = async (
         const matches = t.matches.map(match =>
             match
                 .replace(/\&/g, `&amp;`)
-                .replace(/(\?|\&)/gi, "\n$1")
-                .split("\n")
+                .replace(/(\?|\&)/gi, '\n$1')
+                .split('\n')
                 .map(m => {
-                    if (!m.includes("=")) {
+                    if (!m.includes('=')) {
                         return m
                     }
                     try {
-                        const labelValue = m.split("=")
+                        const labelValue = m.split('=')
                         return `${labelValue[0]}=${decodeURI(labelValue[1])}`
                     } catch (_) {
                         return m
                     }
                 })
-                .join("<br/><span></span>")
+                .join('<br/><span></span>')
         )
 
         const card = new Card()
@@ -130,10 +130,10 @@ const report = async (
         <div class='card-options'>
           <a class='link-in-card left-option n-scripts'>
             ${matches.length.toFixed()} script${
-            matches.length === 1 ? "" : "s"
+            matches.length === 1 ? '' : 's'
         } found. </a>
           <ul class='hide'>
-            <li>${matches.join("</li><li>")}</li>
+            <li>${matches.join('</li><li>')}</li>
           </ul>
         </div>`)
         report += card.close()
@@ -143,9 +143,9 @@ const report = async (
 
 const eventManager = () => {
     const btns = [
-        ...document.querySelectorAll(".link-in-card.n-scripts"),
+        ...document.querySelectorAll('.link-in-card.n-scripts'),
     ] as HTMLAnchorElement[]
-    btns.forEach(btn => btn.addEventListener("click", () => toggle(btn)))
+    btns.forEach(btn => btn.addEventListener('click', () => toggle(btn)))
 }
 
 const toggle = (btn: HTMLAnchorElement) => {
@@ -154,21 +154,21 @@ const toggle = (btn: HTMLAnchorElement) => {
     if (ul === undefined) {
         return
     }
-    if (ul.classList.contains("hide")) {
-        ul.classList.remove("hide")
-        ul.classList.add("show")
+    if (ul.classList.contains('hide')) {
+        ul.classList.remove('hide')
+        ul.classList.add('show')
     } else {
-        ul.classList.remove("show")
-        ul.classList.add("hide")
+        ul.classList.remove('show')
+        ul.classList.add('hide')
     }
 }
 
 const localJsMatch = (url: string): iTrackMatch => {
-    var domainParts = url.split("/")[2].split(".")
-    if (domainParts[0] === "www") {
+    var domainParts = url.split('/')[2].split('.')
+    if (domainParts[0] === 'www') {
         domainParts = domainParts.splice(1)
     }
-    var patterns = [`.${domainParts.join(".")}/`]
+    var patterns = [`.${domainParts.join('.')}/`]
 
     if (domainParts.length === 2) {
         patterns.push(`.${domainParts[0]}cdn.${domainParts[1]}/`)
@@ -178,11 +178,11 @@ const localJsMatch = (url: string): iTrackMatch => {
 
     return {
         patterns: patterns,
-        name: "Local Javascript Code",
-        category: "JavaScript",
-        iconClass: "icon-js",
-        description: "Javascript Code local to this website.",
-        url: "",
+        name: 'Local Javascript Code',
+        category: 'JavaScript',
+        iconClass: 'icon-js',
+        description: 'Javascript Code local to this website.',
+        url: '',
         matches: [],
     }
 }

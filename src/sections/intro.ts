@@ -1,18 +1,18 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import {Card} from "../card"
-import {sectionActions} from "../main"
+import {Card} from '../card'
+import {sectionActions} from '../main'
 
-const scriptClasses = require("../jsons/scriptClasses.json") as any[]
+const scriptClasses = require('../jsons/scriptClasses.json') as any[]
 
 const injectableScript = undefined
 
 const report = async (url: string | undefined, data: any): Promise<string> => {
-    var report: string = ""
+    var report: string = ''
 
     report += new Card()
-        .open(``, `How to use Page Auditor for Technical SEO`, "icon-how")
+        .open(``, `How to use Page Auditor for Technical SEO`, 'icon-how')
         .add(
             `
       Page Auditor shows the hidden parts of the HTML code of any web page.
@@ -28,13 +28,13 @@ const report = async (url: string | undefined, data: any): Promise<string> => {
         .close()
 
     report += new Card()
-        .open(``, `Why Page Auditor`, "icon-why")
+        .open(``, `Why Page Auditor`, 'icon-why')
         .add(
             `
     <b>Page Auditor</b> is one of the best tool to analyze the technical features of a web page.
     <br/>
     <b>Page Auditor</b> can recognize ${scriptClasses.length.toFixed()} different types of JavaScript code injected into a web page.
-    Among the categories of JavaScript identified by P<b>Page Auditor</b>:
+    Among the categories of JavaScript identified by <b>Page Auditor</b>:
     <ul>
       <li>Advertising</li>
       <li>Tracking</li>

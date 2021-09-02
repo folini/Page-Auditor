@@ -2,7 +2,7 @@
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
 
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
 :root {
     --bg-color: #fafafe;
@@ -36,7 +36,7 @@ body#id-page-auditor {
             text-align: left;
             margin-left: 0;
             padding-left: 70px;
-            font-family: "Lobster Two";
+            font-family: 'Lobster Two';
             margin-bottom: 4px;
             margin-top: 4px;
             font-size: 28px;
@@ -105,10 +105,9 @@ body#id-page-auditor {
                     background-color: var(--fc-brand-white);
                     overflow: hidden;
 
-                    .single-line-forced {
+                    .ld-json {
+                        overflow-y: auto;
                         white-space: nowrap;
-                        overflow: hidden;
-                        text-overflow: ellipsis;
                     }
 
                     .support-form {
@@ -131,15 +130,21 @@ body#id-page-auditor {
                             list-style: none;
                             padding: 0;
                             margin: 4px 0;
-                            border: dotted 1px var(--border-color);
+                            border: solid 1px var(--border-color);
                             overflow-x: hidden;
 
                             li {
-                                margin: 4px 0;
+                                margin: 0;
                                 font-family: courier;
-                                border-top: dotted 1px var(--border-color);
-                                padding: 4px;
+                                padding: 8px;
                                 font-size: 0.9em;
+
+                                &:not(:first-child) {
+                                    border-top: dotted 1px var(--border-color);
+                                }
+                                &:hover {
+                                    background-color: #fafafa;
+                                }
 
                                 &:first-child {
                                     border-top: none;
@@ -855,7 +860,7 @@ body#id-page-auditor {
             border: solid 3px #dedede;
             border-bottom-color: #ef6565;
             border-radius: 50%;
-            content: "";
+            content: '';
             height: 80px;
             left: 50%;
             opacity: inherit;
