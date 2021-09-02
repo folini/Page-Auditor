@@ -11,7 +11,7 @@ export interface iMetaTag {
   class: string
 }
 
-export interface iDefaultTags {
+export interface iDefaultTagValues {
   title: string
   img: string
   description: string
@@ -38,7 +38,7 @@ const report = async (url: string | undefined, data: any): Promise<string> => {
   var meta = data as iMetaTag[]
   var report: string = ""
 
-  var defaultTags: iDefaultTags = {
+  var defaultTags: iDefaultTagValues = {
     title:
       meta.find(m => m.property === "og:title" || m.property === "title")
         ?.content || "",
