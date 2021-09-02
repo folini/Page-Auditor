@@ -18,7 +18,7 @@ This is how to test the Extension or any variation opf it on your Google Chrome:
 2. Select the [**Load Unpacked]**] button on the top left corner of the page.
 3. When the [Select Folder] panel opens, select the `/dist` folder of the extension on your computer.
 4. Now you can run your local copy of the extension jus clicking on the extension icon on the top right corner of the Chrome browser. If you don't see the Extension logo on the browser corner, select the _extensions_ icon  and pin the _PageAuditor_ extension.
-5. To test new changes (fresh files in teh `./dist` folder) click the refresh icon on the Extension box in the same [`chrome://extensions/`](chrome://extensions/) page.
+5. To test new changes (fresh files in the `./dist` folder) click the refresh icon on the Extension box in the same [`chrome://extensions/`](chrome://extensions/) page.
 
 ## Testing the Code
 There is a basic battery of tests implements with [`jest`](https://jestjs.io/).

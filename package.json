@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "test-coverage": "jest --coverage",
+    "format": "prettier --write -l src",
     "build": "webpack --progress --color --mode production --stats-error-details --config webpack.config.js"
   },
   "repository": {

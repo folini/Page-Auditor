@@ -7,12 +7,12 @@ import {sectionActions} from "../main"
 const injectableScript = undefined
 
 const report = async (url: string | undefined, data: any): Promise<string> => {
-  var report: string = ""
+    var report: string = ""
 
-  report += new Card()
-    .open(``, `Page Auditor for Technical SEO`, "icon-fc")
-    .add(
-      `
+    report += new Card()
+        .open(``, `Page Auditor for Technical SEO`, "icon-fc")
+        .add(
+            `
         <div class='credits'><b>Page Auditor for Technical SEO</b> is a free Google Chrome Extension created by <a href='https://www.linkedin.com/in/francofolini/' target='_new'>Franco Folini</a>.
         The purpose of <i>Page Auditor for Technical SEO</i> is to show, in a way that is simple and easy to understand, all the tracking technologies implemented by a website or single webpage.
         <br/><br/>
@@ -27,13 +27,13 @@ const report = async (url: string | undefined, data: any): Promise<string> => {
                 </form>
             </div>
         </div>`
-    )
-    .close()
+        )
+        .close()
 
-  report += new Card()
-    .open(``, `About the Author`, "icon-franco-avatar")
-    .add(
-      `<b>Franco Folini</b> is a Digital Marketer with a passion for Web Development, 
+    report += new Card()
+        .open(``, `About the Author`, "icon-franco-avatar")
+        .add(
+            `<b>Franco Folini</b> is a Digital Marketer with a passion for Web Development, 
         and a Web Developer with a passion for Digital Marketing.
         You can check Franco work and contact him on the following platforms:
         <ul class='pointers'>
@@ -53,14 +53,14 @@ const report = async (url: string | undefined, data: any): Promise<string> => {
               <a href='mailto:folini@gmail.com' target='_new'>eMail</a>
             </li>
         </ul>`
-    )
-    .close()
+        )
+        .close()
 
-  return report
+    return report
 }
 
 export const actions: sectionActions = {
-  injector: injectableScript,
-  reporter: report,
-  eventManager: undefined,
+    injector: injectableScript,
+    reporter: report,
+    eventManager: undefined,
 }
