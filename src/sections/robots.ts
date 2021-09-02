@@ -41,16 +41,13 @@ const report = async (
 }
 
 const getSiteMap = async (robotsTxt: string): Promise<string> => {
-  console.table(robotsTxt.split("\n"))
   var lines = robotsTxt
     .split("\n")
     .filter(line => line.startsWith("Sitemap: "))
-  console.table(lines)
   if (lines.length === 0) {
     return ""
   }
   var url = lines[0].split(": ")[1]
-  console.log(`URL=[${url}]`)
   if (url === "") {
     return ""
   }
