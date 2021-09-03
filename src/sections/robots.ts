@@ -1,6 +1,7 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
+import {convertCompilerOptionsFromJson} from 'typescript'
 import {Card} from '../card'
 import {sectionActions} from '../main'
 
@@ -9,65 +10,92 @@ const injectableScript = () => {
 }
 
 const report = async (url: string | undefined, data: any): Promise<string> => {
-    const robotsTxtUrl = `${data as string}/robots.txt`
-
     var report: string = ''
     var robotsTxtBody: string = ''
 
+    if (url === undefined) {
+        return ''
+    }
+
+    url = `${data as string}/robots.txt`
+    const sitemapUrl = `${data as string}/sitemap.xml`
+
     try {
-        var response = await fetch(robotsTxtUrl)
+        var response = await fetch(url)
         if (response.status !== 200) {
-            throw `File '${robotsTxtUrl}' not found.`
+            throw `File '${url}' not found.`
         }
         robotsTxtBody = await response.text()
-
+        const links = [
+            {
+                url: `https://en.ryte.com/free-tools/robots-txt/?refresh=1&useragent=Googlebot&submit=Evaluate&url=${encodeURI(
+                    url
+                )}`,
+                label: `Validate`,
+            },
+            {url: url, label: 'Open'},
+        ]
         report += new Card()
-            .open(``, `Robots.txt`, 'icon-rep')
-            .add(`<div class='firstLine'><a href='${robotsTxtUrl}' target='_new'>${robotsTxtUrl}</a></div>`)
+            .open(``, `Robots.txt`, links, 'icon-rep')
             .add(`<pre class='x-scrollable'>${robotsTxtBody}</pre>`)
             .close()
     } catch (err) {
         report += new Card().warning(err as string)
     }
 
-    var sitemap = await getSiteMap(robotsTxtBody)
-    if ((await sitemap).length > 0) {
+    var sitemap = await getSiteMaps(robotsTxtBody, sitemapUrl)
+    if (sitemap.length > 0) {
         report += sitemap
     }
     return report
 }
 
-const getSiteMap = async (robotsTxt: string): Promise<string> => {
-    var lines = robotsTxt
+const getSiteMaps = async (robTxt: string, altUrl: string): Promise<string> => {
+    var urls = robTxt
         .split('\n')
         .filter(line => line.startsWith('Sitemap: '))
-    if (lines.length === 0) {
-        return ''
-    }
-    var url = lines[0].split(': ')[1]
-    if (url === '') {
-        return ''
+        .map(line => line.split(': ')[1].trim())
+        .map(url => url.trim())
+        .filter(line => line.length > 0)
+
+    if (urls.length === 0) {
+        urls = [altUrl]
     }
 
-    var sitemapBody = ''
-    try {
-        var response = await fetch(url)
-        if (response.status !== 200) {
-            throw `Sitemap '${url}' not found.`
+    var report = ''
+
+    for(const url of urls) {
+        try {
+            console.log(`Report length [${report.length}]`)
+            var response = await fetch(url)
+            if (response.status !== 200) {
+                report += new Card().warning(`Sitemap '${url}' not found.`)
+                break
+            }
+            var xml = await response.text()
+            console.log(`Building links...`)
+            const links = [
+                {
+                    url: `https://www.xml-sitemaps.com/validate-xml-sitemap.html?op=validate-xml-sitemap&go=1&sitemapurl=${encodeURI(
+                        url
+                    )}`,
+                    label: `Validate`,
+                },
+                {url: url, label: 'Open'},
+            ]
+            report += new Card()
+                .open(``, `Sitemap.xml`, links, 'icon-sitemap')
+                .add(
+                    `<pre class='x-scrollable'>${xml
+                        .replace(/\</g, '&lt;')
+                        .replace(/\>/g, '&gt;')}</pre>`
+                )
+                .close()
+        } catch (err) {
+            console.log(`ERROR [${(err as Error).message}]`)
         }
-        sitemapBody = await response.text()
-        return new Card()
-            .open(``, `Sitemap.xml`, 'icon-sitemap')
-            .add(`<div class='firstLine'><a href='${url}' target='_new'>${url}</a></div>`)
-            .add(
-                `<pre class='x-scrollable'>${sitemapBody
-                    .replace(/\</g, '&lt;')
-                    .replace(/\>/g, '&gt;')}</pre>`
-            )
-            .close()
-    } catch (err) {
-        return new Card().warning(err as string)
     }
+    return report
 }
 
 export const actions: sectionActions = {

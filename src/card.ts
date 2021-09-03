@@ -1,6 +1,11 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
+export interface iLink {
+    label: string
+    url: string
+}
+
 export class Card {
     #report: string[]
 
@@ -12,13 +17,24 @@ export class Card {
         return this.#report.join('')
     }
 
-    public open(preTitle: string, title: string, cssClass: string) {
+    public open(
+        preTitle: string,
+        title: string,
+        links: iLink[],
+        cssClass: string
+    ) {
         this.#report.length = 0
+        const linksDiv = `<div class='link-in-card'>${links.reduce(
+            (str, link) =>
+                str + `<a target='_new' href='${link.url}'>${link.label}</a>`,
+            ''
+        )}</div>`
         this.#report.push(
             `<div class='box-card'>` +
                 `<h2 class='subTitle ${cssClass}'>` +
                 `<div class='track-category'>${preTitle}</div>` +
                 title +
+                linksDiv +
                 `</h2>`
         )
         return this
@@ -30,13 +46,13 @@ export class Card {
     }
 
     public error(msg: string) {
-        return this.open('', 'Error', 'icon-error')
+        return this.open('', 'Error', [], 'icon-error')
             .add(`<div>${msg}</div>`)
             .close()
     }
 
     public warning(msg: string) {
-        return this.open('', 'Warning', 'icon-warning')
+        return this.open('', 'Warning', [], 'icon-warning')
             .add(`<div>${msg}</div>`)
             .close()
     }

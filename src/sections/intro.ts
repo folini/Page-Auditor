@@ -12,7 +12,7 @@ const report = async (url: string | undefined, data: any): Promise<string> => {
     var report: string = ''
 
     report += new Card()
-        .open(``, `How to use Page Auditor for Technical SEO`, 'icon-how')
+        .open(``, `How to use Page Auditor for Technical SEO`, [], 'icon-how')
         .add(
             `
       Page Auditor shows the hidden parts of the HTML code of any web page.
@@ -28,7 +28,7 @@ const report = async (url: string | undefined, data: any): Promise<string> => {
         .close()
 
     report += new Card()
-        .open(``, `Why Page Auditor`, 'icon-why')
+        .open(``, `Why Page Auditor`, [], 'icon-why')
         .add(
             `
     <b>Page Auditor</b> is one of the best tool to analyze the technical features of a web page.

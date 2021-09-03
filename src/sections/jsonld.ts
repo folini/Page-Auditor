@@ -18,12 +18,12 @@ const renderLine = (line: string) => {
     const indent = `margin-left:${(20 * level).toFixed()}px;`
     level += line.match(/\{|\[/g) !== null ? 1 : 0
     var renderedLine = ''
-    if(line.match(/\:\ ?/) !== null) {
-        var [label, value] = line.split(/\"\s*\:\s*/)
+    var [label, value] = line.split(/\"\s*\:\s*/)
+    if (label !== undefined && value !== undefined) {
         label = label.replace(/^\"/, '')
-        if(value.startsWith('"https://') || value.startsWith('"http://')) {
+        if (value.startsWith('"https://') || value.startsWith('"http://')) {
             const url = value.slice(1, -1)
-            value = `"<a href='${url}' target='_new'>${url}</a>"`        
+            value = `"<a href='${url}' target='_new'>${url}</a>"`
         }
         renderedLine = `<span class='label' style='${indent}'>${label}</span>:
                 <span class='value'>${value}</span>`
@@ -56,23 +56,27 @@ const report = async (
     const jsonScripts: iJsonLD[] = scripts as iJsonLD[]
     var report: string = ''
 
-    if (jsonScripts.length == 0) {
+    if(url===undefined || jsonScripts.length == 0) {
         return new Card().warning(`No Structured Data found on this page.`)
     }
 
     jsonScripts.forEach((json, i) => {
-        const schemaType =
-            json['@type'] || (json['@graph'] !== undefined ? 'Graph' : '')
+        const schemaType = json['@type'] || json['@graph'] || 'Graph'
         const scriptAsString = JSON.stringify(json)
 
-        const link =
-            schemaType !== 'n/a'
-                ? `<a target="_new" class='link-in-card' href='https://shema.org/${schemaType}'>schema.org/${schemaType}</a>`
-                : ``
+        const links = [
+            {
+            url: `https://validator.schema.org/#url=${encodeURI(url)}`,
+            label: `Validate`,               
+            },
+            {
+            url: `https://shema.org/${schemaType}`,
+            label: `Schema`,
+            },
+        ]
 
         const card = new Card()
-        card.open(``, schemaType + link, 'icon-ld-json')
-
+        card.open(``, schemaType, links, 'icon-ld-json')
         card.add(`<div class='ld-json'>`)
         getLines(scriptAsString).forEach(line => card.add(renderLine(line)))
         card.add(`</div>`)

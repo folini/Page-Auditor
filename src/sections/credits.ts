@@ -10,7 +10,7 @@ const report = async (url: string | undefined, data: any): Promise<string> => {
     var report: string = ''
 
     report += new Card()
-        .open(``, `Page Auditor for Technical SEO`, 'icon-fc')
+        .open(``, `Page Auditor for Technical SEO`, [], 'icon-fc')
         .add(
             `
         <div class='credits'><b>Page Auditor for Technical SEO</b> is a free Google Chrome Extension created by <a href='https://www.linkedin.com/in/francofolini/' target='_new'>Franco Folini</a>.
@@ -31,7 +31,7 @@ const report = async (url: string | undefined, data: any): Promise<string> => {
         .close()
 
     report += new Card()
-        .open(``, `About the Author`, 'icon-franco-avatar')
+        .open(``, `About the Author`, [], 'icon-franco-avatar')
         .add(
             `<b>Franco Folini</b> is a Digital Marketer with a passion for Web Development, 
         and a Web Developer with a passion for Digital Marketing.

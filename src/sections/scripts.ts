@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import {Card} from '../card'
+import {Card, iLink} from '../card'
 import {sectionActions} from '../main'
 
 const scriptClasses = require('../jsons/scriptClasses.json') as iTrackClass[]
@@ -100,10 +100,6 @@ const report = async (
     }
 
     trackingItems.forEach((t, i) => {
-        const link =
-            t.url.length > 0
-                ? `<a target='_new' class='link-in-card' href='${t.url}'>website</a>`
-                : ``
         const matches = t.matches.map(match =>
             match
                 .replace(/\&/g, `&amp;`)
@@ -123,8 +119,12 @@ const report = async (
                 .join('<br/><span></span>')
         )
 
+        const links: iLink[] = []
+        if(t.url.length > 0) {
+            links.push({url: t.url, label :'Reference'})
+        }
         const card = new Card()
-        card.open(t.category, `${t.name + link}`, t.iconClass)
+        card.open(t.category, t.name, links, t.iconClass)
         card.add(`
         <div class='card-description'>${t.description}</div>
         <div class='card-options'>

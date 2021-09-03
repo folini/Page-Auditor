@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import {Card as Card} from '../card'
+import {Card, iLink} from '../card'
 import {sectionActions} from '../main'
 import {tagCategories, iTagCategory} from './meta-categories'
 
@@ -82,13 +82,13 @@ const renderMetaCategory = (
         )
         .join('')
 
-    const link =
-        metaCat.url.length > 0
-            ? `<a target='_new' class='link-in-card' href='${metaCat.url}'>reference</a>`
-            : ``
+    const links: iLink[] = []
+    if(metaCat.url.length > 0) {
+        links.push({url: metaCat.url, label: 'Reference'})
+    }
 
     return new Card()
-        .open(`Meta Tags`, metaCat.title + link, metaCat.cssClass)
+        .open(`Meta Tags`, metaCat.title, links, metaCat.cssClass)
         .add(
             `
         <div class='card-description'>${metaCat.description}</div>

@@ -84,9 +84,10 @@ async function action(section: sectionType, actions: sectionActions) {
         )
     } catch (err: any) {
         const emptyTab = `Cannot access a chrome:// URL`
-        const emptyTabMsg = `PageAuditor can not run on empty or internal Chrome tabs.<br/><br/>Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
+        const emptyTabMsg = `<b>Page Auditor</b> can not run on empty or internal Chrome tabs.<br/><br/>Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
+        const error = err as Error
         report = new Card().error(
-            (err as Error).message === emptyTab ? emptyTabMsg : err.message
+            err.message === emptyTab ? emptyTabMsg : err.message
         )
     }
 
