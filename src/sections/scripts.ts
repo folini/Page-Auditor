@@ -43,10 +43,7 @@ const injectableScript = (): iScript[] => {
         .map(s => ({script: s, done: false})) as iScript[]
 }
 
-const report = async (
-    url: string | undefined,
-    untypedScripts: any
-): Promise<string> => {
+const report = async (url: string, untypedScripts: any): Promise<string> => {
     var scripts = untypedScripts as iScript[]
 
     const trackMatches: iTrackMatch[] = scriptClasses.map(track => ({
@@ -54,7 +51,7 @@ const report = async (
         matches: [],
     })) as iTrackMatch[]
 
-    if (url !== undefined) {
+    if (url !== '') {
         trackMatches.push(localJsMatch(url))
     }
 
@@ -120,8 +117,8 @@ const report = async (
         )
 
         const links: iLink[] = []
-        if(t.url.length > 0) {
-            links.push({url: t.url, label :'Reference'})
+        if (t.url.length > 0) {
+            links.push({url: t.url, label: 'Reference'})
         }
         const card = new Card()
         card.open(t.category, t.name, links, t.iconClass)

@@ -1,26 +1,27 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import {convertCompilerOptionsFromJson} from 'typescript'
 import {Card} from '../card'
 import {sectionActions} from '../main'
 
-const injectableScript = () => {
-    return document.location.origin
+export const injectableScript = () => {
+    return `${document.location.origin}/robots.txt`
 }
 
-const report = async (url: string | undefined, data: any): Promise<string> => {
-    var report: string = ''
-    var robotsTxtBody: string = ''
+const eventManager = () => undefined
 
+const report = async (url: string | undefined, data: any): Promise<string> => {
     if (url === undefined) {
         return ''
     }
 
-    url = `${data as string}/robots.txt`
-    const sitemapUrl = `${data as string}/sitemap.xml`
+    var report: string = ''
+    var robotsTxtBody: string = ''
+
+    url = data as string
 
     try {
+        console.log(`TRYING TO LOAD ${url}`)
         var response = await fetch(url)
         if (response.status !== 200) {
             throw `File '${url}' not found.`
@@ -43,7 +44,10 @@ const report = async (url: string | undefined, data: any): Promise<string> => {
         report += new Card().warning(err as string)
     }
 
-    var sitemap = await getSiteMaps(robotsTxtBody, sitemapUrl)
+    var sitemap = await getSiteMaps(
+        robotsTxtBody,
+        url.replace('robots.txt', 'sitemap.xml')
+    )
     if (sitemap.length > 0) {
         report += sitemap
     }
@@ -64,7 +68,7 @@ const getSiteMaps = async (robTxt: string, altUrl: string): Promise<string> => {
 
     var report = ''
 
-    for(const url of urls) {
+    for (const url of urls) {
         try {
             console.log(`Report length [${report.length}]`)
             var response = await fetch(url)
@@ -101,5 +105,5 @@ const getSiteMaps = async (robTxt: string, altUrl: string): Promise<string> => {
 export const actions: sectionActions = {
     injector: injectableScript,
     reporter: report,
-    eventManager: undefined,
+    eventManager: eventManager,
 }

@@ -15,9 +15,9 @@ import * as Intro from './sections/intro'
 import * as Robots from './sections/robots'
 
 export type sectionActions = {
-    injector: undefined | (() => any)
-    reporter: (url: string | undefined, data: any) => Promise<string>
-    eventManager: undefined | (() => void)
+    injector: () => any
+    reporter: (url: string, data: any) => Promise<string>
+    eventManager: () => void
 }
 
 type sectionType = {
@@ -72,14 +72,12 @@ async function action(section: sectionType, actions: sectionActions) {
     let res: chrome.scripting.InjectionResult[] = []
 
     try {
-        if (actions.injector !== undefined) {
-            res = await chrome.scripting.executeScript({
-                target: {tabId: tab.id} as chrome.scripting.InjectionTarget,
-                function: actions.injector,
-            })
-        }
+        res = await chrome.scripting.executeScript({
+            target: {tabId: tab.id} as chrome.scripting.InjectionTarget,
+            function: actions.injector,
+        })
         report = await actions.reporter(
-            tab.url,
+            tab.url || '',
             res.length > 0 ? res[0].result : undefined
         )
     } catch (err: any) {

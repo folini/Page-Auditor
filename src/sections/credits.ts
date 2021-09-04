@@ -4,7 +4,8 @@
 import {Card} from '../card'
 import {sectionActions} from '../main'
 
-const injectableScript = undefined
+const injectableScript = () => undefined
+const eventManager = () => undefined
 
 const report = async (url: string | undefined, data: any): Promise<string> => {
     var report: string = ''
@@ -62,5 +63,5 @@ const report = async (url: string | undefined, data: any): Promise<string> => {
 export const actions: sectionActions = {
     injector: injectableScript,
     reporter: report,
-    eventManager: undefined,
+    eventManager: eventManager,
 }

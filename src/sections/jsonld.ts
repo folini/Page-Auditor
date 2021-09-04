@@ -56,7 +56,7 @@ const report = async (
     const jsonScripts: iJsonLD[] = scripts as iJsonLD[]
     var report: string = ''
 
-    if(url===undefined || jsonScripts.length == 0) {
+    if (url === undefined || jsonScripts.length == 0) {
         return new Card().warning(`No Structured Data found on this page.`)
     }
 
@@ -66,12 +66,12 @@ const report = async (
 
         const links = [
             {
-            url: `https://validator.schema.org/#url=${encodeURI(url)}`,
-            label: `Validate`,               
+                url: `https://validator.schema.org/#url=${encodeURI(url)}`,
+                label: `Validate`,
             },
             {
-            url: `https://shema.org/${schemaType}`,
-            label: `Schema`,
+                url: `https://shema.org/${schemaType}`,
+                label: `Schema`,
             },
         ]
 
@@ -92,8 +92,10 @@ export const injectableScript = (): iJsonLD[] => {
         .map(s => JSON.parse(s.text.trim()))
 }
 
+const eventManager = () => undefined
+
 export const actions: sectionActions = {
     injector: injectableScript,
     reporter: report,
-    eventManager: undefined,
+    eventManager: eventManager,
 }
