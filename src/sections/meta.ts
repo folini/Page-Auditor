@@ -35,7 +35,7 @@ export const injectableScript = () => {
 
 const eventManager = () => undefined
 
-const report = async (url: string | undefined, data: any): Promise<string> => {
+const report = async (url: string, data: any): Promise<string> => {
     var meta = data as iMetaTag[]
     var report: string = ''
 
@@ -85,7 +85,7 @@ const renderMetaCategory = (
         .join('')
 
     const links: iLink[] = []
-    if (metaCat.url.length > 0) {
+    if(metaCat.url.length > 0) {
         links.push({url: metaCat.url, label: 'Reference'})
     }
 

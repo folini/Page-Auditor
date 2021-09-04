@@ -9,7 +9,7 @@ const scriptClasses = require('../jsons/scriptClasses.json') as any[]
 const injectableScript = () => undefined
 const eventManager = () => undefined
 
-const report = async (url: string | undefined, data: any): Promise<string> => {
+const report = async (url: string, data: any): Promise<string> => {
     var report: string = ''
 
     report += new Card()

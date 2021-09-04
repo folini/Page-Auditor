@@ -50,13 +50,13 @@ const getLines = (script: string) => {
 }
 
 const report = async (
-    url: string | undefined,
+    url: string,
     scripts: any
 ): Promise<string> => {
     const jsonScripts: iJsonLD[] = scripts as iJsonLD[]
     var report: string = ''
 
-    if (url === undefined || jsonScripts.length == 0) {
+    if(url==='' || jsonScripts.length == 0) {
         return new Card().warning(`No Structured Data found on this page.`)
     }
 
@@ -66,12 +66,12 @@ const report = async (
 
         const links = [
             {
-                url: `https://validator.schema.org/#url=${encodeURI(url)}`,
-                label: `Validate`,
+            url: `https://validator.schema.org/#url=${encodeURI(url)}`,
+            label: `Validate`,               
             },
             {
-                url: `https://shema.org/${schemaType}`,
-                label: `Schema`,
+            url: `https://shema.org/${schemaType}`,
+            label: `Schema`,
             },
         ]
 

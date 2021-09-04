@@ -10,8 +10,8 @@ export const injectableScript = () => {
 
 const eventManager = () => undefined
 
-const report = async (url: string | undefined, data: any): Promise<string> => {
-    if (url === undefined) {
+const report = async (url: string, data: any): Promise<string> => {
+    if (url === '') {
         return ''
     }
 
@@ -44,10 +44,7 @@ const report = async (url: string | undefined, data: any): Promise<string> => {
         report += new Card().warning(err as string)
     }
 
-    var sitemap = await getSiteMaps(
-        robotsTxtBody,
-        url.replace('robots.txt', 'sitemap.xml')
-    )
+    var sitemap = await getSiteMaps(robotsTxtBody, url.replace('robots.txt', 'sitemap.xml'))
     if (sitemap.length > 0) {
         report += sitemap
     }
@@ -68,7 +65,7 @@ const getSiteMaps = async (robTxt: string, altUrl: string): Promise<string> => {
 
     var report = ''
 
-    for (const url of urls) {
+    for(const url of urls) {
         try {
             console.log(`Report length [${report.length}]`)
             var response = await fetch(url)
