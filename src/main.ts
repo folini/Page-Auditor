@@ -7,7 +7,7 @@ import './manifest.json'
 import './styles/style.less'
 
 import {Card} from './card'
-import * as JsonLd from './sections/jsonld'
+import * as JsonLd from './sections/ld-json'
 import * as Scripts from './sections/scripts'
 import * as Credits from './sections/credits'
 import * as Meta from './sections/meta'

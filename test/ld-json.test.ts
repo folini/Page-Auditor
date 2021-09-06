@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import {injectableScript, actions} from '../src/sections/jsonld'
+import {injectableScript, actions} from '../src/sections/ld-json'
 
 import 'jest-get-type'
 import 'html-validate/jest'
@@ -9,8 +9,8 @@ import 'jest-chain'
 import 'jest-extended'
 
 // cSpell:disable
-jest.mock('../src/sections/jsonld', () => {
-    const originalModule = jest.requireActual('../src/sections/jsonld')
+jest.mock('../src/sections/ld-json', () => {
+    const originalModule = jest.requireActual('../src/sections/ld-json')
     return {
         ...originalModule,
         injectableScript: jest.fn(() => [

@@ -171,8 +171,6 @@ const localJsMatch = (url: string): iTrackMatch => {
         patterns.push(`.${domainParts[0]}cdn.${domainParts[1]}/`)
     }
 
-    console.table(patterns)
-
     return {
         patterns: patterns,
         name: 'Local Javascript Code',

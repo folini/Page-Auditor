@@ -21,7 +21,6 @@ const report = async (url: string, data: any): Promise<string> => {
     url = data as string
 
     try {
-        console.log(`TRYING TO LOAD ${url}`)
         var response = await fetch(url)
         if (response.status !== 200) {
             throw `File '${url}' not found.`
@@ -67,14 +66,12 @@ const getSiteMaps = async (robTxt: string, altUrl: string): Promise<string> => {
 
     for(const url of urls) {
         try {
-            console.log(`Report length [${report.length}]`)
             var response = await fetch(url)
             if (response.status !== 200) {
                 report += new Card().warning(`Sitemap '${url}' not found.`)
                 break
             }
             var xml = await response.text()
-            console.log(`Building links...`)
             const links = [
                 {
                     url: `https://www.xml-sitemaps.com/validate-xml-sitemap.html?op=validate-xml-sitemap&go=1&sitemapurl=${encodeURI(
