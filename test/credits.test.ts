@@ -14,6 +14,10 @@ test('Credits.reporter section generates valid HTML', () => {
     })
 })
 
-test("Credit.injectableScripts returns 'undefined'", () => {
+test("Credit.injectableScripts always returns 'undefined'", () => {
     expect(actions.injector()).toBeUndefined()
+})
+
+test("Credit.eventManager always returns 'undefined'", () => {
+    expect(actions.eventManager()).toBeUndefined()
 })

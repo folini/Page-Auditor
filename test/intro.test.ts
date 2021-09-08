@@ -13,3 +13,11 @@ test("Intro section generates valid HTML", () => {
     expect(data).toBeString().toHTMLValidate()
   })
 })
+
+test("Intro.injectableScripts always returns 'undefined'", () => {
+  expect(actions.injector()).toBeUndefined()
+})
+
+test("Intro.eventManager always returns 'undefined'", () => {
+  expect(actions.eventManager()).toBeUndefined()
+})

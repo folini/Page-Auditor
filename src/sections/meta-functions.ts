@@ -2,6 +2,7 @@
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
 import {iMetaTag, iDefaultTagValues} from './meta'
+import {Card, iLink} from '../card'
 
 interface iTagCategoryPreviewer {
     (m: iMetaTag[], t: iDefaultTagValues): string
@@ -20,12 +21,12 @@ export interface iTagCategory {
     preview: iTagCategoryPreviewer
 }
 
-const noPreview: iTagCategoryPreviewer = (
+export const noPreview: iTagCategoryPreviewer = (
     m: iMetaTag[],
     t: iDefaultTagValues
 ) => ''
 
-const twitterPreview = (
+export const twitterPreview = (
     tags: iMetaTag[],
     defaults: iDefaultTagValues
 ): string => {
@@ -76,7 +77,10 @@ const twitterPreview = (
       </div>`
 }
 
-const openGraphPreview = (tags: iMetaTag[], defaults: iDefaultTagValues) => {
+export const openGraphPreview = (
+    tags: iMetaTag[],
+    defaults: iDefaultTagValues
+) => {
     const title = tags.find(m => m.property === 'og:title')?.content || ''
     const img = tags.find(m => m.property === 'og:image')?.content || ''
     var description =
@@ -305,3 +309,38 @@ export const tagCategories: iTagCategory[] = [
         preview: noPreview,
     },
 ]
+
+export const renderMetaCategory = (
+    metaCat: iTagCategory,
+    metaList: iMetaTag[],
+    preview: string
+): string => {
+    if (metaList.length === 0) {
+        return ''
+    }
+    const listOfMeta = metaList
+        .map(
+            m =>
+                `<div class='single-line-forced'>
+                    <span class='label'>${m.property}:</span> 
+                    <span class='value'>${m.content}</span>
+                  </div>`
+        )
+        .join('')
+
+    const links: iLink[] = []
+    if (metaCat.url.length > 0) {
+        links.push({url: metaCat.url, label: 'Reference'})
+    }
+
+    return new Card()
+        .open(`Meta Tags`, metaCat.title, links, metaCat.cssClass)
+        .add(
+            `
+        <div class='card-description'>${metaCat.description}</div>
+        <div class='meta-items'>${listOfMeta}</div>
+        ${preview}
+      `
+        )
+        .close()
+}

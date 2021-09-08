@@ -1,7 +1,8 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import {iJsonLevel} from './ld-json'
+import {iJsonLevel, iJsonLD} from './ld-json'
+import {Card} from '../card'
 
 export const renderLine = (level: iJsonLevel, line: string) => {
     if (line.length === 0) {
@@ -26,7 +27,6 @@ export const renderLine = (level: iJsonLevel, line: string) => {
 }
 
 export const getLines = (script: string) => {
-    console.log(`getLines("${script}")`)
     if (!script.includes('\n')) {
         // Decompress LD+JSON adding newlines
         script = script
@@ -52,3 +52,17 @@ export const schemaLinks = (schemaName: string, ldjsonUrl: string) => [
         label: `Schema`,
     },
 ]
+
+export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string) => {
+    const schemaType: string = (ldJson['@type'] ||
+        ldJson['@graph'] ||
+        'Graph') as string
+    const scriptAsString = JSON.stringify(ldJson)
+    var level: iJsonLevel = {depth: 0}
+    const card = new Card()
+    card.open(``, schemaType, schemaLinks(schemaType, tabUrl), 'icon-ld-json')
+    card.add(`<div class='ld-json'>`)
+    getLines(scriptAsString).forEach(line => card.add(renderLine(level, line)))
+    card.add(`</div>`)
+    return card.close()
+}

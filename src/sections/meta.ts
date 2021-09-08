@@ -3,7 +3,7 @@
 // ----------------------------------------------------------------------------
 import {Card, iLink} from '../card'
 import {sectionActions} from '../main'
-import {tagCategories, iTagCategory} from './meta-categories'
+import {tagCategories, renderMetaCategory} from './meta-functions'
 
 export interface iMetaTag {
     property: string
@@ -18,8 +18,8 @@ export interface iDefaultTagValues {
     domain: string
 }
 
-export const injectableScript = () => {
-    return ([...document.querySelectorAll(`head meta`)] as HTMLMetaElement[])
+export const injectableScript = () =>
+    ([...document.querySelectorAll(`head meta`)] as HTMLMetaElement[])
         .map(m => ({
             property: (
                 m.getAttribute(`property`) ||
@@ -28,14 +28,13 @@ export const injectableScript = () => {
                 ''
             ).toLowerCase(),
             content: m.content || '',
-            class: m.getAttribute('class'),
+            class: m.getAttribute('class') || '',
         }))
-        .filter(m => m.content !== '' && m.property !== '')
-}
+        .filter(m => m.content !== '' && m.property !== '') as iMetaTag[]
 
-const eventManager = () => undefined
+export const eventManager = () => undefined
 
-const report = async (url: string, data: any): Promise<string> => {
+export const report = async (url: string, data: any): Promise<string> => {
     var meta = data as iMetaTag[]
     var report: string = ''
 
@@ -64,41 +63,6 @@ const report = async (url: string, data: any): Promise<string> => {
     }
 
     return report
-}
-
-const renderMetaCategory = (
-    metaCat: iTagCategory,
-    metaList: iMetaTag[],
-    preview: string
-): string => {
-    if (metaList.length === 0) {
-        return ''
-    }
-    const listOfMeta = metaList
-        .map(
-            m =>
-                `<div class='single-line-forced'>
-                    <span class='label'>${m.property}:</span> 
-                    <span class='value'>${m.content}</span>
-                  </div>`
-        )
-        .join('')
-
-    const links: iLink[] = []
-    if(metaCat.url.length > 0) {
-        links.push({url: metaCat.url, label: 'Reference'})
-    }
-
-    return new Card()
-        .open(`Meta Tags`, metaCat.title, links, metaCat.cssClass)
-        .add(
-            `
-        <div class='card-description'>${metaCat.description}</div>
-        <div class='meta-items'>${listOfMeta}</div>
-        ${preview}
-      `
-        )
-        .close()
 }
 
 export const actions: sectionActions = {

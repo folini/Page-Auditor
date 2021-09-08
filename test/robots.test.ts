@@ -10,7 +10,7 @@ import 'jest-extended'
 import { enableFetchMocks } from 'jest-fetch-mock'
 
 // cSpell:disable
-const cnnRobotsTxt = `
+const RobotsTxtSample = `
 Sitemap: https://www.cnn.com/sitemaps/cnn/index.xml
 Sitemap: https://www.cnn.com/sitemaps/cnn/news.xml
 Sitemap: https://www.cnn.com/sitemaps/sitemap-section.xml
@@ -67,7 +67,7 @@ jest.mock('../src/sections/robots', () => {
 
 enableFetchMocks()
 fetchMock.doMock()
-fetchMock.mockResponse(() => Promise.resolve(cnnRobotsTxt))
+fetchMock.mockResponse(() => Promise.resolve(RobotsTxtSample))
 
 test('Reporter generates valid HTML from a mock robots.txt', async () => {
     const data = await actions.reporter(

@@ -12,19 +12,25 @@ const eventManager = () => undefined
 const report = async (url: string, data: any): Promise<string> => {
     var report: string = ''
 
+    const suggestedSites = [
+        {label: 'CNN', url: 'https://cnn.com/'},
+        {label: 'MailChimp', url: 'https://mailchimp.com/'},
+        {label: 'REI', url: 'https://rei.com/'},
+    ]
     report += new Card()
         .open(``, `How to use Page Auditor for Technical SEO`, [], 'icon-how')
         .add(
-            `
-      Page Auditor shows the hidden parts of the HTML code of any web page.
-      <br/>
-      To test this Google Chrome Extension visit a popular page like
-      <ul>
-        <li><a href='https://cnn.com/' target='_new'>CNN</a></li>
-        <li><a href='https://mailchimp.com/' target='_new'>MailChimp</a></li>
-        <li><a href='https://rei.com/' target='_new'>REI</a></li>
-      </ul>
-      Once the page is loaded launch the <b>Page Auditor for Technical SEO</b> extension and check all the hidden content.`
+            `Page Auditor shows the hidden parts of the HTML code of any web page.<br/>` +
+                `To test this Google Chrome Extension visit a popular page like:` +
+                `<ul>` +
+                suggestedSites
+                    .map(
+                        link =>
+                            `<li><a href='${link.url}' target='_new'>${link.label}</a></li>`
+                    )
+                    .join('') +
+                `</ul>` +
+                `Once the page is loaded launch the <b>Page Auditor for Technical SEO</b> extension and check all the hidden content.`
         )
         .close()
 

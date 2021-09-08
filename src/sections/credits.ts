@@ -17,7 +17,7 @@ const report = async (url: string, data: any): Promise<string> => {
         <div class='credits'><b>Page Auditor for Technical SEO</b> is a free Google Chrome Extension created by <a href='https://www.linkedin.com/in/francofolini/' target='_new'>Franco Folini</a>.
         The purpose of <i>Page Auditor for Technical SEO</i> is to show, in a way that is simple and easy to understand, all the tracking technologies implemented by a website or single webpage.
         <br/><br/>
-        My students' questions inspired this project while teaching the <a href='https://bootcamp.berkeley.edu/digitalmarketing/' target='+new'>Digital Marketing Bootcamp</a> for UC Berkeley Extension.
+        While teaching the <a href='https://bootcamp.berkeley.edu/digitalmarketing/' target='+new'>Digital Marketing Bootcamp</a> for UC Berkeley Extension, my students' questions inspired this project.
             <div class='support-form'>
                 <form action="https://www.paypal.com/donate" method="post" target="_new">
                     <input type="hidden" name="business" value="UZ2HN43RZVJGA" />
@@ -31,29 +31,47 @@ const report = async (url: string, data: any): Promise<string> => {
         )
         .close()
 
+    const bioLinks = [
+        {
+            label: 'LinkedIn',
+            url: 'https://www.linkedin.com/in/francofolini/',
+            class: 'icon-linkedin',
+        },
+        {
+            label: 'Medium',
+            url: 'https://folini.medium.com/',
+            class: 'icon-medium',
+        },
+        {
+            label: 'Personal Blog',
+            url: 'https://francofolini.com/',
+            class: 'icon-wordpress',
+        },
+        {
+            label: 'GIT',
+            url: 'https://github.com/folini',
+            class: 'icon-git',
+        },
+        {
+            label: 'eMail',
+            url: 'mailto:folini@gmail.com',
+            class: 'icon-gmail',
+        },
+    ]
+
     report += new Card()
         .open(``, `About the Author`, [], 'icon-franco-avatar')
         .add(
-            `<b>Franco Folini</b> is a Digital Marketer with a passion for Web Development, 
-        and a Web Developer with a passion for Digital Marketing.
-        You can check Franco work and contact him on the following platforms:
-        <ul class='pointers'>
-            <li class='credits-pointer icon-linkedin'>
-              <a href='https://www.linkedin.com/in/francofolini/' target='_new'>LinkedIn</a>
-            </li>
-            <li class='credits-pointer icon-medium'>
-              <a href='https://folini.medium.com/' target='_new'>Medium</a>
-            </li>
-            <li class='credits-pointer icon-wordpress'>
-              <a href='https://francofolini.com/' target='_new'>Personal Blog</a>
-            </li>
-            <li class='credits-pointer icon-git'>
-              <a href='https://github.com/folini' target='_new'>GIT profile</a>
-            </li>
-            <li class='credits-pointer icon-gmail'>
-              <a href='mailto:folini@gmail.com' target='_new'>eMail</a>
-            </li>
-        </ul>`
+            `<b>Franco Folini</b> is a Digital Marketer with a passion for Web Development, and a Web Developer with a passion for Digital Marketing.` +
+                `You can check Franco work and contact him on the following platforms:` +
+                `<ul class='pointers'>` +
+                bioLinks
+                    .map(
+                        link =>
+                            `<li class='credits-pointer ${link.class}'><a href='${link.url}' target='_new'>${link.label}</a></li>`
+                    )
+                    .join('') +
+                `</ul>`
         )
         .close()
 

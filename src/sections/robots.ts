@@ -43,7 +43,10 @@ const report = async (url: string, data: any): Promise<string> => {
         report += new Card().warning(err as string)
     }
 
-    var sitemap = await getSiteMaps(robotsTxtBody, url.replace('robots.txt', 'sitemap.xml'))
+    var sitemap = await getSiteMaps(
+        robotsTxtBody,
+        url.replace('robots.txt', 'sitemap.xml')
+    )
     if (sitemap.length > 0) {
         report += sitemap
     }
@@ -64,7 +67,7 @@ const getSiteMaps = async (robTxt: string, altUrl: string): Promise<string> => {
 
     var report = ''
 
-    for(const url of urls) {
+    for (const url of urls) {
         try {
             var response = await fetch(url)
             if (response.status !== 200) {
