@@ -71,6 +71,7 @@ body#id-page-auditor header .product-by {
   text-align: left;
   margin-left: 16px;
   font-size: 12px;
+  color: var(--fc-brand-black);
 }
 body#id-page-auditor .schema {
   color: darkblue;

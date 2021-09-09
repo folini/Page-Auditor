@@ -3,3 +3,4 @@ package-lock.json
 dist/
 coverage/
 
+src/styles/style.css
