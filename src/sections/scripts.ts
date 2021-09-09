@@ -35,7 +35,7 @@ const unresolvedJS: iTrackMatch = {
     matches: [],
 }
 
-const injectableScript = (): iScript[] => {
+const injector = (): iScript[] => {
     return [...document.scripts]
         .filter(s => s.type !== 'application/ld+json')
         .map(s => (s.src === '' ? s.text : s.src))
@@ -43,7 +43,7 @@ const injectableScript = (): iScript[] => {
         .map(s => ({script: s, done: false})) as iScript[]
 }
 
-const report = async (url: string, untypedScripts: any): Promise<string> => {
+const reporter = async (url: string, untypedScripts: any): Promise<string> => {
     var scripts = untypedScripts as iScript[]
 
     const trackMatches: iTrackMatch[] = scriptClasses.map(track => ({
@@ -183,7 +183,7 @@ const localJsMatch = (url: string): iTrackMatch => {
 }
 
 export const actions: sectionActions = {
-    injector: injectableScript,
-    reporter: report,
+    injector: injector,
+    reporter: reporter,
     eventManager: eventManager,
 }

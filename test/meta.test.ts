@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
 // ----------------------------------------------------------------------------
-import {iDefaultTagValues, iMetaTag, actions} from '../src/sections/meta'
+import {iDefaultTagValues, iMetaTag, eventManager, reporter, injector} from '../src/sections/meta'
 import {JSDOM} from 'jsdom'
 
 import 'jest-get-type'
@@ -209,16 +209,16 @@ const metaTagsSample = [
 ]
 // cSpell:enable
 
-test('Reporter generates valid HTML from complex JSON', async () => {
-    const data = await actions.reporter('https://mydomain.com', metaTagsSample)
+test('reporter() generates valid HTML from complex JSON', async () => {
+    const data = await reporter('https://mydomain.com', metaTagsSample)
     expect(data).toBeString().toHTMLValidate()
 })
 
-test("Meta.eventManager always returns 'undefined'", () => {
-    expect(actions.eventManager()).toBeUndefined()
+test("eventManager() always returns 'undefined'", () => {
+    expect(eventManager()).toBeUndefined()
 })
 
-describe('Meta correctly process meta tags', () => {
+describe('injector() and reporter()', () => {
     beforeAll(() => {
         jest.spyOn(document, 'querySelectorAll').mockImplementation(
             (selector: string) =>
@@ -232,27 +232,27 @@ describe('Meta correctly process meta tags', () => {
 
     afterAll(() => jest.resetAllMocks())
 
-    test('injectableScript returns Array of metaTags', () => {
-        const data = actions.injector()
+    test('injector() returns Array of metaTags', () => {
+        const data = injector()
         expect(data).toBeArray()
         expect(data.length).toBe(rawMetaTagsSample.length)
     })
 
-    test('reporter returns an HTML Card', async () => {
-        const data = await actions.reporter(
+    test('reporter() returns an HTML Card', async () => {
+        const data = await reporter(
             'https://mydomain.com/',
-            actions.injector()
+            injector()
         )
         expect(data).toBeString().toHTMLValidate()
     })
 
-    test('injectableScript with empty tabUrl returns?', async () => {
-        const data = await actions.reporter('', actions.injector())
+    test('injector() with empty tabUrl returns?', async () => {
+        const data = await reporter('', injector())
         expect(data).toBeString().toHTMLValidate()
     })
 })
 
-describe('injectableScript correctly process no meta Tags', () => {
+describe('injector() correctly process no meta Tags', () => {
     beforeAll(() => {
         jest.spyOn(document, 'querySelectorAll').mockImplementation(
             () => [] as any as NodeListOf<Element>
@@ -261,22 +261,22 @@ describe('injectableScript correctly process no meta Tags', () => {
 
     afterAll(() => jest.resetAllMocks())
 
-    test('injectableScript returns Array of metaTags', () => {
-        const data = actions.injector()
+    test('injector() returns Array of metaTags', () => {
+        const data = injector()
         expect(data).toBeArray()
         expect(data.length).toBe(0)
     })
 
-    test('reporter returns an HTML Card', async () => {
-        const data = await actions.reporter(
+    test('reporter() returns an HTML Card', async () => {
+        const data = await reporter(
             'https://mydomain.com/',
-            actions.injector()
+            injector()
         )
         expect(data).toBeString().toHTMLValidate()
     })
 
-    test('injectableScript with empty tabUrl returns?', async () => {
-        const data = await actions.reporter('', actions.injector())
+    test('injector() with empty tabUrl returns?', async () => {
+        const data = await reporter('', injector())
         expect(data).toBeString().toHTMLValidate()
     })
 })

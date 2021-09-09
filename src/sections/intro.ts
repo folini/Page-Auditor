@@ -6,10 +6,10 @@ import {sectionActions} from '../main'
 
 const scriptClasses = require('../jsons/scriptClasses.json') as any[]
 
-const injectableScript = () => undefined
+const injector = () => undefined
 const eventManager = () => undefined
 
-const report = async (url: string, data: any): Promise<string> => {
+const reporter = async (url: string, data: any): Promise<string> => {
     var report: string = ''
 
     const suggestedSites = [
@@ -56,7 +56,7 @@ const report = async (url: string, data: any): Promise<string> => {
 }
 
 export const actions: sectionActions = {
-    injector: injectableScript,
-    reporter: report,
+    injector: injector,
+    reporter: reporter,
     eventManager: eventManager,
 }

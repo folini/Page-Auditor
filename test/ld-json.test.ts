@@ -75,15 +75,15 @@ const scriptsArraySample = [
     },
 ]
 
-test('LD-JSON testing report', async () => {
-    const data = await ldJson.report(urlSample, JSONsSample)
+test('report() LD-JSON testing report', async () => {
+    const data = await ldJson.reporter(urlSample, JSONsSample)
     expect(data).toBeString().toHTMLValidate()
 })
 
-describe('LD-JSON Reporter testing...', () => {
+describe('report()', () => {
     beforeEach(() =>
         jest
-            .spyOn(ldJson, 'injectableScript')
+            .spyOn(ldJson, 'injector')
             .mockImplementation(() => JSONsSample)
     )
 
@@ -91,37 +91,42 @@ describe('LD-JSON Reporter testing...', () => {
         jest.clearAllMocks()
     })
 
-    test('LdJSON.injector returns valid script(s)', async () => {
-        const data = ldJson.injectableScript()
-        console.log(`Test ldJson.injectableScript() RETURNs ${JSON.stringify(data)}`)
+    test('injector() returns valid script(s)', async () => {
+        const data = ldJson.injector()
         expect(data).toBeArray()
         expect(data[0]).toBeObject()
-        expect(ldJson.injectableScript).toBeCalledTimes(1)
+        expect(ldJson.injector).toBeCalledTimes(1)
     })
 
-    test('Reporter generates valid HTML from complex LD+JSON', async () => {
-        const data = await ldJson.report(urlSample, ldJson.injectableScript())
+    test('report() generates valid HTML from complex LD+JSON', async () => {
+        const data = await ldJson.reporter(urlSample, ldJson.injector())
         expect(data).toBeString().toHTMLValidate()
-        expect(ldJson.injectableScript).toBeCalledTimes(1)
+        expect(ldJson.injector).toBeCalledTimes(1)
     })
 
-    test('Reporter generates valid HTML from empty LD+JSON', async () => {
-        const data = await ldJson.report(urlSample, '')
+    test('report() generates valid HTML from empty LD+JSON', async () => {
+        const data = await ldJson.reporter(urlSample, '')
         expect(data).toBeString().toHTMLValidate()
     })
 
-    test('Reporter generates valid HTML from empty url and empty LD+JSON', async () => {
-        const data = await ldJson.report('', '')
+    test('report() generates valid HTML from empty Url', async () => {
+        const data = await ldJson.reporter('', ldJson.injector())
+        expect(data).toBeString().toHTMLValidate()
+    })
+
+
+    test('report() generates valid HTML from empty Url and empty LD+JSON', async () => {
+        const data = await ldJson.reporter('', '')
         expect(data).toBeString().toHTMLValidate()
     })
 })
 
-test("LdJSON.eventManager always returns 'undefined'", () => {
+test("eventManager() always returns 'undefined'", () => {
     const data = ldJson.eventManager()
     expect(data).toBeUndefined()
 })
 
-describe('injectableScript correctly process JS scrips', () => {
+describe('injector()', () => {
     beforeEach(() => {
         jest.spyOn(document, 'scripts', 'get').mockImplementation(
             () =>
@@ -137,8 +142,8 @@ describe('injectableScript correctly process JS scrips', () => {
         jest.clearAllMocks()
     })
 
-    test('injectableScript', () => {
-        const data = ldJson.injectableScript()
+    test('injector() correctly process JS scrips', () => {
+        const data = ldJson.injector()
         expect(data).toBeArray()
         expect(JSON.stringify(data)).toBe(JSONsStringSample)
     })

@@ -1,5 +1,8 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
+//
+// This source code is licensed under the BSD 3-Clause License found in the
+// LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 export interface iLink {
     label: string
@@ -13,7 +16,7 @@ export class Card {
         this.#report = []
     }
 
-    #render() {
+    private render() {
         return this.#report.join('')
     }
 
@@ -42,7 +45,7 @@ export class Card {
 
     public close() {
         this.#report.push(`</div>`)
-        return this.#render()
+        return this.render()
     }
 
     public error(msg: string) {

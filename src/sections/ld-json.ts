@@ -13,7 +13,7 @@ export interface iJsonLevel {
     depth: number
 }
 
-export const report = async (tabUrl: string, scripts: any): Promise<string> => {
+export const reporter = async (tabUrl: string, scripts: any): Promise<string> => {
     const jsonScripts: iJsonLD[] = scripts as iJsonLD[]
 
     if (tabUrl === '' || jsonScripts.length == 0) {
@@ -26,7 +26,7 @@ export const report = async (tabUrl: string, scripts: any): Promise<string> => {
     )
 }
 
-export const injectableScript = (): iJsonLD[] =>
+export const injector = (): iJsonLD[] =>
     [...document.scripts]
         .filter(s => s.type === 'application/ld+json')
         .map(s => JSON.parse(s.text.trim()))
@@ -34,7 +34,7 @@ export const injectableScript = (): iJsonLD[] =>
 export const eventManager = () => undefined
 
 export const actions: sectionActions = {
-    injector: injectableScript,
-    reporter: report,
+    injector: injector,
+    reporter: reporter,
     eventManager: eventManager,
 }

@@ -8,16 +8,16 @@ import "html-validate/jest"
 import "jest-chain"
 import "jest-extended"
 
-test("Intro section generates valid HTML", () => {
+test("report() generates valid HTML", () => {
   return actions.reporter('', undefined).then(data => {
     expect(data).toBeString().toHTMLValidate()
   })
 })
 
-test("Intro.injectableScripts always returns 'undefined'", () => {
+test("injector() always returns 'undefined'", () => {
   expect(actions.injector()).toBeUndefined()
 })
 
-test("Intro.eventManager always returns 'undefined'", () => {
+test("eventManager() always returns 'undefined'", () => {
   expect(actions.eventManager()).toBeUndefined()
 })

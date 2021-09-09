@@ -18,7 +18,7 @@ export interface iDefaultTagValues {
     domain: string
 }
 
-export const injectableScript = () =>
+export const injector = () =>
     ([...document.querySelectorAll(`head meta`)] as HTMLMetaElement[])
         .map(m => ({
             property: (
@@ -34,7 +34,7 @@ export const injectableScript = () =>
 
 export const eventManager = () => undefined
 
-export const report = async (url: string, data: any): Promise<string> => {
+export const reporter = async (url: string, data: any): Promise<string> => {
     var meta = data as iMetaTag[]
     var report: string = ''
 
@@ -66,7 +66,7 @@ export const report = async (url: string, data: any): Promise<string> => {
 }
 
 export const actions: sectionActions = {
-    injector: injectableScript,
-    reporter: report,
+    injector: injector,
+    reporter: reporter,
     eventManager: eventManager,
 }

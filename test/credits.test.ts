@@ -8,16 +8,16 @@ import 'html-validate/jest'
 import 'jest-chain'
 import 'jest-extended'
 
-test('Credits.reporter section generates valid HTML', () => {
+test('reporter() generates valid HTML', () => {
     return actions.reporter('', undefined).then(data => {
         expect(data).toBeString().toHTMLValidate()
     })
 })
 
-test("Credit.injectableScripts always returns 'undefined'", () => {
+test("injector() always returns 'undefined'", () => {
     expect(actions.injector()).toBeUndefined()
 })
 
-test("Credit.eventManager always returns 'undefined'", () => {
+test("eventManager() always returns 'undefined'", () => {
     expect(actions.eventManager()).toBeUndefined()
 })

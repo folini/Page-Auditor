@@ -203,5 +203,6 @@
     "youtube",
     "yyyyoo",
     "zync"
-  ]
+  ],
+  "jest.jestCommandLine": "jest test"
 }
