@@ -1,5 +1,5 @@
 # Page Auditor for Technical SEO 
-<img src='./web-store-images/Store-Icon_128x128.png' align='left' style='margin-right:16px;width:72px;'>**Page Auditor for Technical SEO** is n open source free _Google Chrome Extension_ created by [Franco Folini](https://www.linkedin.com/in/francofolini/) to explore and analyze the main technical SEO features of any web page.
+<img src='./web-store-images/Store-Icon_128x128.png' align='right' style='margin-right:16px;width:72px;'>**Page Auditor for Technical SEO** is n open source free _Google Chrome Extension_ created by [Franco Folini](https://www.linkedin.com/in/francofolini/) to explore and analyze the main technical SEO features of any web page.
 
 
 
