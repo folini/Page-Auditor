@@ -38,6 +38,8 @@ To format the code with [Prettier](https://prettier.io/) run `npm run format`.
 This extension is based on a Google Chrome Snippet I described in an article on Medium.com.
 The article is available here: [Exploring Structured Data With A Google Chrome Snippet](https://folini.medium.com/exploring-structured-data-with-a-google-chrome-snippet-944ad4ef831). Since the initial idea and implementation the extension has been growing significantly including more analysis and brand new reports.
 
+All information required to publish the Google Chrome eExtension is available on the the [Google Web Store creative material](./GoogleWebStore.md).
+
 ## Roadmap
 - [x] Porting the snippet from JavaScript to TypeScript
 - [x] Transform the Google Chrome Snippet into a regular Google Chrome Extension
