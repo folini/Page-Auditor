@@ -1,6 +1,6 @@
 # BSD 3-Clause License
 
-Copyright (c) 2021, Franco Folini
+<a href='https://opensource.org/licenses/BSD-3-Clause'><img src='./web-store-images/OSI_Approved_License.png' align='right' style='margin-right:16px;width:144px;'></a>Copyright (c) 2021, Franco Folini
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
