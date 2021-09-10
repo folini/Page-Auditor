@@ -1,5 +1,8 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
+//
+// This source code is licensed under the BSD 3-Clause License found in the
+// LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card} from '../card'
 import {sectionActions} from '../main'
@@ -13,7 +16,10 @@ export interface iJsonLevel {
     depth: number
 }
 
-export const reporter = async (tabUrl: string, scripts: any): Promise<string> => {
+export const reporter = async (
+    tabUrl: string,
+    scripts: any
+): Promise<string> => {
     const jsonScripts: iJsonLD[] = scripts as iJsonLD[]
 
     if (tabUrl === '' || jsonScripts.length == 0) {

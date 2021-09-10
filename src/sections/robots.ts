@@ -1,10 +1,17 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
+//
+// This source code is licensed under the BSD 3-Clause License found in the
+// LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import { table } from 'console'
 import {Card} from '../card'
 import {sectionActions} from '../main'
-import {getSiteMapCards, getRobotsTxtFileBody, getRobotsTxtCard, getSiteMapUrls} from "./robots-functions"
+import {
+    getSiteMapCards,
+    getRobotsTxtFileBody,
+    getRobotsTxtCard,
+    getSiteMapUrls,
+} from './robots-functions'
 
 export const injector = () => undefined
 
@@ -21,8 +28,11 @@ export const reporter = async (tabUrl: string, _: any): Promise<string> => {
     try {
         const robotsTxtBody: string = await getRobotsTxtFileBody(robotsUrl)
         const sitemapUrls: string[] = getSiteMapUrls(robotsTxtBody, sitemapUrl)
-        return await getRobotsTxtCard(robotsUrl, robotsTxtBody) + await getSiteMapCards(sitemapUrls)
-    } catch(err) {
+        return (
+            (await getRobotsTxtCard(robotsUrl, robotsTxtBody)) +
+            (await getSiteMapCards(sitemapUrls))
+        )
+    } catch (err) {
         return new Card().error((err as Error).message)
     }
 }

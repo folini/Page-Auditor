@@ -1,12 +1,12 @@
 # Page Auditor for Technical SEO 
-<img src='./web-store-images/Store-Icon_128x128.png' align='right' style='margin-right:16px;width:72px;'>**Page Auditor for Technical SEO** is n open source free _Google Chrome Extension_ created by [Franco Folini](https://www.linkedin.com/in/francofolini/) to explore and analyze the main technical SEO features of any web page.
+<img src='./web-store-images/Store-Icon_128x128.png' align='right' style='margin-right:16px;width:72px;'>**Page Auditor for Technical SEO** is an open source free _Google Chrome Extension_ created by [Franco Folini](https://www.linkedin.com/in/francofolini/) to explore and analyze the main technical SEO features of any web page.
 
 
 
 # Purpose
 **Page Auditor** is a _Google Chrome Extension_ that can be installed on any Google Chrome and used to explore the content of any webpage. The goal is to make the _Technical SEO Analysis_ of a web page easier for everybody, and in particular for non technical people.
 
-Performing a  _Technical SEO Analysis_ requires exploring all the hidden elements of an HTML page, including Meta Tags, Structured Data, JavaScrips, Robots.txt and Sitemap.xml files. It can be challenging, in particular for people without a technical background. All these components are important for the page SEO performance. **Page Auditor** makes it easy to look at all these elements and can be used to analyze our own web pages, as well our competitors' pages.
+Performing a  _Technical SEO Analysis_ requires exploring many of the hidden elements of an HTML page, including Meta Tags, Structured Data, JavaScrips, `Robots.txt` and `Sitemap.xml` files. It can be challenging, in particular for people without a technical background. All these components are important for the page SEO performance. **Page Auditor** makes it easy to look at all these elements and can be used to analyze our own web pages, as well our competitors' pages.
 
 **Page Auditor** automatically scans the HTML code of the selected page and locates specific HTML elements, like the `<script>` element and `<meta>` tags. Then it extracts the content of each tag and classifies it according to its internal lists of categories. The result of the analysis is then presented to the user in clearly formatted, human readable reports. Compared to a manual analysis of the same page, the benefits are evident. For example, the JSON-LD and the JavaScript code included in a page can provide critical information about the page, but they are frequently compressed and therefore almost unreadable for humans. Without this **Page Auditor**, the only way to make sense of these JSON-LD and JavaScript snippets would be to copy the JSON and JavaScript code and paste it on an online _JSON Formatter_.
 

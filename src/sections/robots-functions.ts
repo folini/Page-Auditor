@@ -1,5 +1,8 @@
 // ----------------------------------------------------------------------------
 // © 2021 - Franco Folini
+//
+// This source code is licensed under the BSD 3-Clause License found in the
+// LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card} from '../card'
 
@@ -10,25 +13,29 @@ export const getSiteMapFileBody = async (url: string): Promise<string> => {
             throw new Error(`Sitemap.xml file at '${url}' not found.`)
         }
         return await (await response.text())
-        .replace(/\</g, '&lt;')
-        .replace(/\>/g, '&gt;')
+            .replace(/\</g, '&lt;')
+            .replace(/\>/g, '&gt;')
     } catch (err) {
         throw err as Error
     }
 }
 
-export const getSiteMapCards = async (
-    urls: string[]
-): Promise<string> => {
+export const getSiteMapCards = async (urls: string[]): Promise<string> => {
     var report = ''
     for (const url of urls) {
         try {
             report += new Card()
                 .open(``, `Sitemap.xml`, getSitemapLinks(url), 'icon-sitemap')
-                .add(`<pre class='x-scrollable'>${await getSiteMapFileBody(url)}</pre>`)
+                .add(
+                    `<pre class='x-scrollable'>${await getSiteMapFileBody(
+                        url
+                    )}</pre>`
+                )
                 .close()
         } catch (err) {
-            report += new Card().error(`Unable to load <code>sitemap.xml</code> file from <a target="_new" href="${url}">${url}</a>.`)
+            report += new Card().error(
+                `Unable to load <code>sitemap.xml</code> file from <a target="_new" href="${url}">${url}</a>.`
+            )
         }
     }
     return report
@@ -38,7 +45,9 @@ export const getRobotsTxtFileBody = async (url: string): Promise<string> => {
     try {
         var response = await fetch(url)
         if (response.status !== 200) {
-            throw new Error(`Unable to load <code>robots.txt</code> file from <a target="_new" href="${url}">${url}</a>.`)
+            throw new Error(
+                `Unable to load <code>robots.txt</code> file from <a target="_new" href="${url}">${url}</a>.`
+            )
         }
         return await response.text()
     } catch (err) {
@@ -49,7 +58,7 @@ export const getRobotsTxtFileBody = async (url: string): Promise<string> => {
 export const getRobotsTxtCard = (
     robotsTxtUrl: string,
     robotsTxtBody: string
-): string => 
+): string =>
     new Card()
         .open(``, `Robots.txt`, getRobotsLinks(robotsTxtUrl), 'icon-rep')
         .add(`<pre class='x-scrollable'>${robotsTxtBody}</pre>`)
