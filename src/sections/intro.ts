@@ -52,6 +52,22 @@ const reporter = async (url: string, data: any): Promise<string> => {
         )
         .close()
 
+    report += new Card()
+        .open(``, `Open Source?`, [], 'icon-open')
+        .add(
+            `
+    <b>Page Auditor</b> is one an open source project. That means anybody is free to use, study, modify, and distribute your project for any purpose.
+    <br/><br/>
+    <b>Page Auditor</b> is distributed with a <a target="_new" href='https://github.com/folini/Page-Auditor/blob/main/LICENSE.md'>BSD 3-Clause License</a>. 
+    <br/><br/>
+    The <b>Page Auditor</b> has been created using <a target="_new" href='https://www.typescriptlang.org/'>Typescript</a>. If you are not familiar with development, TypeScript is a superset of the famous JavaScript.
+    The project has been created on <a href='https://code.visualstudio.com/'>Visual Studio Code</a> and extensively tested using the 
+    <a target="_new" href='https://jestjs.io/'>JEST</a> testing tools.
+    <br/><br/>
+    You can access the source code on the <a target="_new" href='https://github.com/folini/Page-Auditor'>public project repository on GitHub</a>.`
+        )
+        .close()
+
     return report
 }
 

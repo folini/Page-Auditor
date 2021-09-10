@@ -28,7 +28,7 @@ export const getSiteMapCards = async (
                 .add(`<pre class='x-scrollable'>${await getSiteMapFileBody(url)}</pre>`)
                 .close()
         } catch (err) {
-            report += new Card().error(`Unable to load <code>sitemap.xml</code> file from <a href="${url}">${url}</a>.`)
+            report += new Card().error(`Unable to load <code>sitemap.xml</code> file from <a target="_new" href="${url}">${url}</a>.`)
         }
     }
     return report
@@ -38,7 +38,7 @@ export const getRobotsTxtFileBody = async (url: string): Promise<string> => {
     try {
         var response = await fetch(url)
         if (response.status !== 200) {
-            throw new Error(`Unable to load <code>robots.txt</code> file from <a href="${url}">${url}</a>.`)
+            throw new Error(`Unable to load <code>robots.txt</code> file from <a target="_new" href="${url}">${url}</a>.`)
         }
         return await response.text()
     } catch (err) {

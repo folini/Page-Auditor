@@ -818,6 +818,9 @@ body#id-page-auditor .icon-why {
 body#id-page-auditor .icon-how {
   background-image: url(../logos/How_100x100.png);
 }
+body#id-page-auditor .icon-open {
+  background-image: url(../logos/Open_100x100.png);
+}
 @-webkit-keyframes spinner {
   0% {
     transform: translate3d(-50%, -50%, 0) rotate(0deg);
