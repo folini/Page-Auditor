@@ -1,5 +1,5 @@
 # Page Auditor for Technical SEO 
-<img src='./web-store-images/Store-Icon_128x128.png' style='float:left;margin-right:16px;width:72px;'>An open source _Google Chrome Extension_ created by [Franco Folini](https://www.linkedin.com/in/francofolini/) to explore and analyze the main technical SEO features of any web page.<hr clear='both' style='background-color:transparent;margin:0;height:1px'>
+<img src='./web-store-images/Store-Icon_128x128.png' align='left' style='margin-right:16px;width:72px;'>An open source _Google Chrome Extension_ created by [Franco Folini](https://www.linkedin.com/in/francofolini/) to explore and analyze the main technical SEO features of any web page.<hr clear='both' style='background-color:transparent;margin:0;height:1px'>
 
 
 
