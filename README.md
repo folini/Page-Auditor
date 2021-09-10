@@ -13,8 +13,6 @@ Performing a  _Technical SEO Analysis_ requires exploring many of the hidden ele
 ## License
 This code snippet is released under [__BSD-3-Clause__](./LICENSE.md) license.
 
-Run `npm run test-coverage` to check also for tests coverage. 
-
 ## Running the Live Version
 To test the live version of **Page Auditor** is very simple. Visit the **Page Auditor** page on the Google Chrome Store and select the [__Add to Chrome__] button on the top right corner.
 Once you have installed the extension go to any web page you would like to analyze and start the extension from the *Extensions Menu* on the top right corner of the browser.
@@ -26,6 +24,9 @@ This is how to test the Extension or any variation opf it on your Google Chrome:
 3. When the [Select Folder] panel opens, select the `/dist` folder of the extension on your computer.
 4. Now you can run your local copy of the extension jus clicking on the extension icon on the top right corner of the Chrome browser. If you don't see the Extension logo on the browser corner, select the _extensions_ icon  and pin the _PageAuditor_ extension.
 5. To test new changes (fresh files in the `./dist` folder) click the refresh icon on the Extension box in the same [`chrome://extensions/`](chrome://extensions/) page.
+
+Run `npm run test-coverage` to check also for tests coverage. 
+
 
 ## Testing the Code
 There is a basic battery of tests implements with [`jest`](https://jestjs.io/).
