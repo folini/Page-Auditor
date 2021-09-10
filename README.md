@@ -20,17 +20,18 @@ Once you have installed the extension go to any web page you would like to analy
 ## Running and Testing a New Version
 This is how to test the Extension or any variation opf it on your Google Chrome:
 1. Open your Google Chrome Extensions page by entering the following URL: [`chrome://extensions/`](chrome://extensions/)
-2. Select the [**Load Unpacked**] button on the top left corner of the page.
-3. When the [Select Folder] panel opens, select the `/dist` folder of the extension on your computer.
+2. Select the [*Load Unpacked*] button on the top left corner of the page.
+3. When the [*Select Folder*] panel opens, select the `/dist` folder of the extension on your computer.
 4. Now you can run your local copy of the extension jus clicking on the extension icon on the top right corner of the Chrome browser. If you don't see the Extension logo on the browser corner, select the _extensions_ icon  and pin the _PageAuditor_ extension.
-5. To test new changes (fresh files in the `./dist` folder) click the refresh icon on the Extension box in the same [`chrome://extensions/`](chrome://extensions/) page.
+5. To test new changes (fresh files are in the `./dist` folder) click the refresh icon on the Extension box in the same [`chrome://extensions/`](chrome://extensions/) page.
 
-Run `npm run test-coverage` to check also for tests coverage. 
 
 
 ## Testing the Code
 There is a basic battery of tests implements with [`jest`](https://jestjs.io/).
-The resulting report will be available here: [`coverage/lcov-report/index.html`](coverage/lcov-report/index.html)
+Run `npm run test-coverage` to check also for tests coverage. 
+
+The tests coverage report will be available at [`coverage/lcov-report/index.html`](coverage/lcov-report/index.html)
 
 ## Formatting the Code
 To format the code with [Prettier](https://prettier.io/) run `npm run format`.
