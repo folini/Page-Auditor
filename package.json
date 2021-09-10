@@ -1,8 +1,8 @@
 {
-  "name": "sd-explorer",
+  "name": "page-auditor",
   "version": "1.06",
-  "description": "A Google Chrome Extension to extract Structured Data, Meta tags, and JavaScript from any web page",
-  "main": "src/snippet.ts",
+  "description": "An open source Google Chrome Extension to analyze Structured Data, Meta tags, and JavaScript from any web page",
+  "main": "src/main.ts",
   "scripts": {
     "test": "jest",
     "test-coverage": "jest --coverage",
