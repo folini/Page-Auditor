@@ -4,7 +4,7 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {iDefaultTagValues, iMetaTag, eventManager, reporter, injector} from '../src/sections/meta'
+import {actions, iDefaultTagValues, iMetaTag} from '../src/sections/meta'
 import {JSDOM} from 'jsdom'
 
 import 'jest-get-type'
@@ -213,12 +213,12 @@ const metaTagsSample = [
 // cSpell:enable
 
 test('reporter() generates valid HTML from complex JSON', async () => {
-    const data = await reporter('https://mydomain.com', metaTagsSample)
+    const data = await actions.reporter('https://mydomain.com', metaTagsSample)
     expect(data).toBeString().toHTMLValidate()
 })
 
 test("eventManager() always returns 'undefined'", () => {
-    expect(eventManager()).toBeUndefined()
+    expect(actions.eventManager()).toBeUndefined()
 })
 
 describe('injector() and reporter()', () => {
@@ -236,21 +236,21 @@ describe('injector() and reporter()', () => {
     afterAll(() => jest.resetAllMocks())
 
     test('injector() returns Array of metaTags', () => {
-        const data = injector()
+        const data = actions.injector()
         expect(data).toBeArray()
         expect(data.length).toBe(rawMetaTagsSample.length)
     })
 
     test('reporter() returns an HTML Card', async () => {
-        const data = await reporter(
+        const data = await actions.reporter(
             'https://mydomain.com/',
-            injector()
+            actions.injector()
         )
         expect(data).toBeString().toHTMLValidate()
     })
 
     test('injector() with empty tabUrl returns?', async () => {
-        const data = await reporter('', injector())
+        const data = await actions.reporter('', actions.injector())
         expect(data).toBeString().toHTMLValidate()
     })
 })
@@ -265,21 +265,21 @@ describe('injector() correctly process no meta Tags', () => {
     afterAll(() => jest.resetAllMocks())
 
     test('injector() returns Array of metaTags', () => {
-        const data = injector()
+        const data = actions.injector()
         expect(data).toBeArray()
         expect(data.length).toBe(0)
     })
 
     test('reporter() returns an HTML Card', async () => {
-        const data = await reporter(
+        const data = await actions.reporter(
             'https://mydomain.com/',
-            injector()
+            actions.injector()
         )
         expect(data).toBeString().toHTMLValidate()
     })
 
     test('injector() with empty tabUrl returns?', async () => {
-        const data = await reporter('', injector())
+        const data = await actions.reporter('', actions.injector())
         expect(data).toBeString().toHTMLValidate()
     })
 })

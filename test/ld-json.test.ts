@@ -4,7 +4,7 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import * as ldJson from '../src/sections/ld-json'
+import {actions, iJsonLD} from '../src/sections/ld-json'
 
 import 'jest-get-type'
 import 'html-validate/jest'
@@ -13,7 +13,7 @@ import 'jest-extended'
 
 const urlSample: string = 'https://rei.com/'
 
-const JSONsSample: ldJson.iJsonLD[] = [
+const JSONsSample: iJsonLD[] = [
     {
         '@context': 'http://schema.org',
         '@type': 'Organization',
@@ -78,67 +78,15 @@ const scriptsArraySample = [
     },
 ]
 
-test('report() LD-JSON testing report', async () => {
-    const data = await ldJson.reporter(urlSample, JSONsSample)
-    expect(data).toBeString().toHTMLValidate()
-})
-
-describe('report()', () => {
-    beforeEach(() =>
-        jest
-            .spyOn(ldJson, 'injector')
-            .mockImplementation(() => JSONsSample)
-    )
-
-    afterEach(() => {
-        jest.clearAllMocks()
-    })
-
-    test('injector() returns valid script(s)', async () => {
-        const data = ldJson.injector()
-        expect(data).toBeArray()
-        expect(data[0]).toBeObject()
-        expect(ldJson.injector).toBeCalledTimes(1)
-    })
-
-    test('report() generates valid HTML from complex LD+JSON', async () => {
-        const data = await ldJson.reporter(urlSample, ldJson.injector())
-        expect(data).toBeString().toHTMLValidate()
-        expect(ldJson.injector).toBeCalledTimes(1)
-    })
-
-    test('report() generates valid HTML from empty LD+JSON', async () => {
-        const data = await ldJson.reporter(urlSample, '')
-        expect(data).toBeString().toHTMLValidate()
-    })
-
-    test('report() generates valid HTML from empty Url', async () => {
-        const data = await ldJson.reporter('', ldJson.injector())
-        expect(data).toBeString().toHTMLValidate()
-    })
-
-
-    test('report() generates valid HTML from empty Url and empty LD+JSON', async () => {
-        const data = await ldJson.reporter('', '')
-        expect(data).toBeString().toHTMLValidate()
-    })
-})
-
-test("eventManager() always returns 'undefined'", () => {
-    const data = ldJson.eventManager()
-    expect(data).toBeUndefined()
-})
-
 describe('injector()', () => {
     beforeEach(() => {
         jest.spyOn(document, 'scripts', 'get').mockImplementation(
-            () =>
-                scriptsArraySample.map(s => {
-                    const head = document.createElement('head')
-                    head.innerHTML = `<script type='${s.type}'>${s.text}</script>`
-                    return head.firstChild as HTMLScriptElement
-                }) as any as HTMLCollectionOf<HTMLScriptElement>
-        )
+            () => {
+                const head = document.createElement('head')
+                head.innerHTML = scriptsArraySample.reduce((acc, item) => 
+                    acc += `<script type='${item.type}'>${item.text}</script>`, '')
+                return head.querySelectorAll('script') as any as HTMLCollectionOf<HTMLScriptElement>
+            })
     })
 
     afterEach(() => {
@@ -146,8 +94,60 @@ describe('injector()', () => {
     })
 
     test('injector() correctly process JS scrips', () => {
-        const data = ldJson.injector()
+        const data = actions.injector()
+        console.log(`injector() with mock of document.scripts)=${JSON.stringify(data)}`)
         expect(data).toBeArray()
-        expect(JSON.stringify(data)).toBe(JSONsStringSample)
+        expect(JSON.stringify(data[0])).toBe(JSONsStringSample)
     })
 })
+
+describe('reporter()', () => {
+    beforeEach(() =>
+        jest.spyOn(actions, 'injector').mockImplementation(() => JSONsSample)
+    )
+
+    afterEach(() => {
+        jest.clearAllMocks()
+    })
+
+    test('injector() returns valid script(s)', async () => {
+        const data = actions.injector()
+        expect(data).toBeArray()
+        expect(data[0]).toBeObject()
+        expect(actions.injector).toBeCalledTimes(1)
+    })
+
+    test('reporter() LD-JSON testing report', async () => {
+        const data = await actions.reporter(urlSample, JSONsSample)
+        expect(data).toBeString().toHTMLValidate()
+    })
+
+    test('reporter() generates valid HTML from complex LD+JSON', async () => {
+        const data = await actions.reporter(urlSample, actions.injector())
+        expect(data).toBeString().toHTMLValidate()
+        expect(actions.injector).toBeCalledTimes(1)
+    })
+
+    test('reporter() generates valid HTML from empty LD+JSON', async () => {
+        const data = await actions.reporter(urlSample, '')
+        expect(data).toBeString().toHTMLValidate()
+    })
+
+    test('reporter() generates valid HTML from empty Url', async () => {
+        const data = await actions.reporter('', actions.injector())
+        expect(data).toBeString().toHTMLValidate()
+    })
+
+    test('reporter() generates valid HTML from empty Url and empty LD+JSON', async () => {
+        const data = await actions.reporter('', '')
+        expect(data).toBeString().toHTMLValidate()
+    })
+})
+
+describe('eventManager()', () => {
+    test("eventManager() always returns 'undefined'", () => {
+        const data = actions.eventManager()
+        expect(data).toBeUndefined()
+    })
+})
+

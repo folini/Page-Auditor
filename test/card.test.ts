@@ -55,6 +55,21 @@ test("Card, with category, generates valid HTML", () => {
     .toHTMLValidate()
 })
 
+test("Card, calling .add() with an empty string, generates valid HTML", () => {
+  const title = 'Testing Card class'
+  const preTitle = 'Any PreTitle'
+  const cssClass = 'any-class'
+  const body = ''
+  const links = [{url: 'https://www.mydomain.com/', label: 'website'}] as iLink[]
+  const data = new Card()
+    .open(preTitle, title, links, cssClass)
+    .add(body)
+    .close()
+  expect(data)
+    .toBeString()
+    .toHTMLValidate()
+})
+
 test("Error Card generates valid HTML", () => {
   const msg = '<div>Some error description</div>'
   const data = new Card().error(msg)

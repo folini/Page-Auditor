@@ -4,7 +4,8 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {injector, reporter, eventManager} from '../src/sections/robots'
+import {actions} from '../src/sections/robots'
+import * as RobotFunctions from '../src/sections/robots-functions'
 import {
     RobotsTxtBodySample,
     SitemapXmlBodySample,
@@ -36,20 +37,52 @@ describe('report()', () => {
     })
 
     test('Report() generates valid HTML from a mock robots.txt', async () => {
-        const data = await reporter('https://mydomain.com', injector())
+        const data = await actions.reporter('https://mydomain.com', actions.injector())
         expect(data).toBeString().toHTMLValidate()
     })
 
     test('Report() generates empty report when url is empty', async () => {
-        const data = await reporter('', injector())
+        const data = await actions.reporter('', actions.injector())
         expect(data).toBe('')
     })
 })
 
 test("eventManager() always returns 'undefined'", () => {
-    expect(eventManager()).toBeUndefined()
+    expect(actions.eventManager()).toBeUndefined()
 })
 
 test("injector() always returns 'undefined'", () => {
-    expect(injector()).toBeUndefined()
+    expect(actions.injector()).toBeUndefined()
+})
+
+describe("reporter()", () => {
+    beforeEach(() => {
+        jest.spyOn(RobotFunctions, 'getRobotsTxtFileBody').mockImplementation(
+            () => Promise.resolve(''))
+    })
+
+    afterEach(() => {
+        jest.clearAllMocks()
+    })
+
+    test('Report() generates empty report when injector() returns empty string', async () => {
+        const data = await actions.reporter('https://mydomain.com', actions.injector())
+        expect(data).toBeString()
+    })
+})
+
+describe("reporter()", () => {
+    beforeEach(() => {
+        jest.spyOn(RobotFunctions, 'getRobotsTxtFileBody').mockImplementation(
+            () => {throw new Error('generated error')})
+    })
+
+    afterEach(() => {
+        jest.clearAllMocks()
+    })
+
+    test('Report() generates empty report when injector() throws an exception', async () => {
+        const data = await actions.reporter('https://mydomain.com', actions.injector())
+        expect(data).toBeString()
+    })
 })

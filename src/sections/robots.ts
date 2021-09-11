@@ -13,11 +13,11 @@ import {
     getSiteMapUrls,
 } from './robots-functions'
 
-export const injector = () => undefined
+const injector = () => undefined
 
-export const eventManager = () => undefined
+const eventManager = () => undefined
 
-export const reporter = async (tabUrl: string, _: any): Promise<string> => {
+const reporter = async (tabUrl: string, _: any): Promise<string> => {
     if (tabUrl === '') {
         return ''
     }

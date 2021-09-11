@@ -16,7 +16,7 @@ export interface iJsonLevel {
     depth: number
 }
 
-export const reporter = async (
+const reporter = async (
     tabUrl: string,
     scripts: any
 ): Promise<string> => {
@@ -32,12 +32,12 @@ export const reporter = async (
     )
 }
 
-export const injector = (): iJsonLD[] =>
+const injector = (): iJsonLD[] =>
     [...document.scripts]
         .filter(s => s.type === 'application/ld+json')
         .map(s => JSON.parse(s.text.trim()))
 
-export const eventManager = () => undefined
+const eventManager = () => undefined
 
 export const actions: sectionActions = {
     injector: injector,
