@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------------
 import {actions} from '../src/sections/robots'
 import * as RobotFunctions from '../src/sections/robots-functions'
-import * as MockData from "./mock-data"
+import * as MockData from "./mock-data.test"
 
 import 'jest-get-type'
 import 'html-validate/jest'

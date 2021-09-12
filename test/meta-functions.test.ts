@@ -12,7 +12,7 @@ import {
     noPreview,
     renderMetaCategory
 } from '../src/sections/meta-functions'
-import * as MockData from "./mock-data"
+import * as MockData from "./mock-data.test"
 
 import 'jest-get-type'
 import 'html-validate/jest'
