@@ -14,7 +14,7 @@ import {
     getRobotsTxtCard,
     getSiteMapFileBody,
 } from '../src/sections/robots-functions'
-//import {RobotsTxtSample, SitemapXmlSample} from "./robots.test"
+import * as MockData from "./mock-data"
 
 import 'jest-get-type'
 import 'html-validate/jest'
@@ -22,166 +22,16 @@ import 'jest-chain'
 import 'jest-extended'
 import fetchMock from 'jest-fetch-mock'
 
-// cSpell:disable
-export const sitemapUrlsSample: string[] = [
-    'https://www.cnn.com/sitemaps/cnn/index.xml',
-    'https://www.cnn.com/sitemaps/cnn/news.xml',
-    'https://www.cnn.com/sitemaps/sitemap-section.xml',
-    'https://www.cnn.com/sitemaps/sitemap-interactive.xml',
-    'https://www.cnn.com/ampstories/sitemap.xml',
-    'https://edition.cnn.com/sitemaps/news.xml',
-]
-
-export const SitemapUrlSample: string = 'https://www.cnn.com/sitemap.xml'
-export const RobotsTxtUrlSample: string = 'https://www.cnn.com/robots.txt'
-
-export const RobotsTxtBodySample: string = `
-Sitemap: https://www.cnn.com/sitemaps/cnn/index.xml
-Sitemap: https://www.cnn.com/sitemaps/cnn/news.xml
-Sitemap: https://www.cnn.com/sitemaps/sitemap-section.xml
-Sitemap: https://www.cnn.com/sitemaps/sitemap-interactive.xml
-Sitemap: https://www.cnn.com/ampstories/sitemap.xml
-Sitemap: https://edition.cnn.com/sitemaps/news.xml
-User-agent: *
-Allow: /partners/ipad/live-video.json
-Disallow: /*.jsx$
-Disallow: *.jsx$
-Disallow: /*.jsx/
-Disallow: *.jsx?
-Disallow: /ads/
-Disallow: /aol/
-Disallow: /beta/
-Disallow: /browsers/
-Disallow: /cl/
-Disallow: /cnews/
-Disallow: /cnn_adspaces
-Disallow: /cnnbeta/
-Disallow: /cnnintl_adspaces
-Disallow: /development
-Disallow: /editionssi
-Disallow: /help/cnnx.html
-Disallow: /NewsPass
-Disallow: /NOKIA
-Disallow: /partners/
-Disallow: /pipeline/
-Disallow: /pointroll/
-Disallow: /POLLSERVER/
-Disallow: /pr/
-Disallow: /privacy
-Disallow: /PV/
-Disallow: /Quickcast/
-Disallow: /quickcast/
-Disallow: /QUICKNEWS/
-Disallow: /search/
-Disallow: /terms
-Disallow: /test/
-Disallow: /virtual/
-Disallow: /WEB-INF/
-Disallow: /web.projects/
-Disallow: /webview/`.trim()
-
-export const SitemapXmlBodySample: string = `
-<?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-outlet-brand-category.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-core-brand-category.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-core-brand-deals.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-outlet-product.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-core-facet.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-core-brand.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-conversations.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-core-collection.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-events.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-adventures.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-newsroom.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-core-category.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-product.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-learn.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-stores.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-destinations.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-core-category-facet.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-outlet-other.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-core-category-deals.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-outlet-collection.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-core-brand-product-line.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-  <sitemap>
-    <loc>https://www.rei.com/sitemap-other.xml</loc>
-    <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>
-  </sitemap>
-</sitemapindex>`.trim()
-// cSpell:enable
 
 describe('getSiteMaps() and getRobotsTxt()', () => {
-    beforeAll(() => {
+    beforeEach(() => {
+        fetchMock.enableMocks()
         fetchMock.doMock()
         fetchMock.mockResponse(req => {
             if (req.url.includes('robots.txt')) {
-                return Promise.resolve(RobotsTxtBodySample)
+                return Promise.resolve(MockData.RobotsTxtBodySample)
             } else {
-                return Promise.resolve(SitemapXmlBodySample)
+                return Promise.resolve(MockData.SitemapXmlBodySample)
             }
         })
     })
@@ -192,57 +42,57 @@ describe('getSiteMaps() and getRobotsTxt()', () => {
     })
 
     test('getSitemapCards() generates valid HTML Card from a mock sitemap.xml', async () => {
-        const data = await getSiteMapCards(sitemapUrlsSample)
+        const data = await getSiteMapCards(MockData.SitemapUrlsSample)
         expect(data).toBeString().toHTMLValidate()
     })
 
-    test('getRobotsTxtFileBody() generates valid robots.txt url', async () => {
-        const data = await getRobotsTxtFileBody(RobotsTxtUrlSample)
-        expect(data).toBeString().toHTMLValidate()
-    })
-
-    test('getRobotsTxtFileBody() generates valid robots.txt url', async () => {
-        const data = await getSiteMapFileBody(sitemapUrlsSample[0])
+    test('getSiteMapFileBody() generates valid sitemap.xml', async () => {
+        const data = (await getSiteMapFileBody(MockData.SitemapUrlsSample[0])) as string
         expect(data).toBeString()
+        expect(data.includes(MockData.SitemapXmlEncodedBodySample)).toBe(true)
     })
 
     test('getRobotsTxtCards() generates valid HTML cards from robots.txt url', async () => {
         const data = await getRobotsTxtCard(
-            RobotsTxtUrlSample,
-            RobotsTxtBodySample
+            MockData.RobotsTxtUrlSample,
+            MockData.RobotsTxtBodySample
         )
         expect(data).toBeString().toHTMLValidate()
+        expect((data as string).includes(MockData.RobotsTxtBodySample)).toBe(true)
+    })
+
+    test('getRobotsTxtFileBody() generates valid robots.txt url', async () => {
+        const data = await getRobotsTxtFileBody(MockData.RobotsTxtUrlSample)
+        expect(data).toBeString().toHTMLValidate()
+        expect(data).toEqual(MockData.RobotsTxtBodySample)
     })
 })
 
 test('getRobotsLinks() generates valid array with 2 objects', async () => {
-    const data = getRobotsLinks(RobotsTxtUrlSample)
+    const data = getRobotsLinks(MockData.RobotsTxtUrlSample)
     expect(data).toBeArray()
     expect(data.length).toBe(2)
     data.forEach(item => expect(item).toBeObject())
 })
 
 test('getSitemapLinks() generates valid array with 2 objects', async () => {
-    const data = getSitemapLinks(SitemapUrlSample)
+    const data = getSitemapLinks(MockData.SitemapUrlSample)
     expect(data).toBeArray()
     expect(data.length).toBe(2)
     data.forEach(item => expect(item).toBeObject())
 })
 
 test('extractSiteMapUrls() gets the urls', async () => {
-    const data = getSiteMapUrls(RobotsTxtBodySample, SitemapUrlSample)
-    expect(data).toBeArray().toEqual(sitemapUrlsSample)
+    const data = getSiteMapUrls(MockData.RobotsTxtBodySample, MockData.SitemapUrlSample)
+    expect(data).toBeArray().toEqual(MockData.SitemapUrlsSample)
 })
 
 describe('getSiteMaps() and getRobotsTxt()', () => {
-    beforeAll(() => {
+    beforeEach(() => {
+        fetchMock.enableMocks()
         fetchMock.doMock()
         fetchMock.mockResponse(req => {
-            if (req.url.includes('robots.txt')) {
-                return Promise.reject('File not found')
-            } else {
-                return Promise.reject('File not found')
-            }
+            throw new Error('mock error')
         })
     })
 
@@ -251,21 +101,47 @@ describe('getSiteMaps() and getRobotsTxt()', () => {
         fetchMock.dontMock()
     })
 
-    test('getSitemapCards() generates valid HTML Card from a mock sitemap.xml', async () => {
-        const data = await getSiteMapCards(sitemapUrlsSample)
+    test('getSitemapCards() generates valid HTML Card from an exception', async () => {
+        const data = await getSiteMapCards(MockData.SitemapUrlsSample)
         expect(data).toBeString().toHTMLValidate()
     })
 
+    test('getSiteMapFileBody() generates exception', async () => {
+        await expect(getSiteMapFileBody(MockData.SitemapUrlsSample[0])).rejects.toThrow()
+    })
+
+    test('getRobotsTxtCards() generates valid HTML cards from from an exception', async () => {
+        const data = getRobotsTxtCard(MockData.RobotsTxtUrlSample, MockData.RobotsTxtBodySample)
+        expect(data).toBeString().toHTMLValidate()
+    })
+    
     test('getRobotsTxtFileBody() generates valid robots.txt url', async () => {
-        const data = await getRobotsTxtFileBody(RobotsTxtUrlSample)
-        expect(data).toBeString().toHTMLValidate()
+        await expect(getRobotsTxtFileBody(MockData.RobotsTxtUrlSample)).rejects.toThrow()
     })
 
-    test('getRobotsTxtCards() generates valid HTML cards from robots.txt url', async () => {
-        const data = getRobotsTxtCard(
-            RobotsTxtUrlSample,
-            RobotsTxtBodySample
-        )
-        expect(data).toBeString().toHTMLValidate()
-    })
+})
+
+describe('getSiteMapFileBody() and getRobotsTxtFileBody()', () => {
+  beforeEach(() => {
+      fetchMock.enableMocks()
+      fetchMock.doMock()
+      fetchMock.mockResponse(req => Promise.resolve({
+        status: 404,
+        body: "Not Found"
+      }))
+  })
+
+  afterEach(() => {
+      jest.clearAllMocks()
+      fetchMock.dontMock()
+  })
+
+  test('getSiteMapFileBody() generates exception', async () => {
+      await expect(getSiteMapFileBody(MockData.SitemapUrlsSample[0])).rejects.toThrow()
+  })
+
+  test('getRobotsTxtFileBody() generates valid robots.txt url', async () => {
+      await expect(getRobotsTxtFileBody(MockData.RobotsTxtUrlSample)).rejects.toThrow()
+  })
+
 })

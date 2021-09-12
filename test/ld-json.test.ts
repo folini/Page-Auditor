@@ -95,7 +95,6 @@ describe('injector()', () => {
 
     test('injector() correctly process JS scrips', () => {
         const data = actions.injector()
-        console.log(`injector() with mock of document.scripts)=${JSON.stringify(data)}`)
         expect(data).toBeArray()
         expect(JSON.stringify(data[0])).toBe(JSONsStringSample)
     })

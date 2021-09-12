@@ -6,10 +6,7 @@
 // ----------------------------------------------------------------------------
 import {actions} from '../src/sections/robots'
 import * as RobotFunctions from '../src/sections/robots-functions'
-import {
-    RobotsTxtBodySample,
-    SitemapXmlBodySample,
-} from './robots-functions.test'
+import * as MockData from "./mock-data"
 
 import 'jest-get-type'
 import 'html-validate/jest'
@@ -24,9 +21,9 @@ describe('report()', () => {
         fetchMock.doMock()
         fetchMock.mockResponse(req => {
             if (req.url.includes('robots.txt')) {
-                return Promise.resolve(RobotsTxtBodySample)
+                return Promise.resolve(MockData.RobotsTxtBodySample)
             } else {
-                return Promise.resolve(SitemapXmlBodySample)
+                return Promise.resolve(MockData.SitemapXmlBodySample)
             }
         })
     })
@@ -37,7 +34,7 @@ describe('report()', () => {
     })
 
     test('Report() generates valid HTML from a mock robots.txt', async () => {
-        const data = await actions.reporter('https://mydomain.com', actions.injector())
+        const data = await actions.reporter(MockData.UrlSample, actions.injector())
         expect(data).toBeString().toHTMLValidate()
     })
 

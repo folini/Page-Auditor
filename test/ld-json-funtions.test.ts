@@ -11,43 +11,19 @@ import {
     ldJsonCard,
 } from '../src/sections/ld-json-functions'
 import {iJsonLevel} from '../src/sections/ld-json'
+import * as MockData from "./mock-data"
 
 import 'jest-get-type'
 import 'html-validate/jest'
 import 'jest-chain'
 import 'jest-extended'
 
-const LdJsonSample = {
-    '@context': 'http://schema.org',
-    '@type': 'Organization',
-    contactPoint: {
-        '@type': 'ContactPoint',
-        contactType: 'customer service',
-        telephone: '+1-800-426-4840',
-    },
-    logo: 'https://satchel.rei.com/media/img/header/rei-co-op-logo-black.svg',
-    name: 'REI',
-    sameAs: [
-        'https://www.facebook.com/REI/',
-        'https://twitter.com/REI',
-        'https://plus.google.com/+REI',
-        'https://instagram.com/rei/',
-        'https://www.youtube.com/user/reifindout',
-        'https://www.linkedin.com/company/rei',
-        'https://www.pinterest.com/reicoop/',
-    ],
-    url: 'https://www.rei.com/',
-}
-const LdJsonStringSample = JSON.stringify(LdJsonSample)
-
-const RegExIsUrl =
-    /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
 
 test('SchemaLinks() generates proper links', async () => {
     const data = schemaLinks('Graph', 'https://mydomain.com/homepage.htm')
     expect(data).toBeArray()
     expect(data.length).toBe(2)
-    data.forEach(obj => expect(obj.url.match(RegExIsUrl)).toBeArray())
+    data.forEach(obj => expect(obj.url.match(MockData.RegExIsUrl)).toBeArray())
 })
 
 test('RenderLine() properly render a line with (label,value) of LF+JSON', () => {
@@ -74,13 +50,13 @@ test('RenderLine() properly render an empty line of LF+JSON', () => {
 })
 
 test('getLines() returns array of lines', () => {
-    const script = LdJsonStringSample
+    const script = MockData.LdJsonStringSample
     const data = getLines(script)
     expect(data).toBeArray()
     expect(data.length).toBe(21)
 })
 
 test('ldJsonCard() creates card with proper HTML', () => {
-    const data = ldJsonCard(LdJsonSample, 'https://mydomain.com')
+    const data = ldJsonCard(MockData.LdJsonSample, MockData.UrlSample)
     expect(data).toBeString().toHTMLValidate()
 })

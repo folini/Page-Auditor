@@ -16,10 +16,7 @@ export interface iJsonLevel {
     depth: number
 }
 
-const reporter = async (
-    tabUrl: string,
-    scripts: any
-): Promise<string> => {
+const reporter = async (tabUrl: string, scripts: any): Promise<string> => {
     const jsonScripts: iJsonLD[] = scripts as iJsonLD[]
 
     if (tabUrl === '' || jsonScripts.length == 0) {

@@ -5,6 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card} from '../card'
+import {htmlEncode} from 'js-htmlencode'
 
 export const getSiteMapFileBody = async (url: string): Promise<string> => {
     try {
@@ -12,9 +13,7 @@ export const getSiteMapFileBody = async (url: string): Promise<string> => {
         if (response.status !== 200) {
             throw new Error(`Sitemap.xml file at '${url}' not found.`)
         }
-        return await (await response.text())
-            .replace(/\</g, '&lt;')
-            .replace(/\>/g, '&gt;')
+        return htmlEncode(await response.text())
     } catch (err) {
         throw err as Error
     }

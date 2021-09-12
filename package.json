@@ -32,6 +32,7 @@
     "jest-environment-jsdom": "^27.1.0",
     "jest-extended": "^0.11.5",
     "jest-fetch-mock": "^3.0.3",
+    "js-htmlencode": "^0.3.0",
     "jsdom": "^17.0.0",
     "less": "^4.1.1",
     "less-loader": "^10.0.1",
