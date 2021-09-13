@@ -12,7 +12,7 @@ const scriptClasses = require('../jsons/scriptClasses.json') as any[]
 const injector = () => undefined
 const eventManager = () => undefined
 
-const reporter = async (url: string, data: any): Promise<string> => {
+const reporter = async (tabUrl: string, data: any): Promise<string> => {
     var report: string = ''
 
     const suggestedSites = [

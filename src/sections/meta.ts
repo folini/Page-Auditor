@@ -37,7 +37,7 @@ const injector = () =>
 
 const eventManager = () => undefined
 
-const reporter = async (url: string, data: any): Promise<string> => {
+const reporter = async (tabUrl: string, data: any): Promise<string> => {
     var meta = data as iMetaTag[]
     var report: string = ''
 

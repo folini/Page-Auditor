@@ -10,7 +10,7 @@ import {sectionActions} from '../main'
 const injector = () => undefined
 const eventManager = () => undefined
 
-const reporter = async (url: string, data: any): Promise<string> => {
+const reporter = async (tabUrl: string, data: any): Promise<string> => {
     var report: string = ''
 
     report += new Card()

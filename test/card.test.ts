@@ -6,6 +6,7 @@
 // ----------------------------------------------------------------------------
 import {Card, iLink} from "../src/card"
 
+// Jest imports
 import "jest-get-type"
 import "html-validate/jest"
 import "jest-chain"

@@ -46,7 +46,7 @@ const injector = (): iScript[] => {
         .map(s => ({script: s, done: false})) as iScript[]
 }
 
-const reporter = async (url: string, untypedScripts: any): Promise<string> => {
+const reporter = async (tabUrl: string, untypedScripts: any): Promise<string> => {
     var scripts = untypedScripts as iScript[]
 
     const trackMatches: iTrackMatch[] = scriptClasses.map(track => ({
@@ -54,8 +54,8 @@ const reporter = async (url: string, untypedScripts: any): Promise<string> => {
         matches: [],
     })) as iTrackMatch[]
 
-    if (url !== '') {
-        trackMatches.push(localJsMatch(url))
+    if (tabUrl !== '') {
+        trackMatches.push(localJsMatch(tabUrl))
     }
 
     var trackingItems: iTrackMatch[] = []

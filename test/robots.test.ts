@@ -8,6 +8,7 @@ import {actions} from '../src/sections/robots'
 import * as RobotFunctions from '../src/sections/robots-functions'
 import * as MockData from "./mock-data.test"
 
+// Jest imports
 import 'jest-get-type'
 import 'html-validate/jest'
 import 'jest-chain'
@@ -45,11 +46,13 @@ describe('report()', () => {
 })
 
 test("eventManager() always returns 'undefined'", () => {
-    expect(actions.eventManager()).toBeUndefined()
+    const data = actions.eventManager()
+    expect(data).toBeUndefined()
 })
 
 test("injector() always returns 'undefined'", () => {
-    expect(actions.injector()).toBeUndefined()
+    const data = actions.injector()
+    expect(data).toBeUndefined()
 })
 
 describe("reporter()", () => {
@@ -63,8 +66,9 @@ describe("reporter()", () => {
     })
 
     test('Report() generates empty report when injector() returns empty string', async () => {
-        const data = await actions.reporter('https://mydomain.com', actions.injector())
+        const data = await actions.reporter(MockData.UrlSample, actions.injector())
         expect(data).toBeString()
+        expect(RobotFunctions.getRobotsTxtFileBody).toBeCalledTimes(1)
     })
 })
 
@@ -79,7 +83,8 @@ describe("reporter()", () => {
     })
 
     test('Report() generates empty report when injector() throws an exception', async () => {
-        const data = await actions.reporter('https://mydomain.com', actions.injector())
+        const data = await actions.reporter(MockData.UrlSample, actions.injector())
         expect(data).toBeString()
+        expect(RobotFunctions.getRobotsTxtFileBody).toBeCalledTimes(1)
     })
 })

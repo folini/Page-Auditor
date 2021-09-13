@@ -16,6 +16,7 @@ import {
 } from '../src/sections/robots-functions'
 import * as MockData from "./mock-data.test"
 
+// Jest imports
 import 'jest-get-type'
 import 'html-validate/jest'
 import 'jest-chain'

@@ -2,8 +2,8 @@
     "manifest_version": 3,
 
     "name": "Page Auditor for Technical SEO",
-    "description": "PageAuditor for Technical SEO is an eCommerce Boosters project to analyze tracking code, Structured Data, and meta tags.",
-    "version": "1.07",
+    "description": "PageAuditor for Technical SEO is a Franco Folini project to analyze tracking code, Structured Data, meta-tags, and more.",
+    "version": "1.08",
     "icons": {
         "256": "logos/Logo_256x256.png"
     },

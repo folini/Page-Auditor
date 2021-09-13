@@ -6,21 +6,25 @@
 // ----------------------------------------------------------------------------
 import {actions} from "../src/sections/intro"
 
+// Jest imports
 import "jest-get-type"
 import "html-validate/jest"
 import "jest-chain"
 import "jest-extended"
 
 test("report() generates valid HTML", () => {
-  return actions.reporter('', undefined).then(data => {
+   const data = actions.reporter('', undefined)
+   data.then(data => 
     expect(data).toBeString().toHTMLValidate()
-  })
+  )
 })
 
 test("injector() always returns 'undefined'", () => {
-  expect(actions.injector()).toBeUndefined()
+  const data = actions.injector()
+  expect(data).toBeUndefined()
 })
 
 test("eventManager() always returns 'undefined'", () => {
-  expect(actions.eventManager()).toBeUndefined()
+  const data = actions.eventManager()
+  expect(data).toBeUndefined()
 })

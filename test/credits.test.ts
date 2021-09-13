@@ -6,6 +6,7 @@
 // ----------------------------------------------------------------------------
 import {actions} from '../src/sections/credits'
 
+// Jest imports
 import 'jest-get-type'
 import 'html-validate/jest'
 import 'jest-chain'
