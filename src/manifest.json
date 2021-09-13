@@ -7,7 +7,6 @@
     "icons": {
         "256": "logos/Logo_256x256.png"
     },
-
     "content_scripts": [
         {
             "matches": ["https://*/*"],

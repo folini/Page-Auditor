@@ -1,15 +1,19 @@
 # Google Web Store Creative 
 
-## Description (plain text)
-A free and open-source Google Chrome Extension to analyze the elements of a web page that can have an impact on the page speed and SEO. The "Page Auditor for Technical SEO" is a tool you need to perform a Technical SEO Audit of any web page. Page-Auditor will checks and displays, in a human readable format, all the hidden information from a web page, including: 
+## Description 
+> The following description must be in plain text without any formatting. The description is intended for copy & past to [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole/).
 
-* Structured Data inside the page
+A free and open-source Google Chrome Extension to analyze the elements that have an impact on the on-page SEO. The _Page Auditor for Technical SEO_ is a tool designed to perform an accurate Technical SEO Audit of any web page.
 
-* Tracking JavaScript code with explanation of the tracking and links to the tracking company
+"Page Auditor for Technical SEO" will checks and displays, with human readable, well organized reports, all the information from a web page that could impact the on-page SEO, including: 
 
-* Meta Tags grouped by category with detailed description, explanations, and links to technical documentation.
+* Structured Data. The report provides great visualization and detailed explanation to help understand the content of LD-JSON fields. 
 
-* Robots.txt and Sitemap.xml
+* JavaScript code. The report scan the page and creates detailed reports explaining the purpose of each JavaScript included or embedded in the page,  it identifies the code that is tracking the page visitors, or that insert ads into the page. For each block of JavaScript it will also provide links to the company that owns and control the code.
+
+* Meta Tags. This tool will look at all Meta Tags in the page and will group them by category. The meta tag report also provides detailed description and explanations for each category, and links to technical documentation.
+
+* Robots.txt & Sitemap.xml. The content of there files is displayed in easy to read reports with the goal of making them easy to access and to analyze.
 
 ## Graphic Assets
 
