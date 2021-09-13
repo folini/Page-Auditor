@@ -83,7 +83,7 @@ export const MetaTagsSample = [
 export const UrlSample = 'https://mydomain.com/'
 
 export const LdJsonSample = {
-    '@context': 'http://schema.org',
+    '@context': 'https://schema.org',
     '@type': 'Organization',
     contactPoint: {
         '@type': 'ContactPoint',
@@ -137,7 +137,7 @@ Disallow: /*.jsx/
 
 export const SitemapXmlBodySample: string = `
 <?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<sitemapindex xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
   <sitemap>
     <loc>https://www.rei.com/sitemap-outlet-brand-category.xml</loc>
     <lastmod>2021-09-08T02:28:14.259-07:00</lastmod>

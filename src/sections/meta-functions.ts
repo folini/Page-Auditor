@@ -231,7 +231,7 @@ export const tagCategories: iTagCategory[] = [
         title: `Chromium Origin Trials Tags`,
         description: `Origin trials are an approach to enable safe experimentation with web platform features.
     Briefly, the web needs new features, and iteration yields the best designs and implementations for those features. However, previous efforts have seen experiments prematurely become de-facto standards, with browser vendors scrambling to implement the features, and web developers coming to rely on these features. These experimental features became burned-in, and resistant to change (or removal), even though better implementations were identified/available.`,
-        url: 'http://googlechrome.github.io/OriginTrials/',
+        url: 'https://googlechrome.github.io/OriginTrials/',
         cssClass: 'icon-chromium',
         filter: m => m.property === 'origin-trial',
         preview: noPreview,
@@ -290,7 +290,7 @@ export const tagCategories: iTagCategory[] = [
     {
         title: `CSRF Tags`,
         description: `CSRF (Cross-Site Request Forgery) meta tags are indications for ajax requests to use these as one of the form parameters to make a request to the server. Rails expects the csrf as part of your form body (params) to process your requests. Using these meta tags you can construct the form body or the csrf header to suit your needs.`,
-        url: 'http://cwe.mitre.org/data/definitions/352.html',
+        url: 'https://cwe.mitre.org/data/definitions/352.html',
         cssClass: 'icon-lock',
         filter: m => m.property.startsWith(`csrf-`),
         preview: noPreview,

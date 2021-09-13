@@ -280,7 +280,7 @@
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-nielsen",
         "description": "Nielsen Holdings Inc. is an American, information, data and market measurement firm. Nielsen operates in over 100 countries and employs approximately 44,000 people worldwide.",
-        "url": "http://www.nielsen.com/"
+        "url": "https://www.nielsen.com/"
     },
     {
         "patterns": [".wt-safetag.com/"],
