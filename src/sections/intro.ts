@@ -23,8 +23,8 @@ const reporter = async (tabUrl: string, data: any): Promise<string> => {
     report += new Card()
         .open(``, `How to use Page Auditor for Technical SEO`, [], 'icon-how')
         .add(
-            `Page Auditor shows the hidden parts of the HTML code of any web page.<br/>` +
-                `To test this Google Chrome Extension visit a popular page like:` +
+            `<i>Page Auditor</i> shows the snippets of code and tags included in the HTML code relevant for the on-page SEO of a web page.<br/>` +
+                `To test this Chrome Extension, visit a popular page like:` +
                 `<ul>` +
                 suggestedSites
                     .map(
@@ -33,7 +33,7 @@ const reporter = async (tabUrl: string, data: any): Promise<string> => {
                     )
                     .join('') +
                 `</ul>` +
-                `Once the page is loaded launch the <b>Page Auditor for Technical SEO</b> extension and check all the hidden content.`
+                `Once the browser has loaded the selected page, launch the Page Auditor for Technical SEO extension. Now you can access all reports and learn about what contributes to the SEO performance of the page.`
         )
         .close()
 
@@ -41,7 +41,7 @@ const reporter = async (tabUrl: string, data: any): Promise<string> => {
         .open(``, `Why Page Auditor`, [], 'icon-why')
         .add(
             `
-    <b>Page Auditor</b> is one of the best tool to analyze the technical features of a web page.
+    <b>Page Auditor</b> r is a professional tool for Digital Marketers. Even if you are not a marketing expert, you can use "Page Auditor" to learn about on-page technical SEO.
     <br/>
     <b>Page Auditor</b> can recognize ${scriptClasses.length.toFixed()} different types of JavaScript code injected into a web page.
     Among the categories of JavaScript identified by <b>Page Auditor</b>:
@@ -60,9 +60,9 @@ const reporter = async (tabUrl: string, data: any): Promise<string> => {
         .add(
             `
     <b>Page Auditor</b> is an open source project created by <a target="_new" href='https://www.linkedin.com/in/francofolini/'>Franco Folini</a>. 
-    That means anybody is free to use, study, modify, and distribute this project for any purpose, within the limits set by the license.
+    That means anybody is free to use, study, modify, and distribute the source code of project for any purpose, within the limits set by the license.
     <br/><br/>
-    <b>Page Auditor</b> is distributed with a <a target="_new" href='https://github.com/folini/Page-Auditor/blob/main/LICENSE.md'>BSD 3-Clause License</a>. 
+    <b>Page Auditor</b> source code is distributed with a <a target="_new" href='https://github.com/folini/Page-Auditor/blob/main/LICENSE.md'>BSD 3-Clause License</a>. 
     <br/><br/>
     The <b>Page Auditor</b> has been created using <a target="_new" href='https://www.typescriptlang.org/'>Typescript</a>. If you are not familiar with development, TypeScript is a superset of the famous JavaScript.
     The project has been developed <a href='https://code.visualstudio.com/'>Visual Studio Code</a> and extensively tested using the 

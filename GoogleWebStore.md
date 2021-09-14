@@ -3,17 +3,15 @@
 ## Description 
 > The following description must be in plain text without any formatting. The description is intended for copy & past to [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole/).
 
-A free and open-source Google Chrome Extension to analyze the elements that have an impact on the on-page SEO. The _Page Auditor for Technical SEO_ is a tool designed to perform an accurate Technical SEO Audit of any web page.
+A Chrome Extension, based on open-source code, to analyze the elements of a web page that can impact the on-page SEO performance. "Page Auditor" can perform a technical SEO audit of any web page. It will checks and displays, in human-readable, well organized, reports, all the information from a web, including: 
 
-"Page Auditor for Technical SEO" will checks and displays, with human readable, well organized reports, all the information from a web page that could impact the on-page SEO, including: 
+* Structured Data. The report provides excellent visualization and detailed explanation to help understand the content of LD-JSON fields. 
 
-* Structured Data. The report provides great visualization and detailed explanation to help understand the content of LD-JSON fields. 
+* JavaScript code. The report scans the page and creates detailed reports explaining the purpose of each script included or embedded in the page, and it identifies the code that is tracking the page visitors or used to insert ads into the page. For each block of code, it will also provide links to the company behind it.
 
-* JavaScript code. The report scan the page and creates detailed reports explaining the purpose of each JavaScript included or embedded in the page,  it identifies the code that is tracking the page visitors, or that insert ads into the page. For each block of JavaScript it will also provide links to the company that owns and control the code.
+* Meta Tags. This tool will look at all Meta Tags on the page and will group them by category. The meta tag report provides a detailed description and explanations for each type and links technical documentation.
 
-* Meta Tags. This tool will look at all Meta Tags in the page and will group them by category. The meta tag report also provides detailed description and explanations for each category, and links to technical documentation.
-
-* Robots.txt & Sitemap.xml. The content of there files is displayed in easy to read reports with the goal of making them easy to access and to analyze.
+* Robots.txt & Sitemap.xml. The easy-to-read report displays the content of these files making this information accessible to everybody and easy to analyze.
 
 ## Graphic Assets
 
