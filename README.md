@@ -19,7 +19,7 @@ Once you installed the extension, visit to any web page you would like to analyz
 
 | _Page Auditor_ on Google Chrome Web Store |
 | -- |
-|!["Page Auditor" on Google Chrome Web Store](./web-store-images/ChromeWebStore.png)|
+|!["Page Auditor" on Google Chrome Web Store](web-store-images/ChromeWebStore.png)|
 
 
 ## Testing a New Version
