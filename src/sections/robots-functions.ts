@@ -9,6 +9,9 @@ import {htmlEncode} from 'js-htmlencode'
 
 export const getSiteMapFileBody = async (url: string): Promise<string> => {
     try {
+        if(url.includes(`http://`)) {
+            url = url.replace(`http://`,`https://`)
+        }
         var response = await fetch(url)
         if (response.status !== 200) {
             throw new Error(`Sitemap.xml file at '${url}' not found.`)
@@ -48,7 +51,18 @@ export const getRobotsTxtFileBody = async (url: string): Promise<string> => {
                 `Unable to load <code>robots.txt</code> file from <a target="_new" href="${url}">${url}</a>.`
             )
         }
-        return await response.text()
+        const robotsTxtBody = await response.text()
+        if(robotsTxtBody.includes(`page not found`)) {
+            throw new Error(
+                `File <code>robots.txt</code> doesn't exist at the following location: <a target="_new" href="${url}">${url}</a>.`
+            )
+        }
+        if(robotsTxtBody.includes(`<html`) || robotsTxtBody.includes(`<body`)) {
+            throw new Error(
+                `File at location <a target="_new" href="${url}">${url}</a> is not a valid <code>robots.txt</code>.`
+            )
+        }
+        return robotsTxtBody
     } catch (err) {
         throw err as Error
     }
