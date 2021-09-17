@@ -10,6 +10,29 @@ Performing a _On-Page Technical SEO Analysis_ requires exploring many of the hid
 
 **Page Auditor** automatically scans the HTML code of the selected page to locate specific HTML elements, like the `<script>` and `<meta>` tag elements. Then it extracts the content of each tag and classifies it according to manually-curated internal lists of categories. The result of the analysis is then presented to the user as clearly formatted, human readable reports. Compared to a manual analysis of the same page, the benefits are evident. For example, the JSON-LD and the JavaScript code included in a page provide critical information about the page, but they are frequently compressed and almost unreadable for humans. **Page Auditor** takes care of it by properly formatting the code and providing detailed information about the meaning and use of each item. Without this **Page Auditor**, the only way to make sense of these JSON-LD and JavaScript snippets would be to copy the JSON and JavaScript code and paste it on an online _JSON Formatter_.
 
+
+## Features
+| Structured Data Report
+| -
+![Screenshot 1 640x400 pixels](./web-store-images/1_Screenshot_640x400.png)|
+
+| JavaScript Code (Tracking, Analytics, Ads)
+| -
+|![Screenshot 2 640x400 pixels](./web-store-images/2_Screenshot_640x400.png)|
+
+| Meta Tags
+| -
+|![Screenshot 3 640x400 pixels](./web-store-images/3_Screenshot_640x400.png)|
+
+| Robots.txt & Sitemap.xml
+| -
+|![Screenshot 4 640x400 pixels](./web-store-images/4_Screenshot_640x400.png)|
+
+| Credits
+| -
+|![Screenshot 5 640x400 pixels](./web-store-images/5_Screenshot_640x400.png)|
+
+
 ## License
 This _Google Chrome Extension_ is open source and it is released under [__BSD-3-Clause__](./LICENSE.md) license.
 
@@ -22,7 +45,7 @@ Once you installed the extension, visit to any web page you would like to analyz
 |!["Page Auditor" on Google Chrome Web Store](web-store-images/ChromeWebStore.png)|
 
 
-## Testing a New Version
+## Testing a New Version 
 This is how to test the Extension or any variation opf it on your Google Chrome:
 1. Generate a new build with the command `npm run build`
 1. Open the Google Chrome Extensions page on your browser by entering the following URL: [`chrome://extensions/`](chrome://extensions/)
@@ -34,7 +57,7 @@ This is how to test the Extension or any variation opf it on your Google Chrome:
 
 
 ## Testing the Code
-There is a battery of tests implemented with [`jest`](https://jestjs.io/). At teh moment the tests are covering 100% of Statements and Functions.
+There is a battery of tests implemented with [`jest`](https://jestjs.io/). At the moment, September 2021, the tests are covering 100% of Statements and Functions.
 
 | File                    | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s 
 |-------------------------|---------|----------|---------|---------|-------------------
@@ -58,9 +81,9 @@ The report will be available at [`coverage/lcov-report/index.html`](coverage/lco
 To format the code with [Prettier](https://prettier.io/) run `npm run format`.
 
 ## Additional Information
-This extension is based on a Google Chrome Snippet I described in an article I published on Medium on May 14, 2021. The article title is [Exploring Structured Data With A Google Chrome Snippet](https://folini.medium.com/exploring-structured-data-with-a-google-chrome-snippet-944ad4ef831). Since the initial idea and implementation the extension has been growing significantly including more analysis and brand new reports.
+* This extension is based on a Google Chrome Snippet I described in an article I published on Medium on May 14, 2021. The article's title is [Exploring Structured Data With A Google Chrome Snippet](https://folini.medium.com/exploring-structured-data-with-a-google-chrome-snippet-944ad4ef831). Since the initial idea and implementation the extension has been growing significantly including more analysis and brand new reports.
 
-On September 16, 2021 i also published an article on Medium for a non-technical audience describing the features and the usage of the _Page Auditor_ Chrome Extension. the article is [I wrote a Chrome Extension to perform on-page SEO analysis](https://folini.medium.com/i-wrote-a-chrome-extension-to-perform-on-page-seo-analysis-d680f6713707)
+* On September 16, 2021 I published an article on Medium for a non-technical audience describing the features and the usage of the _Page Auditor_ Chrome Extension. The article's title is [I wrote a Chrome Extension to perform on-page SEO analysis](https://folini.medium.com/i-wrote-a-chrome-extension-to-perform-on-page-seo-analysis-d680f6713707).
 
 All information and creative required to publish the Google Chrome eExtension are available on the folder [Google Web Store creative material](./GoogleWebStore.md).
 
