@@ -467,6 +467,13 @@
         "url": "https://www.liveperson.com/"
     },
     {
+        "patterns": [".ada.support/"],
+        "name": "Ada",
+        "category": "Chat Bot",
+        "iconClass": "icon-ada",
+        "description": "Ada is a computer software company that features a chatbot-based platform that helps enterprise businesses to automate customer experience.",
+        "url": "https://www.ada.cx/"
+    },{
         "patterns": [".redditstatic.com/", ".reddit.com/"],
         "name": "Reddit",
         "category": "Ads Tracking",
@@ -954,5 +961,29 @@
         "iconClass": "icon-bombora",
         "description": "Bombora is the leading provider of B2B Intent data for sales and marketing. Bombora tracks the content consumption of business users at millions of companies through our B2B data collective of leading media companies and niche special interest destinations.",
         "url": "https://bombora.com/"
+    },
+    {
+        "patterns": ["unpkg.com/"],
+        "name": "unpkg",
+        "category": "Regular JavaScript Code",
+        "iconClass": "icon-unpkg",
+        "description": "unpkg is a fast, global content delivery network (CDN) for everything on npm.",
+        "url": "https://unpkg.com/"
+    },
+    {
+        "patterns": [".ethers.io/"],
+        "name": "Ethers",
+        "category": "Crypto Wallet",
+        "iconClass": "icon-ethers",
+        "description": "Ethers is an Ethereum Wallet and dApp Browser for your Web Browser.",
+        "url": "https://ethers.io/"
+    },
+    {
+        "patterns": ["fonts.com/", "fonts.net/"],
+        "name": "Fonts.com",
+        "category": "Web Font",
+        "iconClass": "icon-fonts",
+        "description": "The Fonts.com store from Monotype offers more than 150,000 desktop and Web font products for you to preview, purchase and download. ",
+        "url": "https://www.fonts.com/"
     }
 ]

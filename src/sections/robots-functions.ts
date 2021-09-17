@@ -9,14 +9,22 @@ import {htmlEncode} from 'js-htmlencode'
 
 export const getSiteMapFileBody = async (url: string): Promise<string> => {
     try {
-        if(url.includes(`http://`)) {
-            url = url.replace(`http://`,`https://`)
-        }
         var response = await fetch(url)
         if (response.status !== 200) {
             throw new Error(`Sitemap.xml file at '${url}' not found.`)
         }
-        return htmlEncode(await response.text())
+        const sitemapBody = await response.text()
+        if (sitemapBody.includes(`page not found`)) {
+            throw new Error(
+                `File <code>Sitemap.xml</code> doesn't exist at the following location: <a target="_new" href="${url}">${url}</a>.`
+            )
+        }
+        if (sitemapBody.includes(`<html`) || sitemapBody.includes(`<body`)) {
+            throw new Error(
+                `File at location <a target="_new" href="${url}">${url}</a> is not a syntactically valid <code>Sitemap.xml</code>.`
+            )
+        }
+        return htmlEncode(sitemapBody)
     } catch (err) {
         throw err as Error
     }
@@ -35,9 +43,7 @@ export const getSiteMapCards = async (urls: string[]): Promise<string> => {
                 )
                 .close()
         } catch (err) {
-            report += new Card().error(
-                `Unable to load <code>sitemap.xml</code> file from <a target="_new" href="${url}">${url}</a>.`
-            )
+            report += new Card().error((err as Error).message)
         }
     }
     return report
@@ -52,14 +58,17 @@ export const getRobotsTxtFileBody = async (url: string): Promise<string> => {
             )
         }
         const robotsTxtBody = await response.text()
-        if(robotsTxtBody.includes(`page not found`)) {
+        if (robotsTxtBody.includes(`page not found`)) {
             throw new Error(
                 `File <code>robots.txt</code> doesn't exist at the following location: <a target="_new" href="${url}">${url}</a>.`
             )
         }
-        if(robotsTxtBody.includes(`<html`) || robotsTxtBody.includes(`<body`)) {
+        if (
+            robotsTxtBody.includes(`<html`) ||
+            robotsTxtBody.includes(`<body`)
+        ) {
             throw new Error(
-                `File at location <a target="_new" href="${url}">${url}</a> is not a valid <code>robots.txt</code>.`
+                `File at location <a target="_new" href="${url}">${url}</a> is an HTML document and not a syntactically valid <code>robots.txt</code>.`
             )
         }
         return robotsTxtBody

@@ -10,7 +10,7 @@ import {
     getSiteMapCards,
     getRobotsTxtFileBody,
     getRobotsTxtCard,
-    getSiteMapUrls,
+    getSiteMapUrls as getSiteMapUrlsFromRobotsTxt,
 } from './robots-functions'
 
 const injector = () => undefined
@@ -22,19 +22,39 @@ const reporter = async (tabUrl: string, _: any): Promise<string> => {
         return ''
     }
 
-    var robotsUrl = new URL(tabUrl).origin + '/robots.txt'
-    var sitemapUrl = new URL(tabUrl).origin + '/sitemap.xml'
+    var sitemapUrls = [new URL(tabUrl).origin + '/sitemap.xml']
+    let report = ''
+    try {
+        var robotsUrl = new URL(tabUrl).origin + '/robots.txt'
+        const robotsTxtBody: string = await getRobotsTxtFileBody(robotsUrl)
+        sitemapUrls = getSiteMapUrlsFromRobotsTxt(robotsTxtBody, sitemapUrls[0])
+        report += getRobotsTxtCard(robotsUrl, robotsTxtBody)
+    } catch (err) {
+        report += new Card().error((err as Error).message)
+    }
 
     try {
-        const robotsTxtBody: string = await getRobotsTxtFileBody(robotsUrl)
-        const sitemapUrls: string[] = getSiteMapUrls(robotsTxtBody, sitemapUrl)
-        return (
-            (await getRobotsTxtCard(robotsUrl, robotsTxtBody)) +
-            (await getSiteMapCards(sitemapUrls))
-        )
+        const unsafeUrls = sitemapUrls.filter(url => url.includes(`http://`))
+        if (unsafeUrls.length > 0) {
+            sitemapUrls = sitemapUrls.map(url =>
+                url.includes(`http://`)
+                    ? url.replace(`http://`, `https://`)
+                    : url
+            )
+            report += new Card()
+                .suggestion(`The following <code>sitemap.xml</code> listed in your <code>robots.txt</code> file should be listed 
+                using the <code>https</code> protocol instead of the <code>http</code> protocol.
+                <ul>
+                ${unsafeUrls.map(url => `<li>${url}</li>`)}
+                </ul>
+                It's important you update ASAP your <code>robots.txt</code> and <code>sitemap.xml</code> adopting the <code>http</code> protocol.`)
+        }
+        report += await getSiteMapCards(sitemapUrls)
     } catch (err) {
-        return new Card().error((err as Error).message)
+        report += new Card().error((err as Error).message)
     }
+
+    return report
 }
 
 export const actions: sectionActions = {

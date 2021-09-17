@@ -64,8 +64,8 @@ const reporter = async (tabUrl: string, untypedScripts: any): Promise<string> =>
         scripts.forEach(scr => {
             cat.patterns
                 .map(pattern => scr.script.match(new RegExp(pattern, 'ig')))
-                .filter(match => match !== null && match.length > 0)
-                .forEach(m => {
+                .filter(match => match !== null && match.length > 0 && !scr.done)
+                .forEach(match => {
                     const script =
                         scr.script.length > 80
                             ? `${scr.script.substr(0, 80)}...`

@@ -54,6 +54,12 @@ export class Card {
             .close()
     }
 
+    public suggestion(msg: string) {
+        return this.open('', 'Suggestion', [], 'icon-suggestion')
+            .add(`<div>${msg}</div>`)
+            .close()
+    }
+
     public warning(msg: string) {
         return this.open('', 'Warning', [], 'icon-warning')
             .add(`<div>${msg}</div>`)
