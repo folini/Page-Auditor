@@ -121,7 +121,8 @@ body#id-page-auditor {
 
                     .card-options {
                         padding: 8px 0 0 0;
-                        position: relative;
+                        display: flex;
+                        flex-wrap: wrap;
                         .left-option {
                             font-size: 12px;
                             position: initial;
@@ -136,12 +137,15 @@ body#id-page-auditor {
                             margin: 4px 0;
                             border: solid 1px var(--border-color);
                             overflow-x: hidden;
+                            width: 100%;
 
                             li {
                                 margin: 0;
                                 font-family: courier;
                                 padding: 8px;
                                 font-size: 0.9em;
+                                overflow: auto;
+                                overflow-wrap: break-word;
 
                                 &:not(:first-child) {
                                     border-top: dotted 1px var(--border-color);
@@ -158,6 +162,22 @@ body#id-page-auditor {
                                     width: 44px;
                                     display: inline-block;
                                 }
+                            }
+                        }
+                        .open-closed-icon {
+                            border: solid 1px var(--fc-brand-dark-color);
+                            width: 12px;
+                            height: 12px;
+                            display: flex;
+                            border-radius: 50%;
+                            line-height: 1em;
+                            align-items: center;
+                            justify-content: space-evenly;
+                            &.open-icon::before {
+                                content: '-';
+                            }
+                            &.closed-icon::before {
+                                content: '+';
                             }
                         }
                     }
@@ -198,17 +218,23 @@ body#id-page-auditor {
                         a {
                             text-decoration: none;
                             font-weight: normal;
-                            background-color: var(--fc-brand-dark-color);
-                            color: var(--fc-brand-white);
+                            color: var(--fc-brand-dark-color);
+                            background-color: var(--fc-brand-white);
                             border: solid 1px var(--fc-brand-dark-color);
                             border-radius: 5px;
                             padding: 1px 8px;
                             margin-left: 3px;
 
                             &:hover {
-                                color: var(--fc-brand-dark-color);
-                                background-color: var(--fc-brand-white);
+                                background-color: var(--fc-brand-dark-color);
+                                color: var(--fc-brand-white);
                             }
+                        }
+                        &.n-scripts {
+                            background-repeat: no-repeat;
+                            background-size: 13px;
+                            color: var(--fc-brand-dark-color);
+                            padding-left: 8px;;
                         }
                     }
 
@@ -855,16 +881,16 @@ body#id-page-auditor {
     .icon-fonts {
         background-image: url(../logos/Fonts_100x100.png);
     }
-    
+
     .icon-ada {
         background-image: url(../logos/Ada_100x100.png);
     }
-    
+
     .icon-suggestion {
         background-image: url(../logos/Suggestion_100x100.png);
     }
-    
-   // ----------------------------------------------------------------------------
+
+    // ----------------------------------------------------------------------------
     @-webkit-keyframes spinner {
         0% {
             transform: translate3d(-50%, -50%, 0) rotate(0deg);

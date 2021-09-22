@@ -67,10 +67,10 @@ const reporter = async (tabUrl: string, untypedScripts: any): Promise<string> =>
                 .filter(match => match !== null && match.length > 0 && !scr.done)
                 .forEach(match => {
                     const script =
-                        scr.script.length > 80
-                            ? `${scr.script.substr(0, 80)}...`
-                            : scr.script
-                    cat.matches.push(script.replace(/\s/g, ' '))
+                        // scr.script.length > 80
+                        //     ? `${scr.script.substr(0, 80)}...`
+                        //     : scr.script
+                    cat.matches.push(scr.script.replace(/\s/g, ' '))
                     scr.done = true
                 })
         })
@@ -128,7 +128,8 @@ const reporter = async (tabUrl: string, untypedScripts: any): Promise<string> =>
         card.add(`
         <div class='card-description'>${t.description}</div>
         <div class='card-options'>
-          <a class='link-in-card left-option n-scripts'>
+          <div class='open-closed-icon closed-icon'></div>
+          <a class='link-in-card left-option n-scripts scrips-closed'>
             ${matches.length.toFixed()} script${
             matches.length === 1 ? '' : 's'
         } found. </a>
@@ -145,21 +146,24 @@ const eventManager = () => {
     const btns = [
         ...document.querySelectorAll('.link-in-card.n-scripts'),
     ] as HTMLAnchorElement[]
-    btns.forEach(btn => btn.addEventListener('click', () => toggle(btn)))
+    btns.forEach(btn => btn.parentElement?.addEventListener('click', () => toggle(btn)))
 }
 
 const toggle = (btn: HTMLAnchorElement) => {
     const ul: HTMLUListElement = btn.parentElement
-        ?.children[1] as HTMLUListElement
+        ?.children[2] as HTMLUListElement
     if (ul === undefined) {
         return
     }
+    const icon = btn.parentElement?.children[0] as HTMLUListElement
     if (ul.classList.contains('hide')) {
         ul.classList.remove('hide')
         ul.classList.add('show')
+        icon.classList.replace('closed-icon', 'open-icon')
     } else {
         ul.classList.remove('show')
         ul.classList.add('hide')
+        icon.classList.replace('open-icon', 'closed-icon')
     }
 }
 

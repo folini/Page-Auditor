@@ -3,28 +3,28 @@
   font-style: normal;
   font-weight: 300;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmSU5vAw.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmSU5vAw.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/roboto/v27/KFOmCnqEu92Fr1Me5Q.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/roboto/v29/KFOmCnqEu92Fr1Me5Q.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmEU9vAw.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmEU9vAw.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url(https://fonts.gstatic.com/s/roboto/v27/KFOlCnqEu92Fr1MmWUlvAw.ttf) format('truetype');
+  src: url(https://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmWUlvAw.ttf) format('truetype');
 }
 :root {
   --bg-color: #fafafe;
@@ -134,7 +134,8 @@ body#id-page-auditor main #id-report-outer-container .inner-report-container .bo
 }
 body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .card-options {
   padding: 8px 0 0 0;
-  position: relative;
+  display: flex;
+  flex-wrap: wrap;
 }
 body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .card-options .left-option {
   font-size: 12px;
@@ -150,12 +151,15 @@ body#id-page-auditor main #id-report-outer-container .inner-report-container .bo
   margin: 4px 0;
   border: solid 1px var(--border-color);
   overflow-x: hidden;
+  width: 100%;
 }
 body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .card-options ul li {
   margin: 0;
   font-family: courier;
   padding: 8px;
   font-size: 0.9em;
+  overflow: auto;
+  overflow-wrap: break-word;
 }
 body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .card-options ul li:not(:first-child) {
   border-top: dotted 1px var(--border-color);
@@ -169,6 +173,22 @@ body#id-page-auditor main #id-report-outer-container .inner-report-container .bo
 body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .card-options ul li span {
   width: 44px;
   display: inline-block;
+}
+body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .card-options .open-closed-icon {
+  border: solid 1px var(--fc-brand-dark-color);
+  width: 12px;
+  height: 12px;
+  display: flex;
+  border-radius: 50%;
+  line-height: 1em;
+  align-items: center;
+  justify-content: space-evenly;
+}
+body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .card-options .open-closed-icon.open-icon::before {
+  content: '-';
+}
+body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .card-options .open-closed-icon.closed-icon::before {
+  content: '+';
 }
 body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .card-description {
   padding: 0 0 4px 0;
@@ -203,16 +223,22 @@ body#id-page-auditor main #id-report-outer-container .inner-report-container .bo
 body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .link-in-card a {
   text-decoration: none;
   font-weight: normal;
-  background-color: var(--fc-brand-dark-color);
-  color: var(--fc-brand-white);
+  color: var(--fc-brand-dark-color);
+  background-color: var(--fc-brand-white);
   border: solid 1px var(--fc-brand-dark-color);
   border-radius: 5px;
   padding: 1px 8px;
   margin-left: 3px;
 }
 body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .link-in-card a:hover {
+  background-color: var(--fc-brand-dark-color);
+  color: var(--fc-brand-white);
+}
+body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .link-in-card.n-scripts {
+  background-repeat: no-repeat;
+  background-size: 13px;
   color: var(--fc-brand-dark-color);
-  background-color: var(--fc-brand-white);
+  padding-left: 8px;
 }
 body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card h2.subTitle {
   font-size: 18px;
