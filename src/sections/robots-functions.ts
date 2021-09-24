@@ -6,32 +6,43 @@
 // ----------------------------------------------------------------------------
 import {Card} from '../card'
 import {htmlEncode} from 'js-htmlencode'
+import {html_beautify} from 'js-beautify'
 
 export const getSiteMapFileBody = async (url: string): Promise<string> => {
     var response = undefined
     try {
         response = await fetch(url)
         if (response.status !== 200) {
-            return Promise.reject(`Sitemap.xml file at <a target="_new" href="${url}">${url}</a> not found.`)
+            throw new Error(`${response.status}: ${response.statusText}`)
         }
-    } catch (error) {
-        return Promise.reject(`Sitemap.xml file at <a target="_new" href="${url}">${url}</a> not found.`)
+    } catch (err) {
+        return Promise.reject(
+            `Sitemap.xml file at <a target="_new" href="${url}">${url}</a> not found.<br/>
+            Error message: ${(err as Error).message}`)
     }
 
     try {
         const sitemapBody = await response.text()
-        if (sitemapBody.includes(`page not found`)) {
+        const sitemapBodyLowerCase = sitemapBody.toLowerCase()
+        if (sitemapBodyLowerCase.includes(`not found`) || sitemapBodyLowerCase.includes(`error 404`)) {
             return Promise.reject(`Robots.txt file at <a target="_new" href="${url}">${url}</a> not found.`)
         }
         if (sitemapBody.includes(`<head>`) || sitemapBody.includes(`<link`)) {
             return Promise.reject(
-                `File at <a target="_new" href="${url}">${url}</a> is not a syntactically valid <code>Sitemap.xml</code>.`
+                `File at <a target="_new" href="${url}">${url}</a> is not a syntactically valid <code>Sitemap.xml</code>.
+                <div class='code x-scrollable'>${html_beautify(sitemapBody)
+                    .split('\n')
+                    .map(line => htmlEncode(line))
+                    .join('</br>')
+                    .replace(/\s/g, '&nbsp;')}</div>`
             )
         }
 
-        return Promise.resolve(htmlEncode(sitemapBody))
+        return Promise.resolve(sitemapBody)
     } catch (err) {
-        return Promise.reject(`Sitemap.xml file at <a target="_new" href="${url}">${url}</a> not found.`)
+        return Promise.reject(
+            `Sitemap.xml file at <a target="_new" href="${url}">${url}</a> not found.<br/>
+            Error message: ${(err as Error).message}`)
     }
 }
 
@@ -44,7 +55,13 @@ export const getSiteMapCards = (urls: string[]): Promise<Card>[] =>
                         resolve(
                             new Card()
                                 .open(``, `Sitemap.xml`, getSitemapLinks(url), 'icon-sitemap')
-                                .add(`<pre class='x-scrollable'>${sitemapBody}</pre>`)
+                                .add(
+                                    `<div class='code x-scrollable'>${html_beautify(sitemapBody)
+                                        .split('\n')
+                                        .map(line => htmlEncode(line))
+                                        .join('</br>')
+                                        .replace(/\s/g, '&nbsp;')}</div>`
+                                )
                                 .close()
                         )
                     )
@@ -57,13 +74,12 @@ export const getRobotsTxtFileBody = async (url: string): Promise<string> => {
     try {
         response = await fetch(url)
         if (response.status !== 200) {
-            return Promise.reject(
-                `Unable to load <code>robots.txt</code> file from <a target="_new" href="${url}">${url}</a>.`
-            )
+            throw new Error(`${response.status}: ${response.statusText}`)
         }
     } catch (err) {
         return Promise.reject(
-            `Unable to load <code>robots.txt</code> file from <a target="_new" href="${url}">${url}</a>.`
+            `Unable to load <code>robots.txt</code> file from <a target="_new" href="${url}">${url}</a><br/>
+            Error message: ${(err as Error).message}.`
         )
     }
 
@@ -76,7 +92,13 @@ export const getRobotsTxtFileBody = async (url: string): Promise<string> => {
         }
         if (robotsTxtBody.includes(`<head>`) || robotsTxtBody.includes(`<meta`)) {
             return Promise.reject(
-                `File at location <a target="_new" href="${url}">${url}</a> is an HTML page or a redirect to an HTML page and not a syntactically valid <code>robots.txt</code>.`
+                `File at location <a target="_new" href="${url}">${url}</a> is an HTML page or a redirect to an HTML page and not a 
+                syntactically valid <code>robots.txt</code>.
+                <div class='code x-scrollable'>${html_beautify(robotsTxtBody)
+                    .split('\n')
+                    .map(line => htmlEncode(line))
+                    .join('</br>')
+                    .replace(/\s/g, '&nbsp;')}</div>`
             )
         }
 
@@ -89,7 +111,7 @@ export const getRobotsTxtFileBody = async (url: string): Promise<string> => {
 export const getRobotsTxtCard = (robotsTxtUrl: string, robotsTxtBody: string): Card =>
     new Card()
         .open(``, `Robots.txt`, getRobotsLinks(robotsTxtUrl), 'icon-rep')
-        .add(`<pre class='x-scrollable'>${robotsTxtBody}</pre>`)
+        .add(`<div class='x-scrollable'>${robotsTxtBody.replace(/\n/gm, '<br/>')}</div>`)
         .close()
 
 export const getSiteMapUrls = (robotsTxtBody: string, defaultUrl: string) => {

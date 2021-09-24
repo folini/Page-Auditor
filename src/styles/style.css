@@ -74,6 +74,11 @@ body#id-page-auditor header .product-by {
   font-size: 12px;
   color: var(--fc-brand-black);
 }
+body#id-page-auditor header .product-by .version {
+  text-align: right;
+  float: right;
+  padding-right: 16px;
+}
 body#id-page-auditor .schema {
   color: darkblue;
   margin-bottom: 16px;
@@ -125,6 +130,12 @@ body#id-page-auditor main #id-report-outer-container .inner-report-container .bo
   background-color: var(--fc-brand-white);
   overflow: hidden;
 }
+body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card div.code {
+  overflow-wrap: break-word;
+  font-family: monospace, 'Courier New', Courier, monospace;
+  font-size: 12px;
+  color: var(--fc-brand-black);
+}
 body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .ld-json {
   overflow-y: auto;
   white-space: nowrap;
@@ -172,10 +183,6 @@ body#id-page-auditor main #id-report-outer-container .inner-report-container .bo
 body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .card-options ul li span {
   width: 44px;
   display: inline-block;
-}
-body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .card-options ul li div.code {
-  overflow-wrap: break-word;
-  font-family: 'Courier New', Courier, monospace;
 }
 body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .card-options .open-closed-icon {
   border: solid 1px var(--fc-brand-dark-color);
@@ -266,15 +273,11 @@ body#id-page-auditor main #id-report-outer-container .inner-report-container .bo
 body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card div.firstLine {
   padding-bottom: 12px;
 }
-body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card pre.x-scrollable {
+body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card div.x-scrollable {
   background: #fafafa;
-  margin: 0 -12px -16px;
+  margin: 12px -12px -16px;
   padding: 8px 12px 12px;
   border-top: solid 1px var(--border-color);
-}
-body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .x-scrollable {
-  width: 100%;
-  overflow-x: auto;
 }
 body#id-page-auditor #id-facebook-card,
 body#id-page-auditor #id-twitter-card,
