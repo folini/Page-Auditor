@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// © 2021 - Franco Folini
+// (c) 2021 - Franco Folini
 //
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
@@ -13,19 +13,23 @@ import 'html-validate/jest'
 import 'jest-chain'
 import 'jest-extended'
 
-test('reporter() generates valid HTML from complex JSON', async () => {
-    const data = await actions.reporter(
+test('reportGenerator() generates valid HTML from complex JSON', async () => {
+    const cardPromises = await actions.reportGenerator(
         MockData.UrlSample,
         MockData.MetaTagsSample
     )
-    expect(data).toBeString().toHTMLValidate()
+    cardPromises.map(
+        promise => promise.then(card => 
+            expect(card.render()).toBeString().toHTMLValidate()
+        )
+    )
 })
 
 test("eventManager() always returns 'undefined'", () => {
     expect(actions.eventManager()).toBeUndefined()
 })
 
-describe('injector() and reporter()', () => {
+describe('codeInjector() and reporter()', () => {
     beforeAll(() => {
         jest.spyOn(document, 'querySelectorAll').mockImplementation(
             () => {
@@ -38,27 +42,31 @@ describe('injector() and reporter()', () => {
 
     afterAll(() => jest.resetAllMocks())
 
-    test('injector() returns Array of metaTags', () => {
-        const data = actions.injector()
+    test('codeInjector() returns Array of metaTags', () => {
+        const data = actions.codeInjector()
         expect(data).toBeArray()
         expect(data.length).toBe(MockData.RawMetaTagsSample.length)
     })
 
-    test('reporter() returns an HTML Card', async () => {
-        const data = await actions.reporter(
+    test('reportGenerator() returns an HTML Card', async () => {
+        const cardPromises = await actions.reportGenerator(
             MockData.UrlSample,
-            actions.injector()
+            actions.codeInjector()
         )
-        expect(data).toBeString().toHTMLValidate()
+        cardPromises.map(promise => promise.then(card =>
+            expect(card.render()).toBeString().toHTMLValidate()
+        ))
     })
 
-    test('injector() with empty tabUrl returns?', async () => {
-        const data = await actions.reporter('', actions.injector())
-        expect(data).toBeString().toHTMLValidate()
+    test('codeInjector() with empty tabUrl returns?', async () => {
+        const cardPromises = await actions.reportGenerator('', actions.codeInjector())
+        cardPromises.map(promise => promise.then(card =>
+            expect(card.render()).toBeString().toHTMLValidate()
+        ))
     })
 })
 
-describe('injector() correctly process zero MetaTags', () => {
+describe('codeInjector() correctly process zero MetaTags', () => {
     beforeAll(() => {
         jest.spyOn(document, 'querySelectorAll').mockImplementation(
             () => [] as any as NodeListOf<Element>
@@ -67,22 +75,26 @@ describe('injector() correctly process zero MetaTags', () => {
 
     afterAll(() => jest.resetAllMocks())
 
-    test('injector() returns Array of metaTags', () => {
-        const data = actions.injector()
+    test('codeInjector() returns Array of metaTags', () => {
+        const data = actions.codeInjector()
         expect(data).toBeArray()
         expect(data.length).toBe(0)
     })
 
-    test('reporter() returns an HTML Card', async () => {
-        const data = await actions.reporter(
+    test('codeInjector() returns an HTML Card', async () => {
+        const cardPromises = await actions.reportGenerator(
             MockData.UrlSample,
-            actions.injector()
+            actions.codeInjector()
         )
-        expect(data).toBeString().toHTMLValidate()
+        cardPromises.map(promise => promise.then(card =>
+            expect(card.render()).toBeString().toHTMLValidate()
+        ))
     })
 
-    test('injector() with empty tabUrl returns?', async () => {
-        const data = await actions.reporter('', actions.injector())
-        expect(data).toBeString().toHTMLValidate()
+    test('codeInjector() with empty tabUrl returns?', async () => {
+        const cardPromises = await actions.reportGenerator('', actions.codeInjector())
+        cardPromises.map(promise => promise.then(card =>
+            expect(card.render()).toBeString().toHTMLValidate()
+        ))
     })
 })

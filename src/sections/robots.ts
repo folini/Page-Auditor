@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// © 2021 - Franco Folini
+// (c) 2021 - Franco Folini
 //
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
@@ -13,52 +13,56 @@ import {
     getSiteMapUrls as getSiteMapUrlsFromRobotsTxt,
 } from './robots-functions'
 
-const injector = () => undefined
+const codeInjector = () => undefined
 
 const eventManager = () => undefined
 
-const reporter = async (tabUrl: string, _: any): Promise<string> => {
+const reportGenerator = async (tabUrl: string, _: any): Promise<Promise<Card>[]> => {
+    const result: Promise<Card>[] = []
+
     if (tabUrl === '') {
-        return ''
+        return [
+            Promise.resolve(new Card().error('Browser tab is undefined. Unable to analyze robots.txt and sitemap.xml')),
+        ]
     }
 
     var sitemapUrls = [new URL(tabUrl).origin + '/sitemap.xml']
-    let report = ''
+    var robotsUrl = new URL(tabUrl).origin + '/robots.txt'
+
+    var robotsTxtBody = ''
+
     try {
-        var robotsUrl = new URL(tabUrl).origin + '/robots.txt'
-        const robotsTxtBody: string = await getRobotsTxtFileBody(robotsUrl)
+        robotsTxtBody = await getRobotsTxtFileBody(robotsUrl)
         sitemapUrls = getSiteMapUrlsFromRobotsTxt(robotsTxtBody, sitemapUrls[0])
-        report += getRobotsTxtCard(robotsUrl, robotsTxtBody)
-    } catch (err) {
-        report += new Card().error((err as Error).message)
+        result.push(Promise.resolve(getRobotsTxtCard(robotsUrl, robotsTxtBody)))
+    } catch (errMsg) {
+        result.push(Promise.resolve(new Card().error(errMsg as string, 'Robots.Txt Error')))
     }
 
-    try {
-        const unsafeUrls = sitemapUrls.filter(url => url.includes(`http://`))
-        if (unsafeUrls.length > 0) {
-            sitemapUrls = sitemapUrls.map(url =>
-                url.includes(`http://`)
-                    ? url.replace(`http://`, `https://`)
-                    : url
+    const unsafeUrls = sitemapUrls.filter(url => url.includes(`http://`))
+    if (unsafeUrls.length > 0) {
+        sitemapUrls = sitemapUrls.map(url => (url.includes(`http://`) ? url.replace(`http://`, `https://`) : url))
+        result.push(
+            Promise.resolve(
+                new Card().suggestion(
+                    `The following url of a <code>sitemap.xml</code> was listed in your <code>robots.txt</code>. Sitemap.xml files should be always listed 
+                    using the <code>https</code> protocol instead of the <code>http</code> protocol.
+                    <ul>
+                    ${unsafeUrls.map(url => `<li>${url}</li>`)}
+                    </ul>
+                    It's important you update ASAP your <code>robots.txt</code> and <code>sitemap.xml</code> adopting the <code>http</code> protocol.`
+                )
             )
-            report += new Card()
-                .suggestion(`The following <code>sitemap.xml</code> listed in your <code>robots.txt</code> file should be listed 
-                using the <code>https</code> protocol instead of the <code>http</code> protocol.
-                <ul>
-                ${unsafeUrls.map(url => `<li>${url}</li>`)}
-                </ul>
-                It's important you update ASAP your <code>robots.txt</code> and <code>sitemap.xml</code> adopting the <code>http</code> protocol.`)
-        }
-        report += await getSiteMapCards(sitemapUrls)
-    } catch (err) {
-        report += new Card().error((err as Error).message)
+        )
     }
 
-    return report
+    result.push(...getSiteMapCards(sitemapUrls))
+
+    return result
 }
 
 export const actions: sectionActions = {
-    injector: injector,
-    reporter: reporter,
+    codeInjector: codeInjector,
+    reportGenerator: reportGenerator,
     eventManager: eventManager,
 }

@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// © 2021 - Franco Folini
+// (c) 2021 - Franco Folini
 //
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
@@ -8,79 +8,85 @@ import {Card} from '../card'
 import {htmlEncode} from 'js-htmlencode'
 
 export const getSiteMapFileBody = async (url: string): Promise<string> => {
+    var response = undefined
     try {
-        var response = await fetch(url)
+        response = await fetch(url)
         if (response.status !== 200) {
-            throw new Error(`Sitemap.xml file at '${url}' not found.`)
+            return Promise.reject(`Sitemap.xml file at <a target="_new" href="${url}">${url}</a> not found.`)
         }
+    } catch (error) {
+        return Promise.reject(`Sitemap.xml file at <a target="_new" href="${url}">${url}</a> not found.`)
+    }
+
+    try {
         const sitemapBody = await response.text()
         if (sitemapBody.includes(`page not found`)) {
-            throw new Error(
-                `File <code>Sitemap.xml</code> doesn't exist at the following location: <a target="_new" href="${url}">${url}</a>.`
+            return Promise.reject(`Robots.txt file at <a target="_new" href="${url}">${url}</a> not found.`)
+        }
+        if (sitemapBody.includes(`<head>`) || sitemapBody.includes(`<link`)) {
+            return Promise.reject(
+                `File at <a target="_new" href="${url}">${url}</a> is not a syntactically valid <code>Sitemap.xml</code>.`
             )
         }
-        if (sitemapBody.includes(`<html`) || sitemapBody.includes(`<body`)) {
-            throw new Error(
-                `File at location <a target="_new" href="${url}">${url}</a> is not a syntactically valid <code>Sitemap.xml</code>.`
-            )
-        }
-        return htmlEncode(sitemapBody)
+
+        return Promise.resolve(htmlEncode(sitemapBody))
     } catch (err) {
-        throw err as Error
+        return Promise.reject(`Sitemap.xml file at <a target="_new" href="${url}">${url}</a> not found.`)
     }
 }
 
-export const getSiteMapCards = async (urls: string[]): Promise<string> => {
-    var report = ''
-    for (const url of urls) {
-        try {
-            report += new Card()
-                .open(``, `Sitemap.xml`, getSitemapLinks(url), 'icon-sitemap')
-                .add(
-                    `<pre class='x-scrollable'>${await getSiteMapFileBody(
-                        url
-                    )}</pre>`
-                )
-                .close()
-        } catch (err) {
-            report += new Card().error((err as Error).message)
-        }
-    }
-    return report
-}
+export const getSiteMapCards = (urls: string[]): Promise<Card>[] =>
+    urls.map(
+        url =>
+            new Promise(resolve =>
+                getSiteMapFileBody(url)
+                    .then(sitemapBody =>
+                        resolve(
+                            new Card()
+                                .open(``, `Sitemap.xml`, getSitemapLinks(url), 'icon-sitemap')
+                                .add(`<pre class='x-scrollable'>${sitemapBody}</pre>`)
+                                .close()
+                        )
+                    )
+                    .catch(errMsg => resolve(new Card().error(errMsg as string, 'Sitemap.xml Error')))
+            )
+    )
 
 export const getRobotsTxtFileBody = async (url: string): Promise<string> => {
+    var response = undefined
     try {
-        var response = await fetch(url)
+        response = await fetch(url)
         if (response.status !== 200) {
-            throw new Error(
+            return Promise.reject(
                 `Unable to load <code>robots.txt</code> file from <a target="_new" href="${url}">${url}</a>.`
             )
         }
+    } catch (err) {
+        return Promise.reject(
+            `Unable to load <code>robots.txt</code> file from <a target="_new" href="${url}">${url}</a>.`
+        )
+    }
+
+    try {
         const robotsTxtBody = await response.text()
         if (robotsTxtBody.includes(`page not found`)) {
-            throw new Error(
+            return Promise.reject(
                 `File <code>robots.txt</code> doesn't exist at the following location: <a target="_new" href="${url}">${url}</a>.`
             )
         }
-        if (
-            robotsTxtBody.includes(`<html`) ||
-            robotsTxtBody.includes(`<body`)
-        ) {
-            throw new Error(
-                `File at location <a target="_new" href="${url}">${url}</a> is an HTML document and not a syntactically valid <code>robots.txt</code>.`
+        if (robotsTxtBody.includes(`<head>`) || robotsTxtBody.includes(`<meta`)) {
+            return Promise.reject(
+                `File at location <a target="_new" href="${url}">${url}</a> is an HTML page or a redirect to an HTML page and not a syntactically valid <code>robots.txt</code>.`
             )
         }
-        return robotsTxtBody
+
+        return Promise.resolve(robotsTxtBody)
     } catch (err) {
-        throw err as Error
+        return Promise.reject((err as Error).message)
     }
 }
 
-export const getRobotsTxtCard = (
-    robotsTxtUrl: string,
-    robotsTxtBody: string
-): string =>
+export const getRobotsTxtCard = (robotsTxtUrl: string, robotsTxtBody: string): Card =>
     new Card()
         .open(``, `Robots.txt`, getRobotsLinks(robotsTxtUrl), 'icon-rep')
         .add(`<pre class='x-scrollable'>${robotsTxtBody}</pre>`)

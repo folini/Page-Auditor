@@ -1,13 +1,15 @@
 // ----------------------------------------------------------------------------
-// © 2021 - Franco Folini
+// (c) 2021 - Franco Folini
 //
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card, iLink} from '../card'
 import {sectionActions} from '../main'
+import {htmlEncode} from 'js-htmlencode'
+import {js_beautify} from 'js-beautify'
 
-const scriptClasses = require('../jsons/scriptClasses.json') as iTrackClass[]
+const listOfScriptClasses = require('../jsons/scriptClasses.json') as iTrackClass[]
 
 interface iTrackClass {
     patterns: string[]
@@ -23,7 +25,7 @@ interface iTrackMatch extends iTrackClass {
 }
 
 interface iScript {
-    script: string
+    code: string
     done: boolean
 }
 
@@ -32,46 +34,45 @@ const unresolvedJS: iTrackMatch = {
     name: 'Unresolved Javascript Code',
     category: 'JavaScript',
     iconClass: 'icon-unclassified',
-    description:
-        'Page Auditor for Technical SEO is not yet able to classify the following JavaScript code.',
+    description: 'Page Auditor for Technical SEO is not yet able to classify the following JavaScript code.',
     url: '',
     matches: [],
 }
 
-const injector = (): iScript[] => {
+const codeInjector = (): iScript[] => {
     return [...document.scripts]
         .filter(s => s.type !== 'application/ld+json')
         .map(s => (s.src === '' ? s.text : s.src))
         .filter(Boolean)
-        .map(s => ({script: s, done: false})) as iScript[]
+        .map(s => ({code: s, done: false})) as iScript[]
 }
 
-const reporter = async (tabUrl: string, untypedScripts: any): Promise<string> => {
+const reportGenerator = async (tabUrl: string, untypedScripts: any): Promise<Promise<Card>[]> => {
     var scripts = untypedScripts as iScript[]
 
-    const trackMatches: iTrackMatch[] = scriptClasses.map(track => ({
+    const result: Promise<Card>[] = []
+
+    const scriptClasses: iTrackMatch[] = listOfScriptClasses.map(track => ({
         ...track,
         matches: [],
     })) as iTrackMatch[]
 
     if (tabUrl !== '') {
-        trackMatches.push(localJsMatch(tabUrl))
+        scriptClasses.push(localJsMatch(tabUrl))
     }
 
     var trackingItems: iTrackMatch[] = []
 
-    trackMatches.forEach(cat => {
+    scriptClasses.forEach(cat => {
         scripts.forEach(scr => {
             cat.patterns
-                .map(pattern => scr.script.match(new RegExp(pattern, 'ig')))
-                .filter(match => match !== null && match.length > 0 && !scr.done)
-                .forEach(match => {
-                    const script =
-                        // scr.script.length > 80
-                        //     ? `${scr.script.substr(0, 80)}...`
-                        //     : scr.script
-                    cat.matches.push(scr.script.replace(/\s/g, ' '))
-                    scr.done = true
+                .map(pattern => scr.code.match(new RegExp(pattern, 'ig')))
+                .filter(match => match !== null && match.length > 0)
+                .forEach(() => {
+                    if (!scr.done) {
+                        cat.matches.push(scr.code.replace(/\s/g, ' '))
+                        scr.done = true
+                    }
                 })
         })
         if (cat.matches.length > 0) {
@@ -80,9 +81,9 @@ const reporter = async (tabUrl: string, untypedScripts: any): Promise<string> =>
     })
 
     scripts
-        .filter(scr => !scr.done && scr.script.match(/^https\:\/\//))
+        .filter(scr => !scr.done && scr.code.match(/^https\:\/\//))
         .forEach(scr => {
-            unresolvedJS.matches.push(scr.script)
+            unresolvedJS.matches.push(scr.code)
         })
 
     var report: string = ''
@@ -91,67 +92,52 @@ const reporter = async (tabUrl: string, untypedScripts: any): Promise<string> =>
         throw new Error('No trackers found.')
     }
 
-    trackingItems = trackingItems.sort((a, b) =>
-        a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-    )
+    trackingItems = trackingItems.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
 
     if (unresolvedJS.matches.length > 0) {
         trackingItems.push(unresolvedJS)
     }
 
     trackingItems.forEach((t, i) => {
-        const matches = t.matches.map(match =>
-            match
-                .replace(/\&/g, `&amp;`)
-                .replace(/(\?|\&)/gi, '\n$1')
-                .split('\n')
-                .map(m => {
-                    if (!m.includes('=')) {
-                        return m
-                    }
-                    try {
-                        const labelValue = m.split('=')
-                        return `${labelValue[0]}=${decodeURI(labelValue[1])}`
-                    } catch (_) {
-                        return m
-                    }
-                })
-                .join('<br/><span></span>')
-        )
-
         const links: iLink[] = []
         if (t.url.length > 0) {
             links.push({url: t.url, label: 'Reference'})
         }
         const card = new Card()
         card.open(t.category, t.name, links, t.iconClass)
-        card.add(`
-        <div class='card-description'>${t.description}</div>
-        <div class='card-options'>
-          <div class='open-closed-icon closed-icon'></div>
-          <a class='link-in-card left-option n-scripts scrips-closed'>
-            ${matches.length.toFixed()} script${
-            matches.length === 1 ? '' : 's'
-        } found. </a>
-          <ul class='hide'>
-            <li>${matches.join('</li><li>')}</li>
-          </ul>
-        </div>`)
-        report += card.close()
+        card.add(
+            `
+            <div class='card-description'>${t.description}</div>
+            <div class='card-options'>
+            <div class='open-closed-icon closed-icon'></div>
+            <a class='link-in-card left-option n-scripts scrips-closed'>
+                ${t.matches.length.toFixed()} script${t.matches.length === 1 ? '' : 's'} found. </a>
+            <ul class='hide'>
+                ${t.matches
+                    .map(script => {
+                        const lines: string = js_beautify(script)
+                            .split('\n')
+                            .map(line => htmlEncode(line))
+                            .join('</br>')
+                            .replace(/\s/g, '&nbsp;')
+                        return `<li><div class='code'>${lines}</div></li>`
+                    })
+                    .join('')}
+            </ul>
+            </div>`
+        ).close()
+        result.push(Promise.resolve(card))
     })
-    return report
+    return result
 }
 
 const eventManager = () => {
-    const btns = [
-        ...document.querySelectorAll('.link-in-card.n-scripts'),
-    ] as HTMLAnchorElement[]
+    const btns = [...document.querySelectorAll('.link-in-card.n-scripts')] as HTMLAnchorElement[]
     btns.forEach(btn => btn.parentElement?.addEventListener('click', () => toggle(btn)))
 }
 
 const toggle = (btn: HTMLAnchorElement) => {
-    const ul: HTMLUListElement = btn.parentElement
-        ?.children[2] as HTMLUListElement
+    const ul: HTMLUListElement = btn.parentElement?.children[2] as HTMLUListElement
     if (ul === undefined) {
         return
     }
@@ -190,7 +176,7 @@ const localJsMatch = (url: string): iTrackMatch => {
 }
 
 export const actions: sectionActions = {
-    injector: injector,
-    reporter: reporter,
+    codeInjector: codeInjector,
+    reportGenerator: reportGenerator,
     eventManager: eventManager,
 }

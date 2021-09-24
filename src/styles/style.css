@@ -44,6 +44,7 @@ body#id-page-auditor {
   padding: 0;
   font-family: Roboto, Arial;
   color: var(--fc-brand-black);
+  cursor: default;
 }
 body#id-page-auditor header {
   padding: 8px 0;
@@ -158,8 +159,6 @@ body#id-page-auditor main #id-report-outer-container .inner-report-container .bo
   font-family: courier;
   padding: 8px;
   font-size: 0.9em;
-  overflow: auto;
-  overflow-wrap: break-word;
 }
 body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .card-options ul li:not(:first-child) {
   border-top: dotted 1px var(--border-color);
@@ -174,6 +173,10 @@ body#id-page-auditor main #id-report-outer-container .inner-report-container .bo
   width: 44px;
   display: inline-block;
 }
+body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .card-options ul li div.code {
+  overflow-wrap: break-word;
+  font-family: 'Courier New', Courier, monospace;
+}
 body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .card-options .open-closed-icon {
   border: solid 1px var(--fc-brand-dark-color);
   width: 12px;
@@ -183,6 +186,11 @@ body#id-page-auditor main #id-report-outer-container .inner-report-container .bo
   line-height: 1em;
   align-items: center;
   justify-content: space-evenly;
+  cursor: pointer;
+}
+body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .card-options .open-closed-icon:hover {
+  background-color: var(--fc-brand-dark-color);
+  color: var(--fc-brand-white);
 }
 body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .card-options .open-closed-icon.open-icon::before {
   content: '-';
@@ -273,6 +281,7 @@ body#id-page-auditor #id-twitter-card,
 body#id-page-auditor #id-swiftype-card {
   margin: 16px -12px 8px;
   padding: 0;
+  width: 100%;
 }
 body#id-page-auditor #id-facebook-card h2,
 body#id-page-auditor #id-twitter-card h2,

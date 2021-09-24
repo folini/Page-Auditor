@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// © 2021 - Franco Folini
+// (c) 2021 - Franco Folini
 //
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
@@ -25,6 +25,7 @@ body#id-page-auditor {
     padding: 0;
     font-family: Roboto, Arial;
     color: var(--fc-brand-black);
+    cursor: default;
 
     header {
         padding: 8px 0;
@@ -144,8 +145,6 @@ body#id-page-auditor {
                                 font-family: courier;
                                 padding: 8px;
                                 font-size: 0.9em;
-                                overflow: auto;
-                                overflow-wrap: break-word;
 
                                 &:not(:first-child) {
                                     border-top: dotted 1px var(--border-color);
@@ -162,6 +161,11 @@ body#id-page-auditor {
                                     width: 44px;
                                     display: inline-block;
                                 }
+
+                                div.code {
+                                    overflow-wrap: break-word;
+                                    font-family: 'Courier New', Courier, monospace;
+                                }
                             }
                         }
                         .open-closed-icon {
@@ -173,6 +177,13 @@ body#id-page-auditor {
                             line-height: 1em;
                             align-items: center;
                             justify-content: space-evenly;
+                            cursor: pointer;
+
+                            &:hover {
+                                background-color: var(--fc-brand-dark-color);
+                                color: var(--fc-brand-white);
+                            }
+
                             &.open-icon::before {
                                 content: '-';
                             }
@@ -234,7 +245,7 @@ body#id-page-auditor {
                             background-repeat: no-repeat;
                             background-size: 13px;
                             color: var(--fc-brand-dark-color);
-                            padding-left: 8px;;
+                            padding-left: 8px;
                         }
                     }
 
@@ -280,6 +291,7 @@ body#id-page-auditor {
     #id-swiftype-card {
         margin: 16px -12px 8px;
         padding: 0;
+        width: 100%;
         h2 {
             color: #000;
         }
@@ -372,8 +384,7 @@ body#id-page-auditor {
             li {
                 border-style: solid;
                 border-width: 4px 1px 1px;
-                border-color: var(--fc-brand-dark-color)
-                    var(--fc-brand-dark-color) transparent
+                border-color: var(--fc-brand-dark-color) var(--fc-brand-dark-color) transparent
                     var(--fc-brand-dark-color);
                 border-radius: 0.25rem 0.25rem 0 0 !important;
                 display: flex;

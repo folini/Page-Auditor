@@ -9,6 +9,9 @@ module.exports = {
     filename: "main.js",
     publicPath: '',
   },
+  performance: {
+    maxAssetSize: 500000,
+  },
   module: {
     rules: [
       {

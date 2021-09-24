@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// © 2021 - Franco Folini
+// (c) 2021 - Franco Folini
 //
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
@@ -24,41 +24,22 @@ export interface iTagCategory {
     preview: iTagCategoryPreviewer
 }
 
-export const noPreview: iTagCategoryPreviewer = (
-    m: iMetaTag[],
-    t: iDefaultTagValues
-) => ''
+export const noPreview: iTagCategoryPreviewer = (m: iMetaTag[], t: iDefaultTagValues) => ''
 
-export const twitterPreview = (
-    tags: iMetaTag[],
-    defaults: iDefaultTagValues
-): string => {
+export const twitterPreview = (tags: iMetaTag[], defaults: iDefaultTagValues): string => {
     const linkIcon =
         `<svg viewBox="0 0 24 24" aria-hidden="true" class="r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr">` +
         `<g>` +
         `<path d="M11.96 14.945c-.067 0-.136-.01-.203-.027-1.13-.318-2.097-.986-2.795-1.932-.832-1.125-1.176-2.508-.968-3.893s.942-2.605 2.068-3.438l3.53-2.608c2.322-1.716 5.61-1.224 7.33 1.1.83 1.127 1.175 2.51.967 3.895s-.943 2.605-2.07 3.438l-1.48 1.094c-.333.246-.804.175-1.05-.158-.246-.334-.176-.804.158-1.05l1.48-1.095c.803-.592 1.327-1.463 1.476-2.45.148-.988-.098-1.975-.69-2.778-1.225-1.656-3.572-2.01-5.23-.784l-3.53 2.608c-.802.593-1.326 1.464-1.475 2.45-.15.99.097 1.975.69 2.778.498.675 1.187 1.15 1.992 1.377.4.114.633.528.52.928-.092.33-.394.547-.722.547z"></path><path d="M7.27 22.054c-1.61 0-3.197-.735-4.225-2.125-.832-1.127-1.176-2.51-.968-3.894s.943-2.605 2.07-3.438l1.478-1.094c.334-.245.805-.175 1.05.158s.177.804-.157 1.05l-1.48 1.095c-.803.593-1.326 1.464-1.475 2.45-.148.99.097 1.975.69 2.778 1.225 1.657 3.57 2.01 5.23.785l3.528-2.608c1.658-1.225 2.01-3.57.785-5.23-.498-.674-1.187-1.15-1.992-1.376-.4-.113-.633-.527-.52-.927.112-.4.528-.63.926-.522 1.13.318 2.096.986 2.794 1.932 1.717 2.324 1.224 5.612-1.1 7.33l-3.53 2.608c-.933.693-2.023 1.026-3.105 1.026z"></path>` +
         `</g>` +
         `</svg>`
-    const title =
-        tags.find(m => m.property === 'twitter:title')?.content ||
-        defaults.title
+    const title = tags.find(m => m.property === 'twitter:title')?.content || defaults.title
     const img =
-        tags.find(
-            m =>
-                m.property === 'twitter:image' ||
-                m.property === 'twitter:image:src'
-        )?.content || defaults.img
-    var description =
-        tags.find(m => m.property === 'twitter:description')?.content ||
-        defaults.description
-    description =
-        description.length < 128
-            ? description
-            : description.substr(0, 128) + '&mldr;'
+        tags.find(m => m.property === 'twitter:image' || m.property === 'twitter:image:src')?.content || defaults.img
+    var description = tags.find(m => m.property === 'twitter:description')?.content || defaults.description
+    description = description.length < 128 ? description : description.substr(0, 128) + '&mldr;'
     var domain =
-        tags.find(
-            m => m.property === 'twitter:domain' || m.property === 'twitter:url'
-        )?.content || defaults.domain
+        tags.find(m => m.property === 'twitter:domain' || m.property === 'twitter:url')?.content || defaults.domain
     if (domain.startsWith('http')) {
         domain = domain.replace(/https?:\/\/(www.)?((\w+\.)?\w+\.\w+).*/i, `$2`)
     }
@@ -70,28 +51,17 @@ export const twitterPreview = (
         <div class='twitter-card-legend'>
             <div class='twitter-card-title'>${title}</div>
             <div class='twitter-card-description'>${description}</div>
-            ${
-                domain.length > 0
-                    ? `<div class='twitter-card-domain'>${linkIcon} ${domain}</div>`
-                    : ''
-            }
+            ${domain.length > 0 ? `<div class='twitter-card-domain'>${linkIcon} ${domain}</div>` : ''}
           </div>
         </div>
       </div>`
 }
 
-export const openGraphPreview = (
-    tags: iMetaTag[],
-    defaults: iDefaultTagValues
-) => {
+export const openGraphPreview = (tags: iMetaTag[], defaults: iDefaultTagValues) => {
     const title = tags.find(m => m.property === 'og:title')?.content || ''
     const img = tags.find(m => m.property === 'og:image')?.content || ''
-    var description =
-        tags.find(m => m.property === 'og:description')?.content || ''
-    description =
-        description.length < 215
-            ? description
-            : description.substr(0, 214) + '&mldr;'
+    var description = tags.find(m => m.property === 'og:description')?.content || ''
+    description = description.length < 215 ? description : description.substr(0, 214) + '&mldr;'
     var domain = tags.find(m => m.property === 'og:url')?.content || ''
     if (domain.startsWith('http')) {
         domain = domain.replace(/https?:\/\/(www.)?((\w+\.)?\w+\.\w+).*/i, `$2`)
@@ -101,17 +71,9 @@ export const openGraphPreview = (
     return `
       <div class='card-options'>
           <div id='id-facebook-card'>        
-            ${
-                img.length > 0 && img.startsWith('http')
-                    ? `<img src='${img}'>`
-                    : ``
-            }
+            ${img.length > 0 && img.startsWith('http') ? `<img src='${img}'>` : ``}
             <div class='open-graph-card-legend'>
-              ${
-                  domain.length > 0
-                      ? `<div class='open-graph-card-domain'>${domain}</div>`
-                      : ''
-              }
+              ${domain.length > 0 ? `<div class='open-graph-card-domain'>${domain}</div>` : ''}
               <h2>${title}</h2>
               <div class='og-description'>${description}</div>
             </div>
@@ -186,9 +148,7 @@ export const tagCategories: iTagCategory[] = [
         url: 'https://support.google.com/webmasters/answer/9008080?hl=en#zippy=%2Chtml-tag',
         cssClass: 'icon-lock',
         filter: m =>
-            m.property.includes('verification') ||
-            m.property.includes(`validate`) ||
-            m.property.includes(`verify`),
+            m.property.includes('verification') || m.property.includes(`validate`) || m.property.includes(`verify`),
         preview: noPreview,
     },
     {
@@ -241,9 +201,7 @@ export const tagCategories: iTagCategory[] = [
         description: `Cxense proprietary meta tags. Cxense was a Norwegian technology company, acquired by Piano.`,
         url: 'https://www.cxense.com/',
         cssClass: 'icon-cxense',
-        filter: m =>
-            m.property.startsWith('cxense:') ||
-            m.property.startsWith('cxenseparse:'),
+        filter: m => m.property.startsWith('cxense:') || m.property.startsWith('cxenseparse:'),
         preview: noPreview,
     },
     {
@@ -283,8 +241,7 @@ export const tagCategories: iTagCategory[] = [
         description: `X-UA-Compatible is a document mode meta tag that allows web authors to choose what version of Internet Explorer the page should be rendered as. It is used by Internet Explorer 8 to specify whether a page should be rendered as IE 7 (compatibility view) or IE 8 (standards view).`,
         url: 'https://docs.microsoft.com/en-us/openspecs/ie_standards/ms-iedoco/380e2488-f5eb-4457-a07a-0cb1b6e4b4b5',
         cssClass: 'icon-ie',
-        filter: m =>
-            m.property === `x-ua-compatible` || m.property == 'cleartype',
+        filter: m => m.property === `x-ua-compatible` || m.property == 'cleartype',
         preview: noPreview,
     },
     {
@@ -313,14 +270,11 @@ export const tagCategories: iTagCategory[] = [
     },
 ]
 
-export const renderMetaCategory = (
-    metaCat: iTagCategory,
-    metaList: iMetaTag[],
-    preview: string
-): string => {
+export const renderMetaCategory = (metaCat: iTagCategory, metaList: iMetaTag[], preview: string): Card => {
     if (metaList.length === 0) {
-        return ''
+        return new Card().error('List of Meta tags is empty')
     }
+
     const listOfMeta = metaList
         .map(
             m =>
@@ -343,7 +297,7 @@ export const renderMetaCategory = (
         <div class='card-description'>${metaCat.description}</div>
         <div class='meta-items'>${listOfMeta}</div>
         ${preview}
-      `
+        `
         )
         .close()
 }

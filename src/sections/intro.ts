@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// © 2021 - Franco Folini
+// (c) 2021 - Franco Folini
 //
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
@@ -9,74 +9,84 @@ import {sectionActions} from '../main'
 
 const scriptClasses = require('../jsons/scriptClasses.json') as any[]
 
-const injector = () => undefined
+const suggestedSites = [
+    {label: 'CNN', url: 'https://cnn.com/'},
+    {label: 'MailChimp', url: 'https://mailchimp.com/'},
+    {label: 'REI', url: 'https://rei.com/'},
+]
+
+const codeInjector = () => undefined
 const eventManager = () => undefined
 
-const reporter = async (tabUrl: string, data: any): Promise<string> => {
-    var report: string = ''
+const reportGenerator = async (tabUrl: string, data: any): Promise<Promise<Card>[]> => {
+    var result: Promise<Card>[] = []
 
-    const suggestedSites = [
-        {label: 'CNN', url: 'https://cnn.com/'},
-        {label: 'MailChimp', url: 'https://mailchimp.com/'},
-        {label: 'REI', url: 'https://rei.com/'},
-    ]
-    report += new Card()
-        .open(``, `How to use Page Auditor for Technical SEO`, [], 'icon-how')
-        .add(
-            `<i>Page Auditor</i> shows the snippets of code and tags included in the HTML code relevant for the on-page SEO of a web page.<br/>` +
-                `To test this Chrome Extension, visit a popular page like:` +
-                `<ul>` +
-                suggestedSites
-                    .map(
-                        link =>
-                            `<li><a href='${link.url}' target='_new'>${link.label}</a></li>`
-                    )
-                    .join('') +
-                `</ul>` +
-                `Once the browser has loaded the selected page, launch the Page Auditor for Technical SEO extension. Now you can access all reports and learn about what contributes to the SEO performance of the page.`
+    result.push(
+        Promise.resolve(
+            new Card()
+                .open(``, `How to use Page Auditor for Technical SEO`, [], 'icon-how')
+                .add(
+                    `<i>Page Auditor</i> shows the snippets of code and tags included in the HTML code relevant for the on-page SEO of a web page.<br/>` +
+                        `To test this Chrome Extension, visit a popular page like:` +
+                        `<ul>` +
+                        suggestedSites
+                            .map(link => `<li><a href='${link.url}' target='_new'>${link.label}</a></li>`)
+                            .join('') +
+                        `</ul>` +
+                        `Once the browser has loaded the selected page, launch the Page Auditor for Technical SEO extension. Now you can access all reports and learn about what contributes to the SEO performance of the page.`
+                )
+                .close()
         )
-        .close()
+    )
 
-    report += new Card()
-        .open(``, `Why Page Auditor`, [], 'icon-why')
-        .add(
-            `
-    <b>Page Auditor</b> r is a professional tool for Digital Marketers. Even if you are not a marketing expert, you can use "Page Auditor" to learn about on-page technical SEO.
-    <br/>
-    <b>Page Auditor</b> can recognize ${scriptClasses.length.toFixed()} different types of JavaScript code injected into a web page.
-    Among the categories of JavaScript identified by <b>Page Auditor</b>:
-    <ul>
-      <li>Advertising</li>
-      <li>Tracking</li>
-      <li>Email &amp; marketing Automation</li>
-      <li>Analytics</li>
-      <li>Tag Managers</li>
-    </ul>`
+    result.push(
+        Promise.resolve(
+            new Card()
+                .open(``, `Why Page Auditor`, [], 'icon-why')
+                .add(
+                    `
+                    <b>Page Auditor</b> r is a professional tool for Digital Marketers. Even if you are not a marketing expert, you can use "Page Auditor" to learn about on-page technical SEO.
+                    <br/>
+                    <b>Page Auditor</b> can recognize ${scriptClasses.length.toFixed()} different types of JavaScript code injected into a web page.
+                    Among the categories of JavaScript identified by <b>Page Auditor</b>:
+                    <ul>
+                    <li>Advertising</li>
+                    <li>Tracking</li>
+                    <li>Email &amp; marketing Automation</li>
+                    <li>Analytics</li>
+                    <li>Tag Managers</li>
+                    </ul>`
+                )
+                .close()
         )
-        .close()
+    )
 
-    report += new Card()
-        .open(``, `Open Source?`, [], 'icon-open')
-        .add(
-            `
-    <b>Page Auditor</b> is an open source project created by <a target="_new" href='https://www.linkedin.com/in/francofolini/'>Franco Folini</a>. 
-    That means anybody is free to use, study, modify, and distribute the source code of project for any purpose, within the limits set by the license.
-    <br/><br/>
-    <b>Page Auditor</b> source code is distributed with a <a target="_new" href='https://github.com/folini/Page-Auditor/blob/main/LICENSE.md'>BSD 3-Clause License</a>. 
-    <br/><br/>
-    The <b>Page Auditor</b> has been created using <a target="_new" href='https://www.typescriptlang.org/'>Typescript</a>. If you are not familiar with development, TypeScript is a superset of the famous JavaScript.
-    The project has been developed <a href='https://code.visualstudio.com/'>Visual Studio Code</a> and extensively tested using the 
-    <a target="_new" href='https://jestjs.io/'>JEST</a> testing tools.
-    <br/><br/>
-    You can access the source code on the <a target="_new" href='https://github.com/folini/Page-Auditor'>public project repository on GitHub</a>.`
+    result.push(
+        Promise.resolve(
+            new Card()
+                .open(``, `Open Source?`, [], 'icon-open')
+                .add(
+                    `
+                    <b>Page Auditor</b> is an open source project created by <a target="_new" href='https://www.linkedin.com/in/francofolini/'>Franco Folini</a>. 
+                    That means anybody is free to use, study, modify, and distribute the source code of project for any purpose, within the limits set by the license.
+                    <br/><br/>
+                    <b>Page Auditor</b> source code is distributed with a <a target="_new" href='https://github.com/folini/Page-Auditor/blob/main/LICENSE.md'>BSD 3-Clause License</a>. 
+                    <br/><br/>
+                    The <b>Page Auditor</b> has been created using <a target="_new" href='https://www.typescriptlang.org/'>Typescript</a>. If you are not familiar with development, TypeScript is a superset of the famous JavaScript.
+                    The project has been developed <a href='https://code.visualstudio.com/'>Visual Studio Code</a> and extensively tested using the 
+                    <a target="_new" href='https://jestjs.io/'>JEST</a> testing tools.
+                    <br/><br/>
+                    You can access the source code on the <a target="_new" href='https://github.com/folini/Page-Auditor'>public project repository on GitHub</a>.`
+                )
+                .close()
         )
-        .close()
+    )
 
-    return report
+    return result
 }
 
 export const actions: sectionActions = {
-    injector: injector,
-    reporter: reporter,
+    codeInjector: codeInjector,
+    reportGenerator: reportGenerator,
     eventManager: eventManager,
 }

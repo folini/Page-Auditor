@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// © 2021 - Franco Folini
+// (c) 2021 - Franco Folini
 //
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
@@ -22,6 +22,7 @@ test("Card, without category and link, generates valid HTML", () => {
     .open(preTitle, title, links, cssClass)
     .add(body)
     .close()
+    .render()
   expect(data)
     .toBeString()
     .toContain(
@@ -44,6 +45,7 @@ test("Card, with category, generates valid HTML", () => {
     .open(preTitle, title, links, cssClass)
     .add(body)
     .close()
+    .render()
   expect(data)
     .toBeString()
     .toContain(
@@ -66,6 +68,7 @@ test("Card, calling .add() with an empty string, generates valid HTML", () => {
     .open(preTitle, title, links, cssClass)
     .add(body)
     .close()
+    .render()
   expect(data)
     .toBeString()
     .toHTMLValidate()
@@ -74,6 +77,7 @@ test("Card, calling .add() with an empty string, generates valid HTML", () => {
 test("Error Card generates valid HTML", () => {
   const msg = '<div>Some error description</div>'
   const data = new Card().error(msg)
+  .render()
   expect(data)
     .toBeString()
     .toContain(
@@ -87,14 +91,31 @@ test("Error Card generates valid HTML", () => {
 })
 
 test("Warning Card generates valid HTML", () => {
-  const msg = '<div>Some error description</div>'
+  const msg = '<div>Some warning description</div>'
   const data = new Card().warning(msg)
+  .render()
   expect(data)
     .toBeString()
     .toContain(
       `<h2 class='subTitle icon-warning'>` +
         `<div class='track-category'></div>` +
         `Warning` +
+        `<div class='link-in-card'></div>` +
+      `</h2>`)
+    .toContain(msg)
+    .toHTMLValidate()
+})
+
+test("Suggestion Card generates valid HTML", () => {
+  const msg = '<div>Some suggestion</div>'
+  const data = new Card().suggestion(msg)
+  .render()
+  expect(data)
+    .toBeString()
+    .toContain(
+      `<h2 class='subTitle icon-suggestion'>` +
+        `<div class='track-category'></div>` +
+        `Suggestion` +
         `<div class='link-in-card'></div>` +
       `</h2>`)
     .toContain(msg)

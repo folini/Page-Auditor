@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// © 2021 - Franco Folini
+// (c) 2021 - Franco Folini
 //
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
@@ -21,7 +21,7 @@ export interface iDefaultTagValues {
     domain: string
 }
 
-const injector = () =>
+const codeInjector = () =>
     ([...document.querySelectorAll(`head meta`)] as HTMLMetaElement[])
         .map(m => ({
             property: (
@@ -37,16 +37,13 @@ const injector = () =>
 
 const eventManager = () => undefined
 
-const reporter = async (tabUrl: string, data: any): Promise<string> => {
+const reportGenerator = async (tabUrl: string, data: any): Promise<Promise<Card>[]> => {
     var meta = data as iMetaTag[]
-    var report: string = ''
+    var result: Promise<Card>[] = []
 
     var defaultTags: iDefaultTagValues = {
-        title:
-            meta.find(m => m.property === 'og:title' || m.property === 'title')
-                ?.content || '',
-        description:
-            meta.find(m => m.property === 'description')?.content || '',
+        title: meta.find(m => m.property === 'og:title' || m.property === 'title')?.content || '',
+        description: meta.find(m => m.property === 'description')?.content || '',
         img: meta.find(m => m.property === 'og:image')?.content || '',
         domain: meta.find(m => m.property === 'og:url')?.content || '',
     }
@@ -54,22 +51,20 @@ const reporter = async (tabUrl: string, data: any): Promise<string> => {
     tagCategories.forEach(mc => {
         const matched = meta.filter(mc.filter)
         meta = meta.filter(m => !matched.includes(m))
-        report += renderMetaCategory(
-            mc,
-            matched,
-            mc.preview(matched, defaultTags)
-        )
+        if (matched.length > 0) {
+            result.push(Promise.resolve(renderMetaCategory(mc, matched, mc.preview(matched, defaultTags))))
+        }
     })
 
-    if (report.length == 0) {
-        report = new Card().warning(`No Meta Tags found on this page.`)
+    if (result.length == 0) {
+        result.push(Promise.resolve(new Card().warning(`No Meta Tags found on this page.`)))
     }
 
-    return report
+    return result
 }
 
 export const actions: sectionActions = {
-    injector: injector,
-    reporter: reporter,
+    codeInjector: codeInjector,
+    reportGenerator: reportGenerator,
     eventManager: eventManager,
 }

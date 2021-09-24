@@ -38,11 +38,7 @@
         "url": "https://www.facebook.com/business/help/742478679120153"
     },
     {
-        "patterns": [
-            ".licdn.com/",
-            ".linkedin.com/js/analytics",
-            ".linkedin.com/"
-        ],
+        "patterns": [".licdn.com/", ".linkedin.com/js/analytics", ".linkedin.com/"],
         "name": "LinkedIn",
         "category": "Ads Tracking",
         "iconClass": "icon-linkedin",
@@ -473,7 +469,8 @@
         "iconClass": "icon-ada",
         "description": "Ada is a computer software company that features a chatbot-based platform that helps enterprise businesses to automate customer experience.",
         "url": "https://www.ada.cx/"
-    },{
+    },
+    {
         "patterns": [".redditstatic.com/", ".reddit.com/"],
         "name": "Reddit",
         "category": "Ads Tracking",
@@ -682,12 +679,7 @@
         "url": "https://chartbeat.com/"
     },
     {
-        "patterns": [
-            ".s-onetag.com/",
-            ".onetag.com/",
-            "onetag-sys.com/",
-            "onetag-cdn.com/"
-        ],
+        "patterns": [".s-onetag.com/", ".onetag.com/", "onetag-sys.com/", "onetag-cdn.com/"],
         "name": "Onetag",
         "category": "Ads &amp; Tracking",
         "iconClass": "icon-onetag",
@@ -911,11 +903,7 @@
         "url": "https://www.teads.com/"
     },
     {
-        "patterns": [
-            ".salesforceliveagent.com/",
-            ".sfdcstatic.com/",
-            "force.com/"
-        ],
+        "patterns": [".salesforceliveagent.com/", ".sfdcstatic.com/", "force.com/"],
         "name": "SalesForce",
         "category": "CRM",
         "iconClass": "icon-salesforce",

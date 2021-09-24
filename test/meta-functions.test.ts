@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// © 2021 - Franco Folini
+// (c) 2021 - Franco Folini
 //
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
@@ -58,8 +58,8 @@ test('NoPreview card generator', () => {
     expect(data).toBeString().toBe('').toHTMLValidate()
 })
 
-test("renderMetaCategory render proper HTML Card", () => {
+test("renderMetaCategory() render proper HTML Card", () => {
     const data = renderMetaCategory(MockData.MetaTagCategorySample, [MockData.MetaTagSample], noPreview([MockData.MetaTagSample], MockData.DefaultTagValuesSample))
-    expect(data).toBeString().toHTMLValidate()
+    expect(data.render()).toBeString().toHTMLValidate()
 })
 

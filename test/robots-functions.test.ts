@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// © 2021 - Franco Folini
+// (c) 2021 - Franco Folini
 //
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
@@ -14,7 +14,7 @@ import {
     getRobotsTxtCard,
     getSiteMapFileBody,
 } from '../src/sections/robots-functions'
-import * as MockData from "./mock-data.test"
+import * as MockData from './mock-data.test'
 
 // Jest imports
 import 'jest-get-type'
@@ -22,7 +22,6 @@ import 'html-validate/jest'
 import 'jest-chain'
 import 'jest-extended'
 import fetchMock from 'jest-fetch-mock'
-
 
 describe('getSiteMaps() and getRobotsTxt()', () => {
     beforeEach(() => {
@@ -43,23 +42,22 @@ describe('getSiteMaps() and getRobotsTxt()', () => {
     })
 
     test('getSitemapCards() generates valid HTML Card from a mock sitemap.xml', async () => {
-        const data = await getSiteMapCards(MockData.SitemapUrlsSample)
-        expect(data).toBeString().toHTMLValidate()
+        const cardPromises = getSiteMapCards(MockData.SitemapUrlsSample)
+        cardPromises.map(promise => promise.then(card => expect(card).toHTMLValidate()))
     })
 
     test('getSiteMapFileBody() generates valid sitemap.xml', async () => {
-        const data = (await getSiteMapFileBody(MockData.SitemapUrlsSample[0])) as string
-        expect(data).toBeString()
-        expect(data.includes(MockData.SitemapXmlEncodedBodySample)).toBe(true)
+        const stringPromise = getSiteMapFileBody(MockData.SitemapUrlsSample[0])
+        stringPromise.then(string => {
+            expect(string).toBeString()
+            expect(string.includes(MockData.SitemapXmlEncodedBodySample)).toBe(true)
+        })
     })
 
     test('getRobotsTxtCards() generates valid HTML cards from robots.txt url', async () => {
-        const data = await getRobotsTxtCard(
-            MockData.RobotsTxtUrlSample,
-            MockData.RobotsTxtBodySample
-        )
-        expect(data).toBeString().toHTMLValidate()
-        expect((data as string).includes(MockData.RobotsTxtBodySample)).toBe(true)
+        const card = getRobotsTxtCard(MockData.RobotsTxtUrlSample, MockData.RobotsTxtBodySample)
+        expect(card.render()).toBeString().toHTMLValidate()
+        expect(card.render().includes(MockData.RobotsTxtBodySample)).toBe(true)
     })
 
     test('getRobotsTxtFileBody() generates valid robots.txt url', async () => {
@@ -103,8 +101,12 @@ describe('getSiteMaps() and getRobotsTxt()', () => {
     })
 
     test('getSitemapCards() generates valid HTML Card from an exception', async () => {
-        const data = await getSiteMapCards(MockData.SitemapUrlsSample)
-        expect(data).toBeString().toHTMLValidate()
+        const cardPromises = getSiteMapCards(MockData.SitemapUrlsSample)
+        cardPromises.map(promise => 
+            promise.then(card =>
+                expect(card.render()).toBeString().toHTMLValidate()
+            )
+        )
     })
 
     test('getSiteMapFileBody() generates exception', async () => {
@@ -113,36 +115,36 @@ describe('getSiteMaps() and getRobotsTxt()', () => {
 
     test('getRobotsTxtCards() generates valid HTML cards from from an exception', async () => {
         const data = getRobotsTxtCard(MockData.RobotsTxtUrlSample, MockData.RobotsTxtBodySample)
-        expect(data).toBeString().toHTMLValidate()
+        expect(data.render()).toBeString().toHTMLValidate()
     })
-    
+
     test('getRobotsTxtFileBody() generates valid robots.txt url', async () => {
         await expect(getRobotsTxtFileBody(MockData.RobotsTxtUrlSample)).rejects.toThrow()
     })
-
 })
 
 describe('getSiteMapFileBody() and getRobotsTxtFileBody()', () => {
-  beforeEach(() => {
-      fetchMock.enableMocks()
-      fetchMock.doMock()
-      fetchMock.mockResponse(req => Promise.resolve({
-        status: 404,
-        body: "Not Found"
-      }))
-  })
+    beforeEach(() => {
+        fetchMock.enableMocks()
+        fetchMock.doMock()
+        fetchMock.mockResponse(req =>
+            Promise.resolve({
+                status: 404,
+                body: 'Not Found',
+            })
+        )
+    })
 
-  afterEach(() => {
-      jest.clearAllMocks()
-      fetchMock.dontMock()
-  })
+    afterEach(() => {
+        jest.clearAllMocks()
+        fetchMock.dontMock()
+    })
 
-  test('getSiteMapFileBody() generates exception', async () => {
-      await expect(getSiteMapFileBody(MockData.SitemapUrlsSample[0])).rejects.toThrow()
-  })
+    test('getSiteMapFileBody() generates exception', async () => {
+        await expect(getSiteMapFileBody(MockData.SitemapUrlsSample[0])).rejects.toThrow()
+    })
 
-  test('getRobotsTxtFileBody() generates valid robots.txt url', async () => {
-      await expect(getRobotsTxtFileBody(MockData.RobotsTxtUrlSample)).rejects.toThrow()
-  })
-
+    test('getRobotsTxtFileBody() generates valid robots.txt url', async () => {
+        await expect(getRobotsTxtFileBody(MockData.RobotsTxtUrlSample)).rejects.toThrow()
+    })
 })

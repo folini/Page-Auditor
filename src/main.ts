@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// © 2021 - Franco Folini
+// (c) 2021 - Franco Folini
 //
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
@@ -18,8 +18,8 @@ import * as Intro from './sections/intro'
 import * as Robots from './sections/robots'
 
 export type sectionActions = {
-    injector: () => any
-    reporter: (url: string, data: any) => Promise<string>
+    codeInjector: () => any
+    reportGenerator: (url: string, data: any) => Promise<Promise<Card>[]>
     eventManager: () => void
 }
 
@@ -77,25 +77,21 @@ async function action(section: sectionType, actions: sectionActions) {
     try {
         res = await chrome.scripting.executeScript({
             target: {tabId: tab.id} as chrome.scripting.InjectionTarget,
-            function: actions.injector,
+            function: actions.codeInjector,
         })
-        report = await actions.reporter(
-            tab.url || '',
-            res.length > 0 ? res[0].result : undefined
-        )
+        const cardPromises = await actions.reportGenerator(tab.url || '', res.length > 0 ? res[0].result : undefined)
+        const cards = await Promise.all(cardPromises)
+        report = cards.map(card => card.render()).join('\n')
     } catch (err: any) {
         const emptyTab = `Cannot access a chrome:// URL`
         const emptyTabMsg = `<b>Page Auditor</b> can not run on empty or internal Chrome tabs.<br/><br/>Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
-        const error = err as Error
-        report = new Card().error(
-            err.message === emptyTab ? emptyTabMsg : err.message
-        )
-    }
+        report = new Card().error(err.message === emptyTab ? emptyTabMsg : err.message).render()
+    } finally {
+        document.getElementById(section.reportId)!.innerHTML = report
 
-    document.getElementById(section.reportId)!.innerHTML = report
-
-    if (actions.eventManager !== undefined) {
-        actions.eventManager()
+        if (actions.eventManager !== undefined) {
+            actions.eventManager()
+        }
     }
 }
 
@@ -111,9 +107,7 @@ const activateSection = (activeSec: sectionType) => {
 
 document.addEventListener('DOMContentLoaded', () => {
     const tabsContainer = document.getElementById('id-tabs') as HTMLUListElement
-    const reportContainer = document.getElementById(
-        'id-report-outer-container'
-    ) as HTMLDivElement
+    const reportContainer = document.getElementById('id-report-outer-container') as HTMLDivElement
     sections.forEach((section, i) => {
         const sep = document.createElement('li')
         sep.className = i === 0 ? 'gap-mini' : 'gap-sep'

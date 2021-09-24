@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// © 2021 - Franco Folini
+// (c) 2021 - Franco Folini
 //
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
@@ -58,6 +58,6 @@ test('getLines() returns array of lines', () => {
 })
 
 test('ldJsonCard() creates card with proper HTML', () => {
-    const data = ldJsonCard(MockData.LdJsonSample, MockData.UrlSample)
+    const data = ldJsonCard(MockData.LdJsonSample, MockData.UrlSample).render()
     expect(data).toBeString().toHTMLValidate()
 })

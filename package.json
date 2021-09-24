@@ -22,6 +22,7 @@
   "devDependencies": {
     "@types/chrome": "0.0.148",
     "@types/jest": "^27.0.1",
+    "@types/js-beautify": "^1.13.3",
     "@types/jsdom": "^16.2.13",
     "@types/node": "^16.9.1",
     "copy-webpack-plugin": "^9.0.1",
@@ -32,6 +33,7 @@
     "jest-environment-jsdom": "^27.1.0",
     "jest-extended": "^0.11.5",
     "jest-fetch-mock": "^3.0.3",
+    "js-beautify": "^1.14.0",
     "js-htmlencode": "^0.3.0",
     "jsdom": "^17.0.0",
     "less": "^4.1.1",

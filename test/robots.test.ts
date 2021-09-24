@@ -1,12 +1,12 @@
 // ----------------------------------------------------------------------------
-// © 2021 - Franco Folini
+// (c) 2021 - Franco Folini
 //
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {actions} from '../src/sections/robots'
 import * as RobotFunctions from '../src/sections/robots-functions'
-import * as MockData from "./mock-data.test"
+import * as MockData from './mock-data.test'
 
 // Jest imports
 import 'jest-get-type'
@@ -15,8 +15,7 @@ import 'jest-chain'
 import 'jest-extended'
 import {enableFetchMocks} from 'jest-fetch-mock'
 
-
-describe('report()', () => {
+describe('reportGenerator()', () => {
     beforeAll(() => {
         enableFetchMocks()
         fetchMock.doMock()
@@ -34,57 +33,63 @@ describe('report()', () => {
         fetchMock.dontMock()
     })
 
-    test('Report() generates valid HTML from a mock robots.txt', async () => {
-        const data = await actions.reporter(MockData.UrlSample, actions.injector())
-        expect(data).toBeString().toHTMLValidate()
+    test('reportGenerator() generates valid HTML from a mock robots.txt', async () => {
+        const cardPromises = await actions.reportGenerator(MockData.UrlSample, actions.codeInjector())
+        cardPromises.map(promise => promise.then(card => expect(card).toHTMLValidate()))
     })
 
-    test('Report() generates empty report when url is empty', async () => {
-        const data = await actions.reporter('', actions.injector())
-        expect(data).toBe('')
+    test('reportGenerator() generates empty report when url is empty', async () => {
+        const cardPromises = await actions.reportGenerator('', actions.codeInjector())
+        cardPromises.map(promise => promise.then(card => expect(card).toBe('')))
+    })
+
+    test("eventManager() always returns 'undefined'", () => {
+        const data = actions.eventManager()
+        expect(data).toBeUndefined()
+    })
+
+    test("codeInjector() always returns 'undefined'", () => {
+        const data = actions.codeInjector()
+        expect(data).toBeUndefined()
     })
 })
 
-test("eventManager() always returns 'undefined'", () => {
-    const data = actions.eventManager()
-    expect(data).toBeUndefined()
-})
-
-test("injector() always returns 'undefined'", () => {
-    const data = actions.injector()
-    expect(data).toBeUndefined()
-})
-
-describe("reporter()", () => {
+describe('reportGenerator()', () => {
     beforeEach(() => {
-        jest.spyOn(RobotFunctions, 'getRobotsTxtFileBody').mockImplementation(
-            () => Promise.resolve(''))
+        jest.spyOn(RobotFunctions, 'getRobotsTxtFileBody').mockImplementation(() => Promise.resolve(''))
     })
 
     afterEach(() => {
         jest.clearAllMocks()
     })
 
-    test('Report() generates empty report when injector() returns empty string', async () => {
-        const data = await actions.reporter(MockData.UrlSample, actions.injector())
-        expect(data).toBeString()
-        expect(RobotFunctions.getRobotsTxtFileBody).toBeCalledTimes(1)
+    test('reportGenerator() generates empty report when injector() returns empty string', async () => {
+        const cardPromises = await actions.reportGenerator(MockData.UrlSample, actions.codeInjector())
+        cardPromises.map(promise =>
+            promise.then(card => {
+                expect(card).toBeString()
+                expect(RobotFunctions.getRobotsTxtFileBody).toBeCalledTimes(1)
+            })
+        )
     })
 })
 
-describe("reporter()", () => {
+describe('reportGenerator()', () => {
     beforeEach(() => {
-        jest.spyOn(RobotFunctions, 'getRobotsTxtFileBody').mockImplementation(
-            () => {throw new Error('generated error')})
+        jest.spyOn(RobotFunctions, 'getRobotsTxtFileBody').mockImplementation(() => Promise.reject('generated error'))
     })
 
     afterEach(() => {
         jest.clearAllMocks()
     })
 
-    test('Report() generates empty report when injector() throws an exception', async () => {
-        const data = await actions.reporter(MockData.UrlSample, actions.injector())
-        expect(data).toBeString()
-        expect(RobotFunctions.getRobotsTxtFileBody).toBeCalledTimes(1)
+    test('reportGenerator() generates empty report when codeInjector() throws an exception', async () => {
+        const cardPromises = await actions.reportGenerator(MockData.UrlSample, actions.codeInjector())
+        cardPromises.map(promise =>
+            promise.then(card => {
+                expect(card.render()).toBeString()
+                expect(RobotFunctions.getRobotsTxtFileBody).toBeCalledTimes(1)
+            })
+        )
     })
 })

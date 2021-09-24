@@ -1,5 +1,5 @@
 // ----------------------------------------------------------------------------
-// © 2021 - Franco Folini
+// (c) 2021 - Franco Folini
 //
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
@@ -57,9 +57,7 @@ export const schemaLinks = (schemaName: string, ldjsonUrl: string) => [
 ]
 
 export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string) => {
-    const schemaType: string = (ldJson['@type'] ||
-        ldJson['@graph'] ||
-        'Graph') as string
+    const schemaType: string = (ldJson['@type'] || ldJson['@graph'] || 'Graph') as string
     const scriptAsString = JSON.stringify(ldJson)
     var level: iJsonLevel = {depth: 0}
     const card = new Card()
