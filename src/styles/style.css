@@ -133,7 +133,7 @@ body#id-page-auditor main #id-report-outer-container .inner-report-container .bo
 body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card div.code {
   overflow-wrap: break-word;
   font-family: monospace, 'Courier New', Courier, monospace;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--fc-brand-black);
 }
 body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .ld-json {

@@ -111,7 +111,7 @@ export const getRobotsTxtFileBody = async (url: string): Promise<string> => {
 export const getRobotsTxtCard = (robotsTxtUrl: string, robotsTxtBody: string): Card =>
     new Card()
         .open(``, `Robots.txt`, getRobotsLinks(robotsTxtUrl), 'icon-rep')
-        .add(`<div class='x-scrollable'>${robotsTxtBody.replace(/\n/gm, '<br/>')}</div>`)
+        .add(`<div class='code x-scrollable'>${robotsTxtBody.replace(/\n/gm, '<br/>')}</div>`)
         .close()
 
 export const getSiteMapUrls = (robotsTxtBody: string, defaultUrl: string) => {

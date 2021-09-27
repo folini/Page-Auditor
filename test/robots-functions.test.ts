@@ -57,7 +57,7 @@ describe('getSiteMaps() and getRobotsTxt()', () => {
     test('getRobotsTxtCards() generates valid HTML cards from robots.txt url', async () => {
         const card = getRobotsTxtCard(MockData.RobotsTxtUrlSample, MockData.RobotsTxtBodySample)
         expect(card.render()).toBeString().toHTMLValidate()
-        expect(card.render().includes(MockData.RobotsTxtBodySample)).toBe(true)
+        expect(card.render().includes(MockData.RobotsTxtBodySampleWithBrTag)).toBe(true)
     })
 
     test('getRobotsTxtFileBody() generates valid robots.txt url', async () => {
@@ -114,8 +114,8 @@ describe('getSiteMaps() and getRobotsTxt()', () => {
     })
 
     test('getRobotsTxtCards() generates valid HTML cards from from an exception', async () => {
-        const data = getRobotsTxtCard(MockData.RobotsTxtUrlSample, MockData.RobotsTxtBodySample)
-        expect(data.render()).toBeString().toHTMLValidate()
+        const data = getRobotsTxtCard(MockData.RobotsTxtUrlSample, MockData.RobotsTxtBodySample).render()
+        expect(data).toBeString().toHTMLValidate()
     })
 
     test('getRobotsTxtFileBody() generates valid robots.txt url', async () => {

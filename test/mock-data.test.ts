@@ -135,6 +135,8 @@ Disallow: *.jsx$
 Disallow: /*.jsx/
 `.trim()
 
+export const RobotsTxtBodySampleWithBrTag: string = RobotsTxtBodySample.replace(/\n/gm, '<br/>')
+
 export const SitemapXmlBodySample: string = `
 <?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
