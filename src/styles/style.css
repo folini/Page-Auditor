@@ -180,7 +180,7 @@ body#id-page-auditor main #id-report-outer-container .inner-report-container .bo
 body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .card-options ul li:first-child {
   border-top: none;
 }
-body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .card-options ul li span {
+body#id-page-auditor main #id-report-outer-container .inner-report-container .box-card .card-options ul li > span {
   width: 44px;
   display: inline-block;
 }

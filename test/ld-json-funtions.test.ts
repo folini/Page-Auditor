@@ -8,7 +8,6 @@ import {
     schemaLinks,
     ldJsonCard,
 } from '../src/sections/ld-json-functions'
-import {iJsonLevel} from '../src/sections/ld-json'
 import * as MockData from "./mock-data.test"
 
 // Jest imports

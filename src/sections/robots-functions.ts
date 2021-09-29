@@ -7,6 +7,7 @@
 import {Card} from '../card'
 import {htmlEncode} from 'js-htmlencode'
 import {html_beautify} from 'js-beautify'
+import {codeColor, Mode} from '../colorCode'
 
 export const getSiteMapFileBody = async (url: string): Promise<string> => {
     var response = undefined
@@ -18,7 +19,8 @@ export const getSiteMapFileBody = async (url: string): Promise<string> => {
     } catch (err) {
         return Promise.reject(
             `Sitemap.xml file at <a target="_new" href="${url}">${url}</a> not found.<br/>
-            Error message: ${(err as Error).message}`)
+            Error message: ${(err as Error).message}`
+        )
     }
 
     try {
@@ -42,7 +44,8 @@ export const getSiteMapFileBody = async (url: string): Promise<string> => {
     } catch (err) {
         return Promise.reject(
             `Sitemap.xml file at <a target="_new" href="${url}">${url}</a> not found.<br/>
-            Error message: ${(err as Error).message}`)
+            Error message: ${(err as Error).message}`
+        )
     }
 }
 
@@ -51,20 +54,19 @@ export const getSiteMapCards = (urls: string[]): Promise<Card>[] =>
         url =>
             new Promise(resolve =>
                 getSiteMapFileBody(url)
-                    .then(sitemapBody =>
+                    .then(sitemapBody => {
+                        const formattedBody = html_beautify(sitemapBody)
+                            .split('\n')
+                            .map(line => htmlEncode(line))
+                            .join('</br>')
+                            .replace(/\s/g, '&nbsp;')
                         resolve(
                             new Card()
                                 .open(``, `Sitemap.xml`, getSitemapLinks(url), 'icon-sitemap')
-                                .add(
-                                    `<div class='code x-scrollable'>${html_beautify(sitemapBody)
-                                        .split('\n')
-                                        .map(line => htmlEncode(line))
-                                        .join('</br>')
-                                        .replace(/\s/g, '&nbsp;')}</div>`
-                                )
+                                .add(`<div class='code x-scrollable'>${codeColor(formattedBody, Mode.html)}</div>`)
                                 .close()
                         )
-                    )
+                    })
                     .catch(errMsg => resolve(new Card().error(errMsg as string, 'Sitemap.xml Error')))
             )
     )

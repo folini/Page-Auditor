@@ -13,12 +13,12 @@ import 'jest-chain'
 import 'jest-extended'
 
 test('reportGenerator() generates valid HTML', async () => {
-    const cardPromises = await actions.reportGenerator('', undefined)
-    cardPromises.map(promise => 
-        promise.then(data =>
-            expect(data).toBeString().toHTMLValidate()
-        )
-    )
+    try {
+        const cardPromises = await actions.reportGenerator('', undefined)
+        cardPromises.map(promise => promise.then(data => expect(data).toBeString().toHTMLValidate()).catch(() => expect(true).toBeFalse()))
+    } catch (error) {
+        expect(true).toBeFalse()
+    }
 })
 
 test("codeInjector() always returns 'undefined'", () => {

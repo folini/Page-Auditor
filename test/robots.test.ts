@@ -34,13 +34,23 @@ describe('reportGenerator()', () => {
     })
 
     test('reportGenerator() generates valid HTML from a mock robots.txt', async () => {
-        const cardPromises = await actions.reportGenerator(MockData.UrlSample, actions.codeInjector())
-        cardPromises.map(promise => promise.then(card => expect(card).toHTMLValidate()))
+        try {
+        const cardPromises = actions.reportGenerator(MockData.UrlSample, actions.codeInjector())
+        cardPromises.then(promises => promises.forEach(promise => promise
+            .then(card => expect(card).toHTMLValidate())
+            .catch(error => expect(error).toBeFalse())))
+        } catch (error) {
+            expect(true).toBeFalse()
+        }
     })
 
     test('reportGenerator() generates empty report when url is empty', async () => {
-        const cardPromises = await actions.reportGenerator('', actions.codeInjector())
-        cardPromises.map(promise => promise.then(card => expect(card).toBe('')))
+        try {
+            const cardPromises = await actions.reportGenerator('', actions.codeInjector())
+            cardPromises.map(promise => promise.then(card => expect(card).toBe('')).catch(() => expect(true).toBeFalse()))
+        } catch {
+            expect(true).toBeFalse()
+        }
     })
 
     test("eventManager() always returns 'undefined'", () => {
@@ -64,13 +74,17 @@ describe('reportGenerator()', () => {
     })
 
     test('reportGenerator() generates empty report when injector() returns empty string', async () => {
+        try {
         const cardPromises = await actions.reportGenerator(MockData.UrlSample, actions.codeInjector())
         cardPromises.map(promise =>
             promise.then(card => {
                 expect(card).toBeString()
                 expect(RobotFunctions.getRobotsTxtFileBody).toBeCalledTimes(1)
-            })
+            }).catch(() => expect(true).toBeFalse())
         )
+        } catch {
+            expect(true).toBeFalse()
+        }
     })
 })
 
@@ -84,12 +98,16 @@ describe('reportGenerator()', () => {
     })
 
     test('reportGenerator() generates empty report when codeInjector() throws an exception', async () => {
+        try {
         const cardPromises = await actions.reportGenerator(MockData.UrlSample, actions.codeInjector())
         cardPromises.map(promise =>
             promise.then(card => {
                 expect(card.render()).toBeString()
                 expect(RobotFunctions.getRobotsTxtFileBody).toBeCalledTimes(1)
-            })
+            }).catch(() => expect(true).toBeFalse())
         )
+        } catch {
+            expect(true).toBeFalse()
+        }   
     })
 })

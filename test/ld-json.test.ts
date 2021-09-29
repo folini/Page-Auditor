@@ -51,40 +51,76 @@ describe('codeInjector() mocking the func', () => {
     })
 
     test('reportGenerator() generates valid HTML from complex LD+JSON', async () => {
-        const cardPromises = await actions.reportGenerator(MockData.UrlSample, actions.codeInjector())
-        cardPromises.map(promise =>
-            promise.then(data => {
-                expect(data).toBeString().toHTMLValidate()
-                expect(actions.codeInjector).toBeCalledTimes(1)
-            })
-        )
+        try {
+            const cardPromises = await actions.reportGenerator(MockData.UrlSample, actions.codeInjector())
+            cardPromises.map(promise =>
+                promise
+                    .then(data => {
+                        expect(data).toBeString().toHTMLValidate()
+                        expect(actions.codeInjector).toBeCalledTimes(1)
+                    })
+                    .catch(() => expect(true).toBeFalse())
+            )
+        } catch (error) {
+            expect(true).toBeFalse()
+        }
     })
 
     test('reportGenerator() generates valid HTML from empty Url', async () => {
-        const cardPromises = await actions.reportGenerator('', actions.codeInjector())
-        cardPromises.map(promise =>
-            promise.then(data => {
-                expect(data).toBeString().toHTMLValidate()
-                expect(actions.codeInjector).toBeCalledTimes(1)
-            })
-        )
+        try {
+            const cardPromises = await actions.reportGenerator('', actions.codeInjector())
+            cardPromises.map(promise =>
+                promise
+                    .then(data => {
+                        expect(data).toBeString().toHTMLValidate()
+                        expect(actions.codeInjector).toBeCalledTimes(1)
+                    })
+                    .catch(() => expect(true).toBeFalse())
+            )
+        } catch (error) {
+            expect(true).toBeFalse()
+        }
     })
 })
 
 describe('reportGenerator()', () => {
     test('reportGenerator() LD-JSON testing report', async () => {
-        const cardPromises = await actions.reportGenerator(MockData.UrlSample, [MockData.LdJsonSample])
-        cardPromises.map(promise => promise.then(data => expect(data).toBeString().toHTMLValidate()))
+        try {
+            const cardPromises = await actions.reportGenerator(MockData.UrlSample, [MockData.LdJsonSample])
+            cardPromises.map(promise =>
+                promise
+                    .then(data => expect(data).toBeString().toHTMLValidate())
+                    .catch(() => expect(true).toBeFalse())
+            )
+        } catch (error) {
+            expect(true).toBeFalse()
+        }
     })
 
     test('reportGenerator() generates valid HTML from empty LD+JSON', async () => {
-        const cardPromises = await actions.reportGenerator(MockData.UrlSample, '')
-        cardPromises.map(promise => promise.then(data => expect(data).toBeString().toHTMLValidate()))
+        try {
+            const cardPromises = await actions.reportGenerator(MockData.UrlSample, '')
+            cardPromises.map(promise =>
+                promise
+                    .then(data => expect(data).toBeString().toHTMLValidate())
+                    .catch(() => expect(true).toBeFalse())
+            )
+        } catch (error) {
+            expect(true).toBeFalse()
+        }
     })
 
     test('reportGenerator() generates valid HTML from empty Url and empty LD+JSON', async () => {
-        const cardPromises = await actions.reportGenerator('', '')
-        cardPromises.map(promise => promise.then(data => expect(promise).toBeString().toHTMLValidate()))
+        try {
+            const cardPromises = await actions.reportGenerator('', '')
+            cardPromises.map(promise =>
+                promise
+                    .then(data => expect(promise).toBeString().toHTMLValidate())
+                    .catch(() => expect(true).toBeFalse())
+            )
+        } catch (error) {
+            expect(true).toBeFalse()
+        }
     })
 
     describe('eventManager()', () => {

@@ -4,8 +4,8 @@
   "description": "An open source Google Chrome Extension to analyze Structured Data, Meta tags, and JavaScript from any web page",
   "main": "src/main.ts",
   "scripts": {
-    "test": "jest",
-    "test-coverage": "jest --coverage",
+    "test": "jest --silent --detectOpenHandles",
+    "test-coverage": "jest --coverage --silent",
     "format": "prettier --write -l src",
     "build": "webpack --progress --color --mode production --stats-error-details --config webpack.config.js"
   },

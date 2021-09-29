@@ -8,6 +8,7 @@ import {Card, iLink} from '../card'
 import {sectionActions} from '../main'
 import {htmlEncode} from 'js-htmlencode'
 import {js_beautify} from 'js-beautify'
+import {codeColor, Mode} from "../colorCode"
 
 const listOfScriptClasses = require('../jsons/scriptClasses.json') as iTrackClass[]
 
@@ -120,7 +121,7 @@ const reportGenerator = async (tabUrl: string, untypedScripts: any): Promise<Pro
                             .map(line => htmlEncode(line))
                             .join('</br>')
                             .replace(/\s/g, '&nbsp;')
-                        return `<li><div class='code'>${lines}</div></li>`
+                        return `<li><div class='code'>${codeColor(lines, Mode.js)}</div></li>`
                     })
                     .join('')}
             </ul>
