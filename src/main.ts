@@ -128,6 +128,7 @@ const activateSection = (activeSec: SectionType) => {
     document.getElementById(activeSec.tabId)?.classList.add('active')
     document.getElementById(activeSec.reportId)?.classList.add('show')
     showSpinner(document.getElementById(activeSec.reportId) as HTMLDivElement)
+    window.scrollTo(0, 0)
     action(activeSec, activeSec.actions)
 }
 
