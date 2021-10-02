@@ -50,83 +50,20 @@ describe('codeInjector() mocking the func', () => {
         expect(actions.codeInjector).toBeCalledTimes(1)
     })
 
-    test('reportGenerator() generates valid HTML from complex LD+JSON', async () => {
-        try {
-            const cardPromises = await actions.reportGenerator(MockData.UrlSample, actions.codeInjector())
-            cardPromises.map(promise =>
-                promise
-                    .then(data => {
-                        expect(data).toBeString().toHTMLValidate()
-                        expect(actions.codeInjector).toBeCalledTimes(1)
-                    })
-                    .catch(() => expect(true).toBeFalse())
-            )
-        } catch (error) {
-            expect(true).toBeFalse()
-        }
-    })
+    test('reportGenerator() generates valid HTML from complex LD+JSON', () =>
+        actions.reportGenerator(MockData.UrlSample, actions.codeInjector(), MockData.reportTester))
 
-    test('reportGenerator() generates valid HTML from empty Url', async () => {
-        try {
-            const cardPromises = await actions.reportGenerator('', actions.codeInjector())
-            cardPromises.map(promise =>
-                promise
-                    .then(data => {
-                        expect(data).toBeString().toHTMLValidate()
-                        expect(actions.codeInjector).toBeCalledTimes(1)
-                    })
-                    .catch(() => expect(true).toBeFalse())
-            )
-        } catch (error) {
-            expect(true).toBeFalse()
-        }
-    })
+    test('reportGenerator() generates valid HTML from empty Url', () =>
+        actions.reportGenerator('', actions.codeInjector(), MockData.reportTester))
 })
 
 describe('reportGenerator()', () => {
-    test('reportGenerator() LD-JSON testing report', async () => {
-        try {
-            const cardPromises = await actions.reportGenerator(MockData.UrlSample, [MockData.LdJsonSample])
-            cardPromises.map(promise =>
-                promise
-                    .then(data => expect(data).toBeString().toHTMLValidate())
-                    .catch(() => expect(true).toBeFalse())
-            )
-        } catch (error) {
-            expect(true).toBeFalse()
-        }
-    })
+    test('reportGenerator() LD-JSON testing report', () =>
+        actions.reportGenerator(MockData.UrlSample, [MockData.LdJsonSample], MockData.reportTester))
 
-    test('reportGenerator() generates valid HTML from empty LD+JSON', async () => {
-        try {
-            const cardPromises = await actions.reportGenerator(MockData.UrlSample, '')
-            cardPromises.map(promise =>
-                promise
-                    .then(data => expect(data).toBeString().toHTMLValidate())
-                    .catch(() => expect(true).toBeFalse())
-            )
-        } catch (error) {
-            expect(true).toBeFalse()
-        }
-    })
+    test('reportGenerator() generates valid HTML from empty LD+JSON', () =>
+        actions.reportGenerator(MockData.UrlSample, [], MockData.reportTester))
 
-    test('reportGenerator() generates valid HTML from empty Url and empty LD+JSON', async () => {
-        try {
-            const cardPromises = await actions.reportGenerator('', '')
-            cardPromises.map(promise =>
-                promise
-                    .then(data => expect(promise).toBeString().toHTMLValidate())
-                    .catch(() => expect(true).toBeFalse())
-            )
-        } catch (error) {
-            expect(true).toBeFalse()
-        }
-    })
-
-    describe('eventManager()', () => {
-        test("eventManager() always returns 'undefined'", () => {
-            const data = actions.eventManager()
-            expect(data).toBeUndefined()
-        })
-    })
+    test('reportGenerator() generates valid HTML from empty Url and empty LD+JSON', () =>
+        actions.reportGenerator('', [], MockData.reportTester))
 })

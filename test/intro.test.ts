@@ -5,6 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {actions} from '../src/sections/intro'
+import * as MockData from './mock-data.test'
 
 // Jest imports
 import 'jest-get-type'
@@ -12,21 +13,9 @@ import 'html-validate/jest'
 import 'jest-chain'
 import 'jest-extended'
 
-test('report() generates valid HTML', async () => {
-    try {
-    const cardPromises = await actions.reportGenerator('', undefined)
-    cardPromises.map(card => card.then(data => expect(data).toBeString().toHTMLValidate()).catch(() => expect(true).toBeFalse()).catch(() => expect(true).toBeFalse()))
-    } catch (e) {
-        expect(true).toBeFalse()
-    }
-})
+test('report() generates valid HTML', () => actions.reportGenerator('', undefined, MockData.reportTester))
 
 test("injector() always returns 'undefined'", () => {
     const data = actions.codeInjector()
-    expect(data).toBeUndefined()
-})
-
-test("eventManager() always returns 'undefined'", () => {
-    const data = actions.eventManager()
     expect(data).toBeUndefined()
 })

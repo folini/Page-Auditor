@@ -54,12 +54,12 @@ body#id-page-auditor {
             margin-left: 16px;
             font-size: 12px;
             color: var(--fc-brand-black);
-            
+
             .version {
                 text-align: right;
                 float: right;
                 padding-right: 16px;
-            }    
+            }
         }
     }
 
@@ -117,10 +117,10 @@ body#id-page-auditor {
                     overflow: hidden;
 
                     div.code {
-                        overflow-wrap: break-word;
                         font-family: monospace, 'Courier New', Courier, monospace;
                         font-size: 13px;
                         color: var(--fc-brand-black);
+                        overflow-x: auto;
                     }
 
                     .ld-json {
@@ -925,7 +925,7 @@ body#id-page-auditor {
         }
     }
 
-    .loading-spinner {
+    #loading-spinner {
         animation-play-state: running;
         opacity: 1;
         position: relative;

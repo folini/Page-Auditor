@@ -5,7 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card} from '../card'
-import {sectionActions} from '../main'
+import {sectionActions, ReportGeneratorFunc, DisplayCardFunc, CodeInjectorFunc} from '../main'
 
 const bioLinks = [
     {
@@ -35,13 +35,10 @@ const bioLinks = [
     },
 ]
 
-const codeInjector = () => undefined
-const eventManager = () => undefined
+const codeInjector: CodeInjectorFunc = () => undefined
 
-const reportGenerator = async (tabUrl: string, data: any): Promise<Promise<Card>[]> => {
-    var result: Promise<Card>[] = []
-
-    result.push(
+const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, renderCard: DisplayCardFunc): void => {
+    renderCard(
         Promise.resolve(
             new Card()
                 .open(``, `Page Auditor for Technical SEO`, [], 'icon-fc')
@@ -66,7 +63,7 @@ const reportGenerator = async (tabUrl: string, data: any): Promise<Promise<Card>
         )
     )
 
-    result.push(
+    renderCard(
         Promise.resolve(
             new Card()
                 .open(``, `About the Author`, [], 'icon-franco-avatar')
@@ -85,12 +82,9 @@ const reportGenerator = async (tabUrl: string, data: any): Promise<Promise<Card>
                 .close()
         )
     )
-
-    return result
 }
 
 export const actions: sectionActions = {
     codeInjector: codeInjector,
     reportGenerator: reportGenerator,
-    eventManager: eventManager,
 }

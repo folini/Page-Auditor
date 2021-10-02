@@ -10,6 +10,7 @@ import './manifest.json'
 import './styles/style.less'
 
 import {Card} from './card'
+import {colorCode, Mode} from './colorCode'
 import * as JsonLd from './sections/ld-json'
 import * as Scripts from './sections/scripts'
 import * as Credits from './sections/credits'
@@ -17,20 +18,26 @@ import * as Meta from './sections/meta'
 import * as Intro from './sections/intro'
 import * as Robots from './sections/robots'
 
+export type DisplayCardFunc = (cardPromises: Promise<Card> | Card) => Promise<HTMLDivElement>
+export type NoArgsNoReturnFunc = () => void
+export type CodeInjectorFunc = () => any
+export type ReportGeneratorFunc = (url: string, data: any, render: DisplayCardFunc) => void
+
+const idLoadingSpinnerDiv = 'id-loading-spinner'
+
 export type sectionActions = {
-    codeInjector: () => any
-    reportGenerator: (url: string, data: any) => Promise<Promise<Card>[]>
-    eventManager: () => void
+    codeInjector: CodeInjectorFunc
+    reportGenerator: ReportGeneratorFunc
 }
 
-type sectionType = {
+type SectionType = {
     tabId: string
     name: string
     reportId: string
     actions: sectionActions
 }
 
-const sections: sectionType[] = [
+const sections: SectionType[] = [
     {
         tabId: 'id-intro',
         name: 'Intro',
@@ -69,8 +76,30 @@ const sections: sectionType[] = [
     },
 ]
 
-async function action(section: sectionType, actions: sectionActions) {
-    var report: string = ''
+const addCardToContainer = (container: HTMLDivElement, card: Card): Promise<HTMLDivElement> => {
+    const spinner = document.getElementById(idLoadingSpinnerDiv)
+    if (spinner !== null) {
+        spinner.remove()
+    }
+    const tempDiv = document.createElement('div')
+    tempDiv.innerHTML = card.render()
+    const div = container.appendChild(tempDiv.firstChild as HTMLDivElement)
+    tempDiv.remove()
+    return Promise.resolve(div)
+}
+
+const displayCard =
+    (reportId: string): DisplayCardFunc =>
+    async (cardOrPromise: Promise<Card> | Card): Promise<HTMLDivElement> => {
+        const container = document.getElementById(reportId) as HTMLDivElement
+        try {
+            return addCardToContainer(container, await Promise.resolve(cardOrPromise))
+        } catch (error) {
+            return addCardToContainer(container, await Promise.resolve(new Card().error((error as Error).message)))
+        }
+    }
+
+async function action(section: SectionType, actions: sectionActions) {
     const [tab] = await chrome.tabs.query({active: true, currentWindow: true})
     let res: chrome.scripting.InjectionResult[] = []
 
@@ -79,30 +108,57 @@ async function action(section: sectionType, actions: sectionActions) {
             target: {tabId: tab.id} as chrome.scripting.InjectionTarget,
             function: actions.codeInjector,
         })
-        const cardPromises = await actions.reportGenerator(tab.url || '', res.length > 0 ? res[0].result : undefined)
-        const cards = await Promise.all(cardPromises)
-        report = cards.map(card => card.render()).join('\n')
+        actions.reportGenerator(
+            tab.url || '',
+            res.length > 0 ? res[0].result : undefined,
+            displayCard(section.reportId)
+        )
     } catch (err: any) {
         const emptyTab = `Cannot access a chrome:// URL`
         const emptyTabMsg = `<b>Page Auditor</b> can not run on empty or internal Chrome tabs.<br/><br/>Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
-        report = new Card().error(err.message === emptyTab ? emptyTabMsg : err.message).render()
-    } finally {
-        document.getElementById(section.reportId)!.innerHTML = report
-
-        if (actions.eventManager !== undefined) {
-            actions.eventManager()
-        }
+        displayCard(new Card().error(err.message === emptyTab ? emptyTabMsg : err.message).render())
     }
 }
 
-const activateSection = (activeSec: sectionType) => {
+const activateSection = (activeSec: SectionType) => {
     sections.forEach(sec => {
         document.getElementById(sec.tabId)!.classList.remove('active')
         document.getElementById(sec.reportId)!.classList.remove('show')
     })
     document.getElementById(activeSec.tabId)?.classList.add('active')
     document.getElementById(activeSec.reportId)?.classList.add('show')
+    showSpinner(document.getElementById(activeSec.reportId) as HTMLDivElement)
     action(activeSec, activeSec.actions)
+}
+
+const showSpinner = (container: HTMLDivElement) => {
+    const spinner = document.createElement('div')
+    spinner.id = idLoadingSpinnerDiv
+    Array.from(container.children).forEach(child => child.remove())
+    container.append(spinner)
+}
+
+export const workerReaction = (event: MessageEvent<any>) => {
+    let code = event.data.code
+    let id = event.data.id
+    let mode = event.data.mode as Mode
+    postMessage({
+        id: id,
+        code: code.startsWith('http') ? code : (globalThis as any)['colorCode'](code, mode),
+    })
+}
+
+const workerCode = URL.createObjectURL(
+    new Blob([`onmessage = ${workerReaction.toString()}\nthis.colorCode=${colorCode.toString()}`], {
+        type: 'application/javascript',
+    })
+)
+
+export const worker = new Worker(workerCode)
+worker.onmessage = event => {
+    let id = event.data.id
+    let code = event.data.code
+    document.getElementById(id)!.innerHTML = code
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -121,9 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
         report.id = section.reportId
         report.className = 'inner-report-container'
         reportContainer.append(report)
-        const spinner = document.createElement('div')
-        spinner.className = 'loading-spinner'
-        report.append(spinner)
+        showSpinner(report)
     })
     activateSection(sections[0])
 })

@@ -6,8 +6,7 @@
 // ----------------------------------------------------------------------------
 import {iJsonLD} from './ld-json'
 import {Card} from '../card'
-import {codeColor, Mode} from "../colorCode"
-import {htmlEncode} from 'js-htmlencode'
+import {colorCode, Mode} from '../colorCode'
 import {js_beautify} from 'js-beautify'
 
 export const schemaLinks = (schemaName: string, ldjsonUrl: string) => [
@@ -24,15 +23,11 @@ export const schemaLinks = (schemaName: string, ldjsonUrl: string) => [
 export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string) => {
     const schemaType: string = (ldJson['@type'] || 'Graph') as string
     const scriptAsString = JSON.stringify(ldJson)
-    const jsonCode = js_beautify(scriptAsString)
-                .split('\n')
-                .map(line => htmlEncode(line))
-                .join('</br>')
-                .replace(/\s/g, '&nbsp;')
+    const jsonCode = colorCode(js_beautify(scriptAsString), Mode.js)
     return new Card()
         .open(``, schemaType, schemaLinks(schemaType, tabUrl), 'icon-ld-json')
         .add(`<div class='code x-scrollable'>`)
-        .add(codeColor(jsonCode, Mode.js))
+        .add(jsonCode)
         .add(`</div>`)
         .close()
 }

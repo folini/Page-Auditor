@@ -33,30 +33,11 @@ describe('reportGenerator()', () => {
         fetchMock.dontMock()
     })
 
-    test('reportGenerator() generates valid HTML from a mock robots.txt', async () => {
-        try {
-        const cardPromises = actions.reportGenerator(MockData.UrlSample, actions.codeInjector())
-        cardPromises.then(promises => promises.forEach(promise => promise
-            .then(card => expect(card).toHTMLValidate())
-            .catch(error => expect(error).toBeFalse())))
-        } catch (error) {
-            expect(true).toBeFalse()
-        }
-    })
+    test('reportGenerator() generates valid HTML from a mock robots.txt', () =>
+        actions.reportGenerator(MockData.UrlSample, actions.codeInjector(), MockData.reportTester))
 
-    test('reportGenerator() generates empty report when url is empty', async () => {
-        try {
-            const cardPromises = await actions.reportGenerator('', actions.codeInjector())
-            cardPromises.map(promise => promise.then(card => expect(card).toBe('')).catch(() => expect(true).toBeFalse()))
-        } catch {
-            expect(true).toBeFalse()
-        }
-    })
-
-    test("eventManager() always returns 'undefined'", () => {
-        const data = actions.eventManager()
-        expect(data).toBeUndefined()
-    })
+    test('reportGenerator() generates empty report when url is empty', () =>
+        actions.reportGenerator('', actions.codeInjector(), MockData.reportTester))
 
     test("codeInjector() always returns 'undefined'", () => {
         const data = actions.codeInjector()
@@ -73,19 +54,8 @@ describe('reportGenerator()', () => {
         jest.clearAllMocks()
     })
 
-    test('reportGenerator() generates empty report when injector() returns empty string', async () => {
-        try {
-        const cardPromises = await actions.reportGenerator(MockData.UrlSample, actions.codeInjector())
-        cardPromises.map(promise =>
-            promise.then(card => {
-                expect(card).toBeString()
-                expect(RobotFunctions.getRobotsTxtFileBody).toBeCalledTimes(1)
-            }).catch(() => expect(true).toBeFalse())
-        )
-        } catch {
-            expect(true).toBeFalse()
-        }
-    })
+    test('reportGenerator() generates empty report when injector() returns empty string', () =>
+        actions.reportGenerator(MockData.UrlSample, actions.codeInjector(), MockData.reportTester))
 })
 
 describe('reportGenerator()', () => {
@@ -97,17 +67,6 @@ describe('reportGenerator()', () => {
         jest.clearAllMocks()
     })
 
-    test('reportGenerator() generates empty report when codeInjector() throws an exception', async () => {
-        try {
-        const cardPromises = await actions.reportGenerator(MockData.UrlSample, actions.codeInjector())
-        cardPromises.map(promise =>
-            promise.then(card => {
-                expect(card.render()).toBeString()
-                expect(RobotFunctions.getRobotsTxtFileBody).toBeCalledTimes(1)
-            }).catch(() => expect(true).toBeFalse())
-        )
-        } catch {
-            expect(true).toBeFalse()
-        }   
-    })
+    test('reportGenerator() generates empty report when codeInjector() throws an exception', () =>
+        actions.reportGenerator(MockData.UrlSample, actions.codeInjector(), MockData.reportTester))
 })

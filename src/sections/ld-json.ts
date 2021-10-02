@@ -5,7 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card} from '../card'
-import {sectionActions} from '../main'
+import {sectionActions, NoArgsNoReturnFunc, ReportGeneratorFunc, DisplayCardFunc, CodeInjectorFunc} from '../main'
 import {ldJsonCard} from './ld-json-functions'
 
 export interface iJsonLD {
@@ -16,23 +16,22 @@ export interface iJsonLevel {
     depth: number
 }
 
-const codeInjector = (): iJsonLD[] =>
+const codeInjector: CodeInjectorFunc = (): iJsonLD[] =>
     [...document.scripts].filter(s => s.type === 'application/ld+json').map(s => JSON.parse(s.text.trim()))
 
-const eventManager = () => undefined
+const eventManager: NoArgsNoReturnFunc = () => undefined
 
-const reportGenerator = async (tabUrl: string, scripts: any): Promise<Promise<Card>[]> => {
+const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, renderCard: DisplayCardFunc): void => {
     const jsonScripts: iJsonLD[] = scripts as iJsonLD[]
 
     if (tabUrl === '' || jsonScripts.length == 0) {
-        return [Promise.resolve(new Card().warning(`No Structured Data found on this page.`))]
+        renderCard(new Card().warning(`No Structured Data found on this page.`))
     }
 
-    return jsonScripts.map(ldJson => Promise.resolve(ldJsonCard(ldJson, tabUrl)))
+    jsonScripts.map(ldJson => renderCard(ldJsonCard(ldJson, tabUrl)))
 }
 
 export const actions: sectionActions = {
     codeInjector: codeInjector,
     reportGenerator: reportGenerator,
-    eventManager: eventManager,
 }

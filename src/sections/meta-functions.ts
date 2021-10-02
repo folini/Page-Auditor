@@ -270,7 +270,7 @@ export const tagCategories: iTagCategory[] = [
     },
 ]
 
-export const renderMetaCategory = (metaCat: iTagCategory, metaList: iMetaTag[], preview: string): Card => {
+export const metaCategoryCard = (metaCat: iTagCategory, metaList: iMetaTag[], preview: string): Card => {
     if (metaList.length === 0) {
         return new Card().error('List of Meta tags is empty')
     }

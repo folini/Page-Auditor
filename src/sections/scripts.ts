@@ -5,10 +5,9 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card, iLink} from '../card'
-import {sectionActions} from '../main'
-import {htmlEncode} from 'js-htmlencode'
+import {sectionActions, NoArgsNoReturnFunc, DisplayCardFunc, worker} from '../main'
 import {js_beautify} from 'js-beautify'
-import {codeColor, Mode} from "../colorCode"
+import {Mode} from '../colorCode'
 
 const listOfScriptClasses = require('../jsons/scriptClasses.json') as iTrackClass[]
 
@@ -22,7 +21,7 @@ interface iTrackClass {
 }
 
 interface iTrackMatch extends iTrackClass {
-    matches: string[]
+    scripts: string[]
 }
 
 interface iScript {
@@ -37,10 +36,10 @@ const unresolvedJS: iTrackMatch = {
     iconClass: 'icon-unclassified',
     description: 'Page Auditor for Technical SEO is not yet able to classify the following JavaScript code.',
     url: '',
-    matches: [],
+    scripts: [],
 }
 
-const codeInjector = (): iScript[] => {
+const codeInjector: NoArgsNoReturnFunc = (): iScript[] => {
     return [...document.scripts]
         .filter(s => s.type !== 'application/ld+json')
         .map(s => (s.src === '' ? s.text : s.src))
@@ -48,14 +47,12 @@ const codeInjector = (): iScript[] => {
         .map(s => ({code: s, done: false})) as iScript[]
 }
 
-const reportGenerator = async (tabUrl: string, untypedScripts: any): Promise<Promise<Card>[]> => {
+const reportGenerator = (tabUrl: string, untypedScripts: any, renderCard: DisplayCardFunc): void => {
     var scripts = untypedScripts as iScript[]
-
-    const result: Promise<Card>[] = []
 
     const scriptClasses: iTrackMatch[] = listOfScriptClasses.map(track => ({
         ...track,
-        matches: [],
+        scripts: [],
     })) as iTrackMatch[]
 
     if (tabUrl !== '') {
@@ -67,16 +64,16 @@ const reportGenerator = async (tabUrl: string, untypedScripts: any): Promise<Pro
     scriptClasses.forEach(cat => {
         scripts.forEach(scr => {
             cat.patterns
-                .map(pattern => scr.code.match(new RegExp(pattern, 'ig')))
+                .map(pattern => scr.code.split('\n')[0].match(new RegExp(pattern, 'ig')))
                 .filter(match => match !== null && match.length > 0)
                 .forEach(() => {
                     if (!scr.done) {
-                        cat.matches.push(scr.code.replace(/\s/g, ' '))
+                        cat.scripts.push(scr.code.replace(/\s/g, ' '))
                         scr.done = true
                     }
                 })
         })
-        if (cat.matches.length > 0) {
+        if (cat.scripts.length > 0) {
             trackingItems.push(cat)
         }
     })
@@ -84,57 +81,58 @@ const reportGenerator = async (tabUrl: string, untypedScripts: any): Promise<Pro
     scripts
         .filter(scr => !scr.done && scr.code.match(/^https\:\/\//))
         .forEach(scr => {
-            unresolvedJS.matches.push(scr.code)
+            unresolvedJS.scripts.push(scr.code)
         })
 
-    var report: string = ''
-
     if (trackingItems === null) {
-        throw new Error('No trackers found.')
+        renderCard(new Card().error('No trackers found.'))
     }
 
     trackingItems = trackingItems.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
 
-    if (unresolvedJS.matches.length > 0) {
+    if (unresolvedJS.scripts.length > 0) {
         trackingItems.push(unresolvedJS)
     }
 
-    trackingItems.forEach((t, i) => {
+    trackingItems.map((trackingItem, i) => {
         const links: iLink[] = []
-        if (t.url.length > 0) {
-            links.push({url: t.url, label: 'Reference'})
+        if (trackingItem.url.length > 0) {
+            links.push({url: trackingItem.url, label: 'Reference'})
         }
-        const card = new Card()
-        card.open(t.category, t.name, links, t.iconClass)
-        card.add(
-            `
-            <div class='card-description'>${t.description}</div>
-            <div class='card-options'>
-            <div class='open-closed-icon closed-icon'></div>
-            <a class='link-in-card left-option n-scripts scrips-closed'>
-                ${t.matches.length.toFixed()} script${t.matches.length === 1 ? '' : 's'} found. </a>
-            <ul class='hide'>
-                ${t.matches
-                    .map(script => {
-                        const lines: string = js_beautify(script)
-                            .split('\n')
-                            .map(line => htmlEncode(line))
-                            .join('</br>')
-                            .replace(/\s/g, '&nbsp;')
-                        return `<li><div class='code'>${codeColor(lines, Mode.js)}</div></li>`
-                    })
-                    .join('')}
-            </ul>
-            </div>`
-        ).close()
-        result.push(Promise.resolve(card))
+        trackingItem.scripts = trackingItem.scripts.map(script => js_beautify(script))
+        renderCard(
+            new Card()
+                .open(trackingItem.category, trackingItem.name, links, trackingItem.iconClass)
+                .add(
+                    `
+                    <div class='card-description'>${trackingItem.description}</div>
+                    <div class='card-options'>
+                    <div class='open-closed-icon closed-icon'></div>
+                    <a class='link-in-card left-option n-scripts scrips-closed'>
+                        ${trackingItem.scripts.length.toFixed()} script${
+                        trackingItem.scripts.length === 1 ? '' : 's'
+                    } found. </a>
+                    <ul class='hide'>
+                        ${trackingItem.scripts
+                            .map((script, j) => `<li><div class='code' id='id-script-${i}-${j}'>${script}</div></li>`)
+                            .join('')}
+                    </ul>
+                    </div>`
+                )
+                .close()
+        )
+            .then(card => {
+                const btns = [...card.querySelectorAll('.link-in-card.n-scripts')] as HTMLAnchorElement[]
+                btns.forEach(btn => btn.parentElement?.addEventListener('click', () => toggle(btn)))
+                return card
+            })
+            .then(card => {
+                const scriptsToColor = [...card.querySelectorAll('.code')] as HTMLDivElement[]
+                scriptsToColor.forEach(scriptDiv =>
+                    worker.postMessage({id: scriptDiv.id, mode: Mode.js, code: scriptDiv.innerHTML})
+                )
+            })
     })
-    return result
-}
-
-const eventManager = () => {
-    const btns = [...document.querySelectorAll('.link-in-card.n-scripts')] as HTMLAnchorElement[]
-    btns.forEach(btn => btn.parentElement?.addEventListener('click', () => toggle(btn)))
 }
 
 const toggle = (btn: HTMLAnchorElement) => {
@@ -172,12 +170,11 @@ const localJsMatch = (url: string): iTrackMatch => {
         iconClass: 'icon-js',
         description: 'Javascript Code local to this website.',
         url: '',
-        matches: [],
+        scripts: [],
     }
 }
 
 export const actions: sectionActions = {
     codeInjector: codeInjector,
     reportGenerator: reportGenerator,
-    eventManager: eventManager,
 }

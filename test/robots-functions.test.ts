@@ -43,15 +43,19 @@ describe('getSiteMaps() and getRobotsTxt()', () => {
 
     test('getSitemapCards() generates valid HTML Card from a mock sitemap.xml', async () => {
         const cardPromises = getSiteMapCards(MockData.SitemapUrlsSample)
-        cardPromises.map(promise => promise.then(card => expect(card).toHTMLValidate()).catch(() => expect(true).toBeFalse()))
+        cardPromises.map(promise =>
+            promise.then(card => expect(card).toHTMLValidate()).catch(() => expect(true).toBeFalse())
+        )
     })
 
     test('getSiteMapFileBody() generates valid sitemap.xml', async () => {
         const stringPromise = getSiteMapFileBody(MockData.SitemapUrlsSample[0])
-        stringPromise.then(string => {
-            expect(string).toBeString()
-            expect(string.includes(MockData.SitemapXmlEncodedBodySample)).toBe(true)
-        }).catch(() => expect(true).toBeFalse())
+        stringPromise
+            .then(string => {
+                expect(string).toBeString()
+                expect(string.includes(MockData.SitemapXmlEncodedBodySample)).toBe(true)
+            })
+            .catch(() => expect(true).toBeFalse())
     })
 
     test('getRobotsTxtCards() generates valid HTML cards from robots.txt url', async () => {

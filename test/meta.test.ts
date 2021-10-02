@@ -13,19 +13,8 @@ import 'html-validate/jest'
 import 'jest-chain'
 import 'jest-extended'
 
-test('reportGenerator() generates valid HTML from complex JSON', async () => {
-    try {
-    const cardPromises = await actions.reportGenerator(MockData.UrlSample, MockData.MetaTagsSample)
-    cardPromises.map(promise => promise.then(card => expect(card.render()).toBeString().toHTMLValidate()).catch(() => expect(true).toBeFalse()))
-    }
-    catch(error) {
-        expect(true).toBeFalse()
-    }
-})
-
-test("eventManager() always returns 'undefined'", () => {
-    expect(actions.eventManager()).toBeUndefined()
-})
+test('reportGenerator() generates valid HTML from complex JSON', () =>
+    actions.reportGenerator(MockData.UrlSample, MockData.MetaTagsSample, MockData.reportTester))
 
 describe('codeInjector() and reporter()', () => {
     beforeAll(() => {
@@ -44,31 +33,11 @@ describe('codeInjector() and reporter()', () => {
         expect(data.length).toBe(MockData.RawMetaTagsSample.length)
     })
 
-    test('reportGenerator() returns an HTML Card', async () => {
-        try {
-            const cardPromises = await actions.reportGenerator(MockData.UrlSample, actions.codeInjector())
-            cardPromises.map(promise =>
-                promise
-                    .then(card => expect(card.render()).toBeString().toHTMLValidate())
-                    .catch(() => expect(true).toBeFalse())
-            )
-        } catch (error) {
-            expect(true).toBeFalse()
-        }
-    })
+    test('reportGenerator() returns an HTML Card', () =>
+        actions.reportGenerator(MockData.UrlSample, actions.codeInjector(), MockData.reportTester))
 
-    test('codeInjector() with empty tabUrl returns?', async () => {
-        try {
-            const cardPromises = await actions.reportGenerator('', actions.codeInjector())
-            cardPromises.map(promise =>
-                promise
-                    .then(card => expect(card.render()).toBeString().toHTMLValidate())
-                    .catch(() => expect(true).toBeFalse())
-            )
-        } catch (error) {
-            expect(true).toBeFalse()
-        }
-    })
+    test('codeInjector() with empty tabUrl returns?', () =>
+        actions.reportGenerator('', actions.codeInjector(), MockData.reportTester))
 })
 
 describe('codeInjector() correctly process zero MetaTags', () => {
@@ -84,25 +53,9 @@ describe('codeInjector() correctly process zero MetaTags', () => {
         expect(data.length).toBe(0)
     })
 
-    test('codeInjector() returns an HTML Card', async () => {
-        const cardPromises = await actions.reportGenerator(MockData.UrlSample, actions.codeInjector())
-        cardPromises.map(promise =>
-            promise
-                .then(card => expect(card.render()).toBeString().toHTMLValidate())
-                .catch(() => expect(true).toBeFalse())
-        )
-    })
+    test('codeInjector() returns an HTML Card', () =>
+        actions.reportGenerator(MockData.UrlSample, actions.codeInjector(), MockData.reportTester))
 
-    test('codeInjector() with empty tabUrl returns?', async () => {
-        try {
-            const cardPromises = await actions.reportGenerator('', actions.codeInjector())
-            cardPromises.map(promise =>
-                promise
-                    .then(card => expect(card.render()).toBeString().toHTMLValidate())
-                    .catch(() => expect(true).toBeFalse())
-            )
-        } catch (error) {
-            expect(true).toBeFalse()
-        }
-    })
+    test('codeInjector() with empty tabUrl returns?', () =>
+        actions.reportGenerator('', actions.codeInjector(), MockData.reportTester))
 })

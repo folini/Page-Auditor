@@ -5,7 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card} from '../card'
-import {sectionActions} from '../main'
+import {sectionActions, ReportGeneratorFunc, DisplayCardFunc, CodeInjectorFunc} from '../main'
 
 const scriptClasses = require('../jsons/scriptClasses.json') as any[]
 
@@ -15,13 +15,12 @@ const suggestedSites = [
     {label: 'REI', url: 'https://rei.com/'},
 ]
 
-const codeInjector = () => undefined
-const eventManager = () => undefined
+const codeInjector: CodeInjectorFunc = () => undefined
 
-const reportGenerator = async (tabUrl: string, data: any): Promise<Promise<Card>[]> => {
+const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, renderCard: DisplayCardFunc): void => {
     var result: Promise<Card>[] = []
 
-    result.push(
+    renderCard(
         Promise.resolve(
             new Card()
                 .open(``, `How to use Page Auditor for Technical SEO`, [], 'icon-how')
@@ -39,7 +38,7 @@ const reportGenerator = async (tabUrl: string, data: any): Promise<Promise<Card>
         )
     )
 
-    result.push(
+    renderCard(
         Promise.resolve(
             new Card()
                 .open(``, `Why Page Auditor`, [], 'icon-why')
@@ -61,7 +60,7 @@ const reportGenerator = async (tabUrl: string, data: any): Promise<Promise<Card>
         )
     )
 
-    result.push(
+    renderCard(
         Promise.resolve(
             new Card()
                 .open(``, `Open Source?`, [], 'icon-open')
@@ -81,12 +80,9 @@ const reportGenerator = async (tabUrl: string, data: any): Promise<Promise<Card>
                 .close()
         )
     )
-
-    return result
 }
 
 export const actions: sectionActions = {
     codeInjector: codeInjector,
     reportGenerator: reportGenerator,
-    eventManager: eventManager,
 }

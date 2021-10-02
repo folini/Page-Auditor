@@ -4,7 +4,7 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {codeColor, Mode} from '../src/colorCode'
+import {colorCode, Mode} from '../src/colorCode'
 import {htmlEncode} from 'js-htmlencode'
 
 // Jest imports
@@ -242,20 +242,20 @@ const jsonString = js_beautify(`{
     .join('</br>')
     .replace(/\s/g, '&nbsp;')
 
-const _sep =`\n-----------------------------------------------------------------\n`
+const _sep = `\n-----------------------------------------------------------------\n`
 /* spell-checker: enable */
 
 test('colorCode() with valid HTML', () => {
-    const data = codeColor(htmlString, Mode.html)
+    const data = colorCode(htmlString, Mode.html)
     expect(data).toBeString().toHTMLValidate()
 })
 
 test('colorCode() with valid JavaScript', () => {
-    const data = codeColor(jsString, Mode.js)
+    const data = colorCode(jsString, Mode.js)
     expect(data).toBeString()
 })
 
 test('colorCode() with valid JSON', () => {
-    const data = codeColor(jsonString, Mode.js)
+    const data = colorCode(jsonString, Mode.js)
     expect(data).toBeString()
 })

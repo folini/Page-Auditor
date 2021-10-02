@@ -10,9 +10,9 @@ import {
     twitterPreview,
     openGraphPreview,
     noPreview,
-    renderMetaCategory
+    metaCategoryCard,
 } from '../src/sections/meta-functions'
-import * as MockData from "./mock-data.test"
+import * as MockData from './mock-data.test'
 
 // Jest imports
 import 'jest-get-type'
@@ -58,8 +58,11 @@ test('NoPreview card generator', () => {
     expect(data).toBeString().toBe('').toHTMLValidate()
 })
 
-test("renderMetaCategory() render proper HTML Card", () => {
-    const data = renderMetaCategory(MockData.MetaTagCategorySample, [MockData.MetaTagSample], noPreview([MockData.MetaTagSample], MockData.DefaultTagValuesSample))
+test('renderMetaCategory() render proper HTML Card', () => {
+    const data = metaCategoryCard(
+        MockData.MetaTagCategorySample,
+        [MockData.MetaTagSample],
+        noPreview([MockData.MetaTagSample], MockData.DefaultTagValuesSample)
+    )
     expect(data.render()).toBeString().toHTMLValidate()
 })
-

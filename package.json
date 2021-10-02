@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --silent --detectOpenHandles",
     "test-coverage": "jest --coverage --silent",
-    "format": "prettier --write -l src",
+    "format": "prettier --write -l src test",
     "build": "webpack --progress --color --mode production --stats-error-details --config webpack.config.js"
   },
   "repository": {

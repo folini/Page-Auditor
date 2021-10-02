@@ -7,7 +7,7 @@
 import {Card} from '../card'
 import {htmlEncode} from 'js-htmlencode'
 import {html_beautify} from 'js-beautify'
-import {codeColor, Mode} from '../colorCode'
+import {colorCode, Mode} from '../colorCode'
 
 export const getSiteMapFileBody = async (url: string): Promise<string> => {
     var response = undefined
@@ -55,15 +55,11 @@ export const getSiteMapCards = (urls: string[]): Promise<Card>[] =>
             new Promise(resolve =>
                 getSiteMapFileBody(url)
                     .then(sitemapBody => {
-                        const formattedBody = html_beautify(sitemapBody)
-                            .split('\n')
-                            .map(line => htmlEncode(line))
-                            .join('</br>')
-                            .replace(/\s/g, '&nbsp;')
+                        const formattedBody = htmlEncode(html_beautify(sitemapBody))
                         resolve(
                             new Card()
                                 .open(``, `Sitemap.xml`, getSitemapLinks(url), 'icon-sitemap')
-                                .add(`<div class='code x-scrollable'>${codeColor(formattedBody, Mode.html)}</div>`)
+                                .add(`<div class='code x-scrollable'>${colorCode(formattedBody, Mode.html)}</div>`)
                                 .close()
                         )
                     })

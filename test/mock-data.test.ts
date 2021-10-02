@@ -7,6 +7,8 @@
 import {htmlEncode} from 'js-htmlencode'
 import {iDefaultTagValues, iMetaTag} from '../src/sections/meta'
 import {noPreview, iTagCategory} from '../src/sections/meta-functions'
+import {Card} from '../src/card'
+import {DisplayCardFunc} from '../src/main'
 
 // Jest imports
 import 'jest-get-type'
@@ -49,14 +51,13 @@ export const RawMetaTagsSample: string[] = `
 
 export const MetaTagsSample = [
     {
-        class: '', 
-        content: 'summary_large_image', 
-        property: 'twitter:card'
+        class: '',
+        content: 'summary_large_image',
+        property: 'twitter:card',
     },
     {
         class: '',
-        content:
-            'REI Co-op: Outdoor Clothing, Gear, and Footwear from Top Brands | REI Co-op',
+        content: 'REI Co-op: Outdoor Clothing, Gear, and Footwear from Top Brands | REI Co-op',
         property: 'twitter:title',
     },
     {
@@ -78,7 +79,6 @@ export const MetaTagsSample = [
         property: 'twitter:image',
     },
 ]
-
 
 export const UrlSample = 'https://mydomain.com/'
 
@@ -105,8 +105,7 @@ export const LdJsonSample = {
 }
 export const LdJsonStringSample = JSON.stringify(LdJsonSample)
 
-export const RegExIsUrl =
-    /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
+export const RegExIsUrl = /(http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
 
 // cSpell:disable
 export const SitemapUrlsSample: string[] = [
@@ -150,8 +149,7 @@ export const SitemapXmlBodySample: string = `
   </sitemap>
 </sitemapindex>`.trim()
 
-export const SitemapXmlEncodedBodySample: string =
-    htmlEncode(SitemapXmlBodySample)
+export const SitemapXmlEncodedBodySample: string = htmlEncode(SitemapXmlBodySample)
 
 export const DefaultTagValuesSample: iDefaultTagValues = {
     title: 'Facebook Post Title',
@@ -206,7 +204,17 @@ export const JavaScriptsArraySample = [
 
 // cSpell:enable
 
-test("Dummy test just to make JEST happy", () => {
+export const reportTester: DisplayCardFunc = (cardPromise: Promise<Card> | Card): Promise<HTMLDivElement> => {
+    Promise.resolve(cardPromise)
+        .then(card => {
+            const reportHtml = card.render()
+            expect(reportHtml).toBeString().toHTMLValidate()
+        })
+        .catch(err => expect(true).toBe(false))
+    return Promise.resolve(document.createElement('div'))
+}
+
+test('Dummy test just to make JEST happy', () => {
     const data = true as Boolean
     expect(data).toBeBoolean()
 })
