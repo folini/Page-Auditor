@@ -29,12 +29,11 @@ export const getSiteMapFileBody = async (url: string): Promise<string> => {
         if (sitemapBodyLowerCase.includes(`not found`) || sitemapBodyLowerCase.includes(`error 404`)) {
             return Promise.reject(`Robots.txt file at <a target="_new" href="${url}">${url}</a> not found.`)
         }
-        if (sitemapBody.includes(`<head>`) || sitemapBody.includes(`<link`)) {
+        if (sitemapBodyLowerCase.includes(`<head>`) || sitemapBodyLowerCase.includes(`<link`)) {
             return Promise.reject(
                 `File at <a target="_new" href="${url}">${url}</a> is not a syntactically valid <code>Sitemap.xml</code>.
-                <div class='code x-scrollable'>${html_beautify(sitemapBody)
+                <div class='code x-scrollable'>${html_beautify(htmlEncode(sitemapBodyLowerCase))
                     .split('\n')
-                    .map(line => htmlEncode(line))
                     .join('</br>')
                     .replace(/\s/g, '&nbsp;')}</div>`
             )
@@ -55,11 +54,11 @@ export const getSiteMapCards = (urls: string[]): Promise<Card>[] =>
             new Promise(resolve =>
                 getSiteMapFileBody(url)
                     .then(sitemapBody => {
-                        const formattedBody = htmlEncode(html_beautify(sitemapBody))
+                        const formattedBody = colorCode(htmlEncode(html_beautify(sitemapBody)), Mode.xml)
                         resolve(
                             new Card()
-                                .open(``, `Sitemap.xml`, getSitemapLinks(url), 'icon-sitemap')
-                                .add(`<div class='code x-scrollable'>${colorCode(formattedBody, Mode.html)}</div>`)
+                                .open(url, `Sitemap.xml`, getSitemapLinks(url), 'icon-sitemap')
+                                .add(`<div class='code x-scrollable'>${formattedBody}</div>`)
                                 .close()
                         )
                     })

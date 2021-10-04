@@ -6,7 +6,6 @@
 // ----------------------------------------------------------------------------
 import {Card, iLink} from '../card'
 import {sectionActions, NoArgsNoReturnFunc, DisplayCardFunc, worker} from '../main'
-import {js_beautify} from 'js-beautify'
 import {Mode} from '../colorCode'
 
 const listOfScriptClasses = require('../jsons/scriptClasses.json') as iTrackClass[]
@@ -99,7 +98,6 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, renderCard: Displa
         if (trackingItem.url.length > 0) {
             links.push({url: trackingItem.url, label: 'Reference'})
         }
-        trackingItem.scripts = trackingItem.scripts.map(script => js_beautify(script))
         renderCard(
             new Card()
                 .open(trackingItem.category, trackingItem.name, links, trackingItem.iconClass)
@@ -128,9 +126,11 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, renderCard: Displa
             })
             .then(card => {
                 const scriptsToColor = [...card.querySelectorAll('.code')] as HTMLDivElement[]
-                scriptsToColor.forEach(scriptDiv =>
-                    worker.postMessage({id: scriptDiv.id, mode: Mode.js, code: scriptDiv.innerHTML})
-                )
+                scriptsToColor
+                    .filter(scriptDiv => !scriptDiv.innerHTML.startsWith('http'))
+                    .forEach(scriptDiv =>
+                        worker.postMessage({id: scriptDiv.id, mode: 'js', code: scriptDiv.innerHTML})
+                    )
             })
     })
 }

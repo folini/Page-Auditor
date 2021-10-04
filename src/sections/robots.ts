@@ -5,7 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card} from '../card'
-import {sectionActions, NoArgsNoReturnFunc, ReportGeneratorFunc, DisplayCardFunc} from '../main'
+import {sectionActions, NoArgsNoReturnFunc, ReportGeneratorFunc, DisplayCardFunc, worker} from '../main'
 import {
     getSiteMapCards,
     getRobotsTxtFileBody,
@@ -51,7 +51,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, renderCard
             )
         }
 
-        getSiteMapCards(sitemapUrls).forEach(card => renderCard(Promise.resolve(card)))
+        getSiteMapCards(sitemapUrls).forEach(async cardPromise => renderCard(await cardPromise))
     })
 }
 

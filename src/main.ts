@@ -139,23 +139,7 @@ const showSpinner = (container: HTMLDivElement) => {
     container.append(spinner)
 }
 
-export const workerReaction = (event: MessageEvent<any>) => {
-    let code = event.data.code
-    let id = event.data.id
-    let mode = event.data.mode as Mode
-    postMessage({
-        id: id,
-        code: code.startsWith('http') ? code : (globalThis as any)['colorCode'](code, mode),
-    })
-}
-
-const workerCode = URL.createObjectURL(
-    new Blob([`onmessage = ${workerReaction.toString()}\nthis.colorCode=${colorCode.toString()}`], {
-        type: 'application/javascript',
-    })
-)
-
-export const worker = new Worker(workerCode)
+export const worker = new Worker("worker.js")
 worker.onmessage = event => {
     let id = event.data.id
     let code = event.data.code
