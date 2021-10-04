@@ -10,7 +10,7 @@ import './manifest.json'
 import './styles/style.less'
 
 import {Card} from './card'
-import {colorCode, Mode} from './colorCode'
+import {Mode} from './colorCode'
 import * as JsonLd from './sections/ld-json'
 import * as Scripts from './sections/scripts'
 import * as Credits from './sections/credits'
@@ -139,12 +139,22 @@ const showSpinner = (container: HTMLDivElement) => {
     container.append(spinner)
 }
 
-export const worker = new Worker("worker.js")
+export const worker = new Worker('worker.js')
 worker.onmessage = event => {
     let id = event.data.id
     let code = event.data.code
     document.getElementById(id)!.innerHTML = code
 }
+
+export const sendTaskToWorker = (divId: string, mode: Mode, code: string, immediate = true) => {
+    if(immediate) {
+        worker.postMessage({id: divId, mode: mode, code: code})
+    } else {
+        setTimeout(() => worker.postMessage({id: divId, mode: mode, code: code}), 100)
+    }
+}
+
+export const disposableId = () => 'id-' + Math.random().toString(36).substring(2, 15)
 
 document.addEventListener('DOMContentLoaded', () => {
     const tabsContainer = document.getElementById('id-tabs') as HTMLUListElement

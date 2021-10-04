@@ -6,8 +6,9 @@
 // ----------------------------------------------------------------------------
 import {iJsonLD} from './ld-json'
 import {Card} from '../card'
-import {colorCode, Mode} from '../colorCode'
+import {Mode} from '../colorCode'
 import {js_beautify} from 'js-beautify'
+import { sendTaskToWorker as assignTask2Worker, disposableId } from '../main'
 
 export const schemaLinks = (schemaName: string, ldjsonUrl: string) => [
     {
@@ -22,12 +23,12 @@ export const schemaLinks = (schemaName: string, ldjsonUrl: string) => [
 
 export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string) => {
     const schemaType: string = (ldJson['@type'] || 'Graph') as string
+    const scriptId = disposableId()
     const scriptAsString = JSON.stringify(ldJson)
-    const jsonCode = colorCode(js_beautify(scriptAsString), Mode.js)
+    const jsonCode = js_beautify(scriptAsString)
+    assignTask2Worker(scriptId, Mode.json, jsonCode, false)
     return new Card()
-        .open(``, schemaType, schemaLinks(schemaType, tabUrl), 'icon-ld-json')
-        .add(`<div class='code x-scrollable'>`)
-        .add(jsonCode)
-        .add(`</div>`)
+        .open(`Structured Data`, schemaType, schemaLinks(schemaType, tabUrl), 'icon-ld-json')
+        .add(`<div class='code x-scrollable' id='${scriptId}'>${jsonCode}</div>`)
         .close()
 }

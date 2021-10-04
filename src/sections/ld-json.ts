@@ -5,7 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card} from '../card'
-import {sectionActions, NoArgsNoReturnFunc, ReportGeneratorFunc, DisplayCardFunc, CodeInjectorFunc} from '../main'
+import {sectionActions, ReportGeneratorFunc, DisplayCardFunc, CodeInjectorFunc} from '../main'
 import {ldJsonCard} from './ld-json-functions'
 
 export interface iJsonLD {
@@ -18,8 +18,6 @@ export interface iJsonLevel {
 
 const codeInjector: CodeInjectorFunc = (): iJsonLD[] =>
     [...document.scripts].filter(s => s.type === 'application/ld+json').map(s => JSON.parse(s.text.trim()))
-
-const eventManager: NoArgsNoReturnFunc = () => undefined
 
 const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, renderCard: DisplayCardFunc): void => {
     const jsonScripts: iJsonLD[] = scripts as iJsonLD[]

@@ -19,6 +19,7 @@ export enum Mode {
     html = 'html',
     css = 'css',
     js = 'js',
+    json = 'js',
     xml = 'html',
     txt = 'txt'
 }

@@ -5,7 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card, iLink} from '../card'
-import {sectionActions, NoArgsNoReturnFunc, DisplayCardFunc, worker} from '../main'
+import {sectionActions, NoArgsNoReturnFunc, DisplayCardFunc, sendTaskToWorker, disposableId} from '../main'
 import {Mode} from '../colorCode'
 
 const listOfScriptClasses = require('../jsons/scriptClasses.json') as iTrackClass[]
@@ -112,7 +112,7 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, renderCard: Displa
                     } found. </a>
                     <ul class='hide'>
                         ${trackingItem.scripts
-                            .map((script, j) => `<li><div class='code' id='id-script-${i}-${j}'>${script}</div></li>`)
+                            .map((script, j) => `<li><div class='code' id='${disposableId()}'>${script}</div></li>`)
                             .join('')}
                     </ul>
                     </div>`
@@ -129,7 +129,7 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, renderCard: Displa
                 scriptsToColor
                     .filter(scriptDiv => !scriptDiv.innerHTML.startsWith('http'))
                     .forEach(scriptDiv =>
-                        worker.postMessage({id: scriptDiv.id, mode: 'js', code: scriptDiv.innerHTML})
+                        sendTaskToWorker(scriptDiv.id, Mode.js, scriptDiv.innerHTML)
                     )
             })
     })

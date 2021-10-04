@@ -57,7 +57,7 @@ export const getSiteMapCards = (urls: string[]): Promise<Card>[] =>
                         const formattedBody = colorCode(htmlEncode(html_beautify(sitemapBody)), Mode.xml)
                         resolve(
                             new Card()
-                                .open(url, `Sitemap.xml`, getSitemapLinks(url), 'icon-sitemap')
+                                .open(url, `Sitemap.xml file`, getSitemapLinks(url), 'icon-sitemap')
                                 .add(`<div class='code x-scrollable'>${formattedBody}</div>`)
                                 .close()
                         )
@@ -105,9 +105,9 @@ export const getRobotsTxtFileBody = async (url: string): Promise<string> => {
     }
 }
 
-export const getRobotsTxtCard = (robotsTxtUrl: string, robotsTxtBody: string): Card =>
+export const getRobotsTxtCard = (url: string, robotsTxtBody: string): Card =>
     new Card()
-        .open(``, `Robots.txt`, getRobotsLinks(robotsTxtUrl), 'icon-rep')
+        .open(url, `Robots.txt file`, getRobotsLinks(url), 'icon-rep')
         .add(`<div class='code x-scrollable'>${robotsTxtBody.replace(/\n/gm, '<br/>')}</div>`)
         .close()
 
