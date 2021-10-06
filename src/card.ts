@@ -6,7 +6,8 @@
 // ----------------------------------------------------------------------------
 export interface iLink {
     label: string
-    url: string
+    url?: string
+    onclick?: () => void
 }
 
 export enum CardKind {
@@ -17,33 +18,47 @@ export enum CardKind {
 }
 
 export class Card {
-    #report: string[]
+    #div: HTMLDivElement
     #kind: CardKind
 
     constructor() {
-        this.#report = []
+        this.#div = document.createElement('div')
         this.#kind = CardKind.report
     }
 
-    public render() {
-        return this.#report.join('')
+    public open(preTitle: string, title: string, links: iLink[], cssClass: string) {
+        const btnsContainer = document.createElement('div')
+        btnsContainer.className = 'card-buttons'
+        links.forEach(link => {
+            const btn = document.createElement('a')
+            btn.innerHTML = link.label
+            if (link.url) {
+                btn.href = link.url
+                btn.target = '_blank'
+            }
+            if (link.onclick) {
+                btn.onclick = link.onclick
+            }
+            btnsContainer.append(btn)
+        })
+
+        this.#div.className = `box-card ${cssClass}`
+        const h2 = document.createElement('h2')
+        h2.className = `cardTitle`
+        const preTitleDiv = document.createElement('div')
+        preTitleDiv.className = 'cardPreTitle'
+        preTitleDiv.innerHTML = preTitle
+        const titleString = document.createElement('span')
+        titleString.className = 'cardTitleString'
+        titleString.innerHTML = title
+        h2.append(preTitleDiv, titleString, btnsContainer)
+        const hr = document.createElement('hr')
+        this.#div.append(h2, hr)
+        return this
     }
 
-    public open(preTitle: string, title: string, links: iLink[], cssClass: string) {
-        this.#report.length = 0
-        const linksDiv = `<div class='link-in-card'>${links.reduce(
-            (str, link) => str + `<a target='_new' href='${link.url}'>${link.label}</a>`,
-            ''
-        )}</div>`
-        this.#report.push(
-            `<div class='box-card'>` +
-                `<h2 class='subTitle ${cssClass}'>` +
-                `<div class='track-category'>${preTitle}</div>` +
-                title +
-                linksDiv +
-                `</h2>`
-        )
-        return this
+    public getDiv() {
+        return this.#div
     }
 
     public getKind() {
@@ -55,26 +70,46 @@ export class Card {
         return this
     }
 
-    public close() {
-        this.#report.push(`</div>`)
+    public setTitle(title: string) {
+        const h2span = this.#div.querySelector('.cardTitleString') as HTMLSpanElement
+        h2span.innerHTML = title
+        return this
+    }
+
+    public setPreTitle(title: string) {
+        const h2div = this.#div.querySelector('.cardPreTitle') as HTMLDivElement
+        h2div.innerHTML = title
         return this
     }
 
     public error(msg: string, title = 'Error') {
-        return this.open('', title, [], 'icon-error').add(`<div>${msg}</div>`).setKind(CardKind.error).close()
+        return this.open('', title, [], 'icon-error')
+            .add(`<div class='card-description'>${msg}</div>`)
+            .setKind(CardKind.error)
     }
 
-    public suggestion(msg: string, title = 'Suggestion') {
-        return this.open('', title, [], 'icon-suggestion').add(`<div>${msg}</div>`).setKind(CardKind.suggestion).close()
+    public suggestion(msg: string, links: iLink[] = [], title = 'Suggestion') {
+        return this.open('', title, [], 'icon-suggestion')
+            .add(`<div class='card-description'>${msg}</div>`)
+            .add(
+                `<div class='suggestion-buttons'>${links
+                    .map(link => '<a href="' + link.url + '" target="_blank">' + link.label + '</a>')
+                    .join(' ')}</div>`
+            )
+            .setKind(CardKind.suggestion)
     }
 
     public warning(msg: string, title = 'Warning') {
-        return this.open('', title, [], 'icon-warning').add(`<div>${msg}</div>`).setKind(CardKind.warning).close()
+        return this.open('', title, [], 'icon-warning')
+            .add(`<div class='card-description'>${msg}</div>`)
+            .setKind(CardKind.warning)
     }
 
     public add(str: string) {
+        const tmpDiv = document.createElement('div')
+        tmpDiv.innerHTML = str
         if (str.length > 0) {
-            this.#report.push(str)
+            this.#div.append(...tmpDiv.childNodes)
         }
         return this
     }

@@ -4,7 +4,7 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {actions, iDefaultTagValues, iMetaTag} from '../src/sections/meta'
+import {actions} from '../src/sections/meta'
 import * as MockData from './mock-data.test'
 
 // Jest imports
@@ -28,16 +28,20 @@ describe('codeInjector() and reporter()', () => {
     afterAll(() => jest.resetAllMocks())
 
     test('codeInjector() returns Array of metaTags', () => {
-        const data = actions.codeInjector()
+        const data = actions.codeInjector && actions.codeInjector()
         expect(data).toBeArray()
         expect(data.length).toBe(MockData.RawMetaTagsSample.length)
     })
 
     test('reportGenerator() returns an HTML Card', () =>
-        actions.reportGenerator(MockData.UrlSample, actions.codeInjector(), MockData.reportTester))
+        actions.reportGenerator(
+            MockData.UrlSample,
+            actions.codeInjector && actions.codeInjector(),
+            MockData.reportTester
+        ))
 
     test('codeInjector() with empty tabUrl returns?', () =>
-        actions.reportGenerator('', actions.codeInjector(), MockData.reportTester))
+        actions.reportGenerator('', actions.codeInjector && actions.codeInjector(), MockData.reportTester))
 })
 
 describe('codeInjector() correctly process zero MetaTags', () => {
@@ -48,14 +52,18 @@ describe('codeInjector() correctly process zero MetaTags', () => {
     afterAll(() => jest.resetAllMocks())
 
     test('codeInjector() returns Array of metaTags', () => {
-        const data = actions.codeInjector()
+        const data = actions.codeInjector && actions.codeInjector()
         expect(data).toBeArray()
         expect(data.length).toBe(0)
     })
 
     test('codeInjector() returns an HTML Card', () =>
-        actions.reportGenerator(MockData.UrlSample, actions.codeInjector(), MockData.reportTester))
+        actions.reportGenerator(
+            MockData.UrlSample,
+            actions.codeInjector && actions.codeInjector(),
+            MockData.reportTester
+        ))
 
     test('codeInjector() with empty tabUrl returns?', () =>
-        actions.reportGenerator('', actions.codeInjector(), MockData.reportTester))
+        actions.reportGenerator('', actions.codeInjector && actions.codeInjector(), MockData.reportTester))
 })

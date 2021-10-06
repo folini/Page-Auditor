@@ -24,7 +24,7 @@ test("Meta Categories 'preview' generates valid HTML", () => {
     const defaults: iDefaultTagValues = MockData.DefaultTagValuesSample
     const metaTags: iMetaTag[] = [MockData.EmptyMetaTag]
     tagCategories.forEach(mc => {
-        const data = mc.preview(metaTags, defaults)
+        const data = mc.preview(metaTags, defaults, () => {})
         expect(data).toBeString().toHTMLValidate()
     })
 })
@@ -44,17 +44,17 @@ test("Meta Categories last 'filter' (catch-all) always returns true", () => {
 })
 
 test('TwitterPreview card generator', () => {
-    const data = twitterPreview(MockData.MetaTagsSample, MockData.DefaultTagValuesSample)
+    const data = twitterPreview(MockData.MetaTagsSample, MockData.DefaultTagValuesSample, () => {})
     expect(data).toBeString().toHTMLValidate()
 })
 
 test('OpenGraphPreview card generator', () => {
-    const data = openGraphPreview(MockData.MetaTagsSample, MockData.DefaultTagValuesSample)
+    const data = openGraphPreview(MockData.MetaTagsSample, MockData.DefaultTagValuesSample, () => {})
     expect(data).toBeString().toHTMLValidate()
 })
 
 test('NoPreview card generator', () => {
-    const data = noPreview(MockData.MetaTagsSample, MockData.DefaultTagValuesSample)
+    const data = noPreview(MockData.MetaTagsSample, MockData.DefaultTagValuesSample, () => {})
     expect(data).toBeString().toBe('').toHTMLValidate()
 })
 
@@ -62,7 +62,8 @@ test('renderMetaCategory() render proper HTML Card', () => {
     const data = metaCategoryCard(
         MockData.MetaTagCategorySample,
         [MockData.MetaTagSample],
-        noPreview([MockData.MetaTagSample], MockData.DefaultTagValuesSample)
+        noPreview([MockData.MetaTagSample], MockData.DefaultTagValuesSample, () => {}),
+        () => {}
     )
-    expect(data.render()).toBeString().toHTMLValidate()
+    expect(data!.getDiv().innerHTML).toBeString().toHTMLValidate()
 })

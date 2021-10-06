@@ -98,40 +98,30 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, renderCard: Displa
         if (trackingItem.url.length > 0) {
             links.push({url: trackingItem.url, label: 'Reference'})
         }
-        renderCard(
-            new Card()
-                .open(trackingItem.category, trackingItem.name, links, trackingItem.iconClass)
-                .add(
-                    `
-                    <div class='card-description'>${trackingItem.description}</div>
-                    <div class='card-options'>
-                    <div class='open-closed-icon closed-icon'></div>
-                    <a class='link-in-card left-option n-scripts scrips-closed'>
-                        ${trackingItem.scripts.length.toFixed()} script${
-                        trackingItem.scripts.length === 1 ? '' : 's'
-                    } found. </a>
-                    <ul class='hide'>
-                        ${trackingItem.scripts
-                            .map((script, j) => `<li><div class='code' id='${disposableId()}'>${script}</div></li>`)
-                            .join('')}
-                    </ul>
-                    </div>`
-                )
-                .close()
+        const card = new Card().open(trackingItem.category, trackingItem.name, links, trackingItem.iconClass).add(
+            `
+                <div class='card-description'>${trackingItem.description}</div>
+                <div class='card-options optional-code'>
+                <div class='open-closed-icon closed-icon'></div>
+                <a class='card-buttons left-option n-scripts scrips-closed'>
+                    ${trackingItem.scripts.length.toFixed()} script${
+                trackingItem.scripts.length === 1 ? '' : 's'
+            } found. </a>
+                <ul class='hide'>
+                    ${trackingItem.scripts
+                        .map((script, j) => `<li><div class='code' id='${disposableId()}'>${script}</div></li>`)
+                        .join('')}
+                </ul>
+                </div>`
         )
-            .then(card => {
-                const btns = [...card.querySelectorAll('.link-in-card.n-scripts')] as HTMLAnchorElement[]
-                btns.forEach(btn => btn.parentElement?.addEventListener('click', () => toggle(btn)))
-                return card
-            })
-            .then(card => {
-                const scriptsToColor = [...card.querySelectorAll('.code')] as HTMLDivElement[]
-                scriptsToColor
-                    .filter(scriptDiv => !scriptDiv.innerHTML.startsWith('http'))
-                    .forEach(scriptDiv =>
-                        sendTaskToWorker(scriptDiv.id, Mode.js, scriptDiv.innerHTML)
-                    )
-            })
+        renderCard(card)
+
+        const btns = [...card.getDiv().querySelectorAll('.card-buttons.n-scripts')] as HTMLAnchorElement[]
+        btns.forEach(btn => btn.parentElement?.addEventListener('click', () => toggle(btn)))
+        const scriptsToColor = [...card.getDiv().querySelectorAll('.code')] as HTMLDivElement[]
+        scriptsToColor
+            .filter(scriptDiv => !scriptDiv.innerHTML.startsWith('http'))
+            .forEach(scriptDiv => sendTaskToWorker(scriptDiv.id, Mode.js, scriptDiv.innerHTML))
     })
 }
 

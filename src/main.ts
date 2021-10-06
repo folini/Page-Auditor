@@ -4,13 +4,14 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import './logos/Logo_256x256.png'
 import './default.htm'
 import './manifest.json'
 import './styles/style.less'
+import './logos/Logo_256x256.png'
 
 import {Card} from './card'
 import {Mode} from './colorCode'
+import {version as versionNumber} from '../package.json'
 import * as JsonLd from './sections/ld-json'
 import * as Scripts from './sections/scripts'
 import * as Credits from './sections/credits'
@@ -18,7 +19,7 @@ import * as Meta from './sections/meta'
 import * as Intro from './sections/intro'
 import * as Robots from './sections/robots'
 
-export type DisplayCardFunc = (cardPromises: Promise<Card> | Card) => Promise<HTMLDivElement>
+export type DisplayCardFunc = (cardPromises: Promise<Card> | Card) => void
 export type NoArgsNoReturnFunc = () => void
 export type CodeInjectorFunc = () => any
 export type ReportGeneratorFunc = (url: string, data: any, render: DisplayCardFunc) => void
@@ -26,7 +27,7 @@ export type ReportGeneratorFunc = (url: string, data: any, render: DisplayCardFu
 const idLoadingSpinnerDiv = 'id-loading-spinner'
 
 export type sectionActions = {
-    codeInjector: CodeInjectorFunc
+    codeInjector?: CodeInjectorFunc
     reportGenerator: ReportGeneratorFunc
 }
 
@@ -81,10 +82,7 @@ const addCardToContainer = (container: HTMLDivElement, card: Card): Promise<HTML
     if (spinner !== null) {
         spinner.remove()
     }
-    const tempDiv = document.createElement('div')
-    tempDiv.innerHTML = card.render()
-    const div = container.appendChild(tempDiv.firstChild as HTMLDivElement)
-    tempDiv.remove()
+    const div = container.appendChild(card.getDiv())
     return Promise.resolve(div)
 }
 
@@ -104,10 +102,12 @@ async function action(section: SectionType, actions: sectionActions) {
     let res: chrome.scripting.InjectionResult[] = []
 
     try {
-        res = await chrome.scripting.executeScript({
-            target: {tabId: tab.id} as chrome.scripting.InjectionTarget,
-            function: actions.codeInjector,
-        })
+        if (actions.codeInjector) {
+            res = await chrome.scripting.executeScript({
+                target: {tabId: tab.id} as chrome.scripting.InjectionTarget,
+                function: actions.codeInjector,
+            })
+        }
         actions.reportGenerator(
             tab.url || '',
             res.length > 0 ? res[0].result : undefined,
@@ -116,7 +116,7 @@ async function action(section: SectionType, actions: sectionActions) {
     } catch (err: any) {
         const emptyTab = `Cannot access a chrome:// URL`
         const emptyTabMsg = `<b>Page Auditor</b> can not run on empty or internal Chrome tabs.<br/><br/>Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
-        displayCard(new Card().error(err.message === emptyTab ? emptyTabMsg : err.message).render())
+        displayCard(section.reportId)(new Card().error(err.message === emptyTab ? emptyTabMsg : err.message))
     }
 }
 
@@ -147,7 +147,7 @@ worker.onmessage = event => {
 }
 
 export const sendTaskToWorker = (divId: string, mode: Mode, code: string, immediate = true) => {
-    if(immediate) {
+    if (immediate) {
         worker.postMessage({id: divId, mode: mode, code: code})
     } else {
         setTimeout(() => worker.postMessage({id: divId, mode: mode, code: code}), 100)
@@ -175,4 +175,11 @@ document.addEventListener('DOMContentLoaded', () => {
         showSpinner(report)
     })
     activateSection(sections[0])
+    ;(document.getElementById('id-version') as HTMLElement).innerHTML = `Version ${versionNumber}`
 })
+
+export const copyTxtToClipboard = (divId: string) => {
+    const div = document.getElementById(divId) as HTMLDivElement
+    const txt = div.innerText
+    navigator.clipboard.writeText(txt)
+}

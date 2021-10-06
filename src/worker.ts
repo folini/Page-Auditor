@@ -4,7 +4,7 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import { colorCode, Mode } from "./colorCode";
+import {colorCode, Mode} from './colorCode'
 import {js_beautify, html_beautify} from 'js-beautify'
 
 export const workerReaction = (event: MessageEvent<any>) => {
@@ -12,7 +12,7 @@ export const workerReaction = (event: MessageEvent<any>) => {
     let id = event.data.id
     let mode = event.data.mode as Mode
 
-    if(mode==='js'&& !code.startsWith('http')) {
+    if (mode === 'js' && !code.startsWith('http')) {
         code = js_beautify(code)
     } else if (mode === 'html') {
         code = html_beautify(code)
@@ -25,4 +25,3 @@ export const workerReaction = (event: MessageEvent<any>) => {
 }
 
 onmessage = workerReaction
-

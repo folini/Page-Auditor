@@ -18,14 +18,14 @@ test('Card, without category and link, generates valid HTML', () => {
     const cssClass = 'any-class'
     const body = '<div>valid HTML fragment</div>'
     const links = [] as iLink[]
-    const data = new Card().open(preTitle, title, links, cssClass).add(body).close().render()
-    expect(data)
+    const htmlCode = new Card().open(preTitle, title, links, cssClass).add(body).getDiv().innerHTML
+    expect(htmlCode)
         .toBeString()
         .toContain(
-            `<h2 class='subTitle ${cssClass}'>` +
-                `<div class='track-category'>${preTitle}</div>` +
+            `<h2 class="cardTitle ${cssClass}">` +
+                `<div class="cardPreTitle">${preTitle}</div>` +
                 `${title}` +
-                `<div class='link-in-card'></div>` +
+                `<div class="card-buttons"></div>` +
                 `</h2>`
         )
         .toContain(body)
@@ -38,14 +38,15 @@ test('Card, with category, generates valid HTML', () => {
     const cssClass = 'any-class'
     const body = '<div>valid HTML fragment</div>'
     const links = [{url: 'https://www.mydomain.com/', label: 'website'}] as iLink[]
-    const data = new Card().open(preTitle, title, links, cssClass).add(body).close().render()
-    expect(data)
+    const htmlCode = new Card().open(preTitle, title, links, cssClass).add(body).getDiv().innerHTML
+
+    expect(htmlCode)
         .toBeString()
         .toContain(
-            `<h2 class='subTitle ${cssClass}'>` +
-                `<div class='track-category'>${preTitle}</div>` +
+            `<h2 class="cardTitle ${cssClass}">` +
+                `<div class="cardPreTitle">${preTitle}</div>` +
                 `${title}` +
-                `<div class='link-in-card'><a target='_new' href='${links[0].url}'>${links[0].label}</a></div>` +
+                `<div class="card-buttons"><a href="${links[0].url}" target="_blank">${links[0].label}</a></div>` +
                 `</h2>`
         )
         .toContain(body)
@@ -58,20 +59,20 @@ test('Card, calling .add() with an empty string, generates valid HTML', () => {
     const cssClass = 'any-class'
     const body = ''
     const links = [{url: 'https://www.mydomain.com/', label: 'website'}] as iLink[]
-    const data = new Card().open(preTitle, title, links, cssClass).add(body).close().render()
+    const data = new Card().open(preTitle, title, links, cssClass).add(body).getDiv().innerHTML
     expect(data).toBeString().toHTMLValidate()
 })
 
 test('Error Card generates valid HTML', () => {
     const msg = '<div>Some error description</div>'
-    const data = new Card().error(msg).render()
+    const data = new Card().error(msg).getDiv().innerHTML
     expect(data)
         .toBeString()
         .toContain(
-            `<h2 class='subTitle icon-error'>` +
-                `<div class='track-category'></div>` +
+            `<h2 class="cardTitle icon-error">` +
+                `<div class="cardPreTitle"></div>` +
                 `Error` +
-                `<div class='link-in-card'></div>` +
+                `<div class="card-buttons"></div>` +
                 `</h2>`
         )
         .toContain(msg)
@@ -80,14 +81,14 @@ test('Error Card generates valid HTML', () => {
 
 test('Warning Card generates valid HTML', () => {
     const msg = '<div>Some warning description</div>'
-    const data = new Card().warning(msg).render()
+    const data = new Card().warning(msg).getDiv().innerHTML
     expect(data)
         .toBeString()
         .toContain(
-            `<h2 class='subTitle icon-warning'>` +
-                `<div class='track-category'></div>` +
+            `<h2 class="cardTitle icon-warning">` +
+                `<div class="cardPreTitle"></div>` +
                 `Warning` +
-                `<div class='link-in-card'></div>` +
+                `<div class="card-buttons"></div>` +
                 `</h2>`
         )
         .toContain(msg)
@@ -96,14 +97,14 @@ test('Warning Card generates valid HTML', () => {
 
 test('Suggestion Card generates valid HTML', () => {
     const msg = '<div>Some suggestion</div>'
-    const data = new Card().suggestion(msg).render()
-    expect(data)
+    const htmlCode = new Card().suggestion(msg).getDiv().innerHTML
+    expect(htmlCode)
         .toBeString()
         .toContain(
-            `<h2 class='subTitle icon-suggestion'>` +
-                `<div class='track-category'></div>` +
+            `<h2 class="cardTitle icon-suggestion">` +
+                `<div class="cardPreTitle"></div>` +
                 `Suggestion` +
-                `<div class='link-in-card'></div>` +
+                `<div class="card-buttons"></div>` +
                 `</h2>`
         )
         .toContain(msg)

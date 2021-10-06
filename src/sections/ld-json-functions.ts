@@ -5,12 +5,16 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {iJsonLD} from './ld-json'
-import {Card} from '../card'
+import {Card, iLink} from '../card'
 import {Mode} from '../colorCode'
 import {js_beautify} from 'js-beautify'
-import { sendTaskToWorker as assignTask2Worker, disposableId } from '../main'
+import {sendTaskToWorker as assignTask2Worker, disposableId, copyTxtToClipboard} from '../main'
 
-export const schemaLinks = (schemaName: string, ldjsonUrl: string) => [
+export const schemaLinks = (schemaName: string, ldjsonUrl: string, codeId: string): iLink[] => [
+    {
+        label: 'Copy',
+        onclick: () => copyTxtToClipboard(codeId),
+    },
     {
         url: `https://validator.schema.org/#url=${encodeURI(ldjsonUrl)}`,
         label: `Validate`,
@@ -28,7 +32,6 @@ export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string) => {
     const jsonCode = js_beautify(scriptAsString)
     assignTask2Worker(scriptId, Mode.json, jsonCode, false)
     return new Card()
-        .open(`Structured Data`, schemaType, schemaLinks(schemaType, tabUrl), 'icon-ld-json')
+        .open(`Structured Data`, schemaType, schemaLinks(schemaType, tabUrl, scriptId), 'icon-ld-json')
         .add(`<div class='code x-scrollable' id='${scriptId}'>${jsonCode}</div>`)
-        .close()
 }

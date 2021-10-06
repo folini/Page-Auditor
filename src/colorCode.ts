@@ -8,8 +8,6 @@
 // https://www.w3schools.com/lib/w3codecolor.js version 1.32
 // ----------------------------------------------------------------------------
 
-import { monitorEventLoopDelay } from "perf_hooks"
-
 type Extracted = {
     rest: string
     arr: string[]
@@ -19,9 +17,9 @@ export enum Mode {
     html = 'html',
     css = 'css',
     js = 'js',
-    json = 'js',
-    xml = 'html',
-    txt = 'txt'
+    json = 'json',
+    xml = 'xml',
+    txt = 'txt',
 }
 
 enum Placeholders {
@@ -52,6 +50,11 @@ const color = {
         number: 'brown',
         property: 'black',
     },
+    txt: {
+        label: 'brown',
+        separator: 'mediumblue',
+        comment: 'green',
+    },
 }
 
 export const colorCode = (code: string, mode: Mode) => {
@@ -69,6 +72,12 @@ export const colorCode = (code: string, mode: Mode) => {
         case Mode.js:
             result = jsParser(code)
             break
+        case Mode.json:
+            result = jsParser(code)
+            break
+        case Mode.txt:
+            result = txtParser(code)
+            break
     }
     return result
         .replace(/\n/gm, '<br>\n')
@@ -76,6 +85,15 @@ export const colorCode = (code: string, mode: Mode) => {
         .replace(/\s/gm, '&nbsp;')
         .replace(/<span-style=/gm, '<span style=')
 }
+
+const txtParser = (txt: string) =>
+    txt
+        .replace(
+            /(^[a-zA-Z0-9\-]*)(:)/gm,
+            `<span style='color:${color.txt.label}'>$1</span><span style='color:${color.txt.separator}'>$2</span>`
+        )
+        .replace(/(^\#.*$)/gm, `<span style='color:${color.txt.comment}'>$1</span>`)
+        .replace(/\n/gm, '<br/>')
 
 function extract(
     txt: string,

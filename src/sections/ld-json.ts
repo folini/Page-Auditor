@@ -7,6 +7,7 @@
 import {Card} from '../card'
 import {sectionActions, ReportGeneratorFunc, DisplayCardFunc, CodeInjectorFunc} from '../main'
 import {ldJsonCard} from './ld-json-functions'
+import * as Suggestions from './suggestionCards'
 
 export interface iJsonLD {
     [name: string]: string | [] | {}
@@ -22,8 +23,15 @@ const codeInjector: CodeInjectorFunc = (): iJsonLD[] =>
 const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, renderCard: DisplayCardFunc): void => {
     const jsonScripts: iJsonLD[] = scripts as iJsonLD[]
 
-    if (tabUrl === '' || jsonScripts.length == 0) {
-        renderCard(new Card().warning(`No Structured Data found on this page.`))
+    if (tabUrl === '') {
+        renderCard(new Card().warning(`Unable to access the page in order to extract Structured Data.`))
+        return
+    }
+
+    if (jsonScripts.length == 0) {
+        renderCard(new Card().warning(`No Structured Data found on this page.`).setPreTitle('Structured Data'))
+        renderCard(Suggestions.missingStructuredData())
+        return
     }
 
     jsonScripts.map(ldJson => renderCard(ldJsonCard(ldJson, tabUrl)))

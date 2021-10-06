@@ -8,7 +8,6 @@ import {htmlEncode} from 'js-htmlencode'
 import {iDefaultTagValues, iMetaTag} from '../src/sections/meta'
 import {noPreview, iTagCategory} from '../src/sections/meta-functions'
 import {Card} from '../src/card'
-import {DisplayCardFunc} from '../src/main'
 
 // Jest imports
 import 'jest-get-type'
@@ -49,34 +48,49 @@ export const RawMetaTagsSample: string[] = `
     .map(s => s.trim())
     .filter(s => s.length !== 0)
 
-export const MetaTagsSample = [
+export const MetaTagsSample: iMetaTag[] = [
     {
         class: '',
         content: 'summary_large_image',
         property: 'twitter:card',
+        originalCode: '',
     },
     {
         class: '',
         content: 'REI Co-op: Outdoor Clothing, Gear, and Footwear from Top Brands | REI Co-op',
         property: 'twitter:title',
+        originalCode: '',
     },
     {
         class: '',
         content: 'REI Co-op - Outdoor Retailer',
         property: 'twitter:image:alt',
+        originalCode: '',
     },
-    {class: '', content: '@REI', property: 'twitter:site'},
+    {
+        class: '',
+        content: '@REI',
+        property: 'twitter:site',
+        originalCode: '',
+    },
     {
         class: '',
         content:
             'From backpacking to cycling to staying in shape and more, outfit your outdoor activities with the latest gear, clothing, and footwear at REI.',
         property: 'twitter:description',
+        originalCode: '',
     },
-    {class: '', content: '@REI', property: 'twitter:creator'},
+    {
+        class: '',
+        content: '@REI',
+        property: 'twitter:creator',
+        originalCode: '',
+    },
     {
         class: '',
         content: 'https://www.rei.com/assets/img/seo/evergreen/rei-og.jpg',
         property: 'twitter:image',
+        originalCode: '',
     },
 ]
 
@@ -162,9 +176,10 @@ export const MetaTagSample: iMetaTag = {
     class: 'abc-class',
     content: 'any content',
     property: 'any:property',
+    originalCode: '<meta property="any:property" content="any content" class="abc-class" />',
 }
 
-export const EmptyMetaTag: iMetaTag = {class: '', content: '', property: ''}
+export const EmptyMetaTag: iMetaTag = {class: '', content: '', property: '', originalCode: ''}
 
 export const MetaTagCategorySample: iTagCategory = {
     title: `Other Tags`,
@@ -204,10 +219,10 @@ export const JavaScriptsArraySample = [
 
 // cSpell:enable
 
-export const reportTester: DisplayCardFunc = (cardPromise: Promise<Card> | Card): Promise<HTMLDivElement> => {
+export const reportTester = (cardPromise: Promise<Card> | Card): Promise<HTMLDivElement> => {
     Promise.resolve(cardPromise)
         .then(card => {
-            const reportHtml = card.render()
+            const reportHtml = card.getDiv().innerHTML
             expect(reportHtml).toBeString().toHTMLValidate()
         })
         .catch(err => expect(true).toBe(false))
@@ -217,4 +232,8 @@ export const reportTester: DisplayCardFunc = (cardPromise: Promise<Card> | Card)
 test('Dummy test just to make JEST happy', () => {
     const data = true as Boolean
     expect(data).toBeBoolean()
+})
+
+test('test the tester', () => {
+    reportTester(new Card().error('text error'))
 })

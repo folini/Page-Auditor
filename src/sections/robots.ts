@@ -4,16 +4,18 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
+import {htmlEncode} from 'js-htmlencode'
+import {html_beautify} from 'js-beautify'
 import {Card} from '../card'
-import {sectionActions, NoArgsNoReturnFunc, ReportGeneratorFunc, DisplayCardFunc, worker} from '../main'
+import {sectionActions, sendTaskToWorker, ReportGeneratorFunc, DisplayCardFunc, disposableId} from '../main'
 import {
     getSiteMapCards,
     getRobotsTxtFileBody,
     getRobotsTxtCard as robotsTxtCard,
     getSiteMapUrls as getSiteMapUrlsFromRobotsTxt,
 } from './robots-functions'
-
-const codeInjector: NoArgsNoReturnFunc = () => undefined
+import * as Suggestions from './suggestionCards'
+import {Mode} from '../colorCode'
 
 const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, renderCard: DisplayCardFunc): void => {
     const result: Promise<Card>[] = []
@@ -30,32 +32,44 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, renderCard
 
     robotsTxtPromise
         .then(robotsTxtBody => {
-            renderCard(robotsTxtCard(robotsUrl, robotsTxtBody))
+            if (robotsTxtBody.includes(`<head>`) || robotsTxtBody.includes(`<meta`)) {
+                const divId = disposableId()
+                const formattedBody = html_beautify(htmlEncode(robotsTxtBody))
+                renderCard(
+                    new Card()
+                        .error(
+                            `File at location <a target="_new" href="${robotsUrl}">${robotsUrl}</a> is an HTML page or a redirect to an HTML page and not a 
+                    syntactically valid <code>robots.txt</code>.
+                    <div class='code x-scrollable meta-tags' id='${divId}'>${formattedBody
+                                .split('\n')
+                                .map(line => htmlEncode(line))
+                                .join('</br>')
+                                .replace(/\s/g, '&nbsp;')}</div>`
+                        )
+                        .setPreTitle(robotsUrl)
+                )
+                sendTaskToWorker(divId, Mode.html, formattedBody, false)
+                renderCard(Suggestions.malformedRobotsTxt())
+            } else {
+                renderCard(robotsTxtCard(robotsUrl, robotsTxtBody))
+            }
         })
-        .catch(errMsg => renderCard(new Card().error(errMsg as string, 'Robots.Txt Error')))
+        .catch(errMsg => {
+            renderCard(new Card().error(errMsg as string, 'Robots.Txt Error').setPreTitle(robotsUrl))
+            Suggestions.missingRobotsTxt()
+        })
 
     robotsTxtPromise.then(robotsTxtBody => {
         sitemapUrls = getSiteMapUrlsFromRobotsTxt(robotsTxtBody, sitemapUrls[0])
         const unsafeUrls = sitemapUrls.filter(url => url.includes(`http://`))
         if (unsafeUrls.length > 0) {
             sitemapUrls = sitemapUrls.map(url => (url.includes(`http://`) ? url.replace(`http://`, `https://`) : url))
-            renderCard(
-                new Card().suggestion(
-                    `The following url of a <code>sitemap.xml</code> was listed in your <code>robots.txt</code>. Sitemap.xml files should be always listed 
-                    using the <code>https</code> protocol instead of the <code>http</code> protocol.
-                    <ul>
-                    ${unsafeUrls.map(url => `<li>${url}</li>`)}
-                    </ul>
-                    It's important you update ASAP your <code>robots.txt</code> and <code>sitemap.xml</code> adopting the <code>http</code> protocol.`
-                )
-            )
+            renderCard(Suggestions.wrongRobotsFromSitemap(unsafeUrls))
         }
-
-        getSiteMapCards(sitemapUrls).forEach(async cardPromise => renderCard(await cardPromise))
+        getSiteMapCards(sitemapUrls, renderCard)
     })
 }
 
 export const actions: sectionActions = {
-    codeInjector: codeInjector,
     reportGenerator: reportGenerator,
 }

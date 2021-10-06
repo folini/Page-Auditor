@@ -1,6 +1,6 @@
 {
   "name": "page-auditor",
-  "version": "1.10.02",
+  "version": "1.10.03",
   "description": "An open source Google Chrome Extension to analyze Structured Data, Meta tags, and JavaScript from any web page",
   "main": "src/main.ts",
   "scripts": {
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/folini/Page-Auditor#readme",
   "devDependencies": {
+    "@babel/preset-typescript": "^7.15.0",
     "@types/chrome": "0.0.148",
     "@types/jest": "^27.0.1",
     "@types/js-beautify": "^1.13.3",
@@ -36,6 +37,8 @@
     "js-beautify": "^1.14.0",
     "js-htmlencode": "^0.3.0",
     "jsdom": "^17.0.0",
+    "jsdom-global": "^3.0.2",
+    "jsdom-worker": "^0.2.1",
     "less": "^4.1.1",
     "less-loader": "^10.0.1",
     "prettier": "^2.4.0",

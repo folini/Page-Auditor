@@ -6,9 +6,14 @@
 // ----------------------------------------------------------------------------
 import {iMetaTag, iDefaultTagValues} from './meta'
 import {Card, iLink} from '../card'
+import {DisplayCardFunc, disposableId} from '../main'
+import {htmlEncode} from 'js-htmlencode'
+import {html_beautify} from 'js-beautify'
+import * as Suggestions from './suggestionCards'
+import {colorCode, Mode} from '../colorCode'
 
 interface iTagCategoryPreviewer {
-    (m: iMetaTag[], t: iDefaultTagValues): string
+    (m: iMetaTag[], t: iDefaultTagValues, renderCard: DisplayCardFunc): string
 }
 
 interface iTagCategoryFilter {
@@ -24,9 +29,13 @@ export interface iTagCategory {
     preview: iTagCategoryPreviewer
 }
 
-export const noPreview: iTagCategoryPreviewer = (m: iMetaTag[], t: iDefaultTagValues) => ''
+export const noPreview: iTagCategoryPreviewer = (m: iMetaTag[], t: iDefaultTagValues, f: DisplayCardFunc) => ''
 
-export const twitterPreview = (tags: iMetaTag[], defaults: iDefaultTagValues): string => {
+export const twitterPreview = (
+    tags: iMetaTag[],
+    defaults: iDefaultTagValues,
+    showSuggestion: DisplayCardFunc
+): string => {
     const linkIcon =
         `<svg viewBox="0 0 24 24" aria-hidden="true" class="r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr">` +
         `<g>` +
@@ -44,6 +53,10 @@ export const twitterPreview = (tags: iMetaTag[], defaults: iDefaultTagValues): s
         domain = domain.replace(/https?:\/\/(www.)?((\w+\.)?\w+\.\w+).*/i, `$2`)
     }
 
+    if (img.length === 0) {
+        showSuggestion(Suggestions.twitterMissingImage())
+    }
+
     return `
       <div class='card-options'>
         <div id='id-twitter-card'>
@@ -57,7 +70,7 @@ export const twitterPreview = (tags: iMetaTag[], defaults: iDefaultTagValues): s
       </div>`
 }
 
-export const openGraphPreview = (tags: iMetaTag[], defaults: iDefaultTagValues) => {
+export const openGraphPreview = (tags: iMetaTag[], defaults: iDefaultTagValues, showSuggestion: DisplayCardFunc) => {
     const title = tags.find(m => m.property === 'og:title')?.content || ''
     const img = tags.find(m => m.property === 'og:image')?.content || ''
     var description = tags.find(m => m.property === 'og:description')?.content || ''
@@ -67,6 +80,10 @@ export const openGraphPreview = (tags: iMetaTag[], defaults: iDefaultTagValues) 
         domain = domain.replace(/https?:\/\/(www.)?((\w+\.)?\w+\.\w+).*/i, `$2`)
     }
     domain = domain.toUpperCase()
+
+    if (img.length === 0) {
+        showSuggestion(Suggestions.openGraphMissingImage())
+    }
 
     return `
       <div class='card-options'>
@@ -270,34 +287,29 @@ export const tagCategories: iTagCategory[] = [
     },
 ]
 
-export const metaCategoryCard = (metaCat: iTagCategory, metaList: iMetaTag[], preview: string): Card => {
+export const metaCategoryCard = (
+    metaCat: iTagCategory,
+    metaList: iMetaTag[],
+    preview: string,
+    renderCard: DisplayCardFunc
+) => {
     if (metaList.length === 0) {
         return new Card().error('List of Meta tags is empty')
     }
 
-    const listOfMeta = metaList
-        .map(
-            m =>
-                `<div class='single-line-forced'>
-                    <span class='label'>${m.property}:</span> 
-                    <span class='value'>${m.content}</span>
-                  </div>`
-        )
-        .join('')
+    const listOfMeta = metaList.map(m => m.originalCode.trim()).join('\n')
+    const formattedCode = colorCode(' ' + html_beautify(htmlEncode(listOfMeta)), Mode.html)
 
     const links: iLink[] = []
     if (metaCat.url.length > 0) {
         links.push({url: metaCat.url, label: 'Reference'})
     }
-
-    return new Card()
-        .open(`Meta Tags`, metaCat.title, links, metaCat.cssClass)
-        .add(
-            `
-        <div class='card-description'>${metaCat.description}</div>
-        <div class='meta-items'>${listOfMeta}</div>
-        ${preview}
-        `
+    const divId = disposableId()
+    renderCard(
+        new Card().open(`Meta Tags`, metaCat.title, links, metaCat.cssClass).add(
+            `<div class='card-description'>${metaCat.description}
+            <div class='code x-scrollable meta-tags' id=${divId}>${formattedCode}</div>
+            ${preview}</div>`
         )
-        .close()
+    )
 }

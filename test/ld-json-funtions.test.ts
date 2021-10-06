@@ -14,13 +14,21 @@ import 'jest-chain'
 import 'jest-extended'
 
 test('SchemaLinks() generates proper links', async () => {
-    const data = schemaLinks('Graph', 'https://mydomain.com/homepage.htm')
+    const data = schemaLinks('Graph', 'https://mydomain.com/homepage.htm', '')
+    console.log(`---------------------\n${data}`)
     expect(data).toBeArray()
-    expect(data.length).toBe(2)
-    data.forEach(obj => expect(obj.url.match(MockData.RegExIsUrl)).toBeArray())
+    expect(data.length).toBe(3)
+    data.forEach(btn => {
+        if (btn.url) {
+            expect(btn.url.match(MockData.RegExIsUrl)).toBeArray()
+        }
+        if (btn.onclick) {
+            expect(btn.onclick).toBeFunction()
+        }
+    })
 })
 
 test('ldJsonCard() creates card with proper HTML', () => {
-    const data = ldJsonCard(MockData.LdJsonSample, MockData.UrlSample).render()
+    const data = ldJsonCard(MockData.LdJsonSample, MockData.UrlSample).getDiv().innerHTML
     expect(data).toBeString().toHTMLValidate()
 })

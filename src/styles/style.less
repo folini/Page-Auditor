@@ -11,11 +11,15 @@
     --bg-color: #fafafe;
     --bg-inactive-color: #eaeaea;
     --fc-brand-dark-color: #0a5394;
-    --border-color: rgba(0, 0, 0, 0.125);
+    --border-color: #dadce0;
+    --border-color-light: #dadce080;
     --fc-brand-white: #ffffff;
-    --fc-brand-black: #08090acc;
+    --fc-brand-black: #202124;
     --bg-light-color: #dee2e6;
     --fc-brand-red: #900;
+    --fc-card-padding: 16px;
+    --fc-card-icon-size: 52px;
+    --fc-suggestion-bg: #fffbec80;
 }
 body#id-page-auditor {
     min-width: 540px;
@@ -55,7 +59,7 @@ body#id-page-auditor {
             font-size: 12px;
             color: var(--fc-brand-black);
 
-            .version {
+            #id-version {
                 text-align: right;
                 float: right;
                 padding-right: 16px;
@@ -110,22 +114,29 @@ body#id-page-auditor {
 
                 .box-card {
                     border: 1px solid var(--border-color);
-                    border-radius: 0.25rem;
-                    padding: 16px 12px;
+                    border-radius: 8px;
+                    padding: 0;
                     margin-bottom: 24px;
                     background-color: var(--fc-brand-white);
                     overflow: hidden;
+
+                    &:hover {
+                        box-shadow: 0 1px 5px 0 rgb(0 0 0 / 10%);
+                    }
 
                     div.code {
                         font-family: monospace, 'Courier New', Courier, monospace;
                         font-size: 13px;
                         color: var(--fc-brand-black);
                         overflow-x: auto;
+                        white-space: nowrap;
                     }
 
-                    .ld-json {
-                        overflow-y: auto;
-                        white-space: nowrap;
+                    .meta-tags {
+                        border: solid 1px var(--border-color-light);
+                        margin-top: 16px !important;
+                        border-radius: 3px;
+                        background-color: #fcfcfa;
                     }
 
                     .support-form {
@@ -134,9 +145,14 @@ body#id-page-auditor {
                     }
 
                     .card-options {
-                        padding: 8px 0 0 0;
+                        padding: 8px 0 0;
                         display: flex;
                         flex-wrap: wrap;
+
+                        &.optional-code {
+                            padding: 0 var(--fc-card-padding) var(--fc-card-padding);
+                        }
+
                         .left-option {
                             font-size: 12px;
                             position: initial;
@@ -149,27 +165,28 @@ body#id-page-auditor {
                             list-style: none;
                             padding: 0;
                             margin: 4px 0;
-                            border: solid 1px var(--border-color);
+                            border: solid 1px var(--border-color-light);
                             overflow-x: hidden;
                             width: 100%;
 
                             li {
                                 margin: 0;
                                 font-family: courier;
-                                padding: 8px;
+                                padding: 0;
                                 font-size: 0.9em;
 
                                 &:not(:first-child) {
-                                    border-top: dotted 1px var(--border-color);
-                                }
-                                &:hover {
-                                    background-color: #fafafa;
+                                    border-top: solid 1px var(--border-color-light);
                                 }
 
                                 &:first-child {
                                     border-top: none;
                                 }
-
+                                
+                                > div {
+                                    padding: var(--fc-card-padding);
+                                    background-color: #fcfcfa;
+                                }
                                 > span {
                                     width: 44px;
                                     display: inline-block;
@@ -202,38 +219,35 @@ body#id-page-auditor {
                     }
 
                     .card-description {
-                        padding: 0 0 4px 0;
+                        padding: var(--fc-card-padding);
                         font-size: 14px;
                     }
 
                     .meta-items {
-                        padding: 8px 0 8px 16px;
+                        padding: var(--fc-card-padding);
                     }
 
-                    a.button-in-card {
+                    .card-buttons {
                         position: absolute;
-                        right: 0;
-                        text-decoration: none;
-                        font-weight: normal;
-                        font-size: 0.7em;
-                        border: solid 1px #ccc;
-                        padding: 0 4px;
-                        border-radius: 3px;
-                        color: var(--fc-brand-black);
-                        cursor: pointer;
+                        right: 8px;
+                        bottom: 8px;
+                        font-size: 9.2px;
 
-                        &:hover {
-                            background-color: var(--fc-brand-dark-color);
-                            color: var(--fc-brand-white);
-                            border-color: var(--fc-brand-dark-color);
+                        &.n-scripts {
+                            background-repeat: no-repeat;
+                            background-size: 13px;
+                            color: var(--fc-brand-dark-color);
+                            padding-left: 8px;
                         }
                     }
 
-                    .link-in-card {
-                        position: absolute;
-                        right: 0;
-                        top: 0;
-                        font-size: 10.2px;
+                    .suggestion-buttons {
+                        text-align: center;
+                        min-height: 32px;
+                        font-size: 12px;
+                    }
+                    .card-buttons,
+                    .suggestion-buttons {
                         a {
                             text-decoration: none;
                             font-weight: normal;
@@ -243,46 +257,43 @@ body#id-page-auditor {
                             border-radius: 5px;
                             padding: 1px 8px;
                             margin-left: 3px;
+                            cursor: pointer;
 
                             &:hover {
                                 background-color: var(--fc-brand-dark-color);
                                 color: var(--fc-brand-white);
                             }
                         }
-                        &.n-scripts {
-                            background-repeat: no-repeat;
-                            background-size: 13px;
-                            color: var(--fc-brand-dark-color);
-                            padding-left: 8px;
-                        }
                     }
 
-                    h2.subTitle {
+                    h2.cardTitle {
                         font-size: 18px;
-                        margin: 0 0 4px;
-                        background-size: 42px 42px;
+                        margin: 0;
+                        background-size: var(--fc-card-icon-size) var(--fc-card-icon-size);
                         background-repeat: no-repeat;
-                        background-position: 0 0;
-                        padding: 0 0 16px 52px;
+                        background-position: var(--fc-card-padding) 8px;
+                        background-color: var(--fc-brand-white);
+                        padding: var(--fc-card-padding);
+                        padding-left: ~'calc(var(--fc-card-icon-size) + 2 * var(--fc-card-padding))';
                         position: relative;
                         font-weight: normal;
 
-                        .track-category {
+                        .cardPreTitle {
                             font-variant: small-caps;
                             font-size: 13px;
                             min-height: 15px;
                         }
                     }
 
-                    div.firstLine {
-                        padding-bottom: 12px;
+                    hr {
+                        border: none;
+                        border-top: solid 1px var(--border-color);
+                        margin: 0 -12px;
                     }
 
                     div.x-scrollable {
-                        background: #fafafa;
-                        margin: 12px -12px -16px;
-                        padding: 8px 12px 12px;
-                        border-top: solid 1px var(--border-color);
+                        margin: 0;
+                        padding: var(--fc-card-padding);
                     }
                 }
             }
@@ -453,149 +464,453 @@ body#id-page-auditor {
     }
 
     // ICONS
-    .icon-ld-json {
-        background-image: url(../logos/JSON-LD_100x100.png);
-    }
-    .icon-error {
-        background-image: url(../logos/ERROR_100x100.png);
-    }
-    .icon-warning {
-        background-image: url(../logos/WARNING_100x100.png);
-    }
-    .icon-google-ads {
-        background-image: url(../logos/GoogleAds_100x100.png);
-    }
-    .icon-double-click {
-        background-image: url(../logos/DoubleClick_100x100.png);
-    }
-    .icon-tag-manager {
-        background-image: url(../logos/GoogleTagManager_100x100.png);
-    }
-    .icon-facebook-pixel {
-        background-image: url(../logos/FacebookPixel_100x100.png);
-    }
-    .icon-twitter {
-        background-image: url(../logos/TwitterAds_100x100.png);
-    }
-    .icon-twitter-analytics {
-        background-image: url(../logos/TwitterAnalytics_100x100.png);
+    .box-card {
+        &.icon-ld-json > h2 {
+            background-image: url(../logos/JSON-LD_100x100.png);
+        }
+        &.icon-error > h2 {
+            background-image: url(../logos/ERROR_100x100.png);
+        }
+        &.icon-warning > h2 {
+            background-image: url(../logos/WARNING_100x100.png);
+        }
+        &.icon-suggestion {
+            background-color: var(--fc-suggestion-bg) !important;
+            > h2 {
+                background-image: url(../logos/Suggestion_100x100.png);
+            }
+        }
+        &.icon-google-ads > h2 {
+            background-image: url(../logos/GoogleAds_100x100.png);
+        }
+        &.icon-double-click > h2 {
+            background-image: url(../logos/DoubleClick_100x100.png);
+        }
+        &.icon-tag-manager > h2 {
+            background-image: url(../logos/GoogleTagManager_100x100.png);
+        }
+        &.icon-facebook-pixel > h2 {
+            background-image: url(../logos/FacebookPixel_100x100.png);
+        }
+        &.icon-twitter > h2 {
+            background-image: url(../logos/TwitterAds_100x100.png);
+        }
+        &.icon-twitter-analytics > h2 {
+            background-image: url(../logos/TwitterAnalytics_100x100.png);
+        }
+        &.icon-bing-ads > h2 {
+            background-image: url(../logos/BingAds_100x100.png);
+        }
+        &.icon-pinterest > h2 {
+            background-image: url(../logos/Pinterest_100x100.png);
+        }
+        &.icon-google-analytics-v3 > h2 {
+            background-image: url(../logos/GoogleAnalyticsV3_100x100.png);
+        }
+        &.icon-podsights > h2 {
+            background-image: url(../logos/Podsights_100x100.png);
+        }
+        &.icon-site-improve > h2 {
+            background-image: url(../logos/SiteImprove_100x100.png);
+        }
+        &.icon-google > h2 {
+            background-image: url(../logos/Google_100x100.png);
+        }
+        &.icon-web-stat > h2 {
+            background-image: url(../logos/WebStat_100x100.png);
+        }
+        &.icon-replay-app > h2 {
+            background-image: url(../logos/ReplayApp_100x100.png);
+        }
+        &.icon-cartkit > h2 {
+            background-image: url(../logos/CartKit_100x100.png);
+        }
+        &.icon-heroku > h2 {
+            background-image: url(../logos/Heroku_100x100.png);
+        }
+        &.icon-hubspot > h2 {
+            background-image: url(../logos/Hubspot_100x100.png);
+        }
+        &.icon-krux-pixel > h2 {
+            background-image: url(../logos/KruxPixel_100x100.png);
+        }
+        &.icon-amazon-ads > h2 {
+            background-image: url(../logos/AmazonAds_100x100.png);
+        }
+        &.icon-segment-analytics {
+            background-image: url(../logos/SegmentAnalytics_100x100.png);
+        }
+        &.icon-warnermedia-analytics > h2 {
+            background-image: url(../logos/TurnerAnalytics_100x100.png);
+        }
+        &.icon-criteo > h2 {
+            background-image: url(../logos/Criteo_100x100.png);
+        }
+        &.icon-zeta-global > h2 {
+            background-image: url(../logos/Zeta_100x100.png);
+        }
+        &.icon-quantcast > h2 {
+            background-image: url(../logos/QuantCast_100x100.png);
+        }
+        &.icon-adform > h2 {
+            background-image: url(../logos/AdForm_100x100.png);
+        }
+        &.icon-nativo > h2 {
+            background-image: url(../logos/Nativo_100x100.png);
+        }
+        &.icon-drift > h2 {
+            background-image: url(../logos/Drift_100x100.png);
+        }
+        &.icon-neodata > h2 {
+            background-image: url(../logos/NeodataGroup_100x100.png);
+        }
+        &.icon-sophus3 > h2 {
+            background-image: url(../logos/Sophus3_100x100.png);
+        }
+        &.icon-drip > h2 {
+            background-image: url(../logos/Drip_100x100.png);
+        }
+        &.icon-crazy-egg > h2 {
+            background-image: url(../logos/CrazyEgg_100x100.png);
+        }
+        &.icon-leadfeeder > h2 {
+            background-image: url(../logos/LeadFeeder_100x100.png);
+        }
+        &.icon-outbrain > h2 {
+            background-image: url(../logos/OutBrain_100x100.png);
+        }
+        &.icon-qualtric > h2 {
+            background-image: url(../logos/Qualtric_100x100.png);
+        }
+        &.icon-avantlink > h2 {
+            background-image: url(../logos/AvantLink_100x100.png);
+        }
+        &.icon-scorecard > h2 {
+            background-image: url(../logos/ScoreCard_100x100.png);
+        }
+        &.icon-taboola > h2 {
+            background-image: url(../logos/Taboola_100x100.png);
+        }
+        &.icon-nielsen > h2 {
+            background-image: url(../logos/Nielsen_100x100.png);
+        }
+        &.icon-webtrekk > h2 {
+            background-image: url(../logos/Webtrekk_100x100.png);
+        }
+        &.icon-iubenda > h2 {
+            background-image: url(../logos/Iubenda_100x100.png);
+        }
+        &.icon-cookielaw > h2 {
+            background-image: url(../logos/Cookielaw_100x100.png);
+        }
+        &.icon-cxense > h2 {
+            background-image: url(../logos/Cxense_100x100.png);
+        }
+        &.icon-fc > h2 {
+            background-image: url(../logos/FC_100x100.png);
+        }
+        &.icon-franco-avatar > h2 {
+            background-image: url(../logos/Avatar_200x200.png);
+        }
+        &.icon-tag > h2 {
+            background-image: url(../logos/Tag_100x100.png);
+        }
+        &.icon-open-graph > h2 {
+            background-image: url(../logos/OpenGraph_100x100.png);
+        }
+        &.icon-swiftype > h2 {
+            background-image: url(../logos/Swiftype_100x100.png);
+        }
+        &.icon-rep > h2 {
+            background-image: url(../logos/REP_100x100.png);
+        }
+        &.icon-lock > h2 {
+            background-image: url(../logos/Lock_100x100.png);
+        }
+        &.icon-seo > h2 {
+            background-image: url(../logos/SEO_100x100.png);
+        }
+        &.icon-chromium > h2 {
+            background-image: url(../logos/Chromium_100x100.png);
+        }
+        &.icon-apple > h2 {
+            background-image: url(../logos/Apple_100x100.png);
+        }
+        &.icon-windows > h2 {
+            background-image: url(../logos/Windows_100x100.png);
+        }
+        &.icon-shopify > h2 {
+            background-image: url(../logos/Shopify_100x100.png);
+        }
+        &.icon-branch > h2 {
+            background-image: url(../logos/Branch_100x100.png);
+        }
+        &.icon-ie > h2 {
+            background-image: url(../logos/IE_100x100.png);
+        }
+        &.icon-ms > h2 {
+            background-image: url(../logos/MS_100x100.png);
+        }
+        &.icon-unclassified > h2 {
+            background-image: url(../logos/Unclassified_100x100.png);
+        }
+        &.icon-xandr > h2 {
+            background-image: url(../logos/Xandr_100x100.png);
+        }
+        &.icon-ias > h2 {
+            background-image: url(../logos/IAS_100x100.png);
+        }
+        &.icon-wunderkind > h2 {
+            background-image: url(../logos/Wunderkind_100x100.png);
+        }
+        &.icon-heap > h2 {
+            background-image: url(../logos/Heap_100x100.png);
+        }
+        &.icon-marketo > h2 {
+            background-image: url(../logos/Marketo_100x100.png);
+        }
+        &.icon-vwo > h2 {
+            background-image: url(../logos/VWO_100x100.png);
+        }
+        &.icon-cookiebot > h2 {
+            background-image: url(../logos/Cookiebot_100x100.png);
+        }
+        &.icon-pardot > h2 {
+            background-image: url(../logos/Pardot_100x100.png);
+        }
+        &.icon-adroll > h2 {
+            background-image: url(../logos/AdRoll_100x100.png);
+        }
+        &.icon-quora > h2 {
+            background-image: url(../logos/Quora_100x100.png);
+        }
+        &.icon-hotjar > h2 {
+            background-image: url(../logos/Hotjar_100x100.png);
+        }
+        &.icon-trustpilot > h2 {
+            background-image: url(../logos/Trustpilot_100x100.png);
+        }
+        &.icon-liveperson > h2 {
+            background-image: url(../logos/LivePerson_100x100.png);
+        }
+        &.icon-reddit > h2 {
+            background-image: url(../logos/Reddit_100x100.png);
+        }
+        &.icon-buy-sell-ads > h2 {
+            background-image: url(../logos/BuySellAds_100x100.png);
+        }
+        &.icon-cloudflare > h2 {
+            background-image: url(../logos/CloudFlare_100x100.png);
+        }
+        &.icon-google-optimize > h2 {
+            background-image: url(../logos/GoogleOptimize_100x100.png);
+        }
+        &.icon-firebase > h2 {
+            background-image: url(../logos/Firebase_100x100.png);
+        }
+        &.icon-wordpress > h2 {
+            background-image: url(../logos/Wordpress_100x100.png);
+        }
+        &.icon-riskified > h2 {
+            background-image: url(../logos/Riskified_100x100.png);
+        }
+        &.icon-onetrust > h2 {
+            background-image: url(../logos/Onetrust_100x100.png);
+        }
+        &.icon-amplitude > h2 {
+            background-image: url(../logos/Amplitude_100x100.png);
+        }
+        &.icon-new-relic > h2 {
+            background-image: url(../logos/NewRelic_100x100.png);
+        }
+        &.icon-squarespace > h2 {
+            background-image: url(../logos/Squarespace_100x100.png);
+        }
+        &.icon-stripe > h2 {
+            background-image: url(../logos/Stripe_100x100.png);
+        }
+        &.icon-apps-flyer > h2 {
+            background-image: url(../logos/AppsFlyer_100x100.png);
+        }
+        &.icon-appcues > h2 {
+            background-image: url(../logos/Appcues_100x100.png);
+        }
+        &.icon-brand-metrics > h2 {
+            background-image: url(../logos/BrandMetrics_100x100.png);
+        }
+        &.icon-parrable > h2 {
+            background-image: url(../logos/Parrable_100x100.png);
+        }
+        &.icon-neustar > h2 {
+            background-image: url(../logos/Neustar_100x100.png);
+        }
+        &.icon-thetradedesk > h2 {
+            background-image: url(../logos/TheTradeDesk_100x100.png);
+        }
+        &.icon-tidio > h2 {
+            background-image: url(../logos/TIDIO_100x100.png);
+        }
+        &.icon-jquery > h2 {
+            background-image: url(../logos/jQuery_100x100.png);
+        }
+        &.icon-tapfiliate > h2 {
+            background-image: url(../logos/Tapfiliate_100x100.png);
+        }
+        &.icon-intercom > h2 {
+            background-image: url(../logos/Intercom_100x100.png);
+        }
+        &.icon-clearbit > h2 {
+            background-image: url(../logos/Clearbit_100x100.png);
+        }
+        &.icon-chartbeat > h2 {
+            background-image: url(../logos/Chartbeat_100x100.png);
+        }
+        &.icon-onetag > h2 {
+            background-image: url(../logos/Onetag_100x100.png);
+        }
+        &.icon-insurads > h2 {
+            background-image: url(../logos/InsurAds_100x100.png);
+        }
+        &.icon-userzoom > h2 {
+            background-image: url(../logos/UserZoom_100x100.png);
+        }
+        &.icon-consensu > h2 {
+            background-image: url(../logos/Consensu_100x100.png);
+        }
+        &.icon-adobe > h2 {
+            background-image: url(../logos/Adobe_100x100.png);
+        }
+        &.icon-tiktok > h2 {
+            background-image: url(../logos/TikTok_100x100.png);
+        }
+        &.icon-youtube > h2 {
+            background-image: url(../logos/YouTube_100x100.png);
+        }
+        &.icon-snapchat > h2 {
+            background-image: url(../logos/SnapChat_100x100.png);
+        }
+        &.icon-contentsquare > h2 {
+            background-image: url(../logos/ContentSquare_100x100.png);
+        }
+        &.icon-user1st > h2 {
+            background-image: url(../logos/USER1st_100x100.png);
+        }
+        &.icon-fontawesome > h2 {
+            background-image: url(../logos/FontAwesome_100x100.png);
+        }
+        &.icon-cloudfront > h2 {
+            background-image: url(../logos/Cloudfront_100x100.png);
+        }
+        &.icon-aws > h2 {
+            background-image: url(../logos/AWS_100x100.png);
+        }
+        &.icon-js > h2 {
+            background-image: url(../logos/JS_100x100.png);
+        }
+        &.icon-mailchimp > h2 {
+            background-image: url(../logos/Mailchimp_100x100.png);
+        }
+        &.icon-yahoo > h2 {
+            background-image: url(../logos/Yahoo_100x100.png);
+        }
+        &.icon-jivox > h2 {
+            background-image: url(../logos/Jivox_100x100.png);
+        }
+        &.icon-leadlander > h2 {
+            background-image: url(../logos/LeadLander_100x100.png);
+        }
+        &.icon-fastly > h2 {
+            background-image: url(../logos/Fastly_100x100.png);
+        }
+        &.icon-demandbase > h2 {
+            background-image: url(../logos/Demandbase_100x100.png);
+        }
+        &.icon-adlightning > h2 {
+            background-image: url(../logos/AdLightning_100x100.png);
+        }
+        &.icon-mather > h2 {
+            background-image: url(../logos/Mather_100x100.png);
+        }
+        &.icon-lytics > h2 {
+            background-image: url(../logos/Lytics_100x100.png);
+        }
+        &.icon-sitemap > h2 {
+            background-image: url(../logos/Sitemap_100x100.png);
+        }
+        &.icon-moat > h2 {
+            background-image: url(../logos/MOAT_100x100.png);
+        }
+        &.icon-rich-audience {
+            background-image: url(../logos/RichAudience_100x100.png);
+        }
+        &.icon-gladly > h2 {
+            background-image: url(../logos/Gladly_100x100.png);
+        }
+        &.icon-channel-advisor > h2 {
+            background-image: url(../logos/ChannelAdvisor_100x100.png);
+        }
+        &.icon-tealium > h2 {
+            background-image: url(../logos/Tealium_100x100.png);
+        }
+        &.icon-algonomy > h2 {
+            background-image: url(../logos/Algonomy_100x100.png);
+        }
+        &.icon-teads > h2 {
+            background-image: url(../logos/Teads_100x100.png);
+        }
+        &.icon-salesforce > h2 {
+            background-image: url(../logos/SalesForce_100x100.png);
+        }
+        &.icon-lotame > h2 {
+            background-image: url(../logos/Lotame_100x100.png);
+        }
+        &.icon-movableink > h2 {
+            background-image: url(../logos/MovableInk_100x100.png);
+        }
+        &.icon-skai > h2 {
+            background-image: url(../logos/Skai_100x100.png);
+        }
+        &.icon-zync > h2 {
+            background-image: url(../logos/Zync_100x100.png);
+        }
+        &.icon-bombora > h2 {
+            background-image: url(../logos/Bombora_100x100.png);
+        }
+        &.icon-why > h2 {
+            background-image: url(../logos/Why_100x100.png);
+        }
+        &.icon-how > h2 {
+            background-image: url(../logos/How_100x100.png);
+        }
+
+        &.icon-open > h2 {
+            background-image: url(../logos/Open_100x100.png);
+        }
+
+        &.icon-unpkg > h2 {
+            background-image: url(../logos/unpkg_100x100.png);
+        }
+
+        &.icon-ethers > h2 {
+            background-image: url(../logos/Ethers_100x100.png);
+        }
+
+        &.icon-fonts > h2 {
+            background-image: url(../logos/Fonts_100x100.png);
+        }
+
+        &.icon-ada > h2 {
+            background-image: url(../logos/Ada_100x100.png);
+        }
+        &.icon-linkedin > h2 {
+            background-image: url(../logos/LinkedInAds_100x100.png);
+        }
+        &.icon-wordpress > h2 {
+            background-image: url(../logos/Wordpress_100x100.png);
+        }
     }
     .icon-linkedin {
         background-image: url(../logos/LinkedInAds_100x100.png);
-    }
-    .icon-bing-ads {
-        background-image: url(../logos/BingAds_100x100.png);
-    }
-    .icon-pinterest {
-        background-image: url(../logos/Pinterest_100x100.png);
-    }
-    .icon-google-analytics-v3 {
-        background-image: url(../logos/GoogleAnalyticsV3_100x100.png);
-    }
-    .icon-podsights {
-        background-image: url(../logos/Podsights_100x100.png);
-    }
-    .icon-site-improve {
-        background-image: url(../logos/SiteImprove_100x100.png);
-    }
-    .icon-google {
-        background-image: url(../logos/Google_100x100.png);
-    }
-    .icon-web-stat {
-        background-image: url(../logos/WebStat_100x100.png);
-    }
-    .icon-replay-app {
-        background-image: url(../logos/ReplayApp_100x100.png);
-    }
-    .icon-cartkit {
-        background-image: url(../logos/CartKit_100x100.png);
-    }
-    .icon-heroku {
-        background-image: url(../logos/Heroku_100x100.png);
-    }
-    .icon-hubspot {
-        background-image: url(../logos/Hubspot_100x100.png);
-    }
-    .icon-krux-pixel {
-        background-image: url(../logos/KruxPixel_100x100.png);
-    }
-    .icon-amazon-ads {
-        background-image: url(../logos/AmazonAds_100x100.png);
-    }
-    .icon-segment-analytics {
-        background-image: url(../logos/SegmentAnalytics_100x100.png);
-    }
-    .icon-warnermedia-analytics {
-        background-image: url(../logos/TurnerAnalytics_100x100.png);
-    }
-    .icon-criteo {
-        background-image: url(../logos/Criteo_100x100.png);
-    }
-    .icon-zeta-global {
-        background-image: url(../logos/Zeta_100x100.png);
-    }
-    .icon-quantcast {
-        background-image: url(../logos/QuantCast_100x100.png);
-    }
-    .icon-adform {
-        background-image: url(../logos/AdForm_100x100.png);
-    }
-    .icon-nativo {
-        background-image: url(../logos/Nativo_100x100.png);
-    }
-    .icon-drift {
-        background-image: url(../logos/Drift_100x100.png);
-    }
-    .icon-neodata {
-        background-image: url(../logos/NeodataGroup_100x100.png);
-    }
-    .icon-sophus3 {
-        background-image: url(../logos/Sophus3_100x100.png);
-    }
-    .icon-drip {
-        background-image: url(../logos/Drip_100x100.png);
-    }
-    .icon-crazy-egg {
-        background-image: url(../logos/CrazyEgg_100x100.png);
-    }
-    .icon-leadfeeder {
-        background-image: url(../logos/LeadFeeder_100x100.png);
-    }
-    .icon-outbrain {
-        background-image: url(../logos/OutBrain_100x100.png);
-    }
-    .icon-qualtric {
-        background-image: url(../logos/Qualtric_100x100.png);
-    }
-    .icon-avantlink {
-        background-image: url(../logos/AvantLink_100x100.png);
-    }
-    .icon-scorecard {
-        background-image: url(../logos/ScoreCard_100x100.png);
-    }
-    .icon-taboola {
-        background-image: url(../logos/Taboola_100x100.png);
-    }
-    .icon-nielsen {
-        background-image: url(../logos/Nielsen_100x100.png);
-    }
-    .icon-webtrekk {
-        background-image: url(../logos/Webtrekk_100x100.png);
-    }
-    .icon-iubenda {
-        background-image: url(../logos/Iubenda_100x100.png);
-    }
-    .icon-cookielaw {
-        background-image: url(../logos/Cookielaw_100x100.png);
-    }
-    .icon-cxense {
-        background-image: url(../logos/Cxense_100x100.png);
-    }
-    .icon-fc {
-        background-image: url(../logos/FC_100x100.png);
-    }
-    .icon-franco-avatar {
-        background-image: url(../logos/Avatar_200x200.png);
     }
     .icon-medium {
         background-image: url(../logos/Medium_100x100.png);
@@ -608,300 +923,6 @@ body#id-page-auditor {
     }
     .icon-gmail {
         background-image: url(../logos/Gmail_100x100.png);
-    }
-    .icon-tag {
-        background-image: url(../logos/Tag_100x100.png);
-    }
-    .icon-open-graph {
-        background-image: url(../logos/OpenGraph_100x100.png);
-    }
-    .icon-swiftype {
-        background-image: url(../logos/Swiftype_100x100.png);
-    }
-    .icon-rep {
-        background-image: url(../logos/REP_100x100.png);
-    }
-    .icon-lock {
-        background-image: url(../logos/Lock_100x100.png);
-    }
-    .icon-seo {
-        background-image: url(../logos/SEO_100x100.png);
-    }
-    .icon-chromium {
-        background-image: url(../logos/Chromium_100x100.png);
-    }
-    .icon-apple {
-        background-image: url(../logos/Apple_100x100.png);
-    }
-    .icon-windows {
-        background-image: url(../logos/Windows_100x100.png);
-    }
-    .icon-shopify {
-        background-image: url(../logos/Shopify_100x100.png);
-    }
-    .icon-branch {
-        background-image: url(../logos/Branch_100x100.png);
-    }
-    .icon-ie {
-        background-image: url(../logos/IE_100x100.png);
-    }
-    .icon-ms {
-        background-image: url(../logos/MS_100x100.png);
-    }
-    .icon-unclassified {
-        background-image: url(../logos/Unclassified_100x100.png);
-    }
-    .icon-xandr {
-        background-image: url(../logos/Xandr_100x100.png);
-    }
-    .icon-ias {
-        background-image: url(../logos/IAS_100x100.png);
-    }
-    .icon-wunderkind {
-        background-image: url(../logos/Wunderkind_100x100.png);
-    }
-    .icon-heap {
-        background-image: url(../logos/Heap_100x100.png);
-    }
-    .icon-marketo {
-        background-image: url(../logos/Marketo_100x100.png);
-    }
-    .icon-vwo {
-        background-image: url(../logos/VWO_100x100.png);
-    }
-    .icon-cookiebot {
-        background-image: url(../logos/Cookiebot_100x100.png);
-    }
-    .icon-pardot {
-        background-image: url(../logos/Pardot_100x100.png);
-    }
-    .icon-adroll {
-        background-image: url(../logos/AdRoll_100x100.png);
-    }
-    .icon-quora {
-        background-image: url(../logos/Quora_100x100.png);
-    }
-    .icon-hotjar {
-        background-image: url(../logos/Hotjar_100x100.png);
-    }
-    .icon-trustpilot {
-        background-image: url(../logos/Trustpilot_100x100.png);
-    }
-    .icon-liveperson {
-        background-image: url(../logos/LivePerson_100x100.png);
-    }
-    .icon-reddit {
-        background-image: url(../logos/Reddit_100x100.png);
-    }
-    .icon-buy-sell-ads {
-        background-image: url(../logos/BuySellAds_100x100.png);
-    }
-    .icon-cloudflare {
-        background-image: url(../logos/CloudFlare_100x100.png);
-    }
-    .icon-google-optimize {
-        background-image: url(../logos/GoogleOptimize_100x100.png);
-    }
-    .icon-firebase {
-        background-image: url(../logos/Firebase_100x100.png);
-    }
-    .icon-wordpress {
-        background-image: url(../logos/Wordpress_100x100.png);
-    }
-    .icon-riskified {
-        background-image: url(../logos/Riskified_100x100.png);
-    }
-    .icon-onetrust {
-        background-image: url(../logos/Onetrust_100x100.png);
-    }
-    .icon-amplitude {
-        background-image: url(../logos/Amplitude_100x100.png);
-    }
-    .icon-new-relic {
-        background-image: url(../logos/NewRelic_100x100.png);
-    }
-    .icon-squarespace {
-        background-image: url(../logos/Squarespace_100x100.png);
-    }
-    .icon-stripe {
-        background-image: url(../logos/Stripe_100x100.png);
-    }
-    .icon-apps-flyer {
-        background-image: url(../logos/AppsFlyer_100x100.png);
-    }
-    .icon-appcues {
-        background-image: url(../logos/Appcues_100x100.png);
-    }
-    .icon-brand-metrics {
-        background-image: url(../logos/BrandMetrics_100x100.png);
-    }
-    .icon-parrable {
-        background-image: url(../logos/Parrable_100x100.png);
-    }
-    .icon-neustar {
-        background-image: url(../logos/Neustar_100x100.png);
-    }
-    .icon-thetradedesk {
-        background-image: url(../logos/TheTradeDesk_100x100.png);
-    }
-    .icon-tidio {
-        background-image: url(../logos/TIDIO_100x100.png);
-    }
-    .icon-jquery {
-        background-image: url(../logos/jQuery_100x100.png);
-    }
-    .icon-tapfiliate {
-        background-image: url(../logos/Tapfiliate_100x100.png);
-    }
-    .icon-intercom {
-        background-image: url(../logos/Intercom_100x100.png);
-    }
-    .icon-clearbit {
-        background-image: url(../logos/Clearbit_100x100.png);
-    }
-    .icon-chartbeat {
-        background-image: url(../logos/Chartbeat_100x100.png);
-    }
-    .icon-onetag {
-        background-image: url(../logos/Onetag_100x100.png);
-    }
-    .icon-insurads {
-        background-image: url(../logos/InsurAds_100x100.png);
-    }
-    .icon-userzoom {
-        background-image: url(../logos/UserZoom_100x100.png);
-    }
-    .icon-consensu {
-        background-image: url(../logos/Consensu_100x100.png);
-    }
-    .icon-adobe {
-        background-image: url(../logos/Adobe_100x100.png);
-    }
-    .icon-tiktok {
-        background-image: url(../logos/TikTok_100x100.png);
-    }
-    .icon-youtube {
-        background-image: url(../logos/YouTube_100x100.png);
-    }
-    .icon-snapchat {
-        background-image: url(../logos/SnapChat_100x100.png);
-    }
-    .icon-contentsquare {
-        background-image: url(../logos/ContentSquare_100x100.png);
-    }
-    .icon-user1st {
-        background-image: url(../logos/USER1st_100x100.png);
-    }
-    .icon-fontawesome {
-        background-image: url(../logos/FontAwesome_100x100.png);
-    }
-    .icon-cloudfront {
-        background-image: url(../logos/Cloudfront_100x100.png);
-    }
-    .icon-aws {
-        background-image: url(../logos/AWS_100x100.png);
-    }
-    .icon-js {
-        background-image: url(../logos/JS_100x100.png);
-    }
-    .icon-mailchimp {
-        background-image: url(../logos/Mailchimp_100x100.png);
-    }
-    .icon-yahoo {
-        background-image: url(../logos/Yahoo_100x100.png);
-    }
-    .icon-jivox {
-        background-image: url(../logos/Jivox_100x100.png);
-    }
-    .icon-leadlander {
-        background-image: url(../logos/LeadLander_100x100.png);
-    }
-    .icon-fastly {
-        background-image: url(../logos/Fastly_100x100.png);
-    }
-    .icon-demandbase {
-        background-image: url(../logos/Demandbase_100x100.png);
-    }
-    .icon-adlightning {
-        background-image: url(../logos/AdLightning_100x100.png);
-    }
-    .icon-mather {
-        background-image: url(../logos/Mather_100x100.png);
-    }
-    .icon-lytics {
-        background-image: url(../logos/Lytics_100x100.png);
-    }
-    .icon-sitemap {
-        background-image: url(../logos/Sitemap_100x100.png);
-    }
-    .icon-moat {
-        background-image: url(../logos/MOAT_100x100.png);
-    }
-    .icon-rich-audience {
-        background-image: url(../logos/RichAudience_100x100.png);
-    }
-    .icon-gladly {
-        background-image: url(../logos/Gladly_100x100.png);
-    }
-    .icon-channel-advisor {
-        background-image: url(../logos/ChannelAdvisor_100x100.png);
-    }
-    .icon-tealium {
-        background-image: url(../logos/Tealium_100x100.png);
-    }
-    .icon-algonomy {
-        background-image: url(../logos/Algonomy_100x100.png);
-    }
-    .icon-teads {
-        background-image: url(../logos/Teads_100x100.png);
-    }
-    .icon-salesforce {
-        background-image: url(../logos/SalesForce_100x100.png);
-    }
-    .icon-lotame {
-        background-image: url(../logos/Lotame_100x100.png);
-    }
-    .icon-movableink {
-        background-image: url(../logos/MovableInk_100x100.png);
-    }
-    .icon-skai {
-        background-image: url(../logos/Skai_100x100.png);
-    }
-    .icon-zync {
-        background-image: url(../logos/Zync_100x100.png);
-    }
-    .icon-bombora {
-        background-image: url(../logos/Bombora_100x100.png);
-    }
-    .icon-why {
-        background-image: url(../logos/Why_100x100.png);
-    }
-    .icon-how {
-        background-image: url(../logos/How_100x100.png);
-    }
-
-    .icon-open {
-        background-image: url(../logos/Open_100x100.png);
-    }
-
-    .icon-unpkg {
-        background-image: url(../logos/unpkg_100x100.png);
-    }
-
-    .icon-ethers {
-        background-image: url(../logos/Ethers_100x100.png);
-    }
-
-    .icon-fonts {
-        background-image: url(../logos/Fonts_100x100.png);
-    }
-
-    .icon-ada {
-        background-image: url(../logos/Ada_100x100.png);
-    }
-
-    .icon-suggestion {
-        background-image: url(../logos/Suggestion_100x100.png);
     }
 
     // ----------------------------------------------------------------------------

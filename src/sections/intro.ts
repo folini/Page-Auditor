@@ -15,26 +15,24 @@ const suggestedSites = [
     {label: 'REI', url: 'https://rei.com/'},
 ]
 
-const codeInjector: CodeInjectorFunc = () => undefined
-
 const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, renderCard: DisplayCardFunc): void => {
-    var result: Promise<Card>[] = []
-
     renderCard(
         Promise.resolve(
             new Card()
                 .open(``, `How to use Page Auditor for Technical SEO`, [], 'icon-how')
                 .add(
-                    `<i>Page Auditor</i> shows the snippets of code and tags included in the HTML code relevant for the on-page SEO of a web page.<br/>` +
+                    `<div class='card-description'>
+                        <i>Page Auditor</i> shows the snippets of code and tags included in the HTML code relevant for the on-page SEO of a web page.<br/>` +
                         `To test this Chrome Extension, visit a popular page like:` +
                         `<ul>` +
                         suggestedSites
                             .map(link => `<li><a href='${link.url}' target='_new'>${link.label}</a></li>`)
                             .join('') +
                         `</ul>` +
-                        `Once the browser has loaded the selected page, launch the Page Auditor for Technical SEO extension. Now you can access all reports and learn about what contributes to the SEO performance of the page.`
+                        `Once the browser has loaded the selected page, launch the Page Auditor for Technical SEO extension. Now you can access all reports and learn about what contributes to the SEO performance of the page.
+                    </div>`
                 )
-                .close()
+                .setPreTitle('Intro')
         )
     )
 
@@ -43,46 +41,48 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, renderC
             new Card()
                 .open(``, `Why Page Auditor`, [], 'icon-why')
                 .add(
-                    `
-                    <b>Page Auditor</b> r is a professional tool for Digital Marketers. Even if you are not a marketing expert, you can use "Page Auditor" to learn about on-page technical SEO.
-                    <br/>
-                    <b>Page Auditor</b> can recognize ${scriptClasses.length.toFixed()} different types of JavaScript code injected into a web page.
-                    Among the categories of JavaScript identified by <b>Page Auditor</b>:
-                    <ul>
-                    <li>Advertising</li>
-                    <li>Tracking</li>
-                    <li>Email &amp; marketing Automation</li>
-                    <li>Analytics</li>
-                    <li>Tag Managers</li>
-                    </ul>`
+                    `<div class='card-description'>
+                        <b>Page Auditor</b> r is a professional tool for Digital Marketers. Even if you are not a marketing expert, you can use "Page Auditor" to learn about on-page technical SEO.
+                        <br/>
+                        <b>Page Auditor</b> can recognize ${scriptClasses.length.toFixed()} different types of JavaScript code injected into a web page.
+                        Among the categories of JavaScript identified by <b>Page Auditor</b>:
+                        <ul>
+                            <li>Advertising</li>
+                            <li>Tracking</li>
+                            <li>Email &amp; Marketing Automation</li>
+                            <li>Analytics</li>
+                            <li>Tag Managers</li>
+                        </ul>
+                    </div>`
                 )
-                .close()
+                .setPreTitle('Intro')
         )
     )
 
     renderCard(
         Promise.resolve(
             new Card()
-                .open(``, `Open Source?`, [], 'icon-open')
+                .open(``, `Open Source Project`, [], 'icon-open')
                 .add(
-                    `
-                    <b>Page Auditor</b> is an open source project created by <a target="_new" href='https://www.linkedin.com/in/francofolini/'>Franco Folini</a>. 
-                    That means anybody is free to use, study, modify, and distribute the source code of project for any purpose, within the limits set by the license.
-                    <br/><br/>
-                    <b>Page Auditor</b> source code is distributed with a <a target="_new" href='https://github.com/folini/Page-Auditor/blob/main/LICENSE.md'>BSD 3-Clause License</a>. 
-                    <br/><br/>
-                    The <b>Page Auditor</b> has been created using <a target="_new" href='https://www.typescriptlang.org/'>Typescript</a>. If you are not familiar with development, TypeScript is a superset of the famous JavaScript.
-                    The project has been developed <a href='https://code.visualstudio.com/'>Visual Studio Code</a> and extensively tested using the 
-                    <a target="_new" href='https://jestjs.io/'>JEST</a> testing tools.
-                    <br/><br/>
-                    You can access the source code on the <a target="_new" href='https://github.com/folini/Page-Auditor'>public project repository on GitHub</a>.`
+                    `<div class='card-description'>
+                        <b>Page Auditor</b> is an open source project created by <a target="_new" href='https://www.linkedin.com/in/francofolini/'>Franco Folini</a>. 
+                        That means anybody is free to use, study, modify, and distribute the source code of project for any purpose, within the limits set by the license.
+                        <br/><br/>
+                        <b>Page Auditor</b> source code is distributed with a <a target="_new" href='https://github.com/folini/Page-Auditor/blob/main/LICENSE.md'>BSD 3-Clause License</a>. 
+                        <br/><br/>
+                        The <b>Page Auditor</b> has been created using <a target="_new" href='https://www.typescriptlang.org/'>Typescript</a>. If you are not familiar with development, TypeScript is a superset of the famous JavaScript.
+                        The project has been developed <a href='https://code.visualstudio.com/'>Visual Studio Code</a> and extensively tested using the 
+                        <a target="_new" href='https://jestjs.io/'>JEST</a> testing tools.
+                        <br/><br/>
+                        You can access the source code on the <a target="_new" href='https://github.com/folini/Page-Auditor'>public project repository on GitHub</a>.
+                    </div>`
                 )
-                .close()
+                .setPreTitle('Intro')
         )
     )
 }
 
 export const actions: sectionActions = {
-    codeInjector: codeInjector,
+    codeInjector: undefined,
     reportGenerator: reportGenerator,
 }
