@@ -7,7 +7,7 @@
 import {colorCode, Mode} from './colorCode'
 import {js_beautify, html_beautify} from 'js-beautify'
 
-export const workerReaction = (event: MessageEvent<any>) => {
+export const workerAction = (event: MessageEvent<any>) => {
     let code = event.data.code
     let id = event.data.id
     let mode = event.data.mode as Mode
@@ -24,4 +24,4 @@ export const workerReaction = (event: MessageEvent<any>) => {
     })
 }
 
-onmessage = workerReaction
+onmessage = workerAction

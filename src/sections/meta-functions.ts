@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------------
 import {iMetaTag, iDefaultTagValues} from './meta'
 import {Card, iLink} from '../card'
-import {DisplayCardFunc, disposableId} from '../main'
+import {DisplayCardFunc, disposableId, copyTxtToClipboard} from '../main'
 import {htmlEncode} from 'js-htmlencode'
 import {html_beautify} from 'js-beautify'
 import * as Suggestions from './suggestionCards'
@@ -299,13 +299,16 @@ export const metaCategoryCard = (
 
     const listOfMeta = metaList.map(m => m.originalCode.trim()).join('\n')
     const formattedCode = colorCode(' ' + html_beautify(htmlEncode(listOfMeta)), Mode.html)
+    const divId = disposableId()
 
-    const links: iLink[] = []
+    const links: iLink[] = [{
+        label: 'Copy Code',
+        onclick: () => copyTxtToClipboard(divId),
+    }]
     if (metaCat.url.length > 0) {
         links.push({url: metaCat.url, label: 'Reference'})
     }
-    const divId = disposableId()
-    renderCard(
+     renderCard(
         new Card().open(`Meta Tags`, metaCat.title, links, metaCat.cssClass).add(
             `<div class='card-description'>${metaCat.description}
             <div class='code x-scrollable meta-tags' id=${divId}>${formattedCode}</div>

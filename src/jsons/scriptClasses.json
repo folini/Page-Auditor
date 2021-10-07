@@ -12,7 +12,7 @@
         "name": "Twitter",
         "category": "Ads and Analytics",
         "iconClass": "icon-twitter",
-        "description": "Twitter Ads and Analytics shows you how your audience is responding to your content, what's working, and what's not. Use this data to optimize your future Twitter campaigns and get better results. ",
+        "description": "Twitter Ads and Analytics shows you how your audience is responding to your content, what's working, and what's not. Use this data to optimize your future Twitter campaigns and get better results.",
         "url": "https://business.twitter.com/en/advertising/analytics.html"
     },
     {
@@ -195,7 +195,7 @@
         "name": "Segment",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-segment-analytics",
-        "description": "Segment is a Customer Data Platform (CDP), which means that we provide a service that simplifies collecting and using data from the users of your digital properties (websites, apps, etc). With Segment, you can collect, transform, send, and archive your first-party customer data. ",
+        "description": "Segment is a Customer Data Platform (CDP), which means that we provide a service that simplifies collecting and using data from the users of your digital properties (websites, apps, etc). With Segment, you can collect, transform, send, and archive your first-party customer data.",
         "url": "https://segment.com/"
     },
     {
@@ -347,7 +347,7 @@
         "name": "Warner Media",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-warnermedia-analytics",
-        "description": "Internal Warner Media tracking system",
+        "description": "Internal Warner Media tracking system.",
         "url": ""
     },
     {
@@ -355,7 +355,7 @@
         "name": "Zeta Global",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-zeta-global",
-        "description": "Zeta Global tracking system",
+        "description": "Zeta Global tracking system.",
         "url": ""
     },
     {
@@ -587,7 +587,7 @@
         "name": "AppsFlyer",
         "category": "Marketing Analytics",
         "iconClass": "icon-apps-flyer",
-        "description": "AppsFlyer is a SaaS mobile marketing analytics and attribution platform, headquartered in San Francisco, California. ",
+        "description": "AppsFlyer is a SaaS mobile marketing analytics and attribution platform, headquartered in San Francisco, California.",
         "url": "https://www.appsflyer.com/"
     },
     {
@@ -691,7 +691,7 @@
         "name": "InsurAds",
         "category": "Attention Insurance for Ads",
         "iconClass": "icon-insurads",
-        "description": "The World's 1st Time and Attention Insurance for Digital Advertisement and Time Monetization Platform for Publishers. based in Lisboa, Portugal",
+        "description": "The World's 1st Time and Attention Insurance for Digital Advertisement and Time Monetization Platform for Publishers. based in Lisboa, Portugal.",
         "url": "https://insurads.com/"
     },
     {
@@ -971,7 +971,23 @@
         "name": "Fonts.com",
         "category": "Web Font",
         "iconClass": "icon-fonts",
-        "description": "The Fonts.com store from Monotype offers more than 150,000 desktop and Web font products for you to preview, purchase and download. ",
+        "description": "The Fonts.com store from Monotype offers more than 150,000 desktop and Web font products for you to preview, purchase and download.",
         "url": "https://www.fonts.com/"
+    },
+    {
+        "patterns": ["fastcomments.com/"],
+        "name": "FastComments",
+        "category": "Commenting Tools",
+        "iconClass": "icon-fastComments",
+        "description": "Live commenting and moderating. Ad-free experience, no data harvesting. Fight Spam.",
+        "url": "https://fastcomments.com/"
+    },
+    {
+        "patterns": ["associates-amazon.com/"],
+        "name": "Amazon Associates",
+        "category": "Associates Program",
+        "iconClass": "icon-amazon",
+        "description": "The Amazon Associates Program is one of the largest affiliate networks in the world that helps content creators, publishers, and website owners monetize their traffic.",
+        "url": "https://affiliate-program.amazon.com/"
     }
 ]

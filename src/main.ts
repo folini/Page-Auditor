@@ -140,6 +140,7 @@ const showSpinner = (container: HTMLDivElement) => {
 }
 
 export const worker = new Worker('worker.js')
+
 worker.onmessage = event => {
     let id = event.data.id
     let code = event.data.code

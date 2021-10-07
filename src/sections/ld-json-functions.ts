@@ -12,7 +12,7 @@ import {sendTaskToWorker as assignTask2Worker, disposableId, copyTxtToClipboard}
 
 export const schemaLinks = (schemaName: string, ldjsonUrl: string, codeId: string): iLink[] => [
     {
-        label: 'Copy',
+        label: 'Copy Code',
         onclick: () => copyTxtToClipboard(codeId),
     },
     {

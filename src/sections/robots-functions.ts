@@ -44,17 +44,23 @@ export const getSiteMapCards = (urls: string[], renderCard: DisplayCardFunc) =>
     urls.map(url =>
         getSiteMapFileBody(url)
             .then(sitemapBody => {
+                const sitemapXmlDescription = `A good XML sitemap acts as a roadmap of your website that leads Google to all your important pages. ` +
+                `XML sitemaps can be good for SEO, as they allow Google to find your essential website pages quickly, even if your internal linking isn't perfect.`
+        
                 const divId = disposableId()
-                const formattedBody = html_beautify(htmlEncode(sitemapBody))
+                sitemapBody = sitemapBody
+                const formattedBody = htmlEncode(html_beautify(sitemapBody))
                 if (sitemapBody.includes(`<head>`) || sitemapBody.includes(`<link`)) {
                     renderCard(
                         new Card()
                             .error(
                                 `Sitemap.xml file is not syntactically correct. Ita appears to be an HTML file.
-                                <div class='code x-scrollable meta-tags' id='${divId}'>${formattedBody
+                                <div class='code x-scrollable meta-tags' id='${divId}'>${
+                                    formattedBody
                                     .split('\n')
-                                    .join('</br>')
-                                    .replace(/\s/g, '&nbsp;')}</div>`
+                                    .join('<br>')
+                                    .replace(/\s/g, '&nbsp;')
+                                }</div>`
                             )
                             .setPreTitle('Malformed sitemap.xml')
                     )
@@ -71,7 +77,11 @@ export const getSiteMapCards = (urls: string[], renderCard: DisplayCardFunc) =>
                             getSitemapLinks(url, divId),
                             'icon-sitemap'
                         )
-                        .add(`<div class='code x-scrollable' id='${divId}'>${formattedBody}</div>`)
+                        .add(
+                            `<div class='card-description'>` +
+                                sitemapXmlDescription +
+                                `<div class='code x-scrollable meta-tags' id='${divId}'>${formattedBody}</div>` +
+                            `</div>`)
                 )
             })
             .catch(errMsg => {
@@ -109,6 +119,9 @@ export const getRobotsTxtFileBody = async (url: string): Promise<string> => {
 
 export const getRobotsTxtCard = (url: string, robotsTxtBody: string): Card => {
     const divId = disposableId()
+    const robotsTxtDescription = `A robots.txt file tells search engine crawlers which URLs the crawler can access on your site. ` +
+        `This is used mainly to avoid overloading your site with requests. ` +
+        `It is not a mechanism for keeping a web page out of Google.`
     sendTaskToWorker(divId, Mode.txt, robotsTxtBody)
     return new Card()
         .open(
@@ -117,7 +130,11 @@ export const getRobotsTxtCard = (url: string, robotsTxtBody: string): Card => {
             getRobotsLinks(url, divId),
             'icon-rep'
         )
-        .add(`<div class='code x-scrollable' id='${divId}'>${robotsTxtBody}</div>`)
+        .add(
+            `<div class='card-description'>` +
+                robotsTxtDescription +
+                `<div class='code x-scrollable meta-tags' id='${divId}'>${robotsTxtBody}</div>` +
+            `</div>`)
 }
 
 export const getSiteMapUrls = (robotsTxtBody: string, defaultUrl: string) => {
@@ -137,7 +154,7 @@ export const getSiteMapUrls = (robotsTxtBody: string, defaultUrl: string) => {
 
 export const getRobotsLinks = (robotsUrl: string, divId: string) => [
     {
-        label: 'Copy',
+        label: 'Copy Code',
         onclick: () => copyTxtToClipboard(divId),
     },
     {
@@ -154,7 +171,7 @@ export const getRobotsLinks = (robotsUrl: string, divId: string) => [
 
 export const getSitemapLinks = (sitemapUrl: string, divId: string): iLink[] => [
     {
-        label: 'Copy',
+        label: 'Copy Code',
         onclick: () => copyTxtToClipboard(divId),
     },
     {

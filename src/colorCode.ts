@@ -30,7 +30,7 @@ enum Placeholders {
 
 const color = {
     html: {
-        tag: 'mediumblue',
+        tag: 'black',
         tagName: 'brown',
         attribute: 'red',
         attributeValue: 'mediumblue',

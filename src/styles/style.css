@@ -509,7 +509,10 @@ body#id-page-auditor .box-card.icon-krux-pixel > h2 {
 body#id-page-auditor .box-card.icon-amazon-ads > h2 {
   background-image: url(../logos/AmazonAds_100x100.png);
 }
-body#id-page-auditor .box-card.icon-segment-analytics {
+body#id-page-auditor .box-card.icon-amazon > h2 {
+  background-image: url(../logos/Amazon_100x100.png);
+}
+body#id-page-auditor .box-card.icon-segment-analytics > h2 {
   background-image: url(../logos/SegmentAnalytics_100x100.png);
 }
 body#id-page-auditor .box-card.icon-warnermedia-analytics > h2 {
@@ -875,19 +878,22 @@ body#id-page-auditor .box-card.icon-linkedin > h2 {
 body#id-page-auditor .box-card.icon-wordpress > h2 {
   background-image: url(../logos/Wordpress_100x100.png);
 }
-body#id-page-auditor .icon-linkedin {
+body#id-page-auditor .box-card.icon-fastcomments > h2 {
+  background-image: url(../logos/fastComments_100x100.png);
+}
+body#id-page-auditor .icon-linkedin:not(.box-card) {
   background-image: url(../logos/LinkedInAds_100x100.png);
 }
-body#id-page-auditor .icon-medium {
+body#id-page-auditor .icon-medium:not(.box-card) {
   background-image: url(../logos/Medium_100x100.png);
 }
-body#id-page-auditor .icon-wordpress {
+body#id-page-auditor .icon-wordpress:not(.box-card) {
   background-image: url(../logos/Wordpress_100x100.png);
 }
-body#id-page-auditor .icon-git {
+body#id-page-auditor .icon-git:not(.box-card) {
   background-image: url(../logos/Git_100x100.png);
 }
-body#id-page-auditor .icon-gmail {
+body#id-page-auditor .icon-gmail:not(.box-card) {
   background-image: url(../logos/Gmail_100x100.png);
 }
 @-webkit-keyframes spinner {
