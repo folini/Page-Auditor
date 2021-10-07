@@ -30,8 +30,13 @@ export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string) => {
     const scriptId = disposableId()
     const scriptAsString = JSON.stringify(ldJson)
     const jsonCode = js_beautify(scriptAsString)
+    const structuredDataDescription = `Structured Data communicates content (data) to the Search Engines in an organized manner so they can display the content in the SERPs in an attractive manner.`
     assignTask2Worker(scriptId, Mode.json, jsonCode, false)
     return new Card()
         .open(`Structured Data`, schemaType, schemaLinks(schemaType, tabUrl, scriptId), 'icon-ld-json')
-        .add(`<div class='code x-scrollable' id='${scriptId}'>${jsonCode}</div>`)
+        .add(`<div class='card-description'>` +
+             structuredDataDescription +
+             `<div class='code x-scrollable meta-tags' id='${scriptId}'>` +
+             jsonCode +
+            `</div>`)
 }

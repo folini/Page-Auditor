@@ -53,7 +53,7 @@ export const twitterPreview = (
         domain = domain.replace(/https?:\/\/(www.)?((\w+\.)?\w+\.\w+).*/i, `$2`)
     }
 
-    if (img.length === 0) {
+    if (img.length === 0 || img.includes('/assets/no-image-')) {
         showSuggestion(Suggestions.twitterMissingImage())
     }
 
@@ -81,7 +81,7 @@ export const openGraphPreview = (tags: iMetaTag[], defaults: iDefaultTagValues, 
     }
     domain = domain.toUpperCase()
 
-    if (img.length === 0) {
+    if (img.length === 0 || img.includes('/assets/no-image-')) {
         showSuggestion(Suggestions.openGraphMissingImage())
     }
 

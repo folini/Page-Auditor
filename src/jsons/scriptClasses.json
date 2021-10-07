@@ -74,7 +74,7 @@
         "name": "Podsights Pixel",
         "category": "Podcast Ads Tracking",
         "iconClass": "icon-podsights",
-        "description": "Podcast advertising tracking. The average podcast has three slots for ads — a pre-roll, mid-roll and post-roll. A pre-roll ad greets listeners during the first 15 to 30 seconds of an episode. Mid-roll ads last 60 to 90 seconds and play halfway through an episode. A 20- to 30-second post-roll ad plays just before the closing credits.",
+        "description": "Podcast advertising tracking. The average podcast has three slots for ads - a pre-roll, mid-roll and post-roll. A pre-roll ad greets listeners during the first 15 to 30 seconds of an episode. Mid-roll ads last 60 to 90 seconds and play halfway through an episode. A 20- to 30-second post-roll ad plays just before the closing credits.",
         "url": "https://podsights.com/"
     },
     {
@@ -952,7 +952,7 @@
     },
     {
         "patterns": ["unpkg.com/"],
-        "name": "unpkg",
+        "name": "Unpkg",
         "category": "Regular JavaScript Code",
         "iconClass": "icon-unpkg",
         "description": "unpkg is a fast, global content delivery network (CDN) for everything on npm.",
@@ -989,5 +989,77 @@
         "iconClass": "icon-amazon",
         "description": "The Amazon Associates Program is one of the largest affiliate networks in the world that helps content creators, publishers, and website owners monetize their traffic.",
         "url": "https://affiliate-program.amazon.com/"
+    },
+    {
+        "patterns": ["noibu.com/"],
+        "name": "NOIBU",
+        "category": "eCommerce Monitoring",
+        "iconClass": "icon-noibu",
+        "description": "Noibu detect and prioritize eCommerce errors.",
+        "url": "https://noibu.com/"
+    },
+    {
+        "patterns": [".zdassets.com/", "zendesk.com/"],
+        "name": "ZenDesk",
+        "category": "Customer Service Monitoring",
+        "iconClass": "icon-zendesk",
+        "description": "Zendesk is a public company headquartered in San Francisco, California. It provides software-as-a-service products related to customer support, sales, and other customer communications.",
+        "url": "https://www.zendesk.com/"
+    },
+    {
+        "patterns": [".salesloft.com/"],
+        "name": "Salesloft",
+        "category": "Sales Engagement",
+        "iconClass": "icon-salesloft",
+        "description": "Salesloft is a sales engagement platform. The company was founded in September 2011. Though its original product offering focused on sales development, the company has since expanded its platform to offer functionality for the entire sales organization.",
+        "url": "https://salesloft.com/"
+    },
+    {
+        "patterns": [".americaneagle.com/"],
+        "name": "AmericaEagle",
+        "category": "Marketing Agency",
+        "iconClass": "icon-americaneagle",
+        "description": "A web design, development, and digital marketing agency.",
+        "url": "https://www.americaneagle.com/"
+    },
+    {
+        "patterns": [".swellrewards.com/", ".yotpo.com/"],
+        "name": "Yotpo",
+        "category": "Loyalty Programs",
+        "iconClass": "icon-yotpo",
+        "description": "Loyalty programs platform. Owned by Yotpo.",
+        "url": "https://www.swellrewards.com/"
+    },
+    {
+        "patterns": [".datadome.co/"],
+        "name": "DataDome",
+        "category": "Online cybersecurity",
+        "iconClass": "icon-datadome",
+        "description": "SaaS bot protection solution for e-commerce and classifieds businesses.",
+        "url": "https://datadome.co/"
+    },
+    {
+        "patterns": ["(.|/)impactradius-event.com/", "(.|/)impact.com/"],
+        "name": "Impact Radius",
+        "category": "Affiliate Programs",
+        "iconClass": "icon-impact",
+        "description": "A partnership management platform. It has been transforming the way enterprises discover and manage all types of partnerships.",
+        "url": "https://impact.com/"
+    },
+    {
+        "patterns": ["(.|/)pendo.io/"],
+        "name": "Pendo",
+        "category": "Product Experience",
+        "iconClass": "icon-pendo",
+        "description": "Pendo is a platform that helps product teams understand how their product is being used.",
+        "url": "https://www.pendo.io/"
+    },
+    {
+        "patterns": ["(.|/)shopify.com/"],
+        "name": "Shopify",
+        "category": "eCommerce Platform",
+        "iconClass": "icon-shopify",
+        "description": "Shopify is a popular e-commerce platform for online stores and retail point-of-sale systems.",
+        "url": "https://www.shopify.com/"
     }
 ]

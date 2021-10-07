@@ -38,25 +38,30 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, renderCard
                 renderCard(
                     new Card()
                         .error(
-                            `File at location <a target="_new" href="${robotsUrl}">${robotsUrl}</a> is an HTML page or a redirect to an HTML page and not a 
-                    syntactically valid <code>robots.txt</code>.
-                    <div class='code x-scrollable meta-tags' id='${divId}'>${formattedBody
-                                .split('\n')
-                                .map(line => htmlEncode(line))
-                                .join('</br>')
-                                .replace(/\s/g, '&nbsp;')}</div>`
+                            `File at location <a target="_new" href="${robotsUrl}">${robotsUrl}</a> is an HTML page ` +
+                            `or a redirect to an HTML page and not a syntactically valid <code>robots.txt</code>.` +
+                            `<div class='code x-scrollable meta-tags' id='${divId}'>` +
+                                formattedBody
+                                    .split('\n')
+                                    .map(line => htmlEncode(line))
+                                    .join('</br>')
+                                    .replace(/\s/g, '&nbsp;') +
+                            `</div>`
                         )
                         .setPreTitle(robotsUrl)
                 )
                 sendTaskToWorker(divId, Mode.html, formattedBody, false)
                 renderCard(Suggestions.malformedRobotsTxt())
+            } else if (robotsTxtBody.replace(/[\s\n]/g, '').length === 0) {
+                renderCard(new Card().error("Found a Robots.txt file, but it's empty.", 'Robots.Txt Error').setPreTitle(robotsUrl))
+                renderCard(Suggestions.emptyRobotsTxt())
             } else {
                 renderCard(robotsTxtCard(robotsUrl, robotsTxtBody))
             }
         })
         .catch(errMsg => {
             renderCard(new Card().error(errMsg as string, 'Robots.Txt Error').setPreTitle(robotsUrl))
-            Suggestions.missingRobotsTxt()
+            renderCard(Suggestions.missingRobotsTxt())
         })
 
     robotsTxtPromise.then(robotsTxtBody => {

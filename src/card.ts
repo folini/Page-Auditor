@@ -88,7 +88,7 @@ export class Card {
             .setKind(CardKind.error)
     }
 
-    public suggestion(msg: string, links: iLink[] = [], title = 'Suggestion') {
+    public suggestion(msg: string, links: iLink[] = [], title = '') {
         return this.open('', title, [], 'icon-suggestion')
             .add(`<div class='card-description'>${msg}</div>`)
             .add(
@@ -97,6 +97,7 @@ export class Card {
                     .join(' ')}</div>`
             )
             .setKind(CardKind.suggestion)
+            .setPreTitle('Suggestion')
     }
 
     public warning(msg: string, title = 'Warning') {

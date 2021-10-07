@@ -879,7 +879,31 @@ body#id-page-auditor .box-card.icon-wordpress > h2 {
   background-image: url(../logos/Wordpress_100x100.png);
 }
 body#id-page-auditor .box-card.icon-fastcomments > h2 {
-  background-image: url(../logos/fastComments_100x100.png);
+  background-image: url(../logos/FastComments_100x100.png);
+}
+body#id-page-auditor .box-card.icon-noibu > h2 {
+  background-image: url(../logos/Noibu_100x100.png);
+}
+body#id-page-auditor .box-card.icon-zendesk > h2 {
+  background-image: url(../logos/ZenDesk_100x100.png);
+}
+body#id-page-auditor .box-card.icon-salesloft > h2 {
+  background-image: url(../logos/Salesloft_100x100.png);
+}
+body#id-page-auditor .box-card.icon-americaneagle > h2 {
+  background-image: url(../logos/AmericanEagle_100x100.png);
+}
+body#id-page-auditor .box-card.icon-yotpo > h2 {
+  background-image: url(../logos/Yotpo_100x100.png);
+}
+body#id-page-auditor .box-card.icon-datadome > h2 {
+  background-image: url(../logos/DataDome_100x100.png);
+}
+body#id-page-auditor .box-card.icon-impact > h2 {
+  background-image: url(../logos/Impact_100x100.png);
+}
+body#id-page-auditor .box-card.icon-pendo > h2 {
+  background-image: url(../logos/Pendo_100x100.png);
 }
 body#id-page-auditor .icon-linkedin:not(.box-card) {
   background-image: url(../logos/LinkedInAds_100x100.png);
