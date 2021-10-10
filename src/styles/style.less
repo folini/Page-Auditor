@@ -67,32 +67,6 @@ body#id-page-auditor {
         }
     }
 
-    .schema {
-        color: darkblue;
-        margin-bottom: 16px;
-        a {
-            text-decoration: none;
-        }
-    }
-    .label {
-        color: darkgreen;
-    }
-    .value {
-        color: darkblue;
-    }
-    h1.title {
-        font-size: 1.4em;
-        border-top: solid 1px #ccc;
-        padding: 4px 16px;
-        background-color: #fffbec;
-    }
-    .page {
-        color: #444;
-    }
-    .desc {
-        font-size: 1em;
-    }
-
     main {
         font-size: 14px;
         background-color: var(--bg-color);
@@ -132,7 +106,7 @@ body#id-page-auditor {
             background-size: var(--fc-card-icon-size) var(--fc-card-icon-size);
             background-repeat: no-repeat;
             background-position: var(--fc-card-padding) 8px;
-            background-color: var(--fc-brand-white);
+            background-color: #f0f0f0; //linen; // var(--fc-brand-white);
             padding: var(--fc-card-padding);
             padding-left: ~'calc(var(--fc-card-icon-size) + 2 * var(--fc-card-padding))';
             position: relative;
@@ -431,14 +405,18 @@ body#id-page-auditor {
         }
         &.icon-error > h2 {
             background-image: url(../logos/ERROR_100x100.png);
+            background-color: cornflowerblue;
+            color: white;
         }
         &.icon-warning > h2 {
             background-image: url(../logos/WARNING_100x100.png);
+            background-color: orange;
         }
         &.icon-suggestion {
             background-color: var(--fc-suggestion-bg) !important;
             > h2 {
                 background-image: url(../logos/Suggestion_100x100.png);
+                background-color: gold;
             }
             .code {
                 background-color: white !important;

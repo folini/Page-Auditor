@@ -157,6 +157,10 @@ export const sendTaskToWorker = (divId: string, mode: Mode, code: string) => {
 
 export const disposableId = () => 'id-' + Math.random().toString(36).substring(2, 15)
 
+document.addEventListener('BeforeUnloadEvent', () => {
+    worker.terminate()
+})
+
 document.addEventListener('DOMContentLoaded', () => {
     const tabsContainer = document.getElementById('id-tabs') as HTMLUListElement
     const reportContainer = document.getElementById('id-report-outer-container') as HTMLDivElement
