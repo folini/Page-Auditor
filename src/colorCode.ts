@@ -4,10 +4,13 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
+//
 // This code is based on the original work of w3schools.com:
 // https://www.w3schools.com/lib/w3codecolor.js version 1.32
+//
 // ----------------------------------------------------------------------------
-
+// THIS CODE RUNS IN A WEB WORKER. NO REFERENCES TO THE DOM!
+// ----------------------------------------------------------------------------
 type Extracted = {
     rest: string
     arr: string[]
@@ -35,6 +38,7 @@ const color = {
         attribute: 'red',
         attributeValue: 'mediumblue',
         comment: 'green',
+        url: '#010193',
     },
     css: {
         selector: 'brown',
@@ -49,20 +53,22 @@ const color = {
         string: 'green',
         number: 'brown',
         property: 'black',
+        url: '#010193',
     },
     txt: {
         label: 'brown',
         separator: 'mediumblue',
         comment: 'green',
+        url: '#010193',
     },
 }
+
+const urlRegEx = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^(\s|<|>)]{2,})/gim
 
 export const colorCode = (code: string, mode: Mode) => {
     let result = code
     switch (mode) {
         case Mode.html:
-            result = htmlParser(code.replace(/&quot;/gm, '"'))
-            break
         case Mode.xml:
             result = htmlParser(code.replace(/&quot;/gm, '"'))
             break
@@ -70,8 +76,6 @@ export const colorCode = (code: string, mode: Mode) => {
             result = cssParser(code)
             break
         case Mode.js:
-            result = jsParser(code)
-            break
         case Mode.json:
             result = jsParser(code)
             break
@@ -80,14 +84,16 @@ export const colorCode = (code: string, mode: Mode) => {
             break
     }
     return result
+        .replace(/(\<span|<a)\s/gm, '$1@@-#-@@')
+        .replace(/\s(target|style)/gm, '@@-#-@@$1')
         .replace(/\n/gm, '<br>\n')
-        .replace(/<span\sstyle=/gm, '<span-style=')
         .replace(/\s/gm, '&nbsp;')
-        .replace(/<span-style=/gm, '<span style=')
+        .replace(/@@-#-@@/gm, ' ')
 }
 
 const txtParser = (txt: string) =>
     txt
+        .replace(urlRegEx, `<a href='$1' target='_new' style='text-decoration:none;color:${color.txt.url}'>$1</a>`)
         .replace(
             /(^[a-zA-Z0-9\-]*)(:)/gm,
             `<span style='color:${color.txt.label}'>$1</span><span style='color:${color.txt.separator}'>$2</span>`
@@ -95,13 +101,13 @@ const txtParser = (txt: string) =>
         .replace(/(^\#.*$)/gm, `<span style='color:${color.txt.comment}'>$1</span>`)
         .replace(/\n/gm, '<br/>')
 
-function extract(
+const extract = (
     txt: string,
     startString: string | RegExp,
     endString: string,
     func: (txt: string) => string,
     placeHolder: string = ''
-): Extracted {
+): Extracted => {
     var d = ''
     var a: string[] = []
 
@@ -164,10 +170,14 @@ const htmlParser = (txt: string): string => {
     for (let i = 0; i < comment.arr.length; i++) {
         rest = rest.replace(Placeholders.HtmlComment, comment.arr[i])
     }
+    rest = rest.replace(
+        urlRegEx,
+        `<a href='$1' target='_new' style='text-decoration:none;color:${color.js.url}'>$1</a>`
+    )
     return rest
 }
 
-function tagParser(txt: string) {
+const tagParser = (txt: string) => {
     var rest = txt
     var done = ''
     var result: string
@@ -190,7 +200,7 @@ function tagParser(txt: string) {
     return `<span style='color:${color.html.tagName}'>${result}</span>`
 }
 
-function attributeParser(txt: string) {
+const attributeParser = (txt: string) => {
     var rest = txt
     var done = ''
 
@@ -277,7 +287,7 @@ const cssParser = (txt: string): string => {
     return `<span style='color:${color.css.selector}'>${rest}</span>`
 }
 
-function cssPropertyParser(txt: string) {
+const cssPropertyParser = (txt: string) => {
     var rest = txt
     var done = ''
 
@@ -307,7 +317,7 @@ function cssPropertyParser(txt: string) {
     return `<span style='color:${color.css.property}'>${done}${rest}</span>`
 }
 
-function cssPropertyValueParser(txt: string) {
+const cssPropertyValueParser = (txt: string) => {
     var done = ''
     var s
     var rest = `<span style='color:${color.css.delimiter}'>:</span>${txt.substring(1)}`
@@ -337,6 +347,10 @@ const jsParser = (txt: string): string => {
     var rest = txt
     var done = ''
     var esc: string[] = []
+
+    if (txt.match(urlRegEx) !== null && txt.startsWith('http')) {
+        return txtParser(txt)
+    }
 
     var tt = ''
     for (let i = 0; i < rest.length; i++) {
@@ -385,6 +399,12 @@ const jsParser = (txt: string): string => {
     for (let i = 0; i < esc.length; i++) {
         rest = rest.replace(Placeholders.JsEscape, esc[i])
     }
+
+    rest = rest.replace(
+        urlRegEx,
+        `<a href='$1' target='_new' style='text-decoration:none;color:${color.js.url}'>$1</a>`
+    )
+
     return `<span style='color:${color.js.javascript}'>${rest}</span>`
 }
 
@@ -396,7 +416,7 @@ const jsNumberParser = (txt: string) => `<span style='color:${color.js.number}'>
 
 const jsPropertyParser = (txt: string) => `<span style='color:${color.js.property}'>${txt}</span>`
 
-function getDotPos(txt: string, func: (txt: string) => string): Position {
+const getDotPos = (txt: string, func: (txt: string) => string): Position => {
     var arr = ['.', '<', ' ', ';', '(', '+', ')', '[', ']', ',', '&', ':', '{', '}', '/', '-', '*', '|', '%']
     let s = txt.indexOf('.')
     if (s > -1) {
@@ -413,7 +433,7 @@ function getDotPos(txt: string, func: (txt: string) => string): Position {
     return [-1, -1, func]
 }
 
-function getMinPos(args: Position[]) {
+const getMinPos = (args: Position[]) => {
     var i: number
     var arr: Position | undefined = undefined
 
@@ -430,7 +450,7 @@ function getMinPos(args: Position[]) {
     return arr
 }
 
-function getKeywordPos(typ: string, txt: string, func: (txt: string) => string): Position {
+const getKeywordPos = (typ: string, txt: string, func: (txt: string) => string): Position => {
     var words: string[] = []
     var rPos = -1
     var rPos2 = -1
@@ -519,7 +539,7 @@ function getKeywordPos(typ: string, txt: string, func: (txt: string) => string):
 
 type Position = [number, number, (txt: string) => string]
 
-function getPos(txt: string, start: string | RegExp, end: string, func: (txt: string) => string): Position {
+const getPos = (txt: string, start: string | RegExp, end: string, func: (txt: string) => string): Position => {
     let s = txt.search(start)
     let e = txt.indexOf(end, s + end.length)
 
@@ -529,7 +549,7 @@ function getPos(txt: string, start: string | RegExp, end: string, func: (txt: st
     return [s, e + end.length, func]
 }
 
-function getNumPos(txt: string, func: (txt: string) => string): Position {
+const getNumPos = (txt: string, func: (txt: string) => string): Position => {
     var arr = ['<br>', ' ', ';', '(', '+', ')', '[', ']', ',', '&', ':', '{', '}', '/', '-', '*', '|', '%', '=']
     var startPos = 0
     var endPos: number

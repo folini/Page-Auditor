@@ -19,16 +19,26 @@ export enum CardKind {
 
 export class Card {
     #div: HTMLDivElement
+    #head: HTMLHeadingElement
+    #body: HTMLDivElement
     #kind: CardKind
 
     constructor() {
         this.#div = document.createElement('div')
+        this.#div.className = `box-card`
+        this.#head = document.createElement('h2')
+        this.#head.className = `cardTitle`
+        const hr = document.createElement('hr')
+        this.#body = document.createElement('div')
+        this.#body.className = 'card-body'
+        this.#div.append(this.#head, hr, this.#body)
+
         this.#kind = CardKind.report
     }
 
     public open(preTitle: string, title: string, links: iLink[], cssClass: string) {
         const btnsContainer = document.createElement('div')
-        btnsContainer.className = 'card-buttons'
+        btnsContainer.className = 'card-toolbar'
         links.forEach(link => {
             const btn = document.createElement('a')
             btn.innerHTML = link.label
@@ -42,18 +52,14 @@ export class Card {
             btnsContainer.append(btn)
         })
 
-        this.#div.className = `box-card ${cssClass}`
-        const h2 = document.createElement('h2')
-        h2.className = `cardTitle`
+        this.#div.classList.add(cssClass)
         const preTitleDiv = document.createElement('div')
         preTitleDiv.className = 'cardPreTitle'
         preTitleDiv.innerHTML = preTitle
         const titleString = document.createElement('span')
         titleString.className = 'cardTitleString'
         titleString.innerHTML = title
-        h2.append(preTitleDiv, titleString, btnsContainer)
-        const hr = document.createElement('hr')
-        this.#div.append(h2, hr)
+        this.#head.append(preTitleDiv, titleString, btnsContainer)
         return this
     }
 
@@ -83,14 +89,12 @@ export class Card {
     }
 
     public error(msg: string, title = 'Error') {
-        return this.open('', title, [], 'icon-error')
-            .add(`<div class='card-description'>${msg}</div>`)
-            .setKind(CardKind.error)
+        return this.open('', title, [], 'icon-error').add(msg).setKind(CardKind.error)
     }
 
     public suggestion(msg: string, links: iLink[] = [], title = '') {
         return this.open('', title, [], 'icon-suggestion')
-            .add(`<div class='card-description'>${msg}</div>`)
+            .add(msg)
             .add(
                 `<div class='suggestion-buttons'>${links
                     .map(link => '<a href="' + link.url + '" target="_blank">' + link.label + '</a>')
@@ -101,16 +105,14 @@ export class Card {
     }
 
     public warning(msg: string, title = 'Warning') {
-        return this.open('', title, [], 'icon-warning')
-            .add(`<div class='card-description'>${msg}</div>`)
-            .setKind(CardKind.warning)
+        return this.open('', title, [], 'icon-warning').add(msg).setKind(CardKind.warning)
     }
 
     public add(str: string) {
         const tmpDiv = document.createElement('div')
         tmpDiv.innerHTML = str
         if (str.length > 0) {
-            this.#div.append(...tmpDiv.childNodes)
+            this.#body.append(...tmpDiv.childNodes)
         }
         return this
     }

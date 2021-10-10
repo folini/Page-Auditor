@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------------
 import {Card} from '../card'
 import {sectionActions, ReportGeneratorFunc, DisplayCardFunc, CodeInjectorFunc} from '../main'
-import {tagCategories, metaCategoryCard} from './meta-functions'
+import {tagCategories, metaTagsCard} from './meta-functions'
 import * as Suggestions from './suggestionCards'
 
 export interface iMetaTag {
@@ -58,7 +58,7 @@ const reportGenerator: ReportGeneratorFunc = (_: string, data: any, renderCard: 
         const matched = meta.filter(mc.filter)
         meta = meta.filter(m => !matched.includes(m))
         if (matched.length > 0) {
-            metaCategoryCard(mc, matched, mc.preview(matched, defaultTags, renderCard), renderCard)
+            metaTagsCard(mc, matched, mc.preview(matched, defaultTags, renderCard), renderCard)
             atLeastOneScript = true
             if (mc.title.includes('Twitter')) {
                 twitterMetaPresent = true

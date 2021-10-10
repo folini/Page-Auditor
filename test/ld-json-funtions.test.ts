@@ -15,7 +15,6 @@ import 'jest-extended'
 
 test('SchemaLinks() generates proper links', async () => {
     const data = schemaLinks('Graph', 'https://mydomain.com/homepage.htm', '')
-    console.log(`---------------------\n${data}`)
     expect(data).toBeArray()
     expect(data.length).toBe(3)
     data.forEach(btn => {

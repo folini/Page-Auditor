@@ -5,13 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {iDefaultTagValues, iMetaTag} from '../src/sections/meta'
-import {
-    tagCategories,
-    twitterPreview,
-    openGraphPreview,
-    noPreview,
-    metaCategoryCard,
-} from '../src/sections/meta-functions'
+import {tagCategories, twitterPreview, openGraphPreview, noPreview, metaTagsCard} from '../src/sections/meta-functions'
 import * as MockData from './mock-data.test'
 
 // Jest imports
@@ -59,7 +53,7 @@ test('NoPreview card generator', () => {
 })
 
 test('renderMetaCategory() render proper HTML Card', () => {
-    const data = metaCategoryCard(
+    const data = metaTagsCard(
         MockData.MetaTagCategorySample,
         [MockData.MetaTagSample],
         noPreview([MockData.MetaTagSample], MockData.DefaultTagValuesSample, () => {}),

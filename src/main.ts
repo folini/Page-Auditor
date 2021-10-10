@@ -9,8 +9,11 @@ import './manifest.json'
 import './styles/style.less'
 import './logos/Logo_256x256.png'
 
+import {htmlEncode} from 'js-htmlencode'
+import {html_beautify, js_beautify} from 'js-beautify'
+
 import {Card} from './card'
-import {Mode} from './colorCode'
+import {Mode, colorCode} from './colorCode'
 import {version as versionNumber} from '../package.json'
 import * as JsonLd from './sections/ld-json'
 import * as Scripts from './sections/scripts'
@@ -147,12 +150,9 @@ worker.onmessage = event => {
     document.getElementById(id)!.innerHTML = code
 }
 
-export const sendTaskToWorker = (divId: string, mode: Mode, code: string, immediate = true) => {
-    if (immediate) {
-        worker.postMessage({id: divId, mode: mode, code: code})
-    } else {
-        setTimeout(() => worker.postMessage({id: divId, mode: mode, code: code}), 100)
-    }
+export const sendTaskToWorker = (divId: string, mode: Mode, code: string) => {
+    setTimeout(() => worker.postMessage({id: divId, mode: mode, code: code}), 100)
+    return
 }
 
 export const disposableId = () => 'id-' + Math.random().toString(36).substring(2, 15)
@@ -183,4 +183,45 @@ export const copyTxtToClipboard = (divId: string) => {
     const div = document.getElementById(divId) as HTMLDivElement
     const txt = div.innerText
     navigator.clipboard.writeText(txt)
+}
+
+export const codeBlock = (code: string, mode: Mode, id: string = '') => {
+    const delayedMode = id !== ''
+    let codeToDisplay = code
+    if (mode === Mode.js && code.startsWith('http')) {
+        mode = Mode.txt
+    }
+
+    switch (mode) {
+        case Mode.html:
+        case Mode.xml:
+            codeToDisplay = htmlEncode(html_beautify(code))
+            if (delayedMode) {
+                sendTaskToWorker(id, mode, codeToDisplay)
+                codeToDisplay = codeToDisplay.replace(/\n/g, '<br/>').replace(/\s/gm, '&nbsp;')
+            } else {
+                codeToDisplay = colorCode(codeToDisplay, mode)
+            }
+            break
+
+        case Mode.js:
+        case Mode.json:
+            codeToDisplay = js_beautify(code)
+            if (delayedMode) {
+                sendTaskToWorker(id, mode, codeToDisplay)
+                codeToDisplay = codeToDisplay.replace(/\n/g, '<br/>').replace(/\s/gm, '&nbsp;')
+            } else {
+                codeToDisplay = colorCode(codeToDisplay, mode)
+            }
+            break
+        case Mode.txt:
+            if (delayedMode) {
+                sendTaskToWorker(id, mode, codeToDisplay)
+                codeToDisplay = code.replace(/\n/g, '<br/>').replace(/\s/gm, '&nbsp;')
+            } else {
+                codeToDisplay = colorCode(codeToDisplay, mode)
+            }
+    }
+
+    return `<div class="code"${id ? `id='${id}'` : ''}>${codeToDisplay}</div>`
 }

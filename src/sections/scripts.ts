@@ -5,7 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card, iLink} from '../card'
-import {sectionActions, NoArgsNoReturnFunc, DisplayCardFunc, sendTaskToWorker, disposableId} from '../main'
+import {sectionActions, NoArgsNoReturnFunc, DisplayCardFunc, disposableId, codeBlock} from '../main'
 import {Mode} from '../colorCode'
 
 const listOfScriptClasses = require('../jsons/scriptClasses.json') as iTrackClass[]
@@ -93,7 +93,7 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, renderCard: Displa
         trackingItems.push(unresolvedJS)
     }
 
-    trackingItems.map((trackingItem, i) => {
+    trackingItems.forEach(trackingItem => {
         const links: iLink[] = []
         if (trackingItem.url.length > 0) {
             links.push({url: trackingItem.url, label: 'Reference'})
@@ -101,27 +101,26 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, renderCard: Displa
         const card = new Card().open(trackingItem.category, trackingItem.name, links, trackingItem.iconClass).add(
             `
                 <div class='card-description'>${trackingItem.description}</div>
-                <div class='card-options optional-code'>
+                <div class='optional-code'>
                 <div class='open-closed-icon closed-icon'></div>
-                <a class='card-buttons left-option n-scripts scrips-closed'>
+                <a class='code-n-scripts'>
                     ${trackingItem.scripts.length.toFixed()} script${
                 trackingItem.scripts.length === 1 ? '' : 's'
             } found. </a>
                 <ul class='hide'>
                     ${trackingItem.scripts
-                        .map((script, j) => `<li><div class='code' id='${disposableId()}'>${script}</div></li>`)
+                        .map((script, j) => `<li>${codeBlock(script, Mode.js, disposableId())}</li>`)
                         .join('')}
                 </ul>
                 </div>`
         )
         renderCard(card)
 
-        const btns = [...card.getDiv().querySelectorAll('.card-buttons.n-scripts')] as HTMLAnchorElement[]
-        btns.forEach(btn => btn.parentElement?.addEventListener('click', () => toggle(btn)))
-        const scriptsToColor = [...card.getDiv().querySelectorAll('.code')] as HTMLDivElement[]
-        scriptsToColor
-            .filter(scriptDiv => !scriptDiv.innerHTML.startsWith('http'))
-            .forEach(scriptDiv => sendTaskToWorker(scriptDiv.id, Mode.js, scriptDiv.innerHTML))
+        const btns = [
+            card.getDiv().querySelector('.code-n-scripts'),
+            card.getDiv().querySelector('.open-closed-icon'),
+        ] as HTMLAnchorElement[]
+        btns.forEach(btn => btn.addEventListener('click', () => toggle(btn)))
     })
 }
 

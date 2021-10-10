@@ -111,190 +111,151 @@ body#id-page-auditor {
 
             .inner-report-container {
                 display: none;
+            }
+        }
+    }
 
-                .box-card {
-                    border: 1px solid var(--border-color);
-                    border-radius: 8px;
+    .box-card {
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 0;
+        margin-bottom: 24px;
+        background-color: var(--fc-brand-white);
+        overflow: hidden;
+        &:hover {
+            box-shadow: 0 1px 5px 0 rgb(0 0 0 / 10%);
+        }
+
+        h2.cardTitle {
+            font-size: 18px;
+            margin: 0;
+            background-size: var(--fc-card-icon-size) var(--fc-card-icon-size);
+            background-repeat: no-repeat;
+            background-position: var(--fc-card-padding) 8px;
+            background-color: var(--fc-brand-white);
+            padding: var(--fc-card-padding);
+            padding-left: ~'calc(var(--fc-card-icon-size) + 2 * var(--fc-card-padding))';
+            position: relative;
+            font-weight: normal;
+
+            .cardPreTitle {
+                font-variant: small-caps;
+                font-size: 13px;
+                min-height: 15px;
+            }
+            .card-toolbar {
+                position: absolute;
+                right: 8px;
+                bottom: 8px;
+                font-size: 9.2px;
+                a {
+                    font-size: 10px;
+                    padding: 1px 8px;
+                }
+            }
+        }
+
+        hr {
+            border: none;
+            border-top: solid 1px var(--border-color);
+            margin: 0 -12px;
+        }
+
+        .card-body {
+            padding: var(--fc-card-padding);
+            font-size: 14px;
+
+            > div:not(:last-child) {
+                margin-bottom: 16px;
+            }
+        }
+
+        div.code {
+            font-family: monospace, 'Courier New', Courier, monospace;
+            font-size: 13px;
+            color: var(--fc-brand-black);
+            overflow-x: auto;
+            white-space: nowrap;
+            border: solid 1px var(--border-color-light);
+            border-radius: 3px;
+            background-color: #fcfcfa;
+            padding: var(--fc-card-padding);
+        }
+
+        .optional-code {
+            .code-n-scripts {
+                display: inline-block;
+            }
+
+            .open-closed-icon {
+                border: solid 1px var(--fc-brand-dark-color);
+                width: 12px;
+                height: 12px;
+                display: inline-block;
+                border-radius: 50%;
+                line-height: 1em;
+                align-items: center;
+                justify-content: space-evenly;
+                cursor: pointer;
+                text-align: center;
+                line-height: 12px;
+
+                &:hover {
+                    background-color: var(--fc-brand-dark-color);
+                    color: var(--fc-brand-white);
+                }
+
+                &.open-icon::before {
+                    content: '-';
+                }
+                &.closed-icon::before {
+                    content: '+';
+                }
+            }
+
+            ul {
+                list-style: none;
+                padding: 0;
+                margin: 4px 0;
+                overflow-x: hidden;
+                width: 100%;
+
+                li {
+                    margin: 0 0 16px;
+                    font-family: courier;
                     padding: 0;
-                    margin-bottom: 24px;
-                    background-color: var(--fc-brand-white);
-                    overflow: hidden;
-
-                    &:hover {
-                        box-shadow: 0 1px 5px 0 rgb(0 0 0 / 10%);
-                    }
-
-                    div.code {
-                        font-family: monospace, 'Courier New', Courier, monospace;
-                        font-size: 13px;
-                        color: var(--fc-brand-black);
-                        overflow-x: auto;
-                        white-space: nowrap;
-                    }
-
-                    .meta-tags {
-                        border: solid 1px var(--border-color-light);
-                        margin-top: 16px !important;
-                        border-radius: 3px;
-                        background-color: #fcfcfa;
-                    }
-
-                    .support-form {
-                        text-align: center;
-                        padding: 16px 0 0;
-                    }
-
-                    .card-options {
-                        padding: 8px 0 0;
-                        display: flex;
-                        flex-wrap: wrap;
-
-                        &.optional-code {
-                            padding: 0 var(--fc-card-padding) var(--fc-card-padding);
-                        }
-
-                        .left-option {
-                            font-size: 12px;
-                            position: initial;
-                            cursor: pointer;
-                            &:focus {
-                                outline: none;
-                            }
-                        }
-                        ul {
-                            list-style: none;
-                            padding: 0;
-                            margin: 4px 0;
-                            border: solid 1px var(--border-color-light);
-                            overflow-x: hidden;
-                            width: 100%;
-
-                            li {
-                                margin: 0;
-                                font-family: courier;
-                                padding: 0;
-                                font-size: 0.9em;
-
-                                &:not(:first-child) {
-                                    border-top: solid 1px var(--border-color-light);
-                                }
-
-                                &:first-child {
-                                    border-top: none;
-                                }
-
-                                > div {
-                                    padding: var(--fc-card-padding);
-                                    background-color: #fcfcfa;
-                                }
-                                > span {
-                                    width: 44px;
-                                    display: inline-block;
-                                }
-                            }
-                        }
-                        .open-closed-icon {
-                            border: solid 1px var(--fc-brand-dark-color);
-                            width: 12px;
-                            height: 12px;
-                            display: flex;
-                            border-radius: 50%;
-                            line-height: 1em;
-                            align-items: center;
-                            justify-content: space-evenly;
-                            cursor: pointer;
-
-                            &:hover {
-                                background-color: var(--fc-brand-dark-color);
-                                color: var(--fc-brand-white);
-                            }
-
-                            &.open-icon::before {
-                                content: '-';
-                            }
-                            &.closed-icon::before {
-                                content: '+';
-                            }
-                        }
-                    }
-
-                    .card-description {
-                        padding: var(--fc-card-padding);
-                        font-size: 14px;
-                    }
-
-                    .meta-items {
-                        padding: var(--fc-card-padding);
-                    }
-
-                    .card-buttons {
-                        position: absolute;
-                        right: 8px;
-                        bottom: 8px;
-                        font-size: 9.2px;
-
-                        &.n-scripts {
-                            background-repeat: no-repeat;
-                            background-size: 13px;
-                            color: var(--fc-brand-dark-color);
-                            padding-left: 8px;
-                        }
-                    }
-
-                    .suggestion-buttons {
-                        text-align: center;
-                        min-height: 32px;
-                        font-size: 12px;
-                    }
-                    .card-buttons,
-                    .suggestion-buttons {
-                        a {
-                            text-decoration: none;
-                            font-weight: normal;
-                            color: var(--fc-brand-dark-color);
-                            background-color: var(--fc-brand-white);
-                            border: solid 1px var(--fc-brand-dark-color);
-                            border-radius: 5px;
-                            padding: 1px 8px;
-                            margin-left: 3px;
-                            cursor: pointer;
-
-                            &:hover {
-                                background-color: var(--fc-brand-dark-color);
-                                color: var(--fc-brand-white);
-                            }
-                        }
-                    }
-
-                    h2.cardTitle {
-                        font-size: 18px;
+                    font-size: 0.9em;
+                    &:last-child {
                         margin: 0;
-                        background-size: var(--fc-card-icon-size) var(--fc-card-icon-size);
-                        background-repeat: no-repeat;
-                        background-position: var(--fc-card-padding) 8px;
-                        background-color: var(--fc-brand-white);
-                        padding: var(--fc-card-padding);
-                        padding-left: ~'calc(var(--fc-card-icon-size) + 2 * var(--fc-card-padding))';
-                        position: relative;
-                        font-weight: normal;
-
-                        .cardPreTitle {
-                            font-variant: small-caps;
-                            font-size: 13px;
-                            min-height: 15px;
-                        }
                     }
+                }
+            }
+        }
 
-                    hr {
-                        border: none;
-                        border-top: solid 1px var(--border-color);
-                        margin: 0 -12px;
-                    }
+        .suggestion-buttons {
+            text-align: center;
+            a {
+                font-size: 12px;
+                padding: 4px 12px;
+            }
+        }
 
-                    div.x-scrollable {
-                        margin: 0;
-                        padding: var(--fc-card-padding);
-                    }
+        .card-toolbar,
+        .suggestion-buttons {
+            a {
+                text-decoration: none;
+                font-weight: normal;
+                color: var(--fc-brand-dark-color);
+                background-color: var(--fc-brand-white);
+                border: solid 1px var(--fc-brand-dark-color);
+                border-radius: 5px;
+                margin-left: 3px;
+                cursor: pointer;
+                display: inline-block;
+
+                &:hover {
+                    background-color: var(--fc-brand-dark-color);
+                    color: var(--fc-brand-white);
                 }
             }
         }
@@ -478,6 +439,10 @@ body#id-page-auditor {
             background-color: var(--fc-suggestion-bg) !important;
             > h2 {
                 background-image: url(../logos/Suggestion_100x100.png);
+            }
+            .code {
+                background-color: white !important;
+                margin-top: 16px;
             }
         }
         &.icon-google-ads > h2 {
@@ -885,11 +850,9 @@ body#id-page-auditor {
         &.icon-how > h2 {
             background-image: url(../logos/How_100x100.png);
         }
-
         &.icon-open > h2 {
             background-image: url(../logos/Open_100x100.png);
         }
-
         &.icon-unpkg > h2 {
             background-image: url(../logos/unpkg_100x100.png);
         }
@@ -897,11 +860,9 @@ body#id-page-auditor {
         &.icon-ethers > h2 {
             background-image: url(../logos/Ethers_100x100.png);
         }
-
         &.icon-fonts > h2 {
             background-image: url(../logos/Fonts_100x100.png);
         }
-
         &.icon-ada > h2 {
             background-image: url(../logos/Ada_100x100.png);
         }
@@ -937,6 +898,21 @@ body#id-page-auditor {
         }
         &.icon-pendo > h2 {
             background-image: url(../logos/Pendo_100x100.png);
+        }
+        &.icon-wistia > h2 {
+            background-image: url(../logos/Wistia_100x100.png);
+        }
+        &.icon-disqus > h2 {
+            background-image: url(../logos/Disqus_100x100.png);
+        }
+        &.icon-ga-connector > h2 {
+            background-image: url(../logos/GaConnector_100x100.png);
+        }
+        &.icon-fullstory > h2 {
+            background-image: url(../logos/FullStory_100x100.png);
+        }
+        &.icon-speedcurve > h2 {
+            background-image: url(../logos/SpeedCurve_100x100.png);
         }
     }
 

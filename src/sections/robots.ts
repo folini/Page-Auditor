@@ -7,13 +7,8 @@
 import {htmlEncode} from 'js-htmlencode'
 import {html_beautify} from 'js-beautify'
 import {Card} from '../card'
-import {sectionActions, sendTaskToWorker, ReportGeneratorFunc, DisplayCardFunc, disposableId} from '../main'
-import {
-    getSiteMapCards,
-    getRobotsTxtFileBody,
-    getRobotsTxtCard as robotsTxtCard,
-    getSiteMapUrls as getSiteMapUrlsFromRobotsTxt,
-} from './robots-functions'
+import {sectionActions, codeBlock, ReportGeneratorFunc, DisplayCardFunc, disposableId} from '../main'
+import {getSiteMapCards, getRobotsTxtFileBody, robotsTxtCard, getSiteMapUrls} from './robots-functions'
 import * as Suggestions from './suggestionCards'
 import {Mode} from '../colorCode'
 
@@ -39,21 +34,18 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, renderCard
                     new Card()
                         .error(
                             `File at location <a target="_new" href="${robotsUrl}">${robotsUrl}</a> is an HTML page ` +
-                            `or a redirect to an HTML page and not a syntactically valid <code>robots.txt</code>.` +
-                            `<div class='code x-scrollable meta-tags' id='${divId}'>` +
-                                formattedBody
-                                    .split('\n')
-                                    .map(line => htmlEncode(line))
-                                    .join('</br>')
-                                    .replace(/\s/g, '&nbsp;') +
-                            `</div>`
+                                `or a redirect to an HTML page and not a syntactically valid <code>robots.txt</code>.` +
+                                codeBlock(formattedBody, Mode.html, divId)
                         )
                         .setPreTitle(robotsUrl)
                 )
-                sendTaskToWorker(divId, Mode.html, formattedBody, false)
                 renderCard(Suggestions.malformedRobotsTxt())
             } else if (robotsTxtBody.replace(/[\s\n]/g, '').length === 0) {
-                renderCard(new Card().error("Found a Robots.txt file, but it's empty.", 'Robots.Txt Error').setPreTitle(robotsUrl))
+                renderCard(
+                    new Card()
+                        .error("Found a Robots.txt file, but it's empty.", 'Robots.Txt Error')
+                        .setPreTitle(robotsUrl)
+                )
                 renderCard(Suggestions.emptyRobotsTxt())
             } else {
                 renderCard(robotsTxtCard(robotsUrl, robotsTxtBody))
@@ -65,13 +57,24 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, renderCard
         })
 
     robotsTxtPromise.then(robotsTxtBody => {
-        sitemapUrls = getSiteMapUrlsFromRobotsTxt(robotsTxtBody, sitemapUrls[0])
+        sitemapUrls = getSiteMapUrls(robotsTxtBody, sitemapUrls[0])
         const unsafeUrls = sitemapUrls.filter(url => url.includes(`http://`))
         if (unsafeUrls.length > 0) {
             sitemapUrls = sitemapUrls.map(url => (url.includes(`http://`) ? url.replace(`http://`, `https://`) : url))
-            renderCard(Suggestions.wrongRobotsFromSitemap(unsafeUrls))
+            renderCard(Suggestions.unsafeSitemapLinkInRobots(unsafeUrls))
         }
-        getSiteMapCards(sitemapUrls, renderCard)
+        const uniqueUrls = [...new Set(sitemapUrls)]
+        if (uniqueUrls.length < sitemapUrls.length) {
+            const repetitionsObj = sitemapUrls.reduce((acc, curr) => {
+                acc[curr] = (acc[curr] || 0) + 1
+                return acc
+            }, {} as {[key: string]: number})
+            const repetitionArray = Object.entries(repetitionsObj)
+                .filter(([key, value]) => value > 1)
+                .map(([key, value]) => key)
+            renderCard(Suggestions.repeatedSitemapLinkInRobots(repetitionArray))
+        }
+        getSiteMapCards(uniqueUrls, renderCard)
     })
 }
 

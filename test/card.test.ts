@@ -25,7 +25,7 @@ test('Card, without category and link, generates valid HTML', () => {
             `<h2 class="cardTitle ${cssClass}">` +
                 `<div class="cardPreTitle">${preTitle}</div>` +
                 `${title}` +
-                `<div class="card-buttons"></div>` +
+                `<div class="card-toolbar"></div>` +
                 `</h2>`
         )
         .toContain(body)
@@ -46,7 +46,7 @@ test('Card, with category, generates valid HTML', () => {
             `<h2 class="cardTitle ${cssClass}">` +
                 `<div class="cardPreTitle">${preTitle}</div>` +
                 `${title}` +
-                `<div class="card-buttons"><a href="${links[0].url}" target="_blank">${links[0].label}</a></div>` +
+                `<div class="card-toolbar"><a href="${links[0].url}" target="_blank">${links[0].label}</a></div>` +
                 `</h2>`
         )
         .toContain(body)
@@ -72,7 +72,7 @@ test('Error Card generates valid HTML', () => {
             `<h2 class="cardTitle icon-error">` +
                 `<div class="cardPreTitle"></div>` +
                 `Error` +
-                `<div class="card-buttons"></div>` +
+                `<div class="card-toolbar"></div>` +
                 `</h2>`
         )
         .toContain(msg)
@@ -88,7 +88,7 @@ test('Warning Card generates valid HTML', () => {
             `<h2 class="cardTitle icon-warning">` +
                 `<div class="cardPreTitle"></div>` +
                 `Warning` +
-                `<div class="card-buttons"></div>` +
+                `<div class="card-toolbar"></div>` +
                 `</h2>`
         )
         .toContain(msg)
@@ -104,7 +104,7 @@ test('Suggestion Card generates valid HTML', () => {
             `<h2 class="cardTitle icon-suggestion">` +
                 `<div class="cardPreTitle"></div>` +
                 `Suggestion` +
-                `<div class="card-buttons"></div>` +
+                `<div class="card-toolbar"></div>` +
                 `</h2>`
         )
         .toContain(msg)

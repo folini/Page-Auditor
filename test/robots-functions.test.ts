@@ -11,7 +11,7 @@ import {
     getSitemapLinks,
     getSiteMapUrls,
     getRobotsTxtFileBody,
-    getRobotsTxtCard,
+    robotsTxtCard,
     getSiteMapFileBody,
 } from '../src/sections/robots-functions'
 import * as main from '../src/main'
@@ -62,7 +62,7 @@ describe('getSiteMaps() and getRobotsTxt()', () => {
     })
 
     test('getRobotsTxtCards() generates valid HTML cards from robots.txt url', async () => {
-        const card = getRobotsTxtCard(MockData.RobotsTxtUrlSample, MockData.RobotsTxtBodySample)
+        const card = robotsTxtCard(MockData.RobotsTxtUrlSample, MockData.RobotsTxtBodySample)
         expect(card.getDiv().innerHTML).toBeString().toHTMLValidate()
         expect(card.getDiv().innerHTML.includes(MockData.RobotsTxtBodySampleWithBrTag)).toBe(true)
     })
@@ -126,7 +126,7 @@ describe('getSiteMaps() and getRobotsTxt()', () => {
     })
 
     test('getRobotsTxtCards() generates valid HTML cards from from an exception', async () => {
-        const data = getRobotsTxtCard(MockData.RobotsTxtUrlSample, MockData.RobotsTxtBodySample).getDiv().innerHTML
+        const data = robotsTxtCard(MockData.RobotsTxtUrlSample, MockData.RobotsTxtBodySample).getDiv().innerHTML
         expect(data).toBeString().toHTMLValidate()
     })
 

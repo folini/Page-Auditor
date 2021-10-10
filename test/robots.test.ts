@@ -15,6 +15,7 @@ import 'html-validate/jest'
 import 'jest-chain'
 import 'jest-extended'
 import {enableFetchMocks} from 'jest-fetch-mock'
+import {Mode} from 'fs'
 
 describe('reportGenerator()', () => {
     beforeAll(() => {
@@ -72,7 +73,7 @@ describe('reportGenerator()', () => {
 describe('reportGenerator()', () => {
     beforeEach(() => {
         jest.spyOn(RobotFunctions, 'getRobotsTxtFileBody').mockImplementation(() => Promise.reject('generated error'))
-        jest.spyOn(main, 'sendTaskToWorker').mockImplementation(() => {})
+        jest.spyOn(main, 'sendTaskToWorker').mockImplementation((divId: string, mode: Mode, code: string) => {})
     })
 
     afterEach(() => {

@@ -1061,5 +1061,45 @@
         "iconClass": "icon-shopify",
         "description": "Shopify is a popular e-commerce platform for online stores and retail point-of-sale systems.",
         "url": "https://www.shopify.com/"
+    },
+    {
+        "patterns": ["(.|/)wistia.com/", "(.|/)wistia.net/"],
+        "name": "Wistia",
+        "category": "Video and Podcast Hosting Platform",
+        "iconClass": "icon-wistia",
+        "description": "One easy-to-use platform to host videos and podcasts.",
+        "url": "https://wistia.com/"
+    },
+    {
+        "patterns": ["(.|/)disqus.com/", "(.|/)disquscdn.com/"],
+        "name": "Disqus",
+        "category": "Commenting and Reactions Platform",
+        "iconClass": "icon-disqus",
+        "description": "Disqus is an American blog comment hosting service for web sites and online communities that use a networked platform.",
+        "url": "https://disqus.com/"
+    },
+    {
+        "patterns": ["(.|/)gaconnector.com/"],
+        "name": "GA Connector",
+        "category": "Integration and Analytics",
+        "iconClass": "icon-ga-connector",
+        "description": "GA Connector is an integration solution that connects various CRMs with Google Analytics.",
+        "url": "https://gaconnector.com/"
+    },
+    {
+        "patterns": ["(.|/)fullstory.com/"],
+        "name": "FullStory",
+        "category": "Digital Experience Intelligence (DXI)",
+        "iconClass": "icon-fullstory",
+        "description": "FullStory is a platform to help companies monitor their digital experience. This platform transforms digital interactions across websites and mobile apps into the actionable KPI.",
+        "url": "https://www.fullstory.com/"
+    },
+    {
+        "patterns": ["(.|/)speedcurve.com/"],
+        "name": "SpeedCurve",
+        "category": "Performance Monitor",
+        "iconClass": "icon-speedcurve",
+        "description": "SpeedCurve provides performance feedback of your site such as page size and how long it takes to load a page, and can show you the impact new features have on the performance of your site.",
+        "url": "https://www.speedcurve.com/"
     }
 ]
