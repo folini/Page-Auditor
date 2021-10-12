@@ -37,7 +37,7 @@ export const unsafeSitemapLinkInRobots = (urls: string[]) => {
     return new Card()
         .suggestion()
         .addParagraph(message1)
-        .addCodeBlock(urls.map(url => `Sitemap: ${url}`).join('\n'), Mode.txt)
+        .addCodeBlock(urls.map(url => `Sitemap: ${url.replace(`http://`, `https://`)}`).join('\n'), Mode.txt)
         .addParagraph(message2)
         .addCTA(links)
         .setTitle(`Fix Sitemap Link${plural} in Robots.txt`)

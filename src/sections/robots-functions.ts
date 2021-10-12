@@ -100,12 +100,12 @@ export const getSiteMapCards = (urls: string[], renderCard: DisplayCardFunc) =>
                             'icon-sitemap'
                         )
                         .addParagraph(`Found a Sitemap.xml file: <a href='${url}' target='new'>${url}</a>`)
+                        .addParagraph(sitemapXmlDescription)
                         .addTable([
                             ['File Size', formatNumber(sitemapBody.length) + ' characters'],
                             ['Pages Links', `${formatNumber(linksToPages)} links`],
                             ['Sub Sitemap Links', `${formatNumber(linksToSitemaps.length)} links`],
                         ])
-                        .addParagraph(sitemapXmlDescription)
                         .addCodeBlock(sitemapBody, Mode.xml, divId)
                 )
             })
@@ -162,8 +162,9 @@ export const robotsTxtCard = (url: string, robotsTxtBody: string): Card => {
     userAgent = [...new Set(userAgent)]
     const siteMaps = robotsTxtBody.match(/^sitemap:\shttp/gim) || []
     return new Card()
-        .open(url, `Robots.txt file`, getRobotsLinks(url, divId), 'icon-rep')
-        .addParagraph(`Found a Robots.txt file.`)
+        .open('Robot.Txt', `Robots.txt file`, getRobotsLinks(url, divId), 'icon-rep')
+        .addParagraph(`Found a Robots.txt file: <a href='${url}' target='new'>${url}</a>`)
+        .addParagraph(robotsTxtDescription)
         .addTable([
             ['File Size', formatNumber(robotsTxtBody.length) + ' characters'],
             ['Robot Directives', formatNumber(nDirectives)],
