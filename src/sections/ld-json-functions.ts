@@ -19,7 +19,7 @@ export const schemaLinks = (schemaName: string, ldjsonUrl: string, codeId: strin
         label: `Validate`,
     },
     {
-        url: `https://shema.org/${schemaName}`,
+        url: `https://schema.org/${schemaName === 'Graph' ? '' : schemaName}`,
         label: `Schema`,
     },
 ]
@@ -28,9 +28,12 @@ export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string) => {
     const schemaType: string = (ldJson['@type'] || 'Graph') as string
     const jsonCode = JSON.stringify(ldJson)
     const scriptId = disposableId()
+    const typesMatches = jsonCode.match(/("@type":\s*")([a-z0-9]*)/gi) ?? []
+    const types = typesMatches.map(match => match.replace(/("@type":\s*")/gi, '')).map(type => ['Type', `<a href='https://https://schema.org/${type}/' target='_new'>${type}</a>`])
     const structuredDataDescription = `Structured Data communicates content (data) to the Search Engines in an organized manner so they can display the content in the SERPs in an attractive manner.`
     return new Card()
         .open(`Structured Data`, schemaType, schemaLinks(schemaType, tabUrl, scriptId), 'icon-ld-json')
         .addParagraph(structuredDataDescription)
+        .addTable(types)
         .addCodeBlock(jsonCode, Mode.json, scriptId)
 }

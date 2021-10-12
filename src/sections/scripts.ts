@@ -99,46 +99,36 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, renderCard: Displa
         if (trackingItem.url.length > 0) {
             links.push({url: trackingItem.url, label: 'Reference'})
         }
-        const card = new Card().open(trackingItem.category, trackingItem.name, links, trackingItem.iconClass).add(
-            `
-                <div class='card-description'>${trackingItem.description}</div>
-                <div class='optional-code'>
-                <div class='open-closed-icon closed-icon'></div>
-                <a class='code-n-scripts'>
-                    ${trackingItem.scripts.length.toFixed()} script${
-                trackingItem.scripts.length === 1 ? '' : 's'
-            } found. </a>
-                <ul class='hide'>
+        const plural = trackingItem.scripts.length > 1 ? 's' : ''
+        const card = new Card()
+            .open(trackingItem.category, trackingItem.name, links, trackingItem.iconClass)
+            .addParagraph(trackingItem.description)
+            .add(
+                `<div class='cta-toolbar' style='margin-bottom:0;'><a class='large-btn'>Show ${trackingItem.scripts.length.toFixed()} Script${plural}</a></div>`
+            ).add(`<div class='hide code-snippets'>
                     ${trackingItem.scripts
-                        .map((script, j) => `<li>${codeBlock(script, Mode.js, disposableId())}</li>`)
+                        .map((script, j) => codeBlock(script, Mode.js, disposableId()))
                         .join('')}
-                </ul>
-                </div>`
-        )
+                </div>`)
         renderCard(card)
 
-        const btns = [
-            card.getDiv().querySelector('.code-n-scripts'),
-            card.getDiv().querySelector('.open-closed-icon'),
-        ] as HTMLAnchorElement[]
-        btns.forEach(btn => btn.addEventListener('click', () => toggle(btn)))
+        const btn = card.getDiv().querySelector('.large-btn') as HTMLAnchorElement
+        const codeDiv = card.getDiv().querySelector('.code-snippets') as HTMLDivElement
+        btn.addEventListener('click', () => toggle(btn, codeDiv))
     })
 }
 
-const toggle = (btn: HTMLAnchorElement) => {
-    const ul: HTMLUListElement = btn.parentElement?.children[2] as HTMLUListElement
-    if (ul === undefined) {
-        return
-    }
-    const icon = btn.parentElement?.children[0] as HTMLUListElement
-    if (ul.classList.contains('hide')) {
-        ul.classList.remove('hide')
-        ul.classList.add('show')
-        icon.classList.replace('closed-icon', 'open-icon')
+const toggle = (btn: HTMLAnchorElement, div: HTMLDivElement) => {
+    if (div.classList.contains('hide')) {
+        div.classList.remove('hide')
+        div.classList.add('show')
+        btn.innerHTML = btn.innerHTML.replace('Show', 'Hide')
+        btn.parentElement!.style.marginBottom = ''
     } else {
-        ul.classList.remove('show')
-        ul.classList.add('hide')
-        icon.classList.replace('open-icon', 'closed-icon')
+        div.classList.remove('show')
+        div.classList.add('hide')
+        btn.innerHTML = btn.innerHTML.replace('Hide', 'Show')
+        btn.parentElement!.style.marginBottom = '0'
     }
 }
 

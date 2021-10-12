@@ -32,9 +32,9 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, renderCard
     var sitemapUrls = [new URL(tabUrl).origin + '/sitemap.xml']
     var robotsUrl = new URL(tabUrl).origin + '/robots.txt'
 
-    const robotsTxtPromise = getRobotsTxtFileBody(robotsUrl)
+    const robotsBodyPromise = getRobotsTxtFileBody(robotsUrl)
 
-    robotsTxtPromise
+    robotsBodyPromise
         .then(robotsTxtBody => {
             if (robotsTxtBody.includes(`<head>`) || robotsTxtBody.includes(`<meta`)) {
                 const divId = disposableId()
@@ -59,6 +59,10 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, renderCard
                 renderCard(Suggestions.emptyRobotsTxt())
             } else {
                 renderCard(robotsTxtCard(robotsUrl, robotsTxtBody))
+                const siteMaps = robotsTxtBody.match(/^sitemap:\shttp/gim) || []
+                if(siteMaps.length === 0) {
+                    renderCard(Suggestions.linkSitemapFromRobotsTxt())
+                }
             }
         })
         .catch(errMsg => {
@@ -71,7 +75,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, renderCard
             renderCard(Suggestions.missingRobotsTxt())
         })
 
-    robotsTxtPromise
+    robotsBodyPromise
         .then(robotsTxtBody => {
             sitemapUrls = getSiteMapUrlsFromRobotsTxt(robotsTxtBody, sitemapUrls[0])
             const unsafeUrls = sitemapUrls.filter(url => url.includes(`http://`))

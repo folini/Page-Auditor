@@ -121,23 +121,43 @@ export const malformedRobotsTxt = () => {
     return new Card().suggestion().addParagraph(message).addCTA(links).setTitle('Fix Robots.txt Syntax')
 }
 
+export const linkSitemapFromRobotsTxt = () => {
+    const message =
+        `Linking Sitemaps from <code>Robots.txt</code> is a way to ensure Google doesn't miss it. It's an optional directive, but strongly recommended.<br>` +
+        `A link to a sitemap.xml should be added to the <code>robots.txt</code> file with a line similar to the following:`
+    const links: iLink[] = [
+        {
+            label: 'How to Add A Sitemap to Robots.Txt',
+            url: 'https://www.woorank.com/en/blog/how-to-locate-a-sitemap-in-a-robots-txt-file',
+        },
+    ]
+    return new Card()
+        .suggestion()
+        .addParagraph(message)
+        .addCodeBlock(`Sitemap: https://www.example.com/sitemap.xml`, Mode.txt)
+        .addCTA(links)
+        .setTitle('Add Sitemap Links to Robots.txt')
+    
+}
+
+
 export const openGraphMissingImage = () => {
     const message =
-        `The page is missing a meta tag specifying the image for Facebook to use when rendering a post sharing this page. ` +
-        `This is an example of the meta tag that should be added:`
+        `The page is missing a meta tag specifying the image for Facebook to use when rendering a post sharing this page.<br>` +
+        `This is an example of the Facebook (Open Graph) Meta-Tag that should be added:`
     const links: iLink[] = [{label: 'Learn about Facebook Meta Tags', url: 'https://ogp.me/'}]
     return new Card()
         .suggestion()
         .addParagraph(message)
-        .addCodeBlock(`<meta property="og:image" content="https://www.example.com/image.jpg">`, Mode.html)
+        .addCodeBlock(`<meta property="og:image" content="https://www.example.com/my_image.jpg">`, Mode.html)
         .addCTA(links)
-        .setTitle('Add Image Meta Tag for Facebook')
+        .setTitle('Add Image Meta-Tag for Facebook')
 }
 
 export const twitterMissingImage = () => {
     const message =
-        `This page is missing a meta tag specifying the image for Twitter to use when rendering a post sharing this page. ` +
-        `This is an example of the meta tag that should be added:`
+        `This page is missing a meta tag specifying the image for Twitter to use when rendering a post sharing this page.<br>` +
+        `This is an example of the Twitter Meta-Tag that should be added:`
     const links: iLink[] = [
         {
             label: 'Learn about Twitter Meta Tags',
@@ -147,9 +167,9 @@ export const twitterMissingImage = () => {
     return new Card()
         .suggestion()
         .addParagraph(message)
-        .addCodeBlock(`<meta name="twitter:image" content="https://www.example.com/image.jpg">`, Mode.html)
+        .addCodeBlock(`<meta name="twitter:image" content="https://www.example.com/my_image.jpg">`, Mode.html)
         .addCTA(links)
-        .setTitle('Add Image Meta Tag for Twitter')
+        .setTitle('Add Image Meta-Tag for Twitter')
 }
 
 export const noMetaTags = () => {

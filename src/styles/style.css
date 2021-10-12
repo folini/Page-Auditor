@@ -42,6 +42,42 @@
   --card-error-color: rgba(32, 33, 36, 0.5);
   --card-warning-color: rgba(100, 149, 237, 0.4);
 }
+.small-btn {
+  text-decoration: none;
+  font-weight: normal;
+  color: var(--tabs-bg-color);
+  background-color: var(--color-white);
+  border: solid 1px var(--tabs-bg-color);
+  border-radius: 5px;
+  margin-left: 3px;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 10px;
+  padding: 1px 8px;
+}
+.small-btn:hover {
+  background-color: var(--tabs-bg-color);
+  color: var(--color-white);
+  text-decoration: none!important;
+}
+.large-btn {
+  text-decoration: none;
+  font-weight: normal;
+  background-color: var(--tabs-bg-color);
+  color: var(--color-white) !important;
+  border: solid 1px var(--tabs-bg-color);
+  border-radius: 5px;
+  margin: 0 auto!important;
+  cursor: pointer;
+  display: inline-block !important;
+  font-size: 12px;
+  padding: 6px 16px;
+}
+.large-btn:hover {
+  color: var(--tabs-bg-color) !important;
+  background-color: var(--color-white) !important;
+  text-decoration: none!important;
+}
 body#id-page-auditor {
   min-width: 540px;
   max-width: 540px;
@@ -150,15 +186,27 @@ body#id-page-auditor .box-card .card-body {
   padding: var(--card-padding);
   font-size: 14px;
 }
-body#id-page-auditor .box-card .card-body > div:not(:last-child) {
+body#id-page-auditor .box-card .card-body > div {
   margin-bottom: 16px;
 }
-body#id-page-auditor .box-card .card-body > div > a {
+body#id-page-auditor .box-card .card-body > div:last-child {
+  margin-bottom: 0!important;
+}
+body#id-page-auditor .box-card .card-body a {
   color: darkblue;
   text-decoration: none;
 }
-body#id-page-auditor .box-card .card-body > div > a:hover {
+body#id-page-auditor .box-card .card-body a:hover {
   text-decoration: underline;
+}
+body#id-page-auditor .box-card .card-body .cta-toolbar {
+  text-align: center;
+}
+body#id-page-auditor .box-card .card-body .code-snippets .code {
+  margin-bottom: 8px;
+}
+body#id-page-auditor .box-card .card-body .code-snippets .code:last-child {
+  margin-bottom: 0;
 }
 body#id-page-auditor .box-card div.code {
   font-family: monospace, 'Courier New', Courier, monospace;
@@ -188,77 +236,6 @@ body#id-page-auditor .box-card table.card-table td {
   border: solid 1px var(--border-color-light);
   padding: 2px 4px;
   font-size: 13px;
-}
-body#id-page-auditor .box-card .optional-code .code-n-scripts {
-  display: inline-block;
-}
-body#id-page-auditor .box-card .optional-code .open-closed-icon {
-  border: solid 1px var(--tabs-bg-color);
-  width: 12px;
-  height: 12px;
-  display: inline-block;
-  border-radius: 50%;
-  line-height: 1em;
-  align-items: center;
-  justify-content: space-evenly;
-  cursor: pointer;
-  text-align: center;
-  line-height: 12px;
-}
-body#id-page-auditor .box-card .optional-code .open-closed-icon:hover {
-  background-color: var(--tabs-bg-color);
-  color: var(--color-white);
-}
-body#id-page-auditor .box-card .optional-code .open-closed-icon.open-icon::before {
-  content: '-';
-}
-body#id-page-auditor .box-card .optional-code .open-closed-icon.closed-icon::before {
-  content: '+';
-}
-body#id-page-auditor .box-card .optional-code ul {
-  list-style: none;
-  padding: 0;
-  margin: 4px 0;
-  overflow-x: hidden;
-  width: 100%;
-}
-body#id-page-auditor .box-card .optional-code ul li {
-  margin: 0 0 16px;
-  font-family: courier;
-  padding: 0;
-  font-size: 0.9em;
-}
-body#id-page-auditor .box-card .optional-code ul li:last-child {
-  margin: 0;
-}
-body#id-page-auditor .box-card .suggestion-buttons {
-  text-align: center;
-}
-body#id-page-auditor .box-card .suggestion-buttons a {
-  font-size: 12px;
-  padding: 4px 12px;
-}
-body#id-page-auditor .box-card .card-toolbar a,
-body#id-page-auditor .box-card .suggestion-buttons a,
-body#id-page-auditor .box-card .card-toolbar input,
-body#id-page-auditor .box-card .suggestion-buttons input {
-  text-decoration: none;
-  font-weight: normal;
-  color: var(--tabs-bg-color);
-  background-color: var(--color-white);
-  border: solid 1px var(--tabs-bg-color);
-  border-radius: 5px;
-  margin-left: 3px;
-  cursor: pointer;
-  display: inline-block;
-}
-body#id-page-auditor .box-card .card-toolbar a:hover,
-body#id-page-auditor .box-card .suggestion-buttons a:hover,
-body#id-page-auditor .box-card .card-toolbar input:hover,
-body#id-page-auditor .box-card .suggestion-buttons input:hover {
-  background-color: var(--tabs-bg-color);
-  color: var(--color-white);
-  text-decoration: none;
 }
 body#id-page-auditor #id-facebook-card,
 body#id-page-auditor #id-twitter-card,

@@ -47,13 +47,13 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, renderC
                         While teaching the <a href='https://bootcamp.berkeley.edu/digitalmarketing/' target='+new'>Digital Marketing Bootcamp</a> for UC Berkeley Extension, my students' questions inspired this project.`
                 )
                 .add(
-                    `<div class='support-form suggestion-buttons'>
-                                <form action="https://www.paypal.com/donate" method="post" target="_new">
+                    `<div class='support-form'>
+                                <form action="https://www.paypal.com/donate" method="post" target="_new" style="margin-bottom:0">
                                     <input type="hidden" name="business" value="UZ2HN43RZVJGA" />
                                     <input type="hidden" name="no_recurring" value="0" />
                                     <input type="hidden" name="item_name" value="Support the development and maintenance of the free 'Page Auditor' Chrome Extension." />
                                     <input type="hidden" name="currency_code" value="USD" />
-                                    <input type="submit" name="submit" value="Donate" border="0" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+                                    <input type="submit" name="submit" class='large-btn' value="Donate" border="0" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
                                 </form>
                             </div>
                         </div>`

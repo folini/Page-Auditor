@@ -26,6 +26,47 @@
     --card-error-color: rgb(32 33 36 / 50%);
     --card-warning-color: rgb(100 149 237 / 40%); //rgb(255 165 0 / 65%);
 }
+
+.small-btn {
+    text-decoration: none;
+    font-weight: normal;
+    color: var(--tabs-bg-color);
+    background-color: var(--color-white);
+    border: solid 1px var(--tabs-bg-color);
+    border-radius: 5px;
+    margin-left: 3px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 10px;
+    padding: 1px 8px;
+
+    &:hover {
+        background-color: var(--tabs-bg-color);
+        color: var(--color-white);
+        text-decoration: none!important;
+    }
+}
+
+.large-btn {
+    text-decoration: none;
+    font-weight: normal;
+    background-color: var(--tabs-bg-color);
+    color: var(--color-white)!important;
+    border: solid 1px var(--tabs-bg-color);
+    border-radius: 5px;
+    margin: 0 auto!important;
+    cursor: pointer;
+    display: inline-block!important;
+    font-size: 12px;
+    padding: 6px 16px;
+
+    &:hover {
+        color: var(--tabs-bg-color)!important;
+        background-color: var(--color-white)!important;
+        text-decoration: none!important;
+    }
+}
+
 body#id-page-auditor {
     min-width: 540px;
     max-width: 540px;
@@ -122,6 +163,7 @@ body#id-page-auditor {
                 font-size: 13px;
                 min-height: 15px;
             }
+
             .card-toolbar {
                 position: absolute;
                 right: 8px;
@@ -145,15 +187,27 @@ body#id-page-auditor {
             font-size: 14px;
 
             > div {
-                &:not(:last-child) {
-                    margin-bottom: 16px;
+                margin-bottom: 16px;
+                &:last-child {
+                    margin-bottom: 0!important;
                 }
-                > a {
+            }
+            a {
                     color: darkblue;
                     text-decoration: none;
                     &:hover {
                         text-decoration: underline;
                     }
+                }
+
+            .cta-toolbar {
+                text-align: center;
+            }
+
+            .code-snippets .code {
+                margin-bottom: 8px;
+                &:last-child {
+                    margin-bottom: 0;
                 }
             }
         }
@@ -187,86 +241,6 @@ body#id-page-auditor {
                 border: solid 1px var(--border-color-light);
                 padding: 2px 4px;
                 font-size: 13px;
-            }
-        }
-
-        .optional-code {
-            .code-n-scripts {
-                display: inline-block;
-            }
-
-            .open-closed-icon {
-                border: solid 1px var(--tabs-bg-color);
-                width: 12px;
-                height: 12px;
-                display: inline-block;
-                border-radius: 50%;
-                line-height: 1em;
-                align-items: center;
-                justify-content: space-evenly;
-                cursor: pointer;
-                text-align: center;
-                line-height: 12px;
-
-                &:hover {
-                    background-color: var(--tabs-bg-color);
-                    color: var(--color-white);
-                }
-
-                &.open-icon::before {
-                    content: '-';
-                }
-                &.closed-icon::before {
-                    content: '+';
-                }
-            }
-
-            ul {
-                list-style: none;
-                padding: 0;
-                margin: 4px 0;
-                overflow-x: hidden;
-                width: 100%;
-
-                li {
-                    margin: 0 0 16px;
-                    font-family: courier;
-                    padding: 0;
-                    font-size: 0.9em;
-                    &:last-child {
-                        margin: 0;
-                    }
-                }
-            }
-        }
-
-        .suggestion-buttons {
-            text-align: center;
-            a {
-                font-size: 12px;
-                padding: 4px 12px;
-            }
-        }
-
-        .card-toolbar,
-        .suggestion-buttons {
-            a,
-            input {
-                text-decoration: none;
-                font-weight: normal;
-                color: var(--tabs-bg-color);
-                background-color: var(--color-white);
-                border: solid 1px var(--tabs-bg-color);
-                border-radius: 5px;
-                margin-left: 3px;
-                cursor: pointer;
-                display: inline-block;
-
-                &:hover {
-                    background-color: var(--tabs-bg-color);
-                    color: var(--color-white);
-                    text-decoration: none;
-                }
             }
         }
     }

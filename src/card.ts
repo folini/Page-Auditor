@@ -45,6 +45,7 @@ export class Card {
         btnsContainer.className = 'card-toolbar'
         links.forEach(link => {
             const btn = document.createElement('a')
+            btn.className = 'small-btn'
             btn.innerHTML = link.label
             if (link.url) {
                 btn.href = link.url
@@ -102,8 +103,8 @@ export class Card {
 
     public addCTA(links: iLink[]) {
         return this.add(
-            `<div class='suggestion-buttons'>${links
-                .map(link => '<a href="' + link.url + '" target="_blank">' + link.label + '</a>')
+            `<div class='cta-toolbar'>${links
+                .map(link => `<a class='large-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
                 .join(' ')}</div>`
         )
     }
@@ -130,17 +131,10 @@ export class Card {
     }
 
     public addTable(table: string[][]) {
-        const head = table[0]
-        const body = table.slice(1)
         let html = ''
         html += '<table class="card-table">'
-        if (head.reduce((acc, head) => (acc += head), '').length > 0) {
-            html += '<thead><tr>'
-            head.forEach(head => (html += `<th>${head}</th>`))
-            html += '</tr></thead>'
-        }
         html += '<tbody>'
-        html += body.map(row => `<tr>${row.map(col => `<td>${col}</td>`).join('')}</tr>`).join('')
+        html += table.map(row => `<tr>${row.map(col => `<td>${col}</td>`).join('')}</tr>`).join('')
         html += '</tbody>'
         html += '</table>'
         return this.add(`<div>${html}</div>`)

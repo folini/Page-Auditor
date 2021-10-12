@@ -101,7 +101,6 @@ export const getSiteMapCards = (urls: string[], renderCard: DisplayCardFunc) =>
                         )
                         .addParagraph(`Found a Sitemap.xml file: <a href='${url}' target='new'>${url}</a>`)
                         .addTable([
-                            ['', ''],
                             ['File Size', formatNumber(sitemapBody.length) + ' characters'],
                             ['Pages Links', `${formatNumber(linksToPages)} links`],
                             ['Sub Sitemap Links', `${formatNumber(linksToSitemaps.length)} links`],
@@ -166,7 +165,6 @@ export const robotsTxtCard = (url: string, robotsTxtBody: string): Card => {
         .open(url, `Robots.txt file`, getRobotsLinks(url, divId), 'icon-rep')
         .addParagraph(`Found a Robots.txt file.`)
         .addTable([
-            ['', ''],
             ['File Size', formatNumber(robotsTxtBody.length) + ' characters'],
             ['Robot Directives', formatNumber(nDirectives)],
             ['Sitemap Links', formatNumber(siteMaps.length) + ' found'],
