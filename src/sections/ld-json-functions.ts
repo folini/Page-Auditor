@@ -7,8 +7,7 @@
 import {iJsonLD} from './ld-json'
 import {Card, iLink} from '../card'
 import {Mode} from '../colorCode'
-import {js_beautify} from 'js-beautify'
-import {disposableId, copyTxtToClipboard, codeBlock} from '../main'
+import {disposableId, copyTxtToClipboard} from '../main'
 
 export const schemaLinks = (schemaName: string, ldjsonUrl: string, codeId: string): iLink[] => [
     {
@@ -27,11 +26,11 @@ export const schemaLinks = (schemaName: string, ldjsonUrl: string, codeId: strin
 
 export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string) => {
     const schemaType: string = (ldJson['@type'] || 'Graph') as string
+    const jsonCode = JSON.stringify(ldJson)
     const scriptId = disposableId()
-    const scriptAsString = JSON.stringify(ldJson)
-    const jsonCode = js_beautify(scriptAsString)
     const structuredDataDescription = `Structured Data communicates content (data) to the Search Engines in an organized manner so they can display the content in the SERPs in an attractive manner.`
     return new Card()
         .open(`Structured Data`, schemaType, schemaLinks(schemaType, tabUrl, scriptId), 'icon-ld-json')
-        .add(`<div class='card-description'>` + structuredDataDescription + codeBlock(jsonCode, Mode.json, scriptId))
+        .addParagraph(structuredDataDescription)
+        .addCodeBlock(jsonCode, Mode.json, scriptId)
 }

@@ -69,7 +69,7 @@ const reportGenerator: ReportGeneratorFunc = (_: string, data: any, renderCard: 
     })
 
     if (!atLeastOneScript) {
-        renderCard(new Card().warning(`No Meta Tags found on this page.`).setPreTitle('Meta Tags'))
+        renderCard(new Card().warning(`No Meta Tags found on this page.`).setTitle('Missing Meta Tags'))
         renderCard(Suggestions.noMetaTags())
         return
     }

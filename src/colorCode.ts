@@ -63,7 +63,7 @@ const color = {
     },
 }
 
-const urlRegEx = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^(\s|<|>)]{2,})/gim
+const urlRegEx = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9\-]+\.[^(\s|<|>)]{2,})/gim
 
 export const colorCode = (code: string, mode: Mode) => {
     let result = code
@@ -86,7 +86,7 @@ export const colorCode = (code: string, mode: Mode) => {
     return result
         .replace(/(\<span|<a)\s/gm, '$1@@-#-@@')
         .replace(/\s(target|style)/gm, '@@-#-@@$1')
-        .replace(/\n/gm, '<br>\n')
+        .replace(/\n/gm, '<br>')
         .replace(/\s/gm, '&nbsp;')
         .replace(/@@-#-@@/gm, ' ')
 }

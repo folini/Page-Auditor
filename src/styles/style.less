@@ -8,18 +8,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
 :root {
-    --bg-color: #fafafe;
-    --bg-inactive-color: #eaeaea;
-    --fc-brand-dark-color: #0a5394;
+    --ff-brand-color: var(--color-black);
+
+    --color-white: #fafafe;
+    --color-bright-white: #fcfcfa;
+    --color-black: #202124;
+    --tabs-bg-color: darkcyan;
+
+    --tabs-fg-color: var(--color-white);
     --border-color: #dadce0;
-    --border-color-light: #dadce080;
-    --fc-brand-white: #ffffff;
-    --fc-brand-black: #202124;
-    --bg-light-color: #dee2e6;
-    --fc-brand-red: #900;
-    --fc-card-padding: 16px;
-    --fc-card-icon-size: 52px;
-    --fc-suggestion-bg: #fffbec80;
+    --border-color-light: #dadce0;
+
+    --color-red: #900;
+    --card-padding: 16px;
+    --card-icon-size: 52px;
+    --card-suggestion-color: rgb(255 215 0 / 50%);
+    --card-error-color: rgb(32 33 36 / 50%);
+    --card-warning-color: rgb(100 149 237 / 40%); //rgb(255 165 0 / 65%);
 }
 body#id-page-auditor {
     min-width: 540px;
@@ -28,13 +33,13 @@ body#id-page-auditor {
     margin: 0;
     padding: 0;
     font-family: Roboto, Arial;
-    color: var(--fc-brand-black);
+    color: var(--color-black);
     cursor: default;
 
     header {
         padding: 8px 0;
-        background-color: var(--fc-brand-white);
-        color: var(--fc-brand-dark-color);
+        background-color: var(--color-white);
+        color: var(--ff-brand-color);
         position: fixed;
         top: 0;
         width: 100%;
@@ -57,7 +62,7 @@ body#id-page-auditor {
             text-align: left;
             margin-left: 16px;
             font-size: 12px;
-            color: var(--fc-brand-black);
+            color: var(--color-black);
 
             #id-version {
                 text-align: right;
@@ -69,7 +74,7 @@ body#id-page-auditor {
 
     main {
         font-size: 14px;
-        background-color: var(--bg-color);
+        background-color: var(--color-white);
         height: 100%;
         padding-top: 124px;
 
@@ -94,7 +99,7 @@ body#id-page-auditor {
         border-radius: 8px;
         padding: 0;
         margin-bottom: 24px;
-        background-color: var(--fc-brand-white);
+        background-color: var(--color-white);
         overflow: hidden;
         &:hover {
             box-shadow: 0 1px 5px 0 rgb(0 0 0 / 10%);
@@ -103,12 +108,12 @@ body#id-page-auditor {
         h2.cardTitle {
             font-size: 18px;
             margin: 0;
-            background-size: var(--fc-card-icon-size) var(--fc-card-icon-size);
+            background-size: var(--card-icon-size) var(--card-icon-size);
             background-repeat: no-repeat;
-            background-position: var(--fc-card-padding) 8px;
-            background-color: #f0f0f0; //linen; // var(--fc-brand-white);
-            padding: var(--fc-card-padding);
-            padding-left: ~'calc(var(--fc-card-icon-size) + 2 * var(--fc-card-padding))';
+            background-position: var(--card-padding) 8px;
+            background-color: linen; // var(--color-white);
+            padding: var(--card-padding);
+            padding-left: ~'calc(var(--card-icon-size) + 2 * var(--card-padding))';
             position: relative;
             font-weight: normal;
 
@@ -136,24 +141,53 @@ body#id-page-auditor {
         }
 
         .card-body {
-            padding: var(--fc-card-padding);
+            padding: var(--card-padding);
             font-size: 14px;
 
-            > div:not(:last-child) {
-                margin-bottom: 16px;
+            > div {
+                &:not(:last-child) {
+                    margin-bottom: 16px;
+                }
+                > a {
+                    color: darkblue;
+                    text-decoration: none;
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
             }
         }
 
         div.code {
             font-family: monospace, 'Courier New', Courier, monospace;
             font-size: 13px;
-            color: var(--fc-brand-black);
+            color: var(--color-black);
             overflow-x: auto;
             white-space: nowrap;
             border: solid 1px var(--border-color-light);
             border-radius: 3px;
-            background-color: #fcfcfa;
-            padding: var(--fc-card-padding);
+            background-color: var(--color-bright-white);
+            padding: var(--card-padding);
+            a {
+                color: darkblue;
+                text-decoration: none;
+                &:hover {
+                    text-decoration: underline !important;
+                }
+            }
+        }
+
+        table.card-table {
+            background-color: var(--color-bright-white);
+            width: 100%;
+            border: solid 1px var(--border-color);
+            border-collapse: collapse;
+
+            td {
+                border: solid 1px var(--border-color-light);
+                padding: 2px 4px;
+                font-size: 13px;
+            }
         }
 
         .optional-code {
@@ -162,7 +196,7 @@ body#id-page-auditor {
             }
 
             .open-closed-icon {
-                border: solid 1px var(--fc-brand-dark-color);
+                border: solid 1px var(--tabs-bg-color);
                 width: 12px;
                 height: 12px;
                 display: inline-block;
@@ -175,8 +209,8 @@ body#id-page-auditor {
                 line-height: 12px;
 
                 &:hover {
-                    background-color: var(--fc-brand-dark-color);
-                    color: var(--fc-brand-white);
+                    background-color: var(--tabs-bg-color);
+                    color: var(--color-white);
                 }
 
                 &.open-icon::before {
@@ -216,20 +250,22 @@ body#id-page-auditor {
 
         .card-toolbar,
         .suggestion-buttons {
-            a {
+            a,
+            input {
                 text-decoration: none;
                 font-weight: normal;
-                color: var(--fc-brand-dark-color);
-                background-color: var(--fc-brand-white);
-                border: solid 1px var(--fc-brand-dark-color);
+                color: var(--tabs-bg-color);
+                background-color: var(--color-white);
+                border: solid 1px var(--tabs-bg-color);
                 border-radius: 5px;
                 margin-left: 3px;
                 cursor: pointer;
                 display: inline-block;
 
                 &:hover {
-                    background-color: var(--fc-brand-dark-color);
-                    color: var(--fc-brand-white);
+                    background-color: var(--tabs-bg-color);
+                    color: var(--color-white);
+                    text-decoration: none;
                 }
             }
         }
@@ -301,7 +337,7 @@ body#id-page-auditor {
                 color: #b0b3b8;
             }
             h2 {
-                color: #fff;
+                color: var(--color-white);
                 font-size: 17px;
                 line-height: 22px;
                 margin: 0;
@@ -317,7 +353,7 @@ body#id-page-auditor {
     nav {
         padding-top: 66px;
         position: fixed;
-        background-color: #fff;
+        background-color: var(--color-white);
         width: 100%;
         z-index: 99;
 
@@ -328,36 +364,35 @@ body#id-page-auditor {
             margin-bottom: 0;
             list-style: none;
             width: 100%;
-            border-bottom: solid 1px var(--fc-brand-dark-color);
+            border-bottom: solid 1px var(--tabs-bg-color);
 
             li {
                 border-style: solid;
                 border-width: 4px 1px 1px;
-                border-color: var(--fc-brand-dark-color) var(--fc-brand-dark-color) transparent
-                    var(--fc-brand-dark-color);
+                border-color: var(--tabs-bg-color);
+                color: var(--tabs-fg-color);
                 border-radius: 0.25rem 0.25rem 0 0 !important;
                 display: flex;
                 align-items: center;
                 text-align: center;
                 padding: 0.5rem 1rem;
                 cursor: pointer;
-                color: var(--fc-brand-white);
-                background-color: var(--fc-brand-dark-color);
+                color: var(--color-white);
+                background-color: var(--tabs-bg-color);
                 position: relative;
                 bottom: -1px;
                 user-select: none;
 
                 &.active {
                     border-bottom-color: transparent;
-                    background-color: var(--bg-color);
-                    color: var(--fc-brand-dark-color);
+                    background-color: var(--tabs-fg-color);
+                    color: var(--tabs-bg-color);
                 }
 
                 &:not(.active):not(.gap-mini):hover {
-                    color: #888;
-                    background-color: var(--bg-color);
-                    color: var(--fc-brand-dark-color);
-                    border-color: var(--fc-brand-dark-color);
+                    background-color: var(--tabs-fg-color);
+                    color: var(--tabs-bg-color);
+                    border-bottom-color: var(--tabs-bg-color);
                 }
 
                 &.gap-mini {
@@ -388,10 +423,10 @@ body#id-page-auditor {
 
             a {
                 text-decoration: none;
-                color: var(--fc-brand-black);
+                color: var(--color-black);
 
                 &:hover {
-                    color: var(--fc-brand-red);
+                    color: var(--color-red);
                     text-decoration: underline;
                 }
             }
@@ -405,23 +440,17 @@ body#id-page-auditor {
         }
         &.icon-error > h2 {
             background-image: url(../logos/ERROR_100x100.png);
-            background-color: cornflowerblue;
+            background-color: var(--card-error-color);
             color: white;
         }
         &.icon-warning > h2 {
             background-image: url(../logos/WARNING_100x100.png);
-            background-color: orange;
+            background-color: var(--card-warning-color);
         }
-        &.icon-suggestion {
-            background-color: var(--fc-suggestion-bg) !important;
-            > h2 {
-                background-image: url(../logos/Suggestion_100x100.png);
-                background-color: gold;
-            }
-            .code {
-                background-color: white !important;
-                margin-top: 16px;
-            }
+        &.icon-suggestion > h2 {
+            background-color: var(--card-suggestion-color) !important;
+            background-image: url(../logos/Suggestion_100x100.png);
+            background-color: var(--var-card-suggestion-bg);
         }
         &.icon-google-ads > h2 {
             background-image: url(../logos/GoogleAds_100x100.png);

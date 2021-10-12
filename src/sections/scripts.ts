@@ -5,8 +5,9 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card, iLink} from '../card'
-import {sectionActions, NoArgsNoReturnFunc, DisplayCardFunc, disposableId, codeBlock} from '../main'
+import {sectionActions, NoArgsNoReturnFunc, DisplayCardFunc, disposableId} from '../main'
 import {Mode} from '../colorCode'
+import {codeBlock} from '../codeBlock'
 
 const listOfScriptClasses = require('../jsons/scriptClasses.json') as iTrackClass[]
 
@@ -84,7 +85,7 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, renderCard: Displa
         })
 
     if (trackingItems === null) {
-        renderCard(new Card().error('No trackers found.'))
+        renderCard(new Card().error('No trackers found.').setTitle('Error: No Script'))
     }
 
     trackingItems = trackingItems.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))

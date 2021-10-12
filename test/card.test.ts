@@ -97,7 +97,7 @@ test('Warning Card generates valid HTML', () => {
 
 test('Suggestion Card generates valid HTML', () => {
     const msg = '<div>Some suggestion</div>'
-    const htmlCode = new Card().suggestion(msg).getDiv().innerHTML
+    const htmlCode = new Card().suggestion().addParagraph(msg).getDiv().innerHTML
     expect(htmlCode)
         .toBeString()
         .toContain(

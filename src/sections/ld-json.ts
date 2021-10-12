@@ -24,12 +24,16 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, rend
     const jsonScripts: iJsonLD[] = scripts as iJsonLD[]
 
     if (tabUrl === '') {
-        renderCard(new Card().warning(`Unable to access the page in order to extract Structured Data.`))
+        renderCard(
+            new Card()
+                .warning(`Unable to access the page in order to extract Structured Data.`)
+                .setTitle('Browser tab Undefined')
+        )
         return
     }
 
     if (jsonScripts.length == 0) {
-        renderCard(new Card().warning(`No Structured Data found on this page.`).setPreTitle('Structured Data'))
+        renderCard(new Card().warning(`No Structured Data found on this page.`).setTitle('Missing Structured Data'))
         renderCard(Suggestions.missingStructuredData())
         return
     }

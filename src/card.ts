@@ -4,6 +4,10 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
+import {access} from 'fs'
+import {codeBlock} from './codeBlock'
+import {Mode} from './colorCode'
+
 export interface iLink {
     label: string
     url?: string
@@ -88,24 +92,24 @@ export class Card {
         return this
     }
 
-    public error(msg: string, title = 'Error') {
-        return this.open('', title, [], 'icon-error').add(msg).setKind(CardKind.error)
+    public error(msg: string) {
+        return this.open('', '', [], 'icon-error').addParagraph(msg).setKind(CardKind.error).setPreTitle('Error')
     }
 
-    public suggestion(msg: string, links: iLink[] = [], title = '') {
-        return this.open('', title, [], 'icon-suggestion')
-            .add(msg)
-            .add(
-                `<div class='suggestion-buttons'>${links
-                    .map(link => '<a href="' + link.url + '" target="_blank">' + link.label + '</a>')
-                    .join(' ')}</div>`
-            )
-            .setKind(CardKind.suggestion)
-            .setPreTitle('Suggestion')
+    public suggestion() {
+        return this.open('', '', [], 'icon-suggestion').setKind(CardKind.suggestion).setPreTitle('Suggestion')
     }
 
-    public warning(msg: string, title = 'Warning') {
-        return this.open('', title, [], 'icon-warning').add(msg).setKind(CardKind.warning)
+    public addCTA(links: iLink[]) {
+        return this.add(
+            `<div class='suggestion-buttons'>${links
+                .map(link => '<a href="' + link.url + '" target="_blank">' + link.label + '</a>')
+                .join(' ')}</div>`
+        )
+    }
+
+    public warning(msg: string) {
+        return this.open('', '', [], 'icon-warning').addParagraph(msg).setKind(CardKind.warning).setPreTitle('Warning')
     }
 
     public add(str: string) {
@@ -115,5 +119,30 @@ export class Card {
             this.#body.append(...tmpDiv.childNodes)
         }
         return this
+    }
+
+    public addCodeBlock(code: string, mode: Mode, id: string = '') {
+        return this.add(codeBlock(code, mode, id))
+    }
+
+    public addParagraph(text: string) {
+        return this.add(`<div>${text}</div>`)
+    }
+
+    public addTable(table: string[][]) {
+        const head = table[0]
+        const body = table.slice(1)
+        let html = ''
+        html += '<table class="card-table">'
+        if (head.reduce((acc, head) => (acc += head), '').length > 0) {
+            html += '<thead><tr>'
+            head.forEach(head => (html += `<th>${head}</th>`))
+            html += '</tr></thead>'
+        }
+        html += '<tbody>'
+        html += body.map(row => `<tr>${row.map(col => `<td>${col}</td>`).join('')}</tr>`).join('')
+        html += '</tbody>'
+        html += '</table>'
+        return this.add(`<div>${html}</div>`)
     }
 }

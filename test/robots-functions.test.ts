@@ -9,10 +9,10 @@ import {
     getSiteMapCards,
     getRobotsLinks,
     getSitemapLinks,
-    getSiteMapUrls,
+    getSiteMapUrlsFromRobotsTxt,
     getRobotsTxtFileBody,
     robotsTxtCard,
-    getSiteMapFileBody,
+    getSiteMapBody,
 } from '../src/sections/robots-functions'
 import * as main from '../src/main'
 import * as MockData from './mock-data.test'
@@ -52,7 +52,7 @@ describe('getSiteMaps() and getRobotsTxt()', () => {
     })
 
     test('getSiteMapFileBody() generates valid sitemap.xml', async () => {
-        const stringPromise = getSiteMapFileBody(MockData.SitemapUrlsSample[0])
+        const stringPromise = getSiteMapBody(MockData.SitemapUrlsSample[0])
         stringPromise
             .then(string => {
                 expect(string).toBeString()
@@ -93,7 +93,7 @@ test('getSitemapLinks() generates valid array with 2 objects', async () => {
 })
 
 test('extractSiteMapUrls() gets the urls', async () => {
-    const data = getSiteMapUrls(MockData.RobotsTxtBodySample, MockData.SitemapUrlSample)
+    const data = getSiteMapUrlsFromRobotsTxt(MockData.RobotsTxtBodySample, MockData.SitemapUrlSample)
     expect(data).toBeArray().toEqual(MockData.SitemapUrlsSample)
 })
 
@@ -119,7 +119,7 @@ describe('getSiteMaps() and getRobotsTxt()', () => {
 
     test('getSiteMapFileBody() generates exception', async () => {
         try {
-            await expect(getSiteMapFileBody(MockData.SitemapUrlsSample[0])).rejects.toThrow()
+            await expect(getSiteMapBody(MockData.SitemapUrlsSample[0])).rejects.toThrow()
         } catch (error) {
             expect(true).toBeTrue()
         }
@@ -158,7 +158,7 @@ describe('getSiteMapFileBody() and getRobotsTxtFileBody()', () => {
 
     test('getSiteMapFileBody() generates exception', async () => {
         try {
-            await expect(getSiteMapFileBody(MockData.SitemapUrlsSample[0])).rejects.toThrow()
+            await expect(getSiteMapBody(MockData.SitemapUrlsSample[0])).rejects.toThrow()
         } catch (error) {
             expect(true).toBeTrue()
         }

@@ -6,11 +6,10 @@
 // ----------------------------------------------------------------------------
 import {iMetaTag, iDefaultTagValues} from './meta'
 import {Card, iLink} from '../card'
-import {DisplayCardFunc, disposableId, copyTxtToClipboard, codeBlock} from '../main'
-import {htmlEncode} from 'js-htmlencode'
-import {html_beautify} from 'js-beautify'
+import {DisplayCardFunc, disposableId, copyTxtToClipboard} from '../main'
 import * as Suggestions from './suggestionCards'
-import {colorCode, Mode} from '../colorCode'
+import {Mode} from '../colorCode'
+import {htmlEncode} from 'js-htmlencode'
 
 interface iTagCategoryPreviewer {
     (m: iMetaTag[], t: iDefaultTagValues, renderCard: DisplayCardFunc): string
@@ -57,17 +56,14 @@ export const twitterPreview = (
         showSuggestion(Suggestions.twitterMissingImage())
     }
 
-    return `
-      <div class='card-options'>
-        <div id='id-twitter-card'>
+    return `<div id='id-twitter-card'>
         ${img.length > 0 && img.startsWith('http') ? `<img src='${img}'>` : ``}
         <div class='twitter-card-legend'>
-            <div class='twitter-card-title'>${title}</div>
-            <div class='twitter-card-description'>${description}</div>
+            <div class='twitter-card-title'>${htmlEncode(title)}</div>
+            <div class='twitter-card-description'>${htmlEncode(description)}</div>
             ${domain.length > 0 ? `<div class='twitter-card-domain'>${linkIcon} ${domain}</div>` : ''}
           </div>
-        </div>
-      </div>`
+        </div>`
 }
 
 export const openGraphPreview = (tags: iMetaTag[], defaults: iDefaultTagValues, showSuggestion: DisplayCardFunc) => {
@@ -85,17 +81,14 @@ export const openGraphPreview = (tags: iMetaTag[], defaults: iDefaultTagValues, 
         showSuggestion(Suggestions.openGraphMissingImage())
     }
 
-    return `
-      <div class='card-options'>
-          <div id='id-facebook-card'>        
+    return `<div id='id-facebook-card'>        
             ${img.length > 0 && img.startsWith('http') ? `<img src='${img}'>` : ``}
             <div class='open-graph-card-legend'>
               ${domain.length > 0 ? `<div class='open-graph-card-domain'>${domain}</div>` : ''}
-              <h2>${title}</h2>
-              <div class='og-description'>${description}</div>
+              <h2>${htmlEncode(title)}</h2>
+              <div class='og-description'>${htmlEncode(description)}</div>
             </div>
-          </div>
-      </div>`
+          </div>`
 }
 
 export const tagCategories: iTagCategory[] = [
@@ -294,7 +287,7 @@ export const metaTagsCard = (
     renderCard: DisplayCardFunc
 ) => {
     if (metaList.length === 0) {
-        return new Card().error('List of Meta tags is empty')
+        return new Card().error('List of Meta tags is empty').setTitle('Error: No Meta Tags')
     }
 
     const listOfMeta = metaList.map(m => m.originalCode.trim()).join('\n')
@@ -309,10 +302,14 @@ export const metaTagsCard = (
     if (metaCat.url.length > 0) {
         links.push({url: metaCat.url, label: 'Reference'})
     }
-    renderCard(
-        new Card()
-            .open(`Meta Tags`, metaCat.title, links, metaCat.cssClass)
-            .add(`<div>${metaCat.description}</div>`)
-            .add(codeBlock(listOfMeta, Mode.html, divId))
-    )
+
+    const card = new Card()
+        .open(`Meta Tags`, metaCat.title, links, metaCat.cssClass)
+        .addParagraph(metaCat.description)
+        .addCodeBlock(listOfMeta, Mode.html, divId)
+
+    if (metaCat.preview.length > 0) {
+        card.add(preview)
+    }
+    renderCard(card)
 }

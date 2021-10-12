@@ -1,6 +1,6 @@
 [
     {
-        "patterns": ["tagmanager.com/", "googletagservices.com/"],
+        "patterns": ["(.|/)tagmanager.com/", "(.|/)googletagservices.com/"],
         "name": "GTM - Google Tag Manager",
         "category": "Tracking",
         "iconClass": "icon-tag-manager",
@@ -8,7 +8,7 @@
         "url": "https://tagmanager.google.com/"
     },
     {
-        "patterns": ["ads-twitter", ".twitter.com/", "analytics.twitter"],
+        "patterns": ["(.|/)ads-twitter", "(.|/)twitter.com/", "(.|/)analytics.twitter"],
         "name": "Twitter",
         "category": "Ads and Analytics",
         "iconClass": "icon-twitter",
@@ -17,11 +17,11 @@
     },
     {
         "patterns": [
-            ".doubleclick.net/",
-            ".googleadservices.com/",
-            "adservice.google",
+            "(.|/)doubleclick.net/",
+            "(.|/)googleadservices.com/",
+            "(.|/)adservice.google",
             "/adsense/",
-            ".googlesyndication.com/"
+            "(.|/)googlesyndication.com/"
         ],
         "name": "Google Ads",
         "category": "Search, Display, and Remarketing Ads",
@@ -30,7 +30,7 @@
         "url": "https://ads.google.com/"
     },
     {
-        "patterns": ["connect.facebook.net/", "graph.facebook.com/"],
+        "patterns": ["(.|/)connect.facebook.net/", "(.|/)graph.facebook.com/", "(.|/)fbcdn.net/"],
         "name": "Facebook Pixel",
         "category": "Ads Tracking",
         "iconClass": "icon-facebook-pixel",
@@ -46,7 +46,7 @@
         "url": "https://business.linkedin.com/marketing-solutions"
     },
     {
-        "patterns": ["//bat.bing.com/p/action", "//bat.bing.com/bat.js"],
+        "patterns": ["(.|/).bing.com/p/action", "(.|/).bing.com/bat.js"],
         "name": "Bing",
         "category": " Ads Tracking",
         "iconClass": "icon-bing-ads",
@@ -62,7 +62,7 @@
         "url": "https://ads.pinterest.com/"
     },
     {
-        "patterns": [".google-analytics.com/"],
+        "patterns": ["(.|/)google-analytics.com/"],
         "name": "Google Analytics",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-google-analytics-v3",
@@ -78,7 +78,7 @@
         "url": "https://podsights.com/"
     },
     {
-        "patterns": ["siteimproveanalytics.com/"],
+        "patterns": ["(.|/)siteimproveanalytics.com/"],
         "name": "Site Improve",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-site-improve",
@@ -86,7 +86,7 @@
         "url": "https://siteimprove.com/"
     },
     {
-        "patterns": [".sophus3.com/"],
+        "patterns": ["(.|/)sophus3.com/"],
         "name": "Sophus3",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-sophus3",
@@ -94,7 +94,7 @@
         "url": "https://www.sophus3.com/"
     },
     {
-        "patterns": [".getdrip.com/"],
+        "patterns": ["(.|/)getdrip.com/"],
         "name": "Drip",
         "category": "Marketing Automation",
         "iconClass": "icon-drip",
@@ -102,7 +102,7 @@
         "url": "https://www.drip.com/"
     },
     {
-        "patterns": [".crazyegg.com/"],
+        "patterns": ["(.|/)crazyegg.com/"],
         "name": "Crazy Egg",
         "category": "Heatmaps",
         "iconClass": "icon-crazy-egg",
@@ -110,7 +110,7 @@
         "url": "https://crazyegg.com/"
     },
     {
-        "patterns": [".lfeeder.com/", ".leadfeeder.com/"],
+        "patterns": ["(.|/)lfeeder.com/", "(.|/)leadfeeder.com/"],
         "name": "LeadFeeder",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-leadfeeder",
@@ -118,7 +118,7 @@
         "url": "https://www.leadfeeder.com/"
     },
     {
-        "patterns": [".outbrain.com/"],
+        "patterns": ["(.|/)outbrain.com/"],
         "name": "OutBrain",
         "category": "Ads Tracking",
         "iconClass": "icon-outbrain",
@@ -126,7 +126,7 @@
         "url": "https://www.outbrain.com/"
     },
     {
-        "patterns": [".qualtrics.com/"],
+        "patterns": ["(.|/)qualtrics.com/"],
         "name": "Qualtric",
         "category": "User Experience Management",
         "iconClass": "icon-qualtric",

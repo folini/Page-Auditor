@@ -9,10 +9,7 @@ import './manifest.json'
 import './styles/style.less'
 import './logos/Logo_256x256.png'
 
-import {htmlEncode} from 'js-htmlencode'
-import {html_beautify, js_beautify} from 'js-beautify'
-
-import {Card} from './card'
+import {Card, CardKind} from './card'
 import {Mode, colorCode} from './colorCode'
 import {version as versionNumber} from '../package.json'
 import * as JsonLd from './sections/ld-json'
@@ -85,7 +82,12 @@ const addCardToContainer = (container: HTMLDivElement, card: Card): Promise<HTML
     if (spinner !== null) {
         spinner.remove()
     }
-    const div = container.appendChild(card.getDiv())
+    var div: HTMLDivElement | undefined = undefined
+    if (card.getKind() === CardKind.error && container.children.length !== 0) {
+        div = container.insertBefore(card.getDiv(), container.firstChild)
+    } else {
+        div = container.appendChild(card.getDiv())
+    }
     return Promise.resolve(div)
 }
 
@@ -95,8 +97,11 @@ const displayCard =
         const container = document.getElementById(reportId) as HTMLDivElement
         try {
             return addCardToContainer(container, await Promise.resolve(cardOrPromise))
-        } catch (error) {
-            return addCardToContainer(container, await Promise.resolve(new Card().error((error as Error).message)))
+        } catch (error: any) {
+            return addCardToContainer(
+                container,
+                await Promise.resolve(new Card().error(error.message).setTitle('Error'))
+            )
         }
     }
 
@@ -119,7 +124,9 @@ async function action(section: SectionType, actions: sectionActions) {
     } catch (err: any) {
         const emptyTab = `Cannot access a chrome:// URL`
         const emptyTabMsg = `<b>Page Auditor</b> can not run on empty or internal Chrome tabs.<br/><br/>Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
-        displayCard(section.reportId)(new Card().error(err.message === emptyTab ? emptyTabMsg : err.message))
+        displayCard(section.reportId)(
+            new Card().error(err.message === emptyTab ? emptyTabMsg : err.message).setTitle('Error')
+        )
     }
 }
 
@@ -189,43 +196,4 @@ export const copyTxtToClipboard = (divId: string) => {
     navigator.clipboard.writeText(txt)
 }
 
-export const codeBlock = (code: string, mode: Mode, id: string = '') => {
-    const delayedMode = id !== ''
-    let codeToDisplay = code
-    if (mode === Mode.js && code.startsWith('http')) {
-        mode = Mode.txt
-    }
-
-    switch (mode) {
-        case Mode.html:
-        case Mode.xml:
-            codeToDisplay = htmlEncode(html_beautify(code))
-            if (delayedMode) {
-                sendTaskToWorker(id, mode, codeToDisplay)
-                codeToDisplay = codeToDisplay.replace(/\n/g, '<br/>').replace(/\s/gm, '&nbsp;')
-            } else {
-                codeToDisplay = colorCode(codeToDisplay, mode)
-            }
-            break
-
-        case Mode.js:
-        case Mode.json:
-            codeToDisplay = js_beautify(code)
-            if (delayedMode) {
-                sendTaskToWorker(id, mode, codeToDisplay)
-                codeToDisplay = codeToDisplay.replace(/\n/g, '<br/>').replace(/\s/gm, '&nbsp;')
-            } else {
-                codeToDisplay = colorCode(codeToDisplay, mode)
-            }
-            break
-        case Mode.txt:
-            if (delayedMode) {
-                sendTaskToWorker(id, mode, codeToDisplay)
-                codeToDisplay = code.replace(/\n/g, '<br/>').replace(/\s/gm, '&nbsp;')
-            } else {
-                codeToDisplay = colorCode(codeToDisplay, mode)
-            }
-    }
-
-    return `<div class="code"${id ? `id='${id}'` : ''}>${codeToDisplay}</div>`
-}
+export const formatNumber = (num: number) => num.toLocaleString(undefined, {maximumFractionDigits: 0})
