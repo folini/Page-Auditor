@@ -34,16 +34,16 @@
     background-color: var(--color-white);
     border: solid 1px var(--tabs-bg-color);
     border-radius: 5px;
-    margin-left: 3px;
+    margin-left: 2px;
     cursor: pointer;
     display: inline-block;
-    font-size: 10px;
-    padding: 1px 8px;
+    font-size: 9px;
+    padding: 1px 4px;
 
     &:hover {
         background-color: var(--tabs-bg-color);
         color: var(--color-white);
-        text-decoration: none!important;
+        text-decoration: none !important;
     }
 }
 
@@ -51,19 +51,19 @@
     text-decoration: none;
     font-weight: normal;
     background-color: var(--tabs-bg-color);
-    color: var(--color-white)!important;
+    color: var(--color-white) !important;
     border: solid 1px var(--tabs-bg-color);
     border-radius: 5px;
-    margin: 0 auto!important;
+    margin: 0 auto !important;
     cursor: pointer;
-    display: inline-block!important;
+    display: inline-block !important;
     font-size: 12px;
     padding: 6px 16px;
 
     &:hover {
-        color: var(--tabs-bg-color)!important;
-        background-color: var(--color-white)!important;
-        text-decoration: none!important;
+        color: var(--tabs-bg-color) !important;
+        background-color: var(--color-white) !important;
+        text-decoration: none !important;
     }
 }
 
@@ -160,19 +160,13 @@ body#id-page-auditor {
 
             .cardPreTitle {
                 font-variant: small-caps;
-                font-size: 13px;
-                min-height: 15px;
+                font-size: 14px;
             }
 
             .card-toolbar {
                 position: absolute;
                 right: 8px;
                 bottom: 8px;
-                font-size: 9.2px;
-                a {
-                    font-size: 10px;
-                    padding: 1px 8px;
-                }
             }
         }
 
@@ -189,19 +183,20 @@ body#id-page-auditor {
             > div {
                 margin-bottom: 16px;
                 &:last-child {
-                    margin-bottom: 0!important;
+                    margin-bottom: 0 !important;
                 }
             }
             a {
-                    color: darkblue;
-                    text-decoration: none;
-                    &:hover {
-                        text-decoration: underline;
-                    }
+                color: darkblue;
+                text-decoration: none;
+                &:hover {
+                    text-decoration: underline;
                 }
+            }
 
             .cta-toolbar {
                 text-align: center;
+                margin-bottom: 0;
             }
 
             .code-snippets .code {
@@ -894,6 +889,18 @@ body#id-page-auditor {
         }
         &.icon-speedcurve > h2 {
             background-image: url(../logos/SpeedCurve_100x100.png);
+        }
+        &.icon-satismeter > h2 {
+            background-image: url(../logos/SatisMeter_100x100.png);
+        }
+        &.icon-profitwell > h2 {
+            background-image: url(../logos/ProfitWell_100x100.png);
+        }
+        &.icon-elevio > h2 {
+            background-image: url(../logos/Elevio_100x100.png);
+        }
+        &.icon-headway-app > h2 {
+            background-image: url(../logos/HeadwayApp_100x100.png);
         }
     }
 

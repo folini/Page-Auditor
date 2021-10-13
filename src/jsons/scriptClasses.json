@@ -1101,5 +1101,35 @@
         "iconClass": "icon-speedcurve",
         "description": "SpeedCurve provides performance feedback of your site such as page size and how long it takes to load a page, and can show you the impact new features have on the performance of your site.",
         "url": "https://www.speedcurve.com/"
+    },
+    {
+        "patterns": ["(.|/)satismeter.com/"],
+        "name": "SatisMeter",
+        "category": "NPS Monitoring",
+        "iconClass": "icon-satismeter",
+        "description": "SatisMeter helps online businesses collect customer feedback using Net Promoter Score (NPS).",
+        "url": "https://www.satismeter.com/"
+    },
+    {
+        "patterns": ["(.|/)profitwell.com/"],
+        "name": "ProfitWell",
+        "category": "Subscription Monitoring",
+        "iconClass": "icon-profitwell",
+        "description": "ProfitWell is a cloud-based app that provides users with all their financial and subscription metrics in one place. ",
+        "url": "https://www.profitwell.com/"
+    },
+    {
+        "patterns": ["(.|/)elev.io/"],
+        "name": "Elevio",
+        "iconClass": "icon-elevio",
+        "description": "Elevio is an Australian company that provides a continuous user education platform to make products easier to learn and use.",
+        "url": "https://elev.io/"
+    },
+    {
+        "patterns": ["(.|/)headwayapp.co/"],
+        "name": "Headway App",
+        "iconClass": "icon-headway-app",
+        "description": "Headway is an app that can be used to read 15 minute summaries of bestseller non-fiction books.",
+        "url": "https://headwayapp.co//"
     }
 ]

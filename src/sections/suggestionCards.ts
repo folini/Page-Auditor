@@ -4,8 +4,11 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
+import {formatNumber} from '../main'
 import {Card, iLink} from '../card'
 import {Mode} from '../colorCode'
+
+export const sitemapRecommendedMaxSize = 50_000
 
 export const missingStructuredData = () => {
     const message =
@@ -99,32 +102,47 @@ export const missingSitemapXml = () => {
 }
 
 export const malformedSitemapXml = () => {
-    const message =
-        `Double check the syntax of the <code>sitemap.xml</code> and update it ASAP.` +
-        `It's important for the <code>sitemap.xml</code> file to be consistent with the standard XML syntax. ` +
-        `<br>The <code>sitemap.xml</code> of a website, if present, is extensively used by all Search Engines bots a it's a very important factor in SEO ranking of the site.`
+    const msg1 =
+        `Double check the syntax of the <code>sitemap.xml</code> and update it ASAP. ` +
+        `It's important for the <code>sitemap.xml</code> file to be consistent with the standard XML syntax. `
+    const msg2 = `The <code>sitemap.xml</code> of a website, if present, is extensively used by all Search Engines bots a it's a very important factor in SEO ranking of the site.`
     const links: iLink[] = [{label: 'Learn about Sitemap.xml Syntax', url: 'https://www.sitemaps.org/protocol.html'}]
-    return new Card().suggestion().addParagraph(message).addCTA(links).setTitle('Fix Sitemap.xml Syntax')
+    return new Card()
+        .suggestion()
+        .addParagraph(msg1)
+        .addParagraph(msg2)
+        .addCTA(links)
+        .setTitle('Fix Sitemap.xml Syntax')
+}
+
+export const considerCompressingSitemap = (url: string) => {
+    const msg1 =
+        `Some of your sitemaps are larger than ${formatNumber(sitemapRecommendedMaxSize)} bytes. ` +
+        `Consider compressing your sitemap.xml with <i>gzip</i> to reduce the load on your server and speedup upload and download of the file. ` +
+        `However, there are no SEO direct benefits in compressing a sitemap. `
+    const links: iLink[] = [
+        {label: 'Learn about Compressing Sitemaps', url: 'https://www.sitemaps.org/faq.html#faq_sitemap_size'},
+    ]
+    return new Card().suggestion().addParagraph(msg1).addCTA(links).setTitle('Time To Compress Your Sitemap(s)')
 }
 
 export const malformedRobotsTxt = () => {
-    const message =
-        `Double check the syntax of the <code>robots.txt</code> and update it ASAP.` +
-        `It's important for the <code>robots.txt</code> file to be consistent with the standard syntax. ` +
-        `<br>The <code>Robots.txt</code> of a website, if present, is extensively used by all Search Engines bots a it's a very important factor in SEO ranking of the site.`
+    const msg1 =
+        `Double check the syntax of the <code>robots.txt</code> and update it ASAP. ` +
+        `It's important for the <code>robots.txt</code> file to be consistent with the standard syntax. `
+    const msg2 = `The <code>Robots.txt</code> of a website, if present, is extensively used by all Search Engines bots a it's a very important factor in SEO ranking of the site.`
     const links: iLink[] = [
         {
             label: 'Learn about Robots.Txt Syntax',
             url: 'https://developers.google.com/search/docs/advanced/robots/robots_txt',
         },
     ]
-    return new Card().suggestion().addParagraph(message).addCTA(links).setTitle('Fix Robots.txt Syntax')
+    return new Card().suggestion().addParagraph(msg1).addParagraph(msg2).addCTA(links).setTitle('Fix Robots.txt Syntax')
 }
 
 export const linkSitemapFromRobotsTxt = () => {
-    const message =
-        `Linking Sitemaps from <code>Robots.txt</code> is a way to ensure Google doesn't miss it. It's an optional directive, but strongly recommended.<br>` +
-        `A link to a sitemap.xml should be added to the <code>robots.txt</code> file with a line similar to the following:`
+    const msg1 = `Linking your Sitemap(s) from <code>Robots.txt</code> is a way to ensure Google doesn't miss it/them. It's an optional directive, but strongly recommended.`
+    const msg2 = `A link to a sitemap.xml should be added to the <code>robots.txt</code> file with a line similar to the following:`
     const links: iLink[] = [
         {
             label: 'How to Add A Sitemap to Robots.Txt',
@@ -133,13 +151,12 @@ export const linkSitemapFromRobotsTxt = () => {
     ]
     return new Card()
         .suggestion()
-        .addParagraph(message)
+        .addParagraph(msg1)
+        .addParagraph(msg2)
         .addCodeBlock(`Sitemap: https://www.example.com/sitemap.xml`, Mode.txt)
         .addCTA(links)
         .setTitle('Add Sitemap Links to Robots.txt')
-    
 }
-
 
 export const openGraphMissingImage = () => {
     const message =

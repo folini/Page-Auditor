@@ -85,7 +85,7 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, renderCard: Displa
         })
 
     if (trackingItems === null) {
-        renderCard(new Card().error('No trackers found.').setTitle('Error: No Script'))
+        renderCard(new Card().error(`No JavaScript code found.`).setTitle('No Script'))
     }
 
     trackingItems = trackingItems.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
@@ -100,36 +100,15 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, renderCard: Displa
             links.push({url: trackingItem.url, label: 'Reference'})
         }
         const plural = trackingItem.scripts.length > 1 ? 's' : ''
-        const card = new Card()
-            .open(trackingItem.category, trackingItem.name, links, trackingItem.iconClass)
-            .addParagraph(trackingItem.description)
-            .add(
-                `<div class='cta-toolbar' style='margin-bottom:0;'><a class='large-btn'>Show ${trackingItem.scripts.length.toFixed()} Script${plural}</a></div>`
-            ).add(`<div class='hide code-snippets'>
-                    ${trackingItem.scripts
-                        .map((script, j) => codeBlock(script, Mode.js, disposableId()))
-                        .join('')}
-                </div>`)
-        renderCard(card)
-
-        const btn = card.getDiv().querySelector('.large-btn') as HTMLAnchorElement
-        const codeDiv = card.getDiv().querySelector('.code-snippets') as HTMLDivElement
-        btn.addEventListener('click', () => toggle(btn, codeDiv))
+        const btnLabel = `${trackingItem.scripts.length.toFixed()} Script${plural}`
+        const block = trackingItem.scripts.map((script, j) => codeBlock(script, Mode.js)).join('')
+        renderCard(
+            new Card()
+                .open(trackingItem.category, trackingItem.name, links, trackingItem.iconClass)
+                .addParagraph(trackingItem.description)
+                .addExpandableBlock(btnLabel, block)
+        )
     })
-}
-
-const toggle = (btn: HTMLAnchorElement, div: HTMLDivElement) => {
-    if (div.classList.contains('hide')) {
-        div.classList.remove('hide')
-        div.classList.add('show')
-        btn.innerHTML = btn.innerHTML.replace('Show', 'Hide')
-        btn.parentElement!.style.marginBottom = ''
-    } else {
-        div.classList.remove('show')
-        div.classList.add('hide')
-        btn.innerHTML = btn.innerHTML.replace('Hide', 'Show')
-        btn.parentElement!.style.marginBottom = '0'
-    }
 }
 
 const localJsMatch = (url: string): iTrackMatch => {

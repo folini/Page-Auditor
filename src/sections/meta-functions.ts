@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------------
 import {iMetaTag, iDefaultTagValues} from './meta'
 import {Card, iLink} from '../card'
-import {DisplayCardFunc, disposableId, copyTxtToClipboard} from '../main'
+import {DisplayCardFunc, disposableId, copyTxtToClipboard as copyToClipboard} from '../main'
 import * as Suggestions from './suggestionCards'
 import {Mode} from '../colorCode'
 import {htmlEncode} from 'js-htmlencode'
@@ -167,18 +167,23 @@ export const tagCategories: iTagCategory[] = [
         url: 'https://moz.com/blog/the-ultimate-guide-to-seo-meta-tags',
         cssClass: 'icon-seo',
         filter: m =>
-            m.property === 'title' ||
-            m.property === `author` ||
-            m.property === `description` ||
-            m.property === `language` ||
-            m.property === `keywords` ||
-            m.property === `viewport` ||
-            m.property === `generator` ||
-            m.property === `abstract` ||
-            m.property === `content-type` ||
-            m.property === `expires` ||
-            m.property === `refresh` ||
-            m.property === `theme-color`,
+            [
+                `title`,
+                `author`,
+                `description`,
+                `language`,
+                `keywords`,
+                `viewport`,
+                `generator`,
+                `abstract`,
+                `content-type`,
+                `expires`,
+                `refresh`,
+                `theme-color`,
+                `format-detection`,
+                `referrer`,
+                `Content-Security-Policy`,
+            ].includes(m.property),
         preview: noPreview,
     },
     {
@@ -287,7 +292,9 @@ export const metaTagsCard = (
     renderCard: DisplayCardFunc
 ) => {
     if (metaList.length === 0) {
-        return new Card().error('List of Meta tags is empty').setTitle('Error: No Meta Tags')
+        return new Card()
+            .error(`List of Meta tags for category '${metaCat.title}'' is empty`)
+            .setTitle('No Meta Tags Found')
     }
 
     const listOfMeta = metaList.map(m => m.originalCode.trim()).join('\n')
@@ -296,7 +303,7 @@ export const metaTagsCard = (
     const links: iLink[] = [
         {
             label: 'Copy Code',
-            onclick: () => copyTxtToClipboard(divId),
+            onclick: () => copyToClipboard(divId),
         },
     ]
     if (metaCat.url.length > 0) {

@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------------
 import {Card} from '../card'
 import {sectionActions, ReportGeneratorFunc, DisplayCardFunc, CodeInjectorFunc} from '../main'
-import {ldJsonCard} from './ld-json-functions'
+import {ldJsonCard} from './sd-functions'
 import * as Suggestions from './suggestionCards'
 
 export interface iJsonLD {

@@ -48,5 +48,5 @@ export const codeBlock = (code: string, mode: Mode, id: string = '') => {
             }
     }
 
-    return `<div class="code"${id ? `id='${id}'` : ''}>${codeToDisplay}</div>`
+    return `<div class='code'${id ? `id='${id}'` : ''}>${codeToDisplay}</div>`
 }

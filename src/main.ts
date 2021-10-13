@@ -12,7 +12,7 @@ import './logos/Logo_256x256.png'
 import {Card, CardKind} from './card'
 import {Mode, colorCode} from './colorCode'
 import {version as versionNumber} from '../package.json'
-import * as JsonLd from './sections/ld-json'
+import * as JsonLd from './sections/sd'
 import * as Scripts from './sections/scripts'
 import * as Credits from './sections/credits'
 import * as Meta from './sections/meta'
@@ -83,25 +83,22 @@ const addCardToContainer = (container: HTMLDivElement, card: Card): Promise<HTML
         spinner.remove()
     }
     var div: HTMLDivElement | undefined = undefined
-    if (card.getKind() === CardKind.error && container.children.length !== 0) {
-        div = container.insertBefore(card.getDiv(), container.firstChild)
-    } else {
-        div = container.appendChild(card.getDiv())
-    }
+    // if (card.getKind() === CardKind.error && container.children.length !== 0) {
+    //     div = container.insertBefore(card.getDiv(), container.firstChild)
+    // } else {
+    div = container.appendChild(card.getDiv())
+    // }
     return Promise.resolve(div)
 }
 
-const displayCard =
+const displayCardGenerator =
     (reportId: string): DisplayCardFunc =>
-    async (cardOrPromise: Promise<Card> | Card): Promise<HTMLDivElement> => {
+    async (cardOrPromise: Promise<Card> | Card) => {
         const container = document.getElementById(reportId) as HTMLDivElement
         try {
-            return addCardToContainer(container, await Promise.resolve(cardOrPromise))
+            addCardToContainer(container, await Promise.resolve(cardOrPromise))
         } catch (error: any) {
-            return addCardToContainer(
-                container,
-                await Promise.resolve(new Card().error(error.message).setTitle('Error'))
-            )
+            addCardToContainer(container, new Card().error(error.message).setTitle(`Unable to Display a Report's Card`))
         }
     }
 
@@ -119,13 +116,15 @@ async function action(section: SectionType, actions: sectionActions) {
         actions.reportGenerator(
             tab.url || '',
             res.length > 0 ? res[0].result : undefined,
-            displayCard(section.reportId)
+            displayCardGenerator(section.reportId)
         )
     } catch (err: any) {
         const emptyTab = `Cannot access a chrome:// URL`
         const emptyTabMsg = `<b>Page Auditor</b> can not run on empty or internal Chrome tabs.<br/><br/>Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
-        displayCard(section.reportId)(
-            new Card().error(err.message === emptyTab ? emptyTabMsg : err.message).setTitle('Error')
+        displayCardGenerator(section.reportId)(
+            new Card()
+                .error(err.message === emptyTab ? emptyTabMsg : err.message)
+                .setTitle(`Unable To Analyze the HTML`)
         )
     }
 }

@@ -15,7 +15,7 @@ import {
 } from './robots-functions'
 import * as Suggestions from './suggestionCards'
 import {Mode} from '../colorCode'
-import {url} from 'inspector'
+import {codeBlock} from '../codeBlock'
 
 const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, renderCard: DisplayCardFunc): void => {
     const result: Promise<Card>[] = []
@@ -24,7 +24,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, renderCard
         renderCard(
             new Card()
                 .error('Browser tab is undefined. Unable to analyze robots.txt and sitemap.xml')
-                .setTitle(`Error: Browser tab`)
+                .setTitle(`Undefined Current Browser Tab`)
         )
         return
     }
@@ -38,29 +38,48 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, renderCard
         .then(robotsTxtBody => {
             if (robotsTxtBody.includes(`<head>`) || robotsTxtBody.includes(`<meta`)) {
                 const divId = disposableId()
-                renderCard(
-                    new Card()
-                        .error(
-                            `File at location <a target="_new" href="${robotsUrl}">${robotsUrl}</a> is an HTML page ` +
-                                `or a redirect to an HTML page and not a syntactically valid <code>robots.txt</code>.`
-                        )
-                        .addCodeBlock(robotsTxtBody, Mode.html, divId)
-                        .setPreTitle(robotsUrl)
-                        .setTitle('Error: Wrong Robots.txt')
-                )
+                const btnLabel = `Wrong Robots.Txt`
+                const card = new Card()
+                    .error(
+                        `File at location <a target="_new" href="${robotsUrl}">${robotsUrl}</a> is an HTML page ` +
+                            `or a redirect to an HTML page. Its' not a syntactically valid <code>robots.txt</code>.`
+                    )
+                    .addExpandableBlock(btnLabel, codeBlock(robotsTxtBody, Mode.html, divId))
+                    .setTitle('Wrong Robots.txt Syntax')
+                renderCard(card)
+
                 renderCard(Suggestions.malformedRobotsTxt())
             } else if (robotsTxtBody.replace(/[\s\n]/g, '').length === 0) {
                 renderCard(
                     new Card()
                         .error("Found a Robots.txt file, but it's empty.")
-                        .setTitle('Error: Robots.Txt Is Empty')
-                        .setPreTitle(robotsUrl)
+                        .addParagraph(
+                            `The <code>robots.txt</code> file at the url <a href='${robotsUrl}' target='_new'>${robotsUrl}</a> is empty.`
+                        )
+                        .setTitle('Robots.Txt Is Empty')
                 )
+                renderCard(Suggestions.emptyRobotsTxt())
+            } else if (
+                robotsTxtBody
+                    .split('\n')
+                    .filter(line => !line.startsWith('#'))
+                    .join('')
+                    .replace(/[\s\n]/g, '').length === 0
+            ) {
+                const btnLabel = `sWrong Robots.Txt`
+                const card = new Card()
+                    .warning('Found a Robots.txt file, but it only contains comments, no robots directives.')
+                    .addParagraph(
+                        `The <code>robots.txt</code> file at the url <a href='${robotsUrl}' target='_new'>${robotsUrl}</a> contains only comments.`
+                    )
+                    .addExpandableBlock(btnLabel, codeBlock(robotsTxtBody, Mode.txt))
+                    .setTitle('Robots.Txt Contains Only Comments')
+                renderCard(card)
                 renderCard(Suggestions.emptyRobotsTxt())
             } else {
                 renderCard(robotsTxtCard(robotsUrl, robotsTxtBody))
                 const siteMaps = robotsTxtBody.match(/^sitemap:\shttp/gim) || []
-                if(siteMaps.length === 0) {
+                if (siteMaps.length === 0) {
                     renderCard(Suggestions.linkSitemapFromRobotsTxt())
                 }
             }
@@ -69,8 +88,10 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, renderCard
             renderCard(
                 new Card()
                     .error(errMsg as string)
-                    .setTitle('Error: Robots.Txt Not Found')
-                    .setPreTitle(robotsUrl)
+                    .addParagraph(
+                        `No <code>robots.txt</code> file at the url <a href='${robotsUrl}' target='_new'>${robotsUrl}</a>.`
+                    )
+                    .setTitle('Robots.Txt Not Found')
             )
             renderCard(Suggestions.missingRobotsTxt())
         })

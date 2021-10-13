@@ -4,7 +4,7 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {access} from 'fs'
+import {disposableId} from './main'
 import {codeBlock} from './codeBlock'
 import {Mode} from './colorCode'
 
@@ -123,11 +123,23 @@ export class Card {
     }
 
     public addCodeBlock(code: string, mode: Mode, id: string = '') {
-        return this.add(codeBlock(code, mode, id))
+        return this.addParagraph(codeBlock(code, mode, id))
     }
 
-    public addParagraph(text: string) {
-        return this.add(`<div>${text}</div>`)
+    public addExpandableBlock(btnLabel: string, block: string) {
+        const divId = disposableId()
+        const btnId = disposableId()
+        this.addParagraph(`<a class='large-btn' id='${btnId}'>Show ${btnLabel}</a>`, 'cta-toolbar')
+        this.addParagraph(block, 'code-snippets', divId)
+        const btn = this.#div.querySelector(`#${btnId}`) as HTMLAnchorElement
+        const div = this.#div.querySelector(`#${divId}`) as HTMLDivElement
+        div.style.display = 'none'
+        btn.addEventListener('click', () => toggle(btn, div))
+        return this
+    }
+
+    public addParagraph(text: string, cssClass: string = '', id: string = '') {
+        return this.add(`<div${cssClass !== '' ? ` class='${cssClass}'` : ``}${id==='' ? '' : ` id='${id}'`}>${text}</div>`)
     }
 
     public addTable(table: string[][]) {
@@ -138,5 +150,17 @@ export class Card {
         html += '</tbody>'
         html += '</table>'
         return this.add(`<div>${html}</div>`)
+    }
+}
+
+export const toggle = (btn: HTMLAnchorElement, codeDiv: HTMLDivElement) => {
+    if (btn.innerHTML.includes('Show')) {
+        codeDiv.style.display = 'block'
+        btn.innerText = btn.innerText.replace('Show', 'Hide')
+        btn.parentElement!.style.marginBottom = '16px'
+    } else {
+        codeDiv.style.display = 'none'
+        btn.innerText = btn.innerText.replace('Hide', 'Show')
+        btn.parentElement!.style.marginBottom = '0'
     }
 }

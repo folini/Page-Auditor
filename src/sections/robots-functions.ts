@@ -5,13 +5,18 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 
-import {inflate} from 'pako'
 import {Card, iLink} from '../card'
 import {Mode} from '../colorCode'
 import {disposableId, copyTxtToClipboard, DisplayCardFunc, formatNumber} from '../main'
 import * as Suggestions from './suggestionCards'
+import {codeBlock} from '../codeBlock'
 
 export const getSiteMapBody = async (url: string): Promise<string> => {
+    if (url.match(/\.gz($|\?)/) !== null) {
+        // Do not load compressed files
+        return Promise.resolve('')
+    }
+
     var response = undefined
     try {
         response = await fetch(url)
@@ -40,48 +45,67 @@ export const getSiteMapBody = async (url: string): Promise<string> => {
     }
 }
 
-export const getSiteMapCards = (urls: string[], renderCard: DisplayCardFunc) =>
+export const getSiteMapCards = (urls: string[], renderSitemapCard: DisplayCardFunc) => {
+    let siteMapsFound = 0
+    let compressRecommendations = 0
     urls.map(url =>
         getSiteMapBody(url)
             .then(sitemapBody => {
-                if (sitemapBody.includes(`<head>`) || sitemapBody.includes(`<link`)) {
-                    renderCard(
+                if (sitemapBody.includes(`<head>`) || sitemapBody.includes(`<meta`)) {
+                    const btnLabel = `Wrong Sitemap`
+                    renderSitemapCard(
                         new Card()
-                            .error(`Sitemap.xml file is not syntactically correct. It appears to be an HTML file.`)
-                            .addCodeBlock(sitemapBody, Mode.html, disposableId())
-                            .setTitle('Error: Wrong Sitemap.xml')
+                            .error(
+                                `File at location <a target="_new" href="${url}">${url}</a> is an HTML page ` +
+                                    `or a redirect to an HTML page. Its' not a syntactically valid <code>sitemap.xml</code>.`
+                            )
+                            .addExpandableBlock(btnLabel, codeBlock(sitemapBody, Mode.html))
+                            .setTitle('Wrong Sitemap.xml')
                     )
-                    renderCard(Suggestions.malformedSitemapXml())
+                    renderSitemapCard(Suggestions.malformedSitemapXml())
                     return
                 }
 
                 if (sitemapBody.match(/not found/gim) !== null || sitemapBody.match(/error 404/gim) !== null) {
-                    renderCard(
+                    renderSitemapCard(
                         new Card()
-                            .error(`Sitemap.xml not found. Website returns 404 error code.`)
-                            .setTitle('Error: Sitemap.xml not found')
+                            .error(`<code>Sitemap.xml</code> not found. Website server returns 404 error code.`)
+                            .setTitle('Sitemap.xml Not Found')
                     )
-                    renderCard(Suggestions.malformedSitemapXml())
+                    renderSitemapCard(Suggestions.malformedSitemapXml())
                     return
                 }
 
                 if (url.endsWith('.gz')) {
-                    renderCard(
+                    renderSitemapCard(
                         new Card()
                             .open(
                                 `Compressed Sitemap`,
-                                url.replace(/(.*)\/([a-z0-9\-_]+.xml)(.*)/i, '$2'),
+                                url.replace(/(.*)\/([a-z0-9\-_]+(\.xml)?(\.gz)?)(.*)/i, '$2'),
                                 getSitemapLinks(url, ''),
                                 'icon-sitemap'
                             )
                             .addParagraph(
                                 `Found a compressed Sitemap.xml file: <a href='${url}' target='new'>${url}</a>.`
                             )
+                            .addTable([
+                                ['File Size', `n/a`],
+                                ['Pages', `n/a`],
+                                ['Sub Sitemap', `n/a`],
+                                ['Compressed', 'Yes'],
+                                ['Compression type', 'Gzip'],
+                            ])
                             .addParagraph(`Unable to display the content of compressed files.`)
                     )
                     return
                 }
+                if (sitemapBody.length > Suggestions.sitemapRecommendedMaxSize && compressRecommendations === 0) {
+                    renderSitemapCard(Suggestions.considerCompressingSitemap(url))
+                    compressRecommendations++
+                }
+
                 const divId = disposableId()
+                const btnLabel = `Sitemap`
                 const links = sitemapBody.match(/<loc>(.*?)<\/loc>/g) ?? []
                 const linksToSitemaps =
                     sitemapBody.match(
@@ -91,11 +115,11 @@ export const getSiteMapCards = (urls: string[], renderCard: DisplayCardFunc) =>
                 const sitemapXmlDescription =
                     `A good XML sitemap acts as a roadmap of your website that leads Google to all your important pages. ` +
                     `XML sitemaps can be good for SEO, as they allow Google to find your essential website pages quickly, even if your internal linking isn't perfect.`
-                renderCard(
+                renderSitemapCard(
                     new Card()
                         .open(
                             `Sitemap`,
-                            url.replace(/(.*)\/([a-z0-9\-_]+.xml)(.*)/i, '$2'),
+                            url.replace(/(.*)\/([a-z0-9\-_\.]+(\.xml)?)(\?.*)?/i, '$2'),
                             getSitemapLinks(url, divId),
                             'icon-sitemap'
                         )
@@ -103,22 +127,34 @@ export const getSiteMapCards = (urls: string[], renderCard: DisplayCardFunc) =>
                         .addParagraph(sitemapXmlDescription)
                         .addTable([
                             ['File Size', formatNumber(sitemapBody.length) + ' characters'],
-                            ['Pages Links', `${formatNumber(linksToPages)} links`],
-                            ['Sub Sitemap Links', `${formatNumber(linksToSitemaps.length)} links`],
+                            ['Pages', `${linksToPages === 0 ? 'No' : formatNumber(linksToPages)} links to pages`],
+                            [
+                                'Sub Sitemap',
+                                `${
+                                    linksToSitemaps.length == 0 ? 'No' : formatNumber(linksToSitemaps.length)
+                                } links to sitemaps`,
+                            ],
+                            ['Compressed', 'No'],
                         ])
-                        .addCodeBlock(sitemapBody, Mode.xml, divId)
+                        .addExpandableBlock(btnLabel, codeBlock(sitemapBody, Mode.xml, divId))
                 )
+                siteMapsFound++
             })
             .catch(errMsg => {
-                renderCard(
+                renderSitemapCard(
                     new Card()
                         .error(errMsg as string)
-                        .setPreTitle(url)
-                        .setTitle(`Error: No Sitemap.xml`)
+                        .addParagraph(
+                            `Unable to load the <code>sitemap.xml</code> at the url <a href='${url}' target='_new'>${url}</a>`
+                        )
+                        .setTitle(`Sitemap Not Found`)
                 )
-                renderCard(Suggestions.missingSitemapXml())
+                if (siteMapsFound === 0) {
+                    renderSitemapCard(Suggestions.missingSitemapXml())
+                }
             })
     )
+}
 
 export const getRobotsTxtFileBody = async (url: string): Promise<string> => {
     var response = undefined
@@ -149,6 +185,7 @@ export const getRobotsTxtFileBody = async (url: string): Promise<string> => {
 
 export const robotsTxtCard = (url: string, robotsTxtBody: string): Card => {
     const divId = disposableId()
+    const btnLabel = `Robots.Txt`
     const robotsTxtDescription =
         `A robots.txt file tells search engine crawlers which URLs the crawler can access on your site. ` +
         `This is used mainly to avoid overloading your site with requests. ` +
@@ -171,7 +208,7 @@ export const robotsTxtCard = (url: string, robotsTxtBody: string): Card => {
             ['Sitemap Links', formatNumber(siteMaps.length) + ' found'],
             [`User Agent${userAgent.length > 1 ? 's' : ''}`, userAgent.join('<br>')],
         ])
-        .addCodeBlock(robotsTxtBody, Mode.txt, divId)
+        .addExpandableBlock(btnLabel, codeBlock(robotsTxtBody, Mode.txt, divId))
 }
 
 export const getSiteMapUrlsFromRobotsTxt = (robotsTxtBody: string, defaultUrl: string) => {
