@@ -4,8 +4,9 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
+import {Report} from '../report'
 import {Card} from '../card'
-import {sectionActions, ReportGeneratorFunc, DisplayCardFunc, CodeInjectorFunc} from '../main'
+import {sectionActions, ReportGeneratorFunc} from '../main'
 
 const bioLinks = [
     {
@@ -35,19 +36,18 @@ const bioLinks = [
     },
 ]
 
-const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, renderCard: DisplayCardFunc): void => {
-    renderCard(
-        Promise.resolve(
-            new Card()
-                .open(``, `Page Auditor for Technical SEO`, [], 'icon-fc')
-                .addParagraph(
-                    `<div class='credits'><b>Page Auditor for Technical SEO</b> is a free Google Chrome Extension created by <a href='https://www.linkedin.com/in/francofolini/' target='_new'>Franco Folini</a>.
+const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report: Report): void => {
+    report.addCard(
+        new Card()
+            .open(``, `Page Auditor for Technical SEO`, [], 'icon-fc')
+            .addParagraph(
+                `<div class='credits'><b>Page Auditor for Technical SEO</b> is a free Google Chrome Extension created by <a href='https://www.linkedin.com/in/francofolini/' target='_new'>Franco Folini</a>.
                         The purpose of <i>Page Auditor for Technical SEO</i> is to show, in a way that is simple and easy to understand, all the tracking technologies implemented by a website or single webpage.
                         <br/><br/>
                         While teaching the <a href='https://bootcamp.berkeley.edu/digitalmarketing/' target='+new'>Digital Marketing Bootcamp</a> for UC Berkeley Extension, my students' questions inspired this project.`
-                )
-                .add(
-                    `<div class='support-form'>
+            )
+            .add(
+                `<div class='support-form'>
                                 <form action="https://www.paypal.com/donate" method="post" target="_new" style="margin-bottom:0">
                                     <input type="hidden" name="business" value="UZ2HN43RZVJGA" />
                                     <input type="hidden" name="no_recurring" value="0" />
@@ -57,29 +57,26 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, renderC
                                 </form>
                             </div>
                         </div>`
-                )
-                .setPreTitle('Credits')
-        )
+            )
+            .setPreTitle('Credits')
     )
 
-    renderCard(
-        Promise.resolve(
-            new Card()
-                .open(``, `About the Author`, [], 'icon-franco-avatar')
-                .addParagraph(
-                    `<b>Franco Folini</b> is a Digital Marketer with a passion for Web Development, and a Web Developer with a passion for Digital Marketing.` +
-                        `You can check Franco work and contact him on the following platforms:` +
-                        `<ul class='pointers'>` +
-                        bioLinks
-                            .map(
-                                link =>
-                                    `<li class='credits-pointer ${link.class}'><a href='${link.url}' target='_new'>${link.label}</a></li>`
-                            )
-                            .join('') +
-                        `</ul>`
-                )
-                .setPreTitle('Credits')
-        )
+    report.addCard(
+        new Card()
+            .open(``, `About the Author`, [], 'icon-franco-avatar')
+            .addParagraph(
+                `<b>Franco Folini</b> is a Digital Marketer with a passion for Web Development, and a Web Developer with a passion for Digital Marketing.` +
+                    `You can check Franco work and contact him on the following platforms:` +
+                    `<ul class='pointers'>` +
+                    bioLinks
+                        .map(
+                            link =>
+                                `<li class='credits-pointer ${link.class}'><a href='${link.url}' target='_new'>${link.label}</a></li>`
+                        )
+                        .join('') +
+                    `</ul>`
+            )
+            .setPreTitle('Credits')
     )
 }
 

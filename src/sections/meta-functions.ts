@@ -5,14 +5,16 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {iMetaTag, iDefaultTagValues} from './meta'
+import {Report} from '../report'
 import {Card, iLink} from '../card'
-import {DisplayCardFunc, disposableId, copyTxtToClipboard as copyToClipboard} from '../main'
+import {disposableId, copyTxtToClipboard as copyToClipboard} from '../main'
 import * as Suggestions from './suggestionCards'
+import * as Errors from './errorCards'
 import {Mode} from '../colorCode'
 import {htmlEncode} from 'js-htmlencode'
 
 interface iTagCategoryPreviewer {
-    (m: iMetaTag[], t: iDefaultTagValues, renderCard: DisplayCardFunc): string
+    (m: iMetaTag[], t: iDefaultTagValues, report: Report): string
 }
 
 interface iTagCategoryFilter {
@@ -28,13 +30,9 @@ export interface iTagCategory {
     preview: iTagCategoryPreviewer
 }
 
-export const noPreview: iTagCategoryPreviewer = (m: iMetaTag[], t: iDefaultTagValues, f: DisplayCardFunc) => ''
+export const noPreview: iTagCategoryPreviewer = (m: iMetaTag[], t: iDefaultTagValues, r: Report) => ''
 
-export const twitterPreview = (
-    tags: iMetaTag[],
-    defaults: iDefaultTagValues,
-    showSuggestion: DisplayCardFunc
-): string => {
+export const twitterPreview = (tags: iMetaTag[], defaults: iDefaultTagValues, report: Report): string => {
     const linkIcon =
         `<svg viewBox="0 0 24 24" aria-hidden="true" class="r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr">` +
         `<g>` +
@@ -53,7 +51,7 @@ export const twitterPreview = (
     }
 
     if (img.length === 0 || img.includes('/assets/no-image-')) {
-        showSuggestion(Suggestions.twitterMissingImage())
+        report.addCard(Suggestions.twitterMissingImage())
     }
 
     return `<div id='id-twitter-card'>
@@ -66,7 +64,7 @@ export const twitterPreview = (
         </div>`
 }
 
-export const openGraphPreview = (tags: iMetaTag[], defaults: iDefaultTagValues, showSuggestion: DisplayCardFunc) => {
+export const openGraphPreview = (tags: iMetaTag[], defaults: iDefaultTagValues, report: Report) => {
     const title = tags.find(m => m.property === 'og:title')?.content || ''
     const img = tags.find(m => m.property === 'og:image')?.content || ''
     var description = tags.find(m => m.property === 'og:description')?.content || ''
@@ -78,7 +76,7 @@ export const openGraphPreview = (tags: iMetaTag[], defaults: iDefaultTagValues, 
     domain = domain.toUpperCase()
 
     if (img.length === 0 || img.includes('/assets/no-image-')) {
-        showSuggestion(Suggestions.openGraphMissingImage())
+        report.addCard(Suggestions.openGraphMissingImage())
     }
 
     return `<div id='id-facebook-card'>        
@@ -285,16 +283,9 @@ export const tagCategories: iTagCategory[] = [
     },
 ]
 
-export const metaTagsCard = (
-    metaCat: iTagCategory,
-    metaList: iMetaTag[],
-    preview: string,
-    renderCard: DisplayCardFunc
-) => {
+export const metaTagsCard = (metaCat: iTagCategory, metaList: iMetaTag[], preview: string, report: Report) => {
     if (metaList.length === 0) {
-        return new Card()
-            .error(`List of Meta tags for category '${metaCat.title}'' is empty`)
-            .setTitle('No Meta Tags Found')
+        report.addCard(Errors.noMetaTagsInThisCategory(metaCat.title))
     }
 
     const listOfMeta = metaList.map(m => m.originalCode.trim()).join('\n')
@@ -318,5 +309,5 @@ export const metaTagsCard = (
     if (metaCat.preview.length > 0) {
         card.add(preview)
     }
-    renderCard(card)
+    report.addCard(card)
 }

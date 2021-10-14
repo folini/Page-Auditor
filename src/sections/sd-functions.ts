@@ -38,14 +38,22 @@ export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string) => {
     //Count occurrences of each @type
     const typesCount = typesUnique
         .map(type => [
-            `<a href='https://https://schema.org/${type}/' target='_new'>${type.replace(/([a-z])([A-Z])/g, '$1 $2')}</a>`,
+            `<a href='https://https://schema.org/${type}/' target='_new'>${type.replace(
+                /([a-z])([A-Z])/g,
+                '$1 $2'
+            )}</a>`,
             typesMatches.filter(t => t === type).length.toFixed() + ' occurrence(s)',
         ])
         .sort((a, b) => (a[1] !== b[1] ? b[1].localeCompare(a[1]) : a[0].localeCompare(b[0])))
     const structuredDataDescription = `Structured Data communicates content (data) to the Search Engines in an organized manner so they can display the content in the SERPs in an attractive manner.`
     const btnLabel = 'LD-JSON Code'
     return new Card()
-        .open(`Structured Data`, schemaType.replace(/([a-z])([A-Z])/g, '$1 $2'), schemaLinks(schemaType, tabUrl, scriptId), 'icon-ld-json')
+        .open(
+            `Structured Data`,
+            schemaType.replace(/([a-z])([A-Z])/g, '$1 $2'),
+            schemaLinks(schemaType, tabUrl, scriptId),
+            'icon-ld-json'
+        )
         .addParagraph(structuredDataDescription)
         .addTable(typesCount)
         .addExpandableBlock(btnLabel, codeBlock(jsonCode, Mode.json, scriptId))

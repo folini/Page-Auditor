@@ -13,7 +13,7 @@ import 'html-validate/jest'
 import 'jest-chain'
 import 'jest-extended'
 
-test('report() generates valid HTML', () => actions.reportGenerator('', undefined, MockData.reportTester))
+// test('report() generates valid HTML', () => actions.reportGenerator('', undefined, MockData.reportTester))
 
 test("injector() always returns 'undefined'", () => {
     const data = actions.codeInjector && actions.codeInjector()

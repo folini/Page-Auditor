@@ -5,9 +5,11 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card} from '../card'
-import {sectionActions, ReportGeneratorFunc, DisplayCardFunc, CodeInjectorFunc} from '../main'
+import {Report} from '../report'
+import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../main'
 import {ldJsonCard} from './sd-functions'
 import * as Suggestions from './suggestionCards'
+import * as Errors from './errorCards'
 
 export interface iJsonLD {
     [name: string]: string | [] | {}
@@ -20,25 +22,21 @@ export interface iJsonLevel {
 const codeInjector: CodeInjectorFunc = (): iJsonLD[] =>
     [...document.scripts].filter(s => s.type === 'application/ld+json').map(s => JSON.parse(s.text.trim()))
 
-const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, renderCard: DisplayCardFunc): void => {
+const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, report: Report): void => {
     const jsonScripts: iJsonLD[] = scripts as iJsonLD[]
 
     if (tabUrl === '') {
-        renderCard(
-            new Card()
-                .warning(`Unable to access the page in order to extract Structured Data.`)
-                .setTitle('Browser tab Undefined')
-        )
+        report.addCard(Errors.chromeTabIsUndefined())
         return
     }
 
     if (jsonScripts.length == 0) {
-        renderCard(new Card().warning(`No Structured Data found on this page.`).setTitle('Missing Structured Data'))
-        renderCard(Suggestions.missingStructuredData())
+        report.addCard(Errors.structuredDataNotFound(tabUrl))
+        report.addCard(Suggestions.missingStructuredData())
         return
     }
 
-    jsonScripts.map(ldJson => renderCard(ldJsonCard(ldJson, tabUrl)))
+    jsonScripts.map(ldJson => report.addCard(ldJsonCard(ldJson, tabUrl)))
 }
 
 export const actions: sectionActions = {

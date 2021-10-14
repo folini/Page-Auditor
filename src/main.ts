@@ -9,8 +9,10 @@ import './manifest.json'
 import './styles/style.less'
 import './logos/Logo_256x256.png'
 
-import {Card, CardKind} from './card'
-import {Mode, colorCode} from './colorCode'
+import {Report} from './report'
+import {Card} from './card'
+import {Mode} from './colorCode'
+import * as Errors from './sections/errorCards'
 import {version as versionNumber} from '../package.json'
 import * as JsonLd from './sections/sd'
 import * as Scripts from './sections/scripts'
@@ -19,10 +21,9 @@ import * as Meta from './sections/meta'
 import * as Intro from './sections/intro'
 import * as Robots from './sections/robots'
 
-export type DisplayCardFunc = (cardPromises: Promise<Card> | Card) => void
 export type NoArgsNoReturnFunc = () => void
 export type CodeInjectorFunc = () => any
-export type ReportGeneratorFunc = (url: string, data: any, render: DisplayCardFunc) => void
+export type ReportGeneratorFunc = (url: string, data: any, report: Report) => void
 
 const idLoadingSpinnerDiv = 'id-loading-spinner'
 
@@ -77,34 +78,11 @@ const sections: SectionType[] = [
     },
 ]
 
-const addCardToContainer = (container: HTMLDivElement, card: Card): Promise<HTMLDivElement> => {
-    const spinner = document.getElementById(idLoadingSpinnerDiv)
-    if (spinner !== null) {
-        spinner.remove()
-    }
-    var div: HTMLDivElement | undefined = undefined
-    // if (card.getKind() === CardKind.error && container.children.length !== 0) {
-    //     div = container.insertBefore(card.getDiv(), container.firstChild)
-    // } else {
-    div = container.appendChild(card.getDiv())
-    // }
-    return Promise.resolve(div)
-}
-
-const displayCardGenerator =
-    (reportId: string): DisplayCardFunc =>
-    async (cardOrPromise: Promise<Card> | Card) => {
-        const container = document.getElementById(reportId) as HTMLDivElement
-        try {
-            addCardToContainer(container, await Promise.resolve(cardOrPromise))
-        } catch (error: any) {
-            addCardToContainer(container, new Card().error(error.message).setTitle(`Unable to Display a Report's Card`))
-        }
-    }
-
 async function action(section: SectionType, actions: sectionActions) {
     const [tab] = await chrome.tabs.query({active: true, currentWindow: true})
     let res: chrome.scripting.InjectionResult[] = []
+
+    const report = new Report(section.reportId)
 
     try {
         if (actions.codeInjector) {
@@ -113,23 +91,17 @@ async function action(section: SectionType, actions: sectionActions) {
                 function: actions.codeInjector,
             })
         }
-        actions.reportGenerator(
-            tab.url || '',
-            res.length > 0 ? res[0].result : undefined,
-            displayCardGenerator(section.reportId)
-        )
+        actions.reportGenerator(tab.url || '', res.length > 0 ? res[0].result : undefined, report)
     } catch (err: any) {
-        const emptyTab = `Cannot access a chrome:// URL`
-        const emptyTabMsg = `<b>Page Auditor</b> can not run on empty or internal Chrome tabs.<br/><br/>Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
-        displayCardGenerator(section.reportId)(
-            new Card()
-                .error(err.message === emptyTab ? emptyTabMsg : err.message)
-                .setTitle(`Unable To Analyze the HTML`)
-        )
+        if (err.message === `Cannot access a chrome:// URL`) {
+            report.addCard(Errors.unableToAnalyzeChromeTabs())
+        } else {
+            report.addCard(Errors.unableToAnalyzePage(tab.url || ''))
+        }
     }
 }
 
-const activateSection = (activeSec: SectionType) => {
+const activateReport = (activeSec: SectionType) => {
     sections.forEach(sec => {
         document.getElementById(sec.tabId)!.classList.remove('active')
         document.getElementById(sec.reportId)!.classList.remove('show')
@@ -177,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const tab = document.createElement('li')
         tab.id = section.tabId
         tab.innerHTML = section.name
-        tab.addEventListener('click', () => activateSection(section))
+        tab.addEventListener('click', () => activateReport(section))
         tabsContainer.append(tab)
         const report = document.createElement('div')
         report.id = section.reportId
@@ -185,7 +157,7 @@ document.addEventListener('DOMContentLoaded', () => {
         reportContainer.append(report)
         showSpinner(report)
     })
-    activateSection(sections[0])
+    activateReport(sections[0])
     ;(document.getElementById('id-version') as HTMLElement).innerHTML = `Version ${versionNumber}`
 })
 

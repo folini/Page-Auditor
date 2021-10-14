@@ -6,9 +6,11 @@
 // ----------------------------------------------------------------------------
 
 import {Card, iLink} from '../card'
+import {Report} from '../report'
 import {Mode} from '../colorCode'
-import {disposableId, copyTxtToClipboard, DisplayCardFunc, formatNumber} from '../main'
+import {disposableId, copyTxtToClipboard, formatNumber} from '../main'
 import * as Suggestions from './suggestionCards'
+import * as Errors from './errorCards'
 import {codeBlock} from '../codeBlock'
 
 export const getSiteMapBody = async (url: string): Promise<string> => {
@@ -17,76 +19,49 @@ export const getSiteMapBody = async (url: string): Promise<string> => {
         return Promise.resolve('')
     }
 
-    var response = undefined
-    try {
-        response = await fetch(url)
-        if (response.status !== 200) {
-            throw new Error(`${response.status}: ${response.statusText}`)
-        }
-    } catch (err: any) {
-        return Promise.reject(
-            `Sitemap.xml file at <a target="_new" href="${url}">${url}</a> not found.<br/>
-            Error message: ${err.message}`
-        )
-    }
-
-    try {
-        const sitemapBody = await response.text()
-        const sitemapBodyLowerCase = sitemapBody.toLowerCase()
-        if (sitemapBodyLowerCase.includes(`not found`) || sitemapBodyLowerCase.includes(`error 404`)) {
-            return Promise.reject(`Robots.txt file at <a target="_new" href="${url}">${url}</a> not found.`)
-        }
-        return Promise.resolve(sitemapBody)
-    } catch (err: any) {
-        return Promise.reject(
-            `Sitemap.xml file not found.<br/>
-            Error message: ${err.message}`
-        )
-    }
+    return fetch(url)
+        .then(res => {
+            if (res.status !== 200) {
+                return Promise.reject(Errors.sitemapUnableToOpen(url, res.status, res.statusText))
+            }
+            return res.text()
+        })
+        .catch(err => Promise.reject(Errors.sitemapUnableToOpen(url, err.code, err.message)))
+        .then(sitemapBody => {
+            if (sitemapBody.includes(`page not found`)) {
+                return Promise.reject(Errors.sitemapNotFound(url))
+            }
+            return sitemapBody
+        })
 }
 
-export const getSiteMapCards = (urls: string[], renderSitemapCard: DisplayCardFunc) => {
+export const getSiteMapCards = (urls: string[], report: Report) => {
     let siteMapsFound = 0
     let compressRecommendations = 0
-    urls.map(url =>
+    urls.map((url, index) => {
         getSiteMapBody(url)
             .then(sitemapBody => {
                 if (sitemapBody.includes(`<head>`) || sitemapBody.includes(`<meta`)) {
-                    const btnLabel = `Wrong Sitemap`
-                    renderSitemapCard(
-                        new Card()
-                            .error(
-                                `File at location <a target="_new" href="${url}">${url}</a> is an HTML page ` +
-                                    `or a redirect to an HTML page. Its' not a syntactically valid <code>sitemap.xml</code>.`
-                            )
-                            .addExpandableBlock(btnLabel, codeBlock(sitemapBody, Mode.html))
-                            .setTitle('Wrong Sitemap.xml')
-                    )
-                    renderSitemapCard(Suggestions.malformedSitemapXml())
+                    report.addCard(Errors.sitemapIsHTMLPage(url, sitemapBody))
+                    report.addCard(Suggestions.malformedSitemapXml())
                     return
                 }
 
                 if (sitemapBody.match(/not found/gim) !== null || sitemapBody.match(/error 404/gim) !== null) {
-                    renderSitemapCard(
-                        new Card()
-                            .error(`<code>Sitemap.xml</code> not found. Website server returns 404 error code.`)
-                            .setTitle('Sitemap.xml Not Found')
-                    )
-                    renderSitemapCard(Suggestions.malformedSitemapXml())
+                    report.addCard(Errors.sitemapReturns404(url))
+                    report.addCard(Suggestions.malformedSitemapXml())
                     return
                 }
 
+                siteMapsFound++
+
                 if (url.endsWith('.gz')) {
-                    renderSitemapCard(
+                    const fileName = url.replace(/(.*)\/([a-z0-9\-_\.]+(\.xml)?(\.gz)?)(.*)/i, '$2')
+                    report.addCard(
                         new Card()
-                            .open(
-                                `Compressed Sitemap`,
-                                url.replace(/(.*)\/([a-z0-9\-_]+(\.xml)?(\.gz)?)(.*)/i, '$2'),
-                                getSitemapLinks(url, ''),
-                                'icon-sitemap'
-                            )
+                            .open(`Compressed Sitemap`, fileName, getSitemapLinks(url, ''), 'icon-sitemap')
                             .addParagraph(
-                                `Found a compressed Sitemap.xml file: <a href='${url}' target='new'>${url}</a>.`
+                                `Found a compressed Sitemap.xml file at <a href='${url}' target='new'>${url}</a>.`
                             )
                             .addTable([
                                 ['File Size', `n/a`],
@@ -100,7 +75,7 @@ export const getSiteMapCards = (urls: string[], renderSitemapCard: DisplayCardFu
                     return
                 }
                 if (sitemapBody.length > Suggestions.sitemapRecommendedMaxSize && compressRecommendations === 0) {
-                    renderSitemapCard(Suggestions.considerCompressingSitemap(url))
+                    report.addCard(Suggestions.considerCompressingSitemap(url))
                     compressRecommendations++
                 }
 
@@ -112,14 +87,15 @@ export const getSiteMapCards = (urls: string[], renderSitemapCard: DisplayCardFu
                         /<sitemap>\s*<loc>(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9\-]+\.[^(\s|<|>)]{2,}.xml\?[a-z0-9-=#_]*)<\/loc>/gim
                     ) ?? []
                 const linksToPages = links.length - linksToSitemaps.length
+                const fileName = url.replace(/(.*)\/([a-z0-9\-_\.]+(\.xml)?)(\?.*)?/i, '$2')
                 const sitemapXmlDescription =
                     `A good XML sitemap acts as a roadmap of your website that leads Google to all your important pages. ` +
                     `XML sitemaps can be good for SEO, as they allow Google to find your essential website pages quickly, even if your internal linking isn't perfect.`
-                renderSitemapCard(
+                report.addCard(
                     new Card()
                         .open(
-                            `Sitemap`,
-                            url.replace(/(.*)\/([a-z0-9\-_\.]+(\.xml)?)(\?.*)?/i, '$2'),
+                            `Sitemap (${(index + 1).toFixed()})`,
+                            fileName,
                             getSitemapLinks(url, divId),
                             'icon-sitemap'
                         )
@@ -138,49 +114,31 @@ export const getSiteMapCards = (urls: string[], renderSitemapCard: DisplayCardFu
                         ])
                         .addExpandableBlock(btnLabel, codeBlock(sitemapBody, Mode.xml, divId))
                 )
-                siteMapsFound++
             })
-            .catch(errMsg => {
-                renderSitemapCard(
-                    new Card()
-                        .error(errMsg as string)
-                        .addParagraph(
-                            `Unable to load the <code>sitemap.xml</code> at the url <a href='${url}' target='_new'>${url}</a>`
-                        )
-                        .setTitle(`Sitemap Not Found`)
-                )
-                if (siteMapsFound === 0) {
-                    renderSitemapCard(Suggestions.missingSitemapXml())
-                }
+            .catch(errCard => {
+                report.addCard(errCard)
             })
-    )
+    })
+    if (siteMapsFound === 0) {
+        report.addCard(Suggestions.missingSitemapXml())
+    }
 }
 
-export const getRobotsTxtFileBody = async (url: string): Promise<string> => {
-    var response = undefined
-    try {
-        response = await fetch(url)
-        if (response.status !== 200) {
-            throw new Error(`${response.status}: ${response.statusText}`)
-        }
-    } catch (err) {
-        return Promise.reject(
-            `Unable to load <code>robots.txt</code> file from <a target="_new" href="${url}">${url}</a><br/>
-            Error message: ${(err as Error).message}.`
-        )
-    }
-
-    try {
-        const robotsTxtBody = await response.text()
-        if (robotsTxtBody.includes(`page not found`)) {
-            return Promise.reject(
-                `File <code>robots.txt</code> doesn't exist at the following location: <a target="_new" href="${url}">${url}</a>.`
-            )
-        }
-        return Promise.resolve(robotsTxtBody)
-    } catch (err) {
-        return Promise.reject((err as Error).message)
-    }
+export const getRobotsTxtFileBody = (url: string) => {
+    return fetch(url)
+        .then(res => {
+            if (res.status !== 200) {
+                return Promise.reject(Errors.robotsTxtUnableToOpen(url, res.status, res.statusText))
+            }
+            return res.text()
+        })
+        .catch(err => Promise.reject(Errors.robotsTxtUnableToOpen(url, err.code, err.message)))
+        .then(robotsTxtBody => {
+            if (robotsTxtBody.includes(`page not found`)) {
+                return Promise.reject(Errors.robotsTxtNotFound(url))
+            }
+            return robotsTxtBody
+        })
 }
 
 export const robotsTxtCard = (url: string, robotsTxtBody: string): Card => {
@@ -226,7 +184,7 @@ export const getSiteMapUrlsFromRobotsTxt = (robotsTxtBody: string, defaultUrl: s
     return urls
 }
 
-export const getSiteMapUrlsFromSitemapXml = (sitemapUrl: string) => {
+export const getSiteMapUrlsFromSitemapXml = (sitemapUrl: string): Promise<string[]> => {
     const urls: string[] = []
     return getSiteMapBody(sitemapUrl)
         .then(sitemapBody => {
@@ -234,9 +192,9 @@ export const getSiteMapUrlsFromSitemapXml = (sitemapUrl: string) => {
                 /<sitemap>\s*<loc>(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9\-]+\.[^(\s|<|>)]{2,})<\/loc>/gim
             ) ?? []) as string[]
             subSitemaps = subSitemaps.map(link => link.replace(/(<(\/)?sitemap>|<(\/)?loc>)/gm, ''))
-            return Promise.resolve(subSitemaps)
+            return subSitemaps
         })
-        .catch(_ => Promise.resolve([] as string[]))
+        .catch(_ => [] as string[])
 }
 
 export const getRobotsLinks = (robotsUrl: string, divId: string) => [
@@ -245,14 +203,14 @@ export const getRobotsLinks = (robotsUrl: string, divId: string) => [
         onclick: () => copyTxtToClipboard(divId),
     },
     {
+        label: `Validate`,
         url: `https://en.ryte.com/free-tools/robots-txt/?refresh=1&useragent=Googlebot&submit=Evaluate&url=${encodeURI(
             robotsUrl
         )}`,
-        label: `Validate`,
     },
     {
-        url: robotsUrl,
         label: 'Open',
+        url: robotsUrl,
     },
 ]
 

@@ -48,7 +48,7 @@ export const unsafeSitemapLinkInRobots = (urls: string[]) => {
 
 export const repeatedSitemapLinkInRobots = (urls: string[]) => {
     const plural = urls.length > 1 ? 's' : ''
-    let message1 = `The <code>robots.txt</code> file refers multiple times the following sitemap${plural}:`
+    let message1 = `The <code>robots.txt</code> file links multiple times the following sitemap${plural}:`
     let message2 =
         `It's important to correct and update <code>robots.txt</code> to make sure each sitemap.xml is mentioned only one time. ` +
         `Sitemap files should be always linked using the safe <code>https</code> protocol.`

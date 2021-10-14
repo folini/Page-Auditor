@@ -234,6 +234,6 @@ test('Dummy test just to make JEST happy', () => {
     expect(data).toBeBoolean()
 })
 
-test('test the tester', () => {
-    reportTester(new Card().error('text error'))
-})
+// test('test the tester', () => {
+//     reportTester(new Card().error('text error'))
+// })

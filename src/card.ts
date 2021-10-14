@@ -93,12 +93,16 @@ export class Card {
         return this
     }
 
-    public error(msg: string) {
-        return this.open('', '', [], 'icon-error').addParagraph(msg).setKind(CardKind.error).setPreTitle('Error')
+    public error() {
+        return this.open('Error', '', [], 'icon-error').setKind(CardKind.error)
     }
 
     public suggestion() {
-        return this.open('', '', [], 'icon-suggestion').setKind(CardKind.suggestion).setPreTitle('Suggestion')
+        return this.open('Suggestion', '', [], 'icon-suggestion').setKind(CardKind.suggestion)
+    }
+
+    public warning() {
+        return this.open('Warning', '', [], 'icon-warning').setKind(CardKind.warning)
     }
 
     public addCTA(links: iLink[]) {
@@ -107,10 +111,6 @@ export class Card {
                 .map(link => `<a class='large-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
                 .join(' ')}</div>`
         )
-    }
-
-    public warning(msg: string) {
-        return this.open('', '', [], 'icon-warning').addParagraph(msg).setKind(CardKind.warning).setPreTitle('Warning')
     }
 
     public add(str: string) {
@@ -139,7 +139,9 @@ export class Card {
     }
 
     public addParagraph(text: string, cssClass: string = '', id: string = '') {
-        return this.add(`<div${cssClass !== '' ? ` class='${cssClass}'` : ``}${id==='' ? '' : ` id='${id}'`}>${text}</div>`)
+        return this.add(
+            `<div${cssClass !== '' ? ` class='${cssClass}'` : ``}${id === '' ? '' : ` id='${id}'`}>${text}</div>`
+        )
     }
 
     public addTable(table: string[][]) {

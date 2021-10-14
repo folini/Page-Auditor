@@ -13,4 +13,4 @@ import 'html-validate/jest'
 import 'jest-chain'
 import 'jest-extended'
 
-test('reportGenerator() generates valid HTML', () => actions.reportGenerator('', undefined, MockData.reportTester))
+// test('reportGenerator() generates valid HTML', () => actions.reportGenerator('', undefined, MockData.reportTester))

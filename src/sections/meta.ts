@@ -5,9 +5,12 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card} from '../card'
-import {sectionActions, ReportGeneratorFunc, DisplayCardFunc, CodeInjectorFunc} from '../main'
+import {Report} from '../report'
+import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../main'
 import {tagCategories, metaTagsCard} from './meta-functions'
 import * as Suggestions from './suggestionCards'
+import * as Errors from './errorCards'
+import * as Warnings from './warningCards'
 
 export interface iMetaTag {
     property: string
@@ -41,7 +44,7 @@ const codeInjector: CodeInjectorFunc = () =>
         )
         .filter(m => m.content !== '' && m.property !== '') as iMetaTag[]
 
-const reportGenerator: ReportGeneratorFunc = (_: string, data: any, renderCard: DisplayCardFunc): void => {
+const reportGenerator: ReportGeneratorFunc = (_: string, data: any, report: Report): void => {
     var meta = data as iMetaTag[]
 
     var defaultTags: iDefaultTagValues = {
@@ -58,7 +61,7 @@ const reportGenerator: ReportGeneratorFunc = (_: string, data: any, renderCard: 
         const matched = meta.filter(mc.filter)
         meta = meta.filter(m => !matched.includes(m))
         if (matched.length > 0) {
-            metaTagsCard(mc, matched, mc.preview(matched, defaultTags, renderCard), renderCard)
+            metaTagsCard(mc, matched, mc.preview(matched, defaultTags, report), report)
             atLeastOneScript = true
             if (mc.title.includes('Twitter')) {
                 twitterMetaPresent = true
@@ -69,17 +72,17 @@ const reportGenerator: ReportGeneratorFunc = (_: string, data: any, renderCard: 
     })
 
     if (!atLeastOneScript) {
-        renderCard(new Card().warning(`No Meta Tags found on this page.`).setTitle('Missing Meta Tags'))
-        renderCard(Suggestions.noMetaTags())
+        report.addCard(Warnings.noMetaTagsOnPage())
+        report.addCard(Suggestions.noMetaTags())
         return
     }
 
     if (!twitterMetaPresent) {
-        renderCard(Suggestions.noTwitterMetaTags())
+        report.addCard(Suggestions.noTwitterMetaTags())
     }
 
     if (!openGraphMetaPresent) {
-        renderCard(Suggestions.noOpenGraphMetaTags())
+        report.addCard(Suggestions.noOpenGraphMetaTags())
     }
 }
 

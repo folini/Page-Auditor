@@ -5,9 +5,11 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card, iLink} from '../card'
-import {sectionActions, NoArgsNoReturnFunc, DisplayCardFunc, disposableId} from '../main'
+import {Report} from '../report'
+import {sectionActions, NoArgsNoReturnFunc, disposableId} from '../main'
 import {Mode} from '../colorCode'
 import {codeBlock} from '../codeBlock'
+import * as Errors from './errorCards'
 
 const listOfScriptClasses = require('../jsons/scriptClasses.json') as iTrackClass[]
 
@@ -47,7 +49,7 @@ const codeInjector: NoArgsNoReturnFunc = (): iScript[] => {
         .map(s => ({code: s, done: false})) as iScript[]
 }
 
-const reportGenerator = (tabUrl: string, untypedScripts: any, renderCard: DisplayCardFunc): void => {
+const reportGenerator = (tabUrl: string, untypedScripts: any, report: Report): void => {
     var scripts = untypedScripts as iScript[]
 
     const scriptClasses: iTrackMatch[] = listOfScriptClasses.map(track => ({
@@ -80,12 +82,10 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, renderCard: Displa
 
     scripts
         .filter(scr => !scr.done && scr.code.match(/^https\:\/\//))
-        .forEach(scr => {
-            unresolvedJS.scripts.push(scr.code)
-        })
+        .forEach(scr => unresolvedJS.scripts.push(scr.code))
 
     if (trackingItems === null) {
-        renderCard(new Card().error(`No JavaScript code found.`).setTitle('No Script'))
+        report.addCard(Errors.scriptNotFound())
     }
 
     trackingItems = trackingItems.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
@@ -101,13 +101,12 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, renderCard: Displa
         }
         const plural = trackingItem.scripts.length > 1 ? 's' : ''
         const btnLabel = `${trackingItem.scripts.length.toFixed()} Script${plural}`
-        const block = trackingItem.scripts.map((script, j) => codeBlock(script, Mode.js)).join('')
-        renderCard(
-            new Card()
-                .open(trackingItem.category, trackingItem.name, links, trackingItem.iconClass)
-                .addParagraph(trackingItem.description)
-                .addExpandableBlock(btnLabel, block)
-        )
+        const block = trackingItem.scripts.map((script, j) => codeBlock(script, Mode.js, disposableId())).join('')
+        const card = new Card()
+            .open(trackingItem.category, trackingItem.name, links, trackingItem.iconClass)
+            .addParagraph(trackingItem.description)
+            .addExpandableBlock(btnLabel, block)
+        report.addCard(card)
     })
 }
 

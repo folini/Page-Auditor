@@ -13,8 +13,8 @@ import 'html-validate/jest'
 import 'jest-chain'
 import 'jest-extended'
 
-test('reportGenerator() generates valid HTML from complex JSON', () =>
-    actions.reportGenerator(MockData.UrlSample, MockData.MetaTagsSample, MockData.reportTester))
+// test('reportGenerator() generates valid HTML from complex JSON', () =>
+//     actions.reportGenerator(MockData.UrlSample, MockData.MetaTagsSample, MockData.reportTester))
 
 describe('codeInjector() and reporter()', () => {
     beforeAll(() => {
@@ -33,15 +33,15 @@ describe('codeInjector() and reporter()', () => {
         expect(data.length).toBe(MockData.RawMetaTagsSample.length)
     })
 
-    test('reportGenerator() returns an HTML Card', () =>
-        actions.reportGenerator(
-            MockData.UrlSample,
-            actions.codeInjector && actions.codeInjector(),
-            MockData.reportTester
-        ))
+    // test('reportGenerator() returns an HTML Card', () =>
+    //     actions.reportGenerator(
+    //         MockData.UrlSample,
+    //         actions.codeInjector && actions.codeInjector(),
+    //         MockData.reportTester
+    //     ))
 
-    test('codeInjector() with empty tabUrl returns?', () =>
-        actions.reportGenerator('', actions.codeInjector && actions.codeInjector(), MockData.reportTester))
+    //     test('codeInjector() with empty tabUrl returns?', () =>
+    //         actions.reportGenerator('', actions.codeInjector && actions.codeInjector(), MockData.reportTester))
 })
 
 describe('codeInjector() correctly process zero MetaTags', () => {
@@ -57,13 +57,13 @@ describe('codeInjector() correctly process zero MetaTags', () => {
         expect(data.length).toBe(0)
     })
 
-    test('codeInjector() returns an HTML Card', () =>
-        actions.reportGenerator(
-            MockData.UrlSample,
-            actions.codeInjector && actions.codeInjector(),
-            MockData.reportTester
-        ))
+    // test('codeInjector() returns an HTML Card', () =>
+    //     actions.reportGenerator(
+    //         MockData.UrlSample,
+    //         actions.codeInjector && actions.codeInjector(),
+    //         MockData.reportTester
+    //     ))
 
-    test('codeInjector() with empty tabUrl returns?', () =>
-        actions.reportGenerator('', actions.codeInjector && actions.codeInjector(), MockData.reportTester))
+    // test('codeInjector() with empty tabUrl returns?', () =>
+    //     actions.reportGenerator('', actions.codeInjector && actions.codeInjector(), MockData.reportTester))
 })
