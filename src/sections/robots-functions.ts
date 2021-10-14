@@ -14,6 +14,9 @@ import * as Errors from './errorCards'
 import {codeBlock} from '../codeBlock'
 
 export const getSiteMapBody = async (url: string): Promise<string> => {
+    if(url.startsWith(`chrome://`)) {
+        return Promise.reject(Errors.chromePagesCantBeAnalyzed())
+    }
     if (url.match(/\.gz($|\?)/) !== null) {
         // Do not load compressed files
         return Promise.resolve('')
@@ -26,13 +29,13 @@ export const getSiteMapBody = async (url: string): Promise<string> => {
             }
             return res.text()
         })
-        .catch(err => Promise.reject(Errors.sitemapUnableToOpen(url, err.code, err.message)))
         .then(sitemapBody => {
             if (sitemapBody.includes(`page not found`)) {
                 return Promise.reject(Errors.sitemapNotFound(url))
             }
             return sitemapBody
         })
+        .catch(err => Promise.reject(Errors.sitemapUnableToOpen(url, err.code, err.message)))
 }
 
 export const getSiteMapCards = (urls: string[], report: Report) => {
@@ -125,6 +128,9 @@ export const getSiteMapCards = (urls: string[], report: Report) => {
 }
 
 export const getRobotsTxtFileBody = (url: string) => {
+    if(url.startsWith(`chrome://`)) {
+        return Promise.reject(Errors.chromePagesCantBeAnalyzed())
+    }
     return fetch(url)
         .then(res => {
             if (res.status !== 200) {
@@ -185,7 +191,6 @@ export const getSiteMapUrlsFromRobotsTxt = (robotsTxtBody: string, defaultUrl: s
 }
 
 export const getSiteMapUrlsFromSitemapXml = (sitemapUrl: string): Promise<string[]> => {
-    const urls: string[] = []
     return getSiteMapBody(sitemapUrl)
         .then(sitemapBody => {
             let subSitemaps = (sitemapBody.match(
@@ -194,7 +199,13 @@ export const getSiteMapUrlsFromSitemapXml = (sitemapUrl: string): Promise<string
             subSitemaps = subSitemaps.map(link => link.replace(/(<(\/)?sitemap>|<(\/)?loc>)/gm, ''))
             return subSitemaps
         })
-        .catch(_ => [] as string[])
+        .catch(err => {
+            if(typeof(err.getDiv) === 'function') {
+                return Promise.reject(err as Card)
+            } else {
+                return Promise.resolve([] as string[])
+            }
+        })
 }
 
 export const getRobotsLinks = (robotsUrl: string, divId: string) => [

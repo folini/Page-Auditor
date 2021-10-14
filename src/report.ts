@@ -15,6 +15,10 @@ export class Report {
     }
 
     public addCard(card: Card) {
-        this.#container.append(card.getDiv())
+        if(typeof(card.getDiv) === 'function') {
+            this.#container.append(card.getDiv())
+        } else {
+            this.#container.append(Errors.errorFromError(card as unknown as Error).getDiv())
+        }
     }
 }

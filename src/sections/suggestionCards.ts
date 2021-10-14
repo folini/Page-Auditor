@@ -82,8 +82,8 @@ export const missingRobotsTxt = () => {
 
 export const emptyRobotsTxt = () => {
     const message =
-        `It's important to add ASAP the missing content to the <code>robots.txt</code> file. ` +
-        `Robots.txt are a very important factor in SEO ranking.`
+        `It's important to add the missing content to the <code>robots.txt</code> file. ` +
+        `Robots.txt are a very critical factor in SEO ranking.`
     const links: iLink[] = [
         {
             label: 'Read a Robots.txt Reference',
@@ -95,8 +95,8 @@ export const emptyRobotsTxt = () => {
 
 export const missingSitemapXml = () => {
     const message =
-        `It's important to add ASAP the missing <code>sitemap.xml</code> file. ` +
-        `Sitemaps are a very important factor in SEO ranking.`
+        `It's important to add the missing <code>sitemap.xml</code> file. ` +
+        `Sitemaps are a very critical factor in SEO ranking of a page.`
     const links: iLink[] = [{label: 'Read a Sitemap.xml Reference', url: 'https://www.sitemaps.org/protocol.html'}]
     return new Card().suggestion().addParagraph(message).addCTA(links).setTitle('Add Sitemap.xml file')
 }

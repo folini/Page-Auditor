@@ -8,6 +8,19 @@ import {Card} from '../card'
 import {Mode} from '../colorCode'
 import {codeBlock} from '../codeBlock'
 
+export const errorFromError = (err: Error) => {
+    const msg1 = `Unhandled Error.`
+    const msg2 = `Error Name: ${err.name}.`
+    const msg3 = `Error Message: ${err.message}.`
+    const msg4 = `Error Stack: ${err.stack ?? 'no stack'}.`
+    return new Card().error().addParagraph(msg1).addParagraph(msg2).addParagraph(msg3).setTitle('Generic Error')
+}
+
+export const chromePagesCantBeAnalyzed = () => {
+    const msg1 = `Google Chrome internal pages, recognizable by the protocol <code>chrome://</code> can't be analyzed.`
+    return new Card().error().addParagraph(msg1).setTitle(`Can't Open Chrome Internal Pages`)
+}
+
 export const unableToAnalyzeChromeTabs = () => {
     const msg1 = `<b>Page Auditor</b> can not run on empty or internal Chrome tabs.`
     const msg2 = `Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`

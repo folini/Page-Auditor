@@ -9,7 +9,6 @@ import {Report} from '../report'
 import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../main'
 import {tagCategories, metaTagsCard} from './meta-functions'
 import * as Suggestions from './suggestionCards'
-import * as Errors from './errorCards'
 import * as Warnings from './warningCards'
 
 export interface iMetaTag {

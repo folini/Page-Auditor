@@ -8,7 +8,7 @@
         "url": "https://tagmanager.google.com/"
     },
     {
-        "patterns": ["(.|/)ads-twitter", "(.|/)twitter.com/", "(.|/)analytics.twitter"],
+        "patterns": ["(.|/)ads-twitter", "(.|/)twitter.com/", "(.|/)analytics.twitter", "(.|/)twimg.twitter"],
         "name": "Twitter",
         "category": "Ads and Analytics",
         "iconClass": "icon-twitter",

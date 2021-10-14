@@ -79,24 +79,27 @@ const sections: SectionType[] = [
 ]
 
 async function action(section: SectionType, actions: sectionActions) {
-    const [tab] = await chrome.tabs.query({active: true, currentWindow: true})
     let res: chrome.scripting.InjectionResult[] = []
-
     const report = new Report(section.reportId)
+    let tab: chrome.tabs.Tab|undefined = undefined
 
     try {
+        [tab] = await chrome.tabs.query({active: true, currentWindow: true})
         if (actions.codeInjector) {
             res = await chrome.scripting.executeScript({
                 target: {tabId: tab.id} as chrome.scripting.InjectionTarget,
                 function: actions.codeInjector,
             })
         }
-        actions.reportGenerator(tab.url || '', res.length > 0 ? res[0].result : undefined, report)
+        const tabUrl = tab.url || ''
+        const data = res.length > 0 ? res[0].result : undefined
+        actions.reportGenerator(tabUrl, data, report)
     } catch (err: any) {
         if (err.message === `Cannot access a chrome:// URL`) {
             report.addCard(Errors.unableToAnalyzeChromeTabs())
         } else {
-            report.addCard(Errors.unableToAnalyzePage(tab.url || ''))
+            const tabUrl = tab?.url || ''
+            report.addCard(Errors.unableToAnalyzePage(tabUrl))
         }
     }
 }
@@ -151,11 +154,11 @@ document.addEventListener('DOMContentLoaded', () => {
         tab.innerHTML = section.name
         tab.addEventListener('click', () => activateReport(section))
         tabsContainer.append(tab)
-        const report = document.createElement('div')
-        report.id = section.reportId
-        report.className = 'inner-report-container'
-        reportContainer.append(report)
-        showSpinner(report)
+        const reportDiv = document.createElement('div')
+        reportDiv.id = section.reportId
+        reportDiv.className = 'inner-report-container'
+        reportContainer.append(reportDiv)
+        showSpinner(reportDiv)
     })
     activateReport(sections[0])
     ;(document.getElementById('id-version') as HTMLElement).innerHTML = `Version ${versionNumber}`

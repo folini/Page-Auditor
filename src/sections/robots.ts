@@ -98,6 +98,9 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
         .then(siteMapUrls => {
             getSiteMapCards(siteMapUrls, report)
         })
+        .catch(errCard => {
+            report.addCard(errCard)
+        })
 }
 
 export const actions: sectionActions = {
