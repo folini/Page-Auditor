@@ -46,7 +46,7 @@
         "url": "https://business.linkedin.com/marketing-solutions"
     },
     {
-        "patterns": ["(.|/).bing.com/p/action", "(.|/).bing.com/bat.js"],
+        "patterns": ["(.|/).bing.com/p/action", "(.|/).bing.com/bat.js", "(.|/).bing.com/"],
         "name": "Bing",
         "category": " Ads Tracking",
         "iconClass": "icon-bing-ads",

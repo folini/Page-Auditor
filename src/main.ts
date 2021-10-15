@@ -10,7 +10,6 @@ import './styles/style.less'
 import './logos/Logo_256x256.png'
 
 import {Report} from './report'
-import {Card} from './card'
 import {Mode} from './colorCode'
 import * as Errors from './sections/errorCards'
 import {version as versionNumber} from '../package.json'
@@ -81,10 +80,10 @@ const sections: SectionType[] = [
 async function action(section: SectionType, actions: sectionActions) {
     let res: chrome.scripting.InjectionResult[] = []
     const report = new Report(section.reportId)
-    let tab: chrome.tabs.Tab|undefined = undefined
+    let tab: chrome.tabs.Tab | undefined = undefined
 
     try {
-        [tab] = await chrome.tabs.query({active: true, currentWindow: true})
+        ;[tab] = await chrome.tabs.query({active: true, currentWindow: true})
         if (actions.codeInjector) {
             res = await chrome.scripting.executeScript({
                 target: {tabId: tab.id} as chrome.scripting.InjectionTarget,

@@ -138,10 +138,12 @@ export class Card {
         return this
     }
 
-    public addParagraph(text: string, cssClass: string = '', id: string = '') {
-        return this.add(
-            `<div${cssClass !== '' ? ` class='${cssClass}'` : ``}${id === '' ? '' : ` id='${id}'`}>${text}</div>`
-        )
+    public addParagraph(text: string | undefined, cssClass: string = '', id: string = '') {
+        return text === undefined
+            ? this
+            : this.add(
+                  `<div${cssClass !== '' ? ` class='${cssClass}'` : ``}${id === '' ? '' : ` id='${id}'`}>${text}</div>`
+              )
     }
 
     public addTable(table: string[][]) {

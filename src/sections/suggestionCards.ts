@@ -46,7 +46,7 @@ export const unsafeSitemapLinkInRobots = (urls: string[]) => {
         .setTitle(`Fix Sitemap Link${plural} in Robots.txt`)
 }
 
-export const repeatedSitemapLinkInRobots = (urls: string[]) => {
+export const duplicateSitemapsInRobots = (urls: string[]) => {
     const plural = urls.length > 1 ? 's' : ''
     let message1 = `The <code>robots.txt</code> file links multiple times the following sitemap${plural}:`
     let message2 =
@@ -94,11 +94,19 @@ export const emptyRobotsTxt = () => {
 }
 
 export const missingSitemapXml = () => {
-    const message =
+    const msg1 =
         `It's important to add the missing <code>sitemap.xml</code> file. ` +
         `Sitemaps are a very critical factor in SEO ranking of a page.`
+    const msg2 =
+        `A good XML sitemap acts as a roadmap of your website that leads Google to all your important pages. ` +
+        `XML sitemaps can be good for SEO, as they allow Google to find your essential website pages quickly, even if your internal linking isn't perfect.`
     const links: iLink[] = [{label: 'Read a Sitemap.xml Reference', url: 'https://www.sitemaps.org/protocol.html'}]
-    return new Card().suggestion().addParagraph(message).addCTA(links).setTitle('Add Sitemap.xml file')
+    return new Card()
+        .suggestion()
+        .addParagraph(msg1)
+        .addParagraph(msg2)
+        .addCTA(links)
+        .setTitle('Add a Sitemap.xml File')
 }
 
 export const malformedSitemapXml = () => {
@@ -115,15 +123,42 @@ export const malformedSitemapXml = () => {
         .setTitle('Fix Sitemap.xml Syntax')
 }
 
-export const considerCompressingSitemap = (url: string) => {
+export const considerCompressingSitemap = (urls: string[]) => {
+    const plural = urls.length > 1
     const msg1 =
-        `Some of your sitemaps are larger than ${formatNumber(sitemapRecommendedMaxSize)} bytes. ` +
+        `${urls.length.toFixed()} of your sitemaps are larger than ${formatNumber(sitemapRecommendedMaxSize)} bytes. ` +
         `Consider compressing your sitemap.xml with <i>gzip</i> to reduce the load on your server and speedup upload and download of the file. ` +
         `However, there are no SEO direct benefits in compressing a sitemap. `
+    const msg2 = `This is ${plural ? `a list of` : `the`} <code>sitemaps.xml</code> you should consider compressing:`
     const links: iLink[] = [
         {label: 'Learn about Compressing Sitemaps', url: 'https://www.sitemaps.org/faq.html#faq_sitemap_size'},
     ]
-    return new Card().suggestion().addParagraph(msg1).addCTA(links).setTitle('Time To Compress Your Sitemap(s)')
+    return new Card()
+        .suggestion()
+        .addParagraph(msg1)
+        .addParagraph(msg2)
+        .addCodeBlock(urls.map(url => url).join('\n'), Mode.txt)
+        .addCTA(links)
+        .setTitle(`Consider Compressing Your Sitemap${plural ? 's' : ''}`)
+}
+
+export const missingSitemapExtension = (urls: string[]) => {
+    const plural = urls.length > 1
+    const msg1 =
+        `${urls.length.toFixed()} of your sitemaps ${plural ? 'are' : 'is'} missing the extension <code>.xml</code>. ` +
+        `Consider to follow the best practices recommended for sitemaps by adding the <code>.xml</code> extension to your sitemap files. ` +
+        `However, Google should be able to process your sitemaps even if they don't have the <code>.xml</code> extension.`
+    const msg2 = `This is ${plural ? `a list of` : `the`} <code>sitemap.xml</code> you should consider renaming with the proper extension:`
+    const links: iLink[] = [
+        {label: 'Learn about Compressing Sitemaps', url: 'https://www.sitemaps.org/faq.html#faq_sitemap_size'},
+    ]
+    return new Card()
+        .suggestion()
+        .addParagraph(msg1)
+        .addParagraph(msg2)
+        .addCodeBlock(urls.map(url => url).join('\n'), Mode.txt)
+        .addCTA(links)
+        .setTitle(`Add the XML Extension To Your Sitemap${plural ? 's' : ''}`)
 }
 
 export const malformedRobotsTxt = () => {
@@ -142,10 +177,14 @@ export const malformedRobotsTxt = () => {
 
 export const linkSitemapFromRobotsTxt = () => {
     const msg1 = `Linking your Sitemap(s) from <code>Robots.txt</code> is a way to ensure Google doesn't miss it/them. It's an optional directive, but strongly recommended.`
-    const msg2 = `A link to a sitemap.xml should be added to the <code>robots.txt</code> file with a line similar to the following:`
+    const msg2 =
+        `This directive is independent of the user-agent line, so it doesn't matter where you place it in your file. ` +
+        `If you have a Sitemap index file, you can include the location of just that file. ` +
+        `You don't need to list each individual Sitemap listed in the index file.`
+    const msg3 = `A link to a <code>sitemap.xml</code> should be added to the <code>robots.txt</code> file with a line similar to the following:`
     const links: iLink[] = [
         {
-            label: 'How to Add A Sitemap to Robots.Txt',
+            label: 'How to Link a Sitemap From Robots.Txt',
             url: 'https://www.woorank.com/en/blog/how-to-locate-a-sitemap-in-a-robots-txt-file',
         },
     ]
@@ -153,9 +192,10 @@ export const linkSitemapFromRobotsTxt = () => {
         .suggestion()
         .addParagraph(msg1)
         .addParagraph(msg2)
+        .addParagraph(msg3)
         .addCodeBlock(`Sitemap: https://www.example.com/sitemap.xml`, Mode.txt)
         .addCTA(links)
-        .setTitle('Add Sitemap Links to Robots.txt')
+        .setTitle('Link Your Sitemap.xml From Robots.txt')
 }
 
 export const openGraphMissingImage = () => {

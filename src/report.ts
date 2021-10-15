@@ -15,7 +15,7 @@ export class Report {
     }
 
     public addCard(card: Card) {
-        if(typeof(card.getDiv) === 'function') {
+        if (typeof card.getDiv === 'function') {
             this.#container.append(card.getDiv())
         } else {
             this.#container.append(Errors.errorFromError(card as unknown as Error).getDiv())

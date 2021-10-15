@@ -53,15 +53,13 @@ describe('reportGenerator()', () => {
 })
 
 describe('reportGenerator()', () => {
-    beforeEach(() => {
-        jest.spyOn(RobotFunctions, 'getRobotsTxtFileBody').mockImplementation(() => Promise.resolve(''))
-        jest.spyOn(main, 'sendTaskToWorker').mockImplementation(() => {})
-    })
-
-    afterEach(() => {
-        jest.clearAllMocks()
-    })
-
+    // beforeEach(() => {
+    //     jest.spyOn(RobotFunctions, 'getRobotsTxtFileBody').mockImplementation(() => Promise.resolve(''))
+    //     jest.spyOn(main, 'sendTaskToWorker').mockImplementation(() => {})
+    // })
+    // afterEach(() => {
+    //     jest.clearAllMocks()
+    // })
     // test('reportGenerator() generates empty report when injector() returns empty string', () =>
     //     actions.reportGenerator(
     //         MockData.UrlSample,

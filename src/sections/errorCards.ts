@@ -34,9 +34,14 @@ export const chromeTabIsUndefined = () => {
 }
 
 export const unableToAnalyzePage = (url: string) => {
-    const msg1 = `<b>Page Auditor</b> can not run on page at the url <a href='${url}' target='_new'>${url}</a>.`
+    const msg1 = `<b>Page Auditor</b> can not run on page at the url:`
     const msg2 = `Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
-    return new Card().error().addParagraph(msg1).addParagraph(msg2).setTitle('Unable To Analyze Page')
+    return new Card()
+        .error()
+        .addParagraph(msg1)
+        .addCodeBlock(url, Mode.txt)
+        .addParagraph(msg2)
+        .setTitle('Unable To Analyze Page')
 }
 
 export const noMetaTagsInThisCategory = (categoryName: string) => {
@@ -46,15 +51,16 @@ export const noMetaTagsInThisCategory = (categoryName: string) => {
 }
 
 export const sitemapIsHTMLPage = (url: string, code: string) => {
-    const msg1 =
-        `<code>Sitemap.xml</code> file at location <a target="_new" href="${url}">${url}</a> is an HTML page or a redirect. ` +
-        `Its' not a syntactically valid <code>sitemap.xml</code>.`
-    const btnLabel = `Wrong Sitemap`
+    const msg1 = `Found a syntactically invalid <code>Sitemap.xml</code> file at the url:`
+    const msg2 = `It's an HTML page or a redirect to an HTML page.`
+    const btnLabel = `Invalid Sitemap`
     return new Card()
         .error()
         .addParagraph(msg1)
+        .addCodeBlock(url, Mode.txt)
+        .addParagraph(msg2)
         .addExpandableBlock(btnLabel, codeBlock(code, Mode.html))
-        .setTitle('Wrong Sitemap.xml Syntax')
+        .setTitle('Invalid Sitemap.xml Syntax')
 }
 
 export const sitemapReturns404 = (url: string) => {
@@ -68,21 +74,25 @@ export const sitemapNotFound = (url: string) => {
 }
 
 export const sitemapUnableToOpen = (url: string, errorCode: number, errorMessage: string) => {
+    const eCode = typeof errorCode === 'number' ? errorCode.toFixed() : 'unknown'
+    const eMsg = typeof errorMessage === 'string' ? errorMessage : 'unknown'
     const msg1 = `Unable to load <code>Sitemap.xml</code> file at location <a target="_new" href="${url}">${url}</a>.`
-    const msg2 = `Error code: ${errorCode.toFixed()}, Error Message: "${errorMessage}"`
+    const msg2 =
+        eCode === 'unknown' && eMsg === 'unknown' ? undefined : `Error code: ${eCode}, Error Message: "${eMsg}"`
     return new Card().error().addParagraph(msg1).addParagraph(msg2).setTitle('Sitemap.xml Not Found')
 }
 
 export const robotsTxtIsHTMLPage = (url: string, code: string) => {
-    const msg1 = `<code>Robots.Txt</code> file at location <a target="_new" href="${url}">${url}</a> is an HTML page or a redirect.`
-    const msg2 = `Its' not a syntactically valid <code>robots.txt</code>.`
+    const msg1 = `Found a syntactically invalid <code>Robots.Txt</code> file at the url:`
+    const msg2 = `It's an HTML page or a redirect to an HTML page.`
     const btnLabel = `Wrong Robots.Txt`
     return new Card()
         .error()
         .addParagraph(msg1)
+        .addCodeBlock(url, Mode.txt)
         .addParagraph(msg2)
         .addExpandableBlock(btnLabel, codeBlock(code, Mode.html))
-        .setTitle('Wrong Robots.Txt Syntax')
+        .setTitle('Invalid Robots.Txt Syntax')
 }
 
 export const robotsTxtIsEmpty = (url: string) => {
@@ -94,7 +104,7 @@ export const robotsTxtIsEmpty = (url: string) => {
 export const robotsTxtIsOnlyComments = (url: string, code: string) => {
     const msg1 = `<code>Robots.Txt</code> file at location <a target="_new" href="${url}">${url}</a> only contains comments, no robots directives.`
     const msg2 = `<code>Robots.Txt</code> should contain at least a directive or a comment.`
-    const btnLabel = `Wrong Robots.Txt`
+    const btnLabel = `Invalid Robots.Txt`
     return new Card()
         .error()
         .addParagraph(msg1)
@@ -109,8 +119,10 @@ export const robotsTxtNotFound = (url: string) => {
 }
 
 export const robotsTxtUnableToOpen = (url: string, errorCode: number, errorMessage: string) => {
+    const eCode = typeof errorCode === 'number' ? errorCode.toFixed() : 'unknown'
+    const eMsg = typeof errorMessage === 'string' ? errorMessage : 'unknown'
     const msg1 = `Unable to load <code>Robots.Txt</code> file at location <a target="_new" href="${url}">${url}</a>.`
-    const msg2 = `Error code: ${errorCode.toFixed()}, Error Message: "${errorMessage}"`
+    const msg2 = `Error code: ${eCode}, Error Message: "${eMsg}"`
     return new Card().error().addParagraph(msg1).addParagraph(msg2).setTitle('Robots.Txt Not Found')
 }
 
