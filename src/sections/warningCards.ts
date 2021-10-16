@@ -16,7 +16,7 @@ export const noMetaTagsOnPage = () => {
 export const notAllSitemapsLoaded = (maxNumber: number, urls: string[]) => {
     const msg1 = `Too many sitemaps to load. Only the first ${maxNumber} were loaded and analyzed.`
     const msg2 = `${urls.length} sitemaps in the list below were not loaded and analyzed.`
-    const block = `${urls.map(url => `${url}`).join('\n')}`
+    const block = `${urls.map(url => `${url.trim()}`).join('\n')}`
     return new Card()
         .warning()
         .addParagraph(msg1)

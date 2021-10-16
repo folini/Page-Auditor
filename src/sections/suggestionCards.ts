@@ -137,7 +137,7 @@ export const considerCompressingSitemap = (urls: string[]) => {
         .suggestion()
         .addParagraph(msg1)
         .addParagraph(msg2)
-        .addCodeBlock(urls.map(url => url).join('\n'), Mode.txt)
+        .addCodeBlock(urls.map(url => url.trim()).join('\n'), Mode.txt)
         .addCTA(links)
         .setTitle(`Consider Compressing Your Sitemap${plural ? 's' : ''}`)
 }

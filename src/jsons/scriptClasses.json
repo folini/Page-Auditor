@@ -1121,6 +1121,7 @@
     {
         "patterns": ["(.|/)elev.io/"],
         "name": "Elevio",
+        "category": "User Education",
         "iconClass": "icon-elevio",
         "description": "Elevio is an Australian company that provides a continuous user education platform to make products easier to learn and use.",
         "url": "https://elev.io/"
@@ -1128,8 +1129,33 @@
     {
         "patterns": ["(.|/)headwayapp.co/"],
         "name": "Headway App",
+        "category": "Book Publisher",
         "iconClass": "icon-headway-app",
         "description": "Headway is an app that can be used to read 15 minute summaries of bestseller non-fiction books.",
-        "url": "https://headwayapp.co//"
+        "url": "https://headwayapp.co/"
+    },
+    {
+        "patterns": ["(.|/)typekit.net/", "(.|/)fonts.adobe.com/"],
+        "name": "Adobe Fonts",
+        "category": "Web Font",
+        "iconClass": "icon-typekit",
+        "description": "Adobe Fonts, called Typekit, is an online service that provides its subscribers with access to its font library, under a single licensing agreement.",
+        "url": "https://fonts.adobe.com/"
+    },
+    {
+        "patterns": ["(.|/)ocelotbot.com/"],
+        "name": "Ocelot",
+        "category": "Chatbot for Higher Education",
+        "iconClass": "icon-ocelot",
+        "description": "Live Chat for higher ed institutions enables staff to connect directly with students in real time.",
+        "url": "https://www.ocelotbot.com/"
+    },
+    {
+        "patterns": ["(.|/)zoominfo.com/"],
+        "name": "ZoomInfo",
+        "category": "Lead generation optimization",
+        "iconClass": "icon-zoominfo",
+        "description": "ZoomInfo Technologies Inc. is an American subscription-based software as a service company that sells access to its database of information about business people and companies to sales, marketing and recruiting professionals. ",
+        "url": "https://www.zoominfo.com/"
     }
 ]

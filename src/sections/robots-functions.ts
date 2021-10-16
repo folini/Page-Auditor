@@ -243,7 +243,6 @@ export const processRobotsTxtPromise = (bodyPromise: Promise<string>, url: strin
             } else if (
                 robotsTxtBody.split('\n').filter(line => !line.startsWith('#') && line.trim().length > 0).length === 0
             ) {
-                const btnLabel = `Wrong Robots.Txt`
                 report.addCard(Errors.robotsTxtIsOnlyComments(url, robotsTxtBody))
                 report.addCard(Suggestions.emptyRobotsTxt())
             } else {
@@ -347,7 +346,7 @@ export const getUrlsFromSitemap = (url: string) => {
             let subSitemaps = (sitemapBody.match(
                 /<sitemap>\s*<loc>(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9\-]+\.[^(\s|<|>)]{2,})<\/loc>/gim
             ) ?? []) as string[]
-            subSitemaps = subSitemaps.map(link => link.replace(/(<(\/)?sitemap>|<(\/)?loc>)/gm, ''))
+            subSitemaps = subSitemaps.map(link => link.replace(/(<(\/)?sitemap>|<(\/)?loc>)/gm, '').trim())
             return Promise.resolve(subSitemaps)
         })
         .catch(err => {

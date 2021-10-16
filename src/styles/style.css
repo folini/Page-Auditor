@@ -221,6 +221,7 @@ body#id-page-auditor .box-card .card-body table.card-table td {
   border: solid 1px var(--border-color-light);
   padding: 2px 4px;
   font-size: 13px;
+  min-width: 100px;
 }
 body#id-page-auditor .box-card div.code {
   font-family: monospace, 'Courier New', Courier, monospace;
@@ -887,6 +888,15 @@ body#id-page-auditor .box-card.icon-elevio > h2 {
 }
 body#id-page-auditor .box-card.icon-headway-app > h2 {
   background-image: url(../logos/HeadwayApp_100x100.png);
+}
+body#id-page-auditor .box-card.icon-typekit > h2 {
+  background-image: url(../logos/Typekit_100x100.png);
+}
+body#id-page-auditor .box-card.icon-ocelot > h2 {
+  background-image: url(../logos/Ocelot_100x100.png);
+}
+body#id-page-auditor .box-card.icon-zoominfo > h2 {
+  background-image: url(../logos/Zoominfo_100x100.png);
 }
 body#id-page-auditor .icon-linkedin:not(.box-card) {
   background-image: url(../logos/LinkedInAds_100x100.png);
