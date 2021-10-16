@@ -175,14 +175,16 @@
     },
     {
         "patterns": [
-            "hsadspixel.net/",
-            "hscollectedforms.net/",
-            "hs-banner.com/",
-            "hs-analytics.net/",
-            ".hubspot.com/",
-            ".hubspot.net/",
-            ".hs-scripts.com/",
-            ".hsleadflows.net/"
+            "(.|/)hsadspixel.net/",
+            "(.|/)hscollectedforms.net/",
+            "(.|/)hs-banner.com/",
+            "(.|/)hs-analytics.net/",
+            "(.|/)hubspot.com/",
+            "(.|/)hubspot.net/",
+            "(.|/)hs-scripts.com/",
+            "(.|/)hsleadflows.net/",
+            "(.|/)usemessages.com/",
+            "(.|/)hubspotfeedback.com/"
         ],
         "name": "HubSpot Analytics",
         "category": "Social Media &amp; Websites Tracking",
@@ -1155,7 +1157,167 @@
         "name": "ZoomInfo",
         "category": "Lead generation optimization",
         "iconClass": "icon-zoominfo",
-        "description": "ZoomInfo Technologies Inc. is an American subscription-based software as a service company that sells access to its database of information about business people and companies to sales, marketing and recruiting professionals. ",
+        "description": "ZoomInfo Technologies Inc. is an American subscription-based software as a service company that sells access to its database of information about business people and companies to sales, marketing and recruiting professionals.",
         "url": "https://www.zoominfo.com/"
+    },
+    {
+        "patterns": ["(.|/)iteratehq.com/"],
+        "name": "Iterate",
+        "category": "Surveys platform",
+        "iconClass": "icon-iterate",
+        "description": "Iterate's user-friendly research tools help you target exactly the right people at the right time to make sure you’re getting the most relevant, valuable insights.",
+        "url": "https://iteratehq.com/"
+    },
+    {
+        "patterns": ["(.|/)tags.bluekai.com/", "(.|/)bkrtx.com/"],
+        "name": "Bluekai (now Oracle)",
+        "category": "Campaign Personalization",
+        "iconClass": "icon-bluekai",
+        "description": " BlueKai is a cloud-based big data platform that enables companies to personalize online, offline, and mobile marketing campaigns.",
+        "url": "http://www.bluekai.com/"
+    },
+    {
+        "patterns": ["(.|/)geoedge.be/", "(./|)geoedge.com/"],
+        "name": "GeoEdge",
+        "category": "Ads security and verification",
+        "iconClass": "icon-geoedge",
+        "description": "GeoEdge is the premier provider of ad security and verification solutions for the online ‎& mobile advertising ecosystem. GeoEdge ensures high ad quality and verifies that sites ‎and apps offer a clean, safe, and engaging user experience.",
+        "url": "https://www.geoedge.com/"
+    },
+    {
+        "patterns": ["(.|/)go-mpulse.net/"],
+        "name": "Akamai",
+        "category": "Real User Measurement (RUM)",
+        "iconClass": "icon-akamai",
+        "description": "mPulse, an Akamai brand, collects detailed data directly from a user's browser or mobile application, including performance timers such as bandwidth and page load times as well as business metrics like bounce rate, conversion rates, or order totals.",
+        "url": "https://www.akamai.com/"
+    },
+    {
+        "patterns": ["(.|/)contextual.media.net/"],
+        "name": "Media.net",
+        "category": "Contextual advertising network",
+        "iconClass": "icon-media-net",
+        "description": "Media.net is a contextual advertising network.",
+        "url": "https://www.media.net/"
+    },
+    {
+        "patterns": ["(.|/)cookiepro.com/"],
+        "name": "CookiePro",
+        "category": "Privacy Platform",
+        "iconClass": "icon-cookiepro",
+        "description": "CookiePro by OneTrust is the leading platform for small to medium businesses to ensure website & mobile app compliance with global privacy regulations.",
+        "url": "https://www.cookiepro.com/"
+    },
+    {
+        "patterns": ["(.|/)ensighten.com/"],
+        "name": "Ensighten",
+        "category": "Privacy Platform",
+        "iconClass": "icon-ensighten",
+        "description": "A comprehensive enterprise consent management platform (CMP) with data privacy enforcement to ensure compliance and customer data protection.",
+        "url": "https://www.ensighten.com/"
+    },
+    {
+        "patterns": ["(.|/)mathtag.com/", "(.|/)mediamath.com/"],
+        "name": "MediaMath",
+        "category": "CTV advertising",
+        "iconClass": "icon-mediamath",
+        "description": "he MediaMath omnichannel DSP allows marketers to manage ad campaigns across multiple channels – mobile, display, social, video, audio and native.",
+        "url": "https://www.mediamath.com/"
+    },
+    {
+        "patterns": ["(.|/)privacymanager.io/", "(.|/)liveramp.com/", "(.|/)acxiom.com/"],
+        "name": "LiveRamp",
+        "category": "Offline Data Management",
+        "iconClass": "icon-liveramp",
+        "description": "LiveRamp is a company based in San Francisco that offers a data connectivity platform whose services include data onboarding, the transfer of offline data online for marketing purposes.",
+        "url": "https://liveramp.com/"
+    },
+    {
+        "patterns": ["(.|/)bugherd.com/"],
+        "name": "BugHerd",
+        "category": "Bug Tracking",
+        "iconClass": "icon-bugherd",
+        "description": "BugHerd is a tool to collect, organize and act on website feedback. It's bug tracking software that's like sticky-notes on a webpage.",
+        "url": "https://www.bugherd.com/"
+    },
+    {
+        "patterns": ["(.|/)perfectaudience.com/", "(.|/)sharpspring.com/", "(.|/)marketingautomation.services/"],
+        "name": "SharpSpring",
+        "category": "Ads",
+        "iconClass": "icon-sharpspring",
+        "description": "Ads platform from Constant Contact.",
+        "url": "https://sharpspring.com/"
+    },
+    {
+        "patterns": ["(.|/)sumo.com/"],
+        "name": "Sumo",
+        "category": "Email Marketing",
+        "iconClass": "icon-sumo",
+        "description": "Sumo is offering a set of tools that helps automate your website's growth and grow your all-important email list. ",
+        "url": "https://sharpspring.com/"
+    },
+    {
+        "patterns": ["(.|/)leadforensics.com/"],
+        "name": "LeadForensics",
+        "category": "Visitor Analysis",
+        "iconClass": "icon-lead-forensics",
+        "description": "Lead Forensics is the software that reveals the identity of your anonymous website visitors, turning them into actionable sales-ready leads in real-time, at your fingertips.",
+        "url": "https://www.leadforensics.com/"
+    },
+    {
+        "patterns": ["(.|/)clickcease.com/"],
+        "name": "ClickCease",
+        "category": "Fraud Prevention",
+        "iconClass": "icon-clickcease",
+        "description": "ClickCease Google Ads click fraud protection software will exclude invalid IPs and block fake clicks.",
+        "url": "https://www.clickcease.com/"
+    },
+    {
+        "patterns": ["(.|/)prfct.co/", "(.|/)marinsoftware.com/", "(.|/)marinsm.com/"],
+        "name": "Marin Software",
+        "category": "SEM Management",
+        "iconClass": "icon-marin",
+        "description": "Marin Software provides a cloud-based digital advertising management solution for search, display, social and mobile advertising channels to improve financial performance, realize efficiencies and time savings and improve business decisions.",
+        "url": "https://www.marinsoftware.com/"
+    },
+    {
+        "patterns": ["(.|/)osano.com/"],
+        "name": "Osano",
+        "category": "Data privacy Platform",
+        "iconClass": "icon-osano",
+        "description": "Osano is a software-as-a-service platform that gives businesses insight into whether they're complying with privacy laws, and alerts them when vendor privacy policies change.",
+        "url": "https://www.osano.com/"
+    },
+    {
+        "patterns": ["(.|/)movologist.net/", "(.|/)https://movinghub.io/", "(.|/)utilihub.io/"],
+        "name": "Movinghub and Utilihub",
+        "category": "Data privacy Platform",
+        "iconClass": "icon-movinghub",
+        "description": "Movinghub are a global leader in SaaS and PropTech solutions specializing in helping people manage, move, switch and compare utility and home service providers.",
+        "url": "https://movinghub.io/"
+    },
+    {
+        "patterns": ["(.|/)bootstrapcdn.com", "(.|/)bootstrap.com/"],
+        "name": "Bootstrap",
+        "category": "Web Development Framework",
+        "iconClass": "icon-bootstrap",
+        "description": "Bootstrap is an HTML, CSS & JS Library that focuses on simplifying the development of informative web pages.",
+        "url": "https://bootstrap.com/"
+    },
+    {
+        "patterns": ["(.|/)github.com/", "(.|/)githubassets.com/"],
+        "name": "GitHub",
+        "category": "Software Repository",
+        "iconClass": "icon-github",
+        "description": "GitHub, Inc. is a provider of Internet hosting for software development and version control using Git.",
+        "url": "https://github.com/"
+    },
+    {
+        "patterns": ["(.|/)carbonads.net/", "(.|/)carbonads.com/"],
+        "name": "CarbonAds",
+        "category": "Ads",
+        "iconClass": "icon-carbonads",
+        "description": "Carbon Ads connects advertisers with developers, designers, and tech-savvy audiences through an exclusive network of relevant websites and apps.",
+        "url": "https://www.carbonads.net/"
     }
 ]
