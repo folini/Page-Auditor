@@ -209,6 +209,24 @@ body#id-page-auditor {
                 background-color: #eaeaea;
                 padding: 0 4px;
             }
+            table.card-table {
+                background-color: var(--color-bright-white);
+                width: 100%;
+                border: solid 1px var(--border-color);
+                border-collapse: collapse;
+
+                th {
+                    padding: 4px 0;
+                    background-color: #f0f0f0;
+                    font-weight: normal;
+                }
+
+                td {
+                    border: solid 1px var(--border-color-light);
+                    padding: 2px 4px;
+                    font-size: 13px;
+                }
+            }
         }
 
         div.code {
@@ -227,19 +245,6 @@ body#id-page-auditor {
                 &:hover {
                     text-decoration: underline !important;
                 }
-            }
-        }
-
-        table.card-table {
-            background-color: var(--color-bright-white);
-            width: 100%;
-            border: solid 1px var(--border-color);
-            border-collapse: collapse;
-
-            td {
-                border: solid 1px var(--border-color-light);
-                padding: 2px 4px;
-                font-size: 13px;
             }
         }
     }

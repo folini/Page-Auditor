@@ -5,7 +5,12 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 
-import {getRobotsLinks, getSitemapLinks, getUrlsFromRobotsTxt, getRobotsTxtBody} from '../src/sections/robots-functions'
+import {
+    getRobotsToolbarLinks,
+    getSitemapToolbarLinks,
+    getUrlsFromRobotsTxt,
+    getRobotsTxtBody,
+} from '../src/sections/robots-functions'
 import * as main from '../src/main'
 import * as MockData from './mock-data.test'
 
@@ -71,14 +76,14 @@ describe('getSiteMaps() and getRobotsTxt()', () => {
 })
 
 test('getRobotsLinks() generates valid array with 2 objects', async () => {
-    const data = getRobotsLinks(MockData.RobotsTxtUrlSample, '')
+    const data = getRobotsToolbarLinks(MockData.RobotsTxtUrlSample, '')
     expect(data).toBeArray()
     expect(data.length).toBe(2)
     data.forEach(item => expect(item).toBeObject())
 })
 
 test('getSitemapLinks() generates valid array with 2 objects', async () => {
-    const data = getSitemapLinks(MockData.SitemapUrlSample, '')
+    const data = getSitemapToolbarLinks(MockData.SitemapUrlSample, '')
     expect(data).toBeArray()
     expect(data.length).toBe(2)
     data.forEach(item => expect(item).toBeObject())

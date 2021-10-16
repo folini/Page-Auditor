@@ -146,9 +146,16 @@ export class Card {
               )
     }
 
-    public addTable(table: string[][]) {
+    public addTable(title: string, table: string[][]) {
         let html = ''
         html += '<table class="card-table">'
+        if(title.length>0) {
+            html += `<thead>`
+            html += `<tr>`
+            html += `<th colspan='2'>${title}</th>`
+            html += `</tr>`
+            html += `</thead>`
+        }
         html += '<tbody>'
         html += table.map(row => `<tr>${row.map(col => `<td>${col}</td>`).join('')}</tr>`).join('')
         html += '</tbody>'

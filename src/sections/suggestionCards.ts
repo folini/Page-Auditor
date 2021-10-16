@@ -126,7 +126,7 @@ export const malformedSitemapXml = () => {
 export const considerCompressingSitemap = (urls: string[]) => {
     const plural = urls.length > 1
     const msg1 =
-        `${urls.length.toFixed()} of your sitemaps are larger than ${formatNumber(sitemapRecommendedMaxSize)} bytes. ` +
+        `${plural? urls.length.toFixed() : 'One'} of your sitemaps ${plural ? 'are' : 'is'} larger than ${formatNumber(sitemapRecommendedMaxSize)} bytes. ` +
         `Consider compressing your sitemap.xml with <i>gzip</i> to reduce the load on your server and speedup upload and download of the file. ` +
         `However, there are no SEO direct benefits in compressing a sitemap. `
     const msg2 = `This is ${plural ? `a list of` : `the`} <code>sitemaps.xml</code> you should consider compressing:`
@@ -145,10 +145,12 @@ export const considerCompressingSitemap = (urls: string[]) => {
 export const missingSitemapExtension = (urls: string[]) => {
     const plural = urls.length > 1
     const msg1 =
-        `${urls.length.toFixed()} of your sitemaps ${plural ? 'are' : 'is'} missing the extension <code>.xml</code>. ` +
+        `${plural ? urls.length.toFixed() : 'One'} of your sitemaps ${plural ? 'are' : 'is'} missing the extension <code>.xml</code>. ` +
         `Consider to follow the best practices recommended for sitemaps by adding the <code>.xml</code> extension to your sitemap files. ` +
         `However, Google should be able to process your sitemaps even if they don't have the <code>.xml</code> extension.`
-    const msg2 = `This is ${plural ? `a list of` : `the`} <code>sitemap.xml</code> you should consider renaming with the proper extension:`
+    const msg2 = `This is ${
+        plural ? `a list of` : `the`
+    } <code>sitemap.xml</code> you should consider renaming with the proper extension:`
     const links: iLink[] = [
         {label: 'Learn about Compressing Sitemaps', url: 'https://www.sitemaps.org/faq.html#faq_sitemap_size'},
     ]
@@ -212,9 +214,8 @@ export const openGraphMissingImage = () => {
 }
 
 export const twitterMissingImage = () => {
-    const message =
-        `This page is missing a meta tag specifying the image for Twitter to use when rendering a post sharing this page.<br>` +
-        `This is an example of the Twitter Meta-Tag that should be added:`
+    const msg1 = `This page is missing a meta tag specifying the image for Twitter to use when rendering a post sharing this page.`
+    const msg2 = `This is an example of the Twitter Meta-Tag that should be added:`
     const links: iLink[] = [
         {
             label: 'Learn about Twitter Meta Tags',
@@ -223,7 +224,8 @@ export const twitterMissingImage = () => {
     ]
     return new Card()
         .suggestion()
-        .addParagraph(message)
+        .addParagraph(msg1)
+        .addParagraph(msg2)
         .addCodeBlock(`<meta name="twitter:image" content="https://www.example.com/my_image.jpg">`, Mode.html)
         .addCTA(links)
         .setTitle('Add Image Meta-Tag for Twitter')
@@ -232,7 +234,7 @@ export const twitterMissingImage = () => {
 export const noMetaTags = () => {
     const message =
         `Meta Data should always be include in every web page. Meta tags provide important information to teh browser and to the Search Engine bots about the page. ` +
-        `Also Meta tags allow the page to control how the page will be shared by users providing recommendation for title, image and descriptions to be use for sharing post on Social Media .`
+        `Also Meta tags allow the page to control how it will be shared by users providing recommendation for title, image and descriptions to be use for sharing post on Social Media .`
     const links: iLink[] = [
         {
             label: 'Twitter Meta Tags',

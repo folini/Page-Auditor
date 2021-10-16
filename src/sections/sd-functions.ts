@@ -36,13 +36,13 @@ export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string) => {
     // Compute unique @types as string[]
     const typesUnique = [...new Set(typesMatches)]
     //Count occurrences of each @type
-    const typesCount = typesUnique
+    const table = typesUnique
         .map(type => [
             `<a href='https://https://schema.org/${type}/' target='_new'>${type.replace(
                 /([a-z])([A-Z])/g,
                 '$1 $2'
             )}</a>`,
-            typesMatches.filter(t => t === type).length.toFixed() + ' occurrence(s)',
+            typesMatches.filter(t => t === type).length.toFixed() + ` occurrence${typesMatches.filter(t => t === type).length > 1 ? 's' : ''}`,
         ])
         .sort((a, b) => (a[1] !== b[1] ? b[1].localeCompare(a[1]) : a[0].localeCompare(b[0])))
     const structuredDataDescription = `Structured Data communicates content (data) to the Search Engines in an organized manner so they can display the content in the SERPs in an attractive manner.`
@@ -55,6 +55,6 @@ export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string) => {
             'icon-ld-json'
         )
         .addParagraph(structuredDataDescription)
-        .addTable(typesCount)
+        .addTable('Structured Data Analysis', table)
         .addExpandableBlock(btnLabel, codeBlock(jsonCode, Mode.json, scriptId))
 }

@@ -64,7 +64,7 @@ export const sitemapIsHTMLPage = (url: string, code: string) => {
 }
 
 export const sitemapReturns404 = (url: string) => {
-    const msg1 = `<code>Sitemap.xml</code> file at location <a target="_new" href="${url}">${url}</a> not found, returns 404 error code.`
+    const msg1 = `<code>Sitemap.xml</code> file at location <a target="_new" href="${url}">${url}</a> not found, server returns 404 error code.`
     return new Card().error().addParagraph(msg1).setTitle('Sitemap.xml Not Found')
 }
 
