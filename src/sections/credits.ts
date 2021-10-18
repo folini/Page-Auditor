@@ -42,9 +42,9 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
             .open(``, `Page Auditor for Technical SEO`, [], 'icon-fc')
             .addParagraph(
                 `<div class='credits'><b>Page Auditor for Technical SEO</b> is a free Google Chrome Extension created by <a href='https://www.linkedin.com/in/francofolini/' target='_new'>Franco Folini</a>.
-                        The purpose of <i>Page Auditor for Technical SEO</i> is to show, in a way that is simple and easy to understand, all the tracking technologies implemented by a website or single webpage.
-                        <br/><br/>
-                        While teaching the <a href='https://bootcamp.berkeley.edu/digitalmarketing/' target='+new'>Digital Marketing Bootcamp</a> for UC Berkeley Extension, my students' questions inspired this project.`
+                <br><br>The purpose of <i>Page Auditor for Technical SEO</i> is to analyze and show, in a way that is simple and easy to understand, all SEO factors that5 can affect the SEO performance of a website or single webpage.
+                <br><br>When possible, <i>Page Auditor</i> also provides suggestions on how to improve the page SEO and to fix a diagnosed problem.`
+
             )
             .add(
                 `<div class='support-form'>
@@ -65,8 +65,9 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
         new Card()
             .open(``, `About the Author`, [], 'icon-franco-avatar')
             .addParagraph(
-                `<b>Franco Folini</b> is a Digital Marketer with a passion for Web Development, and a Web Developer with a passion for Digital Marketing.` +
-                    `You can check Franco work and contact him on the following platforms:` +
+                `<b>Franco Folini</b> has a passion for Web Development and Digital Marketing.` +
+                    `<br><br>Franco teaches the <a href='https://bootcamp.berkeley.edu/digitalmarketing/' target='+new'>Digital Marketing Bootcamp</a> for UC Berkeley Extension, and this project was inspired by his students.` +
+                    `<br><br>Check out Franco's work and contacts on the following platforms:` +
                     `<ul class='pointers'>` +
                     bioLinks
                         .map(

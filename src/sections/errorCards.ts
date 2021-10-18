@@ -64,22 +64,39 @@ export const sitemapIsHTMLPage = (url: string, code: string) => {
 }
 
 export const sitemapReturns404 = (url: string) => {
-    const msg1 = `<code>Sitemap.xml</code> file at location <a target="_new" href="${url}">${url}</a> not found, server returns 404 error code.`
-    return new Card().error().addParagraph(msg1).setTitle('Sitemap.xml Not Found')
+    const msg1 = `No <code>Sitemap.xml</code> file at location`
+    const msg2 = `Server returns 404 error code.`
+    return new Card()
+        .error()
+        .addParagraph(msg1)
+        .addCodeBlock(url, Mode.txt)
+        .addParagraph(msg2)
+        .setTitle('Sitemap.xml Not Found')
 }
 
 export const sitemapNotFound = (url: string) => {
-    const msg1 = `<code>Sitemap.xml</code> file at location <a target="_new" href="${url}">${url}</a> not found.`
-    return new Card().error().addParagraph(msg1).setTitle('Sitemap.xml Not Found')
+    const msg1 = `No <code>Sitemap.xml</code> file at location:`
+    const msg2 = `File not found.`
+    return new Card()
+        .error()
+        .addParagraph(msg1)       
+        .addCodeBlock(url, Mode.txt)
+        .addParagraph(msg2)
+        .setTitle('Sitemap.xml Not Found')
 }
 
 export const sitemapUnableToOpen = (url: string, errorCode: number, errorMessage: string) => {
     const eCode = typeof errorCode === 'number' ? errorCode.toFixed() : 'unknown'
     const eMsg = typeof errorMessage === 'string' ? errorMessage : 'unknown'
-    const msg1 = `Unable to load <code>Sitemap.xml</code> file at location <a target="_new" href="${url}">${url}</a>.`
+    const msg1 = `Unable to load <code>Sitemap.xml</code> file at location:`
     const msg2 =
         eCode === 'unknown' && eMsg === 'unknown' ? undefined : `Error code: ${eCode}, Error Message: "${eMsg}"`
-    return new Card().error().addParagraph(msg1).addParagraph(msg2).setTitle('Sitemap.xml Not Found')
+    return new Card()
+        .error()
+        .addParagraph(msg1)
+        .addCodeBlock(url, Mode.txt)
+        .addParagraph(msg2)
+        .setTitle('Sitemap.xml Not Found')
 }
 
 export const robotsTxtIsHTMLPage = (url: string, code: string) => {

@@ -27,7 +27,7 @@ test('SchemaLinks() generates proper links', async () => {
     })
 })
 
-test('ldJsonCard() creates card with proper HTML', () => {
-    const data = ldJsonCard(MockData.LdJsonSample, MockData.UrlSample).getDiv().innerHTML
-    expect(data).toBeString().toHTMLValidate()
-})
+// test('ldJsonCard() creates card with proper HTML', () => {
+//     const data = ldJsonCard(MockData.LdJsonSample, MockData.UrlSample).getDiv().innerHTML
+//     expect(data).toBeString().toHTMLValidate()
+// })

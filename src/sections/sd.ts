@@ -36,7 +36,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, repo
         return
     }
 
-    jsonScripts.map(ldJson => report.addCard(ldJsonCard(ldJson, tabUrl)))
+    jsonScripts.forEach(ldJson => ldJsonCard(ldJson, tabUrl, report))
 }
 
 export const actions: sectionActions = {

@@ -13,8 +13,10 @@ import * as Suggestions from './suggestionCards'
 import * as Warnings from './warningCards'
 import * as Errors from './errorCards'
 import {codeBlock} from '../codeBlock'
+import {htmlDecode} from "js-htmlencode"
 
 const maxNumberOfSitemapsToLoad = 15
+export type UrlsToCompress = [size: number, urls: string]
 
 const getSitemapBody = async (url: string) => {
     if (url.startsWith(`chrome://`)) {
@@ -24,7 +26,7 @@ const getSitemapBody = async (url: string) => {
         // Do not load compressed files
         return Promise.resolve('')
     }
-
+console.log(`Loading ${url}`)
     return fetch(url)
         .then(res => {
             if (res.status !== 200) {
@@ -43,7 +45,7 @@ const getSitemapBody = async (url: string) => {
 
 export const createSiteMapCards = (
     urls: string[],
-    sitemapsToCompress: string[],
+    sitemapsToCompress: UrlsToCompress[],
     sitemapsMissingExtension: string[],
     report: Report
 ): Promise<number> => {
@@ -87,7 +89,7 @@ export const createSiteMapCards = (
                 }
 
                 if (sitemapBody.length > Suggestions.sitemapRecommendedMaxSize) {
-                    sitemapsToCompress.push(url)
+                    sitemapsToCompress.push([sitemapBody.length, url])
                 }
 
                 const fileName = url.replace(/(.*)\/([a-z0-9\-_\.]+(\.xml)?)(\?.*)?/i, '$2')
@@ -101,7 +103,7 @@ export const createSiteMapCards = (
                 const links = sitemapBody.match(/<loc>(.*?)<\/loc>/g) ?? []
                 const linksToSitemaps =
                     sitemapBody.match(
-                        /<sitemap>\s*<loc>(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9\-]+\.[^(\s|<|>)]{2,}.xml\?[a-z0-9-=#_]*)<\/loc>/gim
+                        /<sitemap>\s*<loc>(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9\-]+\.[^(\s|<|>)]{2,})<\/loc>/gim
                     ) ?? []
                 const linksToPages = links.length - linksToSitemaps.length
                 const sitemapXmlDescription =
@@ -181,29 +183,33 @@ const removeDuplicateUrls = (urls: string[], report: Report) => {
     return uniqueUrls
 }
 
-export const processSitemapFromPromise = (robotBody: Promise<string>, url: string, report: Report) => {
+export const sitemapsFromPromise = (robotBody: Promise<string>, url: string, report: Report) => {
     let sitemapUrls = [url]
     let sitemapCardsCreated = 0
-    let sitemapsTopCompress: string[] = []
+    let sitemapsTopCompress: UrlsToCompress[] = []
     let sitemapsMissingExtension: string[] = []
     let sitemapsToIgnore: string[] = []
 
     robotBody
         .then(robotsTxtBody => {
-            sitemapUrls = getUrlsFromRobotsTxt(robotsTxtBody, sitemapUrls[0])
+            sitemapUrls = getSitemapUrlsFromRobotsTxt(robotsTxtBody, sitemapUrls[0])
             sitemapUrls = sanitizeUrls(sitemapUrls, report)
             sitemapUrls = removeDuplicateUrls(sitemapUrls, report)
-            return createSiteMapCards(sitemapUrls, sitemapsTopCompress, sitemapsMissingExtension, report)
+            sitemapsToIgnore = sitemapUrls.slice(maxNumberOfSitemapsToLoad)
+            const sitemapsToAdd = sitemapUrls.slice(0, maxNumberOfSitemapsToLoad)
+            return createSiteMapCards(sitemapsToAdd, sitemapsTopCompress, sitemapsMissingExtension, report)
         })
         .then(nSitemapCards => {
             sitemapCardsCreated = nSitemapCards
             const newUrls: string[] = []
-            const urlsPromises = sitemapUrls.map(url => getUrlsFromSitemap(url).then(urls => newUrls.push(...urls)))
+            const urlsPromises = sitemapUrls.map(url =>
+                getSitemapUrlsFromSitemap(url).then(urls => newUrls.push(...urls))
+            )
             return Promise.allSettled(urlsPromises).then(() => [...new Set(newUrls)])
         })
         .then(newUrls => {
             const spaceLeft = maxNumberOfSitemapsToLoad - sitemapCardsCreated
-            sitemapsToIgnore = newUrls.slice(spaceLeft)
+            sitemapsToIgnore.push(...newUrls.slice(spaceLeft))
             const sitemapsToAdd = newUrls.slice(0, spaceLeft)
             return createSiteMapCards(sitemapsToAdd, sitemapsTopCompress, sitemapsMissingExtension, report)
         })
@@ -231,7 +237,7 @@ export const processSitemapFromPromise = (robotBody: Promise<string>, url: strin
         })
 }
 
-export const processRobotsTxtPromise = (bodyPromise: Promise<string>, url: string, report: Report) => {
+export const robotsTxtFromPromise = (bodyPromise: Promise<string>, url: string, report: Report) => {
     bodyPromise
         .then(robotsTxtBody => {
             if (robotsTxtBody.includes(`<head>`) || robotsTxtBody.includes(`<meta`)) {
@@ -294,27 +300,33 @@ const robotsTxtCard = (url: string, robotsTxtBody: string): Card => {
     const table = [
         ['File Name', 'robots.txt'],
         ['File Size', formatNumber(robotsTxtBody.length) + ' bytes'],
-        ['Robot Directives', formatNumber(directives.length)],
     ]
+    const directiveDescriptions: string[] = []
     if (userAgent.length > 0) {
-        table.push(['User-agent:', formatNumber(userAgent.length) + ' statements'])
-        table.push([`User Agent${userAgent.length > 1 ? 's' : ''} List`, userAgent.join('<br>')])
-    }
-    if (allowDirectives.length > 0) {
-        table.push(['Allow:', formatNumber(allowDirectives.length) + ' statements'])
-    }
-    if (disallowDirectives.length > 0) {
-        table.push(['Disallow:', formatNumber(disallowDirectives.length) + ' statements'])
-    }
-    if (crawlDelayDirectives.length > 0) {
-        table.push(['Crawl-delay:', formatNumber(crawlDelayDirectives.length) + ' statements'])
-    }
-    if (hostDirectives.length > 0) {
-        table.push(['Host:', formatNumber(hostDirectives.length) + ' statements'])
+        directiveDescriptions.push(formatNumber(userAgent.length) + ' "User-agent" statements')
     }
     if (linksToSitemap.length > 0) {
-        table.push(['Sitemap:', formatNumber(linksToSitemap.length) + ' statements'])
-        table.push([`Sitemap${linksToSitemap.length > 1 ? 's' : ''} Linked`, linksToSitemap.join('<br>')])
+        directiveDescriptions.push(formatNumber(linksToSitemap.length) + ' "Sitemap" statements')
+    }
+    if (allowDirectives.length > 0) {
+        directiveDescriptions.push(formatNumber(allowDirectives.length) + ' "Allow" statements')
+    }
+    if (disallowDirectives.length > 0) {
+        directiveDescriptions.push(formatNumber(disallowDirectives.length) + ' "Disallow" statements')
+    }
+    if (crawlDelayDirectives.length > 0) {
+        directiveDescriptions.push(formatNumber(crawlDelayDirectives.length) + ' "Crawl-delay" statements')
+    }
+    if (hostDirectives.length > 0) {
+        directiveDescriptions.push(formatNumber(hostDirectives.length) + ' "Host" statements')
+    }
+
+    table.push(['Robot Directives', directiveDescriptions.join('<br>')])
+    if (userAgent.length > 0) {
+        table.push([`User Agent${userAgent.length > 1 ? 's' : ''} List`, userAgent.join('<br>')])
+    }
+    if (linksToSitemap.length > 0) {
+        table.push([`Sitemap${linksToSitemap.length > 1 ? 's' : ''} List`, linksToSitemap.join('<br>')])
     }
 
     return new Card()
@@ -326,7 +338,7 @@ const robotsTxtCard = (url: string, robotsTxtBody: string): Card => {
         .addExpandableBlock(btnLabel, codeBlock(robotsTxtBody, Mode.txt, divId))
 }
 
-export const getUrlsFromRobotsTxt = (robotsTxtBody: string, defaultUrl: string) => {
+export const getSitemapUrlsFromRobotsTxt = (robotsTxtBody: string, defaultUrl: string) => {
     const urls: string[] = robotsTxtBody
         .split('\n')
         .filter(line => line.startsWith('Sitemap: '))
@@ -340,13 +352,15 @@ export const getUrlsFromRobotsTxt = (robotsTxtBody: string, defaultUrl: string) 
     return urls
 }
 
-export const getUrlsFromSitemap = (url: string) => {
+export const getSitemapUrlsFromSitemap = (url: string) => {
     return getSitemapBody(url)
         .then(sitemapBody => {
             let subSitemaps = (sitemapBody.match(
                 /<sitemap>\s*<loc>(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9\-]+\.[^(\s|<|>)]{2,})<\/loc>/gim
             ) ?? []) as string[]
-            subSitemaps = subSitemaps.map(link => link.replace(/(<(\/)?sitemap>|<(\/)?loc>)/gm, '').trim())
+            subSitemaps = subSitemaps.map(link => link.replace(/(<\/?sitemap>|<\/?loc>)/gm, '').trim())
+            subSitemaps = subSitemaps.map(link => htmlDecode(link))
+            console.log(`FOUND sub-sitemaps ["${subSitemaps.join('", "')}"]"`)
             return Promise.resolve(subSitemaps)
         })
         .catch(err => {

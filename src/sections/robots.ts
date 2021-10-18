@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------------
 import {Report} from '../report'
 import {sectionActions, ReportGeneratorFunc} from '../main'
-import {processSitemapFromPromise, getRobotsTxtBody, processRobotsTxtPromise} from './robots-functions'
+import {sitemapsFromPromise, getRobotsTxtBody, robotsTxtFromPromise} from './robots-functions'
 import * as Errors from './errorCards'
 
 const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Report): void => {
@@ -19,8 +19,8 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
     var robotsUrl = new URL(tabUrl).origin + '/robots.txt'
 
     const robotsBodyPromise = getRobotsTxtBody(robotsUrl)
-    processRobotsTxtPromise(robotsBodyPromise, robotsUrl, report)
-    processSitemapFromPromise(robotsBodyPromise, sitemapUrl, report)
+    robotsTxtFromPromise(robotsBodyPromise, robotsUrl, report)
+    sitemapsFromPromise(robotsBodyPromise, sitemapUrl, report)
 }
 
 export const actions: sectionActions = {

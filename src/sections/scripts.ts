@@ -112,14 +112,10 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, report: Report): v
 
 const localJsMatch = (url: string): iTrackMatch => {
     var domainParts = url.split('/')[2].split('.')
-    if (domainParts[0] === 'www') {
-        domainParts = domainParts.splice(1)
-    }
+    domainParts = domainParts.splice(-2)
     var patterns = [`.${domainParts.join('.')}/`]
-
-    if (domainParts.length === 2) {
-        patterns.push(`.${domainParts[0]}cdn.${domainParts[1]}/`)
-    }
+    patterns.push(`.${domainParts[0]}cdn.${domainParts[1]}/`)
+    patterns.push(`.cdn${domainParts[0]}.${domainParts[1]}/`)
 
     return {
         patterns: patterns,

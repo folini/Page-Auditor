@@ -8,7 +8,7 @@
 import {
     getRobotsToolbarLinks,
     getSitemapToolbarLinks,
-    getUrlsFromRobotsTxt,
+    getSitemapUrlsFromRobotsTxt,
     getRobotsTxtBody,
 } from '../src/sections/robots-functions'
 import * as main from '../src/main'
@@ -90,7 +90,7 @@ test('getSitemapLinks() generates valid array with 2 objects', async () => {
 })
 
 test('extractSiteMapUrls() gets the urls', async () => {
-    const data = getUrlsFromRobotsTxt(MockData.RobotsTxtBodySample, MockData.SitemapUrlSample)
+    const data = getSitemapUrlsFromRobotsTxt(MockData.RobotsTxtBodySample, MockData.SitemapUrlSample)
     expect(data).toBeArray().toEqual(MockData.SitemapUrlsSample)
 })
 

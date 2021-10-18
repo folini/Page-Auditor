@@ -1319,5 +1319,29 @@
         "iconClass": "icon-carbonads",
         "description": "Carbon Ads connects advertisers with developers, designers, and tech-savvy audiences through an exclusive network of relevant websites and apps.",
         "url": "https://www.carbonads.net/"
+    },
+    {
+        "patterns": ["(.|/)branch.io/"],
+        "name": "Branch",
+        "category": "Multi-platform Deep Links",
+        "iconClass": "icon-branch",
+        "description": "Branch.io allows you to automatically convert your email links into multi-platform deep links that take app users directly to content in your mobile app, while maintaining the same web experience for desktop and mobile users without the app.",
+        "url": "https://branch.io/"
+    },
+    {
+        "patterns": ["(.|/)baidu.com/"],
+        "name": "Baidu",
+        "category": "Multi-platform Deep Links",
+        "iconClass": "icon-baidu",
+        "description": "Baidu, Inc. is a Chinese multinational technology company specializing in Internet-related services and products and artificial intelligence. It is one of the largest AI and Internet companies in the world.",
+        "url": "https://hm.baidu.com/"
+    },
+    {
+        "patterns": ["(.|/)cookie-script.com/"],
+        "name": "CookieScript",
+        "category": "GDPR Cookie Compliance",
+        "iconClass": "icon-cookie-script",
+        "description": "Cookie scripts is the piece of code that website can implement in their source code to manage cookie control and end-user control, as required by the EU's General Data Protection Regulation (GDPR).",
+        "url": "https://"
     }
 ]

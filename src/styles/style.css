@@ -961,8 +961,11 @@ body#id-page-auditor .box-card.icon-github > h2 {
 body#id-page-auditor .box-card.icon-carbonads > h2 {
   background-image: url(../logos/CarbonAds_100x100.png);
 }
-body#id-page-auditor .box-card.icon-utilihub > h2 {
-  background-image: url(../logos/UtiliHub_100x100.png);
+body#id-page-auditor .box-card.icon-baidu > h2 {
+  background-image: url(../logos/Baidu_100x100.png);
+}
+body#id-page-auditor .box-card.icon-cookie-script > h2 {
+  background-image: url(../logos/CookieScript_100x100.png);
 }
 body#id-page-auditor .icon-linkedin:not(.box-card) {
   background-image: url(../logos/LinkedInAds_100x100.png);

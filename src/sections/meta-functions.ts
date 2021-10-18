@@ -14,7 +14,7 @@ import {Mode} from '../colorCode'
 import {htmlEncode} from 'js-htmlencode'
 
 interface iTagCategoryPreviewer {
-    (m: iMetaTag[], t: iDefaultTagValues, report: Report): string
+    (u: string, m: iMetaTag[], t: iDefaultTagValues, report: Report): string
 }
 
 interface iTagCategoryFilter {
@@ -30,9 +30,9 @@ export interface iTagCategory {
     preview: iTagCategoryPreviewer
 }
 
-export const noPreview: iTagCategoryPreviewer = (m: iMetaTag[], t: iDefaultTagValues, r: Report) => ''
+export const noPreview: iTagCategoryPreviewer = (u: string, m: iMetaTag[], t: iDefaultTagValues, r: Report) => ''
 
-export const twitterPreview = (tags: iMetaTag[], defaults: iDefaultTagValues, report: Report): string => {
+export const twitterPreview = (url: string, tags: iMetaTag[], defaults: iDefaultTagValues, report: Report): string => {
     const linkIcon =
         `<svg viewBox="0 0 24 24" aria-hidden="true" class="r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr">` +
         `<g>` +
@@ -40,7 +40,7 @@ export const twitterPreview = (tags: iMetaTag[], defaults: iDefaultTagValues, re
         `</g>` +
         `</svg>`
     const title = tags.find(m => m.property === 'twitter:title')?.content || defaults.title
-    const img =
+    let img =
         tags.find(m => m.property === 'twitter:image' || m.property === 'twitter:image:src')?.content || defaults.img
     var description = tags.find(m => m.property === 'twitter:description')?.content || defaults.description
     description = description.length < 128 ? description : description.substr(0, 128) + '&mldr;'
@@ -50,8 +50,25 @@ export const twitterPreview = (tags: iMetaTag[], defaults: iDefaultTagValues, re
         domain = domain.replace(/https?:\/\/(www.)?((\w+\.)?\w+\.\w+).*/i, `$2`)
     }
 
+    if(img.length > 0 && !img.startsWith('http')) {
+        img = `https://${new URL(url).origin}${img}`
+    }
+
     if (img.length === 0 || img.includes('/assets/no-image-')) {
         report.addCard(Suggestions.twitterMissingImage())
+    }
+
+    const twitterTagImg = tags.find(m => m.property === 'twitter:image')
+    if(twitterTagImg!==undefined && !twitterTagImg.content.startsWith('https://')) {
+        report.addCard(Suggestions.tagWithRelativeUrl('twitter:image', twitterTagImg.originalCode))
+    }
+   const twitterTagSrcImg = tags.find(m => m.property === 'twitter:image:src')
+    if(twitterTagSrcImg!==undefined && !twitterTagSrcImg.content.startsWith('https://')) {
+        report.addCard(Suggestions.tagWithRelativeUrl('twitter:image:src', twitterTagSrcImg.originalCode))
+    }
+    const twitterTagUrl = tags.find(m => m.property === 'twitter:url')
+    if(twitterTagUrl!==undefined && !twitterTagUrl.content.startsWith('https://')) {
+        report.addCard(Suggestions.tagWithRelativeUrl('twitter:url', twitterTagUrl.originalCode))
     }
 
     return `<div id='id-twitter-card'>
@@ -64,9 +81,9 @@ export const twitterPreview = (tags: iMetaTag[], defaults: iDefaultTagValues, re
         </div>`
 }
 
-export const openGraphPreview = (tags: iMetaTag[], defaults: iDefaultTagValues, report: Report) => {
+export const openGraphPreview = (url: string, tags: iMetaTag[], defaults: iDefaultTagValues, report: Report) => {
     const title = tags.find(m => m.property === 'og:title')?.content || ''
-    const img = tags.find(m => m.property === 'og:image')?.content || ''
+    let img = tags.find(m => m.property === 'og:image')?.content || ''
     var description = tags.find(m => m.property === 'og:description')?.content || ''
     description = description.length < 215 ? description : description.substr(0, 214) + '&mldr;'
     var domain = tags.find(m => m.property === 'og:url')?.content || ''
@@ -75,10 +92,21 @@ export const openGraphPreview = (tags: iMetaTag[], defaults: iDefaultTagValues, 
     }
     domain = domain.toUpperCase()
 
+    if(img.length > 0 && !img.startsWith('http')) {
+        img = `https://${new URL(url).origin}${img}`
+    }
+    
     if (img.length === 0 || img.includes('/assets/no-image-')) {
         report.addCard(Suggestions.openGraphMissingImage())
     }
-
+    const openGraphImgTag = tags.find(m => m.property === 'og:image')
+    if(openGraphImgTag!==undefined && !openGraphImgTag.content.startsWith('https://')) {
+        report.addCard(Suggestions.tagWithRelativeUrl('og:image', openGraphImgTag.originalCode))
+    }
+    const openGraphTagUrl = tags.find(m => m.property === 'og:url')
+    if(openGraphTagUrl!==undefined && !openGraphTagUrl.content.startsWith('https://')) {
+        report.addCard(Suggestions.tagWithRelativeUrl('og:url', openGraphTagUrl.originalCode))
+    }
     return `<div id='id-facebook-card'>        
             ${img.length > 0 && img.startsWith('http') ? `<img src='${img}'>` : ``}
             <div class='open-graph-card-legend'>

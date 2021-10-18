@@ -7,6 +7,7 @@
 import {formatNumber} from '../main'
 import {Card, iLink} from '../card'
 import {Mode} from '../colorCode'
+import { UrlsToCompress } from './robots-functions'
 
 export const sitemapRecommendedMaxSize = 50_000
 
@@ -47,6 +48,7 @@ export const unsafeSitemapLinkInRobots = (urls: string[]) => {
 }
 
 export const duplicateSitemapsInRobots = (urls: string[]) => {
+    urls = [...new Set(urls)]
     const plural = urls.length > 1 ? 's' : ''
     let message1 = `The <code>robots.txt</code> file links multiple times the following sitemap${plural}:`
     let message2 =
@@ -123,7 +125,7 @@ export const malformedSitemapXml = () => {
         .setTitle('Fix Sitemap.xml Syntax')
 }
 
-export const considerCompressingSitemap = (urls: string[]) => {
+export const considerCompressingSitemap = (urls: UrlsToCompress[]) => {
     const plural = urls.length > 1
     const msg1 =
         `${plural? urls.length.toFixed() : 'One'} of your sitemaps ${plural ? 'are' : 'is'} larger than ${formatNumber(sitemapRecommendedMaxSize)} bytes. ` +
@@ -133,11 +135,12 @@ export const considerCompressingSitemap = (urls: string[]) => {
     const links: iLink[] = [
         {label: 'Learn about Compressing Sitemaps', url: 'https://www.sitemaps.org/faq.html#faq_sitemap_size'},
     ]
+    const table = urls.map(url => [url[1].replace(new URL(url[1]).origin, ''), `${formatNumber(url[0])} bytes`])
     return new Card()
         .suggestion()
         .addParagraph(msg1)
         .addParagraph(msg2)
-        .addCodeBlock(urls.map(url => url.trim()).join('\n'), Mode.txt)
+        .addTable('Sitemaps to Compress', table)
         .addCTA(links)
         .setTitle(`Consider Compressing Your Sitemap${plural ? 's' : ''}`)
 }
@@ -231,6 +234,24 @@ export const twitterMissingImage = () => {
         .setTitle('Add Image Meta-Tag for Twitter')
 }
 
+export const tagWithRelativeUrl = (tag: string, url :string) => {
+    const msg1 = `The following Meta Tag <code>${tag}</code> is using a relative url.`
+    const msg2 = `Links in the meta tags should be always absolute, the should start with <code>https://<code>.`
+    const links: iLink[] = [
+        {
+            label: 'Learn about Meta Tags',
+            url: 'https://moz.com/blog/the-ultimate-guide-to-seo-meta-tags',
+        },
+    ]
+    return new Card()
+        .suggestion()
+        .addParagraph(msg1)
+        .addCodeBlock(url, Mode.html)
+        .addParagraph(msg2)
+        .addCTA(links)
+        .setTitle('Meta-Tag Urls Should Be Absolute')
+}
+
 export const noMetaTags = () => {
     const message =
         `Meta Data should always be include in every web page. Meta tags provide important information to teh browser and to the Search Engine bots about the page. ` +
@@ -267,4 +288,12 @@ export const noOpenGraphMetaTags = () => {
         `Open Graph Meta Tags provide recommendation for title, image and descriptions.`
     const links: iLink[] = [{label: 'Learn about Facebook Meta Tags', url: 'https://ogp.me/'}]
     return new Card().suggestion().addParagraph(message).addCTA(links).setTitle('Add Facebook Meta Tags')
+}
+
+export const emptyStructuredData = () => {
+    const msg1 =
+        `A Structured Data snippet is empty. This can affect your page SEO. You can remove the snippet or populate the snippet with data.`
+    const msg2 = `google's structured data validator will mark the lines as erroneous`
+    const links: iLink[] = [{label: 'Learn About Structured Data', url: 'https://developers.google.com/search/docs/advanced/structured-data/product'}]
+    return new Card().suggestion().addParagraph(msg1).addCTA(links).setTitle('Empty Structured Data Snippet')
 }
