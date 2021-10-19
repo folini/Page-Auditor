@@ -41,6 +41,7 @@
   --card-suggestion-color: rgba(255, 215, 0, 0.5);
   --card-error-color: rgba(32, 33, 36, 0.5);
   --card-warning-color: rgba(100, 149, 237, 0.4);
+  --tip-color: rgba(255, 215, 0, 0.36);
 }
 .small-btn {
   text-decoration: none;
@@ -197,63 +198,84 @@ body#id-page-auditor .box-card hr {
   border-top: solid 1px var(--border-color);
   margin: 0 -12px;
 }
-body#id-page-auditor .box-card .card-body {
+body#id-page-auditor .box-card :is(.card-body, .card-footer) {
   padding: var(--card-padding);
   font-size: 14px;
 }
-body#id-page-auditor .box-card .card-body > div {
+body#id-page-auditor .box-card :is(.card-body, .card-footer) > div {
   margin-bottom: 16px;
 }
-body#id-page-auditor .box-card .card-body > div:last-child {
+body#id-page-auditor .box-card :is(.card-body, .card-footer) > div:last-child {
   margin-bottom: 0 !important;
 }
-body#id-page-auditor .box-card .card-body a {
+body#id-page-auditor .box-card :is(.card-body, .card-footer) a {
   color: darkblue;
   text-decoration: none;
 }
-body#id-page-auditor .box-card .card-body a:hover {
+body#id-page-auditor .box-card :is(.card-body, .card-footer) a:hover {
   text-decoration: underline;
 }
-body#id-page-auditor .box-card .card-body .cta-toolbar {
+body#id-page-auditor .box-card :is(.card-body, .card-footer) .cta-toolbar {
   text-align: center;
   margin-bottom: 0;
 }
-body#id-page-auditor .box-card .card-body .code-snippets .code {
+body#id-page-auditor .box-card :is(.card-body, .card-footer) .code-snippets .code {
   margin-bottom: 8px;
 }
-body#id-page-auditor .box-card .card-body .code-snippets .code:last-child {
+body#id-page-auditor .box-card :is(.card-body, .card-footer) .code-snippets .code:last-child {
   margin-bottom: 0;
 }
-body#id-page-auditor .box-card .card-body code {
+body#id-page-auditor .box-card :is(.card-body, .card-footer) code {
   background-color: #eaeaea;
   padding: 0 4px;
 }
-body#id-page-auditor .box-card .card-body table.card-table {
+body#id-page-auditor .box-card :is(.card-body, .card-footer) table.card-table {
   background-color: var(--color-bright-white);
   width: 100%;
   border: solid 1px var(--border-color);
   border-collapse: collapse;
 }
-body#id-page-auditor .box-card .card-body table.card-table th {
+body#id-page-auditor .box-card :is(.card-body, .card-footer) table.card-table th {
   padding: 4px 0;
   background-color: #f0f0f0;
   font-weight: normal;
 }
-body#id-page-auditor .box-card .card-body table.card-table td {
+body#id-page-auditor .box-card :is(.card-body, .card-footer) table.card-table td {
   border: solid 1px var(--border-color-light);
   padding: 2px 4px;
   font-size: 13px;
   min-width: 100px;
 }
-body#id-page-auditor .box-card .card-body table.card-table td div.sd-description-line {
+body#id-page-auditor .box-card :is(.card-body, .card-footer) table.card-table td div.sd-description-line {
   margin-bottom: 6px;
   word-break: break-word;
 }
-body#id-page-auditor .box-card .card-body table.card-table td div.sd-description-line span.sd-label {
+body#id-page-auditor .box-card :is(.card-body, .card-footer) table.card-table td div.sd-description-line span.sd-label {
   font-weight: bold;
 }
-body#id-page-auditor .box-card .card-body table.card-table td div.sd-description-line:last-child {
+body#id-page-auditor .box-card :is(.card-body, .card-footer) table.card-table td div.sd-description-line:last-child {
   margin-bottom: 0;
+}
+body#id-page-auditor .box-card .card-footer {
+  padding-top: 0;
+}
+body#id-page-auditor .box-card .card-footer .card-tip {
+  border: solid 1px var(--border-color);
+  background-color: var(--tip-color);
+  padding: 16px;
+}
+body#id-page-auditor .box-card .card-footer .card-tip .tip-title {
+  font-weight: bold;
+  padding-bottom: 8px;
+}
+body#id-page-auditor .box-card .card-footer .card-tip .tip-body {
+  padding-bottom: 16px;
+}
+body#id-page-auditor .box-card .card-footer .card-tip .tip-body > div {
+  margin-top: 8px;
+}
+body#id-page-auditor .box-card .card-footer .card-tip .tip-body > div > .code {
+  margin-top: 16px;
 }
 body#id-page-auditor .box-card div.code {
   font-family: monospace, 'Courier New', Courier, monospace;

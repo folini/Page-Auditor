@@ -24,7 +24,9 @@
     --card-icon-size: 52px;
     --card-suggestion-color: rgb(255 215 0 / 50%);
     --card-error-color: rgb(32 33 36 / 50%);
-    --card-warning-color: rgb(100 149 237 / 40%); //rgb(255 165 0 / 65%);
+    --card-warning-color: rgb(100 149 237 / 40%);
+
+    --tip-color: rgb(255 215 0 / 36%);
 }
 
 .small-btn {
@@ -199,7 +201,7 @@ body#id-page-auditor {
             margin: 0 -12px;
         }
 
-        .card-body {
+        :is(.card-body, .card-footer) {
             padding: var(--card-padding);
             font-size: 14px;
 
@@ -259,6 +261,29 @@ body#id-page-auditor {
                         }
                         &:last-child {
                             margin-bottom: 0;
+                        }
+                    }
+                }
+            }
+        }
+
+        .card-footer {
+            padding-top: 0;
+            .card-tip {
+                border: solid 1px var(--border-color);
+                background-color: var(--tip-color);
+                padding: 16px;
+                .tip-title {
+                    font-weight: bold;
+                    padding-bottom: 8px;
+                }
+                .tip-body {
+                    padding-bottom: 16px;
+
+                    > div {
+                        margin-top: 8px;
+                        > .code {
+                            margin-top: 16px;
                         }
                     }
                 }

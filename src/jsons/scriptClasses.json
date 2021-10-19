@@ -176,6 +176,7 @@
     {
         "patterns": [
             "(.|/)hsadspixel.net/",
+            "(.|/)hsforms.net/",
             "(.|/)hscollectedforms.net/",
             "(.|/)hs-banner.com/",
             "(.|/)hs-analytics.net/",

@@ -26,6 +26,7 @@ export class Card {
     #head: HTMLHeadingElement
     #body: HTMLDivElement
     #kind: CardKind
+    #footer: HTMLDivElement
 
     constructor() {
         this.#div = document.createElement('div')
@@ -35,7 +36,9 @@ export class Card {
         const hr = document.createElement('hr')
         this.#body = document.createElement('div')
         this.#body.className = 'card-body'
-        this.#div.append(this.#head, hr, this.#body)
+        this.#footer = document.createElement('div')
+        this.#footer.className = 'card-footer hide'
+        this.#div.append(this.#head, hr, this.#body, this.#footer)
 
         this.#kind = CardKind.report
     }
@@ -149,7 +152,7 @@ export class Card {
     public addTable(title: string, table: string[][]) {
         let html = ''
         html += '<table class="card-table">'
-        if(title.length>0) {
+        if (title.length > 0) {
             html += `<thead>`
             html += `<tr>`
             html += `<th colspan='2'>${title}</th>`
@@ -164,10 +167,36 @@ export class Card {
     }
 
     public tag(tag: string) {
-        if(tag === 'card-ok' && this.#head.classList.contains('card-fix')) {
+        if (tag === 'card-ok' && this.#head.classList.contains('card-fix')) {
             return this
         }
         this.#head.classList.add(tag)
+        return this
+    }
+    public addTip(title: string, txts: string[], cta: iLink = {label: ''}) {
+        const tipDiv = document.createElement('div')
+        tipDiv.className = 'card-tip'
+        const tipTitle = document.createElement('div')
+        tipTitle.className = 'tip-title'
+        tipTitle.innerHTML = title
+        const tipBody = document.createElement('div')
+        tipBody.className = 'tip-body'
+        tipBody.innerHTML = txts.map(txt => `<div>${txt}</div>`).join('')
+        const tipCTA = document.createElement('div')
+        tipCTA.className = 'cta-toolbar'
+        const tipBtn = document.createElement('a')
+        tipBtn.className = 'large-btn'
+        tipBtn.innerHTML = cta.label
+        tipBtn.href = cta.url as string
+        tipCTA.append(tipBtn)
+        tipDiv.append(tipTitle, tipBody, tipCTA)
+
+        this.#footer.append(tipDiv)
+        if(this.#footer.classList.contains('hide')) {
+            this.#footer.classList.remove('hide')
+            this.#footer.classList.add('show')
+        }
+        this.tag('card-fix')
         return this
     }
 }

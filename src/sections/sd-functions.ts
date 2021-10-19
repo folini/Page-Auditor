@@ -11,6 +11,7 @@ import {disposableId, copyToClipboard} from '../main'
 import {codeBlock} from '../codeBlock'
 import * as Suggestions from './suggestionCards'
 import {Report} from '../report'
+import { htmlEncode } from 'js-htmlencode'
 
 export const schemaLinks = (schemaName: string, ldjsonUrl: string, codeId: string): iLink[] => [
     {
@@ -29,7 +30,6 @@ export const schemaLinks = (schemaName: string, ldjsonUrl: string, codeId: strin
 
 export const schemaTypeOfSnippet = (ldJson: iJsonLD) => {
     const schemaType = ldJson['@type']
-    console.log(`Schema Type = [${JSON.stringify(schemaType)}]`)
     
     if (schemaType === undefined) {
         return 'Graph'
@@ -107,7 +107,7 @@ const getTypes = (ldJson: iJsonLD, level = 0): SdType[] => {
                 keyValueDesc.push(descriptionLine(`Headline`, `${ldJson.headline}`))
             }
             if (ldJson.description) {
-                keyValueDesc.push(descriptionLine(`Description`, `${ldJson.description}`))
+                keyValueDesc.push(descriptionLine(`Description`, `${htmlEncode(ldJson.description as string)}`))
             }
             if (ldJson.caption) {
                 keyValueDesc.push(descriptionLine(`Caption`, `${ldJson.caption}`))

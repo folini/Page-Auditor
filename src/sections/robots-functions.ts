@@ -12,6 +12,7 @@ import {disposableId, copyToClipboard, formatNumber, fileExists} from '../main'
 import * as Suggestions from './suggestionCards'
 import * as Warnings from './warningCards'
 import * as Errors from './errorCards'
+import {Tips} from "./tips"
 import {codeBlock} from '../codeBlock'
 import {htmlDecode} from 'js-htmlencode'
 
@@ -44,15 +45,13 @@ const getSitemapBody = async (url: string) => {
 
 export const createSiteMapCards = (
     urls: string[],
-    sitemapsToCompress: UrlsToCompress[],
-    sitemapsMissingExtension: string[],
     report: Report
 ): Promise<number> => {
     let sitemapFound = 0
     const promises = urls.map(url =>
         getSitemapBody(url)
             .then(sitemapBody => {
-                let issues = 0
+
                 if (sitemapBody.match(/not found/gim) !== null || sitemapBody.match(/error 404/gim) !== null) {
                     report.addCard(Errors.sitemapReturns404(url))
                     report.addCard(Suggestions.malformedSitemapXml())
@@ -88,17 +87,7 @@ export const createSiteMapCards = (
                     return
                 }
 
-                if (sitemapBody.length > Suggestions.sitemapRecommendedMaxSize) {
-                    sitemapsToCompress.push([sitemapBody.length, url])
-                    issues++
-                }
-
                 const fileName = url.replace(/(.*)\/([a-z0-9\-_\.]+(\.xml)?)(\?.*)?/i, '$2')
-
-                if (!fileName.includes('.xml')) {
-                    sitemapsMissingExtension.push(url)
-                    issues++
-                }
 
                 const divId = disposableId()
                 const btnLabel = `Sitemap`
@@ -124,7 +113,8 @@ export const createSiteMapCards = (
                     ],
                     ['Compressed', 'No Compression Detected'],
                 ]
-                report.addCard(
+
+                const card = 
                     new Card()
                         .open(`Sitemap`, fileName, getSitemapToolbarLinks(url, divId), 'icon-sitemap')
                         .addParagraph(`Found a <code>sitemap.xml</code> file at the url:`)
@@ -132,8 +122,17 @@ export const createSiteMapCards = (
                         .addParagraph(sitemapXmlDescription)
                         .addTable('Sitemap Analysis', table)
                         .addExpandableBlock(btnLabel, codeBlock(sitemapBody, Mode.xml, divId))
-                        .tag(issues === 0 ? 'card-ok' : 'card-fix')
-                )
+                        .tag('card-ok')
+
+                report.addCard(card)
+
+                if (sitemapBody.length > Suggestions.sitemapRecommendedMaxSize) {
+                    Tips.considerCompressingSitemap(card, url, sitemapBody.length)
+                } 
+                if (!fileName.includes('.xml')) {
+                    Tips.lackingSitemapExtension(card, url)
+                }
+
                 sitemapFound++
                 return Promise.resolve()
             })
@@ -170,18 +169,14 @@ export const getRobotsTxtBody = (url: string) => {
 }
 
 const sanitizeUrls = (urls: string[], report: Report) => {
-    const unsafeUrls = urls.filter(url => url.includes(`http://`))
-    if (unsafeUrls.length > 0) {
-        report.addCard(Suggestions.unsafeSitemapLinkInRobots(unsafeUrls))
-    }
     return urls.map(url => (url.includes(`http://`) ? url.replace(`http://`, `https://`) : url))
 }
 
-const uniqueUrls = (urls: string[], report: Report) => {
+const uniqueUrls = (urls: string[], card: Card) => {
     const uniqueUrls = [...new Set(urls)]
     if (urls.length !== uniqueUrls.length) {
         const duplicateUrls = urls.filter(uniqueUrl => urls.filter(url => url === uniqueUrl).length > 1)
-        report.addCard(Suggestions.duplicateSitemapsInRobots(duplicateUrls))
+        Tips.duplicateSitemapsInRobots(card, duplicateUrls)
     }
     return uniqueUrls
 }
@@ -189,22 +184,26 @@ const uniqueUrls = (urls: string[], report: Report) => {
 export const sitemapsFromPromise = (robotBody: Promise<string>, url: string, report: Report, robotCard: Card|undefined = undefined) => {
     let sitemapUrls = [url]
     let sitemapCardsCreated = 0
-    let sitemapsTopCompress: UrlsToCompress[] = []
-    let sitemapsMissingExtension: string[] = []
     let sitemapsToIgnore: string[] = []
 
     robotBody
         .then(robotsTxtBody => {
             sitemapUrls = getSitemapUrlsFromRobotsTxt(robotsTxtBody, sitemapUrls[0])
-            sitemapUrls = sanitizeUrls(sitemapUrls, report)
-            const unique = uniqueUrls(sitemapUrls, report)
-            if(robotCard !== undefined && uniqueUrls.length !== sitemapUrls.length) {
+            const unsafeUrls = sitemapUrls.filter(url => url.includes(`http://`))
+            if(unsafeUrls.length > 0) {
+                Tips.unsafeSitemapLinkInRobots(robotCard as Card, unsafeUrls)
+                sitemapUrls = sanitizeUrls(sitemapUrls, report)
+            }
+            const unique = uniqueUrls(sitemapUrls, robotCard as Card)
+            if(robotCard !== undefined && unique.length !== sitemapUrls.length) {
+
                 robotCard.tag('card-fix')
             }
+
             sitemapUrls  = unique
             sitemapsToIgnore = sitemapUrls.slice(maxNumberOfSitemapsToLoad)
             const sitemapsToAdd = sitemapUrls.slice(0, maxNumberOfSitemapsToLoad)
-            return createSiteMapCards(sitemapsToAdd, sitemapsTopCompress, sitemapsMissingExtension, report)
+            return createSiteMapCards(sitemapsToAdd, report)
         })
         .then(nSitemapCards => {
             sitemapCardsCreated = nSitemapCards
@@ -218,7 +217,7 @@ export const sitemapsFromPromise = (robotBody: Promise<string>, url: string, rep
             const spaceLeft = maxNumberOfSitemapsToLoad - sitemapCardsCreated
             sitemapsToIgnore.push(...newUrls.slice(spaceLeft))
             const sitemapsToAdd = newUrls.slice(0, spaceLeft)
-            return createSiteMapCards(sitemapsToAdd, sitemapsTopCompress, sitemapsMissingExtension, report)
+            return createSiteMapCards(sitemapsToAdd, report)
         })
         .then(nNewSitemaps => {
             sitemapCardsCreated += nNewSitemaps
@@ -232,14 +231,8 @@ export const sitemapsFromPromise = (robotBody: Promise<string>, url: string, rep
             if (sitemapsToIgnore.length > 0) {
                 report.addCard(Warnings.notAllSitemapsLoaded(maxNumberOfSitemapsToLoad, sitemapsToIgnore))
             }
-            if (sitemapsTopCompress.length > 0) {
-                report.addCard(Suggestions.considerCompressingSitemap(sitemapsTopCompress))
-            }
             if (sitemapCardsCreated === 0) {
                 report.addCard(Suggestions.missingSitemapXml())
-            }
-            if (sitemapsMissingExtension.length > 0) {
-                report.addCard(Suggestions.missingSitemapExtension(sitemapsMissingExtension))
             }
         })
 }
@@ -269,14 +262,13 @@ export const robotsTxtFromPromise = (bodyPromise: Promise<string>, url: string, 
                 return Promise.reject()
             }
 
-            const siteMaps = robotsTxtBody.match(/^sitemap:\shttp/gim) || []
-            if (siteMaps.length === 0) {
-                report.addCard(Suggestions.linkSitemapFromRobotsTxt())
-                issues++
-            }
-
             const card = robotsTxtCard(url, robotsTxtBody, issues)
             report.addCard(card)
+
+            const siteMaps = robotsTxtBody.match(/^sitemap:\shttp/gim) || []
+            if (siteMaps.length === 0) {
+                Tips.addSitemapLinkToRobotsTxt(card)
+            }
             return Promise.resolve(card)
         })
         .catch(errCard => {
@@ -390,7 +382,6 @@ export const getSitemapUrlsFromSitemap = (url: string) => {
             ) ?? []) as string[]
             subSitemaps = subSitemaps.map(link => link.replace(/(<\/?sitemap>|<\/?loc>)/gm, '').trim())
             subSitemaps = subSitemaps.map(link => htmlDecode(link))
-            console.log(`FOUND sub-sitemaps ["${subSitemaps.join('", "')}"]"`)
             return Promise.resolve(subSitemaps)
         })
         .catch(err => {

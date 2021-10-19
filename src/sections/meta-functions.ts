@@ -12,6 +12,7 @@ import * as Suggestions from './suggestionCards'
 import * as Errors from './errorCards'
 import {Mode} from '../colorCode'
 import {htmlEncode} from 'js-htmlencode'
+import {Tips} from './tips'
 
 interface iTagCategoryPreviewer {
     (c: Card, u: string, m: iMetaTag[], t: iDefaultTagValues, report: Report): void
@@ -40,7 +41,6 @@ export const twitterPreview = (
     defaults: iDefaultTagValues,
     report: Report
 ) => {
-    let issues = 0
     const linkIcon =
         `<svg viewBox="0 0 24 24" aria-hidden="true" class="r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr">` +
         `<g>` +
@@ -48,6 +48,8 @@ export const twitterPreview = (
         `</g>` +
         `</svg>`
     const title = tags.find(m => m.property === 'twitter:title')?.content || defaults.title
+    const twitterImg =
+        tags.find(m => m.property === 'twitter:image' || m.property === 'twitter:image:src')?.content || ''
     let img =
         tags.find(m => m.property === 'twitter:image' || m.property === 'twitter:image:src')?.content || defaults.img
     var description = tags.find(m => m.property === 'twitter:description')?.content || defaults.description
@@ -60,33 +62,47 @@ export const twitterPreview = (
 
     if (img.length > 0 && !img.startsWith('http')) {
         img = `https://${new URL(url.trim()).origin}${img.trim()}`
-        issues++
     }
 
-    if (img.length === 0 || img.includes('/assets/no-image-')) {
-        report.addCard(Suggestions.twitterMissingImage())
-        issues++
+    if (img.startsWith('http://')) {
+        img = img.replace('http://', 'https://')
+    }
+
+    if (img.includes('/assets/no-image-')) {
+        Tips.emptyTwitterImage(card, img)
+    }
+
+    if (twitterImg.length === 0 && img.length === 0) {
+        Tips.lackingTwitterImageMetaTag(card)
+    }
+
+    if (twitterImg.length === 0 && img.length > 0) {
+        Tips.lackingSpecificTwitterImageMetaTag(card)
     }
 
     fileExists(img).catch(() => {
-        report.addCard(Suggestions.missingTwitterImage(img))
-        card.tag('card-fix')
+        Tips.missingTwitterImage(card, img)
     })
 
     const twitterTagImg = tags.find(m => m.property === 'twitter:image')
-    if (twitterTagImg !== undefined && !twitterTagImg.content.startsWith('https://')) {
-        report.addCard(Suggestions.tagWithRelativeUrlPath('twitter:image', twitterTagImg.originalCode))
-        issues++
+    if (twitterTagImg !== undefined && !twitterTagImg.content.startsWith('http')) {
+        Tips.tagWithRelativeUrlPath(card, 'twitter:image', twitterTagImg.originalCode)
+    } else if (twitterTagImg !== undefined && twitterTagImg.content.startsWith('http://')) {
+        Tips.tagWithUnsafeUrl(card, 'twitter:image', twitterTagImg.originalCode)
     }
+
     const twitterTagSrcImg = tags.find(m => m.property === 'twitter:image:src')
-    if (twitterTagSrcImg !== undefined && !twitterTagSrcImg.content.startsWith('https://')) {
-        report.addCard(Suggestions.tagWithRelativeUrlPath('twitter:image:src', twitterTagSrcImg.originalCode))
-        issues++
+    if (twitterTagSrcImg !== undefined && !twitterTagSrcImg.content.startsWith('http')) {
+        Tips.tagWithRelativeUrlPath(card, 'twitter:image:src', twitterTagSrcImg.originalCode)
+    } else if (twitterTagSrcImg !== undefined && twitterTagSrcImg.content.startsWith('http://')) {
+        Tips.tagWithUnsafeUrl(card, 'twitter:image:src', twitterTagSrcImg.originalCode)
     }
+
     const twitterTagUrl = tags.find(m => m.property === 'twitter:url')
     if (twitterTagUrl !== undefined && !twitterTagUrl.content.startsWith('https://')) {
-        report.addCard(Suggestions.tagWithRelativeUrlPath('twitter:url', twitterTagUrl.originalCode))
-        issues++
+        Tips.tagWithRelativeUrlPath(card, 'twitter:url', twitterTagUrl.originalCode)
+    } else if (twitterTagUrl !== undefined && twitterTagUrl.content.startsWith('http://')) {
+        Tips.tagWithUnsafeUrl(card, 'twitter:url', twitterTagUrl.originalCode)
     }
 
     card.add(`<div id='id-twitter-card'>
@@ -97,9 +113,6 @@ export const twitterPreview = (
             ${domain.length > 0 ? `<div class='twitter-card-domain'>${linkIcon} ${domain}</div>` : ''}
           </div>
         </div>`)
-    if (issues > 0) {
-        card.tag('card-fix')
-    }
 }
 
 export const openGraphPreview = (
@@ -109,7 +122,6 @@ export const openGraphPreview = (
     defaults: iDefaultTagValues,
     report: Report
 ) => {
-    let issues = 0
     const title = tags.find(m => m.property === 'og:title')?.content || ''
     let img = tags.find(m => m.property === 'og:image')?.content || ''
     var description = tags.find(m => m.property === 'og:description')?.content || ''
@@ -124,25 +136,34 @@ export const openGraphPreview = (
         img = `https://${new URL(url).origin.trim()}${img.trim()}`
     }
 
-    if (img.length === 0 || img.includes('/assets/no-image-')) {
-        report.addCard(Suggestions.openGraphMissingImage())
-        issues++
+    if (img.startsWith('http://')) {
+        img = img.replace('http://', 'https://')
+    }
+    
+    if (img.includes('/assets/no-image-')) {
+        Tips.emptyOpenGraphImage(card, img)
+    }
+
+    if (img.length === 0) {
+        Tips.lackingOpenGraphImageMetaTag(card)
     }
 
     fileExists(img).catch(() => {
-        report.addCard(Suggestions.missingOpenGraphImage(img))
-        card.tag('card-fix')
+        Tips.missingOpenGraphImage(card, img)
     })
 
     const openGraphImgTag = tags.find(m => m.property === 'og:image')
-    if (openGraphImgTag !== undefined && !openGraphImgTag.content.startsWith('https://')) {
-        report.addCard(Suggestions.tagWithRelativeUrlPath('og:image', openGraphImgTag.originalCode))
-        issues++
+    if (openGraphImgTag !== undefined && !openGraphImgTag.content.startsWith('http')) {
+        Tips.tagWithRelativeUrlPath(card, 'og:image', openGraphImgTag.originalCode)
+    } else if (openGraphImgTag !== undefined && openGraphImgTag.content.startsWith('http://')) {
+        Tips.tagWithUnsafeUrl(card, 'og:image', openGraphImgTag.originalCode)
     }
+
     const openGraphTagUrl = tags.find(m => m.property === 'og:url')
-    if (openGraphTagUrl !== undefined && !openGraphTagUrl.content.startsWith('https://')) {
-        report.addCard(Suggestions.tagWithRelativeUrlPath('og:url', openGraphTagUrl.originalCode))
-        issues++
+    if (openGraphTagUrl !== undefined && !openGraphTagUrl.content.startsWith('http')) {
+        Tips.tagWithRelativeUrlPath(card, 'og:url', openGraphTagUrl.originalCode)
+    } else if (openGraphTagUrl !== undefined && openGraphTagUrl.content.startsWith('http://')) {
+        Tips.tagWithUnsafeUrl(card, 'og:url', openGraphTagUrl.originalCode)
     }
 
     card.add(`<div id='id-facebook-card'>        
@@ -153,9 +174,6 @@ export const openGraphPreview = (
               <div class='og-description'>${htmlEncode(description)}</div>
             </div>
           </div>`)
-    if (issues > 0) {
-        card.tag('card-fix')
-    }
 }
 
 export const tagCategories: iTagCategory[] = [
