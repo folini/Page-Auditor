@@ -7,7 +7,7 @@
 import {iJsonLD} from './sd'
 import {Card, iLink} from '../card'
 import {Mode} from '../colorCode'
-import {disposableId, copyTxtToClipboard} from '../main'
+import {disposableId, copyToClipboard} from '../main'
 import {codeBlock} from '../codeBlock'
 import * as Suggestions from './suggestionCards'
 import {Report} from '../report'
@@ -15,7 +15,7 @@ import {Report} from '../report'
 export const schemaLinks = (schemaName: string, ldjsonUrl: string, codeId: string): iLink[] => [
     {
         label: 'Copy Code',
-        onclick: () => copyTxtToClipboard(codeId),
+        onclick: () => copyToClipboard(codeId),
     },
     {
         url: `https://validator.schema.org/#url=${encodeURI(ldjsonUrl)}`,
@@ -27,31 +27,36 @@ export const schemaLinks = (schemaName: string, ldjsonUrl: string, codeId: strin
     },
 ]
 
+export const schemaTypeOfSnippet = (ldJson: iJsonLD) => {
+    const schemaType = ldJson['@type']
+    console.log(`Schema Type = [${JSON.stringify(schemaType)}]`)
+    
+    if (schemaType === undefined) {
+        return 'Graph'
+    }
+    if (typeof schemaType === 'string') {
+        return schemaType
+    }
+    if (Array.isArray(schemaType) && schemaType.length > 0) {
+        return (schemaType as string[])[0]
+    }
+    return ''
+}
+
 export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string, report: Report) => {
-    if (JSON.stringify(ldJson) === '{}') {
+    if (Object.keys(ldJson).length === 0) {
         report.addCard(Suggestions.emptyStructuredData())
     }
-    const schemaType: string = (ldJson['@type'] || 'Graph') as string
+    let schemaType = schemaTypeOfSnippet(ldJson)
+
+    if (schemaType === '') {
+        report.addCard(Suggestions.invalidStructuredData())
+        return
+    }
+
     const jsonCode = JSON.stringify(ldJson)
     const scriptId = disposableId()
-    // Find all @types in the JSON-LD as string[]
-    const typesMatches = (jsonCode.match(/("@type":\s*")([a-z0-9]*)/gi) ?? ([] as string[])).map(m =>
-        m.replace(/("@type":\s*")/gi, '')
-    )
-    // Compute unique @types as string[]
-    const typesUnique = [...new Set(typesMatches)]
-    //Count occurrences of each @type
-    let table = typesUnique
-        .map(type => [
-            `<a href='https://https://schema.org/${type}/' target='_new'>${type.replace(
-                /([a-z])([A-Z])/g,
-                '$1 $2'
-            )}</a>`,
-            typesMatches.filter(t => t === type).length.toFixed() +
-                ` occurrence${typesMatches.filter(t => t === type).length > 1 ? 's' : ''}`,
-        ])
-        .sort((a, b) => (a[1] !== b[1] ? b[1].localeCompare(a[1]) : a[0].localeCompare(b[0])))
-    table = getTypes(ldJson)
+    const table = getTypes(ldJson)
     const structuredDataDescription = `Structured Data communicates content (data) to the Search Engines in an organized manner so they can display the content in the SERPs in an attractive manner.`
     const btnLabel = 'LD-JSON Code'
     const card = new Card()
@@ -64,145 +69,94 @@ export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string, report: Report) => {
         .addParagraph(structuredDataDescription)
         .addTable('Structured Data Analysis', table)
         .addExpandableBlock(btnLabel, codeBlock(jsonCode, Mode.json, scriptId))
+        .tag('card-ok')
+
     report.addCard(card)
 }
 
 const flattenSchemaName = (name: string): string => name.replace(/([a-z])([A-Z])/g, '$1 $2')
 
-type SdType = [type: string, name: string]
+export type SdType = [type: string, name: string]
+
+const descriptionLine = (label: string, description: string) =>
+    `<div class='sd-description-line'><span class='sd-label'>${label}:</span> <span class='sd-description'>${description}</span></div>`
 
 const getTypes = (ldJson: iJsonLD, level = 0): SdType[] => {
     const types: SdType[] = []
     Object.keys(ldJson).forEach(jsonKey => {
-        const key = ldJson[jsonKey] as string
         if (jsonKey === '@type') {
-            let keyValue: string[] = []
-            switch (key) {
-                case 'Person':
-                    if (ldJson.name) {
-                        keyValue.push(`Name: ${ldJson.name}`)
-                    }
-                    break
-                case 'WebSite':
-                    if (ldJson.name) {
-                        keyValue.push(`Name: ${ldJson.name}`)
-                    }
-                    if (ldJson.url) {
-                        keyValue.push(`<a href='${ldJson.url}' target='_new'>Link</a>`)
-                    }
-                    break
-                case 'Offer':
-                    if (ldJson.price && ldJson.priceCurrency) {
-                        keyValue.push(`${(ldJson.price as number).toFixed(2)} ${ldJson.priceCurrency}`)
-                    }
-                    break
-                case 'WebPageElement':
-                    if (ldJson.cssSelector) {
-                        keyValue.push(`CSS Selector: ${ldJson.cssSelector}`)
-                    }
-                    break
-                case 'NewsArticle':
-                    if (ldJson.headline) {
-                        keyValue.push(`Headline: ${ldJson.headline}`)
-                    }
-                    if (ldJson.description) {
-                        keyValue.push(`Description: ${ldJson.description}`)
-                    }
-                    break
-                case 'Organization':
-                    if (ldJson.name) {
-                        keyValue.push(`Name: ${ldJson.name}`)
-                    }
-                    if (ldJson.url) {
-                        keyValue.push(`<a href='${ldJson.url}' target='_new'>Link</a>`)
-                    }
-                    break
-                case 'ContactPoint':
-                    if (ldJson.contactType) {
-                        keyValue.push(`${ldJson.contactType as string}`)
-                    }
-                    if (ldJson.telephone) {
-                        keyValue.push(`Phone: ${ldJson.telephone as string}`)
-                    }
-                    if (ldJson.email) {
-                        keyValue.push(`Email: ${ldJson.email as string}`)
-                    }
-
-                    break
-                case 'PostalAddress':
-                    if (
-                        ldJson.streetAddress &&
-                        ldJson.postalCode &&
-                        ldJson.addressRegion &&
-                        ldJson.addressLocality &&
-                        ldJson.addressCountry
-                    ) {
-                        keyValue.push(`${ldJson.streetAddress}`)
-                        keyValue.push(`${ldJson.addressLocality}, ${ldJson.addressRegion} ${ldJson.postalCode}`)
-                        keyValue.push(`${ldJson.addressCountry}`)
-                    }
-                    break
-                case 'Article':
-                    if (ldJson.author && (ldJson.author as any)[0].name) {
-                        keyValue.push(`Author: ${(ldJson.author as any)[0].name}`)
-                    }
-                    break
-                case 'GeoCoordinates':
-                    if (ldJson.latitude && ldJson.longitude) {
-                        keyValue.push(`${ldJson.latitude as string}, ${ldJson.longitude}`)
-                    }
-                    break
-                case 'ListItem':
-                    if (ldJson.name) {
-                        keyValue.push(`Name: ${ldJson.name}`)
-                    }
-                    if (ldJson.position) {
-                        keyValue.push(`Item at position ${(ldJson.position as number).toFixed()}`)
-                    }
-                    if (ldJson.url) {
-                        keyValue.push(`Url: <a href='${ldJson.url}' target='_new'>Link</a>`)
-                    }
-                    break
-                case 'ItemList':
-                    if (ldJson.itemListElement) {
-                        keyValue.push(`List of ${(ldJson.itemListElement as []).length.toFixed()} items`)
-                    }
-                    break
-                case 'BreadcrumbList':
-                    if (ldJson.itemListElement) {
-                        keyValue.push(`List of ${(ldJson.itemListElement as []).length.toFixed()} items`)
-                    }
-                    break
-                case 'ImageGallery':
-                    if (ldJson.Image) {
-                        keyValue.push(`List of ${(ldJson.Image as []).length.toFixed()} items`)
-                    }
-                    break
-                case 'ImageObject':
-                    if (ldJson.url) {
-                        keyValue.push(`<a href='${ldJson.url}' target='_new'>Link</a>`)
-                    }
-                    if (ldJson.height && ldJson.width) {
-                        keyValue.push(
-                            `Resolution: ${(ldJson.width as number).toFixed()} x ${(
-                                ldJson.height as number
-                            ).toFixed()} pixels`
-                        )
-                    }
-                    if (ldJson.name) {
-                        keyValue.push(`Name: ${ldJson.name}`)
-                    }
-                    break
+            let keyValueDesc: string[] = []
+            if (ldJson['@id']) {
+                keyValueDesc.push(descriptionLine(`Id`, ldJson['@id'] as string))
+            }
+            if (ldJson.name) {
+                keyValueDesc.push(descriptionLine(`Name`, ldJson.name as string))
+            }
+            if (ldJson.url) {
+                keyValueDesc.push(descriptionLine(`Url`, `<a href='${ldJson.url}' target='_new'>${ldJson.url}</a>`))
+            }
+            if (ldJson.price && ldJson.priceCurrency) {
+                keyValueDesc.push(
+                    descriptionLine(`Price`, `${(ldJson.price as number).toFixed(2)} ${ldJson.priceCurrency}`)
+                )
+            }
+            if (ldJson.cssSelector) {
+                keyValueDesc.push(descriptionLine(`CSS Selector`, `${ldJson.cssSelector}`))
+            }
+            if (ldJson.headline) {
+                keyValueDesc.push(descriptionLine(`Headline`, `${ldJson.headline}`))
+            }
+            if (ldJson.description) {
+                keyValueDesc.push(descriptionLine(`Description`, `${ldJson.description}`))
+            }
+            if (ldJson.caption) {
+                keyValueDesc.push(descriptionLine(`Caption`, `${ldJson.caption}`))
+            }
+            if (ldJson.target) {
+                keyValueDesc.push(descriptionLine(`Target`, `${ldJson.target}`))
+            }
+            if (ldJson.contactType) {
+                keyValueDesc.push(descriptionLine(`Contact Type`, `${ldJson.contactType as string}`))
+            }
+            if (ldJson.telephone) {
+                keyValueDesc.push(descriptionLine(`Phone`, ` ${ldJson.telephone as string}`))
+            }
+            if (ldJson.email) {
+                keyValueDesc.push(descriptionLine(`Email`, `${ldJson.email as string}`))
+            }
+            if (
+                ldJson.streetAddress &&
+                ldJson.postalCode &&
+                ldJson.addressRegion &&
+                ldJson.addressLocality &&
+                ldJson.addressCountry
+            ) {
+                keyValueDesc.push(descriptionLine(`Address`, `${ldJson.streetAddress}<br>${ldJson.addressLocality}, ${ldJson.addressRegion}<br>${ldJson.postalCode}`))
+                keyValueDesc.push(`${ldJson.addressCountry}`)
+            }
+            if (ldJson.latitude && ldJson.longitude) {
+                keyValueDesc.push(descriptionLine(`Geo Coordinates`, `${ldJson.latitude as string}, ${ldJson.longitude}`))
+            }
+            if (ldJson.position) {
+                keyValueDesc.push(descriptionLine(`Position`, `${(ldJson.position as number).toFixed()}`))
+            }
+            if (ldJson.itemListElement) {
+                keyValueDesc.push(descriptionLine(`List Size`, `${(ldJson.itemListElement as []).length.toFixed()}`))
+            }
+            if (ldJson.Image) {
+                keyValueDesc.push(descriptionLine(`List Size`, `${(ldJson.Image as []).length.toFixed()}`))
+            }
+            if (ldJson.height && ldJson.width) {
+                keyValueDesc.push(descriptionLine(`Resolution`, `${(ldJson.width as number).toFixed()} x ${(ldJson.height as number).toFixed()} pixels`)
+                )
             }
             types.push([
-                `<span style='text-decoration:line-through'>${'&nbsp;'.repeat(level)}</span>&nbsp;${flattenSchemaName(
-                    key
-                )}`,
-                keyValue.join('<br>'),
+                flattenSchemaName(schemaTypeOfSnippet(ldJson)),
+                keyValueDesc.join(''),
             ])
         }
-        if (typeof key === 'object') {
-            types.push(...getTypes(key, level + 1))
+        if (typeof ldJson[jsonKey] === 'object') {
+            types.push(...getTypes(ldJson[jsonKey] as iJsonLD, level + 1))
         }
     })
     return types

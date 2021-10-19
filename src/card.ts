@@ -162,6 +162,14 @@ export class Card {
         html += '</table>'
         return this.add(`<div>${html}</div>`)
     }
+
+    public tag(tag: string) {
+        if(tag === 'card-ok' && this.#head.classList.contains('card-fix')) {
+            return this
+        }
+        this.#head.classList.add(tag)
+        return this
+    }
 }
 
 export const toggle = (btn: HTMLAnchorElement, codeDiv: HTMLDivElement) => {

@@ -158,3 +158,12 @@ export const unableToAddCardToReport = () => {
     const msg2 = 'Internal Error'
     return new Card().error().addParagraph(msg1).setTitle('Internal Error')
 }
+
+export const invalidJSON = (json: string) => {
+    const msg1 = `A Structured data JSON script contains the following invalid JSON code.`
+    return new Card()
+        .error()
+        .addParagraph(msg1)
+        .addExpandableBlock('Invalid JSON Code', codeBlock(json, Mode.txt))
+        .setTitle('Invalid JSON Code')
+}

@@ -106,6 +106,7 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, report: Report): v
             .open(trackingItem.category, trackingItem.name, links, trackingItem.iconClass)
             .addParagraph(trackingItem.description)
             .addExpandableBlock(btnLabel, block)
+            .tag('card-ok')
         report.addCard(card)
     })
 }

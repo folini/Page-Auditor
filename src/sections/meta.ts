@@ -36,9 +36,9 @@ const codeInjector: CodeInjectorFunc = () =>
                         m.getAttribute('http-equiv') ||
                         ''
                     ).toLowerCase(),
-                    content: m.content || '',
+                    content: (m.content || '').trim(),
                     class: m.getAttribute('class') || '',
-                    originalCode: m.outerHTML,
+                    originalCode: m.outerHTML.replace(/content="\s*/gi, 'content="'),
                 } as iMetaTag)
         )
         .filter(m => m.content !== '' && m.property !== '') as iMetaTag[]
@@ -60,7 +60,7 @@ const reportGenerator: ReportGeneratorFunc = (url: string, data: any, report: Re
         const matched = meta.filter(mc.filter)
         meta = meta.filter(m => !matched.includes(m))
         if (matched.length > 0) {
-            metaTagsCard(mc, matched, mc.preview(url, matched, defaultTags, report), report)
+            metaTagsCard(mc, matched, url, defaultTags, report)
             atLeastOneScript = true
             if (mc.title.includes('Twitter')) {
                 twitterMetaPresent = true

@@ -20,7 +20,8 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
 
     const robotsBodyPromise = getRobotsTxtBody(robotsUrl)
     robotsTxtFromPromise(robotsBodyPromise, robotsUrl, report)
-    sitemapsFromPromise(robotsBodyPromise, sitemapUrl, report)
+    .then((robotCard) => sitemapsFromPromise(robotsBodyPromise, sitemapUrl, report, robotCard))
+    .catch((noCard) => sitemapsFromPromise(robotsBodyPromise, sitemapUrl, report))
 }
 
 export const actions: sectionActions = {

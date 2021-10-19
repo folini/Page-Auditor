@@ -83,7 +83,7 @@ async function action(section: SectionType, actions: sectionActions) {
     let tab: chrome.tabs.Tab | undefined = undefined
 
     try {
-        ;[tab] = await chrome.tabs.query({active: true, currentWindow: true})
+        [tab] = await chrome.tabs.query({active: true, currentWindow: true})
         if (actions.codeInjector) {
             res = await chrome.scripting.executeScript({
                 target: {tabId: tab.id} as chrome.scripting.InjectionTarget,
@@ -163,10 +163,14 @@ document.addEventListener('DOMContentLoaded', () => {
     ;(document.getElementById('id-version') as HTMLElement).innerHTML = `Version ${versionNumber}`
 })
 
-export const copyTxtToClipboard = (divId: string) => {
+export const copyToClipboard = (divId: string) => {
     const div = document.getElementById(divId) as HTMLDivElement
     const txt = div.innerText
     navigator.clipboard.writeText(txt)
 }
 
 export const formatNumber = (num: number) => num.toLocaleString(undefined, {maximumFractionDigits: 0})
+
+export const fileExists = (file: string) =>
+  fetch(file, {method: 'HEAD', cache: 'no-store'})
+  .then(r => r.status==200)

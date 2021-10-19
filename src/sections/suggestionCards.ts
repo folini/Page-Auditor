@@ -8,20 +8,22 @@ import {formatNumber} from '../main'
 import {Card, iLink} from '../card'
 import {Mode} from '../colorCode'
 import { UrlsToCompress } from './robots-functions'
+import {SdType} from './sd-functions'
 
-export const sitemapRecommendedMaxSize = 50_000
+export const sitemapRecommendedMaxSize = 1_000_000
 
 export const missingStructuredData = () => {
-    const message =
-        `Structured Data is an important SEO factor. ` +
-        `It's very important to add a Structured Data snippet to each page.`
+    const msg1 =
+        `Structured Data is an important SEO factor. It's very important to add a Structured Data snippet to each page.`
+    const msg2 = `Structured data is important for SEO because it helps search engines find and understand your content and website. ` +
+        `It's also an important way to prepare for the future of search, as Google and other engines continue to personalize the user experience and answer questions directly on their SERPs.`
     const links: iLink[] = [
         {
             label: 'How to Use Structured Data',
             url: 'https://folini.medium.com/how-to-boost-your-pages-seo-with-json-ld-structured-data-bfa03ef48d42',
         },
     ]
-    return new Card().suggestion().addParagraph(message).addCTA(links).setTitle('Add Structured Data Snippets')
+    return new Card().suggestion().addParagraph(msg1).addParagraph(msg2).addCTA(links).setTitle('Add Structured Data Snippets')
 }
 
 export const unsafeSitemapLinkInRobots = (urls: string[]) => {
@@ -234,9 +236,9 @@ export const twitterMissingImage = () => {
         .setTitle('Add Image Meta-Tag for Twitter')
 }
 
-export const tagWithRelativeUrl = (tag: string, url :string) => {
-    const msg1 = `The following Meta Tag <code>${tag}</code> is using a relative url.`
-    const msg2 = `Links in the meta tags should be always absolute, the should start with <code>https://<code>.`
+export const tagWithRelativeUrlPath = (tagName: string, htmlTag :string) => {
+    const msg1 = `The following Meta Tag <code>${tagName}</code> is using a relative url path.`
+    const msg2 = `Links in the Meta Tags should be always absolute paths, starting with <code>https://</code>.`
     const links: iLink[] = [
         {
             label: 'Learn about Meta Tags',
@@ -246,7 +248,7 @@ export const tagWithRelativeUrl = (tag: string, url :string) => {
     return new Card()
         .suggestion()
         .addParagraph(msg1)
-        .addCodeBlock(url, Mode.html)
+        .addCodeBlock(htmlTag.trim(), Mode.html)
         .addParagraph(msg2)
         .addCTA(links)
         .setTitle('Meta-Tag Urls Should Be Absolute')
@@ -281,19 +283,70 @@ export const noTwitterMetaTags = () => {
     return new Card().suggestion().addParagraph(message).addCTA(links).setTitle('Add Twitter Meta Tags')
 }
 
+export const missingTwitterImage = (url: string) => {
+    const msg1 =
+        `The image at following url specified in the meta tags for Twitter doesn't exist.`
+    const msg2 =
+        `Add the missing image or fix the url to maximize the visual impact of posts on Twitter sharing this page.`
+    const links: iLink[] = [
+        {
+            label: 'Learn about Twitter Meta Tags',
+            url: 'https://developer.twitter.com/en/docs/twitter-for-websites/cards/guides/getting-started',
+        },
+    ]
+    return new Card()
+        .suggestion()
+        .addParagraph(msg1)
+        .addCodeBlock(url, Mode.txt)
+        .addParagraph(msg2)
+        .addCTA(links)
+        .setTitle(`Fix Twitter's Meta Tag Image`)
+}
+
 export const noOpenGraphMetaTags = () => {
-    const message =
+    const msg1 =
         `Meta Data specific for Facebook, called OpenGraph meta tags, should always be include in every web page. ` +
         `Open Graph Meta Tags allow the page to control how it will appear on a post when shared on Facebook by users. ` +
         `Open Graph Meta Tags provide recommendation for title, image and descriptions.`
     const links: iLink[] = [{label: 'Learn about Facebook Meta Tags', url: 'https://ogp.me/'}]
-    return new Card().suggestion().addParagraph(message).addCTA(links).setTitle('Add Facebook Meta Tags')
+    return new Card().suggestion().addParagraph(msg1).addCTA(links).setTitle('Add Facebook Meta Tags')
+}
+
+export const missingOpenGraphImage = (url: string) => {
+    const msg1 =
+        `The image at following url specified in the meta tags for Open Graph (Facebook) doesn't exist.`
+    const msg2 =
+        `Add the missing image or fix the url to maximize the visual impact of posts on Facebook sharing this page.`
+    const links: iLink[] = [{label: 'Learn about Facebook Meta Tags', url: 'https://ogp.me/'}]
+    return new Card()
+        .suggestion()
+        .addParagraph(msg1)
+        .addCodeBlock(url, Mode.txt)
+        .addParagraph(msg2)
+        .addCTA(links)
+        .setTitle(`Fix Facebook's Meta Tag Image`)
 }
 
 export const emptyStructuredData = () => {
     const msg1 =
         `A Structured Data snippet is empty. This can affect your page SEO. You can remove the snippet or populate the snippet with data.`
-    const msg2 = `google's structured data validator will mark the lines as erroneous`
+    const msg2 = `Google's structured data validator will mark the lines as erroneous.`
     const links: iLink[] = [{label: 'Learn About Structured Data', url: 'https://developers.google.com/search/docs/advanced/structured-data/product'}]
-    return new Card().suggestion().addParagraph(msg1).addCTA(links).setTitle('Empty Structured Data Snippet')
+    return new Card().suggestion().addParagraph(msg1).addCTA(links).setTitle('Fix the Empty Structured Data Snippet')
+}
+
+export const invalidStructuredData = () => {
+    const msg1 =
+        `A Structured Data snippet contains invalid JSON code blocking the Search Engine spiders/bots from efficiently indexing the page.`
+    const msg2 = `Fix the LD-JSON code to benefit from the inclusion of Structured Data in the page.`
+    const links: iLink[] = [{label: 'Learn About Structured Data', url: 'https://developers.google.com/search/docs/advanced/structured-data/product'}]
+    return new Card().suggestion().addParagraph(msg1).addCTA(links).setTitle('Fix the Invalid Structured Data Snippet')
+}
+
+export const multipleStructuredData = (occurrences: number, objectName: string ) => {
+    const msg1 =
+        `Detected ${occurrences.toFixed()} copies of the "${objectName}" Structured Data snippet.`
+    const msg2 = `Consider removing the duplicates and merging the information about the ${objectName} into one single snippet.`
+    const links: iLink[] = [{label: 'Learn About Structured Data', url: 'https://developers.google.com/search/docs/advanced/structured-data/product'}]
+    return new Card().suggestion().addParagraph(msg1).addParagraph(msg2).addCTA(links).setTitle(`Fix the Duplicate <i>${objectName}</i> Structured Data`)
 }

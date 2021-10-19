@@ -20,5 +20,6 @@ export class Report {
         } else {
             this.#container.append(Errors.errorFromError(card as unknown as Error).getDiv())
         }
+        return card
     }
 }

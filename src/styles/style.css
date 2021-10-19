@@ -161,6 +161,28 @@ body#id-page-auditor .box-card h2.cardTitle {
   position: relative;
   font-weight: normal;
 }
+body#id-page-auditor .box-card h2.cardTitle.card-ok:after {
+  content: 'OK';
+  position: absolute;
+  top: -10px;
+  right: -58px;
+  padding: 16px 56px 2px;
+  background-color: darkgreen;
+  color: #fff;
+  transform: rotate(45deg);
+  font-size: 12px;
+}
+body#id-page-auditor .box-card h2.cardTitle.card-fix:after {
+  content: 'FIX';
+  position: absolute;
+  top: -9px;
+  right: -58px;
+  padding: 16px 56px 2px;
+  background-color: orange;
+  color: #fff;
+  transform: rotate(45deg);
+  font-size: 12px;
+}
 body#id-page-auditor .box-card h2.cardTitle .cardPreTitle {
   font-variant: small-caps;
   font-size: 14px;
@@ -222,6 +244,16 @@ body#id-page-auditor .box-card .card-body table.card-table td {
   padding: 2px 4px;
   font-size: 13px;
   min-width: 100px;
+}
+body#id-page-auditor .box-card .card-body table.card-table td div.sd-description-line {
+  margin-bottom: 6px;
+  word-break: break-word;
+}
+body#id-page-auditor .box-card .card-body table.card-table td div.sd-description-line span.sd-label {
+  font-weight: bold;
+}
+body#id-page-auditor .box-card .card-body table.card-table td div.sd-description-line:last-child {
+  margin-bottom: 0;
 }
 body#id-page-auditor .box-card div.code {
   font-family: monospace, 'Courier New', Courier, monospace;

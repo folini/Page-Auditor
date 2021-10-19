@@ -157,6 +157,30 @@ body#id-page-auditor {
             position: relative;
             font-weight: normal;
 
+            &.card-ok:after {
+                content: 'OK';
+                position: absolute;
+                top: -10px;
+                right: -58px;
+                padding: 16px 56px 2px;
+                background-color: darkgreen;
+                color: #fff;
+                transform: rotate(45deg);
+                font-size: 12px;
+            }
+
+            &.card-fix:after {
+                content: 'FIX';
+                position: absolute;
+                top: -9px;
+                right: -58px;
+                padding: 16px 56px 2px;
+                background-color: orange;
+                color: #fff;
+                transform: rotate(45deg);
+                font-size: 12px;
+            }
+
             .cardPreTitle {
                 font-variant: small-caps;
                 font-size: 14px;
@@ -226,6 +250,17 @@ body#id-page-auditor {
                     padding: 2px 4px;
                     font-size: 13px;
                     min-width: 100px;
+
+                    div.sd-description-line {
+                        margin-bottom: 6px;
+                        word-break: break-word;
+                        span.sd-label {
+                            font-weight: bold;
+                        }
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+                    }
                 }
             }
         }
@@ -924,7 +959,7 @@ body#id-page-auditor {
         &.icon-iterate > h2 {
             background-image: url(../logos/Iterate_100x100.png);
         }
-        &.icon-bluekai> h2 {
+        &.icon-bluekai > h2 {
             background-image: url(../logos/Bluekai_100x100.png);
         }
         &.icon-geoedge > h2 {
@@ -969,7 +1004,7 @@ body#id-page-auditor {
         &.icon-osano > h2 {
             background-image: url(../logos/Osano_100x100.png);
         }
-         &.icon-osano > h2 {
+        &.icon-osano > h2 {
             background-image: url(../logos/Osano_100x100.png);
         }
         &.icon-movinghub > h2 {
@@ -990,7 +1025,7 @@ body#id-page-auditor {
         &.icon-cookie-script > h2 {
             background-image: url(../logos/CookieScript_100x100.png);
         }
-   }
+    }
 
     .icon-linkedin:not(.box-card) {
         background-image: url(../logos/LinkedInAds_100x100.png);
