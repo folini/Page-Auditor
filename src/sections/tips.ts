@@ -173,6 +173,7 @@ export class Tips {
         }
         card.addTip(`Tip: Change "${tagName}" Url Paths to Absolute`, [msg1, msg2, msg3, msg4], cta)
     }
+
     public static tagWithUnsafeUrl(card: Card, tagName: string, htmlTag: string) {
         const msg1 =
             `The url in the Meta Tag <code>${tagName}</code> is using the unsafe and now obsolete <code>http</code> protocol. ` +
@@ -184,5 +185,16 @@ export class Tips {
             url: 'https://moz.com/blog/the-ultimate-guide-to-seo-meta-tags',
         }
         card.addTip(`Tip: Change "${tagName}" Url Protocol To HTTPS`, [msg1, msg2, msg3], cta)
+    }
+
+    public static compressedSitemapNotFound(card: Card, url: string) {
+        const msg1 =
+            `This compressed file at the doesn't exist. ` +
+            `Upload the file to the webserver to let Google bot properly index the website.`
+        const cta: iLink = {
+            label: 'Read a Sitemap.xml Reference',
+            url: 'https://www.woorank.com/en/blog/how-to-locate-a-sitemap-in-a-robots-txt-file',
+        }
+        card.addTip(`Tip: Upload The Missing Compressed Sitemap File`, [msg1], cta)
     }
 }

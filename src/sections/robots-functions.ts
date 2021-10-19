@@ -75,15 +75,17 @@ export const createSiteMapCards = (
                         ['Compressed', 'Yes'],
                         ['Compression type', 'Gzip'],
                     ]
-                    report.addCard(
-                        new Card()
+                    
+                    const card = new Card()
                             .open(`Compressed Sitemap`, fileName, getSitemapToolbarLinks(url, ''), 'icon-sitemap')
                             .addParagraph(`Found a compressed <code>sitemap.xml</code> file at the url:`)
                             .addCodeBlock(url, Mode.txt)
                             .addTable('Sitemap Analysis', table)
                             .addParagraph(`Unable to display the content of compressed files.`)
-                    )
+                            .tag('card-ok')
+                    report.addCard(card)
                     sitemapFound++
+                    fileExists(url).catch(_ => Tips.compressedSitemapNotFound(card, url))
                     return
                 }
 
