@@ -187,6 +187,7 @@ export class Card {
         const tipBtn = document.createElement('a')
         tipBtn.className = 'large-btn'
         tipBtn.innerHTML = cta.label
+        tipBtn.target = '_blank'
         tipBtn.href = cta.url as string
         tipCTA.append(tipBtn)
         tipDiv.append(tipTitle, tipBody, tipCTA)

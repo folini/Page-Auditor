@@ -4,7 +4,7 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {iJsonLD} from './sd'
+import {iJsonLD, MustBeUniqueOccurrences} from './sd'
 import {Card, iLink} from '../card'
 import {Mode} from '../colorCode'
 import {disposableId, copyToClipboard} from '../main'
@@ -12,6 +12,7 @@ import {codeBlock} from '../codeBlock'
 import * as Suggestions from './suggestionCards'
 import {Report} from '../report'
 import { htmlEncode } from 'js-htmlencode'
+import { Tips } from './tips'
 
 export const schemaLinks = (schemaName: string, ldjsonUrl: string, codeId: string): iLink[] => [
     {
@@ -43,7 +44,7 @@ export const schemaTypeOfSnippet = (ldJson: iJsonLD) => {
     return ''
 }
 
-export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string, report: Report) => {
+export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string, occurrences: MustBeUniqueOccurrences, report: Report) => {
     if (Object.keys(ldJson).length === 0) {
         report.addCard(Suggestions.emptyStructuredData())
     }
@@ -72,6 +73,28 @@ export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string, report: Report) => {
         .tag('card-ok')
 
     report.addCard(card)
+
+    switch(schemaType) {
+        case 'Organization':
+            occurrences.organization++
+            if(occurrences.breadcrumbs > 1) {
+                Tips.multipleStructuredData(card, schemaType, occurrences.organization)
+            }
+            break
+        case 'WebSite':
+            occurrences.website++
+            if(occurrences.breadcrumbs > 1) {
+                Tips.multipleStructuredData(card, schemaType, occurrences.website)
+            }
+            break
+        case 'BreadcrumbList':
+            occurrences.breadcrumbs++
+            if(occurrences.breadcrumbs > 1) {
+                Tips.multipleStructuredData(card, schemaType, occurrences.breadcrumbs)
+            }
+            break
+    }
+
 }
 
 const flattenSchemaName = (name: string): string => name.replace(/([a-z])([A-Z])/g, '$1 $2')

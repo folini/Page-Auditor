@@ -149,10 +149,3 @@ export const invalidStructuredData = () => {
     return new Card().suggestion().addParagraph(msg1).addCTA(links).setTitle('Fix the Invalid Structured Data Snippet')
 }
 
-export const multipleStructuredData = (occurrences: number, objectName: string ) => {
-    const msg1 =
-        `Detected ${occurrences.toFixed()} copies of the "${objectName}" Structured Data snippet.`
-    const msg2 = `Consider removing the duplicates and merging the information about the ${objectName} into one single snippet.`
-    const links: iLink[] = [{label: 'Learn About Structured Data', url: 'https://developers.google.com/search/docs/advanced/structured-data/product'}]
-    return new Card().suggestion().addParagraph(msg1).addParagraph(msg2).addCTA(links).setTitle(`Fix the Duplicate <i>${objectName}</i> Structured Data`)
-}

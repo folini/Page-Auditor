@@ -10,6 +10,21 @@ import {formatNumber} from '../main'
 import {sitemapRecommendedMaxSize} from './suggestionCards'
 import {Mode} from '../colorCode'
 
+export type Platform = 'Twitter' | 'Facebook' | 'Instagram' | 'LinkedIn' | 'YouTube' | 'Reddit'
+
+const twitterMetaTagsReference: iLink = {
+    label: 'Learn about Twitter Meta Tags',
+    url: 'https://developer.twitter.com/en/docs/twitter-for-websites/cards/guides/getting-started',
+}
+
+const openGraphMetaTagsReference: iLink = {
+    label: 'Learn about Facebook Meta Tags',
+    url: 'https://ogp.me/',
+}
+
+const tweeterImageSpecs = 'Images must be less than 5MB in size. JPG, PNG, WEBP and GIF formats are supported. Only the first frame of an animated GIF will be used. SVG is not supported.'
+const facebookImageSpecs = `The most frequently recommended resolution for an OG image is 1200 pixels x 627 pixels (1.91/1 ratio). At this size, your thumbnail will be big and stand out from the crowd. Just don't exceed the 5MB size limit.`
+
 export class Tips {
     public static duplicateSitemapsInRobots(card: Card, urls: string[]) {
         urls = [...new Set(urls)]
@@ -52,7 +67,7 @@ export class Tips {
             label: 'Learn about Compressing Sitemaps',
             url: 'https://www.sitemaps.org/faq.html#faq_sitemap_size',
         }
-        card.addTip('Tip: Add the XML Extension', [msg1], cta)
+        card.addTip('Tip: Add the XML Extension to Your Sitemap', [msg1], cta)
     }
 
     public static unsafeSitemapLinkInRobots(card: Card, urls: string[]) {
@@ -69,86 +84,8 @@ export class Tips {
         card.addTip('Tip: Update Unsafe Sitemap Link', [msg1, msg2], cta)
     }
 
-    public static lackingOpenGraphImageMetaTag(card: Card) {
-        const msg1 =
-            `The page is lacking a meta tag specifying the image for Facebook to use when rendering a post sharing this page.<br>` +
-            `This is an example of the Facebook (Open Graph) Meta-Tag that should be added:`
-        const msg2 = codeBlock(`<meta property="og:image" content="https://www.example.com/my_image.jpg">`, Mode.html)
-        const cta: iLink = {label: 'Learn about Facebook Meta Tags', url: 'https://ogp.me/'}
-        card.addTip('Tip: Add a Meta-Tag for Facebook Image', [msg1, msg2], cta)
-    }
-
-    public static lackingTwitterImageMetaTag(card: Card) {
-        const msg1 =
-            `This page is lacking a meta tag specifying the image for Twitter to use when rendering a post sharing this page.<br>` +
-            `This is an example of the Twitter Meta-Tag that should be added:`
-        const msg2 = codeBlock(
-            `<meta property="twitter:image" content="https://www.example.com/my_image.jpg">`,
-            Mode.html
-        )
-        const cta: iLink = {
-            label: 'Learn about Twitter Meta Tags',
-            url: 'https://developer.twitter.com/en/docs/twitter-for-websites/cards/guides/getting-started',
-        }
-        card.addTip('Tip: Add a Meta-Tag for Twitter Image', [msg1, msg2], cta)
-    }
-
-    public static lackingSpecificTwitterImageMetaTag(card: Card) {
-        const msg1 =
-            `This page is lacking a specific meta tag specifying the image for Twitter to use when rendering a post sharing this page.<br>` +
-            `When a specific meta tag for Twitter is missing, Twitter bot will look for the OpenGraph equivalent meta tags <code>og:image</code>.`
-        const msg2 = `This is an example of the Twitter Meta-Tag that should be added:`
-        const msg3 = codeBlock(
-            `<meta property="twitter:image" content="https://www.example.com/my_image.jpg">`,
-            Mode.html
-        )
-        const cta: iLink = {
-            label: 'Learn about Twitter Meta Tags',
-            url: 'https://developer.twitter.com/en/docs/twitter-for-websites/cards/guides/getting-started',
-        }
-        card.addTip('Tip: Add Specific Meta-Tag for Twitter Image', [msg1, msg2, msg3], cta)
-    }
-
-    public static missingTwitterImage(card: Card, url: string) {
-        const msg1 = `The image at following url specified in the meta tags for Twitter doesn't exist.`
-        const msg2 = codeBlock(url, Mode.txt)
-        const msg3 = `Upload the missing image or fix the url to maximize the visual impact of posts on Twitter sharing this page.`
-        const cta: iLink = {
-            label: 'Learn about Twitter Meta Tags',
-            url: 'https://developer.twitter.com/en/docs/twitter-for-websites/cards/guides/getting-started',
-        }
-        card.addTip('Tip: Upload The Twitter Meta Tag Image', [msg1, msg2, msg3], cta)
-    }
-
-    public static missingOpenGraphImage(card: Card, url: string) {
-        const msg1 = `The image at following url specified in the meta tags for Open Graph (Facebook) doesn't exist.`
-        const msg2 = codeBlock(url, Mode.txt)
-        const msg3 = `Upload the missing image or fix the url to maximize the visual impact of posts on Facebook sharing this page.`
-        const cta: iLink = {label: 'Learn about Facebook Meta Tags', url: 'https://ogp.me/'}
-        card.addTip('Tip: Upload The Open Graph Meta Tag Image', [msg1, msg2, msg3], cta)
-    }
-
-    public static emptyTwitterImage(card: Card, url: string) {
-        const msg1 = `The image at following url specified in the meta tags for Twitter is empty.`
-        const msg2 = codeBlock(url, Mode.txt)
-        const msg3 = `Upload a new image to maximize the visual impact of posts on Twitter sharing this page.`
-        const cta: iLink = {
-            label: 'Learn about Twitter Meta Tags',
-            url: 'https://developer.twitter.com/en/docs/twitter-for-websites/cards/guides/getting-started',
-        }
-        card.addTip('Tip: Upload a New Twitter Meta Tag Image', [msg1, msg2, msg3], cta)
-    }
-
-    public static emptyOpenGraphImage(card: Card, url: string) {
-        const msg1 = `The image at following url specified in the meta tags for Open Graph (Facebook) is empty.`
-        const msg2 = codeBlock(url, Mode.txt)
-        const msg3 = `Upload a new image to maximize the visual impact of posts on Facebook sharing this page.`
-        const cta: iLink = {label: 'Learn about Facebook Meta Tags', url: 'https://ogp.me/'}
-        card.addTip('Tip: Upload a New Open Graph Meta Tag Image', [msg1, msg2, msg3], cta)
-    }
-
     public static addSitemapLinkToRobotsTxt = (card: Card) => {
-        const msg1 = `Linking your Sitemap(s) from <code>Robots.txt</code> is a way to ensure Google doesn't miss it/them. It's an optional directive, but strongly recommended.`
+        const msg1 = `Linking a Sitemap from <code>Robots.txt</code> is a way to ensure Google bot doesn't miss it. It's an optional directive, but strongly recommended.`
         const msg2 =
             `This directive is independent of the user-agent line, so it doesn't matter where you place it in your file. ` +
             `If you have a Sitemap index file, you can include the location of just that file. ` +
@@ -162,31 +99,6 @@ export class Tips {
         card.addTip('Tip: Link Your Sitemap.xml From Robots.txt', [msg1, msg2, msg3, msg4], cta)
     }
 
-    public static tagWithRelativeUrlPath(card: Card, tagName: string, htmlTag: string) {
-        const msg1 = `The page Meta Tag <code>${tagName}</code> is using a relative url path.`
-        const msg2 = `Links in the Meta Tags should be always absolute paths, starting with <code>https://</code>.`
-        const msg3 = `This is the meta tag you should fix:`
-        const msg4 = codeBlock(htmlTag, Mode.html)
-        const cta: iLink = {
-            label: 'Learn about Meta Tags',
-            url: 'https://moz.com/blog/the-ultimate-guide-to-seo-meta-tags',
-        }
-        card.addTip(`Tip: Change "${tagName}" Url Paths to Absolute`, [msg1, msg2, msg3, msg4], cta)
-    }
-
-    public static tagWithUnsafeUrl(card: Card, tagName: string, htmlTag: string) {
-        const msg1 =
-            `The url in the Meta Tag <code>${tagName}</code> is using the unsafe and now obsolete <code>http</code> protocol. ` +
-            `Links in the Meta Tags should be always use the safest <code>https</code> protocol.`
-        const msg2 = `This is the meta tag you should fix:`
-        const msg3 = codeBlock(htmlTag, Mode.html)
-        const cta: iLink = {
-            label: 'Learn about Meta Tags',
-            url: 'https://moz.com/blog/the-ultimate-guide-to-seo-meta-tags',
-        }
-        card.addTip(`Tip: Change "${tagName}" Url Protocol To HTTPS`, [msg1, msg2, msg3], cta)
-    }
-
     public static compressedSitemapNotFound(card: Card, url: string) {
         const msg1 =
             `This compressed file at the doesn't exist. ` +
@@ -196,5 +108,107 @@ export class Tips {
             url: 'https://www.woorank.com/en/blog/how-to-locate-a-sitemap-in-a-robots-txt-file',
         }
         card.addTip(`Tip: Upload The Missing Compressed Sitemap File`, [msg1], cta)
+    }
+
+    // ------------------------------------------------------------------------
+    // META TAGS TIPS
+    public static tagImage_AddTag(card: Card, platform: Platform, tag: string) {
+        const msg1 =
+            `This page is lacking the <code>${tag}</code> meta tag to use with ${platform} when posting about this page.<br>` +
+            `This is an example of the ${platform} Meta-Tag that should be added:`
+        const msg2 = codeBlock(`<meta property="${tag}" content="https://www.example.com/my_image.jpg">`, Mode.html)
+        const msg3 = platform === 'Twitter' ? tweeterImageSpecs : facebookImageSpecs
+        const cta: iLink = platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        card.addTip(`Tip: Add the <code>${tag}</code> Image Meta-Tag for ${platform}`, [msg1, msg2, msg3], cta)
+    }
+
+    public static tagImage_UploadImage(card: Card, platform: Platform, tag: string, url: string) {
+        const msg1 = `The image at following url specified in the <code>${tag}</code> meta tags for ${platform} doesn't exist.`
+        const msg2 = codeBlock(url, Mode.txt)
+        const msg3 = `Upload the missing image or fix the url to maximize the visual impact on ${platform} of every posts about this page.`
+        const msg4 = platform === 'Twitter' ? tweeterImageSpecs : facebookImageSpecs
+        const cta: iLink = platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        card.addTip(`Tip: Upload The ${platform} Meta Tag Image`, [msg1, msg2, msg3, msg4], cta)
+    }
+
+    public static tag_AddValue(card: Card, platform: Platform, tag: string) {
+        const msg1 = `The <code>${tag}</code> tag doesn't contain any value.`
+        const msg2 = `Add the missing value to maximize the impact of every on ${platform} post about this page.`
+        const cta: iLink = platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        card.addTip(`Tip: Update The <code>${tag}</code> Meta Tag`, [msg1, msg2], cta)
+    }
+
+    public static tagImage_ReplacePlaceholder(card: Card, platform: Platform, tag: string, url: string) {
+        const msg1 = `The image at following url in the <code>${tag}</code> meta tags for ${platform} is only a placeholder.`
+        const msg2 = codeBlock(url, Mode.txt)
+        const msg3 = `Upload an image to maximize the visual impact of posts on ${platform} sharing this page.`
+        const msg4 = platform === 'Twitter' ? tweeterImageSpecs : facebookImageSpecs
+        const cta: iLink = platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        card.addTip(`Tip: Replace the Image Placeholder in <code>${tag}</code>`, [msg1, msg2, msg3, msg4], cta)
+    }
+
+    public static tag_ReplacePlaceholder(card: Card, platform: Platform, tag: string, placeholder: string) {
+        const msg1 = `The <code>${tag}</code> tag appears to contain only a short placeholder for the tag value: "<i>${placeholder}</i>".`
+        const msg2 = `Replace the title placeholder to maximize the impact of posts on ${platform} sharing this page.`
+        const cta: iLink = platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        card.addTip(`Tip: Replace The Placeholder in the <code>${tag}</code> Meta Tag`, [msg1, msg2], cta)
+    }
+
+    public static tag_BeSpecific(card: Card, platform: Platform, tag: string) {
+        const msg1 =
+            `${platform} is currently using a ${platform === 'Twitter' ? 'Open Graph or Standard' : 'Standard'} meta tag to preview this page on all posts. ` +
+            `Best practices recommend to use the specific <code>${tag}</code> meta tag for the ${platform} platform to maximize the visual impact of all posts sharing this page.`
+        const msg2 = `This is an example of the ${platform} Meta-Tag that should be added:`
+        const msg3 = codeBlock(`<meta property="${tag}" content="My click capturing title fo ${platform}">`, Mode.html)
+        const cta: iLink = platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        card.addTip(`Tip: Add the <code>${tag}</code> Title Meta-Tag for ${platform}`, [msg1, msg2, msg3], cta)
+    }
+
+    public static tag_UpdateRelativePath(card: Card, platform: Platform, tagName: string, htmlTag: string) {
+        const msg1 = `The page Meta Tag <code>${tagName}</code> for ${platform} is using a relative url path.`
+        const msg2 = `Links in the Meta Tags should be always absolute paths, starting with <code>https://</code>. ` +
+        `This is the meta tag you should fix:`
+        const msg3 = codeBlock(htmlTag, Mode.html)
+        const cta: iLink = platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        card.addTip(`Tip: Change "${tagName}" Url Paths to Absolute`, [msg1, msg2, msg3], cta)
+    }
+
+    public static tag_UpdateUnsafeUrl(card: Card, platform: Platform, tagName: string, htmlTag: string) {
+        const msg1 =
+            `The url in the Meta Tag <code>${tagName}</code> for ${platform} is using the unsafe and now obsolete <code>http</code> protocol. ` +
+            `Links in the Meta Tags should be always use the safest <code>https</code> protocol.`
+        const msg2 = `This is the meta tag you should fix:`
+        const msg3 = codeBlock(htmlTag, Mode.html)
+        const cta: iLink = platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        card.addTip(`Tip: Change <code>${tagName}</code> Url Protocol To HTTPS`, [msg1, msg2, msg3], cta)
+    }
+
+    public static tag_Missing(card: Card, platform: Platform, tagName: string) {
+        const msg1 =
+            `The Meta Tag <code>${tagName}</code> for ${platform} is missing. ` +
+            `Add the Meta Tag to maximize your visibility om ${platform} when people are sharing this page.`
+        const cta: iLink = platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        card.addTip(`Tip: Add the <code>${tagName}</code> Meta Tag for ${platform}`, [msg1], cta)
+    }
+
+    public static tag_Obsolete(card: Card, platform: Platform, tagName: string, htmlTag: string) {
+        const msg1 =
+            `The Meta Tag <code>${tagName}</code> for ${platform} is considered obsolete. ` +
+            `Remove the following Meta Tag to comply with the best practices recommended by ${platform}.`
+        const msg2 = codeBlock(htmlTag, Mode.html)
+        const cta: iLink = platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        card.addTip(`Tip: Remove the <code>${tagName}</code> Meta Tag for ${platform}`, [msg1, msg2], cta)
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // Structure Data TIPS
+    public static multipleStructuredData(card: Card, objectName: string, occurrences: number) {
+        const msg1 = `Detected ${occurrences.toFixed()} copies of the "${objectName}" Structured Data snippet.`
+        const msg2 = `Consider removing the duplicates and merging the information about the ${objectName} into one single snippet.`
+        const cta: iLink = {
+            label: 'Learn About Structured Data',
+            url: 'https://developers.google.com/search/docs/advanced/structured-data/product',
+        }
+        card.addTip(`Tip: Merge the "${objectName}" Data Structures`, [msg1, msg2], cta)
     }
 }

@@ -26,7 +26,7 @@
     --card-error-color: rgb(32 33 36 / 50%);
     --card-warning-color: rgb(100 149 237 / 40%);
 
-    --tip-color: rgb(255 215 0 / 36%);
+    --tip-color: rgb(255 215 0 / 7%);
 }
 
 .small-btn {
@@ -140,7 +140,7 @@ body#id-page-auditor {
         border: 1px solid var(--border-color);
         border-radius: 8px;
         padding: 0;
-        margin-bottom: 24px;
+        margin-bottom: 32px;
         background-color: var(--color-white);
         overflow: hidden;
         &:hover {
@@ -153,34 +153,38 @@ body#id-page-auditor {
             background-size: var(--card-icon-size) var(--card-icon-size);
             background-repeat: no-repeat;
             background-position: var(--card-padding) 8px;
-            background-color: linen; // var(--color-white);
+            background-color: #00688c57; // var(--color-white);
             padding: var(--card-padding);
             padding-left: ~'calc(var(--card-icon-size) + 2 * var(--card-padding))';
             position: relative;
             font-weight: normal;
+            overflow: hidden;
 
-            &.card-ok:after {
-                content: 'OK';
+            &:after {
                 position: absolute;
-                top: -10px;
+                top: 17px;
                 right: -58px;
                 padding: 16px 56px 2px;
-                background-color: darkgreen;
                 color: #fff;
-                transform: rotate(45deg);
+                transform: rotate(90deg);
                 font-size: 12px;
+                text-align: center;
             }
 
-            &.card-fix:after {
-                content: 'FIX';
-                position: absolute;
-                top: -9px;
-                right: -58px;
-                padding: 16px 56px 2px;
-                background-color: orange;
-                color: #fff;
-                transform: rotate(45deg);
-                font-size: 12px;
+            &.card-ok {
+                background-color: #00640036;
+                &:after {
+                    content: 'OK';
+                    background-color: #006400a3;
+                }
+            }
+
+            &.card-fix {
+                background-color: #ffa00052;
+                &:after {
+                    content: 'FIX';
+                    background-color: #ffa000c4;
+                }
             }
 
             .cardPreTitle {
@@ -190,7 +194,7 @@ body#id-page-auditor {
 
             .card-toolbar {
                 position: absolute;
-                right: 8px;
+                right: 28px;
                 bottom: 8px;
             }
         }
@@ -272,10 +276,20 @@ body#id-page-auditor {
             .card-tip {
                 border: solid 1px var(--border-color);
                 background-color: var(--tip-color);
+                background-image: url(../logos/Suggestion_100x100.png);
+                background-repeat: no-repeat;
                 padding: 16px;
+                background-size: 26px;
+                background-position: calc(100% - 3px) 4px;
+                border-radius: 6px;
                 .tip-title {
                     font-weight: bold;
                     padding-bottom: 8px;
+                    border-bottom: solid 1px var(--border-color);
+                    margin-left: -16px;
+                    margin-right: -16px;
+                    padding-right: 16px;
+                    padding-left: 16px;
                 }
                 .tip-body {
                     padding-bottom: 16px;
@@ -316,6 +330,21 @@ body#id-page-auditor {
         margin: 16px -12px 8px;
         padding: 0;
         width: 100%;
+        position: relative;
+        overflow: hidden;
+
+        &:after {
+            position: absolute;
+            transform: rotate(45deg);
+            background-color: var(--tabs-bg-color);
+            color: #fff;
+            padding: 36px 60px 4px;
+            font-variant: all-small-caps;
+            white-space: pre;
+            text-align: center;
+            line-height: 11px;
+        }
+
         h2 {
             color: #000;
         }
@@ -335,6 +364,12 @@ body#id-page-auditor {
         max-width: 504px;
         font-size: 15px;
 
+        &:after {
+            top: -21px;
+            right: -73px;
+            content: 'tweet\Apreview';
+            background-color: #1da1f2;
+        }
         &:hover {
             background-color: #efefef;
         }
@@ -365,7 +400,12 @@ body#id-page-auditor {
         margin: 12px auto 0;
         border-radius: 8px;
         overflow: hidden;
-
+        &:after {
+            content: 'post\Apreview';
+            top: -23px;
+            right: -75px;
+            background-color: #4267b2;
+        }
         div.open-graph-card-legend {
             padding: 12px 16px;
             background-color: #3a3b3c;

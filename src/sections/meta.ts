@@ -12,8 +12,8 @@ import * as Suggestions from './suggestionCards'
 import * as Warnings from './warningCards'
 
 export interface iMetaTag {
-    property: string
-    content: string
+    tagLabel: string
+    tagValue: string
     class: string
     originalCode: string
 }
@@ -30,27 +30,27 @@ const codeInjector: CodeInjectorFunc = () =>
         .map(
             m =>
                 ({
-                    property: (
+                    tagLabel: (
                         m.getAttribute(`property`) ||
                         m.getAttribute('name') ||
                         m.getAttribute('http-equiv') ||
                         ''
                     ).toLowerCase(),
-                    content: (m.content || '').trim(),
+                    tagValue: (m.content || '').trim(),
                     class: m.getAttribute('class') || '',
                     originalCode: m.outerHTML.replace(/content="\s*/gi, 'content="'),
                 } as iMetaTag)
         )
-        .filter(m => m.content !== '' && m.property !== '') as iMetaTag[]
+        .filter(m => m.tagValue !== '' && m.tagLabel !== '') as iMetaTag[]
 
 const reportGenerator: ReportGeneratorFunc = (url: string, data: any, report: Report): void => {
     var meta = data as iMetaTag[]
 
     var defaultTags: iDefaultTagValues = {
-        title: meta.find(m => m.property === 'og:title' || m.property === 'title')?.content || '',
-        description: meta.find(m => m.property === 'description')?.content || '',
-        img: meta.find(m => m.property === 'og:image')?.content || '',
-        domain: meta.find(m => m.property === 'og:url')?.content || '',
+        title: meta.find(m => m.tagLabel === 'og:title' || m.tagLabel === 'title')?.tagValue || '',
+        description: meta.find(m => m.tagLabel === 'description')?.tagValue || '',
+        img: meta.find(m => m.tagLabel === 'og:image')?.tagValue || '',
+        domain: meta.find(m => m.tagLabel === 'og:url')?.tagValue || '',
     }
 
     let atLeastOneScript = false

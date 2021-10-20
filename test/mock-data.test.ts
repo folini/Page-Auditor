@@ -51,45 +51,45 @@ export const RawMetaTagsSample: string[] = `
 export const MetaTagsSample: iMetaTag[] = [
     {
         class: '',
-        content: 'summary_large_image',
-        property: 'twitter:card',
+        tagValue: 'summary_large_image',
+        tagLabel: 'twitter:card',
         originalCode: '',
     },
     {
         class: '',
-        content: 'REI Co-op: Outdoor Clothing, Gear, and Footwear from Top Brands | REI Co-op',
-        property: 'twitter:title',
+        tagValue: 'REI Co-op: Outdoor Clothing, Gear, and Footwear from Top Brands | REI Co-op',
+        tagLabel: 'twitter:title',
         originalCode: '',
     },
     {
         class: '',
-        content: 'REI Co-op - Outdoor Retailer',
-        property: 'twitter:image:alt',
+        tagValue: 'REI Co-op - Outdoor Retailer',
+        tagLabel: 'twitter:image:alt',
         originalCode: '',
     },
     {
         class: '',
-        content: '@REI',
-        property: 'twitter:site',
+        tagValue: '@REI',
+        tagLabel: 'twitter:site',
         originalCode: '',
     },
     {
         class: '',
-        content:
+        tagValue:
             'From backpacking to cycling to staying in shape and more, outfit your outdoor activities with the latest gear, clothing, and footwear at REI.',
-        property: 'twitter:description',
+        tagLabel: 'twitter:description',
         originalCode: '',
     },
     {
         class: '',
-        content: '@REI',
-        property: 'twitter:creator',
+        tagValue: '@REI',
+        tagLabel: 'twitter:creator',
         originalCode: '',
     },
     {
         class: '',
-        content: 'https://www.rei.com/assets/img/seo/evergreen/rei-og.jpg',
-        property: 'twitter:image',
+        tagValue: 'https://www.rei.com/assets/img/seo/evergreen/rei-og.jpg',
+        tagLabel: 'twitter:image',
         originalCode: '',
     },
 ]
@@ -174,12 +174,12 @@ export const DefaultTagValuesSample: iDefaultTagValues = {
 
 export const MetaTagSample: iMetaTag = {
     class: 'abc-class',
-    content: 'any content',
-    property: 'any:property',
+    tagValue: 'any content',
+    tagLabel: 'any:property',
     originalCode: '<meta property="any:property" content="any content" class="abc-class" />',
 }
 
-export const EmptyMetaTag: iMetaTag = {class: '', content: '', property: '', originalCode: ''}
+export const EmptyMetaTag: iMetaTag = {class: '', tagValue: '', tagLabel: '', originalCode: ''}
 
 export const MetaTagCategorySample: iTagCategory = {
     title: `Other Tags`,
