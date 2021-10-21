@@ -15,6 +15,7 @@ export class Report {
     }
 
     public addCard(card: Card) {
+        this.#container.querySelector('.loading-spinner')?.remove()
         if (typeof card.getDiv === 'function') {
             this.#container.append(card.getDiv())
         } else {

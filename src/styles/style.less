@@ -7,6 +7,46 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
+@keyframes spinner {
+    0% {
+        transform: translate3d(-50%, -50%, 0) rotate(0deg);
+    }
+
+    100% {
+        transform: translate3d(-50%, -50%, 0) rotate(360deg);
+    }
+}
+
+.loading-spinner {
+    animation-play-state: running;
+    opacity: 1;
+    position: relative;
+    height: 300px;
+
+    &.-paused {
+        animation-play-state: paused;
+        opacity: 0.2;
+        transition: opacity linear 0.1s;
+    }
+
+    &:before {
+        animation: 1.5s linear infinite spinner;
+        animation-play-state: inherit;
+        border: solid 3px #dedede;
+        border-bottom-color: #ef6565;
+        border-radius: 50%;
+        content: '';
+        height: 80px;
+        left: 50%;
+        opacity: inherit;
+        position: absolute;
+        top: 50%;
+        transform: translate3d(-50%, -50%, 0);
+        width: 80px;
+        will-change: transform;
+    }
+}
+
 :root {
     --ff-brand-color: var(--color-black);
 
@@ -174,7 +214,7 @@ body#id-page-auditor {
                 align-content: center;
                 width: 52px;
                 align-items: center;
-                justify-content: center;                
+                justify-content: center;
                 font-size: 18px;
                 text-shadow: 1px 1px 9px #858585;
             }
@@ -184,7 +224,7 @@ body#id-page-auditor {
                 color: var(--color-black);
                 background-position: ~'calc(var(--card-padding) + var(--card-ok-fix-label-with) + 4px)' 10px;
                 padding-left: ~'calc(var(--card-ok-fix-label-with) + var(--card-icon-size) + 2 * var(--card-padding))';
-                    &:after {
+                &:after {
                     content: 'OK';
                     background-color: #006400a3;
                 }
@@ -512,6 +552,7 @@ body#id-page-auditor {
     }
 
     // ICONS
+
     .box-card {
         &.icon-ld-json > h2 {
             background-image: url(../logos/JSON-LD_100x100.png);
@@ -1105,56 +1146,5 @@ body#id-page-auditor {
     }
     .icon-gmail:not(.box-card) {
         background-image: url(../logos/Gmail_100x100.png);
-    }
-
-    // ----------------------------------------------------------------------------
-    @-webkit-keyframes spinner {
-        0% {
-            transform: translate3d(-50%, -50%, 0) rotate(0deg);
-        }
-
-        100% {
-            transform: translate3d(-50%, -50%, 0) rotate(360deg);
-        }
-    }
-
-    @keyframes spinner {
-        0% {
-            transform: translate3d(-50%, -50%, 0) rotate(0deg);
-        }
-
-        100% {
-            transform: translate3d(-50%, -50%, 0) rotate(360deg);
-        }
-    }
-
-    #loading-spinner {
-        animation-play-state: running;
-        opacity: 1;
-        position: relative;
-        height: 300px;
-
-        &.-paused {
-            animation-play-state: paused;
-            opacity: 0.2;
-            transition: opacity linear 0.1s;
-        }
-
-        &:before {
-            animation: 1.5s linear infinite spinner;
-            animation-play-state: inherit;
-            border: solid 3px #dedede;
-            border-bottom-color: #ef6565;
-            border-radius: 50%;
-            content: '';
-            height: 80px;
-            left: 50%;
-            opacity: inherit;
-            position: absolute;
-            top: 50%;
-            transform: translate3d(-50%, -50%, 0);
-            width: 80px;
-            will-change: transform;
-        }
     }
 }

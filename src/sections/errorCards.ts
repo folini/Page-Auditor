@@ -9,11 +9,11 @@ import {Mode} from '../colorCode'
 import {codeBlock} from '../codeBlock'
 
 export const errorFromError = (err: Error) => {
-    const msg1 = `Unhandled Error.`
-    const msg2 = `Error Name: ${err.name}.`
-    const msg3 = `Error Message: ${err.message}.`
-    const msg4 = `Error Stack: ${err.stack ?? 'no stack'}.`
-    return new Card().error().addParagraph(msg1).addParagraph(msg2).addParagraph(msg3).setTitle('Generic Error')
+    const msg1 = `Unexpected Error.`
+    const msg2 = typeof err === 'undefined' ? `Error Name: no name` : `Error Name: ${err.name ?? 'no name'}.`
+    const msg3 = typeof err === 'undefined' ? `Error Message: no message` : `Error Message: ${err.message ?? 'no message'}.`
+    const msg4 = typeof err === 'undefined' ? `Error Stack: no stack` : `Error Stack: ${err.stack ?? 'no stack'}.`
+    return new Card().error().addParagraph(msg1).addParagraph(msg2).addParagraph(msg3).addParagraph(msg4).setTitle('Generic Error')
 }
 
 export const unableToAnalyzeChromeTabs = () => {
@@ -133,9 +133,9 @@ export const robotsTxtNotFound = (url: string) => {
 export const robotsTxtUnableToOpen = (url: string, errorCode: number, errorMessage: string) => {
     const eCode = typeof errorCode === 'number' ? errorCode.toFixed() : 'unknown'
     const eMsg = typeof errorMessage === 'string' ? errorMessage : 'unknown'
-    const msg1 = `Unable to load <code>Robots.Txt</code> file at location <a target="_new" href="${url}">${url}</a>.`
+    const msg1 = `Unable to load <code>Robots.Txt</code> file at location:`
     const msg2 = `Error code: ${eCode}, Error Message: "${eMsg}"`
-    return new Card().error().addParagraph(msg1).addParagraph(msg2).setTitle('Robots.Txt Not Found')
+    return new Card().error().addParagraph(msg1).addCodeBlock(url, Mode.txt).addParagraph(msg2).setTitle('Robots.Txt Not Found')
 }
 
 export const scriptNotFound = () => {

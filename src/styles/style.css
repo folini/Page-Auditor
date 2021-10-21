@@ -26,6 +26,41 @@
   font-display: swap;
   src: url(https://fonts.gstatic.com/s/roboto/v29/KFOlCnqEu92Fr1MmWUlvAw.ttf) format('truetype');
 }
+@keyframes spinner {
+  0% {
+    transform: translate3d(-50%, -50%, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate3d(-50%, -50%, 0) rotate(360deg);
+  }
+}
+.loading-spinner {
+  animation-play-state: running;
+  opacity: 1;
+  position: relative;
+  height: 300px;
+}
+.loading-spinner.-paused {
+  animation-play-state: paused;
+  opacity: 0.2;
+  transition: opacity linear 0.1s;
+}
+.loading-spinner:before {
+  animation: 1.5s linear infinite spinner;
+  animation-play-state: inherit;
+  border: solid 3px #dedede;
+  border-bottom-color: #ef6565;
+  border-radius: 50%;
+  content: '';
+  height: 80px;
+  left: 50%;
+  opacity: inherit;
+  position: absolute;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  width: 80px;
+  will-change: transform;
+}
 :root {
   --ff-brand-color: var(--color-black);
   --color-white: #fafafe;
@@ -1071,47 +1106,4 @@ body#id-page-auditor .icon-git:not(.box-card) {
 }
 body#id-page-auditor .icon-gmail:not(.box-card) {
   background-image: url(../logos/Gmail_100x100.png);
-}
-@-webkit-keyframes spinner {
-  0% {
-    transform: translate3d(-50%, -50%, 0) rotate(0deg);
-  }
-  100% {
-    transform: translate3d(-50%, -50%, 0) rotate(360deg);
-  }
-}
-@keyframes spinner {
-  0% {
-    transform: translate3d(-50%, -50%, 0) rotate(0deg);
-  }
-  100% {
-    transform: translate3d(-50%, -50%, 0) rotate(360deg);
-  }
-}
-body#id-page-auditor #loading-spinner {
-  animation-play-state: running;
-  opacity: 1;
-  position: relative;
-  height: 300px;
-}
-body#id-page-auditor #loading-spinner.-paused {
-  animation-play-state: paused;
-  opacity: 0.2;
-  transition: opacity linear 0.1s;
-}
-body#id-page-auditor #loading-spinner:before {
-  animation: 1.5s linear infinite spinner;
-  animation-play-state: inherit;
-  border: solid 3px #dedede;
-  border-bottom-color: #ef6565;
-  border-radius: 50%;
-  content: '';
-  height: 80px;
-  left: 50%;
-  opacity: inherit;
-  position: absolute;
-  top: 50%;
-  transform: translate3d(-50%, -50%, 0);
-  width: 80px;
-  will-change: transform;
 }

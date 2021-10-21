@@ -25,7 +25,7 @@ export type NoArgsNoReturnFunc = () => void
 export type CodeInjectorFunc = () => any
 export type ReportGeneratorFunc = (url: string, data: any, report: Report) => void
 
-const idLoadingSpinnerDiv = 'id-loading-spinner'
+const classLoadingSpinnerDiv = 'loading-spinner'
 
 export type sectionActions = {
     codeInjector?: CodeInjectorFunc
@@ -121,10 +121,9 @@ const activateReport = (activeSec: SectionType) => {
 }
 
 const showSpinner = (container: HTMLDivElement) => {
-    const spinner = document.createElement('div')
-    spinner.className ='loading-spinner'
-    spinner.id = idLoadingSpinnerDiv
     Array.from(container.children).forEach(child => child.remove())
+    const spinner = document.createElement('div')
+    spinner.className = classLoadingSpinnerDiv
     container.append(spinner)
 }
 

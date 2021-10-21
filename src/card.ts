@@ -137,7 +137,7 @@ export class Card {
         const btn = this.#div.querySelector(`#${btnId}`) as HTMLAnchorElement
         const div = this.#div.querySelector(`#${divId}`) as HTMLDivElement
         div.style.display = 'none'
-        btn.addEventListener('click', () => toggle(btn, div))
+        btn.addEventListener('click', () => this.#toggle(btn, div))
         return this
     }
 
@@ -193,23 +193,23 @@ export class Card {
         tipDiv.append(tipTitle, tipBody, tipCTA)
 
         this.#footer.append(tipDiv)
-        if(this.#footer.classList.contains('hide')) {
+        if (this.#footer.classList.contains('hide')) {
             this.#footer.classList.remove('hide')
             this.#footer.classList.add('show')
         }
         this.tag('card-fix')
         return this
     }
-}
 
-export const toggle = (btn: HTMLAnchorElement, codeDiv: HTMLDivElement) => {
-    if (btn.innerHTML.includes('Show')) {
-        codeDiv.style.display = 'block'
-        btn.innerText = btn.innerText.replace('Show', 'Hide')
-        btn.parentElement!.style.marginBottom = '16px'
-    } else {
-        codeDiv.style.display = 'none'
-        btn.innerText = btn.innerText.replace('Hide', 'Show')
-        btn.parentElement!.style.marginBottom = '0'
+    #toggle(btn: HTMLAnchorElement, codeDiv: HTMLDivElement) {
+        if (btn.innerHTML.includes('Show')) {
+            codeDiv.style.display = 'block'
+            btn.innerText = btn.innerText.replace('Show', 'Hide')
+            btn.parentElement!.style.marginBottom = '16px'
+        } else {
+            codeDiv.style.display = 'none'
+            btn.innerText = btn.innerText.replace('Hide', 'Show')
+            btn.parentElement!.style.marginBottom = '0'
+        }
     }
 }

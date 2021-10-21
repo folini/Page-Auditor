@@ -198,8 +198,6 @@ export const getRobotsTxtBody = (url: string, report: Report) => {
             return robotsTxtBody
         })
         .catch(err => {
-            const card = Errors.robotsTxtUnableToOpen(url, err?.code, err?.message)
-            report.addCard(card)
             return Promise.reject()
         })
 }
@@ -298,15 +296,15 @@ export const robotsTxtFromPromise = (bodyPromise: Promise<string>, url: string, 
             return Promise.resolve()
         })
         .catch(err => {
-            if (err && typeof err.getDiv === 'function') {
-                const card = err
-                report.addCard(card)
-                Tips.missingRobotsTxt(card)
-            } else {
-                const card = Errors.errorFromError(err)
-                report.addCard(card)
-                Tips.missingRobotsTxt(card)
-            }
+            // if (err && typeof err.getDiv === 'function') {
+            //     const card = err
+            //     report.addCard(card)
+            //     Tips.missingRobotsTxt(card)
+            // } else {
+            //     const card = Errors.errorFromError(err)
+            //     report.addCard(card)
+            //     Tips.missingRobotsTxt(card)
+            // }
             return Promise.reject()
         })
 }

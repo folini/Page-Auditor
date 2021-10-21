@@ -52,7 +52,7 @@ export class Tips {
         const msg2 =
             `Consider updating the "Page Auditor" Chrome Extension to teh latest version.`
         const cta: iLink = robotsTxtReference
-        card.addTip('Tip: Open a Regular WebSite or Web Page', [msg1, msg2], cta)
+        card.addTip('Tip:Update Page Auditor to teh latest version', [msg1, msg2], cta)
     }
 
     public static unableToAnalyzeChromeBrowserPages(card: Card) {
@@ -60,13 +60,13 @@ export class Tips {
         const msg2 =
             `Consider opening any website before opening the "Page Auditor" Chrome Extension`
         const cta: iLink = robotsTxtReference
-        card.addTip('Tip: Unable To Analyze Internal or Empty Chrome Tabs', [msg1, msg2], cta)
+        card.addTip('Tip: Open a Regular WebSite or Web Page', [msg1, msg2], cta)
     }
 
     // ----------------------------------------------------------------------------
     // Robots TXT TIPS
     public static noRobotsTxtInChromeBrowserPages(card: Card) {
-        const msg1 = `The internal pages of Google Chrome browser as well the empty tabs don't have a <code>robots.txt<file> associated.`
+        const msg1 = `The internal pages of Google Chrome browser as well the empty tabs don't have a <code>robots.txt</code> associated.`
         const msg2 =
             `Consider opening any website before opening the "Page Auditor" Chrome Extension`
         const cta: iLink = robotsTxtReference
@@ -120,7 +120,7 @@ export class Tips {
 
     public static emptyRobotsTxt(card: Card) {
         const msg1 =
-            `It's important to add the missing content to the <code>robots.txt</code> file. ` +
+            `It's critical to add the missing content to the <code>robots.txt</code> file. ` +
             `Robots.txt are a very critical factor in SEO ranking.`
         const cta: iLink = robotsTxtReference
         card.addTip('Add Content to Robots.txt', [msg1], cta)
@@ -128,7 +128,7 @@ export class Tips {
     
     public static missingRobotsTxt(card: Card) {
         const msg1 =
-            `It's important to add the missing <code>robots.txt</code> file. ` +
+            `It's critical to add the missing <code>robots.txt</code> file. ` +
             `Robots.txt are a very important factor in SEO ranking.`
         const cta: iLink = robotsTxtReference
         card.addTip('Add Robots.txt file', [msg1], cta)
@@ -137,7 +137,7 @@ export class Tips {
     // ------------------------------------------------------------------------
     // SITEMAP XML TIPS
     public static noSitemapInChromeBrowserPages(card: Card) {
-        const msg1 = `The internal pages of Google Chrome browser as well the empty tabs don't have a <code>sitemap.xml<file> associated.`
+        const msg1 = `The internal pages of Google Chrome browser as well the empty tabs don't have a <code>sitemap.xml</code> associated.`
         const msg2 =
             `Consider opening any website before opening the "Page Auditor" Chrome Extension`
         const cta: iLink = robotsTxtReference
@@ -146,7 +146,7 @@ export class Tips {
 
     public static missingSitemapXml(card: Card) {
         const msg1 =
-            `It's important to add the missing <code>sitemap.xml</code> file. ` +
+            `It's critical to add the missing <code>sitemap.xml</code> file. ` +
             `Sitemaps are a very critical factor in SEO ranking of a page.`
         const msg2 =
             `A good XML sitemap acts as a roadmap of your website that leads Google to all your important pages. ` +
