@@ -19,6 +19,7 @@ import * as Credits from './sections/credits'
 import * as Meta from './sections/meta'
 import * as Intro from './sections/intro'
 import * as Robots from './sections/robots'
+import { Tips } from './sections/tips'
 
 export type NoArgsNoReturnFunc = () => void
 export type CodeInjectorFunc = () => any
@@ -95,10 +96,14 @@ async function action(section: SectionType, actions: sectionActions) {
         actions.reportGenerator(tabUrl, data, report)
     } catch (err: any) {
         if (err.message === `Cannot access a chrome:// URL`) {
-            report.addCard(Errors.unableToAnalyzeChromeTabs())
+            const card = Errors.unableToAnalyzeChromeTabs()
+            report.addCard(card)
+            Tips.unableToAnalyzeChromeBrowserPages(card)
         } else {
             const tabUrl = tab?.url || ''
-            report.addCard(Errors.unableToAnalyzePage(tabUrl))
+            const card = Errors.unableToAnalyzePage(tabUrl)
+            report.addCard(card)
+            Tips.unableToAnalyzeChromeBrowserPages(card)
         }
     }
 }
@@ -117,6 +122,7 @@ const activateReport = (activeSec: SectionType) => {
 
 const showSpinner = (container: HTMLDivElement) => {
     const spinner = document.createElement('div')
+    spinner.className ='loading-spinner'
     spinner.id = idLoadingSpinnerDiv
     Array.from(container.children).forEach(child => child.remove())
     container.append(spinner)

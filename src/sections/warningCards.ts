@@ -8,11 +8,6 @@ import {Card} from '../card'
 import {Mode} from '../colorCode'
 import {codeBlock} from '../codeBlock'
 
-export const noMetaTagsOnPage = () => {
-    const msg1 = `No Meta Tags found on page.`
-    return new Card().warning().addParagraph(msg1).setTitle('Missing Meta Tags')
-}
-
 export const notAllSitemapsLoaded = (maxNumber: number, urls: string[]) => {
     const msg1 = `Too many sitemaps to load and analyze. Only the first ${maxNumber} were loaded and analyzed.`
     const msg2 = `${urls.length} sitemaps in the list below were not loaded and analyzed.`

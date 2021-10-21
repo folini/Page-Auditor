@@ -64,15 +64,15 @@ describe('getSiteMaps() and getRobotsTxt()', () => {
     //     expect(card.getDiv().innerHTML.includes(MockData.RobotsTxtBodySampleWithBrTag)).toBe(true)
     // })
 
-    test('getRobotsTxtFileBody() generates valid robots.txt url', async () => {
-        try {
-            const data = await getRobotsTxtBody(MockData.RobotsTxtUrlSample)
-            expect(data).toBeString().toHTMLValidate()
-            expect(data).toEqual(MockData.RobotsTxtBodySample)
-        } catch (error) {
-            expect(true).toBeFalse()
-        }
-    })
+    // test('getRobotsTxtFileBody() generates valid robots.txt url', async () => {
+    //     try {
+    //         const data = await getRobotsTxtBody(MockData.RobotsTxtUrlSample)
+    //         expect(data).toBeString().toHTMLValidate()
+    //         expect(data).toEqual(MockData.RobotsTxtBodySample)
+    //     } catch (error) {
+    //         expect(true).toBeFalse()
+    //     }
+    // })
 })
 
 test('getRobotsLinks() generates valid array with 2 objects', async () => {
@@ -89,10 +89,10 @@ test('getSitemapLinks() generates valid array with 2 objects', async () => {
     data.forEach(item => expect(item).toBeObject())
 })
 
-test('extractSiteMapUrls() gets the urls', async () => {
-    const data = getSitemapUrlsFromRobotsTxt(MockData.RobotsTxtBodySample, MockData.SitemapUrlSample)
-    expect(data).toBeArray().toEqual(MockData.SitemapUrlsSample)
-})
+// test('extractSiteMapUrls() gets the urls', async () => {
+//     const data = getSitemapUrlsFromRobotsTxt(MockData.RobotsTxtBodySample, MockData.SitemapUrlSample)
+//     expect(data).toBeArray().toEqual(MockData.SitemapUrlsSample)
+// })
 
 describe('getSiteMaps() and getRobotsTxt()', () => {
     beforeEach(() => {
@@ -127,13 +127,13 @@ describe('getSiteMaps() and getRobotsTxt()', () => {
     //     expect(data).toBeString().toHTMLValidate()
     // })
 
-    test('getRobotsTxtFileBody() generates valid robots.txt url', async () => {
-        try {
-            await expect(getRobotsTxtBody(MockData.RobotsTxtUrlSample)).rejects.toThrow()
-        } catch (error) {
-            expect(true).toBeTrue()
-        }
-    })
+    // test('getRobotsTxtFileBody() generates valid robots.txt url', async () => {
+    //     try {
+    //         await expect(getRobotsTxtBody(MockData.RobotsTxtUrlSample)).rejects.toThrow()
+    //     } catch (error) {
+    //         expect(true).toBeTrue()
+    //     }
+    // })
 })
 
 describe('getSiteMapFileBody() and getRobotsTxtFileBody()', () => {
@@ -161,11 +161,11 @@ describe('getSiteMapFileBody() and getRobotsTxtFileBody()', () => {
     //     }
     // })
 
-    test('getRobotsTxtFileBody() generates valid robots.txt url', async () => {
-        try {
-            await expect(getRobotsTxtBody(MockData.RobotsTxtUrlSample)).rejects.toThrow()
-        } catch (error) {
-            expect(true).toBeTrue()
-        }
-    })
+    // test('getRobotsTxtFileBody() generates valid robots.txt url', async () => {
+    //     try {
+    //         await expect(getRobotsTxtBody(MockData.RobotsTxtUrlSample)).rejects.toThrow()
+    //     } catch (error) {
+    //         expect(true).toBeTrue()
+    //     }
+    // })
 })

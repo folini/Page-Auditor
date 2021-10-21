@@ -38,6 +38,7 @@
   --color-red: #900;
   --card-padding: 16px;
   --card-icon-size: 52px;
+  --card-ok-fix-label-with: 42px;
   --card-suggestion-color: rgba(255, 215, 0, 0.5);
   --card-error-color: rgba(32, 33, 36, 0.5);
   --card-warning-color: rgba(100, 149, 237, 0.4);
@@ -155,7 +156,7 @@ body#id-page-auditor .box-card h2.cardTitle {
   margin: 0;
   background-size: var(--card-icon-size) var(--card-icon-size);
   background-repeat: no-repeat;
-  background-position: var(--card-padding) 8px;
+  background-position: calc(var(--card-padding)) 8px;
   background-color: #00688c57;
   padding: var(--card-padding);
   padding-left: calc(var(--card-icon-size) + 2 * var(--card-padding));
@@ -165,16 +166,26 @@ body#id-page-auditor .box-card h2.cardTitle {
 }
 body#id-page-auditor .box-card h2.cardTitle:after {
   position: absolute;
-  top: 17px;
-  right: -58px;
-  padding: 16px 56px 2px;
+  top: 0;
+  left: 0;
+  padding: 0;
   color: #fff;
-  transform: rotate(90deg);
+  height: 100%;
   font-size: 12px;
   text-align: center;
+  display: flex;
+  align-content: center;
+  width: 52px;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  text-shadow: 1px 1px 9px #858585;
 }
 body#id-page-auditor .box-card h2.cardTitle.card-ok {
   background-color: #00640036;
+  color: var(--color-black);
+  background-position: calc(var(--card-padding) + var(--card-ok-fix-label-with) + 4px) 10px;
+  padding-left: calc(var(--card-ok-fix-label-with) + var(--card-icon-size) + 2 * var(--card-padding));
 }
 body#id-page-auditor .box-card h2.cardTitle.card-ok:after {
   content: 'OK';
@@ -182,19 +193,28 @@ body#id-page-auditor .box-card h2.cardTitle.card-ok:after {
 }
 body#id-page-auditor .box-card h2.cardTitle.card-fix {
   background-color: #ffa00052;
+  color: var(--color-black);
+  background-position: calc(var(--card-padding) + var(--card-ok-fix-label-with) + 4px) 8px;
+  padding-left: calc(var(--card-ok-fix-label-with) + var(--card-icon-size) + 2 * var(--card-padding));
 }
 body#id-page-auditor .box-card h2.cardTitle.card-fix:after {
   content: 'FIX';
-  background-color: #ffa000c4;
+  background-color: #ffa000de;
 }
 body#id-page-auditor .box-card h2.cardTitle .cardPreTitle {
   font-variant: small-caps;
   font-size: 14px;
 }
+body#id-page-auditor .box-card h2.cardTitle .cardTitleString {
+  max-height: 1.4rem;
+  display: inline-block;
+  overflow-x: hidden;
+  margin-bottom: 8px;
+}
 body#id-page-auditor .box-card h2.cardTitle .card-toolbar {
   position: absolute;
-  right: 28px;
-  bottom: 8px;
+  right: 4px;
+  bottom: 4px;
 }
 body#id-page-auditor .box-card hr {
   border: none;
@@ -268,9 +288,9 @@ body#id-page-auditor .box-card .card-footer .card-tip {
   background-image: url(../logos/Suggestion_100x100.png);
   background-repeat: no-repeat;
   padding: 16px;
-  background-size: 26px;
-  background-position: calc(100% - 3px) 4px;
-  border-radius: 6px;
+  background-size: 30px;
+  background-position: calc(100% - 4px) 4px;
+  border-radius: 8px 8px 16px 16px;
 }
 body#id-page-auditor .box-card .card-footer .card-tip .tip-title {
   font-weight: bold;
@@ -311,24 +331,23 @@ body#id-page-auditor .box-card div.code a:hover {
 body#id-page-auditor #id-facebook-card,
 body#id-page-auditor #id-twitter-card,
 body#id-page-auditor #id-swiftype-card {
-  margin: 16px -12px 8px;
-  padding: 0;
   width: 100%;
   position: relative;
   overflow: hidden;
+  border: solid 1px #cfd9de;
+  border-radius: 8px 8px 16px 16px;
+  padding: 0;
+  margin: 12px auto 0;
+  max-width: 504px;
+  font-size: 15px;
 }
-body#id-page-auditor #id-facebook-card:after,
-body#id-page-auditor #id-twitter-card:after,
-body#id-page-auditor #id-swiftype-card:after {
-  position: absolute;
-  transform: rotate(45deg);
-  background-color: var(--tabs-bg-color);
+body#id-page-auditor #id-facebook-card .preview-label,
+body#id-page-auditor #id-twitter-card .preview-label,
+body#id-page-auditor #id-swiftype-card .preview-label {
   color: #fff;
-  padding: 36px 60px 4px;
-  font-variant: all-small-caps;
-  white-space: pre;
+  padding: 8px 0;
   text-align: center;
-  line-height: 11px;
+  width: 100%;
 }
 body#id-page-auditor #id-facebook-card h2,
 body#id-page-auditor #id-twitter-card h2,
@@ -338,6 +357,7 @@ body#id-page-auditor #id-swiftype-card h2 {
 body#id-page-auditor #id-facebook-card img,
 body#id-page-auditor #id-twitter-card img,
 body#id-page-auditor #id-swiftype-card img {
+  border-radius: 0;
   width: 100%;
 }
 body#id-page-auditor #id-facebook-card div,
@@ -345,25 +365,11 @@ body#id-page-auditor #id-twitter-card div,
 body#id-page-auditor #id-swiftype-card div {
   padding-top: 8px;
 }
-body#id-page-auditor #id-twitter-card {
-  border: solid 1px #cfd9de;
-  border-radius: 16px;
-  padding: 0;
-  margin: 12px auto 0;
-  max-width: 504px;
-  font-size: 15px;
-}
-body#id-page-auditor #id-twitter-card:after {
-  top: -21px;
-  right: -73px;
-  content: 'tweet\Apreview';
+body#id-page-auditor #id-twitter-card .preview-label {
   background-color: #1da1f2;
 }
 body#id-page-auditor #id-twitter-card:hover {
   background-color: #efefef;
-}
-body#id-page-auditor #id-twitter-card img {
-  border-radius: 16px 16px 0 0;
 }
 body#id-page-auditor #id-twitter-card div.twitter-card-legend {
   padding: 12px;
@@ -380,17 +386,7 @@ body#id-page-auditor #id-twitter-card div.twitter-card-legend .twitter-card-doma
   display: inline-block;
   font-size: 13px;
 }
-body#id-page-auditor #id-facebook-card {
-  border: solid 1px var(--border-color);
-  max-width: 504px;
-  margin: 12px auto 0;
-  border-radius: 8px;
-  overflow: hidden;
-}
-body#id-page-auditor #id-facebook-card:after {
-  content: 'post\Apreview';
-  top: -23px;
-  right: -75px;
+body#id-page-auditor #id-facebook-card .preview-label {
   background-color: #4267b2;
 }
 body#id-page-auditor #id-facebook-card div.open-graph-card-legend {

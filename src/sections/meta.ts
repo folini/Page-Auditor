@@ -4,25 +4,18 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {Card} from '../card'
+import {Tips} from './tips'
 import {Report} from '../report'
 import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../main'
 import {tagCategories, metaTagsCard} from './meta-functions'
 import * as Suggestions from './suggestionCards'
-import * as Warnings from './warningCards'
+import * as Errors from './errorCards'
 
-export interface iMetaTag {
+export interface iTag {
     tagLabel: string
     tagValue: string
     class: string
     originalCode: string
-}
-
-export interface iDefaultTagValues {
-    title: string
-    img: string
-    description: string
-    domain: string
 }
 
 const codeInjector: CodeInjectorFunc = () =>
@@ -39,40 +32,33 @@ const codeInjector: CodeInjectorFunc = () =>
                     tagValue: (m.content || '').trim(),
                     class: m.getAttribute('class') || '',
                     originalCode: m.outerHTML.replace(/content="\s*/gi, 'content="'),
-                } as iMetaTag)
+                } as iTag)
         )
-        .filter(m => m.tagValue !== '' && m.tagLabel !== '') as iMetaTag[]
+        .filter(m => m.tagValue !== '' && m.tagLabel !== '') as iTag[]
 
 const reportGenerator: ReportGeneratorFunc = (url: string, data: any, report: Report): void => {
-    var meta = data as iMetaTag[]
-
-    var defaultTags: iDefaultTagValues = {
-        title: meta.find(m => m.tagLabel === 'og:title' || m.tagLabel === 'title')?.tagValue || '',
-        description: meta.find(m => m.tagLabel === 'description')?.tagValue || '',
-        img: meta.find(m => m.tagLabel === 'og:image')?.tagValue || '',
-        domain: meta.find(m => m.tagLabel === 'og:url')?.tagValue || '',
-    }
-
+    var allTags = data as iTag[]
     let atLeastOneScript = false
     let twitterMetaPresent = false
     let openGraphMetaPresent = false
-    tagCategories.map(mc => {
-        const matched = meta.filter(mc.filter)
-        meta = meta.filter(m => !matched.includes(m))
-        if (matched.length > 0) {
-            metaTagsCard(mc, matched, url, defaultTags, report)
+    tagCategories.map(tagCategory => {
+        const selectedTags = allTags.filter(tagCategory.filter)
+        allTags = allTags.filter(tag => !selectedTags.includes(tag))
+        if (selectedTags.length > 0) {
+            metaTagsCard(allTags, tagCategory, selectedTags, report)
             atLeastOneScript = true
-            if (mc.title.includes('Twitter')) {
+            if (tagCategory.title.includes('Twitter')) {
                 twitterMetaPresent = true
-            } else if (mc.title.includes('Facebook')) {
+            } else if (tagCategory.title.includes('Facebook')) {
                 openGraphMetaPresent = true
             }
         }
     })
 
     if (!atLeastOneScript) {
-        report.addCard(Warnings.noMetaTagsOnPage())
-        report.addCard(Suggestions.noMetaTags())
+        const card = Errors.noMetaTagsOnPage()
+        report.addCard(card)
+        Tips.addMetaTags(card)
         return
     }
 

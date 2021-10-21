@@ -15,13 +15,12 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
         return
     }
 
-    var sitemapUrl = new URL(tabUrl).origin + '/sitemap.xml'
-    var robotsUrl = new URL(tabUrl).origin + '/robots.txt'
+    var defaultSitemapUrl = new URL(tabUrl).origin + '/sitemap.xml'
+    var defaultRobotsUrl = new URL(tabUrl).origin + '/robots.txt'
 
-    const robotsBodyPromise = getRobotsTxtBody(robotsUrl)
-    robotsTxtFromPromise(robotsBodyPromise, robotsUrl, report)
-        .then(robotCard => sitemapsFromPromise(robotsBodyPromise, sitemapUrl, report, robotCard))
-        .catch(_ => sitemapsFromPromise(robotsBodyPromise, sitemapUrl, report))
+    const robotsBodyPromise = getRobotsTxtBody(defaultRobotsUrl, report)
+    robotsTxtFromPromise(robotsBodyPromise, defaultRobotsUrl, report)
+        .finally(() => sitemapsFromPromise(robotsBodyPromise, defaultSitemapUrl, report))
 }
 
 export const actions: sectionActions = {

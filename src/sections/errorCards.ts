@@ -16,14 +16,9 @@ export const errorFromError = (err: Error) => {
     return new Card().error().addParagraph(msg1).addParagraph(msg2).addParagraph(msg3).setTitle('Generic Error')
 }
 
-export const chromePagesCantBeAnalyzed = () => {
-    const msg1 = `Google Chrome internal pages, recognizable by the protocol <code>chrome://</code> can't be analyzed.`
-    return new Card().error().addParagraph(msg1).setTitle(`Can't Open Chrome Internal Pages`)
-}
-
 export const unableToAnalyzeChromeTabs = () => {
-    const msg1 = `<b>Page Auditor</b> can not run on empty or internal Chrome tabs.`
-    const msg2 = `Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
+    const msg1 = `<i>Page Auditor</i> can not run on empty or internal Chrome tabs.`
+    const msg2 = `Please launch <i>Page Auditor for Technical SEO</i> on a regular web page.`
     return new Card().error().addParagraph(msg1).addParagraph(msg2).setTitle('Unable To Analyze Chrome Tab')
 }
 
@@ -149,8 +144,12 @@ export const scriptNotFound = () => {
 }
 
 export const structuredDataNotFound = (url: string) => {
-    const msg1 = `No <i>Structured Data</i> was found at location <a target="_new" href="${url}">${url}</a>.`
-    return new Card().error().addParagraph(msg1).setTitle('Missing Structured Data')
+    const msg1 = `No <i>Structured Data</i> was found at location:`
+    return new Card()
+        .error()
+        .addParagraph(msg1)
+        .addCodeBlock(url, Mode.txt)
+        .setTitle('Missing Structured Data')
 }
 
 export const unableToAddCardToReport = () => {
@@ -167,3 +166,9 @@ export const invalidJSON = (json: string) => {
         .addExpandableBlock('Invalid JSON Code', codeBlock(json, Mode.txt))
         .setTitle('Invalid JSON Code')
 }
+
+export const noMetaTagsOnPage = () => {
+    const msg1 = `No Meta Tags found on page.`
+    return new Card().error().addParagraph(msg1).setTitle('Missing Meta Tags')
+}
+

@@ -5,7 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {htmlEncode} from 'js-htmlencode'
-import {iDefaultTagValues, iMetaTag} from '../src/sections/meta'
+import {iTag} from '../src/sections/meta'
 import {noPreview, iTagCategory} from '../src/sections/meta-functions'
 import {Card} from '../src/card'
 
@@ -48,7 +48,7 @@ export const RawMetaTagsSample: string[] = `
     .map(s => s.trim())
     .filter(s => s.length !== 0)
 
-export const MetaTagsSample: iMetaTag[] = [
+export const MetaTagsSample: iTag[] = [
     {
         class: '',
         tagValue: 'summary_large_image',
@@ -165,21 +165,14 @@ export const SitemapXmlBodySample: string = `
 
 export const SitemapXmlEncodedBodySample: string = htmlEncode(SitemapXmlBodySample)
 
-export const DefaultTagValuesSample: iDefaultTagValues = {
-    title: 'Facebook Post Title',
-    img: 'https://mydomain.com/images/some-image.png',
-    description: "Any description will do. Let's add some basic <b>HTML</b>",
-    domain: 'my-domain.com',
-}
-
-export const MetaTagSample: iMetaTag = {
+export const MetaTagSample: iTag = {
     class: 'abc-class',
     tagValue: 'any content',
     tagLabel: 'any:property',
     originalCode: '<meta property="any:property" content="any content" class="abc-class" />',
 }
 
-export const EmptyMetaTag: iMetaTag = {class: '', tagValue: '', tagLabel: '', originalCode: ''}
+export const EmptyMetaTag: iTag = {class: '', tagValue: '', tagLabel: '', originalCode: ''}
 
 export const MetaTagCategorySample: iTagCategory = {
     title: `Other Tags`,

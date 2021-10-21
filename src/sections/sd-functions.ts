@@ -29,7 +29,7 @@ export const schemaLinks = (schemaName: string, ldjsonUrl: string, codeId: strin
     },
 ]
 
-export const schemaTypeOfSnippet = (ldJson: iJsonLD) => {
+export const getSchemaType = (ldJson: iJsonLD) => {
     const schemaType = ldJson['@type']
     
     if (schemaType === undefined) {
@@ -48,12 +48,7 @@ export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string, occurrences: MustBeU
     if (Object.keys(ldJson).length === 0) {
         report.addCard(Suggestions.emptyStructuredData())
     }
-    let schemaType = schemaTypeOfSnippet(ldJson)
-
-    if (schemaType === '') {
-        report.addCard(Suggestions.invalidStructuredData())
-        return
-    }
+    let schemaType = getSchemaType(ldJson)
 
     const jsonCode = JSON.stringify(ldJson)
     const scriptId = disposableId()
@@ -174,7 +169,7 @@ const getTypes = (ldJson: iJsonLD, level = 0): SdType[] => {
                 )
             }
             types.push([
-                flattenSchemaName(schemaTypeOfSnippet(ldJson)),
+                flattenSchemaName(getSchemaType(ldJson)),
                 keyValueDesc.join(''),
             ])
         }

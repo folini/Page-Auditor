@@ -4,22 +4,21 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {iMetaTag, iDefaultTagValues} from './meta'
+import {iTag} from './meta'
 import {Report} from '../report'
 import {Card, iLink} from '../card'
 import {disposableId, copyToClipboard, fileExists} from '../main'
-import * as Suggestions from './suggestionCards'
 import * as Errors from './errorCards'
 import {Mode} from '../colorCode'
 import {htmlEncode} from 'js-htmlencode'
-import {Tips, Platform} from './tips'
+import {Tips} from './tips'
 
 interface iTagCategoryPreviewer {
-    (c: Card, u: string, m: iMetaTag[], t: iDefaultTagValues, report: Report): void
+    (card: Card, selectedTags: iTag[], allTags: iTag[]): void
 }
 
 interface iTagCategoryFilter {
-    (m: iMetaTag): boolean
+    (m: iTag): boolean
 }
 
 export interface iTagCategory {
@@ -31,15 +30,13 @@ export interface iTagCategory {
     preview: iTagCategoryPreviewer
 }
 
-export const noPreview: iTagCategoryPreviewer = (c: Card, u: string, m: iMetaTag[], t: iDefaultTagValues, r: Report) =>
+export const noPreview: iTagCategoryPreviewer = (card: Card, selectedTag: iTag[], allTags: iTag[]) =>
     void 0
 
 export const twitterPreview = (
     card: Card,
-    url: string,
-    tags: iMetaTag[],
-    defaults: iDefaultTagValues,
-    report: Report
+    selectedTags: iTag[],
+    allTag: iTag[],
 ) => {
     const linkIcon =
         `<svg viewBox="0 0 24 24" aria-hidden="true" class="r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr">` +
@@ -49,17 +46,22 @@ export const twitterPreview = (
         `</svg>`
 
     const imgId = disposableId()
-    const urlTag = tags.find(m => m.tagLabel === 'twitter:url')
-    const obsoleteTag = tags.find(m => m.tagLabel === 'twitter:domain')
-    const titleTag = tags.find(m => m.tagLabel === 'twitter:title')
-    const imgTag = tags.find(m => m.tagLabel === 'twitter:image' || m.tagLabel === 'twitter:image:src')
-    const descriptionTag = tags.find(m => m.tagLabel === 'twitter:description')
+    const urlTag = selectedTags.find(m => m.tagLabel === 'twitter:url')
+    const obsoleteTag = selectedTags.find(m => m.tagLabel === 'twitter:domain')
+    const titleTag = selectedTags.find(m => m.tagLabel === 'twitter:title')
+    const imgTag = selectedTags.find(m => m.tagLabel === 'twitter:image' || m.tagLabel === 'twitter:image:src')
+    const descriptionTag = selectedTags.find(m => m.tagLabel === 'twitter:description')
 
-    const title = urlTag?.tagValue || defaults.title
-    let img = imgTag?.tagValue || defaults.img
-    var description = descriptionTag?.tagValue || defaults.description
+    const imgFallbackTag = allTag.find(m => m.tagLabel === 'og:image' || m.tagLabel === 'image')
+    const titleFallbackTag = allTag.find(m => m.tagLabel === 'og:title' || m.tagLabel === 'title')
+    const descriptionFallbackTag = allTag.find(m => m.tagLabel === 'og:description' || m.tagLabel === 'description')
+    const urlFallbackTag = allTag.find(m => m.tagLabel === 'og:url' || m.tagLabel === 'url')
+
+    let title = titleTag?.tagValue || titleFallbackTag?.tagValue || ''
+    let img = imgTag?.tagValue || imgFallbackTag?.tagValue || ''
+    let description = descriptionTag?.tagValue || descriptionFallbackTag?.tagValue || ''
     description = description.length < 128 ? description : description.substr(0, 128) + '&mldr;'
-    var domain = urlTag?.tagValue || defaults.domain
+    var domain = urlTag?.tagValue || urlFallbackTag?.tagValue || ''
 
     if (domain.startsWith('http')) {
         domain = domain.replace(/https?:\/\/(www.)?((\w+\.)?\w+\.\w+).*/i, `$2`)
@@ -85,7 +87,7 @@ export const twitterPreview = (
         }
     } else {
         if (domain.length > 0) {
-            Tips.tag_BeSpecific(card, 'Twitter', 'twitter:url')
+            Tips.tag_BeSpecific(card, 'Twitter', 'twitter:url', urlFallbackTag)
         } else {
             Tips.tag_Missing(card, 'Twitter', 'twitter:url')
         }
@@ -99,7 +101,7 @@ export const twitterPreview = (
         }
     } else {
         if (title.length > 0) {
-            Tips.tag_BeSpecific(card, 'Twitter', 'twitter:title')
+            Tips.tag_BeSpecific(card, 'Twitter', 'twitter:title', titleFallbackTag)
         } else {
             Tips.tag_Missing(card, 'Twitter', 'twitter:title')
         }
@@ -113,7 +115,7 @@ export const twitterPreview = (
         }
     } else {
         if (description.length > 0) {
-            Tips.tag_BeSpecific(card, 'Twitter', 'twitter:description')
+            Tips.tag_BeSpecific(card, 'Twitter', 'twitter:description', descriptionFallbackTag)
         } else {
             Tips.tag_Missing(card, 'Twitter', 'twitter:description')
         }
@@ -140,13 +142,14 @@ export const twitterPreview = (
         }
     } else {
         if (img.length > 0) {
-            Tips.tagImage_AddTag(card, 'Twitter', 'twitter:image')
+            Tips.tag_BeSpecific(card, 'Twitter', 'twitter:image', imgFallbackTag)
         } else {
             Tips.tag_Missing(card, 'Twitter', 'twitter:image')
         }
     }
 
     card.add(`<div id='id-twitter-card'>
+        <div class="preview-label">Twitter Preview</div>
         ${img.length > 0 && img.startsWith('http') ? `<img id='${imgId}' src='${img}'>` : ``}
         <div class='twitter-card-legend'>
             <div class='twitter-card-title'>${htmlEncode(title)}</div>
@@ -162,16 +165,32 @@ export const twitterPreview = (
 
 export const openGraphPreview = (
     card: Card,
-    url: string,
-    tags: iMetaTag[],
-    defaults: iDefaultTagValues,
-    report: Report
+    selectedTags: iTag[],
+    allMeta: iTag[]
 ) => {
-    const imgTag = tags.find(m => m.tagLabel === 'og:image')
-    const urlTag = tags.find(m => m.tagLabel === 'og:url' || m.tagLabel === 'og:image:secure_url')
-    const titleTag = tags.find(m => m.tagLabel === 'og:title')
-    const descriptionTag = tags.find(m => m.tagLabel === 'og:description')
+    const imgTag = selectedTags.find(m => m.tagLabel === 'og:image')
+    const urlTag = selectedTags.find(m => m.tagLabel === 'og:url' || m.tagLabel === 'og:image:secure_url')
+    const titleTag = selectedTags.find(m => m.tagLabel === 'og:title')
+    const descriptionTag = selectedTags.find(m => m.tagLabel === 'og:description')
     const imgId = disposableId()
+
+    const imgFallbackTag = allMeta.find(m => m.tagLabel === 'image')
+    const descriptionFallbackTag = allMeta.find(m => m.tagLabel === 'description')
+    const urlFallbackTag = allMeta.find(m => m.tagLabel === 'url')
+    const titleFallbackTag = allMeta.find(m => m.tagLabel === 'title')
+
+    let url = urlTag?.tagValue || urlFallbackTag?.tagValue || ''
+    if (url && url.startsWith('http')) {
+        url = url.replace(/https?:\/\/(www.)?((\w+\.)?\w+\.\w+).*/i, `$2`)
+    }
+
+    let img = imgTag?.tagValue || imgFallbackTag?.tagValue || ''
+    img = img.replace('http://', 'https://')
+
+    let title = titleTag?.tagValue || titleFallbackTag?.tagValue || ''
+
+    let description = descriptionTag?.tagValue || descriptionFallbackTag?.tagValue || ''
+    description = description.length < 215 ? description : description.substr(0, 214) + '&mldr;'
 
     if (urlTag) {
         if (urlTag.tagValue.length === 0) {
@@ -185,7 +204,11 @@ export const openGraphPreview = (
             }
         }
     } else {
-        Tips.tag_Missing(card, 'Facebook', 'og:url')
+        if (img.length > 0) {
+            Tips.tag_BeSpecific(card, 'Facebook', 'og:image', imgFallbackTag)
+        } else {
+            Tips.tag_Missing(card, 'Facebook', 'og:url')
+        }
     }
 
     if (titleTag) {
@@ -195,7 +218,11 @@ export const openGraphPreview = (
             Tips.tag_ReplacePlaceholder(card, 'Facebook', titleTag.tagLabel, titleTag.tagValue)
         }
     } else {
-        Tips.tag_Missing(card, 'Facebook', 'og:title')
+        if (title.length > 0) {
+            Tips.tag_BeSpecific(card, 'Facebook', 'og:title', titleFallbackTag)
+        } else {
+            Tips.tag_Missing(card, 'Facebook', 'og:title')
+        }
     }
 
     if (descriptionTag) {
@@ -205,7 +232,11 @@ export const openGraphPreview = (
             Tips.tag_ReplacePlaceholder(card, 'Facebook', descriptionTag.tagLabel, descriptionTag.tagValue)
         }
     } else {
-        Tips.tag_Missing(card, 'Facebook', 'og:description')
+        if (description.length > 0) {
+            Tips.tag_BeSpecific(card, 'Facebook', 'og:description', descriptionFallbackTag)
+        } else {
+            Tips.tag_Missing(card, 'Facebook', 'og:description')
+        }
     }
 
     if (imgTag) {
@@ -232,26 +263,18 @@ export const openGraphPreview = (
             }
         }
     } else {
-        Tips.tag_Missing(card, 'Facebook', 'og:image')
+        if (img.length > 0) {
+            Tips.tag_BeSpecific(card, 'Facebook', 'og:image', imgFallbackTag)
+        } else {
+            Tips.tag_Missing(card, 'Facebook', 'og:image')
+        }
     }
 
-    let img = imgTag?.tagValue || ''
-    img = img.replace('http://', 'https://')
-
-    let domain = urlTag?.tagValue || ''
-    if (domain && domain.startsWith('http')) {
-        domain = domain.replace(/https?:\/\/(www.)?((\w+\.)?\w+\.\w+).*/i, `$2`)
-    }
-
-    let title = titleTag?.tagValue || ''
-
-    let description = descriptionTag?.tagValue || ''
-    description = description.length < 215 ? description : description.substr(0, 214) + '&mldr;'
-
-    card.add(`<div id='id-facebook-card'>        
+    card.add(`<div id='id-facebook-card'>
+            <div class="preview-label">Facebook Preview</div>       
             ${img.length > 0 ? `<img id='${imgId}' src='${img}'>` : ``}
             <div class='open-graph-card-legend'>
-              ${domain.length > 0 ? `<div class='open-graph-card-domain'>${domain.toUpperCase()}</div>` : ''}
+              ${url.length > 0 ? `<div class='open-graph-card-domain'>${url.toUpperCase()}</div>` : ''}
               <h2>${htmlEncode(title)}</h2>
               <div class='og-description'>${htmlEncode(description)}</div>
             </div>
@@ -464,18 +487,17 @@ export const tagCategories: iTagCategory[] = [
 ]
 
 export const metaTagsCard = (
-    metaCat: iTagCategory,
-    metaList: iMetaTag[],
-    url: string,
-    defaults: iDefaultTagValues,
+    allTags: iTag[],
+    tagCategory: iTagCategory,
+    selectedTags: iTag[],
     report: Report
 ) => {
-    if (metaList.length === 0) {
-        report.addCard(Errors.noMetaTagsInThisCategory(metaCat.title))
+    if (selectedTags.length === 0) {
+        report.addCard(Errors.noMetaTagsInThisCategory(tagCategory.title))
         return
     }
 
-    const listOfMeta = metaList.map(m => m.originalCode.trim()).join('\n')
+    const listOfMeta = selectedTags.map(m => m.originalCode.trim()).join('\n')
     const divId = disposableId()
 
     const links: iLink[] = [
@@ -484,16 +506,16 @@ export const metaTagsCard = (
             onclick: () => copyToClipboard(divId),
         },
     ]
-    if (metaCat.url.length > 0) {
-        links.push({url: metaCat.url, label: 'Reference'})
+    if (tagCategory.url.length > 0) {
+        links.push({url: tagCategory.url, label: 'Reference'})
     }
 
     const card = new Card()
-        .open(`Meta Tags`, metaCat.title, links, metaCat.cssClass)
-        .addParagraph(metaCat.description)
+        .open(`Meta Tags`, tagCategory.title, links, tagCategory.cssClass)
+        .addParagraph(tagCategory.description)
         .addCodeBlock(listOfMeta, Mode.html, divId)
         .tag('card-ok')
 
-    metaCat.preview(card, url, metaList, defaults, report)
+    tagCategory.preview(card, selectedTags, allTags)
     report.addCard(card)
 }

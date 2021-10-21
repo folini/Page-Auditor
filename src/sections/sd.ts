@@ -7,9 +7,10 @@
 import {Card} from '../card'
 import {Report} from '../report'
 import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../main'
-import {ldJsonCard, schemaTypeOfSnippet} from './sd-functions'
+import {ldJsonCard, getSchemaType} from './sd-functions'
 import * as Suggestions from './suggestionCards'
 import * as Errors from './errorCards'
+import {Tips} from "./tips"
 
 export interface iJsonLD {
     [name: string]: string | [] | {}
@@ -37,8 +38,9 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, repo
     }
 
     if (jsonStrings.length == 0) {
-        report.addCard(Errors.structuredDataNotFound(tabUrl))
-        report.addCard(Suggestions.missingStructuredData())
+        const card = Errors.structuredDataNotFound(tabUrl)
+        report.addCard(card)
+        Tips.missingStructuredData(card)
         return
     }
 
@@ -50,12 +52,15 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, repo
     jsonStrings.forEach(json => {
         try {
             const ldJson: iJsonLD = JSON.parse(json)
-            const schemaType = schemaTypeOfSnippet(ldJson)
+            if (getSchemaType(ldJson) === '') {
+                const card = Errors.invalidJSON(json)
+                Tips.invalidStructuredData(card)
+                return
+            }
             ldJsonCard(ldJson, tabUrl, occurrences, report)
         } catch (err) {
-            report.addCard(Errors.invalidJSON(json))
-            report.addCard(Suggestions.invalidStructuredData())
-            console.log(`ERROR: ${err}`)
+            const card = Errors.invalidJSON(json)
+            Tips.invalidStructuredData(card)
         }
     })
 }
