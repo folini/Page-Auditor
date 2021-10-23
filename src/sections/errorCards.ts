@@ -8,12 +8,13 @@ import {Card} from '../card'
 import {Mode} from '../colorCode'
 import {codeBlock} from '../codeBlock'
 
-export const errorFromError = (err: Error) => {
+export const fromError = (err: Error, optMsg: string = '') => {
     const msg1 = `Unexpected Error.`
     const msg2 = typeof err === 'undefined' ? `Error Name: no name` : `Error Name: ${err.name ?? 'no name'}.`
     const msg3 = typeof err === 'undefined' ? `Error Message: no message` : `Error Message: ${err.message ?? 'no message'}.`
-    const msg4 = typeof err === 'undefined' ? `Error Stack: no stack` : `Error Stack: ${err.stack ?? 'no stack'}.`
-    return new Card().error().addParagraph(msg1).addParagraph(msg2).addParagraph(msg3).addParagraph(msg4).setTitle('Generic Error')
+    const msg4 = typeof err === 'undefined' ? `Error Stack: no stack` : `Error Stack: ${err.stack ?? 'no stack'}.` 
+    const msg5 = optMsg !== '' ? `<div>${optMsg}</div>` : ''
+    return new Card().error().addParagraph(msg1).addParagraph(msg2).addParagraph(msg3).addParagraph(msg4).addParagraph(msg5).setTitle('Generic Error')
 }
 
 export const unableToAnalyzeChromeTabs = () => {
@@ -22,7 +23,7 @@ export const unableToAnalyzeChromeTabs = () => {
     return new Card().error().addParagraph(msg1).addParagraph(msg2).setTitle('Unable To Analyze Chrome Tab')
 }
 
-export const chromeTabIsUndefined = () => {
+export const tabUrlUndefined = () => {
     const msg1 = `The current Chrome tab is undefined.`
     const msg2 = `Please re-launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
     return new Card().error().addParagraph(msg1).addParagraph(msg2).setTitle('Chrome Tab Undefined')
@@ -69,27 +70,13 @@ export const sitemapReturns404 = (url: string) => {
         .setTitle('Sitemap.xml Not Found')
 }
 
-export const sitemapNotFound = (url: string) => {
+export const sitemapNotFound = (urls: string[]) => {
     const msg1 = `No <code>Sitemap.xml</code> file at location:`
     const msg2 = `File not found.`
     return new Card()
         .error()
         .addParagraph(msg1)       
-        .addCodeBlock(url, Mode.txt)
-        .addParagraph(msg2)
-        .setTitle('Sitemap.xml Not Found')
-}
-
-export const sitemapUnableToOpen = (url: string, errorCode: number, errorMessage: string) => {
-    const eCode = typeof errorCode === 'number' ? errorCode.toFixed() : 'unknown'
-    const eMsg = typeof errorMessage === 'string' ? errorMessage : 'unknown'
-    const msg1 = `Unable to load <code>Sitemap.xml</code> file at location:`
-    const msg2 =
-        eCode === 'unknown' && eMsg === 'unknown' ? undefined : `Error code: ${eCode}, Error Message: "${eMsg}"`
-    return new Card()
-        .error()
-        .addParagraph(msg1)
-        .addCodeBlock(url, Mode.txt)
+        .addCodeBlock(urls.join('<br/>'), Mode.txt)
         .addParagraph(msg2)
         .setTitle('Sitemap.xml Not Found')
 }

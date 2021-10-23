@@ -13,7 +13,7 @@ export const notAllSitemapsLoaded = (maxNumber: number, urls: string[]) => {
     const msg2 = `${urls.length} sitemaps in the list below were not loaded and analyzed.`
     const block = `${urls.map(url => `${url.trim()}`).join('\n')}`
     return new Card()
-        .warning()
+        .info()
         .addParagraph(msg1)
         .addParagraph(msg2)
         .addExpandableBlock('SiteMaps Not Loaded', codeBlock(block, Mode.txt))

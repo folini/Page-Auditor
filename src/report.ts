@@ -14,12 +14,12 @@ export class Report {
         this.#container = document.getElementById(containerId) as HTMLDivElement
     }
 
-    public addCard(card: Card) {
+    public addCard(card: any) {
         this.#container.querySelector('.loading-spinner')?.remove()
         if (typeof card.getDiv === 'function') {
             this.#container.append(card.getDiv())
         } else {
-            this.#container.append(Errors.errorFromError(card as unknown as Error).getDiv())
+            this.#container.append(Errors.fromError(card, 'Unable to add item to report').getDiv())
         }
         return card
     }

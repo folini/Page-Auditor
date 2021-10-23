@@ -10,302 +10,204 @@ import {Report} from '../report'
 import {Mode} from '../colorCode'
 import {disposableId, copyToClipboard, formatNumber, fileExists} from '../main'
 import * as Suggestions from './suggestionCards'
-import * as Warnings from './warningCards'
 import * as Errors from './errorCards'
-import {Tips} from "./tips"
+import {Tips} from './tips'
 import {codeBlock} from '../codeBlock'
 import {htmlDecode} from 'js-htmlencode'
+import {SitemapList} from '../sitemapList'
 
-const maxNumberOfSitemapsToLoad = 15
 export type UrlsToCompress = [size: number, urls: string]
 
-const getSitemapBody = (url: string, report: Report) => {
-    if (url.startsWith(`chrome://`)) {
-        const card = Errors.unableToAnalyzeChromeTabs()
-        report.addCard(card)
-        Tips.noSitemapInChromeBrowserPages(card)
-        return Promise.reject()
-    }
+enum fetchError {
+    e200 = 'e200',
+    eNotFound = 'eNotFound',
+}
+
+export const getFile = (url: string) => {
     if (url.match(/\.gz($|\?)/) !== null) {
         // Do not load compressed files
         return Promise.resolve('')
     }
+
     return fetch(url)
-        .then(res => {
-            if (res.status !== 200) {
-                const card = Errors.sitemapUnableToOpen(url, res.status, res.statusText)              
-                report.addCard(card)
-                Tips.missingSitemapXml(card)
-                return Promise.reject()
+        .then(response => {
+            if (!response.ok || response.status !== 200) {
+                throw fetchError.e200
             }
-            return res.text()
+            return response.text()
         })
-        .then(sitemapBody => {
-            if (sitemapBody.includes(`page not found`)) {
-                const card = Errors.sitemapNotFound(url)
-                report.addCard(card)
-                Tips.missingSitemapXml(card)
-                return Promise.reject()
-            }
-            return sitemapBody
-        })
-        .catch(err => {
-            return Promise.reject()
-        })
+        .catch(() => Promise.reject())
 }
 
-export const createSiteMapCards = (
-    urlsToProcess: string[],
-    urlsProcessed: string[],
-    urlsSuccessful: string[],
-    report: Report
-) => 
-    urlsToProcess.map(url =>
-        getSitemapBody(url, report)
-            .then(sitemapBody => {
+const createOneSitemapCard = (url: string, sitemaps: SitemapList, report: Report) =>
+    getFile(url)
+        .then(sitemapBody => {
+            if (sitemapBody.match(/not found/gim) !== null || sitemapBody.match(/error 404/gim) !== null) {
+                const card = Errors.sitemapReturns404(url)
+                report.addCard(card)
+                Tips.malformedSitemapXml(card)
+                sitemaps.addToDone([url])
+                return Promise.resolve()
+            }
 
-                if (sitemapBody.match(/not found/gim) !== null || sitemapBody.match(/error 404/gim) !== null) {
-                    const card = Errors.sitemapReturns404(url)
-                    report.addCard(card)
-                    Tips.malformedSitemapXml(card)
-                    urlsProcessed.push(url)
-                    urlsToProcess = urlsToProcess.filter(u => u !== url)
-                    return Promise.resolve()
-                }
+            if (sitemapBody.includes(`<head>`) || sitemapBody.includes(`<meta`)) {
+                const card = Errors.sitemapIsHTMLPage(url, sitemapBody)
+                report.addCard(card)
+                Tips.malformedSitemapXml(card)
+                sitemaps.addToDone([url])
+                return Promise.resolve()
+            }
 
-                if (sitemapBody.includes(`<head>`) || sitemapBody.includes(`<meta`)) {
-                    const card = Errors.sitemapIsHTMLPage(url, sitemapBody)
-                    report.addCard(card)
-                    Tips.malformedSitemapXml(card)
-                    urlsProcessed.push(url)
-                    urlsToProcess = urlsToProcess.filter(u => u !== url)
-                    return Promise.resolve()
-                }
-
-                if (url.endsWith('.gz')) {
-                    const fileName = url.replace(/(.*)\/([a-z0-9\-_\.]+(\.xml)?(\.gz)?)(.*)/i, '$2')
-                    const table = [
-                        ['File Name', fileName],
-                        ['File Size', `n/a`],
-                        ['Pages', `n/a`],
-                        ['Sub Sitemap', `n/a`],
-                        ['Compressed', 'Yes'],
-                        ['Compression type', 'Gzip'],
-                    ]
-                    
-                    const card = new Card()
-                            .open(`Compressed Sitemap`, fileName, getSitemapToolbarLinks(url, ''), 'icon-sitemap')
-                            .addParagraph(`Found a compressed <code>sitemap.xml</code> file at the url:`)
-                            .addCodeBlock(url, Mode.txt)
-                            .addTable('Sitemap Analysis', table)
-                            .addParagraph(`Unable to display the content of compressed files.`)
-                            .tag('card-ok')
-                    report.addCard(card)
-                    urlsSuccessful.push(url)
-                    urlsProcessed.push(url)
-                    urlsToProcess = urlsToProcess.filter(u => u !== url)
-                    fileExists(url).catch(_ => Tips.compressedSitemapNotFound(card, url))
-                    return  Promise.resolve()
-                }
-
-                const fileName = url.replace(/(.*)\/([a-z0-9\-_\.]+(\.xml)?)(\?.*)?/i, '$2')
-
-                const divId = disposableId()
-                const btnLabel = `Sitemap`
-                const links = sitemapBody.match(/<loc>(.*?)<\/loc>/g) ?? []
-                const linksToSitemaps =
-                    sitemapBody.match(
-                        /<sitemap>\s*<loc>(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9\-]+\.[^(\s|<|>)]{2,})<\/loc>/gim
-                    ) ?? []
-                const linksToPages = links.length - linksToSitemaps.length
-                const sitemapXmlDescription =
-                    `A good XML sitemap acts as a roadmap of your website that leads Google to all your important pages. ` +
-                    `XML sitemaps can be good for SEO, as they allow Google to find your essential website pages quickly, even if your internal linking isn't perfect.`
+            if (url.endsWith('.gz')) {
+                const fileName = url.replace(/(.*)\/([a-z0-9\-_\.]+(\.xml)?(\.gz)?)(.*)/i, '$2')
                 const table = [
                     ['File Name', fileName],
-                    ['File Size', formatNumber(sitemapBody.length) + ' bytes'],
-                    ['Sitemap Type', linksToSitemaps.length > 0 ? 'Sitemap Index' : 'Sitemap'],
-                    ['Pages', `${linksToPages === 0 ? 'No' : formatNumber(linksToPages)} pages linked`],
-                    [
-                        'Sub Sitemap',
-                        linksToSitemaps.length == 0
-                            ? 'No links to other sitemaps'
-                            : `${formatNumber(linksToSitemaps.length)} sitemaps linked`,
-                    ],
-                    ['Compressed', 'No Compression Detected'],
+                    ['File Size', `n/a`],
+                    ['Pages', `n/a`],
+                    ['Sub Sitemap', `n/a`],
+                    ['Compressed', 'Yes'],
+                    ['Compression type', 'Gzip'],
                 ]
 
-                const card = 
-                    new Card()
-                        .open(`Sitemap`, fileName, getSitemapToolbarLinks(url, divId), 'icon-sitemap')
-                        .addParagraph(`Found a <code>sitemap.xml</code> file at the url:`)
-                        .addCodeBlock(url, Mode.txt)
-                        .addParagraph(sitemapXmlDescription)
-                        .addTable('Sitemap Analysis', table)
-                        .addExpandableBlock(btnLabel, codeBlock(sitemapBody, Mode.xml, divId))
-                        .tag('card-ok')
-
+                const card = new Card()
+                    .open(`Compressed Sitemap`, fileName, getSitemapToolbarLinks(url, ''), 'icon-sitemap')
+                    .addParagraph(`Found a compressed <code>sitemap.xml</code> file at the url:`)
+                    .addCodeBlock(url, Mode.txt)
+                    .addTable('Sitemap Analysis', table)
+                    .addParagraph(`Unable to display the content of compressed files.`)
+                    .tag('card-ok')
                 report.addCard(card)
-
-                if (sitemapBody.length > Suggestions.sitemapRecommendedMaxSize) {
-                    Tips.uncompressedLargeSitemap(card, url, sitemapBody.length)
-                } 
-                if (!fileName.includes('.xml')) {
-                    Tips.sitemapWithoutXmlExtension(card, url)
-                }
-
-                const subSitemaps = getSitemapUrlsFromSitemap(sitemapBody)
-                subSitemaps.forEach(subSitemap => {
-
-                urlsSuccessful.push(url)
-                urlsProcessed.push(url)
-                urlsToProcess = urlsToProcess.filter(u => u !== url)
+                sitemaps.addToDone([url])
+                fileExists(url).catch(_ => Tips.compressedSitemapNotFound(card, url))
                 return Promise.resolve()
-            })
-        })
-        .catch(_ => {
-            urlsProcessed.push(url)
-            urlsToProcess = urlsToProcess.filter(u => u !== url)
-            return Promise.reject()
-        })
-    )
+            }
 
-export const getRobotsTxtBody = (url: string, report: Report) => {
-    if (url.startsWith(`chrome://`)) {
-        const card = Errors.unableToAnalyzeChromeTabs()
-        report.addCard(card)
-        Tips.noRobotsTxtInChromeBrowserPages(card)
+            const fileName = url.replace(/(.*)\/([a-z0-9\-_\.]+(\.xml)?)(\?.*)?/i, '$2')
+
+            const divId = disposableId()
+            const btnLabel = `Sitemap`
+            const links = sitemapBody.match(/<loc>(.*?)<\/loc>/g) ?? []
+            const linksToSitemaps =
+                sitemapBody.match(
+                    /<sitemap>\s*<loc>(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9\-]+\.[^(\s|<|>)]{2,})<\/loc>/gim
+                ) ?? []
+            const linksToPages = links.length - linksToSitemaps.length
+            const sitemapXmlDescription =
+                `A good XML sitemap acts as a roadmap of your website that leads Google to all your important pages. ` +
+                `XML sitemaps can be good for SEO, as they allow Google to find your essential website pages quickly, even if your internal linking isn't perfect.`
+            const table = [
+                ['File Name', fileName],
+                ['File Size', formatNumber(sitemapBody.length) + ' bytes'],
+                ['Sitemap Type', linksToSitemaps.length > 0 ? 'Sitemap Index' : 'Sitemap'],
+                ['Pages', `${linksToPages === 0 ? 'No' : formatNumber(linksToPages)} pages linked`],
+                [
+                    'Sub Sitemap',
+                    linksToSitemaps.length == 0
+                        ? 'No links to other sitemaps'
+                        : `${formatNumber(linksToSitemaps.length)} sitemaps linked`,
+                ],
+                ['Compressed', 'No Compression Detected'],
+            ]
+
+            const card = new Card()
+                .open(`Sitemap`, fileName, getSitemapToolbarLinks(url, divId), 'icon-sitemap')
+                .addParagraph(`Found a <code>sitemap.xml</code> file at the url:`)
+                .addCodeBlock(url, Mode.txt)
+                .addParagraph(sitemapXmlDescription)
+                .addTable('Sitemap Analysis', table)
+                .addExpandableBlock(btnLabel, codeBlock(sitemapBody, Mode.xml, divId))
+                .tag('card-ok')
+
+            report.addCard(card)
+
+            if (sitemapBody.length > Suggestions.sitemapRecommendedMaxSize) {
+                Tips.uncompressedLargeSitemap(card, url, sitemapBody.length)
+            }
+            if (!fileName.includes('.xml')) {
+                Tips.sitemapWithoutXmlExtension(card, url)
+            }
+            sitemaps.addToDone([url])
+            sitemaps.addToReady(getSitemapUrlsFromSitemapBody(sitemapBody))
+
+            return Promise.resolve()
+        })
+        .catch(() => {
+            sitemaps.addToFailed([url])
+            return Promise.resolve()
+        })
+
+export const createSiteMapCards = (sitemaps: SitemapList, report: Report) => {
+    if (sitemaps.readyList.length === 0) {
         return Promise.reject()
     }
 
-    return fetch(url)
-        .then(res => {
-            if (res.status !== 200) {
-                const card = Errors.robotsTxtUnableToOpen(url, res.status, res.statusText)
-                report.addCard(card)
-                Tips.missingRobotsTxt(card)
-                return Promise.reject()
-            }
-            return res.text()
-        })
-        .then(robotsTxtBody => {
-            if (robotsTxtBody.match(/page not found/gim) !== null || robotsTxtBody.match(/error 404/gim) !== null) {
-                const card = Errors.robotsTxtNotFound(url)
-                report.addCard(card)
-                Tips.missingRobotsTxt(card)
-                return Promise.reject()
-            }
-            return robotsTxtBody
-        })
-        .catch(err => {
-            return Promise.reject()
-        })
+    const promises = sitemaps.readyList.map(url => createOneSitemapCard(url, sitemaps, report))
+    return Promise.allSettled(promises).finally(() =>
+        sitemaps.readyList.map(url => createOneSitemapCard(url, sitemaps, report))
+    )
 }
 
 const sanitizeUrls = (urls: string[]) => {
-    return urls.map(url => (url.includes(`http://`) ? url.replace(`http://`, `https://`) : url))
+    return urls.map(url => url.replace(`http://`, `https://`))
 }
 
-export const sitemapsFromPromise = (robotBody: Promise<string>, defaultUrl: string, report: Report) => {
-    let sitemapCardsCreated: string[] = []
-    let sitemapCardsToSkip: string[] = []
-    let sitemapsUrlsToIgnore: string[] = []
-    let sitemapUrlsToProcess:string[] = []
-
+export const sitemapsFromPromise = (robotBody: Promise<string>, sitemaps: SitemapList, report: Report) =>
     robotBody
         .then(robotsTxtBody => {
-            sitemapUrlsToProcess = getSitemapUrlsFromRobotsTxt(robotsTxtBody)
-            sitemapUrlsToProcess = [defaultUrl, ...sanitizeUrls(sitemapUrlsToProcess)]
-            sitemapUrlsToProcess = [...new Set(sitemapUrlsToProcess)]
-            sitemapCardsToSkip = sitemapCardsToSkip   = sitemapUrlsToProcess.slice(maxNumberOfSitemapsToLoad)
-            sitemapUrlsToProcess = sitemapUrlsToProcess.slice(0, maxNumberOfSitemapsToLoad)
-            return Promise.allSettled(createSiteMapCards(sitemapUrlsToProcess, sitemapsUrlsToIgnore, sitemapCardsCreated, report))
-        })
-        .then(() => {
-            if(sitemapUrlsToProcess.length === 0) {
+            const newUrls = getSitemapUrlsFromRobotsTxt(robotsTxtBody)
+            if (newUrls.length === 0) {
                 return
             }
-            const newUrls: string[] = []
-            const urlsPromises = sitemapUrlsToProcess.map(url => {
-                sitemapUrlsToProcess.push(...getSitemapUrlsFromSitemap(url))
-                sitemapUrlsToProcess = [...new Set(sitemapUrlsToProcess)]
-                sitemapCardsToSkip.push(...sitemapUrlsToProcess.slice(maxNumberOfSitemapsToLoad))
-                sitemapsUrlsToIgnore.push(...sitemapUrlsToProcess.slice(maxNumberOfSitemapsToLoad))
-                sitemapsUrlsToIgnore = [...new Set(sitemapsUrlsToIgnore)]
-                sitemapUrlsToProcess = sitemapUrlsToProcess.filter(u => !sitemapCardsCreated.includes(u) && !sitemapsUrlsToIgnore.includes(u))
-            })
-            const spaceLeft = maxNumberOfSitemapsToLoad - sitemapCardsCreated.length
-            return Promise.allSettled(createSiteMapCards(sitemapUrlsToProcess, sitemapsUrlsToIgnore, sitemapCardsCreated, report))
+            sitemaps.addToReady(sitemaps.readyList)
         })
-        .finally(() => {
-            sitemapCardsToSkip = [...new Set(sitemapCardsToSkip)]
-            if (sitemapCardsToSkip.length > 0) {
-                report.addCard(Warnings.notAllSitemapsLoaded(maxNumberOfSitemapsToLoad, sitemapsUrlsToIgnore))
-            }
-        })
-}
+        .finally(() => createSiteMapCards(sitemaps, report))
+
+const robotsTxtDirectives = (body: string) =>
+    body.split('\n').filter(line => !line.startsWith('#') && line.trim().length > 0)
 
 export const robotsTxtFromPromise = (bodyPromise: Promise<string>, url: string, report: Report) => {
     return bodyPromise
         .then(robotsTxtBody => {
             let issues = 0
 
+            if (robotsTxtBody.match(/page not found/gim) !== null || robotsTxtBody.match(/error 404/gim) !== null) {
+                const card = Errors.robotsTxtNotFound(url)
+                report.addCard(card)
+                Tips.missingRobotsTxt(card)
+                return Promise.resolve()
+            }
+
             if (robotsTxtBody.includes(`<head>`) || robotsTxtBody.includes(`<meta`)) {
                 const card = Errors.robotsTxtIsHTMLPage(url, robotsTxtBody)
                 report.addCard(card)
                 Tips.malformedRobotsTxt(card)
-                return Promise.reject()
+                return Promise.resolve()
             }
 
             if (robotsTxtBody.replace(/[\s\n]/g, '').length === 0) {
                 const card = Errors.robotsTxtIsEmpty(url)
                 report.addCard(card)
                 Tips.emptyRobotsTxt(card)
-                return Promise.reject()
+                return Promise.resolve()
             }
 
-            if (
-                robotsTxtBody.split('\n').filter(line => !line.startsWith('#') && line.trim().length > 0).length === 0
-            ) {
+            if (robotsTxtDirectives(robotsTxtBody).length === 0) {
                 const card = Errors.robotsTxtIsOnlyComments(url, robotsTxtBody)
                 report.addCard(card)
                 Tips.emptyRobotsTxt(card)
-                return Promise.reject()
+                return Promise.resolve()
             }
 
             const card = robotsTxtCard(url, robotsTxtBody, issues)
             report.addCard(card)
 
-            const siteMaps = robotsTxtBody.match(/^sitemap:\shttp/gim) || []
-            if (siteMaps.length === 0) {
-                Tips.addSitemapLinkToRobotsTxt(card)
-            }
-
-            let sitemapUrls = getSitemapUrlsFromRobotsTxt(robotsTxtBody)
-            const unsafeUrls = sitemapUrls.filter(url => url.includes(`http://`))
-            if(unsafeUrls.length > 0) {
-                Tips.unsafeSitemapLinkInRobots(card as Card, unsafeUrls)
-            }
-
-            sitemapUrls = sanitizeUrls(sitemapUrls)
-            const duplicateUrls = sitemapUrls.filter(uUrl => sitemapUrls.filter(url => url === uUrl).length > 1)
-            if (duplicateUrls.length > 0) {                
-                Tips.duplicateSitemapsInRobots(card, duplicateUrls)
-            }        
-
             return Promise.resolve()
         })
         .catch(err => {
-            // if (err && typeof err.getDiv === 'function') {
-            //     const card = err
-            //     report.addCard(card)
-            //     Tips.missingRobotsTxt(card)
-            // } else {
-            //     const card = Errors.errorFromError(err)
-            //     report.addCard(card)
-            //     Tips.missingRobotsTxt(card)
-            // }
-            return Promise.reject()
+            const card = Errors.fromError(err, `Unable to open robots.txt "${url}"`)
+            report.addCard(card)
+            Tips.internalError(card)
+            return Promise.resolve()
         })
 }
 
@@ -382,22 +284,38 @@ const robotsTxtCard = (url: string, robotsTxtBody: string, issues = 0): Card => 
         .addExpandableBlock(btnLabel, codeBlock(robotsTxtBody, Mode.txt, divId))
         .tag(issues === 0 ? 'card-ok' : 'card-fix')
 
-    linksToSitemap.forEach(url => fileExists(url).catch(() => card.tag('card-fix')))
+    if (linksToSitemap.length === 0) {
+        Tips.addSitemapLinkToRobotsTxt(card)
+    }
+
+    const unsafeUrls = linksToSitemap.filter(url => url.includes(`http://`))
+    if (unsafeUrls.length > 0) {
+        Tips.unsafeSitemapLinkInRobots(card as Card, unsafeUrls)
+    }
+
+    linksToSitemap = linksToSitemap.map(url => url.replace('http://', 'https://'))
+    const duplicateUrls = linksToSitemap.filter(uUrl => linksToSitemap.filter(url => url === uUrl).length > 1)
+    if (duplicateUrls.length > 0) {
+        Tips.duplicateSitemapsInRobots(card, duplicateUrls)
+    }
+
+    ;[...new Set(linksToSitemap)].forEach(url =>
+        fileExists(url).catch(() => {
+            Tips.sitemapInRobotsDoesNotExist(card, url)
+        })
+    )
 
     return card
 }
 
-export const getSitemapUrlsFromRobotsTxt = (robotsTxtBody: string) => {
-    const urls: string[] = robotsTxtBody
+export const getSitemapUrlsFromRobotsTxt = (robotsTxtBody: string) =>
+    robotsTxtBody
         .split('\n')
         .filter(line => line.startsWith('Sitemap: '))
         .map(line => line.split(': ')[1].trim())
         .filter(line => line.length > 0)
 
-    return urls
-}
-
-export const getSitemapUrlsFromSitemap = (sitemapBody: string) => {
+export const getSitemapUrlsFromSitemapBody = (sitemapBody: string) => {
     let subSitemaps = (sitemapBody.match(
         /<sitemap>\s*<loc>(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9\-]+\.[^(\s|<|>)]{2,})<\/loc>/gim
     ) ?? []) as string[]

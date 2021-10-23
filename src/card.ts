@@ -7,6 +7,7 @@
 import {disposableId} from './main'
 import {codeBlock} from './codeBlock'
 import {Mode} from './colorCode'
+import { builtinModules } from 'module'
 
 export interface iLink {
     label: string
@@ -18,7 +19,7 @@ export enum CardKind {
     report,
     error,
     suggestion,
-    warning,
+    info,
 }
 
 export class Card {
@@ -104,8 +105,8 @@ export class Card {
         return this.open('Suggestion', '', [], 'icon-suggestion').setKind(CardKind.suggestion)
     }
 
-    public warning() {
-        return this.open('Warning', '', [], 'icon-warning').setKind(CardKind.warning)
+    public info() {
+        return this.open('Info', '', [], 'icon-info').setKind(CardKind.info)
     }
 
     public addCTA(links: iLink[]) {
@@ -132,7 +133,7 @@ export class Card {
     public addExpandableBlock(btnLabel: string, block: string) {
         const divId = disposableId()
         const btnId = disposableId()
-        this.addParagraph(`<a class='large-btn' id='${btnId}'>Show ${btnLabel}</a>`, 'cta-toolbar')
+        this.addParagraph(`<a class='large-btn btn-expandable' id='${btnId}'>Show ${btnLabel}</a>`, 'cta-toolbar')
         this.addParagraph(block, 'code-snippets', divId)
         const btn = this.#div.querySelector(`#${btnId}`) as HTMLAnchorElement
         const div = this.#div.querySelector(`#${divId}`) as HTMLDivElement
@@ -204,10 +205,14 @@ export class Card {
     #toggle(btn: HTMLAnchorElement, codeDiv: HTMLDivElement) {
         if (btn.innerHTML.includes('Show')) {
             codeDiv.style.display = 'block'
+            btn.classList.remove('btn-expandable')
+            btn.classList.add('btn-expanded')
             btn.innerText = btn.innerText.replace('Show', 'Hide')
             btn.parentElement!.style.marginBottom = '16px'
         } else {
             codeDiv.style.display = 'none'
+            btn.classList.remove('btn-expanded')
+            btn.classList.add('btn-expandable')
             btn.innerText = btn.innerText.replace('Hide', 'Show')
             btn.parentElement!.style.marginBottom = '0'
         }

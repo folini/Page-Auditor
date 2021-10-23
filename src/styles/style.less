@@ -65,7 +65,7 @@
     --card-ok-fix-label-with: 42px;
     --card-suggestion-color: rgb(255 215 0 / 50%);
     --card-error-color: rgb(32 33 36 / 50%);
-    --card-warning-color: rgb(100 149 237 / 40%);
+    --card-info-color: rgb(100 149 237 / 40%);
 
     --tip-color: rgb(255 215 0 / 7%);
 }
@@ -107,6 +107,28 @@
         color: var(--tabs-bg-color) !important;
         background-color: var(--color-white) !important;
         text-decoration: none !important;
+    }
+
+    &.btn-expandable {
+        background-image: url(../logos/RightArrowWhite_100x100.png);
+        background-repeat: no-repeat;
+        background-size: 16px;
+        background-position: 2px center;
+        padding-left: 24px;
+        &:hover {
+            background-image: url(../logos/RightArrow_100x100.png);
+        }
+    }
+
+    &.btn-expanded {
+        background-image: url(../logos/DownArrowWhite_100x100.png);
+        background-repeat: no-repeat;
+        background-size: 16px;
+        background-position: 2px center;
+        padding-left: 24px;
+        &:hover {
+            background-image: url(../logos/DownArrow_100x100.png);
+        }
     }
 }
 
@@ -184,6 +206,7 @@ body#id-page-auditor {
         margin-bottom: 32px;
         background-color: var(--color-white);
         overflow: hidden;
+
         &:hover {
             box-shadow: 0 1px 5px 0 rgb(0 0 0 / 10%);
         }
@@ -193,8 +216,8 @@ body#id-page-auditor {
             margin: 0;
             background-size: var(--card-icon-size) var(--card-icon-size);
             background-repeat: no-repeat;
-            background-position: ~'calc(var(--card-padding))' 8px;
-            background-color: #00688c57; // var(--color-white);
+            background-position: ~'calc(var(--card-padding) - 2px)' center;
+            background-color: #00688c3b; // var(--color-white);
             padding: var(--card-padding);
             padding-left: ~'calc(var(--card-icon-size) + 2 * var(--card-padding))';
             position: relative;
@@ -222,8 +245,9 @@ body#id-page-auditor {
             &.card-ok {
                 background-color: #00640036;
                 color: var(--color-black);
-                background-position: ~'calc(var(--card-padding) + var(--card-ok-fix-label-with) + 4px)' 10px;
+                background-position: ~'calc(var(--card-padding) + var(--card-ok-fix-label-with) + 4px)' center;
                 padding-left: ~'calc(var(--card-ok-fix-label-with) + var(--card-icon-size) + 2 * var(--card-padding))';
+
                 &:after {
                     content: 'OK';
                     background-color: #006400a3;
@@ -233,8 +257,9 @@ body#id-page-auditor {
             &.card-fix {
                 background-color: #ffa00052;
                 color: var(--color-black);
-                background-position: ~'calc(var(--card-padding) + var(--card-ok-fix-label-with) + 4px)' 8px;
+                background-position: ~'calc(var(--card-padding) + var(--card-ok-fix-label-with) + 4px)' center;
                 padding-left: ~'calc(var(--card-ok-fix-label-with) + var(--card-icon-size) + 2 * var(--card-padding))';
+
                 &:after {
                     content: 'FIX';
                     background-color: #ffa000de;
@@ -561,10 +586,13 @@ body#id-page-auditor {
             background-image: url(../logos/ERROR_100x100.png);
             background-color: var(--card-error-color);
             color: white;
+            &.card-fix:after {
+                background-color: #f44436;
+            }
         }
-        &.icon-warning > h2 {
-            background-image: url(../logos/WARNING_100x100.png);
-            background-color: var(--card-warning-color);
+        &.icon-info > h2 {
+            background-image: url(../logos/Info_100x100.png);
+            background-color: var(--card-info-color);
         }
         &.icon-suggestion > h2 {
             background-color: var(--card-suggestion-color) !important;
@@ -982,7 +1010,6 @@ body#id-page-auditor {
         &.icon-unpkg > h2 {
             background-image: url(../logos/unpkg_100x100.png);
         }
-
         &.icon-ethers > h2 {
             background-image: url(../logos/Ethers_100x100.png);
         }

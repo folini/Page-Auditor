@@ -8,8 +8,6 @@
 import {
     getRobotsToolbarLinks,
     getSitemapToolbarLinks,
-    getSitemapUrlsFromRobotsTxt,
-    getRobotsTxtBody,
 } from '../src/sections/robots-functions'
 import * as main from '../src/main'
 import * as MockData from './mock-data.test'

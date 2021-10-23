@@ -33,7 +33,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, repo
     const jsonStrings: string[] = scripts as string[]
 
     if (tabUrl === '') {
-        report.addCard(Errors.chromeTabIsUndefined())
+        report.addCard(Errors.tabUrlUndefined())
         return
     }
 

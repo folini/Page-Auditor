@@ -134,6 +134,15 @@ export class Tips {
         card.addTip('Add Robots.txt file', [msg1], cta)
     }
         
+    public static sitemapInRobotsDoesNotExist(card: Card, url:string) {
+        const msg1 =
+            `The <code>robots.txt</code> file list <code>sitemap.xml</code> url pointing to a file that doesn't exist. ` +
+            `This is the broken link:`
+        const msg2 = codeBlock(url, Mode.txt)
+        const cta: iLink = robotsTxtReference
+        card.addTip('Add Robots.txt file', [msg1, msg2], cta)
+    }
+        
     // ------------------------------------------------------------------------
     // SITEMAP XML TIPS
     public static noSitemapInChromeBrowserPages(card: Card) {

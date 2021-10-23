@@ -76,7 +76,7 @@
   --card-ok-fix-label-with: 42px;
   --card-suggestion-color: rgba(255, 215, 0, 0.5);
   --card-error-color: rgba(32, 33, 36, 0.5);
-  --card-warning-color: rgba(100, 149, 237, 0.4);
+  --card-info-color: rgba(100, 149, 237, 0.4);
   --tip-color: rgba(255, 215, 0, 0.07);
 }
 .small-btn {
@@ -114,6 +114,26 @@
   color: var(--tabs-bg-color) !important;
   background-color: var(--color-white) !important;
   text-decoration: none !important;
+}
+.large-btn.btn-expandable {
+  background-image: url(../logos/RightArrowWhite_100x100.png);
+  background-repeat: no-repeat;
+  background-size: 16px;
+  background-position: 2px center;
+  padding-left: 24px;
+}
+.large-btn.btn-expandable:hover {
+  background-image: url(../logos/RightArrow_100x100.png);
+}
+.large-btn.btn-expanded {
+  background-image: url(../logos/DownArrowWhite_100x100.png);
+  background-repeat: no-repeat;
+  background-size: 16px;
+  background-position: 2px center;
+  padding-left: 24px;
+}
+.large-btn.btn-expanded:hover {
+  background-image: url(../logos/DownArrow_100x100.png);
 }
 body#id-page-auditor {
   min-width: 540px;
@@ -191,8 +211,8 @@ body#id-page-auditor .box-card h2.cardTitle {
   margin: 0;
   background-size: var(--card-icon-size) var(--card-icon-size);
   background-repeat: no-repeat;
-  background-position: calc(var(--card-padding)) 8px;
-  background-color: #00688c57;
+  background-position: calc(var(--card-padding) - 2px) center;
+  background-color: #00688c3b;
   padding: var(--card-padding);
   padding-left: calc(var(--card-icon-size) + 2 * var(--card-padding));
   position: relative;
@@ -219,7 +239,7 @@ body#id-page-auditor .box-card h2.cardTitle:after {
 body#id-page-auditor .box-card h2.cardTitle.card-ok {
   background-color: #00640036;
   color: var(--color-black);
-  background-position: calc(var(--card-padding) + var(--card-ok-fix-label-with) + 4px) 10px;
+  background-position: calc(var(--card-padding) + var(--card-ok-fix-label-with) + 4px) center;
   padding-left: calc(var(--card-ok-fix-label-with) + var(--card-icon-size) + 2 * var(--card-padding));
 }
 body#id-page-auditor .box-card h2.cardTitle.card-ok:after {
@@ -229,7 +249,7 @@ body#id-page-auditor .box-card h2.cardTitle.card-ok:after {
 body#id-page-auditor .box-card h2.cardTitle.card-fix {
   background-color: #ffa00052;
   color: var(--color-black);
-  background-position: calc(var(--card-padding) + var(--card-ok-fix-label-with) + 4px) 8px;
+  background-position: calc(var(--card-padding) + var(--card-ok-fix-label-with) + 4px) center;
   padding-left: calc(var(--card-ok-fix-label-with) + var(--card-icon-size) + 2 * var(--card-padding));
 }
 body#id-page-auditor .box-card h2.cardTitle.card-fix:after {
@@ -525,9 +545,12 @@ body#id-page-auditor .box-card.icon-error > h2 {
   background-color: var(--card-error-color);
   color: white;
 }
-body#id-page-auditor .box-card.icon-warning > h2 {
-  background-image: url(../logos/WARNING_100x100.png);
-  background-color: var(--card-warning-color);
+body#id-page-auditor .box-card.icon-error > h2.card-fix:after {
+  background-color: #f44436;
+}
+body#id-page-auditor .box-card.icon-info > h2 {
+  background-image: url(../logos/Info_100x100.png);
+  background-color: var(--card-info-color);
 }
 body#id-page-auditor .box-card.icon-suggestion > h2 {
   background-color: var(--card-suggestion-color) !important;
