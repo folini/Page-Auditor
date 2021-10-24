@@ -10,7 +10,7 @@ import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../main'
 import {ldJsonCard, getSchemaType} from './sd-functions'
 import * as Suggestions from './suggestionCards'
 import * as Errors from './errorCards'
-import {Tips} from "./tips"
+import {Tips} from './tips'
 
 export interface iJsonLD {
     [name: string]: string | [] | {}
@@ -20,11 +20,11 @@ export interface iJsonLevel {
     depth: number
 }
 
-    export type MustBeUniqueOccurrences = {
-        organization: number,
-        breadcrumbs: number,
-        website: number,
-    }
+export type MustBeUniqueOccurrences = {
+    organization: number
+    breadcrumbs: number
+    website: number
+}
 
 const codeInjector: CodeInjectorFunc = (): string[] =>
     [...document.scripts].filter(s => s.type === 'application/ld+json').map(s => s.text.trim())

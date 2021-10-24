@@ -11,14 +11,22 @@ import {codeBlock} from '../codeBlock'
 export const fromError = (err: Error, optMsg: string = '') => {
     const msg1 = `Unexpected Error.`
     const msg2 = typeof err === 'undefined' ? `Error Name: no name` : `Error Name: ${err.name ?? 'no name'}.`
-    const msg3 = typeof err === 'undefined' ? `Error Message: no message` : `Error Message: ${err.message ?? 'no message'}.`
-    const msg4 = typeof err === 'undefined' ? `Error Stack: no stack` : `Error Stack: ${err.stack ?? 'no stack'}.` 
+    const msg3 =
+        typeof err === 'undefined' ? `Error Message: no message` : `Error Message: ${err.message ?? 'no message'}.`
+    const msg4 = typeof err === 'undefined' ? `Error Stack: no stack` : `Error Stack: ${err.stack ?? 'no stack'}.`
     const msg5 = optMsg !== '' ? `<div>${optMsg}</div>` : ''
-    return new Card().error().addParagraph(msg1).addParagraph(msg2).addParagraph(msg3).addParagraph(msg4).addParagraph(msg5).setTitle('Generic Error')
+    return new Card()
+        .error()
+        .addParagraph(msg1)
+        .addParagraph(msg2)
+        .addParagraph(msg3)
+        .addParagraph(msg4)
+        .addParagraph(msg5)
+        .setTitle('Generic Error')
 }
 
 export const unableToAnalyzeChromeTabs = () => {
-    const msg1 = `<i>Page Auditor</i> can not run on empty or internal Chrome tabs.`
+    const msg1 = `<i>Page Auditor</i> can not run on empty tabs or Chrome internal tabs.`
     const msg2 = `Please launch <i>Page Auditor for Technical SEO</i> on a regular web page.`
     return new Card().error().addParagraph(msg1).addParagraph(msg2).setTitle('Unable To Analyze Chrome Tab')
 }
@@ -75,7 +83,7 @@ export const sitemapNotFound = (urls: string[]) => {
     const msg2 = `File not found.`
     return new Card()
         .error()
-        .addParagraph(msg1)       
+        .addParagraph(msg1)
         .addCodeBlock(urls.join('<br/>'), Mode.txt)
         .addParagraph(msg2)
         .setTitle('Sitemap.xml Not Found')
@@ -122,7 +130,12 @@ export const robotsTxtUnableToOpen = (url: string, errorCode: number, errorMessa
     const eMsg = typeof errorMessage === 'string' ? errorMessage : 'unknown'
     const msg1 = `Unable to load <code>Robots.Txt</code> file at location:`
     const msg2 = `Error code: ${eCode}, Error Message: "${eMsg}"`
-    return new Card().error().addParagraph(msg1).addCodeBlock(url, Mode.txt).addParagraph(msg2).setTitle('Robots.Txt Not Found')
+    return new Card()
+        .error()
+        .addParagraph(msg1)
+        .addCodeBlock(url, Mode.txt)
+        .addParagraph(msg2)
+        .setTitle('Robots.Txt Not Found')
 }
 
 export const scriptNotFound = () => {
@@ -132,11 +145,7 @@ export const scriptNotFound = () => {
 
 export const structuredDataNotFound = (url: string) => {
     const msg1 = `No <i>Structured Data</i> was found at location:`
-    return new Card()
-        .error()
-        .addParagraph(msg1)
-        .addCodeBlock(url, Mode.txt)
-        .setTitle('Missing Structured Data')
+    return new Card().error().addParagraph(msg1).addCodeBlock(url, Mode.txt).setTitle('Missing Structured Data')
 }
 
 export const unableToAddCardToReport = () => {
@@ -158,4 +167,3 @@ export const noMetaTagsOnPage = () => {
     const msg1 = `No Meta Tags found on page.`
     return new Card().error().addParagraph(msg1).setTitle('Missing Meta Tags')
 }
-

@@ -7,7 +7,7 @@
 import {disposableId} from './main'
 import {codeBlock} from './codeBlock'
 import {Mode} from './colorCode'
-import { builtinModules } from 'module'
+import {builtinModules} from 'module'
 
 export interface iLink {
     label: string

@@ -32,11 +32,13 @@ export const noTwitterMetaTags = () => {
 }
 
 export const emptyStructuredData = () => {
-    const msg1 =
-        `A Structured Data snippet is empty. This can affect your page SEO. You can remove the snippet or populate the snippet with data.`
+    const msg1 = `A Structured Data snippet is empty. This can affect your page SEO. You can remove the snippet or populate the snippet with data.`
     const msg2 = `Google's structured data validator will mark the lines as erroneous.`
-    const links: iLink[] = [{label: 'Learn About Structured Data', url: 'https://developers.google.com/search/docs/advanced/structured-data/product'}]
+    const links: iLink[] = [
+        {
+            label: 'Learn About Structured Data',
+            url: 'https://developers.google.com/search/docs/advanced/structured-data/product',
+        },
+    ]
     return new Card().suggestion().addParagraph(msg1).addCTA(links).setTitle('Fix the Empty Structured Data Snippet')
 }
-
-

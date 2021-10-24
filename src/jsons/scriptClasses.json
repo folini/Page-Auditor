@@ -1,8 +1,6 @@
 [
     {
-        "patterns": [
-            ".adform.net/"
-        ],
+        "patterns": [".adform.net/"],
         "name": "ADForm",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-adform",
@@ -10,9 +8,7 @@
         "url": "https://site.adform.com/"
     },
     {
-        "patterns": [
-            ".agkn.com/"
-        ],
+        "patterns": [".agkn.com/"],
         "name": "AGKN",
         "category": "Tracking",
         "iconClass": "icon-neustar",
@@ -20,9 +16,7 @@
         "url": "https://www.home.neustar/"
     },
     {
-        "patterns": [
-            ".adlightning.com/"
-        ],
+        "patterns": [".adlightning.com/"],
         "name": "AdLightning",
         "category": "Ads",
         "iconClass": "icon-adlightning",
@@ -30,9 +24,7 @@
         "url": "https://www.adlightning.com/"
     },
     {
-        "patterns": [
-            ".adroll.com/"
-        ],
+        "patterns": [".adroll.com/"],
         "name": "AdRoll",
         "category": "Ads Tracking",
         "iconClass": "icon-adroll",
@@ -40,10 +32,7 @@
         "url": "https://adroll.com/"
     },
     {
-        "patterns": [
-            ".adsafeprotected.com/",
-            ".integralads.com/"
-        ],
+        "patterns": [".adsafeprotected.com/", ".integralads.com/"],
         "name": "AdSafeProtected (Integral Ad Science)",
         "category": "Ads Tracking",
         "iconClass": "icon-ias",
@@ -51,9 +40,7 @@
         "url": "https://integralads.com/"
     },
     {
-        "patterns": [
-            ".ada.support/"
-        ],
+        "patterns": [".ada.support/"],
         "name": "Ada",
         "category": "Chat Bot",
         "iconClass": "icon-ada",
@@ -61,11 +48,7 @@
         "url": "https://www.ada.cx/"
     },
     {
-        "patterns": [
-            ".adnxs.com/",
-            ".xandr.com/",
-            ".appnexus.com/"
-        ],
+        "patterns": [".adnxs.com/", ".xandr.com/", ".appnexus.com/"],
         "name": "Adnxs (AppNexus / Xandr)",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-xandr",
@@ -73,9 +56,7 @@
         "url": "https://www.xandr.com/"
     },
     {
-        "patterns": [
-            ".adobedtm.com/"
-        ],
+        "patterns": [".adobedtm.com/"],
         "name": "Adobe Dynamic Tag Manager",
         "category": "Ads &amp; Tracking",
         "iconClass": "icon-adobe",
@@ -83,10 +64,7 @@
         "url": "https://adobe.com/"
     },
     {
-        "patterns": [
-            "(.|/)typekit.net/",
-            "(.|/)fonts.adobe.com/"
-        ],
+        "patterns": ["(.|/)typekit.net/", "(.|/)fonts.adobe.com/"],
         "name": "Adobe Fonts",
         "category": "Web Font",
         "iconClass": "icon-typekit",
@@ -94,9 +72,7 @@
         "url": "https://fonts.adobe.com/"
     },
     {
-        "patterns": [
-            "(.|/)go-mpulse.net/"
-        ],
+        "patterns": ["(.|/)go-mpulse.net/"],
         "name": "Akamai",
         "category": "Real User Measurement (RUM)",
         "iconClass": "icon-akamai",
@@ -104,10 +80,7 @@
         "url": "https://www.akamai.com/"
     },
     {
-        "patterns": [
-            ".richrelevance.com/",
-            "algonomy.com/"
-        ],
+        "patterns": [".richrelevance.com/", "algonomy.com/"],
         "name": "Algonomy &amp; RichRelevance",
         "category": "Web Experience Personalization",
         "iconClass": "icon-algonomy",
@@ -115,10 +88,7 @@
         "url": "https://richrelevance.com/"
     },
     {
-        "patterns": [
-            ".awsstatic.com/",
-            ".aws.com/"
-        ],
+        "patterns": [".awsstatic.com/", ".aws.com/"],
         "name": "Amazon AWS",
         "category": "Content Delivery Network",
         "iconClass": "icon-aws",
@@ -126,9 +96,7 @@
         "url": "https://aws.amazon.com/"
     },
     {
-        "patterns": [
-            "amazon-adsystem.com/"
-        ],
+        "patterns": ["amazon-adsystem.com/"],
         "name": "Amazon Ads",
         "category": "Ads Tracking",
         "iconClass": "icon-amazon-ads",
@@ -136,9 +104,7 @@
         "url": "https://advertising.amazon.com/"
     },
     {
-        "patterns": [
-            "associates-amazon.com/"
-        ],
+        "patterns": ["associates-amazon.com/"],
         "name": "Amazon Associates",
         "category": "Associates Program",
         "iconClass": "icon-amazon",
@@ -146,9 +112,7 @@
         "url": "https://affiliate-program.amazon.com/"
     },
     {
-        "patterns": [
-            ".americaneagle.com/"
-        ],
+        "patterns": [".americaneagle.com/"],
         "name": "AmericaEagle",
         "category": "Marketing Agency",
         "iconClass": "icon-americaneagle",
@@ -156,9 +120,7 @@
         "url": "https://www.americaneagle.com/"
     },
     {
-        "patterns": [
-            ".amplitude.com/"
-        ],
+        "patterns": [".amplitude.com/"],
         "name": "Amplitude",
         "category": "Product Analytics",
         "iconClass": "icon-amplitude",
@@ -166,9 +128,7 @@
         "url": "https://amplitude.com/"
     },
     {
-        "patterns": [
-            ".appcues.com/"
-        ],
+        "patterns": [".appcues.com/"],
         "name": "Appcues",
         "category": "User onboarding and retention",
         "iconClass": "icon-appcues",
@@ -176,9 +136,7 @@
         "url": "https://www.appcues.com/"
     },
     {
-        "patterns": [
-            ".appsflyer.com/"
-        ],
+        "patterns": [".appsflyer.com/"],
         "name": "AppsFlyer",
         "category": "Marketing Analytics",
         "iconClass": "icon-apps-flyer",
@@ -186,9 +144,7 @@
         "url": "https://www.appsflyer.com/"
     },
     {
-        "patterns": [
-            ".avmws.com/"
-        ],
+        "patterns": [".avmws.com/"],
         "name": "AvantLink",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-avantlink",
@@ -196,9 +152,7 @@
         "url": "https://avantlink.com/"
     },
     {
-        "patterns": [
-            "(.|/)baidu.com/"
-        ],
+        "patterns": ["(.|/)baidu.com/"],
         "name": "Baidu",
         "category": "Multi-platform Deep Links",
         "iconClass": "icon-baidu",
@@ -206,9 +160,7 @@
         "url": "https://hm.baidu.com/"
     },
     {
-        "patterns": [
-            "//replayapp.io/"
-        ],
+        "patterns": ["//replayapp.io/"],
         "name": "Better-Replay",
         "category": "Shopify App",
         "iconClass": "icon-replay-app",
@@ -216,11 +168,7 @@
         "url": "https://www.better-replay.com/"
     },
     {
-        "patterns": [
-            "(.|/).bing.com/p/action",
-            "(.|/).bing.com/bat.js",
-            "(.|/).bing.com/"
-        ],
+        "patterns": ["(.|/).bing.com/p/action", "(.|/).bing.com/bat.js", "(.|/).bing.com/"],
         "name": "Bing",
         "category": " Ads Tracking",
         "iconClass": "icon-bing-ads",
@@ -228,10 +176,7 @@
         "url": "https://ads.microsoft.com/"
     },
     {
-        "patterns": [
-            "(.|/)tags.bluekai.com/",
-            "(.|/)bkrtx.com/"
-        ],
+        "patterns": ["(.|/)tags.bluekai.com/", "(.|/)bkrtx.com/"],
         "name": "Bluekai (now Oracle)",
         "category": "Campaign Personalization",
         "iconClass": "icon-bluekai",
@@ -239,9 +184,7 @@
         "url": "http://www.bluekai.com/"
     },
     {
-        "patterns": [
-            ".ml314.com/"
-        ],
+        "patterns": [".ml314.com/"],
         "name": "Bombora",
         "category": "Tracking",
         "iconClass": "icon-bombora",
@@ -249,10 +192,7 @@
         "url": "https://bombora.com/"
     },
     {
-        "patterns": [
-            "(.|/)bootstrapcdn.com",
-            "(.|/)bootstrap.com/"
-        ],
+        "patterns": ["(.|/)bootstrapcdn.com", "(.|/)bootstrap.com/"],
         "name": "Bootstrap",
         "category": "Web Development Framework",
         "iconClass": "icon-bootstrap",
@@ -260,10 +200,7 @@
         "url": "https://bootstrap.com/"
     },
     {
-        "patterns": [
-            ".bounceexchange.com",
-            ".wunderkind.co/"
-        ],
+        "patterns": [".bounceexchange.com", ".wunderkind.co/"],
         "name": "BounceExchange (Wunderkind)",
         "category": "Ads Tracking",
         "iconClass": "icon-wunderkind",
@@ -271,9 +208,7 @@
         "url": "https://www.wunderkind.co/"
     },
     {
-        "patterns": [
-            "(.|/)branch.io/"
-        ],
+        "patterns": ["(.|/)branch.io/"],
         "name": "Branch",
         "category": "Multi-platform Deep Links",
         "iconClass": "icon-branch",
@@ -281,9 +216,7 @@
         "url": "https://branch.io/"
     },
     {
-        "patterns": [
-            ".brandmetrics.com/"
-        ],
+        "patterns": [".brandmetrics.com/"],
         "name": "Brand Metrics",
         "category": "User onboarding and retention",
         "iconClass": "icon-brand-metrics",
@@ -291,9 +224,7 @@
         "url": "https://www.brandmetrics.com/"
     },
     {
-        "patterns": [
-            "(.|/)bugherd.com/"
-        ],
+        "patterns": ["(.|/)bugherd.com/"],
         "name": "BugHerd",
         "category": "Bug Tracking",
         "iconClass": "icon-bugherd",
@@ -301,9 +232,7 @@
         "url": "https://www.bugherd.com/"
     },
     {
-        "patterns": [
-            ".buysellads.com/"
-        ],
+        "patterns": [".buysellads.com/"],
         "name": "BuySellAds",
         "category": "Ads Tracking",
         "iconClass": "icon-buy-sell-ads",
@@ -311,10 +240,7 @@
         "url": "https://www.buysellads.com/"
     },
     {
-        "patterns": [
-            "(.|/)carbonads.net/",
-            "(.|/)carbonads.com/"
-        ],
+        "patterns": ["(.|/)carbonads.net/", "(.|/)carbonads.com/"],
         "name": "CarbonAds",
         "category": "Ads",
         "iconClass": "icon-carbonads",
@@ -322,9 +248,7 @@
         "url": "https://www.carbonads.net/"
     },
     {
-        "patterns": [
-            "cartkitcdn.com"
-        ],
+        "patterns": ["cartkitcdn.com"],
         "name": "CartKit",
         "category": "Shopify and Wix App",
         "iconClass": "icon-cartkit",
@@ -332,9 +256,7 @@
         "url": "https://cartkit.com/"
     },
     {
-        "patterns": [
-            ".channeladvisor.com/"
-        ],
+        "patterns": [".channeladvisor.com/"],
         "name": "Channel Advisor",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-channel-advisor",
@@ -342,9 +264,7 @@
         "url": "https://www.channeladvisor.com/"
     },
     {
-        "patterns": [
-            ".chartbeat.com/"
-        ],
+        "patterns": [".chartbeat.com/"],
         "name": "Chartbeat",
         "category": "Content Intelligence",
         "iconClass": "icon-chartbeat",
@@ -352,10 +272,7 @@
         "url": "https://chartbeat.com/"
     },
     {
-        "patterns": [
-            ".clearbit.com/",
-            ".clearbitjs.com/"
-        ],
+        "patterns": [".clearbit.com/", ".clearbitjs.com/"],
         "name": "Clearbit",
         "category": "Affiliate Marketing",
         "iconClass": "icon-clearbit",
@@ -363,9 +280,7 @@
         "url": "https://clearbit.com/"
     },
     {
-        "patterns": [
-            "(.|/)clickcease.com/"
-        ],
+        "patterns": ["(.|/)clickcease.com/"],
         "name": "ClickCease",
         "category": "Fraud Prevention",
         "iconClass": "icon-clickcease",
@@ -373,10 +288,7 @@
         "url": "https://www.clickcease.com/"
     },
     {
-        "patterns": [
-            ".cloudflareinsights.com/",
-            ".cloudflare.com/"
-        ],
+        "patterns": [".cloudflareinsights.com/", ".cloudflare.com/"],
         "name": "CloudFlare",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-cloudflare",
@@ -384,9 +296,7 @@
         "url": "https://www.cloudflare.com/"
     },
     {
-        "patterns": [
-            ".cloudfront.net/"
-        ],
+        "patterns": [".cloudfront.net/"],
         "name": "CloudFront",
         "category": "Content Delivery Network",
         "iconClass": "icon-cloudfront",
@@ -394,9 +304,7 @@
         "url": "https://aws.amazon.com/cloudfront/"
     },
     {
-        "patterns": [
-            ".consensu.org/"
-        ],
+        "patterns": [".consensu.org/"],
         "name": "Consensu",
         "category": "GDPR &amp; Privacy",
         "iconClass": "icon-consensu",
@@ -404,10 +312,7 @@
         "url": "https://quantcast.mgr.consensu.org/"
     },
     {
-        "patterns": [
-            ".clicktale.net/",
-            ".contentsquare.net/"
-        ],
+        "patterns": [".clicktale.net/", ".contentsquare.net/"],
         "name": "ContentSquare &amp; ClickTale",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-contentsquare",
@@ -415,9 +320,7 @@
         "url": "https://contentsquare.com/"
     },
     {
-        "patterns": [
-            "(.|/)cookiepro.com/"
-        ],
+        "patterns": ["(.|/)cookiepro.com/"],
         "name": "CookiePro",
         "category": "Privacy Platform",
         "iconClass": "icon-cookiepro",
@@ -425,9 +328,7 @@
         "url": "https://www.cookiepro.com/"
     },
     {
-        "patterns": [
-            "(.|/)cookie-script.com/"
-        ],
+        "patterns": ["(.|/)cookie-script.com/"],
         "name": "CookieScript",
         "category": "GDPR Cookie Compliance",
         "iconClass": "icon-cookie-script",
@@ -435,9 +336,7 @@
         "url": "https://"
     },
     {
-        "patterns": [
-            ".cookiebot.com/"
-        ],
+        "patterns": [".cookiebot.com/"],
         "name": "Cookiebot",
         "category": "Cookies and Privacy Management",
         "iconClass": "icon-cookiebot",
@@ -445,9 +344,7 @@
         "url": "https://www.cookiebot.com/"
     },
     {
-        "patterns": [
-            "cdn.cookielaw.org/"
-        ],
+        "patterns": ["cdn.cookielaw.org/"],
         "name": "Cookielaw",
         "category": "Cookies and Privacy Management",
         "iconClass": "icon-cookielaw",
@@ -455,9 +352,7 @@
         "url": "https://www.cookielaw.org/"
     },
     {
-        "patterns": [
-            "(.|/)crazyegg.com/"
-        ],
+        "patterns": ["(.|/)crazyegg.com/"],
         "name": "Crazy Egg",
         "category": "Heatmaps",
         "iconClass": "icon-crazy-egg",
@@ -465,10 +360,7 @@
         "url": "https://crazyegg.com/"
     },
     {
-        "patterns": [
-            "criteo.net/",
-            ".criteo.com/"
-        ],
+        "patterns": ["criteo.net/", ".criteo.com/"],
         "name": "Criteo",
         "category": "Ads Tracking",
         "iconClass": "icon-criteo",
@@ -476,11 +368,7 @@
         "url": "https://www.criteo.com/"
     },
     {
-        "patterns": [
-            ".cxense.com/",
-            ".piano.io/",
-            ".tinypass.com/"
-        ],
+        "patterns": [".cxense.com/", ".piano.io/", ".tinypass.com/"],
         "name": "Cxense,TinyPass, and Piano",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-cxense",
@@ -488,9 +376,7 @@
         "url": "https://www.cxense.com/"
     },
     {
-        "patterns": [
-            ".datadome.co/"
-        ],
+        "patterns": [".datadome.co/"],
         "name": "DataDome",
         "category": "Online cybersecurity",
         "iconClass": "icon-datadome",
@@ -498,10 +384,7 @@
         "url": "https://datadome.co/"
     },
     {
-        "patterns": [
-            ".demandbase.com/",
-            ".engagio.com/"
-        ],
+        "patterns": [".demandbase.com/", ".engagio.com/"],
         "name": "DemandBase &amp; Engagio",
         "category": "Ads",
         "iconClass": "icon-demandbase",
@@ -509,10 +392,7 @@
         "url": "https://www.demandbase.com/"
     },
     {
-        "patterns": [
-            "(.|/)disqus.com/",
-            "(.|/)disquscdn.com/"
-        ],
+        "patterns": ["(.|/)disqus.com/", "(.|/)disquscdn.com/"],
         "name": "Disqus",
         "category": "Commenting and Reactions Platform",
         "iconClass": "icon-disqus",
@@ -520,9 +400,7 @@
         "url": "https://disqus.com/"
     },
     {
-        "patterns": [
-            "driftt.com/"
-        ],
+        "patterns": ["driftt.com/"],
         "name": "Drift",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-drift",
@@ -530,9 +408,7 @@
         "url": "https://www.drift.com/"
     },
     {
-        "patterns": [
-            "(.|/)getdrip.com/"
-        ],
+        "patterns": ["(.|/)getdrip.com/"],
         "name": "Drip",
         "category": "Marketing Automation",
         "iconClass": "icon-drip",
@@ -540,9 +416,7 @@
         "url": "https://www.drip.com/"
     },
     {
-        "patterns": [
-            "(.|/)elev.io/"
-        ],
+        "patterns": ["(.|/)elev.io/"],
         "name": "Elevio",
         "category": "User Education",
         "iconClass": "icon-elevio",
@@ -550,9 +424,7 @@
         "url": "https://elev.io/"
     },
     {
-        "patterns": [
-            "(.|/)ensighten.com/"
-        ],
+        "patterns": ["(.|/)ensighten.com/"],
         "name": "Ensighten",
         "category": "Privacy Platform",
         "iconClass": "icon-ensighten",
@@ -560,9 +432,7 @@
         "url": "https://www.ensighten.com/"
     },
     {
-        "patterns": [
-            ".ethers.io/"
-        ],
+        "patterns": [".ethers.io/"],
         "name": "Ethers",
         "category": "Crypto Wallet",
         "iconClass": "icon-ethers",
@@ -570,11 +440,7 @@
         "url": "https://ethers.io/"
     },
     {
-        "patterns": [
-            "(.|/)connect.facebook.net/",
-            "(.|/)graph.facebook.com/",
-            "(.|/)fbcdn.net/"
-        ],
+        "patterns": ["(.|/)connect.facebook.net/", "(.|/)graph.facebook.com/", "(.|/)fbcdn.net/"],
         "name": "Facebook Pixel",
         "category": "Ads Tracking",
         "iconClass": "icon-facebook-pixel",
@@ -582,9 +448,7 @@
         "url": "https://www.facebook.com/business/help/742478679120153"
     },
     {
-        "patterns": [
-            "fastcomments.com/"
-        ],
+        "patterns": ["fastcomments.com/"],
         "name": "FastComments",
         "category": "Commenting Tools",
         "iconClass": "icon-fastComments",
@@ -592,11 +456,7 @@
         "url": "https://fastcomments.com/"
     },
     {
-        "patterns": [
-            ".fastly.net/",
-            ".fastly.com/",
-            ".fastly-insights.com/"
-        ],
+        "patterns": [".fastly.net/", ".fastly.com/", ".fastly-insights.com/"],
         "name": "Fastly",
         "category": "Content Delivery Network",
         "iconClass": "icon-fastly",
@@ -604,10 +464,7 @@
         "url": "https://www.fastly.com/"
     },
     {
-        "patterns": [
-            ".fontawesome.com/",
-            ".fortawesome.com/"
-        ],
+        "patterns": [".fontawesome.com/", ".fortawesome.com/"],
         "name": "FontAwesome",
         "category": "Web Font",
         "iconClass": "icon-fontawesome",
@@ -615,10 +472,7 @@
         "url": "https://fontawesome.com/"
     },
     {
-        "patterns": [
-            "fonts.com/",
-            "fonts.net/"
-        ],
+        "patterns": ["fonts.com/", "fonts.net/"],
         "name": "Fonts.com",
         "category": "Web Font",
         "iconClass": "icon-fonts",
@@ -626,9 +480,7 @@
         "url": "https://www.fonts.com/"
     },
     {
-        "patterns": [
-            "(.|/)fullstory.com/"
-        ],
+        "patterns": ["(.|/)fullstory.com/"],
         "name": "FullStory",
         "category": "Digital Experience Intelligence (DXI)",
         "iconClass": "icon-fullstory",
@@ -636,9 +488,7 @@
         "url": "https://www.fullstory.com/"
     },
     {
-        "patterns": [
-            "(.|/)gaconnector.com/"
-        ],
+        "patterns": ["(.|/)gaconnector.com/"],
         "name": "GA Connector",
         "category": "Integration and Analytics",
         "iconClass": "icon-ga-connector",
@@ -646,10 +496,7 @@
         "url": "https://gaconnector.com/"
     },
     {
-        "patterns": [
-            "(.|/)tagmanager.com/",
-            "(.|/)googletagservices.com/"
-        ],
+        "patterns": ["(.|/)tagmanager.com/", "(.|/)googletagservices.com/"],
         "name": "GTM - Google Tag Manager",
         "category": "Tracking",
         "iconClass": "icon-tag-manager",
@@ -657,10 +504,7 @@
         "url": "https://tagmanager.google.com/"
     },
     {
-        "patterns": [
-            "(.|/)geoedge.be/",
-            "(./|)geoedge.com/"
-        ],
+        "patterns": ["(.|/)geoedge.be/", "(./|)geoedge.com/"],
         "name": "GeoEdge",
         "category": "Ads security and verification",
         "iconClass": "icon-geoedge",
@@ -668,10 +512,7 @@
         "url": "https://www.geoedge.com/"
     },
     {
-        "patterns": [
-            "(.|/)github.com/",
-            "(.|/)githubassets.com/"
-        ],
+        "patterns": ["(.|/)github.com/", "(.|/)githubassets.com/"],
         "name": "GitHub",
         "category": "Software Repository",
         "iconClass": "icon-github",
@@ -679,9 +520,7 @@
         "url": "https://github.com/"
     },
     {
-        "patterns": [
-            ".gladly.com/"
-        ],
+        "patterns": [".gladly.com/"],
         "name": "Gladly",
         "category": "Customer Service",
         "iconClass": "icon-gladly",
@@ -719,9 +558,7 @@
         "url": "https://ads.google.com/"
     },
     {
-        "patterns": [
-            "(.|/)google-analytics.com/"
-        ],
+        "patterns": ["(.|/)google-analytics.com/"],
         "name": "Google Analytics",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-google-analytics-v3",
@@ -729,9 +566,7 @@
         "url": "https://analytics.google.com/"
     },
     {
-        "patterns": [
-            ".gstatic.com/firebasejs/"
-        ],
+        "patterns": [".gstatic.com/firebasejs/"],
         "name": "Google Firebase",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-firebase",
@@ -739,9 +574,7 @@
         "url": "https://firebase.google.com/"
     },
     {
-        "patterns": [
-            ".googleoptimize.com/"
-        ],
+        "patterns": [".googleoptimize.com/"],
         "name": "Google Optimize",
         "category": "A/B Testing",
         "iconClass": "icon-google-optimize",
@@ -749,9 +582,7 @@
         "url": "https://optimize.google.com/"
     },
     {
-        "patterns": [
-            "(.|/)headwayapp.co/"
-        ],
+        "patterns": ["(.|/)headwayapp.co/"],
         "name": "Headway App",
         "category": "Book Publisher",
         "iconClass": "icon-headway-app",
@@ -759,9 +590,7 @@
         "url": "https://headwayapp.co/"
     },
     {
-        "patterns": [
-            ".heapanalytics.com/"
-        ],
+        "patterns": [".heapanalytics.com/"],
         "name": "Heap Analytics",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-heap",
@@ -769,9 +598,7 @@
         "url": "https://heap.io/"
     },
     {
-        "patterns": [
-            "herokuapp.com/"
-        ],
+        "patterns": ["herokuapp.com/"],
         "name": "Heroku",
         "category": "Apps Management",
         "iconClass": "icon-heroku",
@@ -779,9 +606,7 @@
         "url": "https://www.heroku.com/"
     },
     {
-        "patterns": [
-            ".hotjar.com/"
-        ],
+        "patterns": [".hotjar.com/"],
         "name": "Hotjar",
         "category": "Website Testing and Tuning",
         "iconClass": "icon-hotjar",
@@ -809,10 +634,7 @@
         "url": "https://www.hubspot.com/"
     },
     {
-        "patterns": [
-            "(.|/)impactradius-event.com/",
-            "(.|/)impact.com/"
-        ],
+        "patterns": ["(.|/)impactradius-event.com/", "(.|/)impact.com/"],
         "name": "Impact Radius",
         "category": "Affiliate Programs",
         "iconClass": "icon-impact",
@@ -820,9 +642,7 @@
         "url": "https://impact.com/"
     },
     {
-        "patterns": [
-            ".insurads.com/"
-        ],
+        "patterns": [".insurads.com/"],
         "name": "InsurAds",
         "category": "Attention Insurance for Ads",
         "iconClass": "icon-insurads",
@@ -830,10 +650,7 @@
         "url": "https://insurads.com/"
     },
     {
-        "patterns": [
-            ".intercom.io/",
-            ".intercom.com/"
-        ],
+        "patterns": [".intercom.io/", ".intercom.com/"],
         "name": "Intercom",
         "category": "Chat Bot",
         "iconClass": "icon-intercom",
@@ -841,9 +658,7 @@
         "url": "https://www.intercom.com/"
     },
     {
-        "patterns": [
-            "(.|/)iteratehq.com/"
-        ],
+        "patterns": ["(.|/)iteratehq.com/"],
         "name": "Iterate",
         "category": "Surveys platform",
         "iconClass": "icon-iterate",
@@ -851,9 +666,7 @@
         "url": "https://iteratehq.com/"
     },
     {
-        "patterns": [
-            ".iubenda.com/"
-        ],
+        "patterns": [".iubenda.com/"],
         "name": "Iubenda",
         "category": "Cookies and Privacy Management",
         "iconClass": "icon-iubenda",
@@ -861,9 +674,7 @@
         "url": "https://www.iubenda.com/"
     },
     {
-        "patterns": [
-            ".jivox.com/"
-        ],
+        "patterns": [".jivox.com/"],
         "name": "Jivox",
         "category": "Advertising",
         "iconClass": "icon-jivox",
@@ -871,9 +682,7 @@
         "url": "https://jivox.com/"
     },
     {
-        "patterns": [
-            "krxd.net/"
-        ],
+        "patterns": ["krxd.net/"],
         "name": "Krux (SalesForce)",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-krux-pixel",
@@ -881,10 +690,7 @@
         "url": "https://www.kruxanalytics.com/"
     },
     {
-        "patterns": [
-            "(.|/)lfeeder.com/",
-            "(.|/)leadfeeder.com/"
-        ],
+        "patterns": ["(.|/)lfeeder.com/", "(.|/)leadfeeder.com/"],
         "name": "LeadFeeder",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-leadfeeder",
@@ -892,9 +698,7 @@
         "url": "https://www.leadfeeder.com/"
     },
     {
-        "patterns": [
-            "(.|/)leadforensics.com/"
-        ],
+        "patterns": ["(.|/)leadforensics.com/"],
         "name": "LeadForensics",
         "category": "Visitor Analysis",
         "iconClass": "icon-lead-forensics",
@@ -902,9 +706,7 @@
         "url": "https://www.leadforensics.com/"
     },
     {
-        "patterns": [
-            ".leadlander.com/"
-        ],
+        "patterns": [".leadlander.com/"],
         "name": "LeadLander",
         "category": "Tracking",
         "iconClass": "icon-leadlander",
@@ -912,11 +714,7 @@
         "url": "https://leadlander.com/"
     },
     {
-        "patterns": [
-            ".licdn.com/",
-            ".linkedin.com/js/analytics",
-            ".linkedin.com/"
-        ],
+        "patterns": [".licdn.com/", ".linkedin.com/js/analytics", ".linkedin.com/"],
         "name": "LinkedIn",
         "category": "Ads Tracking",
         "iconClass": "icon-linkedin",
@@ -924,10 +722,7 @@
         "url": "https://business.linkedin.com/marketing-solutions"
     },
     {
-        "patterns": [
-            ".liveperson.net/",
-            ".lpsnmedia.net/"
-        ],
+        "patterns": [".liveperson.net/", ".lpsnmedia.net/"],
         "name": "LivePerson",
         "category": "Chat Bot",
         "iconClass": "icon-liveperson",
@@ -935,11 +730,7 @@
         "url": "https://www.liveperson.com/"
     },
     {
-        "patterns": [
-            "(.|/)privacymanager.io/",
-            "(.|/)liveramp.com/",
-            "(.|/)acxiom.com/"
-        ],
+        "patterns": ["(.|/)privacymanager.io/", "(.|/)liveramp.com/", "(.|/)acxiom.com/"],
         "name": "LiveRamp",
         "category": "Offline Data Management",
         "iconClass": "icon-liveramp",
@@ -947,9 +738,7 @@
         "url": "https://liveramp.com/"
     },
     {
-        "patterns": [
-            ".crwdcntrl.net/"
-        ],
+        "patterns": [".crwdcntrl.net/"],
         "name": "Lotame",
         "category": "CRM",
         "iconClass": "icon-lotame",
@@ -957,10 +746,7 @@
         "url": "https://www.lotame.com/"
     },
     {
-        "patterns": [
-            ".lytics.io/",
-            "lytics.com/"
-        ],
+        "patterns": [".lytics.io/", "lytics.com/"],
         "name": "Lytics",
         "category": "AI Based Analytics",
         "iconClass": "icon-lytics",
@@ -968,9 +754,7 @@
         "url": "https://www.lytics.com/"
     },
     {
-        "patterns": [
-            ".moatads.com/"
-        ],
+        "patterns": [".moatads.com/"],
         "name": "MOAT",
         "category": "Analytics",
         "iconClass": "icon-moat",
@@ -978,10 +762,7 @@
         "url": "https://www.moat.com/"
     },
     {
-        "patterns": [
-            ".mailchimp.com/",
-            "chimpstatic.com/"
-        ],
+        "patterns": [".mailchimp.com/", "chimpstatic.com/"],
         "name": "Mailchimp",
         "category": "Content Delivery Network",
         "iconClass": "icon-mailchimp",
@@ -989,11 +770,7 @@
         "url": "https://mailchimp.com/"
     },
     {
-        "patterns": [
-            "(.|/)prfct.co/",
-            "(.|/)marinsoftware.com/",
-            "(.|/)marinsm.com/"
-        ],
+        "patterns": ["(.|/)prfct.co/", "(.|/)marinsoftware.com/", "(.|/)marinsm.com/"],
         "name": "Marin Software",
         "category": "SEM Management",
         "iconClass": "icon-marin",
@@ -1001,11 +778,7 @@
         "url": "https://www.marinsoftware.com/"
     },
     {
-        "patterns": [
-            ".marketo.net/",
-            ".marketo.com/",
-            ".bizible.com/"
-        ],
+        "patterns": [".marketo.net/", ".marketo.com/", ".bizible.com/"],
         "name": "Marketo &amp; Bizible",
         "category": "Marketing Automation",
         "iconClass": "icon-marketo",
@@ -1013,9 +786,7 @@
         "url": "https://marketo.com/"
     },
     {
-        "patterns": [
-            ".matheranalytics.com/"
-        ],
+        "patterns": [".matheranalytics.com/"],
         "name": "MatherEconomics",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-mather",
@@ -1023,9 +794,7 @@
         "url": "https://www.mathereconomics.com/"
     },
     {
-        "patterns": [
-            "(.|/)contextual.media.net/"
-        ],
+        "patterns": ["(.|/)contextual.media.net/"],
         "name": "Media.net",
         "category": "Contextual advertising network",
         "iconClass": "icon-media-net",
@@ -1033,10 +802,7 @@
         "url": "https://www.media.net/"
     },
     {
-        "patterns": [
-            "(.|/)mathtag.com/",
-            "(.|/)mediamath.com/"
-        ],
+        "patterns": ["(.|/)mathtag.com/", "(.|/)mediamath.com/"],
         "name": "MediaMath",
         "category": "CTV advertising",
         "iconClass": "icon-mediamath",
@@ -1044,9 +810,7 @@
         "url": "https://www.mediamath.com/"
     },
     {
-        "patterns": [
-            ".micpn.com/"
-        ],
+        "patterns": [".micpn.com/"],
         "name": "MovableInk",
         "category": "Email Service Provider",
         "iconClass": "icon-movableink",
@@ -1054,11 +818,7 @@
         "url": "https://movableink.com/"
     },
     {
-        "patterns": [
-            "(.|/)movologist.net/",
-            "(.|/)https://movinghub.io/",
-            "(.|/)utilihub.io/"
-        ],
+        "patterns": ["(.|/)movologist.net/", "(.|/)https://movinghub.io/", "(.|/)utilihub.io/"],
         "name": "Movinghub and Utilihub",
         "category": "Data privacy Platform",
         "iconClass": "icon-movinghub",
@@ -1066,9 +826,7 @@
         "url": "https://movinghub.io/"
     },
     {
-        "patterns": [
-            "noibu.com/"
-        ],
+        "patterns": ["noibu.com/"],
         "name": "NOIBU",
         "category": "eCommerce Monitoring",
         "iconClass": "icon-noibu",
@@ -1076,9 +834,7 @@
         "url": "https://noibu.com/"
     },
     {
-        "patterns": [
-            "ntv.io/"
-        ],
+        "patterns": ["ntv.io/"],
         "name": "Nativo",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-nativo",
@@ -1086,9 +842,7 @@
         "url": "https://www.nativo.com/"
     },
     {
-        "patterns": [
-            "neodatagroup.com/"
-        ],
+        "patterns": ["neodatagroup.com/"],
         "name": "NeoData Group",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-neodata",
@@ -1096,10 +850,7 @@
         "url": "https://www.neodatagroup.com/en/"
     },
     {
-        "patterns": [
-            ".nr-data.net/",
-            ".newrelic.com/"
-        ],
+        "patterns": [".nr-data.net/", ".newrelic.com/"],
         "name": "New Relic",
         "category": "Real User Monitoring",
         "iconClass": "icon-new-relic",
@@ -1107,9 +858,7 @@
         "url": "https://newrelic.com/"
     },
     {
-        "patterns": [
-            ".imrworldwide.com/"
-        ],
+        "patterns": [".imrworldwide.com/"],
         "name": "Nielsen",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-nielsen",
@@ -1117,9 +866,7 @@
         "url": "https://www.nielsen.com/"
     },
     {
-        "patterns": [
-            "(.|/)ocelotbot.com/"
-        ],
+        "patterns": ["(.|/)ocelotbot.com/"],
         "name": "Ocelot",
         "category": "Chatbot for Higher Education",
         "iconClass": "icon-ocelot",
@@ -1127,9 +874,7 @@
         "url": "https://www.ocelotbot.com/"
     },
     {
-        "patterns": [
-            ".onetrust.com/"
-        ],
+        "patterns": [".onetrust.com/"],
         "name": "OneTrust",
         "category": "Privacy Management",
         "iconClass": "icon-onetrust",
@@ -1137,12 +882,7 @@
         "url": "https://www.onetrust.com/"
     },
     {
-        "patterns": [
-            ".s-onetag.com/",
-            ".onetag.com/",
-            "onetag-sys.com/",
-            "onetag-cdn.com/"
-        ],
+        "patterns": [".s-onetag.com/", ".onetag.com/", "onetag-sys.com/", "onetag-cdn.com/"],
         "name": "Onetag",
         "category": "Ads &amp; Tracking",
         "iconClass": "icon-onetag",
@@ -1150,9 +890,7 @@
         "url": "https://onetag.com/"
     },
     {
-        "patterns": [
-            "optimizely.com/"
-        ],
+        "patterns": ["optimizely.com/"],
         "name": "Optimizely",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-zeta-global",
@@ -1160,9 +898,7 @@
         "url": "https://www.optimizely.com/"
     },
     {
-        "patterns": [
-            "(.|/)osano.com/"
-        ],
+        "patterns": ["(.|/)osano.com/"],
         "name": "Osano",
         "category": "Data privacy Platform",
         "iconClass": "icon-osano",
@@ -1170,9 +906,7 @@
         "url": "https://www.osano.com/"
     },
     {
-        "patterns": [
-            "(.|/)outbrain.com/"
-        ],
+        "patterns": ["(.|/)outbrain.com/"],
         "name": "OutBrain",
         "category": "Ads Tracking",
         "iconClass": "icon-outbrain",
@@ -1180,9 +914,7 @@
         "url": "https://www.outbrain.com/"
     },
     {
-        "patterns": [
-            ".pardot.com/"
-        ],
+        "patterns": [".pardot.com/"],
         "name": "Pardot (SalesForce)",
         "category": "Marketing Automation",
         "iconClass": "icon-pardot",
@@ -1190,9 +922,7 @@
         "url": "https://www.pardot.com/"
     },
     {
-        "patterns": [
-            ".parrable.com/"
-        ],
+        "patterns": [".parrable.com/"],
         "name": "Parrable",
         "category": "Cookies and Privacy Management",
         "iconClass": "icon-parrable",
@@ -1200,9 +930,7 @@
         "url": "https://parrable.com/"
     },
     {
-        "patterns": [
-            "(.|/)pendo.io/"
-        ],
+        "patterns": ["(.|/)pendo.io/"],
         "name": "Pendo",
         "category": "Product Experience",
         "iconClass": "icon-pendo",
@@ -1210,10 +938,7 @@
         "url": "https://www.pendo.io/"
     },
     {
-        "patterns": [
-            "//s.pinimg.com/",
-            ".pinterest.com/"
-        ],
+        "patterns": ["//s.pinimg.com/", ".pinterest.com/"],
         "name": "Pinterest",
         "category": "Ads Tracking",
         "iconClass": "icon-pinterest",
@@ -1221,9 +946,7 @@
         "url": "https://ads.pinterest.com/"
     },
     {
-        "patterns": [
-            ".pdst.fm/"
-        ],
+        "patterns": [".pdst.fm/"],
         "name": "Podsights Pixel",
         "category": "Podcast Ads Tracking",
         "iconClass": "icon-podsights",
@@ -1231,9 +954,7 @@
         "url": "https://podsights.com/"
     },
     {
-        "patterns": [
-            "(.|/)profitwell.com/"
-        ],
+        "patterns": ["(.|/)profitwell.com/"],
         "name": "ProfitWell",
         "category": "Subscription Monitoring",
         "iconClass": "icon-profitwell",
@@ -1241,9 +962,7 @@
         "url": "https://www.profitwell.com/"
     },
     {
-        "patterns": [
-            "(.|/)qualtrics.com/"
-        ],
+        "patterns": ["(.|/)qualtrics.com/"],
         "name": "Qualtric",
         "category": "User Experience Management",
         "iconClass": "icon-qualtric",
@@ -1251,10 +970,7 @@
         "url": "https://www.qualtrics.com/"
     },
     {
-        "patterns": [
-            "quantcount.com/",
-            "quantserve.com/"
-        ],
+        "patterns": ["quantcount.com/", "quantserve.com/"],
         "name": "QuantCast",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-quantcast",
@@ -1262,10 +978,7 @@
         "url": "https://www.quantcast.com/"
     },
     {
-        "patterns": [
-            ".quora.com/",
-            ".quoracdn.net/"
-        ],
+        "patterns": [".quora.com/", ".quoracdn.net/"],
         "name": "Quora",
         "category": "Ads Tracking",
         "iconClass": "icon-quora",
@@ -1273,10 +986,7 @@
         "url": "https://quora.com/"
     },
     {
-        "patterns": [
-            ".redditstatic.com/",
-            ".reddit.com/"
-        ],
+        "patterns": [".redditstatic.com/", ".reddit.com/"],
         "name": "Reddit",
         "category": "Ads Tracking",
         "iconClass": "icon-reddit",
@@ -1284,9 +994,7 @@
         "url": "https://www.reddit.com/"
     },
     {
-        "patterns": [
-            ".richaudience.com/"
-        ],
+        "patterns": [".richaudience.com/"],
         "name": "Rich Audience",
         "category": "Ads",
         "iconClass": "icon-rich-audience",
@@ -1294,9 +1002,7 @@
         "url": "https://richaudience.com/"
     },
     {
-        "patterns": [
-            ".riskified.com/"
-        ],
+        "patterns": [".riskified.com/"],
         "name": "Riskified",
         "category": "Fraud Management",
         "iconClass": "icon-riskified",
@@ -1304,11 +1010,7 @@
         "url": "https://www.riskified.com/"
     },
     {
-        "patterns": [
-            ".salesforceliveagent.com/",
-            ".sfdcstatic.com/",
-            "force.com/"
-        ],
+        "patterns": [".salesforceliveagent.com/", ".sfdcstatic.com/", "force.com/"],
         "name": "SalesForce",
         "category": "CRM",
         "iconClass": "icon-salesforce",
@@ -1316,9 +1018,7 @@
         "url": "https://www.salesforce.com/"
     },
     {
-        "patterns": [
-            ".salesloft.com/"
-        ],
+        "patterns": [".salesloft.com/"],
         "name": "Salesloft",
         "category": "Sales Engagement",
         "iconClass": "icon-salesloft",
@@ -1326,9 +1026,7 @@
         "url": "https://salesloft.com/"
     },
     {
-        "patterns": [
-            "(.|/)satismeter.com/"
-        ],
+        "patterns": ["(.|/)satismeter.com/"],
         "name": "SatisMeter",
         "category": "NPS Monitoring",
         "iconClass": "icon-satismeter",
@@ -1336,9 +1034,7 @@
         "url": "https://www.satismeter.com/"
     },
     {
-        "patterns": [
-            ".scorecardresearch.com/"
-        ],
+        "patterns": [".scorecardresearch.com/"],
         "name": "ScorecardResearch",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-scorecard",
@@ -1346,10 +1042,7 @@
         "url": "https://www.scorecardresearch.com/"
     },
     {
-        "patterns": [
-            "segment.com/analytics",
-            ".segment.com/"
-        ],
+        "patterns": ["segment.com/analytics", ".segment.com/"],
         "name": "Segment",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-segment-analytics",
@@ -1357,11 +1050,7 @@
         "url": "https://segment.com/"
     },
     {
-        "patterns": [
-            "(.|/)perfectaudience.com/",
-            "(.|/)sharpspring.com/",
-            "(.|/)marketingautomation.services/"
-        ],
+        "patterns": ["(.|/)perfectaudience.com/", "(.|/)sharpspring.com/", "(.|/)marketingautomation.services/"],
         "name": "SharpSpring",
         "category": "Ads",
         "iconClass": "icon-sharpspring",
@@ -1369,9 +1058,7 @@
         "url": "https://sharpspring.com/"
     },
     {
-        "patterns": [
-            "(.|/)shopify.com/"
-        ],
+        "patterns": ["(.|/)shopify.com/"],
         "name": "Shopify",
         "category": "eCommerce Platform",
         "iconClass": "icon-shopify",
@@ -1379,9 +1066,7 @@
         "url": "https://www.shopify.com/"
     },
     {
-        "patterns": [
-            "(.|/)siteimproveanalytics.com/"
-        ],
+        "patterns": ["(.|/)siteimproveanalytics.com/"],
         "name": "Site Improve",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-site-improve",
@@ -1389,9 +1074,7 @@
         "url": "https://siteimprove.com/"
     },
     {
-        "patterns": [
-            ".xg4ken.com/"
-        ],
+        "patterns": [".xg4ken.com/"],
         "name": "Skai &amp; Kenshoo",
         "category": "Go To market Platform",
         "iconClass": "icon-skai",
@@ -1399,9 +1082,7 @@
         "url": "https://skai.io/"
     },
     {
-        "patterns": [
-            "sc-static.net/"
-        ],
+        "patterns": ["sc-static.net/"],
         "name": "SnapChat",
         "category": "Ads &amp; Tracking",
         "iconClass": "icon-snapchat",
@@ -1409,9 +1090,7 @@
         "url": "https://forbusiness.snapchat.com/"
     },
     {
-        "patterns": [
-            "(.|/)sophus3.com/"
-        ],
+        "patterns": ["(.|/)sophus3.com/"],
         "name": "Sophus3",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-sophus3",
@@ -1419,9 +1098,7 @@
         "url": "https://www.sophus3.com/"
     },
     {
-        "patterns": [
-            "(.|/)speedcurve.com/"
-        ],
+        "patterns": ["(.|/)speedcurve.com/"],
         "name": "SpeedCurve",
         "category": "Performance Monitor",
         "iconClass": "icon-speedcurve",
@@ -1429,10 +1106,7 @@
         "url": "https://www.speedcurve.com/"
     },
     {
-        "patterns": [
-            ".tvpixel.com/",
-            ".squarespace.com/"
-        ],
+        "patterns": [".tvpixel.com/", ".squarespace.com/"],
         "name": "SquareSpace",
         "category": "Tracking",
         "iconClass": "icon-squarespace",
@@ -1440,9 +1114,7 @@
         "url": "https://www.squarespace.com/"
     },
     {
-        "patterns": [
-            ".stripe.com/"
-        ],
+        "patterns": [".stripe.com/"],
         "name": "Stripe",
         "category": "Payment System",
         "iconClass": "icon-stripe",
@@ -1450,9 +1122,7 @@
         "url": "https://stripe.com/"
     },
     {
-        "patterns": [
-            "(.|/)sumo.com/"
-        ],
+        "patterns": ["(.|/)sumo.com/"],
         "name": "Sumo",
         "category": "Email Marketing",
         "iconClass": "icon-sumo",
@@ -1460,10 +1130,7 @@
         "url": "https://sharpspring.com/"
     },
     {
-        "patterns": [
-            ".swiftypecdn.com/",
-            ".swiftype.com/"
-        ],
+        "patterns": [".swiftypecdn.com/", ".swiftype.com/"],
         "name": "Swiftype",
         "category": "Local Search Engine",
         "iconClass": "icon-swiftype",
@@ -1471,10 +1138,7 @@
         "url": "https://swiftype.com/"
     },
     {
-        "patterns": [
-            ".tidio.co/",
-            ".tidio.com/"
-        ],
+        "patterns": [".tidio.co/", ".tidio.com/"],
         "name": "TIDIO",
         "category": "Chat Bot",
         "iconClass": "icon-tidio",
@@ -1482,10 +1146,7 @@
         "url": "https://www.tidio.com/"
     },
     {
-        "patterns": [
-            ".taboola.com/",
-            ".perfectmarket.com/"
-        ],
+        "patterns": [".taboola.com/", ".perfectmarket.com/"],
         "name": "Taboola / Perfect Market",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-taboola",
@@ -1493,9 +1154,7 @@
         "url": "https://www.taboola.com/"
     },
     {
-        "patterns": [
-            ".tapfiliate.com/"
-        ],
+        "patterns": [".tapfiliate.com/"],
         "name": "Tapfiliate",
         "category": "Affiliate Marketing",
         "iconClass": "icon-tapfiliate",
@@ -1503,9 +1162,7 @@
         "url": "https://tapfiliate.com/"
     },
     {
-        "patterns": [
-            ".teads.tv/"
-        ],
+        "patterns": [".teads.tv/"],
         "name": "Teads",
         "category": "Ads",
         "iconClass": "icon-teads",
@@ -1513,11 +1170,7 @@
         "url": "https://www.teads.com/"
     },
     {
-        "patterns": [
-            ".tiqcdn.com/",
-            ".tealium.com/",
-            ".tealiumiq.com/"
-        ],
+        "patterns": [".tiqcdn.com/", ".tealium.com/", ".tealiumiq.com/"],
         "name": "Tealium Tag Manager",
         "category": "Ads &amp; Tracking",
         "iconClass": "icon-tealium",
@@ -1525,9 +1178,7 @@
         "url": "https://tealium.com/"
     },
     {
-        "patterns": [
-            ".adsrvr.org/"
-        ],
+        "patterns": [".adsrvr.org/"],
         "name": "TheTradeDesk",
         "category": "Ads Tracking",
         "iconClass": "icon-thetradedesk",
@@ -1535,9 +1186,7 @@
         "url": "https://www.thetradedesk.com/"
     },
     {
-        "patterns": [
-            ".tiktok.com/"
-        ],
+        "patterns": [".tiktok.com/"],
         "name": "TikTok",
         "category": "Ads &amp; Tracking",
         "iconClass": "icon-tiktok",
@@ -1545,9 +1194,7 @@
         "url": "https://www.tiktok.com/business/en-US"
     },
     {
-        "patterns": [
-            ".trustpilot.com/"
-        ],
+        "patterns": [".trustpilot.com/"],
         "name": "Trustpilot",
         "category": "Product Reviews",
         "iconClass": "icon-trustpilot",
@@ -1555,12 +1202,7 @@
         "url": "https://trustpilot.com/"
     },
     {
-        "patterns": [
-            "(.|/)ads-twitter",
-            "(.|/)twitter.com/",
-            "(.|/)analytics.twitter",
-            "(.|/)twimg.twitter"
-        ],
+        "patterns": ["(.|/)ads-twitter", "(.|/)twitter.com/", "(.|/)analytics.twitter", "(.|/)twimg.twitter"],
         "name": "Twitter",
         "category": "Ads and Analytics",
         "iconClass": "icon-twitter",
@@ -1568,10 +1210,7 @@
         "url": "https://business.twitter.com/en/advertising/analytics.html"
     },
     {
-        "patterns": [
-            ".user1st.info/",
-            ".user1st.com/"
-        ],
+        "patterns": [".user1st.info/", ".user1st.com/"],
         "name": "USER1st",
         "category": "Web Accessibility &amp; ADA Compliance",
         "iconClass": "icon-user1st",
@@ -1579,9 +1218,7 @@
         "url": "https://www.user1st.com/"
     },
     {
-        "patterns": [
-            "unpkg.com/"
-        ],
+        "patterns": ["unpkg.com/"],
         "name": "Unpkg",
         "category": "Regular JavaScript Code",
         "iconClass": "icon-unpkg",
@@ -1589,10 +1226,7 @@
         "url": "https://unpkg.com/"
     },
     {
-        "patterns": [
-            ".visualwebsiteoptimizer.com/",
-            ".vwo.com/"
-        ],
+        "patterns": [".visualwebsiteoptimizer.com/", ".vwo.com/"],
         "name": "VWO - Visual Website Optimizer",
         "category": "A/B Testing",
         "iconClass": "icon-vwo",
@@ -1600,10 +1234,7 @@
         "url": "https://vwo.com/"
     },
     {
-        "patterns": [
-            "turner.com/analytics",
-            "ugdturner.com/"
-        ],
+        "patterns": ["turner.com/analytics", "ugdturner.com/"],
         "name": "Warner Media",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-warnermedia-analytics",
@@ -1611,9 +1242,7 @@
         "url": ""
     },
     {
-        "patterns": [
-            ".wts2.one/"
-        ],
+        "patterns": [".wts2.one/"],
         "name": "Web-Stat",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-web-stat",
@@ -1621,9 +1250,7 @@
         "url": "https://www.wts2.one/"
     },
     {
-        "patterns": [
-            ".wt-safetag.com/"
-        ],
+        "patterns": [".wt-safetag.com/"],
         "name": "Webtrekk",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-webtrekk",
@@ -1631,10 +1258,7 @@
         "url": "https://www.webtrekk.com/"
     },
     {
-        "patterns": [
-            "(.|/)wistia.com/",
-            "(.|/)wistia.net/"
-        ],
+        "patterns": ["(.|/)wistia.com/", "(.|/)wistia.net/"],
         "name": "Wistia",
         "category": "Video and Podcast Hosting Platform",
         "iconClass": "icon-wistia",
@@ -1642,11 +1266,7 @@
         "url": "https://wistia.com/"
     },
     {
-        "patterns": [
-            ".wp.com/",
-            "/wp-includes/",
-            "/wp-content/"
-        ],
+        "patterns": [".wp.com/", "/wp-includes/", "/wp-content/"],
         "name": "Wordpress",
         "category": "Regular JavaScript Code",
         "iconClass": "icon-wordpress",
@@ -1654,9 +1274,7 @@
         "url": "https://wordpress.com/"
     },
     {
-        "patterns": [
-            ".yimg.com/"
-        ],
+        "patterns": [".yimg.com/"],
         "name": "Yahoo!",
         "category": "Content Delivery Network",
         "iconClass": "icon-yahoo",
@@ -1664,10 +1282,7 @@
         "url": "https://www.yahoo.com/"
     },
     {
-        "patterns": [
-            ".swellrewards.com/",
-            ".yotpo.com/"
-        ],
+        "patterns": [".swellrewards.com/", ".yotpo.com/"],
         "name": "Yotpo",
         "category": "Loyalty Programs",
         "iconClass": "icon-yotpo",
@@ -1675,9 +1290,7 @@
         "url": "https://www.swellrewards.com/"
     },
     {
-        "patterns": [
-            ".youtube.com/"
-        ],
+        "patterns": [".youtube.com/"],
         "name": "YouTube",
         "category": "Video Embedding",
         "iconClass": "icon-youtube",
@@ -1685,10 +1298,7 @@
         "url": "https://www.tiktok.com/business/en-US"
     },
     {
-        "patterns": [
-            ".zdassets.com/",
-            "zendesk.com/"
-        ],
+        "patterns": [".zdassets.com/", "zendesk.com/"],
         "name": "ZenDesk",
         "category": "Customer Service Monitoring",
         "iconClass": "icon-zendesk",
@@ -1696,9 +1306,7 @@
         "url": "https://www.zendesk.com/"
     },
     {
-        "patterns": [
-            "boomtrain.com/"
-        ],
+        "patterns": ["boomtrain.com/"],
         "name": "Zeta Global",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-zeta-global",
@@ -1706,9 +1314,7 @@
         "url": ""
     },
     {
-        "patterns": [
-            "(.|/)zoominfo.com/"
-        ],
+        "patterns": ["(.|/)zoominfo.com/"],
         "name": "ZoomInfo",
         "category": "Lead generation optimization",
         "iconClass": "icon-zoominfo",
@@ -1716,9 +1322,7 @@
         "url": "https://www.zoominfo.com/"
     },
     {
-        "patterns": [
-            ".rezync.com/"
-        ],
+        "patterns": [".rezync.com/"],
         "name": "Zync",
         "category": "Marketing Agency",
         "iconClass": "icon-zync",
@@ -1726,9 +1330,7 @@
         "url": "https://zync.ca/"
     },
     {
-        "patterns": [
-            ".jquery.com/"
-        ],
+        "patterns": [".jquery.com/"],
         "name": "jQuery",
         "category": "Regular JavaScript Code",
         "iconClass": "icon-jquery",
@@ -1736,9 +1338,7 @@
         "url": "https://jquery.com/"
     },
     {
-        "patterns": [
-            ".userzoom.com/"
-        ],
+        "patterns": [".userzoom.com/"],
         "name": "userZoom",
         "category": "Tracking &amp; Profiling",
         "iconClass": "icon-userzoom",

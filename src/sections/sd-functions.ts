@@ -11,8 +11,8 @@ import {disposableId, copyToClipboard} from '../main'
 import {codeBlock} from '../codeBlock'
 import * as Suggestions from './suggestionCards'
 import {Report} from '../report'
-import { htmlEncode } from 'js-htmlencode'
-import { Tips } from './tips'
+import {htmlEncode} from 'js-htmlencode'
+import {Tips} from './tips'
 
 export const schemaLinks = (schemaName: string, ldjsonUrl: string, codeId: string): iLink[] => [
     {
@@ -31,7 +31,7 @@ export const schemaLinks = (schemaName: string, ldjsonUrl: string, codeId: strin
 
 export const getSchemaType = (ldJson: iJsonLD) => {
     const schemaType = ldJson['@type']
-    
+
     if (schemaType === undefined) {
         return 'Graph'
     }
@@ -69,27 +69,26 @@ export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string, occurrences: MustBeU
 
     report.addCard(card)
 
-    switch(schemaType) {
+    switch (schemaType) {
         case 'Organization':
             occurrences.organization++
-            if(occurrences.breadcrumbs > 1) {
+            if (occurrences.breadcrumbs > 1) {
                 Tips.multipleStructuredData(card, schemaType, occurrences.organization)
             }
             break
         case 'WebSite':
             occurrences.website++
-            if(occurrences.breadcrumbs > 1) {
+            if (occurrences.breadcrumbs > 1) {
                 Tips.multipleStructuredData(card, schemaType, occurrences.website)
             }
             break
         case 'BreadcrumbList':
             occurrences.breadcrumbs++
-            if(occurrences.breadcrumbs > 1) {
+            if (occurrences.breadcrumbs > 1) {
                 Tips.multipleStructuredData(card, schemaType, occurrences.breadcrumbs)
             }
             break
     }
-
 }
 
 const flattenSchemaName = (name: string): string => name.replace(/([a-z])([A-Z])/g, '$1 $2')
@@ -149,11 +148,18 @@ const getTypes = (ldJson: iJsonLD, level = 0): SdType[] => {
                 ldJson.addressLocality &&
                 ldJson.addressCountry
             ) {
-                keyValueDesc.push(descriptionLine(`Address`, `${ldJson.streetAddress}<br>${ldJson.addressLocality}, ${ldJson.addressRegion}<br>${ldJson.postalCode}`))
+                keyValueDesc.push(
+                    descriptionLine(
+                        `Address`,
+                        `${ldJson.streetAddress}<br>${ldJson.addressLocality}, ${ldJson.addressRegion}<br>${ldJson.postalCode}`
+                    )
+                )
                 keyValueDesc.push(`${ldJson.addressCountry}`)
             }
             if (ldJson.latitude && ldJson.longitude) {
-                keyValueDesc.push(descriptionLine(`Geo Coordinates`, `${ldJson.latitude as string}, ${ldJson.longitude}`))
+                keyValueDesc.push(
+                    descriptionLine(`Geo Coordinates`, `${ldJson.latitude as string}, ${ldJson.longitude}`)
+                )
             }
             if (ldJson.position) {
                 keyValueDesc.push(descriptionLine(`Position`, `${(ldJson.position as number).toFixed()}`))
@@ -165,13 +171,14 @@ const getTypes = (ldJson: iJsonLD, level = 0): SdType[] => {
                 keyValueDesc.push(descriptionLine(`List Size`, `${(ldJson.Image as []).length.toFixed()}`))
             }
             if (ldJson.height && ldJson.width) {
-                keyValueDesc.push(descriptionLine(`Resolution`, `${(ldJson.width as number).toFixed()} x ${(ldJson.height as number).toFixed()} pixels`)
+                keyValueDesc.push(
+                    descriptionLine(
+                        `Resolution`,
+                        `${(ldJson.width as number).toFixed()} x ${(ldJson.height as number).toFixed()} pixels`
+                    )
                 )
             }
-            types.push([
-                flattenSchemaName(getSchemaType(ldJson)),
-                keyValueDesc.join(''),
-            ])
+            types.push([flattenSchemaName(getSchemaType(ldJson)), keyValueDesc.join('')])
         }
         if (typeof ldJson[jsonKey] === 'object') {
             types.push(...getTypes(ldJson[jsonKey] as iJsonLD, level + 1))

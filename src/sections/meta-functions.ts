@@ -30,14 +30,9 @@ export interface iTagCategory {
     preview: iTagCategoryPreviewer
 }
 
-export const noPreview: iTagCategoryPreviewer = (card: Card, selectedTag: iTag[], allTags: iTag[]) =>
-    void 0
+export const noPreview: iTagCategoryPreviewer = (card: Card, selectedTag: iTag[], allTags: iTag[]) => void 0
 
-export const twitterPreview = (
-    card: Card,
-    selectedTags: iTag[],
-    allTag: iTag[],
-) => {
+export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[]) => {
     const linkIcon =
         `<svg viewBox="0 0 24 24" aria-hidden="true" class="r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr">` +
         `<g>` +
@@ -163,11 +158,7 @@ export const twitterPreview = (
     }
 }
 
-export const openGraphPreview = (
-    card: Card,
-    selectedTags: iTag[],
-    allMeta: iTag[]
-) => {
+export const openGraphPreview = (card: Card, selectedTags: iTag[], allMeta: iTag[]) => {
     const imgTag = selectedTags.find(m => m.tagLabel === 'og:image')
     const urlTag = selectedTags.find(m => m.tagLabel === 'og:url' || m.tagLabel === 'og:image:secure_url')
     const titleTag = selectedTags.find(m => m.tagLabel === 'og:title')
@@ -287,7 +278,7 @@ export const openGraphPreview = (
 
 const hideCardElement = (card: Card, id: string) => {
     const img = card.getDiv().querySelector(`#${id}`) as HTMLImageElement
-    if(img) {
+    if (img) {
         img.style.display = 'none'
     }
 }
@@ -486,12 +477,7 @@ export const tagCategories: iTagCategory[] = [
     },
 ]
 
-export const metaTagsCard = (
-    allTags: iTag[],
-    tagCategory: iTagCategory,
-    selectedTags: iTag[],
-    report: Report
-) => {
+export const metaTagsCard = (allTags: iTag[], tagCategory: iTagCategory, selectedTags: iTag[], report: Report) => {
     if (selectedTags.length === 0) {
         report.addCard(Errors.noMetaTagsInThisCategory(tagCategory.title))
         return

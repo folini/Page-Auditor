@@ -9,7 +9,7 @@ import {codeBlock} from '../codeBlock'
 import {Card, iLink} from '../card'
 import {sitemapMaxSize} from './suggestionCards'
 import {Mode} from '../colorCode'
-import { formatNumber } from '../main'
+import {formatNumber} from '../main'
 
 export type Platform = 'Twitter' | 'Facebook' | 'Instagram' | 'LinkedIn' | 'YouTube' | 'Reddit'
 
@@ -29,8 +29,8 @@ const sitemapReference: iLink = {
 }
 
 const sitemapSyntaxReference: iLink = {
-    label: 'Learn about Sitemap.xml Syntax', 
-    url: 'https://www.sitemaps.org/protocol.html'
+    label: 'Learn about Sitemap.xml Syntax',
+    url: 'https://www.sitemaps.org/protocol.html',
 }
 
 const robotsTxtReference = {
@@ -44,21 +44,18 @@ const tweeterImageSpecs =
 const facebookImageSpecs = `The most frequently recommended resolution for an OG image is 1200 pixels x 627 pixels (1.91/1 ratio). At this size, your thumbnail will be big and stand out from the crowd. Just don't exceed the 5MB size limit.`
 
 export class Tips {
-
     // ----------------------------------------------------------------------------
     // INTERNAL ERROR TIPS
     public static internalError(card: Card) {
         const msg1 = `Something went wrong.`
-        const msg2 =
-            `Consider updating the "Page Auditor" Chrome Extension to teh latest version.`
+        const msg2 = `Consider updating the "Page Auditor" Chrome Extension to teh latest version.`
         const cta: iLink = robotsTxtReference
         card.addTip('Tip:Update Page Auditor to teh latest version', [msg1, msg2], cta)
     }
 
     public static unableToAnalyzeChromeBrowserPages(card: Card) {
         const msg1 = `The internal pages of Google Chrome browser as well the empty tabs can not be analyzed by <i>Page Auditor</i> Chrome Extension.`
-        const msg2 =
-            `Consider opening any website before opening the "Page Auditor" Chrome Extension`
+        const msg2 = `Consider opening any website before opening the "Page Auditor" Chrome Extension`
         const cta: iLink = robotsTxtReference
         card.addTip('Tip: Open a Regular WebSite or Web Page', [msg1, msg2], cta)
     }
@@ -67,8 +64,7 @@ export class Tips {
     // Robots TXT TIPS
     public static noRobotsTxtInChromeBrowserPages(card: Card) {
         const msg1 = `The internal pages of Google Chrome browser as well the empty tabs don't have a <code>robots.txt</code> associated.`
-        const msg2 =
-            `Consider opening any website before opening the "Page Auditor" Chrome Extension`
+        const msg2 = `Consider opening any website before opening the "Page Auditor" Chrome Extension`
         const cta: iLink = robotsTxtReference
         card.addTip('Tip: Open a Regular WebSite or Web Page', [msg1, msg2], cta)
     }
@@ -125,7 +121,7 @@ export class Tips {
         const cta: iLink = robotsTxtReference
         card.addTip('Add Content to Robots.txt', [msg1], cta)
     }
-    
+
     public static missingRobotsTxt(card: Card) {
         const msg1 =
             `It's critical to add the missing <code>robots.txt</code> file. ` +
@@ -133,8 +129,8 @@ export class Tips {
         const cta: iLink = robotsTxtReference
         card.addTip('Add Robots.txt file', [msg1], cta)
     }
-        
-    public static sitemapInRobotsDoesNotExist(card: Card, url:string) {
+
+    public static sitemapInRobotsDoesNotExist(card: Card, url: string) {
         const msg1 =
             `The <code>robots.txt</code> file list <code>sitemap.xml</code> url pointing to a file that doesn't exist. ` +
             `This is the broken link:`
@@ -142,13 +138,12 @@ export class Tips {
         const cta: iLink = robotsTxtReference
         card.addTip('Add Robots.txt file', [msg1, msg2], cta)
     }
-        
+
     // ------------------------------------------------------------------------
     // SITEMAP XML TIPS
     public static noSitemapInChromeBrowserPages(card: Card) {
         const msg1 = `The internal pages of Google Chrome browser as well the empty tabs don't have a <code>sitemap.xml</code> associated.`
-        const msg2 =
-            `Consider opening any website before opening the "Page Auditor" Chrome Extension`
+        const msg2 = `Consider opening any website before opening the "Page Auditor" Chrome Extension`
         const cta: iLink = robotsTxtReference
         card.addTip('Tip: Open a Regular WebSite or Web Page', [msg1, msg2], cta)
     }
@@ -163,16 +158,18 @@ export class Tips {
         const cta: iLink = sitemapSyntaxReference
         card.addTip('Add a Sitemap.xml File', [msg1, msg2], cta)
     }
-    
+
     public static uncompressedLargeSitemap(card: Card, url: string, size: number) {
         const msg1 =
-            `This sitemap file size is about ${(size/1024).toFixed(2)} KB. ` +
-            `The recommended maximum size for uncompressed files is ${formatNumber(sitemapMaxSize/1024/1024)} MB. ` +
+            `This sitemap file size is about ${(size / 1024).toFixed(2)} KB. ` +
+            `The recommended maximum size for uncompressed files is ${formatNumber(
+                sitemapMaxSize / 1024 / 1024
+            )} MB. ` +
             `However, Google and Bing can handle sitemap.xml file files up to 50 Mb in uncompressed size. `
-        const msg2 = 
+        const msg2 =
             `Compressing your sitemap.xml with <i>gzip</i> will reduce the load on your server and speedup upload and download of the file. ` +
             `However, there are no SEO direct benefits in compressing a sitemap. `
-        const cta: iLink =sitemapSyntaxReference
+        const cta: iLink = sitemapSyntaxReference
         card.addTip('Tip: Compress Sitemap', [msg1, msg2], cta)
     }
 
@@ -201,7 +198,7 @@ export class Tips {
         const cta: iLink = sitemapSyntaxReference
         card.addTip('Fix Sitemap.xml Syntax', [msg1, msg2], cta)
     }
-        
+
     // ------------------------------------------------------------------------
     // META TAGS TIPS
 
@@ -209,13 +206,13 @@ export class Tips {
         const msg1 =
             `Meta Data should always be include in every web page. Meta tags provide important information to teh browser and to the Search Engine bots about the page. ` +
             `Also Meta tags allow the page to control how it will be shared by users providing recommendation for title, image and descriptions to be use for sharing post on Social Media .`
-        const cta: iLink ={
-            label: 'Meta Tags Reference', 
-            url: 'https://moz.com/blog/the-ultimate-guide-to-seo-meta-tags'
+        const cta: iLink = {
+            label: 'Meta Tags Reference',
+            url: 'https://moz.com/blog/the-ultimate-guide-to-seo-meta-tags',
         }
         card.addTip('Tip: Add Meta Tags', [msg1], cta)
     }
-        
+
     public static tagImage_AddTag(card: Card, platform: Platform, tag: string) {
         const msg1 =
             `This page is lacking the <code>${tag}</code> meta tag to use with ${platform} when posting about this page.<br>` +
@@ -264,13 +261,13 @@ export class Tips {
             return
         }
         let exampleTagValue = ''
-        if(tag.includes('url')) {
+        if (tag.includes('url')) {
             exampleTagValue = `https://mydomain.com/my_page.htm`
-        } else if(tag.includes('image')) {
+        } else if (tag.includes('image')) {
             exampleTagValue = `https://mydomain.com/my_image.png`
-        } else if(tag.includes('title')) {
+        } else if (tag.includes('title')) {
             exampleTagValue = `My click capturing title for ${platform}`
-        }else if(tag.includes('description')) {
+        } else if (tag.includes('description')) {
             exampleTagValue = `My short description of the page for ${platform}`
         }
         const msg1 =
@@ -332,24 +329,24 @@ export class Tips {
     }
 
     public static missingStructuredData(card: Card) {
-        const msg1 =
-            `Structured Data is an important SEO factor. It's very important to add a Structured Data snippet to each page.`
-        const msg2 = `Structured data is important for SEO because it helps search engines find and understand your content and website. ` +
+        const msg1 = `Structured Data is an important SEO factor. It's very important to add a Structured Data snippet to each page.`
+        const msg2 =
+            `Structured data is important for SEO because it helps search engines find and understand your content and website. ` +
             `It's also an important way to prepare for the future of search, as Google and other engines continue to personalize the user experience and answer questions directly on their SERPs.`
-        const cta: iLink = 
-            {
-                label: 'How to Use Structured Data',
-                url: 'https://folini.medium.com/how-to-boost-your-pages-seo-with-json-ld-structured-data-bfa03ef48d42',
-            }
+        const cta: iLink = {
+            label: 'How to Use Structured Data',
+            url: 'https://folini.medium.com/how-to-boost-your-pages-seo-with-json-ld-structured-data-bfa03ef48d42',
+        }
         card.addTip('Tip: Add Structured Data Snippets', [msg1, msg2], cta)
     }
 
     public static invalidStructuredData(card: Card) {
-        const msg1 =
-            `A Structured Data snippet contains invalid JSON code blocking the Search Engine spiders/bots from efficiently indexing the page.`
+        const msg1 = `A Structured Data snippet contains invalid JSON code blocking the Search Engine spiders/bots from efficiently indexing the page.`
         const msg2 = `Fix the LD-JSON code to benefit from the inclusion of Structured Data in the page.`
-        const cta: iLink = {label: 'Learn About Structured Data', url: 'https://developers.google.com/search/docs/advanced/structured-data/product'}
+        const cta: iLink = {
+            label: 'Learn About Structured Data',
+            url: 'https://developers.google.com/search/docs/advanced/structured-data/product',
+        }
         card.addTip('Fix the Invalid Structured Data Snippet', [msg1], cta)
     }
-    
 }

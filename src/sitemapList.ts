@@ -16,7 +16,7 @@ export class SitemapList {
     public doneList: string[]
     public skippedList: string[]
     public failedList: string[]
-    public readyList:string[]
+    public readyList: string[]
 
     constructor() {
         this.doneList = []
@@ -26,12 +26,12 @@ export class SitemapList {
     }
 
     public static cleanseUrls(urls: string[]) {
-        return[...new Set(urls.map(url => url.trim().replace('http://', 'https://')))]
+        return [...new Set(urls.map(url => url.trim().replace('http://', 'https://')))]
     }
 
     private static removeUrlFromList(url: string, list: string[]) {
         const position = list.indexOf(url)
-        if(position >= 0) {
+        if (position >= 0) {
             list.splice(position, 1)
         }
     }
@@ -41,11 +41,11 @@ export class SitemapList {
     }
 
     public addToReady(urlsToAdd: string[]) {
-        let toAdd: string[]= []
+        let toAdd: string[] = []
         let toSkip: string[] = []
         urlsToAdd = SitemapList.cleanseUrls(urlsToAdd)
         urlsToAdd.forEach(url => {
-            if(toAdd.length + this.doneList.length + this.readyList.length >= SitemapList.maxSitemapsToLoad()) {
+            if (toAdd.length + this.doneList.length + this.readyList.length >= SitemapList.maxSitemapsToLoad()) {
                 toSkip.push(url)
             } else {
                 toAdd.push(url)

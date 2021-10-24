@@ -19,7 +19,7 @@ import * as Credits from './sections/credits'
 import * as Meta from './sections/meta'
 import * as Intro from './sections/intro'
 import * as Robots from './sections/robots'
-import { Tips } from './sections/tips'
+import {Tips} from './sections/tips'
 
 export type NoArgsNoReturnFunc = () => void
 export type CodeInjectorFunc = () => any
@@ -84,7 +84,7 @@ async function action(section: SectionType, actions: sectionActions) {
     let tab: chrome.tabs.Tab | undefined = undefined
 
     try {
-        [tab] = await chrome.tabs.query({active: true, currentWindow: true})
+        ;[tab] = await chrome.tabs.query({active: true, currentWindow: true})
         if (actions.codeInjector) {
             res = await chrome.scripting.executeScript({
                 target: {tabId: tab.id} as chrome.scripting.InjectionTarget,
@@ -176,6 +176,4 @@ export const copyToClipboard = (divId: string) => {
 
 export const formatNumber = (num: number) => num.toLocaleString(undefined, {maximumFractionDigits: 0})
 
-export const fileExists = (file: string) =>
-  fetch(file, {method: 'HEAD', cache: 'no-store'})
-  .then(r => r.status==200)
+export const fileExists = (url: string) => fetch(url, {method: 'HEAD', cache: 'no-store'}).then(r => r.status == 200)

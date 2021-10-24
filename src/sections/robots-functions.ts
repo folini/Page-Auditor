@@ -17,12 +17,13 @@ import {htmlDecode} from 'js-htmlencode'
 import {SitemapList} from '../sitemapList'
 
 export const readFile = (url: string) => {
-    if (url.match(/\.gz($|\?)/) !== null) {
-        // Do not load compressed files
-        return Promise.resolve('')
-    }
-
     return fileExists(url)
+        .then(() => {
+            if (url.match(/\.gz($|\?)/) !== null) {
+                // Do not load compressed files
+                return Promise.resolve('')
+            }
+        })
         .then(() => fetch(url))
         .then(response => {
             if (!response.ok || response.status !== 200) {
@@ -30,29 +31,12 @@ export const readFile = (url: string) => {
             }
             return response.text()
         })
-        .catch(() => Promise.reject()
-        )
+        .catch(() => Promise.reject())
 }
 
-const sitemapCard = (url: string, sitemaps: SitemapList, report: Report) => 
+const sitemapCard = (url: string, sitemaps: SitemapList, report: Report) =>
     readFile(url)
         .then(sitemapBody => {
-            if (sitemapBody.match(/not found/gim) !== null || sitemapBody.match(/error 404/gim) !== null) {
-                const card = Errors.sitemapReturns404(url)
-                report.addCard(card)
-                Tips.malformedSitemapXml(card)
-                sitemaps.addToDone([url])
-                return Promise.resolve()
-            }
-
-            if (sitemapBody.includes(`<head>`) || sitemapBody.includes(`<meta`)) {
-                const card = Errors.sitemapIsHTMLPage(url, sitemapBody)
-                report.addCard(card)
-                Tips.malformedSitemapXml(card)
-                sitemaps.addToDone([url])
-                return Promise.resolve()
-            }
-
             if (url.endsWith('.gz')) {
                 const fileName = url.replace(/(.*)\/([a-z0-9\-_\.]+(\.xml)?(\.gz)?)(.*)/i, '$2')
                 const table = [
@@ -74,6 +58,22 @@ const sitemapCard = (url: string, sitemaps: SitemapList, report: Report) =>
                 report.addCard(card)
                 sitemaps.addToDone([url])
                 fileExists(url).catch(_ => Tips.compressedSitemapNotFound(card, url))
+                return Promise.resolve()
+            }
+
+            if (sitemapBody.match(/not found/gim) !== null || sitemapBody.match(/error 404/gim) !== null) {
+                const card = Errors.sitemapReturns404(url)
+                report.addCard(card)
+                Tips.malformedSitemapXml(card)
+                sitemaps.addToDone([url])
+                return Promise.resolve()
+            }
+
+            if (sitemapBody.includes(`<head>`) || sitemapBody.includes(`<meta`)) {
+                const card = Errors.sitemapIsHTMLPage(url, sitemapBody)
+                report.addCard(card)
+                Tips.malformedSitemapXml(card)
+                sitemaps.addToDone([url])
                 return Promise.resolve()
             }
 
@@ -151,7 +151,6 @@ const directives = (robotsTxtBody: string) =>
     robotsTxtBody.split('\n').filter(line => !line.startsWith('#') && line.trim().length > 0)
 
 export const lookForRobotsTxt = (robotsTxtBody: string, url: string, report: Report) => {
-
     if (robotsTxtBody.match(/page not found/gim) !== null || robotsTxtBody.match(/error 404/gim) !== null) {
         const card = Errors.robotsTxtNotFound(url)
         report.addCard(card)
@@ -253,6 +252,7 @@ const robotsTxtCard = (url: string, robotsTxtBody: string): Card => {
         .addParagraph(robotsTxtDescription)
         .addTable('Robots.txt Analysis', table)
         .addExpandableBlock(btnLabel, codeBlock(robotsTxtBody, Mode.txt, divId))
+        .tag(`card-ok`)
 
     if (linksToSitemap.length === 0) {
         Tips.addSitemapLinkToRobotsTxt(card)
