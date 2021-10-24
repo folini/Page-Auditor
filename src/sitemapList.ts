@@ -4,12 +4,6 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-//
-// This code is based on the original work of w3schools.com:
-// https://www.w3schools.com/lib/w3codecolor.js version 1.32
-//
-// ----------------------------------------------------------------------------
-
 const maxSitemapsToLoad = 15
 
 export class SitemapList {

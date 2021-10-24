@@ -4,11 +4,9 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {Card} from '../card'
 import {Report} from '../report'
 import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../main'
 import {ldJsonCard, getSchemaType} from './sd-functions'
-import * as Suggestions from './suggestionCards'
 import * as Errors from './errorCards'
 import {Tips} from './tips'
 
