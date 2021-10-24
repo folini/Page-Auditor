@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------------
 
 import {
-    getRobotsToolbarLinks,
+    robotsToolbarLinks,
     getSitemapToolbarLinks,
 } from '../src/sections/robots-functions'
 import * as main from '../src/main'
@@ -74,7 +74,7 @@ describe('getSiteMaps() and getRobotsTxt()', () => {
 })
 
 test('getRobotsLinks() generates valid array with 2 objects', async () => {
-    const data = getRobotsToolbarLinks(MockData.RobotsTxtUrlSample, '')
+    const data = robotsToolbarLinks(MockData.RobotsTxtUrlSample, '')
     expect(data).toBeArray()
     expect(data.length).toBe(2)
     data.forEach(item => expect(item).toBeObject())

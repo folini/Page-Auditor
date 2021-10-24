@@ -10,7 +10,7 @@
 //
 // ----------------------------------------------------------------------------
 
-const maxNumberOfSitemapsToLoad = 15
+const maxSitemapsToLoad = 15
 
 export class SitemapList {
     public doneList: string[]
@@ -36,8 +36,8 @@ export class SitemapList {
         }
     }
 
-    public static maxNumberOfSitemapsToLoad() {
-        return maxNumberOfSitemapsToLoad
+    public static maxSitemapsToLoad() {
+        return maxSitemapsToLoad
     }
 
     public addToReady(urlsToAdd: string[]) {
@@ -45,7 +45,7 @@ export class SitemapList {
         let toSkip: string[] = []
         urlsToAdd = SitemapList.cleanseUrls(urlsToAdd)
         urlsToAdd.forEach(url => {
-            if(toAdd.length + this.doneList.length + this.readyList.length >= SitemapList.maxNumberOfSitemapsToLoad()) {
+            if(toAdd.length + this.doneList.length + this.readyList.length >= SitemapList.maxSitemapsToLoad()) {
                 toSkip.push(url)
             } else {
                 toAdd.push(url)
@@ -84,6 +84,6 @@ export class SitemapList {
     }
 
     public toString() {
-        return `Sitemaps List = [Ready: ${this.readyList.length}, Done: ${this.doneList.length}, Skip: ${this.skippedList.length}, Failed: ${this.failedList.length}]\n Ready = ["${this.readyList.join('", "')}"]`
+        return `[Ready: ${this.readyList.length}, Done: ${this.doneList.length}, Skip: ${this.skippedList.length}, Failed: ${this.failedList.length}]`
     }
 }

@@ -7,9 +7,9 @@
 import {iTag} from './meta'
 import {codeBlock} from '../codeBlock'
 import {Card, iLink} from '../card'
-import {formatNumber} from '../main'
-import {sitemapRecommendedMaxSize} from './suggestionCards'
+import {sitemapMaxSize} from './suggestionCards'
 import {Mode} from '../colorCode'
+import { formatNumber } from '../main'
 
 export type Platform = 'Twitter' | 'Facebook' | 'Instagram' | 'LinkedIn' | 'YouTube' | 'Reddit'
 
@@ -153,7 +153,7 @@ export class Tips {
         card.addTip('Tip: Open a Regular WebSite or Web Page', [msg1, msg2], cta)
     }
 
-    public static missingSitemapXml(card: Card) {
+    public static missingSitemap(card: Card) {
         const msg1 =
             `It's critical to add the missing <code>sitemap.xml</code> file. ` +
             `Sitemaps are a very critical factor in SEO ranking of a page.`
@@ -166,15 +166,14 @@ export class Tips {
     
     public static uncompressedLargeSitemap(card: Card, url: string, size: number) {
         const msg1 =
-            `This sitemaps file size is ${formatNumber(
-                size
-            )} bytes. The recommended maximum size for uncompressed files is ${formatNumber(
-                sitemapRecommendedMaxSize
-            )} bytes. ` +
+            `This sitemap file size is about ${(size/1024).toFixed(2)} KB. ` +
+            `The recommended maximum size for uncompressed files is ${formatNumber(sitemapMaxSize/1024/1024)} MB. ` +
+            `However, Google and Bing can handle sitemap.xml file files up to 50 Mb in uncompressed size. `
+        const msg2 = 
             `Compressing your sitemap.xml with <i>gzip</i> will reduce the load on your server and speedup upload and download of the file. ` +
             `However, there are no SEO direct benefits in compressing a sitemap. `
         const cta: iLink =sitemapSyntaxReference
-        card.addTip('Tip: Compress Sitemap', [msg1], cta)
+        card.addTip('Tip: Compress Sitemap', [msg1, msg2], cta)
     }
 
     public static sitemapWithoutXmlExtension = (card: Card, url: string) => {

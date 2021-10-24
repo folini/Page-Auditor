@@ -4,12 +4,9 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {formatNumber} from '../main'
 import {Card, iLink} from '../card'
-import {Mode} from '../colorCode'
-import {SdType} from './sd-functions'
 
-export const sitemapRecommendedMaxSize = 1_000_000
+export const sitemapMaxSize = 5 * 1024 * 1024
 
 export const noOpenGraphMetaTags = () => {
     const msg1 =
