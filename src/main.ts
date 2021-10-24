@@ -11,15 +11,15 @@ import './logos/Logo_256x256.png'
 
 import {Report} from './report'
 import {Mode} from './colorCode'
-import * as Errors from './sections/errorCards'
+import {Errors} from './cards/errors'
 import {version as versionNumber} from '../package.json'
-import * as JsonLd from './sections/sd'
-import * as Scripts from './sections/scripts'
-import * as Credits from './sections/credits'
-import * as Meta from './sections/meta'
-import * as Intro from './sections/intro'
-import * as Robots from './sections/robots'
-import {Tips} from './sections/tips'
+import * as JsonLd from './cards/sd'
+import * as Scripts from './cards/scripts'
+import * as Credits from './cards/credits'
+import * as Meta from './cards/meta-tags'
+import * as Intro from './cards/intro'
+import * as Robots from './cards/robots'
+import {Tips} from './cards/tips'
 
 export type NoArgsNoReturnFunc = () => void
 export type CodeInjectorFunc = () => any

@@ -7,7 +7,7 @@
 import {Report} from '../report'
 import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../main'
 import {ldJsonCard, getSchemaType} from './sd-functions'
-import * as Errors from './errorCards'
+import {Errors} from './errors'
 import {Tips} from './tips'
 
 export interface iJsonLD {

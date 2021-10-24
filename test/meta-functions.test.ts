@@ -4,8 +4,14 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {iTag} from '../src/sections/meta'
-import {tagCategories, twitterPreview, openGraphPreview, noPreview, metaTagsCard} from '../src/sections/meta-functions'
+import {iTag} from '../src/cards/meta-tags'
+import {
+    tagCategories,
+    twitterPreview,
+    openGraphPreview,
+    noPreview,
+    metaTagsCard,
+} from '../src/cards/meta-tags-functions'
 import * as MockData from './mock-data.test'
 
 // Jest imports

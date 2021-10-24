@@ -135,6 +135,15 @@
 .large-btn.btn-expanded:hover {
     background-image: url(../logos/DownArrow_100x100.png);
 }
+.large-btn[href] {
+    color: var(--tabs-bg-color) !important;
+    background-color: var(--color-white) !important;
+    border-color: var(--tabs-bg-color);
+}
+.large-btn[href]:hover {
+    background-color: var(--tabs-bg-color) !important;
+    color: var(--color-white) !important;
+}
 body#id-page-auditor {
     min-width: 540px;
     max-width: 540px;
@@ -383,9 +392,8 @@ body#id-page-auditor .box-card div.code a {
 body#id-page-auditor .box-card div.code a:hover {
     text-decoration: underline !important;
 }
-body#id-page-auditor #id-facebook-card,
-body#id-page-auditor #id-twitter-card,
-body#id-page-auditor #id-swiftype-card {
+body#id-page-auditor .facebook-card,
+body#id-page-auditor .twitter-card {
     width: 100%;
     position: relative;
     overflow: hidden;
@@ -396,70 +404,66 @@ body#id-page-auditor #id-swiftype-card {
     max-width: 504px;
     font-size: 15px;
 }
-body#id-page-auditor #id-facebook-card .preview-label,
-body#id-page-auditor #id-twitter-card .preview-label,
-body#id-page-auditor #id-swiftype-card .preview-label {
+body#id-page-auditor .facebook-card .preview-label,
+body#id-page-auditor .twitter-card .preview-label {
     color: #fff;
     padding: 8px 0;
     text-align: center;
     width: 100%;
 }
-body#id-page-auditor #id-facebook-card h2,
-body#id-page-auditor #id-twitter-card h2,
-body#id-page-auditor #id-swiftype-card h2 {
+body#id-page-auditor .facebook-card h2,
+body#id-page-auditor .twitter-card h2 {
     color: #000;
 }
-body#id-page-auditor #id-facebook-card img,
-body#id-page-auditor #id-twitter-card img,
-body#id-page-auditor #id-swiftype-card img {
+body#id-page-auditor .facebook-card img,
+body#id-page-auditor .twitter-card img {
     border-radius: 0;
     width: 100%;
 }
-body#id-page-auditor #id-facebook-card div,
-body#id-page-auditor #id-twitter-card div,
-body#id-page-auditor #id-swiftype-card div {
+body#id-page-auditor .facebook-card div,
+body#id-page-auditor .twitter-card div {
     padding-top: 8px;
 }
-body#id-page-auditor #id-twitter-card .preview-label {
+body#id-page-auditor .twitter-card .preview-label {
     background-color: #1da1f2;
 }
-body#id-page-auditor #id-twitter-card:hover {
+body#id-page-auditor .twitter-card:hover {
     background-color: #efefef;
 }
-body#id-page-auditor #id-twitter-card div.twitter-card-legend {
+body#id-page-auditor .twitter-card div.twitter-card-legend {
     padding: 12px;
 }
-body#id-page-auditor #id-twitter-card div.twitter-card-legend .twitter-card-title {
+body#id-page-auditor .twitter-card div.twitter-card-legend .twitter-card-title {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
-body#id-page-auditor #id-twitter-card div.twitter-card-legend .twitter-card-domain svg {
+body#id-page-auditor .twitter-card div.twitter-card-legend .twitter-card-domain svg {
     height: 1.25em;
     position: relative;
     line-height: 16px;
     display: inline-block;
     font-size: 13px;
 }
-body#id-page-auditor #id-facebook-card .preview-label {
+body#id-page-auditor .facebook-card .preview-label {
     background-color: #4267b2;
 }
-body#id-page-auditor #id-facebook-card div.open-graph-card-legend {
+body#id-page-auditor .facebook-card div.open-graph-card-legend {
     padding: 12px 16px;
     background-color: #3a3b3c;
 }
-body#id-page-auditor #id-facebook-card div.open-graph-card-legend .open-graph-card-domain {
+body#id-page-auditor .facebook-card div.open-graph-card-legend .open-graph-card-domain {
     line-height: 16px;
     font-size: 12px;
     color: #b0b3b8;
 }
-body#id-page-auditor #id-facebook-card div.open-graph-card-legend h2 {
+body#id-page-auditor .facebook-card div.open-graph-card-legend h2 {
     color: var(--color-white);
     font-size: 17px;
     line-height: 22px;
     margin: 0;
 }
-body#id-page-auditor #id-facebook-card div.open-graph-card-legend .og-description {
+body#id-page-auditor .facebook-card div.open-graph-card-legend .og-description {
     font-size: 12px;
     color: #b0b3b8;
     line-height: 16.08px;

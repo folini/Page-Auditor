@@ -109,14 +109,14 @@ export class Card {
     }
 
     public addCTA(links: iLink[]) {
-        return this.add(
+        return this.#add(
             `<div class='cta-toolbar'>${links
                 .map(link => `<a class='large-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
                 .join(' ')}</div>`
         )
     }
 
-    public add(str: string) {
+    #add(str: string) {
         const tmpDiv = document.createElement('div')
         tmpDiv.innerHTML = str
         if (str.length > 0) {
@@ -132,7 +132,7 @@ export class Card {
     public addExpandableBlock(btnLabel: string, block: string) {
         const divId = disposableId()
         const btnId = disposableId()
-        this.addParagraph(`<a class='large-btn btn-expandable' id='${btnId}'>Show ${btnLabel}</a>`, 'cta-toolbar')
+        this.addParagraph(`<a class='large-btn btn-expandable' id='${btnId}'>${btnLabel}</a>`, 'cta-toolbar')
         this.addParagraph(block, 'code-snippets', divId)
         const btn = this.#div.querySelector(`#${btnId}`) as HTMLAnchorElement
         const div = this.#div.querySelector(`#${divId}`) as HTMLDivElement
@@ -144,7 +144,7 @@ export class Card {
     public addParagraph(text: string | undefined, cssClass: string = '', id: string = '') {
         return text === undefined
             ? this
-            : this.add(
+            : this.#add(
                   `<div${cssClass !== '' ? ` class='${cssClass}'` : ``}${id === '' ? '' : ` id='${id}'`}>${text}</div>`
               )
     }
@@ -163,7 +163,7 @@ export class Card {
         html += table.map(row => `<tr>${row.map(col => `<td>${col}</td>`).join('')}</tr>`).join('')
         html += '</tbody>'
         html += '</table>'
-        return this.add(`<div>${html}</div>`)
+        return this.#add(`<div>${html}</div>`)
     }
 
     public tag(tag: string) {
@@ -202,17 +202,15 @@ export class Card {
     }
 
     #toggle(btn: HTMLAnchorElement, codeDiv: HTMLDivElement) {
-        if (btn.innerHTML.includes('Show')) {
+        if (btn.classList.contains('btn-expandable')) {
             codeDiv.style.display = 'block'
             btn.classList.remove('btn-expandable')
             btn.classList.add('btn-expanded')
-            btn.innerText = btn.innerText.replace('Show', 'Hide')
             btn.parentElement!.style.marginBottom = '16px'
         } else {
             codeDiv.style.display = 'none'
             btn.classList.remove('btn-expanded')
             btn.classList.add('btn-expandable')
-            btn.innerText = btn.innerText.replace('Hide', 'Show')
             btn.parentElement!.style.marginBottom = '0'
         }
     }

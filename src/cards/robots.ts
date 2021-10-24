@@ -7,8 +7,8 @@
 import {Report} from '../report'
 import {sectionActions, ReportGeneratorFunc} from '../main'
 import {lookForSitemaps, readFile, lookForRobotsTxt} from './robots-functions'
-import * as Errors from './errorCards'
-import * as Info from './infoCards'
+import {Errors} from './errors'
+import {Info} from './info'
 import {SitemapList} from '../sitemapList'
 import {Tips} from './tips'
 

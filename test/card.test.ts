@@ -18,7 +18,7 @@ test('Card, without category and link, generates valid HTML', () => {
     const cssClass = 'any-class'
     const body = '<div>valid HTML fragment</div>'
     const links = [] as iLink[]
-    const htmlCode = new Card().open(preTitle, title, links, cssClass).add(body).getDiv().innerHTML
+    const htmlCode = new Card().open(preTitle, title, links, cssClass).addParagraph(body).getDiv().innerHTML
     expect(htmlCode)
         .toBeString()
         .toContain(
@@ -38,7 +38,7 @@ test('Card, with category, generates valid HTML', () => {
     const cssClass = 'any-class'
     const body = '<div>valid HTML fragment</div>'
     const links = [{url: 'https://www.mydomain.com/', label: 'website'}] as iLink[]
-    const htmlCode = new Card().open(preTitle, title, links, cssClass).add(body).getDiv().innerHTML
+    const htmlCode = new Card().open(preTitle, title, links, cssClass).addParagraph(body).getDiv().innerHTML
 
     expect(htmlCode)
         .toBeString()
@@ -59,7 +59,7 @@ test('Card, calling .add() with an empty string, generates valid HTML', () => {
     const cssClass = 'any-class'
     const body = ''
     const links = [{url: 'https://www.mydomain.com/', label: 'website'}] as iLink[]
-    const data = new Card().open(preTitle, title, links, cssClass).add(body).getDiv().innerHTML
+    const data = new Card().open(preTitle, title, links, cssClass).addParagraph(body).getDiv().innerHTML
     expect(data).toBeString().toHTMLValidate()
 })
 

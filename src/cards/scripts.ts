@@ -9,7 +9,7 @@ import {Report} from '../report'
 import {sectionActions, NoArgsNoReturnFunc, disposableId} from '../main'
 import {Mode} from '../colorCode'
 import {codeBlock} from '../codeBlock'
-import * as Errors from './errorCards'
+import {Errors} from './errors'
 import {Tips} from './tips'
 
 const listOfScriptClasses = require('../jsons/scriptClasses.json') as iTrackClass[]
@@ -34,7 +34,7 @@ interface iScript {
 
 const unresolvedJS: iTrackMatch = {
     patterns: [],
-    name: 'Unresolved Javascript Code',
+    name: 'Unrecognized Javascript Code',
     category: 'JavaScript',
     iconClass: 'icon-unclassified',
     description: 'Page Auditor for Technical SEO is not yet able to classify the following JavaScript code.',

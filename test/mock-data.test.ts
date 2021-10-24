@@ -5,8 +5,8 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {htmlEncode} from 'js-htmlencode'
-import {iTag} from '../src/sections/meta'
-import {noPreview, iTagCategory} from '../src/sections/meta-functions'
+import {iTag} from '../src/cards/meta-tags'
+import {noPreview, iTagCategory} from '../src/cards/meta-tags-functions'
 import {Card} from '../src/card'
 
 // Jest imports

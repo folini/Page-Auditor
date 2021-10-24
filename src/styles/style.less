@@ -130,6 +130,17 @@
             background-image: url(../logos/DownArrow_100x100.png);
         }
     }
+
+    &[href] {
+        color: var(--tabs-bg-color) !important;
+        background-color: var(--color-white) !important;
+        border-color: var(--tabs-bg-color);
+
+        &:hover {
+            background-color: var(--tabs-bg-color) !important;
+            color: var(--color-white) !important;
+        }
+    }
 }
 
 body#id-page-auditor {
@@ -410,9 +421,8 @@ body#id-page-auditor {
         }
     }
 
-    #id-facebook-card,
-    #id-twitter-card,
-    #id-swiftype-card {
+    .facebook-card,
+    .twitter-card {
         width: 100%;
         position: relative;
         overflow: hidden;
@@ -441,7 +451,7 @@ body#id-page-auditor {
         }
     }
 
-    #id-twitter-card {
+    .twitter-card {
         .preview-label {
             background-color: #1da1f2;
         }
@@ -466,7 +476,7 @@ body#id-page-auditor {
         }
     }
 
-    #id-facebook-card {
+    .facebook-card {
         .preview-label {
             background-color: #4267b2;
         }

@@ -7,9 +7,9 @@
 import {Tips} from './tips'
 import {Report} from '../report'
 import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../main'
-import {tagCategories, metaTagsCard} from './meta-functions'
-import * as Suggestions from './suggestionCards'
-import * as Errors from './errorCards'
+import {tagCategories, metaTagsCard} from './meta-tags-functions'
+import {Suggestions} from './suggestions'
+import {Errors} from './errors'
 
 export interface iTag {
     tagLabel: string

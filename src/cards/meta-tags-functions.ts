@@ -4,11 +4,11 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {iTag} from './meta'
+import {iTag} from './meta-tags'
 import {Report} from '../report'
 import {Card, iLink} from '../card'
 import {disposableId, copyToClipboard, fileExists} from '../main'
-import * as Errors from './errorCards'
+import {Errors} from './errors'
 import {Mode} from '../colorCode'
 import {htmlEncode} from 'js-htmlencode'
 import {Tips} from './tips'
@@ -143,15 +143,16 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[])
         }
     }
 
-    card.add(`<div id='id-twitter-card'>
-        <div class="preview-label">Twitter Preview</div>
+    card.addParagraph(
+        `<div class="preview-label">Twitter Preview</div>
         ${img.length > 0 && img.startsWith('http') ? `<img id='${imgId}' src='${img}'>` : ``}
         <div class='twitter-card-legend'>
             <div class='twitter-card-title'>${htmlEncode(title)}</div>
             <div class='twitter-card-description'>${htmlEncode(description)}</div>
             ${domain.length > 0 ? `<div class='twitter-card-domain'>${linkIcon} ${domain}</div>` : ''}
-          </div>
-        </div>`)
+         </div>`,
+        'twitter-card'
+    )
 
     if (!img.startsWith('http')) {
         hideCardElement(card, imgId)
@@ -261,15 +262,17 @@ export const openGraphPreview = (card: Card, selectedTags: iTag[], allMeta: iTag
         }
     }
 
-    card.add(`<div id='id-facebook-card'>
+    card.addParagraph(
+        `
             <div class="preview-label">Facebook Preview</div>       
             ${img.length > 0 ? `<img id='${imgId}' src='${img}'>` : ``}
             <div class='open-graph-card-legend'>
               ${url.length > 0 ? `<div class='open-graph-card-domain'>${url.toUpperCase()}</div>` : ''}
               <h2>${htmlEncode(title)}</h2>
               <div class='og-description'>${htmlEncode(description)}</div>
-            </div>
-          </div>`)
+            </div>`,
+        'facebook-card'
+    )
 
     if (!img.startsWith('https://')) {
         hideCardElement(card, imgId)

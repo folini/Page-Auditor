@@ -5,7 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 
-import {robotsToolbarLinks, getSitemapToolbarLinks} from '../src/sections/robots-functions'
+import {robotsToolbarLinks, getSitemapToolbarLinks} from '../src/cards/robots-functions'
 import * as main from '../src/main'
 import * as MockData from './mock-data.test'
 

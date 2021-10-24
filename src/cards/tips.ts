@@ -4,10 +4,10 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {iTag} from './meta'
+import {iTag} from './meta-tags'
 import {codeBlock} from '../codeBlock'
 import {Card, iLink} from '../card'
-import {sitemapMaxSize} from './suggestionCards'
+import {sitemapMaxSize} from './suggestions'
 import {Mode} from '../colorCode'
 import {formatNumber} from '../main'
 

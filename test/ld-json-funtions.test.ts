@@ -4,7 +4,7 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {schemaLinks, ldJsonCard} from '../src/sections/sd-functions'
+import {schemaLinks, ldJsonCard} from '../src/cards/sd-functions'
 import * as MockData from './mock-data.test'
 
 // Jest imports
