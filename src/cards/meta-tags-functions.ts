@@ -7,7 +7,7 @@
 import {iTag} from './meta-tags'
 import {Report} from '../report'
 import {Card, iLink} from '../card'
-import {disposableId, copyToClipboard, fileExists} from '../main'
+import {disposableId, fileExists} from '../main'
 import {Errors} from './errors'
 import {Mode} from '../colorCode'
 import {htmlEncode} from 'js-htmlencode'
@@ -290,7 +290,7 @@ export const tagCategories: iTagCategory[] = [
     {
         title: `Twitter Tags`,
         description:
-            `With Twitter Cards, you can attach rich photos, videos and media experiences to Tweets, helping to drive traffic to your website. ` +
+            `With Twitter Cards meta tags, you can attach rich photos, videos and media experiences to Tweets, helping to drive traffic to your website. ` +
             `Simply add a few lines of markup to your webpage, and users who Tweet links to your content will have a "Card" added to the Tweet that's visible to their followers.`,
         url: 'https://developer.twitter.com/en/docs/twitter-for-websites/cards/guides/getting-started',
         cssClass: `icon-twitter`,
@@ -300,8 +300,9 @@ export const tagCategories: iTagCategory[] = [
     {
         title: `Facebook Tags (OpenGraph)`,
         description:
-            `Open Graph meta tags are snippets of code that control how URLs are displayed when shared on social media. They're part of Facebook's Open Graph protocol and are also used by other social media sites, including LinkedIn and Twitter (if Twitter Cards are absent). ` +
-            `Open Graph meta tags are in the &lt;head&gt; section of a webpage.`,
+            `Open Graph (Facebook) meta tags are snippets of code that control how URLs are displayed when shared on social media. ` +
+            `They're part of Facebook's <i>Open Graph</i> protocol and are also used by other social media sites, including LinkedIn and Twitter (when Twitter specific meta-tags are absent). ` +
+            `Open Graph (Facebook) meta tags are usually included in the <code>&lt;head&gt;</code> section of the webpage.`,
         url: 'https://ogp.me/',
         cssClass: 'icon-open-graph',
         filter: m =>
@@ -358,7 +359,7 @@ export const tagCategories: iTagCategory[] = [
     },
     {
         title: `Standard Tags`,
-        description: `Standard Meta tags are used by Search Engines to gather additional information about ta web page or website. The meta tag "keywords" is currently ignored (because it was abused in the past).`,
+        description: `Standard Meta tags are used by Search Engines to gather additional information about ta web page or website. The meta tag "<i>keywords</i>" is currently ignored (because it was abused in the past).`,
         url: 'https://moz.com/blog/the-ultimate-guide-to-seo-meta-tags',
         cssClass: 'icon-seo',
         filter: m =>
@@ -464,7 +465,7 @@ export const tagCategories: iTagCategory[] = [
     },
     {
         title: `Google Programmable Search Engine Tags`,
-        description: `Google Programmable Search Engine meta tags are used by Google Programmable Search Engine to render the result of a search local to a website.`,
+        description: `Google Programmable Search Engine meta tags are used by GoogThe meta tag "keywords"le Programmable Search Engine to render the result of a search local to a website.`,
         url: 'https://cse.google.com/',
         cssClass: 'icon-google',
         filter: m => m.tagLabel.startsWith(`thumbnail`),
@@ -472,7 +473,7 @@ export const tagCategories: iTagCategory[] = [
     },
     {
         title: `Other Tags`,
-        description: `Many development, optimization, and tracking tools are leveraging the &lt;meta&gt; tags to inject information in a web page minimizing the impact on the loading and rendering time.`,
+        description: `Many development, optimization, and tracking tools are leveraging the <code>&lt;meta&gt;</code> tags to inject information in a web page minimizing the impact on the loading and rendering time.`,
         url: '',
         cssClass: 'icon-tag',
         filter: m => true,
@@ -482,27 +483,23 @@ export const tagCategories: iTagCategory[] = [
 
 export const metaTagsCard = (allTags: iTag[], tagCategory: iTagCategory, selectedTags: iTag[], report: Report) => {
     if (selectedTags.length === 0) {
-        report.addCard(Errors.noMetaTagsInThisCategory(tagCategory.title))
+        report.addCard(Errors.internal_NoMetaTagsInThisCategory(tagCategory.title))
         return
     }
 
     const listOfMeta = selectedTags.map(m => m.originalCode.trim()).join('\n')
     const divId = disposableId()
 
-    const links: iLink[] = [
-        {
-            label: 'Copy Code',
-            onclick: () => copyToClipboard(divId),
-        },
-    ]
+    const links: iLink[] = []
     if (tagCategory.url.length > 0) {
         links.push({url: tagCategory.url, label: 'Reference'})
     }
 
     const card = new Card()
-        .open(`Meta Tags`, tagCategory.title, links, tagCategory.cssClass)
+        .open(`Meta Tags`, tagCategory.title, tagCategory.cssClass)
         .addParagraph(tagCategory.description)
-        .addCodeBlock(listOfMeta, Mode.html, divId)
+        .addCodeBlock(listOfMeta, Mode.html)
+        .addCTA(links)
         .tag('card-ok')
 
     tagCategory.preview(card, selectedTags, allTags)

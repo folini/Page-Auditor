@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------------
 import {Report} from '../report'
 import {sectionActions, ReportGeneratorFunc} from '../main'
-import {lookForSitemaps, readFile, lookForRobotsTxt} from './robots-functions'
+import {createSiteMapCards, readFile, processRobotsTxt, sitemapUrlsFromRobotsTxt} from './robots-functions'
 import {Errors} from './errors'
 import {Info} from './info'
 import {SitemapList} from '../sitemapList'
@@ -14,14 +14,14 @@ import {Tips} from './tips'
 
 const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Report): void => {
     if (tabUrl === '') {
-        const card = Errors.tabUrlUndefined()
+        const card = Errors.chrome_TabUrlUndefined()
         report.addCard(card)
         Tips.noRobotsTxtInChromeBrowserPages(card)
         return
     }
 
     if (tabUrl.startsWith(`chrome://`)) {
-        const card = Errors.unableToAnalyzeChromeTabs()
+        const card = Errors.chrome_UnableToAnalyzeTab()
         report.addCard(card)
         Tips.noRobotsTxtInChromeBrowserPages(card)
         return
@@ -34,11 +34,15 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
     sitemaps.addToReady([defaultSitemapUrl])
 
     readFile(defaultRobotsUrl)
-        .then(robotsTxtBody => lookForRobotsTxt(robotsTxtBody, defaultRobotsUrl, report).then(() => robotsTxtBody))
-        .then(robotsTxtBody => lookForSitemaps(robotsTxtBody, sitemaps, report))
+        .then(robotsTxtBody => {
+            processRobotsTxt(robotsTxtBody, defaultRobotsUrl, report)
+            const newUrls = sitemapUrlsFromRobotsTxt(robotsTxtBody)
+            sitemaps.addToReady(newUrls)
+            return createSiteMapCards(sitemaps, report)
+        })
         .finally(() => {
             if (sitemaps.doneList.length === 0) {
-                const card = Errors.sitemapNotFound(sitemaps.failedList)
+                const card = Errors.sitemap_NotFound(sitemaps.failedList)
                 Tips.missingSitemap(card)
                 report.addCard(card)
             }

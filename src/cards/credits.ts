@@ -39,7 +39,7 @@ const bioLinks = [
 const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report: Report): void => {
     report.addCard(
         new Card()
-            .open(``, `Page Auditor for Technical SEO`, [], 'icon-fc')
+            .open('Credits', `Page Auditor for Technical SEO`, 'icon-fc')
             .addParagraph(
                 `<b>Page Auditor for Technical SEO</b> is a free Google Chrome Extension created by <a href='https://www.linkedin.com/in/francofolini/' target='_new'>Franco Folini</a>.
                 <br><br>The purpose of <i>Page Auditor for Technical SEO</i> is to analyze and show, in a way that is simple and easy to understand, all SEO factors that5 can affect the SEO performance of a website or single webpage.
@@ -52,16 +52,17 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
                     <input type="hidden" name="no_recurring" value="0" />
                     <input type="hidden" name="item_name" value="Support the development and maintenance of the free 'Page Auditor' Chrome Extension." />
                     <input type="hidden" name="currency_code" value="USD" />
-                    <input type="submit" name="submit" class='large-btn' value="Donate" border="0" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+                    <div class='cta-toolbar'>
+                        <input type="submit" name="submit" class='large-btn' value="Donate" border="0" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+                    </div>
                 </form>`,
                 'support-form'
             )
-            .setPreTitle('Credits')
     )
 
     report.addCard(
         new Card()
-            .open(``, `About the Author`, [], 'icon-franco-avatar')
+            .open('Credits', `About the Author`, 'icon-franco-avatar')
             .addParagraph(
                 `<b>Franco Folini</b> has a passion for Web Development and Digital Marketing.` +
                     `<br><br>Franco teaches the <a href='https://bootcamp.berkeley.edu/digitalmarketing/' target='+new'>Digital Marketing Bootcamp</a> for UC Berkeley Extension, and this project was inspired by his students.` +
@@ -75,7 +76,6 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
                         .join('') +
                     `</ul>`
             )
-            .setPreTitle('Credits')
     )
 }
 

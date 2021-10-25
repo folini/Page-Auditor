@@ -96,12 +96,12 @@ async function action(section: SectionType, actions: sectionActions) {
         actions.reportGenerator(tabUrl, data, report)
     } catch (err: any) {
         if (err.message === `Cannot access a chrome:// URL`) {
-            const card = Errors.unableToAnalyzeChromeTabs()
+            const card = Errors.chrome_UnableToAnalyzeTab()
             report.addCard(card)
             Tips.unableToAnalyzeChromeBrowserPages(card)
         } else {
             const tabUrl = tab?.url || ''
-            const card = Errors.unableToAnalyzePage(tabUrl)
+            const card = Errors.chrome_UnableToAnalyzePage(tabUrl)
             report.addCard(card)
             Tips.unableToAnalyzeChromeBrowserPages(card)
         }
@@ -167,12 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
     activateReport(sections[0])
     ;(document.getElementById('id-version') as HTMLElement).innerHTML = `Version ${versionNumber}`
 })
-
-export const copyToClipboard = (divId: string) => {
-    const div = document.getElementById(divId) as HTMLDivElement
-    const txt = div.innerText
-    navigator.clipboard.writeText(txt)
-}
 
 export const formatNumber = (num: number) => num.toLocaleString(undefined, {maximumFractionDigits: 0})
 

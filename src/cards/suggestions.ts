@@ -6,9 +6,14 @@
 // ----------------------------------------------------------------------------
 import {Card, iLink} from '../card'
 
-export const sitemapMaxSize = 5 * 1024 * 1024
+const sitemapMaxSize = 5 * 1024 * 1024
 
 export class Suggestions {
+
+    public static sitemapMaxSize() {
+        return sitemapMaxSize
+    }
+
     public static noOpenGraphMetaTags() {
         const msg1 =
             `Meta Data specific for Facebook, called OpenGraph meta tags, should always be include in every web page. ` +

@@ -43,23 +43,7 @@ export class Card {
         this.#kind = CardKind.report
     }
 
-    public open(preTitle: string, title: string, links: iLink[], cssClass: string) {
-        const btnsContainer = document.createElement('div')
-        btnsContainer.className = 'card-toolbar'
-        links.forEach(link => {
-            const btn = document.createElement('a')
-            btn.className = 'small-btn'
-            btn.innerHTML = link.label
-            if (link.url) {
-                btn.href = link.url
-                btn.target = '_blank'
-            }
-            if (link.onclick) {
-                btn.onclick = link.onclick
-            }
-            btnsContainer.append(btn)
-        })
-
+    public open(preTitle: string, title: string, cssClass: string) {
         this.#div.classList.add(cssClass)
         const preTitleDiv = document.createElement('div')
         preTitleDiv.className = 'cardPreTitle'
@@ -67,7 +51,7 @@ export class Card {
         const titleString = document.createElement('span')
         titleString.className = 'cardTitleString'
         titleString.innerHTML = title
-        this.#head.append(preTitleDiv, titleString, btnsContainer)
+        this.#head.append(preTitleDiv, titleString)
         return this
     }
 
@@ -97,23 +81,32 @@ export class Card {
     }
 
     public error() {
-        return this.open('Error', '', [], 'icon-error').setKind(CardKind.error)
+        return this.open('Error', '', 'icon-error').setKind(CardKind.error)
     }
 
     public suggestion() {
-        return this.open('Suggestion', '', [], 'icon-suggestion').setKind(CardKind.suggestion)
+        return this.open('Suggestion', '', 'icon-suggestion').setKind(CardKind.suggestion)
     }
 
     public info() {
-        return this.open('Info', '', [], 'icon-info').setKind(CardKind.info)
+        return this.open('Info', '', 'icon-info').setKind(CardKind.info)
     }
 
     public addCTA(links: iLink[]) {
-        return this.#add(
-            `<div class='cta-toolbar'>${links
-                .map(link => `<a class='large-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
-                .join(' ')}</div>`
-        )
+        let toolbar = this.#body.querySelector('.cta-toolbar')
+        if(toolbar === null) {
+            toolbar = document.createElement('div')
+            toolbar.className = 'cta-toolbar'
+            this.#body.append(toolbar)
+        }
+        links.forEach(link => {
+            const btn = document.createElement('a')
+            btn.className = 'large-btn'
+            btn.innerHTML = link.label
+            btn.target = '_blank'
+            toolbar!.append(btn)
+        })
+        return this
     }
 
     #add(str: string) {
@@ -125,8 +118,16 @@ export class Card {
         return this
     }
 
-    public addCodeBlock(code: string, mode: Mode, id: string = '') {
-        return this.addParagraph(codeBlock(code, mode, id))
+    public addCodeBlock(code: string, mode: Mode) {
+        const divId = disposableId()
+        this.addParagraph(codeBlock(code, mode, divId))
+        const block = this.#body.querySelector(`#${divId}`)
+        const copyDiv = document.createElement('div')
+        copyDiv.className = 'icon-copy'
+        copyDiv.title = 'Copy code'
+        block!.parentElement!.insertBefore(copyDiv, block)
+        copyDiv.addEventListener('click', () => this.#copyToClipboard(block as HTMLDivElement))
+        return this
     }
 
     public addExpandableBlock(btnLabel: string, block: string) {
@@ -135,9 +136,16 @@ export class Card {
         this.addParagraph(`<a class='large-btn btn-expandable' id='${btnId}'>${btnLabel}</a>`, 'cta-toolbar')
         this.addParagraph(block, 'code-snippets', divId)
         const btn = this.#div.querySelector(`#${btnId}`) as HTMLAnchorElement
-        const div = this.#div.querySelector(`#${divId}`) as HTMLDivElement
-        div.style.display = 'none'
-        btn.addEventListener('click', () => this.#toggle(btn, div))
+        const codeDiv = this.#div.querySelector(`#${divId}`) as HTMLDivElement
+        codeDiv.style.display = 'none'
+        btn.addEventListener('click', () => this.#toggle(btn, codeDiv))
+        ;[...this.#body.querySelectorAll(`#${divId} :is(> div, div).code`)].forEach(block => {
+            const copyDiv = document.createElement('div')
+            copyDiv.className = 'icon-copy'
+            copyDiv.title = 'Copy code'
+            block.parentElement!.insertBefore(copyDiv, block)
+            copyDiv.addEventListener('click', () => this.#copyToClipboard(block as HTMLDivElement))
+        })
         return this
     }
 
@@ -149,13 +157,14 @@ export class Card {
               )
     }
 
-    public addTable(title: string, table: string[][]) {
+    public addTable(title: string, table: string[][], links: iLink[] = []) {
+        const linksHtml = links.map(link => `<a class='small-btn' href='${link.url}' target='_blank'>${link.label}</a>`).join(' ')
         let html = ''
         html += '<table class="card-table">'
         if (title.length > 0) {
             html += `<thead>`
             html += `<tr>`
-            html += `<th colspan='2'>${title}</th>`
+            html += `<th colspan='2'>${title}${linksHtml}</th>`
             html += `</tr>`
             html += `</thead>`
         }
@@ -213,5 +222,11 @@ export class Card {
             btn.classList.add('btn-expandable')
             btn.parentElement!.style.marginBottom = '0'
         }
+    }
+
+    #copyToClipboard(div: HTMLElement) {
+        const txt = div.innerText
+        navigator.clipboard.writeText(txt)
+        alert(`Code copied to clipboard`)
     }
 }

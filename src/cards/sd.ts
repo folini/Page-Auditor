@@ -31,12 +31,12 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, repo
     const jsonStrings: string[] = scripts as string[]
 
     if (tabUrl === '') {
-        report.addCard(Errors.tabUrlUndefined())
+        report.addCard(Errors.chrome_TabUrlUndefined())
         return
     }
 
     if (jsonStrings.length == 0) {
-        const card = Errors.structuredDataNotFound(tabUrl)
+        const card = Errors.structuredData_NotFound(tabUrl)
         report.addCard(card)
         Tips.missingStructuredData(card)
         return
@@ -51,13 +51,13 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, repo
         try {
             const ldJson: iJsonLD = JSON.parse(json)
             if (getSchemaType(ldJson) === '') {
-                const card = Errors.invalidJSON(json)
+                const card = Errors.structuredData_InvalidJSON(json)
                 Tips.invalidStructuredData(card)
                 return
             }
             ldJsonCard(ldJson, tabUrl, occurrences, report)
         } catch (err) {
-            const card = Errors.invalidJSON(json)
+            const card = Errors.structuredData_InvalidJSON(json)
             Tips.invalidStructuredData(card)
         }
     })

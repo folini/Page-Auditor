@@ -7,7 +7,7 @@
 import {iJsonLD, MustBeUniqueOccurrences} from './sd'
 import {Card, iLink} from '../card'
 import {Mode} from '../colorCode'
-import {disposableId, copyToClipboard} from '../main'
+import {disposableId} from '../main'
 import {codeBlock} from '../codeBlock'
 import {Suggestions} from './suggestions'
 import {Report} from '../report'
@@ -15,10 +15,6 @@ import {htmlEncode} from 'js-htmlencode'
 import {Tips} from './tips'
 
 export const schemaLinks = (schemaName: string, ldjsonUrl: string, codeId: string): iLink[] => [
-    {
-        label: 'Copy Code',
-        onclick: () => copyToClipboard(codeId),
-    },
     {
         url: `https://validator.schema.org/#url=${encodeURI(ldjsonUrl)}`,
         label: `Validate`,
@@ -59,11 +55,10 @@ export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string, occurrences: MustBeU
         .open(
             `Structured Data`,
             flattenSchemaName(schemaType),
-            schemaLinks(schemaType, tabUrl, scriptId),
             'icon-ld-json'
         )
         .addParagraph(structuredDataDescription)
-        .addTable('Structured Data Analysis', table)
+        .addTable('Structured Data Analysis', table, schemaLinks(schemaType, tabUrl, scriptId))
         .addExpandableBlock(btnLabel, codeBlock(jsonCode, Mode.json, scriptId))
         .tag('card-ok')
 
@@ -72,13 +67,13 @@ export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string, occurrences: MustBeU
     switch (schemaType) {
         case 'Organization':
             occurrences.organization++
-            if (occurrences.breadcrumbs > 1) {
+            if (occurrences.organization > 1) {
                 Tips.multipleStructuredData(card, schemaType, occurrences.organization)
             }
             break
         case 'WebSite':
             occurrences.website++
-            if (occurrences.breadcrumbs > 1) {
+            if (occurrences.website > 1) {
                 Tips.multipleStructuredData(card, schemaType, occurrences.website)
             }
             break

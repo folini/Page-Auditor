@@ -86,7 +86,7 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, report: Report): v
         .forEach(scr => unresolvedJS.scripts.push(scr.code))
 
     if (trackingItems === null) {
-        const card = Errors.scriptNotFound()
+        const card = Errors.script_NotFound()
         report.addCard(card)
         Tips.internalError(card)
     }
@@ -106,9 +106,10 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, report: Report): v
         const btnLabel = `${trackingItem.scripts.length.toFixed()} Script${plural}`
         const block = trackingItem.scripts.map((script, j) => codeBlock(script, Mode.js, disposableId())).join('')
         const card = new Card()
-            .open(trackingItem.category, trackingItem.name, links, trackingItem.iconClass)
+            .open(trackingItem.category, trackingItem.name, trackingItem.iconClass)
             .addParagraph(trackingItem.description)
             .addExpandableBlock(btnLabel, block)
+            .addCTA(links)
             .tag('card-ok')
         report.addCard(card)
     })

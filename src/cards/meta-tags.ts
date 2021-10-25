@@ -56,7 +56,7 @@ const reportGenerator: ReportGeneratorFunc = (url: string, data: any, report: Re
     })
 
     if (!atLeastOneScript) {
-        const card = Errors.noMetaTagsOnPage()
+        const card = Errors.metaTags_NotFound()
         report.addCard(card)
         Tips.addMetaTags(card)
         return

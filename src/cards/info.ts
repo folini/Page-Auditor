@@ -18,6 +18,6 @@ export class Info {
             .addParagraph(msg1)
             .addParagraph(msg2)
             .addExpandableBlock('SiteMaps Not Loaded', codeBlock(block, Mode.txt))
-            .setTitle('Not All Sitemaps Loaded and Analyzed')
+            .setTitle('Not All Sitemaps Were Loaded and Analyzed')
     }
 }
