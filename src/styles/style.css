@@ -109,6 +109,10 @@
   display: inline-block !important;
   font-size: 12px;
   padding: 6px 16px;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  background-position: 4px center;
+  padding-left: 24px;
 }
 .large-btn:hover {
   color: var(--tabs-bg-color) !important;
@@ -117,32 +121,21 @@
 }
 .large-btn.btn-expandable {
   background-image: url(../logos/RightArrowWhite_100x100.png);
-  background-repeat: no-repeat;
-  background-size: 16px;
-  background-position: 2px center;
-  padding-left: 24px;
 }
 .large-btn.btn-expandable:hover {
   background-image: url(../logos/RightArrow_100x100.png);
 }
 .large-btn.btn-expanded {
   background-image: url(../logos/DownArrowWhite_100x100.png);
-  background-repeat: no-repeat;
-  background-size: 16px;
-  background-position: 2px center;
-  padding-left: 24px;
 }
 .large-btn.btn-expanded:hover {
   background-image: url(../logos/DownArrow_100x100.png);
 }
 .large-btn[href] {
-  color: var(--tabs-bg-color) !important;
-  background-color: var(--color-white) !important;
-  border-color: var(--tabs-bg-color);
+  background-image: url(../logos/LinkWhite_100x100.png);
 }
 .large-btn[href]:hover {
-  background-color: var(--tabs-bg-color) !important;
-  color: var(--color-white) !important;
+  background-image: url(../logos/Link_100x100.png);
 }
 body#id-page-auditor {
   min-width: 540px;
@@ -231,7 +224,7 @@ body#id-page-auditor .box-card h2.cardTitle {
 body#id-page-auditor .box-card h2.cardTitle:after {
   position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
   padding: 0;
   color: #fff;
   height: 100%;
@@ -244,26 +237,25 @@ body#id-page-auditor .box-card h2.cardTitle:after {
   justify-content: center;
   font-size: 18px;
   text-shadow: 1px 1px 9px #858585;
+  background-repeat: no-repeat;
+  background-position-y: center;
+  background-position-x: left;
+  background-size: 48px;
+  content: '';
 }
 body#id-page-auditor .box-card h2.cardTitle.card-ok {
   background-color: #00640026;
   color: var(--color-black);
-  background-position: calc(var(--card-padding) + var(--card-ok-fix-label-with) + 4px) center;
-  padding-left: calc(var(--card-ok-fix-label-with) + var(--card-icon-size) + 2 * var(--card-padding));
 }
 body#id-page-auditor .box-card h2.cardTitle.card-ok:after {
-  content: 'OK';
-  background-color: #006400a3;
+  background-image: url(../logos/OK_100x100.png);
 }
 body#id-page-auditor .box-card h2.cardTitle.card-fix {
   background-color: #ffa00052;
   color: var(--color-black);
-  background-position: calc(var(--card-padding) + var(--card-ok-fix-label-with) + 4px) center;
-  padding-left: calc(var(--card-ok-fix-label-with) + var(--card-icon-size) + 2 * var(--card-padding));
 }
 body#id-page-auditor .box-card h2.cardTitle.card-fix:after {
-  content: 'FIX';
-  background-color: #ffa000de;
+  background-image: url(../logos/WARNING_100x100.png);
 }
 body#id-page-auditor .box-card h2.cardTitle .cardPreTitle {
   font-variant: small-caps;
@@ -348,22 +340,25 @@ body#id-page-auditor .box-card .card-footer {
 }
 body#id-page-auditor .box-card .card-footer .card-tip {
   border: solid 1px var(--border-color);
-  background-color: var(--tip-color);
-  background-image: url(../logos/Suggestion_100x100.png);
-  background-repeat: no-repeat;
-  padding: 16px;
-  background-size: 30px;
-  background-position: calc(100% - 4px) 4px;
+  padding: 0 16px 16px 16px;
   border-radius: 8px 8px 16px 16px;
+  background-color: var(--tip-color);
 }
 body#id-page-auditor .box-card .card-footer .card-tip .tip-title {
   font-weight: bold;
-  padding-bottom: 8px;
+  padding: 8px 16px;
   border-bottom: solid 1px var(--border-color);
   margin-left: -16px;
   margin-right: -16px;
-  padding-right: 16px;
-  padding-left: 16px;
+  background-color: #fddeb5;
+  background-image: url(../logos/Suggestion_100x100.png);
+  background-repeat: no-repeat;
+  background-size: 24px;
+  background-position: calc(100% - 4px) 4px;
+  border-radius: 8px 8px 0 0;
+}
+body#id-page-auditor .box-card .card-footer .card-tip .tip-title code {
+  background-color: transparent!important;
 }
 body#id-page-auditor .box-card .card-footer .card-tip .tip-body {
   padding-bottom: 16px;
@@ -546,14 +541,12 @@ body#id-page-auditor .box-card.icon-ld-json > h2 {
 }
 body#id-page-auditor .box-card.icon-error > h2 {
   background-image: url(../logos/ERROR_100x100.png);
-  background-color: var(--card-error-color);
-  color: white;
-}
-body#id-page-auditor .box-card.icon-error > h2.card-fix:after {
-  background-color: #f44436;
 }
 body#id-page-auditor .box-card.icon-info > h2 {
   background-image: url(../logos/Info_100x100.png);
+}
+body#id-page-auditor .box-card.icon-OK > h2 {
+  background-image: url(../logos/OK_100x100.png);
 }
 body#id-page-auditor .box-card.icon-suggestion > h2 {
   background-color: var(--card-suggestion-color) !important;

@@ -102,7 +102,10 @@
     display: inline-block !important;
     font-size: 12px;
     padding: 6px 16px;
-
+        background-repeat: no-repeat;
+        background-size: 16px;
+        background-position: 4px center;
+        padding-left: 24px;
     &:hover {
         color: var(--tabs-bg-color) !important;
         background-color: var(--color-white) !important;
@@ -111,10 +114,7 @@
 
     &.btn-expandable {
         background-image: url(../logos/RightArrowWhite_100x100.png);
-        background-repeat: no-repeat;
-        background-size: 16px;
-        background-position: 2px center;
-        padding-left: 24px;
+
         &:hover {
             background-image: url(../logos/RightArrow_100x100.png);
         }
@@ -122,23 +122,16 @@
 
     &.btn-expanded {
         background-image: url(../logos/DownArrowWhite_100x100.png);
-        background-repeat: no-repeat;
-        background-size: 16px;
-        background-position: 2px center;
-        padding-left: 24px;
+
         &:hover {
             background-image: url(../logos/DownArrow_100x100.png);
         }
     }
 
     &[href] {
-        color: var(--tabs-bg-color) !important;
-        background-color: var(--color-white) !important;
-        border-color: var(--tabs-bg-color);
-
-        &:hover {
-            background-color: var(--tabs-bg-color) !important;
-            color: var(--color-white) !important;
+        background-image: url(../logos/LinkWhite_100x100.png);
+         &:hover {
+            background-image: url(../logos/Link_100x100.png);
         }
     }
 }
@@ -238,7 +231,7 @@ body#id-page-auditor {
             &:after {
                 position: absolute;
                 top: 0;
-                left: 0;
+                right: 0;
                 padding: 0;
                 color: #fff;
                 height: 100%;
@@ -251,29 +244,27 @@ body#id-page-auditor {
                 justify-content: center;
                 font-size: 18px;
                 text-shadow: 1px 1px 9px #858585;
+                background-repeat: no-repeat;
+                background-position-y: center;
+                background-position-x: left;
+                background-size: 48px;
+                content: '';
             }
-
             &.card-ok {
                 background-color: #00640026;
                 color: var(--color-black);
-                background-position: ~'calc(var(--card-padding) + var(--card-ok-fix-label-with) + 4px)' center;
-                padding-left: ~'calc(var(--card-ok-fix-label-with) + var(--card-icon-size) + 2 * var(--card-padding))';
 
                 &:after {
-                    content: 'OK';
-                    background-color: #006400a3;
+                    background-image: url(../logos/OK_100x100.png);
                 }
             }
 
             &.card-fix {
                 background-color: #ffa00052;
                 color: var(--color-black);
-                background-position: ~'calc(var(--card-padding) + var(--card-ok-fix-label-with) + 4px)' center;
-                padding-left: ~'calc(var(--card-ok-fix-label-with) + var(--card-icon-size) + 2 * var(--card-padding))';
 
                 &:after {
-                    content: 'FIX';
-                    background-color: #ffa000de;
+                    background-image: url(../logos/WARNING_100x100.png);
                 }
             }
 
@@ -371,21 +362,25 @@ body#id-page-auditor {
             padding-top: 0;
             .card-tip {
                 border: solid 1px var(--border-color);
-                background-color: var(--tip-color);
-                background-image: url(../logos/Suggestion_100x100.png);
-                background-repeat: no-repeat;
-                padding: 16px;
-                background-size: 30px;
-                background-position: calc(100% - 4px) 4px;
+                padding: 0 16px 16px 16px;
                 border-radius: 8px 8px 16px 16px;
+                    background-color: var(--tip-color);
                 .tip-title {
                     font-weight: bold;
-                    padding-bottom: 8px;
+                    padding: 8px 16px;
                     border-bottom: solid 1px var(--border-color);
                     margin-left: -16px;
                     margin-right: -16px;
-                    padding-right: 16px;
-                    padding-left: 16px;
+                    background-color: #fddeb5;
+                    background-image: url(../logos/Suggestion_100x100.png);
+                    background-repeat: no-repeat;
+                    background-size: 24px;
+                    background-position: calc(100% - 4px) 4px;
+                    border-radius: 8px 8px 0 0;
+
+                    code {
+                        background-color: transparent!important;                     
+                    }
                 }
                 .tip-body {
                     padding-bottom: 16px;
@@ -593,14 +588,12 @@ body#id-page-auditor {
         }
         &.icon-error > h2 {
             background-image: url(../logos/ERROR_100x100.png);
-            background-color: var(--card-error-color);
-            color: white;
-            &.card-fix:after {
-                background-color: #f44436;
-            }
         }
         &.icon-info > h2 {
             background-image: url(../logos/Info_100x100.png);
+        }
+        &.icon-OK > h2 {
+            background-image: url(../logos/OK_100x100.png);
         }
         &.icon-suggestion > h2 {
             background-color: var(--card-suggestion-color) !important;

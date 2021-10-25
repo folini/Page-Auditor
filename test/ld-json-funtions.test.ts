@@ -18,12 +18,7 @@ test('SchemaLinks() generates proper links', async () => {
     expect(data).toBeArray()
     expect(data.length).toBe(3)
     data.forEach(btn => {
-        if (btn.url) {
             expect(btn.url.match(MockData.RegExIsUrl)).toBeArray()
-        }
-        if (btn.onclick) {
-            expect(btn.onclick).toBeFunction()
-        }
     })
 })
 

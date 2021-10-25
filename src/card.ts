@@ -7,11 +7,11 @@
 import {disposableId} from './main'
 import {codeBlock} from './codeBlock'
 import {Mode} from './colorCode'
+import { runInThisContext } from 'vm'
 
 export interface iLink {
     label: string
-    url?: string
-    onclick?: () => void
+    url: string
 }
 
 export enum CardKind {
@@ -103,6 +103,7 @@ export class Card {
             const btn = document.createElement('a')
             btn.className = 'large-btn'
             btn.innerHTML = link.label
+            btn.href = link.url
             btn.target = '_blank'
             toolbar!.append(btn)
         })
@@ -176,13 +177,15 @@ export class Card {
     }
 
     public tag(tag: string) {
-        if (tag === 'card-ok' && this.#head.classList.contains('card-fix')) {
+        if(tag==='card-ok' && this.#head.classList.contains('icon-fix')) {
             return this
         }
+        const oppositeTag = tag === 'card-ok' ? 'card-fix' : 'card-ok'
+        this.#head.classList.remove(oppositeTag)
         this.#head.classList.add(tag)
         return this
     }
-    public addTip(title: string, txts: string[], cta: iLink = {label: ''}) {
+    public addTip(title: string, txts: string[], cta: iLink = {label: '' ,url: ''}) {
         const tipDiv = document.createElement('div')
         tipDiv.className = 'card-tip'
         const tipTitle = document.createElement('div')
