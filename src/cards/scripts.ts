@@ -11,6 +11,7 @@ import {Mode} from '../colorCode'
 import {codeBlock} from '../codeBlock'
 import {Errors} from './errors'
 import {Tips} from './tips'
+import {Info} from './info'
 
 const listOfScriptClasses = require('../jsons/scriptClasses.json') as iTrackClass[]
 
@@ -62,10 +63,13 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, report: Report): v
         scriptClasses.push(localJsMatch(tabUrl))
     }
 
-    var trackingItems: iTrackMatch[] = []
+    var discoveredScripts: iTrackMatch[] = []
 
+console.log(`Analyzing All Scripts  [${discoveredScripts.length}]`)
     scriptClasses.forEach(cat => {
+        console.log(`Analyzing Scripts Calls [${cat.name}]`)
         scripts.forEach(scr => {
+            console.log(`Analyzing Scripts SRC [${scr.code.substr(0, 25)}]`)
             cat.patterns
                 .map(pattern => scr.code.split('\n')[0].match(new RegExp(pattern, 'ig')))
                 .filter(match => match !== null && match.length > 0)
@@ -77,50 +81,59 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, report: Report): v
                 })
         })
         if (cat.scripts.length > 0) {
-            trackingItems.push(cat)
+            discoveredScripts.push(cat)
         }
     })
 
+    console.log(`Filtering Scripts [${discoveredScripts.length}]`)
     scripts
         .filter(scr => !scr.done && scr.code.match(/^https\:\/\//))
         .forEach(scr => unresolvedJS.scripts.push(scr.code))
 
-    if (trackingItems === null) {
+    if (discoveredScripts === null) {
         const card = Errors.script_NotFound()
         report.addCard(card)
         Tips.internalError(card)
     }
 
-    trackingItems = trackingItems.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
+    console.log(`Sorting Scripts [${discoveredScripts.length}]`)
+    discoveredScripts = discoveredScripts.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
 
     if (unresolvedJS.scripts.length > 0) {
-        trackingItems.push(unresolvedJS)
+        discoveredScripts.push(unresolvedJS)
     }
 
-    trackingItems.forEach(trackingItem => {
+    console.log(`Reporting Scripts [${discoveredScripts.length}]`)
+    discoveredScripts.forEach(discoveredItem => {
+        console.log(`Discovered Script [${discoveredItem.name}][${discoveredItem.url}]`)
         const links: iLink[] = []
-        if (trackingItem.url.length > 0) {
-            links.push({url: trackingItem.url, label: 'Reference'})
+        if (discoveredItem.url.length > 0) {
+            links.push({url: discoveredItem.url, label: 'Reference'})
         }
-        const plural = trackingItem.scripts.length > 1 ? 's' : ''
-        const btnLabel = `${trackingItem.scripts.length.toFixed()} Script${plural}`
-        const block = trackingItem.scripts.map((script, j) => codeBlock(script, Mode.js, disposableId())).join('')
+        const plural = discoveredItem.scripts.length > 1 ? 's' : ''
+        const btnLabel = `${discoveredItem.scripts.length.toFixed()} Script${plural}`
+        const block = discoveredItem.scripts.map((script, j) => codeBlock(script, Mode.js, disposableId())).join('')
         const card = new Card()
-            .open(trackingItem.category, trackingItem.name, trackingItem.iconClass)
-            .addParagraph(trackingItem.description)
+            .open(discoveredItem.category, discoveredItem.name, discoveredItem.iconClass)
+            .addParagraph(discoveredItem.description)
             .addExpandableBlock(btnLabel, block)
             .addCTA(links)
             .tag('card-ok')
         report.addCard(card)
     })
+
+    if(discoveredScripts.length === 0) {
+        const card = Info.noScriptsOnThisPage()
+        report.addCard(card)
+    }
 }
 
 const localJsMatch = (url: string): iTrackMatch => {
     var domainParts = url.split('/')[2].split('.')
     domainParts = domainParts.splice(-2)
-    var patterns = [`.${domainParts.join('.')}/`]
-    patterns.push(`.${domainParts[0]}cdn.${domainParts[1]}/`)
-    patterns.push(`.cdn${domainParts[0]}.${domainParts[1]}/`)
+    var patterns = [`(.|/)${domainParts.join('.')}/`]
+    patterns.push(`(.|/)${domainParts[0]}cdn.${domainParts[1]}/`)
+    patterns.push(`(.|/)cdn${domainParts[0]}.${domainParts[1]}/`)
 
     return {
         patterns: patterns,

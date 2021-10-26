@@ -71,7 +71,7 @@ export class Tips {
         const msg1 = `Something went wrong.`
         const msg2 = `Consider updating the "Page Auditor" Chrome Extension to teh latest version.`
         card.addTip(
-            `Tip #${this.#tipNumber++}: Update Page Auditor to teh latest version`,
+            `Tip #${this.#tipNumber++}: Update Page Auditor to the latest version`,
             [msg1, msg2],
             robotsTxtReference
         )
