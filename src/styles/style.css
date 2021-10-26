@@ -343,6 +343,8 @@ body#id-page-auditor .box-card .card-footer .card-tip {
   padding: 0 16px 16px 16px;
   border-radius: 8px 8px 16px 16px;
   background-color: var(--tip-color);
+  margin-bottom: 24px;
+  margin-top: 16px;
 }
 body#id-page-auditor .box-card .card-footer .card-tip .tip-title {
   font-weight: bold;
@@ -358,7 +360,7 @@ body#id-page-auditor .box-card .card-footer .card-tip .tip-title {
   border-radius: 8px 8px 0 0;
 }
 body#id-page-auditor .box-card .card-footer .card-tip .tip-title code {
-  background-color: transparent!important;
+  background-color: transparent !important;
 }
 body#id-page-auditor .box-card .card-footer .card-tip .tip-body {
   padding-bottom: 16px;
@@ -387,78 +389,73 @@ body#id-page-auditor .box-card div.code a {
 body#id-page-auditor .box-card div.code a:hover {
   text-decoration: underline !important;
 }
-body#id-page-auditor .facebook-card,
-body#id-page-auditor .twitter-card {
+body#id-page-auditor .preview-card {
   width: 100%;
   position: relative;
   overflow: hidden;
   border: solid 1px #cfd9de;
   border-radius: 8px 8px 16px 16px;
   padding: 0;
-  margin: 12px auto 0;
+  margin: 24px auto 0;
   max-width: 504px;
   font-size: 15px;
 }
-body#id-page-auditor .facebook-card .preview-label,
-body#id-page-auditor .twitter-card .preview-label {
+body#id-page-auditor .preview-card .preview-label {
   color: #fff;
   padding: 8px 0;
   text-align: center;
   width: 100%;
 }
-body#id-page-auditor .facebook-card h2,
-body#id-page-auditor .twitter-card h2 {
+body#id-page-auditor .preview-card h2 {
   color: #000;
 }
-body#id-page-auditor .facebook-card img,
-body#id-page-auditor .twitter-card img {
+body#id-page-auditor .preview-card img {
   border-radius: 0;
   width: 100%;
 }
-body#id-page-auditor .facebook-card div,
-body#id-page-auditor .twitter-card div {
+body#id-page-auditor .preview-card div {
   padding-top: 8px;
 }
-body#id-page-auditor .twitter-card .preview-label {
+body#id-page-auditor .preview-card.twitter-card .preview-label {
   background-color: #1da1f2;
 }
-body#id-page-auditor .twitter-card:hover {
+body#id-page-auditor .preview-card.twitter-card:hover {
   background-color: #efefef;
 }
-body#id-page-auditor .twitter-card div.twitter-card-legend {
+body#id-page-auditor .preview-card.twitter-card div.twitter-card-legend {
   padding: 12px;
 }
-body#id-page-auditor .twitter-card div.twitter-card-legend .twitter-card-title {
+body#id-page-auditor .preview-card.twitter-card div.twitter-card-legend .twitter-card-title {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-body#id-page-auditor .twitter-card div.twitter-card-legend .twitter-card-domain svg {
+body#id-page-auditor .preview-card.twitter-card div.twitter-card-legend .twitter-card-domain svg {
   height: 1.25em;
   position: relative;
   line-height: 16px;
   display: inline-block;
   font-size: 13px;
 }
-body#id-page-auditor .facebook-card .preview-label {
+body#id-page-auditor .preview-card.facebook-card .preview-label {
   background-color: #4267b2;
 }
-body#id-page-auditor .facebook-card div.open-graph-card-legend {
+body#id-page-auditor .preview-card.facebook-card div.open-graph-card-legend {
   padding: 12px 16px;
   background-color: #3a3b3c;
 }
-body#id-page-auditor .facebook-card div.open-graph-card-legend .open-graph-card-domain {
+body#id-page-auditor .preview-card.facebook-card div.open-graph-card-legend .open-graph-card-domain {
   line-height: 16px;
   font-size: 12px;
   color: #b0b3b8;
 }
-body#id-page-auditor .facebook-card div.open-graph-card-legend h2 {
+body#id-page-auditor .preview-card.facebook-card div.open-graph-card-legend h2 {
   color: var(--color-white);
   font-size: 17px;
   line-height: 22px;
   margin: 0;
 }
-body#id-page-auditor .facebook-card div.open-graph-card-legend .og-description {
+body#id-page-auditor .preview-card.facebook-card div.open-graph-card-legend .og-description {
   font-size: 12px;
   color: #b0b3b8;
   line-height: 16.08px;

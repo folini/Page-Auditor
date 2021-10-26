@@ -93,6 +93,7 @@ async function action(section: SectionType, actions: sectionActions) {
         }
         const tabUrl = tab.url || ''
         const data = res.length > 0 ? res[0].result : undefined
+        Tips.resetTipCounter()
         actions.reportGenerator(tabUrl, data, report)
     } catch (err: any) {
         if (err.message === `Cannot access a chrome:// URL`) {

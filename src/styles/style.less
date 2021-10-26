@@ -102,10 +102,10 @@
     display: inline-block !important;
     font-size: 12px;
     padding: 6px 16px;
-        background-repeat: no-repeat;
-        background-size: 16px;
-        background-position: 4px center;
-        padding-left: 24px;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    background-position: 4px center;
+    padding-left: 24px;
     &:hover {
         color: var(--tabs-bg-color) !important;
         background-color: var(--color-white) !important;
@@ -130,7 +130,7 @@
 
     &[href] {
         background-image: url(../logos/LinkWhite_100x100.png);
-         &:hover {
+        &:hover {
             background-image: url(../logos/Link_100x100.png);
         }
     }
@@ -364,7 +364,10 @@ body#id-page-auditor {
                 border: solid 1px var(--border-color);
                 padding: 0 16px 16px 16px;
                 border-radius: 8px 8px 16px 16px;
-                    background-color: var(--tip-color);
+                background-color: var(--tip-color);
+                margin-bottom: 24px;
+                margin-top:16px;
+
                 .tip-title {
                     font-weight: bold;
                     padding: 8px 16px;
@@ -379,7 +382,7 @@ body#id-page-auditor {
                     border-radius: 8px 8px 0 0;
 
                     code {
-                        background-color: transparent!important;                     
+                        background-color: transparent !important;
                     }
                 }
                 .tip-body {
@@ -415,15 +418,14 @@ body#id-page-auditor {
         }
     }
 
-    .facebook-card,
-    .twitter-card {
+    .preview-card {
         width: 100%;
         position: relative;
         overflow: hidden;
         border: solid 1px #cfd9de;
         border-radius: 8px 8px 16px 16px;
         padding: 0;
-        margin: 12px auto 0;
+        margin: 24px auto 0;
         max-width: 504px;
         font-size: 15px;
         .preview-label {
@@ -443,56 +445,56 @@ body#id-page-auditor {
         div {
             padding-top: 8px;
         }
-    }
 
-    .twitter-card {
-        .preview-label {
-            background-color: #1da1f2;
-        }
-        &:hover {
-            background-color: #efefef;
+        &.twitter-card {
+            .preview-label {
+                background-color: #1da1f2;
+            }
+            &:hover {
+                background-color: #efefef;
+            }
+
+            div.twitter-card-legend {
+                padding: 12px;
+                .twitter-card-title {
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+                .twitter-card-domain svg {
+                    height: 1.25em;
+                    position: relative;
+                    line-height: 16px;
+                    display: inline-block;
+                    font-size: 13px;
+                }
+            }
         }
 
-        div.twitter-card-legend {
-            padding: 12px;
-            .twitter-card-title {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
+        &.facebook-card {
+            .preview-label {
+                background-color: #4267b2;
             }
-            .twitter-card-domain svg {
-                height: 1.25em;
-                position: relative;
-                line-height: 16px;
-                display: inline-block;
-                font-size: 13px;
-            }
-        }
-    }
+            div.open-graph-card-legend {
+                padding: 12px 16px;
+                background-color: #3a3b3c;
 
-    .facebook-card {
-        .preview-label {
-            background-color: #4267b2;
-        }
-        div.open-graph-card-legend {
-            padding: 12px 16px;
-            background-color: #3a3b3c;
-
-            .open-graph-card-domain {
-                line-height: 16px;
-                font-size: 12px;
-                color: #b0b3b8;
-            }
-            h2 {
-                color: var(--color-white);
-                font-size: 17px;
-                line-height: 22px;
-                margin: 0;
-            }
-            .og-description {
-                font-size: 12px;
-                color: rgb(176, 179, 184);
-                line-height: 16.08px;
+                .open-graph-card-domain {
+                    line-height: 16px;
+                    font-size: 12px;
+                    color: #b0b3b8;
+                }
+                h2 {
+                    color: var(--color-white);
+                    font-size: 17px;
+                    line-height: 22px;
+                    margin: 0;
+                }
+                .og-description {
+                    font-size: 12px;
+                    color: rgb(176, 179, 184);
+                    line-height: 16.08px;
+                }
             }
         }
     }

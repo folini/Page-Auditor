@@ -59,18 +59,28 @@ const tweeterImageSpecs =
 const facebookImageSpecs = `The most frequently recommended resolution for an OG image is 1200 pixels x 627 pixels (1.91/1 ratio). At this size, your thumbnail will be big and stand out from the crowd. Just don't exceed the 5MB size limit.`
 
 export class Tips {
+    static #tipNumber = 1
+
+    public static resetTipCounter() {
+        this.#tipNumber = 1
+    }
+
     // ----------------------------------------------------------------------------
     // INTERNAL ERROR TIPS
     public static internalError(card: Card) {
         const msg1 = `Something went wrong.`
         const msg2 = `Consider updating the "Page Auditor" Chrome Extension to teh latest version.`
-        card.addTip('Tip:Update Page Auditor to teh latest version', [msg1, msg2], robotsTxtReference)
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Update Page Auditor to teh latest version`,
+            [msg1, msg2],
+            robotsTxtReference
+        )
     }
 
     public static unableToAnalyzeChromeBrowserPages(card: Card) {
         const msg1 = `The internal pages of Google Chrome browser as well the empty tabs can not be analyzed by <i>Page Auditor</i> Chrome Extension.`
         const msg2 = `Consider opening any website before opening the "Page Auditor" Chrome Extension`
-        card.addTip('Tip: Open a Regular WebSite or Web Page', [msg1, msg2], robotsTxtReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Open a Regular WebSite or Web Page`, [msg1, msg2], robotsTxtReference)
     }
 
     // ----------------------------------------------------------------------------
@@ -78,7 +88,7 @@ export class Tips {
     public static noRobotsTxtInChromeBrowserPages(card: Card) {
         const msg1 = `The internal pages of Google Chrome browser as well the empty tabs don't have a <code>robots.txt</code> associated.`
         const msg2 = `Consider opening any website before opening the "Page Auditor" Chrome Extension.`
-        card.addTip('Tip: Open a Regular WebSite or Web Page', [msg1, msg2], robotsTxtReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Open a Regular WebSite or Web Page`, [msg1, msg2], robotsTxtReference)
     }
 
     public static duplicateSitemapsInRobots(card: Card, urls: string[]) {
@@ -90,7 +100,7 @@ export class Tips {
             `Sitemap files should be always linked using the safe <code>https</code> protocol.<br>` +
             `This is a list of the duplicate Urls:`
         const msg3 = codeBlock(urls.join('<br>'), Mode.txt)
-        card.addTip('Tip: Remove Duplicate Sitemap Links', [msg1, msg2, msg3], robotsTxtReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Remove Duplicate Sitemap Links`, [msg1, msg2, msg3], robotsTxtReference)
     }
 
     public static unsafeSitemapLinkInRobots(card: Card, urls: string[]) {
@@ -100,7 +110,7 @@ export class Tips {
         let msg2 =
             `It's important to correct and update the sitemap links in the  <code>robots.txt</code> by switching to the <code>https</code> protocol. ` +
             `Sitemap files should be always linked using the safe <code>https</code> protocol.`
-        card.addTip('Tip: Update Unsafe Sitemap Link', [msg1, msg2], robotsTxtReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Update Unsafe Sitemap Link`, [msg1, msg2], robotsTxtReference)
     }
 
     public static addSitemapLinkToRobotsTxt = (card: Card) => {
@@ -111,7 +121,11 @@ export class Tips {
             `You don't need to list each individual Sitemap listed in the index file.`
         const msg3 = `A link to a <code>sitemap.xml</code> should be added to the <code>robots.txt</code> file with a line similar to the following:`
         const msg4 = codeBlock(`Sitemap: https://www.example.com/sitemap.xml`, Mode.txt)
-        card.addTip('Tip: Link Your Sitemap.xml From Robots.txt', [msg1, msg2, msg3, msg4], robotsTxtReference)
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Link Your Sitemap.xml From Robots.txt`,
+            [msg1, msg2, msg3, msg4],
+            robotsTxtReference
+        )
     }
 
     public static malformedRobotsTxt(card: Card) {
@@ -119,21 +133,21 @@ export class Tips {
             `Double check the syntax of the <code>robots.txt</code> and update it ASAP. ` +
             `It's important for the <code>robots.txt</code> file to be consistent with the standard syntax. `
         const msg2 = `The <code>Robots.txt</code> of a website, if present, is extensively used by all Search Engines bots a it's a very important factor in SEO ranking of the site.`
-        card.addTip('Fix Robots.txt Syntax', [msg1], robotsTxtReference)
+        card.addTip(`Tip  #${this.#tipNumber++}: Fix Robots.txt Syntax`, [msg1], robotsTxtReference)
     }
 
     public static emptyRobotsTxt(card: Card) {
         const msg1 =
             `It's critical to add the missing content to the <code>robots.txt</code> file. ` +
             `Robots.txt are a very critical factor in SEO ranking.`
-        card.addTip('Add Content to Robots.txt', [msg1], robotsTxtReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Add Content to Robots.txt`, [msg1], robotsTxtReference)
     }
 
     public static missingRobotsTxt(card: Card) {
         const msg1 =
             `It's critical to add the missing <code>robots.txt</code> file. ` +
             `Robots.txt are a very important factor in SEO ranking.`
-        card.addTip('Add Robots.txt file', [msg1], robotsTxtReference)
+        card.addTip(`Tip  #${this.#tipNumber++}: Add Robots.txt file`, [msg1], robotsTxtReference)
     }
 
     public static sitemapInRobotsDoesNotExist(card: Card, url: string) {
@@ -141,7 +155,7 @@ export class Tips {
             `The <code>robots.txt</code> file list <code>sitemap.xml</code> url pointing to a file that doesn't exist. ` +
             `This is the broken link:`
         const msg2 = codeBlock(url, Mode.txt)
-        card.addTip('Add Robots.txt file', [msg1, msg2], robotsTxtReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Add Robots.txt file`, [msg1, msg2], robotsTxtReference)
     }
 
     // ------------------------------------------------------------------------
@@ -149,7 +163,7 @@ export class Tips {
     public static noSitemapInChromeBrowserPages(card: Card) {
         const msg1 = `The internal pages of Google Chrome browser as well the empty tabs don't have a <code>sitemap.xml</code> associated.`
         const msg2 = `Consider opening any website before opening the "Page Auditor" Chrome Extension`
-        card.addTip('Tip: Open a Regular WebSite or Web Page', [msg1, msg2], robotsTxtReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Open a Regular WebSite or Web Page`, [msg1, msg2], robotsTxtReference)
     }
 
     public static missingSitemap(card: Card) {
@@ -159,7 +173,7 @@ export class Tips {
         const msg2 =
             `A good XML sitemap acts as a roadmap of your website that leads Google to all your important pages. ` +
             `XML sitemaps can be good for SEO, as they allow Google to find your essential website pages quickly, even if your internal linking isn't perfect.`
-        card.addTip('Add a Sitemap.xml File', [msg1, msg2], sitemapSyntaxReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Add a Sitemap.xml File`, [msg1, msg2], sitemapSyntaxReference)
     }
 
     public static uncompressedLargeSitemap(card: Card, url: string, size: number) {
@@ -172,7 +186,7 @@ export class Tips {
         const msg2 =
             `Compressing your sitemap.xml with <i>gzip</i> will reduce the load on your server and speedup upload and download of the file. ` +
             `However, there are no SEO direct benefits in compressing a sitemap.`
-        card.addTip('Tip: Compress Sitemap', [msg1, msg2], sitemapSyntaxReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Compress Sitemap`, [msg1, msg2], sitemapSyntaxReference)
     }
 
     public static sitemapWithoutXmlExtension = (card: Card, url: string) => {
@@ -180,14 +194,14 @@ export class Tips {
             `This sitemap's url is lacking the standard extension for XML files: <code>.xml</code>. ` +
             `Consider to adopt the best practices for sitemaps by adding the <code>.xml</code> extension. ` +
             `However, Google bot should be able to process your sitemaps even if they don't have the correct extension.`
-        card.addTip('Tip: Add the XML Extension to Your Sitemap', [msg1], sitemapSyntaxReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Add the XML Extension to Your Sitemap`, [msg1], sitemapSyntaxReference)
     }
 
     public static compressedSitemapNotFound(card: Card, url: string) {
         const msg1 =
             `This compressed file at the doesn't exist. ` +
             `Upload the file to the webserver to let Google bot properly index the website.`
-        card.addTip(`Tip: Upload The Missing Compressed Sitemap File`, [msg1], sitemapReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Upload The Missing Compressed Sitemap File`, [msg1], sitemapReference)
     }
 
     public static malformedSitemapXml(card: Card) {
@@ -195,7 +209,7 @@ export class Tips {
             `Double check the syntax of the <code>sitemap.xml</code> and update it ASAP. ` +
             `It's important for the <code>sitemap.xml</code> file to be consistent with the standard XML syntax. `
         const msg2 = `The <code>sitemap.xml</code> of a website, if present, is extensively used by all Search Engines bots a it's a very important factor in SEO ranking of the site.`
-        card.addTip('Fix Sitemap.xml Syntax', [msg1, msg2], sitemapSyntaxReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Fix Sitemap.xml Syntax`, [msg1, msg2], sitemapSyntaxReference)
     }
 
     // ------------------------------------------------------------------------
@@ -205,56 +219,81 @@ export class Tips {
         const msg1 =
             `Meta Data should always be include in every web page. Meta tags provide important information to teh browser and to the Search Engine bots about the page. ` +
             `Also Meta tags allow the page to control how it will be shared by users providing recommendation for title, image and descriptions to be use for sharing post on Social Media .`
-        card.addTip('Tip: Add Meta Tags', [msg1], metaTagsReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Add Meta Tags`, [msg1], metaTagsReference)
     }
 
     public static tagImage_AddTag(card: Card, platform: Platform, tag: string) {
         const msg1 =
             `This page is lacking the <code>${tag}</code> meta tag to use with ${platform} when posting about this page.<br>` +
-            `This is an example of the ${platform} Meta-Tag that should be added:`
+            `This is an example of the ${platform} Meta Tag that should be added:`
         const msg2 = codeBlock(`<meta property="${tag}" content="https://www.example.com/my_image.jpg">`, Mode.html)
         const msg3 = platform === 'Twitter' ? tweeterImageSpecs : facebookImageSpecs
-        card.addTip(`Tip: Add the <code>${tag}</code> Image Meta-Tag`, [msg1, msg2, msg3], 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference)
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Add the <code>${tag}</code> Image Meta Tag`,
+            [msg1, msg2, msg3],
+            'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        )
     }
 
-    public static tagImage_UploadImage(card: Card, platform: Platform, tag: string, url: string) {
-        const msg1 = `The image at following url specified in the <code>${tag}</code> meta tags for ${platform} doesn't exist.`
-        const msg2 = codeBlock(url, Mode.txt)
+    public static tagImage_UploadImage(card: Card, platform: Platform, tag: iTag) {
+        const msg1 = `The image at following url specified in the <code>${tag.tagLabel}</code> meta tags for ${platform} doesn't exist.`
+        const msg2 = codeBlock(tag.tagValue, Mode.txt)
         const msg3 = `Upload the missing image or fix the url to maximize the visual impact on ${platform} of every posts about this page.`
         const msg4 = platform === 'Twitter' ? tweeterImageSpecs : facebookImageSpecs
-        card.addTip(`Tip: Upload The ${platform} Meta Tag Image`, [msg1, msg2, msg3, msg4], 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference)
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Upload The ${platform} Meta Tag Image`,
+            [msg1, msg2, msg3, msg4],
+            'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        )
     }
 
-    public static tag_AddValue(card: Card, platform: Platform, tag: string) {
-        const msg1 = `The <code>${tag}</code> tag doesn't contain any value.`
+    public static tag_AddValue(card: Card, platform: Platform, tag: iTag) {
+        const msg1 = `The <code>${tag.tagLabel}</code> tag doesn't contain any value.`
         const msg2 = `Add the missing value to maximize the impact of every on ${platform} post about this page.`
-        card.addTip(`Tip: Update The <code>${tag}</code> Meta Tag`, [msg1, msg2], platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference)
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Update The <code>${tag.tagLabel}</code> Meta Tag`,
+            [msg1, msg2],
+            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        )
     }
 
-    public static tagImage_ReplacePlaceholder(card: Card, platform: Platform, tag: string, url: string) {
-        const msg1 = `The image at following url in the <code>${tag}</code> meta tags for ${platform} is only a placeholder.`
-        const msg2 = codeBlock(url, Mode.txt)
+    public static tagImage_ReplacePlaceholder(card: Card, platform: Platform, tag: iTag) {
+        const msg1 = `The image at following url in the <code>${tag.tagLabel}</code> meta tags for ${platform} is only a placeholder.`
+        const msg2 = codeBlock(tag.tagValue, Mode.txt)
         const msg3 = `Upload an image to maximize the visual impact of posts on ${platform} sharing this page.`
         const msg4 = platform === 'Twitter' ? tweeterImageSpecs : facebookImageSpecs
-        card.addTip(`Tip: Replace the Image Placeholder in <code>${tag}</code>`, [msg1, msg2, msg3, msg4], 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference)
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Replace the Image Placeholder in <code>${tag.tagLabel}</code>`,
+            [msg1, msg2, msg3, msg4],
+            'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        )
     }
 
-    public static tag_ReplacePlaceholder(card: Card, platform: Platform, tag: string, placeholder: string) {
-        const msg1 = `The <code>${tag}</code> tag appears to contain only a short placeholder, the string "<i>${placeholder}</i>", for the tag value.`
+    public static tag_ReplacePlaceholder(card: Card, platform: Platform, tag: iTag) {
+        const msg1 = `The <code>${tag.tagLabel}</code> tag appears to contain only a short placeholder, the string "<i>${tag.tagValue}</i>", for the tag value.`
         const msg2 = `Replace the title placeholder to maximize the impact of posts on ${platform} sharing this page.`
-        card.addTip(`Tip: Replace The Placeholder in the <code>${tag}</code> Meta Tag`, [msg1, msg2], 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference)
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Replace The Placeholder in the <code>${tag.tagLabel}</code> Meta Tag`,
+            [msg1, msg2],
+            'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        )
     }
 
-    public static tag_OverMaxLength(card: Card, platform: Platform, tag: string, tagValue: string, maxLength: string) {
-        const msg1 = `The <code>${tag}</code> tag is ${tagValue.length} characters long. It's longer than the maximum length allowed of ${maxLength} for this tag.`
-        const msg2 = `Reduce the length of the tag value, or ${platform} will automatically truncate it.`
-        card.addTip(`Tip: Make the <code>${tag}</code> Meta Tag Shorter`, [msg1, msg2], 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference)
-    }
-
-    public static tag_OverRecommendedLength(card: Card, platform: Platform, tag: string, tagValue: string, recommendedLength: string) {
-        const msg1 = `The <code>${tag}</code> tag is ${tagValue.length} characters long. It's longer than the recommended length of ${recommendedLength} for this tag.`
-        const msg2 = `Reduce the length of the tag value to maximize the impact of posts on ${platform} sharing this page.`
-        card.addTip(`Tip: Reduce the Length of the <code>${tag}</code> Meta Tag`, [msg1, msg2], 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference)
+    public static tag_OverRecommendedLength(
+        card: Card,
+        platform: Platform,
+        tag: iTag,
+        maxLength: string,
+        recommendedLength: string
+    ) {
+        const msg1 = `On this page, the <code>${tag.tagLabel}</code> tag's value is ${tag.tagValue.length} characters long.`
+        const msg2 = `The maximum length for this tag is ${maxLength}. Best practices recommend to keep the field length length under ${recommendedLength}.`
+        const msg3 = `Reduce the length of the tag value to make sure your ${tag.tagLabel} will not be trimmed by ${platform} and to maximize the impact of the posts sharing this page on all devices.`
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Shorten the <code>${tag.tagLabel}</code> Meta Tag`,
+            [msg1, msg2, msg3],
+            'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        )
     }
 
     public static tag_BeSpecific(card: Card, platform: Platform, tag: string, fallbackTag: iTag | undefined) {
@@ -272,37 +311,52 @@ export class Tips {
         } else if (tag.includes('description')) {
             exampleTagValue = `My short description of the page for ${platform}`
         }
-        const msg1 =
-            `${platform} is currently using the <code>${fallbackTag.tagLabel}</code> meta tag instead of the more specific <code>${tag}</code> tag to generate a preview of this page. ` +
-            `Best practices recommend to use the specific meta tags for the ${platform} platform to maximize the performance of all posts sharing this page.`
-        const msg2 = `This is an example of the ${platform} Meta-Tag that should be added:`
-        const msg3 = codeBlock(`<meta property="${tag}" content="${exampleTagValue}">`, Mode.html)
-        card.addTip(`Tip: Add the <code>${tag}</code> Meta-Tag`, [msg1, msg2, msg3], platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference)
+        const msg1 = `When parsing this page, the ${platform} bot will fall back to the <code>${fallbackTag.tagLabel}</code> meta tag because the page is missing the more specific <code>${tag}</code> tag.`
+        const msg2 = `Best practices recommend to use the specific meta tags for the ${platform} platform to maximize the performance of all posts sharing this page.`
+        const msg3 = `This is an example of the ${platform} Meta Tag that should be added:`
+        const msg4 = codeBlock(`<meta property="${tag}" content="${exampleTagValue}">`, Mode.html)
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Add the <code>${tag}</code> Meta Tag`,
+            [msg1, msg2, msg3, msg4],
+            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        )
     }
 
-    public static tag_UpdateRelativePath(card: Card, platform: Platform, tagName: string, htmlTag: string) {
-        const msg1 = `The page Meta Tag <code>${tagName}</code> for ${platform} is using a relative url path.`
+    public static tag_UpdateRelativePath(card: Card, platform: Platform, tag: iTag) {
+        const msg1 = `The page Meta Tag <code>${tag.tagLabel}</code> for ${platform} is using a relative url path.`
         const msg2 =
             `Links in the Meta Tags should be always absolute paths, starting with <code>https://</code>. ` +
             `This is the meta tag you should fix:`
-        const msg3 = codeBlock(htmlTag, Mode.html)
-        card.addTip(`Tip: Change <code>${tagName}</code> Url Paths to Absolute`, [msg1, msg2, msg3], platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference)
+        const msg3 = codeBlock(tag.originalCode, Mode.html)
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Change <code>${tag.tagLabel}</code> Url Paths to Absolute`,
+            [msg1, msg2, msg3],
+            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        )
     }
 
-    public static tag_UpdateUnsafeUrl(card: Card, platform: Platform, tagName: string, htmlTag: string) {
+    public static tag_UpdateUnsafeUrl(card: Card, platform: Platform, tag: iTag) {
         const msg1 =
-            `The url in the Meta Tag <code>${tagName}</code> for ${platform} is using the unsafe and now obsolete <code>http</code> protocol. ` +
+            `The url in the Meta Tag <code>${tag.tagLabel}</code> for ${platform} is using the unsafe and now obsolete <code>http</code> protocol. ` +
             `Links in the Meta Tags should be always use the safest <code>https</code> protocol.`
         const msg2 = `This is the meta tag you should fix:`
-        const msg3 = codeBlock(htmlTag, Mode.html)
-        card.addTip(`Tip: Change <code>${tagName}</code> Url Protocol To HTTPS`, [msg1, msg2, msg3], platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference)
+        const msg3 = codeBlock(tag.originalCode, Mode.html)
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Change <code>${tag.tagLabel}</code> Url Protocol To HTTPS`,
+            [msg1, msg2, msg3],
+            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        )
     }
 
     public static tag_Missing(card: Card, platform: Platform, tagName: string) {
         const msg1 =
             `The Meta Tag <code>${tagName}</code> for ${platform} is missing. ` +
-            `Add the Meta Tag to maximize your visibility om ${platform} when people are sharing this page.`
-        card.addTip(`Tip: Add the <code>${tagName}</code> Meta Tag`, [msg1], platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference)
+            `Add it to maximize your visibility on ${platform} when people are sharing this page.`
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Add the <code>${tagName}</code> Meta Tag`,
+            [msg1],
+            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        )
     }
 
     public static tag_Obsolete(card: Card, platform: Platform, tagName: string, htmlTag: string) {
@@ -310,7 +364,11 @@ export class Tips {
             `The Meta Tag <code>${tagName}</code> for ${platform} is considered obsolete. ` +
             `Remove the following Meta Tag to comply with the best practices recommended by ${platform}.`
         const msg2 = codeBlock(htmlTag, Mode.html)
-        card.addTip(`Tip: Remove the <code>${tagName}</code> Meta Tag`, [msg1, msg2], platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference)
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Remove the <code>${tagName}</code> Meta Tag`,
+            [msg1, msg2],
+            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        )
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -318,7 +376,11 @@ export class Tips {
     public static multipleStructuredData(card: Card, objectName: string, occurrences: number) {
         const msg1 = `Detected ${occurrences.toFixed()} copies of the "${objectName}" Structured Data snippet.`
         const msg2 = `Consider removing the duplicates and merging the information about the ${objectName} into one single snippet.`
-        card.addTip(`Tip: Merge the "${objectName}" Data Structures`, [msg1, msg2], structuredDataReference)
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Merge the "${objectName}" Data Structures`,
+            [msg1, msg2],
+            structuredDataReference
+        )
     }
 
     public static missingStructuredData(card: Card) {
@@ -326,12 +388,16 @@ export class Tips {
         const msg2 =
             `Structured data is important for SEO because it helps search engines find and understand your content and website. ` +
             `It's also an important way to prepare for the future of search, as Google and other engines continue to personalize the user experience and answer questions directly on their SERPs.`
-        card.addTip('Tip: Add Structured Data Snippets', [msg1, msg2], structuredDataHowToUse)
+        card.addTip(`Tip #${this.#tipNumber++}: Add Structured Data Snippets`, [msg1, msg2], structuredDataHowToUse)
     }
 
     public static invalidStructuredData(card: Card) {
         const msg1 = `A Structured Data snippet contains invalid JSON code blocking the Search Engine spiders/bots from efficiently indexing the page.`
         const msg2 = `Fix the LD-JSON code to benefit from the inclusion of Structured Data in the page.`
-            card.addTip('Fix the Invalid Structured Data Snippet', [msg1], structuredDataReference)
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Fix the Invalid Structured Data Snippet`,
+            [msg1],
+            structuredDataReference
+        )
     }
 }
