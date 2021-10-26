@@ -1126,6 +1126,15 @@ body#id-page-auditor .box-card.icon-33across > h2 {
 body#id-page-auditor .box-card.icon-conversant > h2 {
   background-image: url(../logos/Conversant_100x100.png);
 }
+body#id-page-auditor .box-card.icon-paypal > h2 {
+  background-image: url(../logos/PayPal_100x100.png);
+}
+body#id-page-auditor .box-card.icon-addtoany > h2 {
+  background-image: url(../logos/AddToAny_100x100.png);
+}
+body#id-page-auditor .box-card.icon-tune > h2 {
+  background-image: url(../logos/Tune_100x100.png);
+}
 body#id-page-auditor .icon-linkedin:not(.box-card) {
   background-image: url(../logos/LinkedInAds_100x100.png);
 }

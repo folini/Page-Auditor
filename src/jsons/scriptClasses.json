@@ -8,6 +8,14 @@
         "url": "https://site.adform.com/"
     },
     {
+        "patterns": ["(.|/)addtoany.com/"],
+        "name": "AddToAny",
+        "category": "Sharing Links",
+        "iconClass": "icon-addtoany",
+        "description": "AddToAny is a universal sharing platform that can be integrated into a website by use of a web widget or plugin.",
+        "url": "https://www.addtoany.com/"
+    },
+    {
         "patterns": ["(.|/)adform.net/"],
         "name": "ADForm",
         "category": "Tracking &amp; Analytics",
@@ -961,6 +969,14 @@
         "url": "https://parrable.com/"
     },
     {
+        "patterns": ["(.|/)paypal.com/", "(.|/)paypalobjects.com/"],
+        "name": "PayPal",
+        "category": "Online Payments Platform",
+        "iconClass": "icon-paypal",
+        "description": "PayPal is an American company operating an online payments system in the countries that support online money transfers, and serves as an electronic alternative to traditional paper methods such as checks and money orders.",
+        "url": "https://paypal.com/"
+    },
+    {
         "patterns": ["(.|/)pendo.io/"],
         "name": "Pendo",
         "category": "Product Experience",
@@ -1209,7 +1225,7 @@
         "url": "https://www.teads.com/"
     },
     {
-        "patterns": ["(.|/)tiqcdn.com/", "(.|/)tealium.com/", "(.|/)tealiumiq.com/"],
+        "patterns": ["(.|/)tiqcdn.com/", "(.|/)tealium.com/", "(.|/)tealiumiq.com/", "(.|/)rmtag.com"],
         "name": "Tealium Tag Manager",
         "category": "Ads &amp; Tracking",
         "iconClass": "icon-tealium",
@@ -1239,6 +1255,14 @@
         "iconClass": "icon-trustpilot",
         "description": "Trustpilot.com is a Danish consumer review website founded in Denmark in 2007 which hosts reviews of businesses worldwide. Nearly 1 million new reviews are posted each month. The site offers freemium services to businesses.",
         "url": "https://trustpilot.com/"
+    },
+    {
+        "patterns": ["(.|/)go2sdk.com/", "(.|/)go2cloud.com/", "(.|/)tune.com/"],
+        "name": "Tune",
+        "category": "Ads &amp; Affiliates",
+        "iconClass": "icon-tune",
+        "description": "Tune is a platform for marketing partnerships, affiliates.",
+        "url": "https://www.tune.com/"
     },
     {
         "patterns": ["(.|/)ads-twitter", "(.|/)twitter.com/", "(.|/)analytics.twitter", "(.|/)twimg.twitter"],

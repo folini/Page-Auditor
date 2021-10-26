@@ -286,9 +286,9 @@ export class Tips {
         maxLength: string,
         recommendedLength: string
     ) {
-        const msg1 = `On this page, the <code>${tag.tagLabel}</code> tag's value is ${tag.tagValue.length} characters long.`
-        const msg2 = `The maximum length for this tag is ${maxLength}. Best practices recommend to keep the field length length under ${recommendedLength}.`
-        const msg3 = `Reduce the length of the tag value to make sure your ${tag.tagLabel} will not be trimmed by ${platform} and to maximize the impact of the posts sharing this page on all devices.`
+        const msg1 = `On this page, the <code>${tag.tagLabel}</code> tag is <b>${tag.tagValue.length}</b> characters long.`
+        const msg2 = `The maximum length for this tag is <b>${maxLength}</b>. Best practices recommend to keep the field length length under <b>${recommendedLength}</b>.`
+        const msg3 = `Reduce the length of the tag value to make sure your <code>${tag.tagLabel}</code> will not be trimmed by ${platform} on posts sharing this page on all devices.`
         card.addTip(
             `Tip #${this.#tipNumber++}: Shorten the <code>${tag.tagLabel}</code> Meta Tag`,
             [msg1, msg2, msg3],

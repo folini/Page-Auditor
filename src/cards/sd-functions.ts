@@ -106,6 +106,9 @@ const getTypes = (ldJson: iJsonLD, level = 0): SdType[] => {
             }
             if (ldJson.url) {
                 keyValueDesc.push(descriptionLine(`Url`, `<a href='${ldJson.url}' target='_new'>${ldJson.url}</a>`))
+                if(getSchemaType(ldJson)=== 'ImageObject') {
+                    keyValueDesc.push(`<img src='${ldJson.url}' style='max-width:90%;margin:8px auto;display:block;border: solid 1px #c0c0c0;'>`)
+                }
             }
             if (ldJson.price && ldJson.priceCurrency) {
                 keyValueDesc.push(
@@ -132,6 +135,16 @@ const getTypes = (ldJson: iJsonLD, level = 0): SdType[] => {
             }
             if (ldJson.telephone) {
                 keyValueDesc.push(descriptionLine(`Phone`, ` ${ldJson.telephone as string}`))
+            }
+            if (ldJson.areaServed) {
+                keyValueDesc.push(descriptionLine(`areaServed`, ` ${ldJson.areaServed as string}`))
+            }
+            if (ldJson.availableLanguage ) {
+                if(Array.isArray(ldJson.availableLanguage)){
+                    keyValueDesc.push(descriptionLine(`areaServed`, ` ${(ldJson.areaServed as string[]).join('<br>')}`))
+                } else {
+                    keyValueDesc.push(descriptionLine(`areaServed`, ` ${ldJson.areaServed as string}`))
+                }
             }
             if (ldJson.email) {
                 keyValueDesc.push(descriptionLine(`Email`, `${ldJson.email as string}`))
