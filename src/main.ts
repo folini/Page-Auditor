@@ -170,4 +170,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 export const formatNumber = (num: number) => num.toLocaleString(undefined, {maximumFractionDigits: 0})
 
-export const fileExists = (url: string) => fetch(url, {method: 'HEAD', cache: 'no-store'}).then(r => r.status == 200)
+export const fileExists = (url: string) => fetch(url, {method: 'HEAD', cache: 'no-store'})
+.then(r => r.status === 200)

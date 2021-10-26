@@ -222,6 +222,10 @@ export const openGraphPreview = (card: Card, selectedTags: iTag[], allMeta: iTag
             Tips.tag_AddValue(card, 'Facebook', descriptionTag.tagLabel)
         } else if (descriptionTag.tagValue.length <= 4) {
             Tips.tag_ReplacePlaceholder(card, 'Facebook', descriptionTag.tagLabel, descriptionTag.tagValue)
+        } else if (descriptionTag.tagValue.length > 200) {
+            Tips.tag_OverMaxLength(card, 'Facebook', descriptionTag.tagLabel, descriptionTag.tagValue, '110 (200 when the url is missing)')
+        } else if (descriptionTag.tagValue.length > 50) {
+            Tips.tag_OverRecommendedLength(card, 'Facebook', descriptionTag.tagLabel, descriptionTag.tagValue, '50')
         }
     } else {
         if (description.length > 0) {

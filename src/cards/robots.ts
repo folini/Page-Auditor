@@ -38,8 +38,13 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
             processRobotsTxt(robotsTxtBody, defaultRobotsUrl, report)
             const newUrls = sitemapUrlsFromRobotsTxt(robotsTxtBody)
             sitemaps.addToReady(newUrls)
-            return createSiteMapCards(sitemaps, report)
         })
+        .catch(() => {
+            const card = Errors.robotsTxt_NotFound(defaultRobotsUrl)
+            report.addCard(card)
+            Tips.missingRobotsTxt(card) 
+        })
+        .then(()=> createSiteMapCards(sitemaps, report))
         .finally(() => {
             if (sitemaps.doneList.length === 0) {
                 const card = Errors.sitemap_NotFound(sitemaps.failedList)

@@ -245,6 +245,18 @@ export class Tips {
         card.addTip(`Tip: Replace The Placeholder in the <code>${tag}</code> Meta Tag`, [msg1, msg2], 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference)
     }
 
+    public static tag_OverMaxLength(card: Card, platform: Platform, tag: string, tagValue: string, maxLength: string) {
+        const msg1 = `The <code>${tag}</code> tag is ${tagValue.length} characters long. It's longer than the maximum length allowed of ${maxLength} for this tag.`
+        const msg2 = `Reduce the length of the tag value, or ${platform} will automatically truncate it.`
+        card.addTip(`Tip: Make the <code>${tag}</code> Meta Tag Shorter`, [msg1, msg2], 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference)
+    }
+
+    public static tag_OverRecommendedLength(card: Card, platform: Platform, tag: string, tagValue: string, recommendedLength: string) {
+        const msg1 = `The <code>${tag}</code> tag is ${tagValue.length} characters long. It's longer than the recommended length of ${recommendedLength} for this tag.`
+        const msg2 = `Reduce the length of the tag value to maximize the impact of posts on ${platform} sharing this page.`
+        card.addTip(`Tip: Reduce the Length of the <code>${tag}</code> Meta Tag`, [msg1, msg2], 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference)
+    }
+
     public static tag_BeSpecific(card: Card, platform: Platform, tag: string, fallbackTag: iTag | undefined) {
         if (fallbackTag === undefined) {
             this.tag_Missing(card, platform, tag)
@@ -274,7 +286,7 @@ export class Tips {
             `Links in the Meta Tags should be always absolute paths, starting with <code>https://</code>. ` +
             `This is the meta tag you should fix:`
         const msg3 = codeBlock(htmlTag, Mode.html)
-        card.addTip(`Tip: Change "${tagName}" Url Paths to Absolute`, [msg1, msg2, msg3], platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference)
+        card.addTip(`Tip: Change <code>${tagName}</code> Url Paths to Absolute`, [msg1, msg2, msg3], platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference)
     }
 
     public static tag_UpdateUnsafeUrl(card: Card, platform: Platform, tagName: string, htmlTag: string) {

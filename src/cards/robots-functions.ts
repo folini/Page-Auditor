@@ -15,23 +15,22 @@ import {codeBlock} from '../codeBlock'
 import {htmlDecode} from 'js-htmlencode'
 import {SitemapList} from '../sitemapList'
 
-export const readFile = (url: string) => {
-    return fileExists(url)
+export const readFile = (url: string) =>
+    fileExists(url)
         .then(() => {
             if (url.match(/\.gz($|\?)/) !== null) {
-                // Do not load compressed files
                 return Promise.resolve('')
             }
-        })
-        .then(() => fetch(url))
-        .then(response => {
-            if (!response.ok || response.status !== 200) {
-                return Promise.reject()
-            }
-            return response.text()
+            return fetch(url)
+                .then(response => {
+                    if (!response.ok || response.status !== 200) {
+                        return Promise.reject()
+                    }
+                    return response.text()
+                })
+                .catch(() => Promise.reject())
         })
         .catch(() => Promise.reject())
-}
 
 const sitemapCard = (url: string, sitemaps: SitemapList, report: Report) =>
     readFile(url)
@@ -48,11 +47,7 @@ const sitemapCard = (url: string, sitemaps: SitemapList, report: Report) =>
                 ]
 
                 const card = new Card()
-                    .open(
-                        `Sitemap #${sitemaps.doneList.length + 1} (Compressed)`,
-                        fileName,
-                        'icon-sitemap'
-                    )
+                    .open(`Sitemap #${sitemaps.doneList.length + 1} (Compressed)`, fileName, 'icon-sitemap')
                     .addParagraph(`Found a compressed <code>sitemap.xml</code> file at the url:`)
                     .addCodeBlock(url, Mode.txt)
                     .addTable('Sitemap Analysis', table, getSitemapToolbarLinks(url, ''))
@@ -105,11 +100,7 @@ const sitemapCard = (url: string, sitemaps: SitemapList, report: Report) =>
             ]
 
             const card = new Card()
-                .open(
-                    `Sitemap  #${sitemaps.doneList.length + 1}`,
-                    fileName,
-                    'icon-sitemap'
-                )
+                .open(`Sitemap  #${sitemaps.doneList.length + 1}`, fileName, 'icon-sitemap')
                 .addParagraph(`Found a <code>sitemap.xml</code> file at the url:`)
                 .addCodeBlock(url, Mode.txt)
                 .addParagraph(sitemapXmlDescription)
@@ -130,10 +121,7 @@ const sitemapCard = (url: string, sitemaps: SitemapList, report: Report) =>
 
             return
         })
-        .catch(() => {
-            sitemaps.addToFailed([url])
-            return
-        })
+        .catch(() => sitemaps.addToFailed([url]))
 
 export const createSiteMapCards = (sitemaps: SitemapList, report: Report) => {
     const promises = sitemaps.readyList.map(url => sitemapCard(url, sitemaps, report))
@@ -305,7 +293,7 @@ export const robotsToolbarLinks = (robotsUrl: string, divId: string) => [
         url: `https://en.ryte.com/free-tools/robots-txt/?refresh=1&useragent=Googlebot&submit=Evaluate&url=${encodeURI(
             robotsUrl
         )}`,
-    }
+    },
 ]
 
 export const getSitemapToolbarLinks = (sitemapUrl: string, divId: string): iLink[] => [
@@ -314,5 +302,5 @@ export const getSitemapToolbarLinks = (sitemapUrl: string, divId: string): iLink
             sitemapUrl
         )}`,
         label: `Validate`,
-    }
+    },
 ]
