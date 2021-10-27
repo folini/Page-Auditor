@@ -16,7 +16,7 @@ import {Card} from "./card"
 import {version as versionNumber} from '../package.json'
 import * as JsonLd from './cards/sd'
 import * as Scripts from './cards/scripts'
-import * as Credits from './cards/credits'
+import * as Credits from './cards/about'
 import * as Meta from './cards/meta-tags'
 import * as Intro from './cards/intro'
 import * as Robots from './cards/robots'
@@ -41,12 +41,6 @@ type SectionType = {
 }
 
 const sections: SectionType[] = [
-    {
-        tabId: 'id-intro',
-        name: 'Intro',
-        reportId: 'id-report-intro',
-        actions: Intro.actions,
-    },
     {
         tabId: 'id-meta',
         name: 'Meta<br/>Tags',
@@ -73,7 +67,7 @@ const sections: SectionType[] = [
     },
     {
         tabId: 'id-credits',
-        name: 'Credits',
+        name: 'About',
         reportId: 'id-report-credits',
         actions: Credits.actions,
     },
@@ -140,7 +134,7 @@ worker.onmessage = event => {
     copyDiv.className = 'icon-copy'
     copyDiv.title = 'Copy code'
     elem.insertBefore(copyDiv, elem.firstChild)
-    elem.addEventListener('click', () => Card.copyToClipboard(elem as HTMLDivElement))
+    copyDiv.addEventListener('click', () => Card.copyToClipboard(elem as HTMLDivElement))
 }
 
 export const sendTaskToWorker = (divId: string, mode: Mode, code: string) => {

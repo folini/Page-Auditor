@@ -256,7 +256,7 @@ export const openGraphPreview = (card: Card, selectedTags: iTag[], allMeta: iTag
             Tips.tag_NoValue(card, 'Facebook', descriptionTag)
         } else if (descriptionTag.tagValue.length <= 4) {
             Tips.tag_Placeholder(card, 'Facebook', descriptionTag)
-        } else if (descriptionTag.tagValue.length > 55) {
+        } else if (descriptionTag.tagValue.length > 110) {
             Tips.tag_OverRecommendedLength(card, 'Facebook', descriptionTag, '110 (200 when the url is missing)', '55')
         }
     } else {

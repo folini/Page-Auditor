@@ -240,7 +240,7 @@ const robotsTxtCard = (url: string, robotsTxtBody: string): Card => {
         .tag(`card-ok`)
 
     if (linksToSitemap.length === 0) {
-        Tips.addSitemapLinkToRobotsTxt(card)
+        Tips.addSitemapLinkToRobotsTxt(card, new URL(url).origin)
     }
 
     const unsafeUrls = linksToSitemap.filter(url => url.includes(`http://`))

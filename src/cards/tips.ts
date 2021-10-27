@@ -118,14 +118,14 @@ export class Tips {
         card.addTip(`Tip #${this.#tipNumber++}: Update Unsafe Sitemap Link`, [msg1, msg2], robotsTxtReference)
     }
 
-    public static addSitemapLinkToRobotsTxt = (card: Card) => {
+    public static addSitemapLinkToRobotsTxt = (card: Card, domain: string) => {
         const msg1 = `Linking a Sitemap from <code>Robots.txt</code> is a way to ensure Google bot doesn't miss it. It's an optional directive, but strongly recommended.`
         const msg2 =
             `This directive is independent of the user-agent line, so it doesn't matter where you place it in your file. ` +
             `If you have a Sitemap index file, you can include the location of just that file. ` +
             `You don't need to list each individual Sitemap listed in the index file.`
         const msg3 = `A link to a <code>sitemap.xml</code> should be added to the <code>robots.txt</code> file with a line similar to the following:`
-        const msg4 = codeBlock(`Sitemap: https://www.example.com/sitemap.xml`, Mode.txt)
+        const msg4 = codeBlock(`Sitemap: ${domain}/sitemap.xml`, Mode.txt)
         card.addTip(
             `Tip #${this.#tipNumber++}: Link Your Sitemap.xml From Robots.txt`,
             [msg1, msg2, msg3, msg4],

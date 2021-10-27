@@ -321,9 +321,10 @@ body#id-page-auditor .box-card :is(.card-body, .card-footer) table.card-table th
 }
 body#id-page-auditor .box-card :is(.card-body, .card-footer) table.card-table td {
   border: solid 1px var(--border-color-light);
-  padding: 2px 4px;
+  padding: 6px 4px;
   font-size: 13px;
   min-width: 100px;
+  word-break: break-all;
 }
 body#id-page-auditor .box-card :is(.card-body, .card-footer) table.card-table td div.sd-description-line {
   margin-bottom: 6px;
