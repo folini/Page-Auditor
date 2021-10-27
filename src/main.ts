@@ -12,7 +12,7 @@ import './logos/Logo_256x256.png'
 import {Report} from './report'
 import {Mode} from './colorCode'
 import {Errors} from './cards/errors'
-import {Card} from "./card"
+import {Card} from './card'
 import {version as versionNumber} from '../package.json'
 import * as JsonLd from './cards/sd'
 import * as Scripts from './cards/scripts'
@@ -172,5 +172,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 export const formatNumber = (num: number) => num.toLocaleString(undefined, {maximumFractionDigits: 0})
 
-export const fileExists = (url: string) => fetch(url, {method: 'HEAD', cache: 'no-store'})
-.then(r => r.status === 200)
+export const fileExists = (url: string) => fetch(url, {method: 'HEAD', cache: 'no-store'}).then(r => r.status === 200)

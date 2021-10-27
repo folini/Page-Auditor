@@ -23,9 +23,6 @@ export class Info {
 
     public static noScriptsOnThisPage() {
         const msg1 = `No External Scripts were found on this page.`
-        return new Card()
-            .info()
-            .addParagraph(msg1)
-            .setTitle('No JavaScripts found on this page')
+        return new Card().info().addParagraph(msg1).setTitle('No JavaScripts found on this page')
     }
 }

@@ -9,7 +9,6 @@ import {Card, iLink} from '../card'
 const sitemapMaxSize = 5 * 1024 * 1024
 
 export class Suggestions {
-
     public static sitemapMaxSize() {
         return sitemapMaxSize
     }

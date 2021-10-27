@@ -115,7 +115,7 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, report: Report): v
         report.addCard(card)
     })
 
-    if(discoveredScripts.length === 0) {
+    if (discoveredScripts.length === 0) {
         const card = Info.noScriptsOnThisPage()
         report.addCard(card)
     }

@@ -8,14 +8,6 @@
         "url": "https://site.adform.com/"
     },
     {
-        "patterns": ["(.|/)addtoany.com/"],
-        "name": "AddToAny",
-        "category": "Sharing Links",
-        "iconClass": "icon-addtoany",
-        "description": "AddToAny is a universal sharing platform that can be integrated into a website by use of a web widget or plugin.",
-        "url": "https://www.addtoany.com/"
-    },
-    {
         "patterns": ["(.|/)adform.net/"],
         "name": "ADForm",
         "category": "Tracking &amp; Analytics",
@@ -62,6 +54,14 @@
         "iconClass": "icon-ada",
         "description": "Ada is a computer software company that features a chatbot-based platform that helps enterprise businesses to automate customer experience.",
         "url": "https://www.ada.cx/"
+    },
+    {
+        "patterns": ["(.|/)addtoany.com/"],
+        "name": "AddToAny",
+        "category": "Sharing Links",
+        "iconClass": "icon-addtoany",
+        "description": "AddToAny is a universal sharing platform that can be integrated into a website by use of a web widget or plugin.",
+        "url": "https://www.addtoany.com/"
     },
     {
         "patterns": ["(.|/)adnxs.com/", "(.|/)xandr.com/", "(.|/)appnexus.com/"],
@@ -706,6 +706,14 @@
         "url": "https://jivox.com/"
     },
     {
+        "patterns": ["(.|/)justuno.com/", "(.|/)jst.ai"],
+        "name": "JustUno",
+        "category": "Website Conversions",
+        "iconClass": "icon-justuno",
+        "description": "Justuno is a tool for conversion rate optimization. With justUno suite, you can increase email list growth, grow your audience, and see all of your analytics in real time.",
+        "url": "https://www.justuno.com/"
+    },
+    {
         "patterns": ["(.|/)krxd.net/"],
         "name": "Krux (SalesForce)",
         "category": "Tracking &amp; Analytics",
@@ -1185,20 +1193,20 @@
         "url": "https://sharpspring.com/"
     },
     {
+        "patterns": ["(.|/)subbly.com/", "(.|/)subbly.co/", "(.|/)subbly.me/"],
+        "name": "Subbly",
+        "category": "Ecommerce Platform",
+        "iconClass": "icon-subbly",
+        "description": "Subbly is a platform for the needs of subscription businesses that has everything in one single, seamlessly integrated, all-in-one ecosystem.",
+        "url": "https://www.subbly.co/"
+    },
+    {
         "patterns": ["(.|/)swiftypecdn.com/", "(.|/)swiftype.com/"],
         "name": "Swiftype",
         "category": "Local Search Engine",
         "iconClass": "icon-swiftype",
         "description": "Swiftype Site Search is a powerful, customizable, cloud-based site search platform. Create and manage a tailored search experience for your public facing website with best-in-class relevance, intuitive customization, and rich analytics.",
         "url": "https://swiftype.com/"
-    },
-    {
-        "patterns": ["(.|/)tidio.co/", "(.|/)tidio.com/"],
-        "name": "Tidio",
-        "category": "Chat Bot",
-        "iconClass": "icon-tidio",
-        "description": "Tidio is a communicator for businesses offering live chat, chatbots, Messenger and e-mail in one place. Their software reduces the time that it takes to communicate with your customers while also helping to boost sales and user satisfaction by engaging visitors in real-time.",
-        "url": "https://www.tidio.com/"
     },
     {
         "patterns": ["(.|/)taboola.com/", "(.|/)perfectmarket.com/"],
@@ -1239,6 +1247,14 @@
         "iconClass": "icon-thetradedesk",
         "description": "The Trade Desk Inc is a global technology company that markets a software platform used by digital ad buyers to purchase data-driven digital advertising campaigns across various ad formats and devices.",
         "url": "https://www.thetradedesk.com/"
+    },
+    {
+        "patterns": ["(.|/)tidio.co/", "(.|/)tidio.com/"],
+        "name": "Tidio",
+        "category": "Chat Bot",
+        "iconClass": "icon-tidio",
+        "description": "Tidio is a communicator for businesses offering live chat, chatbots, Messenger and e-mail in one place. Their software reduces the time that it takes to communicate with your customers while also helping to boost sales and user satisfaction by engaging visitors in real-time.",
+        "url": "https://www.tidio.com/"
     },
     {
         "patterns": ["(.|/)tiktok.com/"],
@@ -1302,7 +1318,7 @@
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-warnermedia-analytics",
         "description": "Internal Warner Media tracking system.",
-        "url": ""
+        "url": "https://turner.com/"
     },
     {
         "patterns": ["(.|/)wts2.one/"],
@@ -1369,12 +1385,12 @@
         "url": "https://www.zendesk.com/"
     },
     {
-        "patterns": ["(.|/)boomtrain.com/"],
+        "patterns": ["(.|/)boomtrain.com/", "(.|/)zetaglobal.com/"],
         "name": "Zeta Global",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-zeta-global",
         "description": "Zeta Global tracking system.",
-        "url": ""
+        "url": "https://zetaglobal.com/"
     },
     {
         "patterns": ["(.|/)zoominfo.com/"],
@@ -1401,16 +1417,8 @@
         "url": "https://jquery.com/"
     },
     {
-        "patterns": ["(.|/)justuno.com/", "(.|/)jst.ai"],
-        "name": "JustUno",
-        "category": "Website Conversions",
-        "iconClass": "icon-justuno",
-        "description": "Justuno is a tool for conversion rate optimization. With justUno suite, you can increase email list growth, grow your audience, and see all of your analytics in real time.",
-        "url": "https://www.justuno.com/"
-    },
-    {
         "patterns": ["(.|/)userzoom.com/"],
-        "name": "userZoom",
+        "name": "UserZoom",
         "category": "Tracking &amp; Profiling",
         "iconClass": "icon-userzoom",
         "description": "UserZoom can source a wide variety of demographics and segment users based on their age, gender, household income, geographic location and device type. This profiling helps with targeting, allowing us to deliver the most relevant users for your research, no matter what your study type.",

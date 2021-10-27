@@ -20,19 +20,19 @@ export const codeBlock = (code: string, mode: Mode, id: string = '') => {
         case Mode.html:
         case Mode.xml:
             codeToDisplay = htmlEncode(html_beautify(code))
-                sendTaskToWorker(id, mode, codeToDisplay)
-                codeToDisplay = codeToDisplay.replace(/\n/g, '<br/>').replace(/\s/gm, '&nbsp;')
+            sendTaskToWorker(id, mode, codeToDisplay)
+            codeToDisplay = codeToDisplay.replace(/\n/g, '<br/>').replace(/\s/gm, '&nbsp;')
             break
 
         case Mode.js:
         case Mode.json:
             codeToDisplay = js_beautify(code)
-                sendTaskToWorker(id, mode, codeToDisplay)
-                codeToDisplay = codeToDisplay.replace(/\n/g, '<br/>').replace(/\s/gm, '&nbsp;')
+            sendTaskToWorker(id, mode, codeToDisplay)
+            codeToDisplay = codeToDisplay.replace(/\n/g, '<br/>').replace(/\s/gm, '&nbsp;')
             break
         case Mode.txt:
-                sendTaskToWorker(id, mode, code)
-                codeToDisplay = code.replace(/\n/g, '<br/>').replace(/\s/gm, '&nbsp;')
+            sendTaskToWorker(id, mode, code)
+            codeToDisplay = code.replace(/\n/g, '<br/>').replace(/\s/gm, '&nbsp;')
     }
 
     return `<div class='code' id='${id}'>${codeToDisplay}</div>`

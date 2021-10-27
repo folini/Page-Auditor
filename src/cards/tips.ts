@@ -14,7 +14,7 @@ import {formatNumber} from '../main'
 export type Platform = 'Twitter' | 'Facebook' | 'Instagram' | 'LinkedIn' | 'YouTube' | 'Reddit'
 
 type iTagExample = {
-    msg : string
+    msg: string
     code: string
 }
 
@@ -220,7 +220,7 @@ export class Tips {
     // ------------------------------------------------------------------------
     // META TAGS TIPS
 
-    static #tagExample(tagLabel:string, platform: string, card: Card): iTagExample {
+    static #tagExample(tagLabel: string, platform: string, card: Card): iTagExample {
         let exampleTagValue = ''
         if (tagLabel.includes('url')) {
             exampleTagValue = `https://mydomain.com/my_page.htm`
@@ -233,15 +233,15 @@ export class Tips {
         } else if (tagLabel === 'twitter:site') {
             exampleTagValue = `@myTwitterId`
         }
-        if(exampleTagValue==='') {
+        if (exampleTagValue === '') {
             return {
-                msg: '', 
-                code: ''
+                msg: '',
+                code: '',
             }
         }
         return {
             msg: `This is an example of the ${platform} Meta Tag that should be added:`,
-            code: codeBlock(`<meta property="${tagLabel}" content="${exampleTagValue}">`, Mode.html)
+            code: codeBlock(`<meta property="${tagLabel}" content="${exampleTagValue}">`, Mode.html),
         }
     }
 
@@ -253,11 +253,23 @@ export class Tips {
     }
 
     public static tag_NoValue(card: Card, platform: Platform, tag: iTag) {
-        const msg1 = `The <code>${tag.tagLabel}</code> tag doesn't contain any value.`
+        const msg1 = `The <code>${tag.label}</code> tag doesn't contain any value.`
         const msg2 = `Add the missing value to maximize the impact of every on ${platform} post about this page.`
         card.addTip(
-            `Tip #${this.#tipNumber++}: Update The <code>${tag.tagLabel}</code> Meta Tag`,
+            `Tip #${this.#tipNumber++}: Update The <code>${tag.label}</code> Meta Tag`,
             [msg1, msg2],
+            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+        )
+    }
+
+    public static tag_InvalidValue(card: Card, platform: Platform, tag: iTag, acceptedValues: string[]) {
+        const msg1 = `The <code>${tag.label}</code> tag has an invalid value (misspelling?):`
+        const msg2 = codeBlock(`<meta property="${tag.label}" content="${tag.value}">`, Mode.html)
+        const msg3 = `Please select an item from the following list of valid values:`
+        const msg4 = codeBlock(acceptedValues.join('<br>'), Mode.txt)
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Fix The <code>${tag.label}</code> Meta Tag`,
+            [msg1, msg2, msg3, msg4],
             platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
         )
     }
@@ -276,8 +288,8 @@ export class Tips {
     }
 
     public static tagImage_NoImage(card: Card, platform: Platform, tag: iTag) {
-        const msg1 = `The image at following url specified in the <code>${tag.tagLabel}</code> meta tags for ${platform} doesn't exist.`
-        const msg2 = codeBlock(tag.tagValue, Mode.txt)
+        const msg1 = `The image at following url specified in the <code>${tag.label}</code> meta tags for ${platform} doesn't exist.`
+        const msg2 = codeBlock(tag.value, Mode.txt)
         const msg3 = `Upload the missing image or fix the url to maximize the visual impact on ${platform} of every posts about this page.`
         const msg4 = platform === 'Twitter' ? tweeterImageSpecs : facebookImageSpecs
         card.addTip(
@@ -288,39 +300,38 @@ export class Tips {
     }
 
     public static tagImage_Placeholder(card: Card, platform: Platform, tag: iTag) {
-        const msg1 = `The image at following url in the <code>${tag.tagLabel}</code> meta tags for ${platform} is only a placeholder.`
-        const msg2 = codeBlock(tag.tagValue, Mode.txt)
+        const msg1 = `The image at following url in the <code>${tag.label}</code> meta tags for ${platform} is only a placeholder.`
+        const msg2 = codeBlock(tag.value, Mode.txt)
         const msg3 = `Upload an image to maximize the visual impact of posts on ${platform} sharing this page.`
         const msg4 = platform === 'Twitter' ? tweeterImageSpecs : facebookImageSpecs
         card.addTip(
-            `Tip #${this.#tipNumber++}: Replace the Image Placeholder in <code>${tag.tagLabel}</code>`,
+            `Tip #${this.#tipNumber++}: Replace the Image Placeholder in <code>${tag.label}</code>`,
             [msg1, msg2, msg3, msg4],
             'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
         )
     }
 
     public static tagUrl_NonCanonical(card: Card, platform: Platform, tag: iTag, canonical: string) {
-        const msg1 =
-            `The Meta Tag <code>${tag.tagLabel}</code> for ${platform} must be consistent with the canonical URL specified in the HTML of the page.`
-        const msg2 = `Replace your current <code>${tag.tagLabel}</code> code:`
-        const msg3 = codeBlock(`<meta property="${tag.tagLabel}" content="${tag.tagValue}">`, Mode.html)
-        const msg4 = `With the following <code>${tag.tagLabel}</code> code:`
-        const msg5 = codeBlock(`<meta property="${tag.tagLabel}" content="${canonical}">`, Mode.html)
+        const msg1 = `The Meta Tag <code>${tag.label}</code> for ${platform} must be consistent with the canonical URL specified in the HTML of the page.`
+        const msg2 = `Replace your current <code>${tag.label}</code> code:`
+        const msg3 = codeBlock(`<meta property="${tag.label}" content="${tag.value}">`, Mode.html)
+        const msg4 = `With the following <code>${tag.label}</code> code:`
+        const msg5 = codeBlock(`<meta property="${tag.label}" content="${canonical}">`, Mode.html)
         card.addTip(
-            `Tip #${this.#tipNumber++}: Update the <code>${tag.tagLabel}</code> Meta Tag with Canonical Url`,
+            `Tip #${this.#tipNumber++}: Update the <code>${tag.label}</code> Meta Tag with Canonical Url`,
             [msg1, msg2, msg3, msg4, msg5],
             platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
         )
     }
 
     public static tagUrl_RelativePath(card: Card, platform: Platform, tag: iTag) {
-        const msg1 = `The page Meta Tag <code>${tag.tagLabel}</code> for ${platform} is using a relative url path.`
+        const msg1 = `The page Meta Tag <code>${tag.label}</code> for ${platform} is using a relative url path.`
         const msg2 =
             `Links in the Meta Tags should be always absolute paths, starting with <code>https://</code>. ` +
             `This is the current meta tag you should fix:`
-        const msg3 = codeBlock(tag.originalCode, Mode.html)
+        const msg3 = codeBlock(tag.code, Mode.html)
         card.addTip(
-            `Tip #${this.#tipNumber++}: Change the <code>${tag.tagLabel}</code> Url to Absolute`,
+            `Tip #${this.#tipNumber++}: Change the <code>${tag.label}</code> Url to Absolute`,
             [msg1, msg2, msg3],
             platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
         )
@@ -328,23 +339,23 @@ export class Tips {
 
     public static tagUrl_ObsoleteProtocol(card: Card, platform: Platform, tag: iTag) {
         const msg1 =
-            `The url in the Meta Tag <code>${tag.tagLabel}</code> for ${platform} is using the unsafe and now obsolete <code>http</code> protocol. ` +
+            `The url in the Meta Tag <code>${tag.label}</code> for ${platform} is using the unsafe and now obsolete <code>http</code> protocol. ` +
             `Links in the Meta Tags should be always use the safest <code>https</code> protocol.`
         const msg2 = `This is the meta tag you should fix:`
-        const msg3 = codeBlock(tag.originalCode, Mode.html)
+        const msg3 = codeBlock(tag.code, Mode.html)
         card.addTip(
-            `Tip #${this.#tipNumber++}: Change <code>${tag.tagLabel}</code> Url Protocol To HTTPS`,
+            `Tip #${this.#tipNumber++}: Change <code>${tag.label}</code> Url Protocol To HTTPS`,
             [msg1, msg2, msg3],
             platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
         )
     }
-    
+
     public static tag_Placeholder(card: Card, platform: Platform, tag: iTag) {
-        const msg1 = `The <code>${tag.tagLabel}</code> tag appears to contain only a short placeholder for the tag value:`
-        const msg2 = codeBlock(`<meta property="${tag.tagLabel}" content="${tag.tagValue}">`, Mode.html)
+        const msg1 = `The <code>${tag.label}</code> tag appears to contain only a short placeholder for the tag value:`
+        const msg2 = codeBlock(`<meta property="${tag.label}" content="${tag.value}">`, Mode.html)
         const msg3 = `Replace the placeholder with something more meaningful to maximize the impact of posts on ${platform} sharing this page.`
         card.addTip(
-            `Tip #${this.#tipNumber++}: Replace The Placeholder in the <code>${tag.tagLabel}</code> Meta Tag`,
+            `Tip #${this.#tipNumber++}: Replace The Placeholder in the <code>${tag.label}</code> Meta Tag`,
             [msg1, msg2, msg3],
             'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
         )
@@ -357,11 +368,11 @@ export class Tips {
         maxLength: string,
         recommendedLength: string
     ) {
-        const msg1 = `On this page, the <code>${tag.tagLabel}</code> tag is <b>${tag.tagValue.length}</b> characters long.`
-        const msg2 = `The maximum length for this tag is <b>${maxLength}</b>. Best practices recommend to keep the field length length under <b>${recommendedLength}</b>.`
-        const msg3 = `Reduce the length of the tag value to make sure your <code>${tag.tagLabel}</code> will not be trimmed by ${platform} on posts sharing this page on all devices.`
+        const msg1 = `On this page, the <code>${tag.label}</code> tag is <b>${tag.value.length}</b> characters long.`
+        const msg2 = `The maximum length for this tag is <b>${maxLength}</b>, but best practices recommend to keep the field length length under <b>${recommendedLength}</b>.`
+        const msg3 = `Reduce the length of the tag value to make sure your <code>${tag.label}</code> will not be trimmed by ${platform} on posts sharing this page on all devices.`
         card.addTip(
-            `Tip #${this.#tipNumber++}: Shorten the <code>${tag.tagLabel}</code> Meta Tag`,
+            `Tip #${this.#tipNumber++}: Shorten the <code>${tag.label}</code> Meta Tag`,
             [msg1, msg2, msg3],
             'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
         )
@@ -372,7 +383,7 @@ export class Tips {
             this.tag_Missing(card, platform, tagLabel)
             return
         }
-        const msg1 = `When parsing this page, the ${platform} bot will fall back to the <code>${fallbackTag.tagLabel}</code> meta tag because the page is missing the more specific <code>${tagLabel}</code> tag.`
+        const msg1 = `When parsing this page, the ${platform} bot will fall back to the <code>${fallbackTag.label}</code> meta tag because the page is missing the more specific <code>${tagLabel}</code> tag.`
         const msg2 = `Best practices recommend to use the specific meta tags for the ${platform} platform to maximize the performance of all posts sharing this page.`
         const example = Tips.#tagExample(tagLabel, platform, card)
         card.addTip(
@@ -386,7 +397,7 @@ export class Tips {
         const msg1 =
             `The Meta Tag <code>${tagLabel}</code> for ${platform} is missing. ` +
             `Add it to maximize your visibility on ${platform} when people are sharing this page.`
-            const example = Tips.#tagExample(tagLabel, platform, card)
+        const example = Tips.#tagExample(tagLabel, platform, card)
         card.addTip(
             `Tip #${this.#tipNumber++}: Add the Missing <code>${tagLabel}</code> Meta Tag`,
             [msg1, example.msg, example.code],

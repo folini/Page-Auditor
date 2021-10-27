@@ -223,8 +223,9 @@ export class Card {
 
     public static copyToClipboard(div: HTMLElement) {
         const txt = div.innerText
-        navigator.clipboard.writeText(txt)
-            .then(() =>       alert(`Code copied to clipboard: \n ${txt}`))
-            .catch(err =>     alert(`Error copying code to clipboard: \n ${err}`))
+        navigator.clipboard
+            .writeText(txt)
+            .then(() => alert(`Code copied to clipboard: \n ${txt}`))
+            .catch(err => alert(`Error copying code to clipboard: \n ${err}`))
     }
 }

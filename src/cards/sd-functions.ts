@@ -51,23 +51,26 @@ export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string, occurrences: MustBeU
     const structuredDataDescription = `Structured Data communicates content (data) to the Search Engines in an organized manner so they can display the content in the SERPs in an attractive manner.`
     const btnLabel = 'LD-JSON Code'
     const card = new Card()
-        .open(
-            `Structured Data`,
-            flattenSchemaName(schemaType),
-            'icon-ld-json'
-        )
+        .open(`Structured Data`, flattenSchemaName(schemaType), 'icon-ld-json')
         .addParagraph(structuredDataDescription)
-    if(schemaType === 'Graph' && Array.isArray(ldJson['@graph'])) {
+    if (schemaType === 'Graph' && Array.isArray(ldJson['@graph'])) {
         const schemas = ldJson['@graph']
-        schemas.forEach((schema) => {
+        schemas.forEach(schema => {
             const subSchemaType = getSchemaType(schema)
-            card.addTable(`<b>${flattenSchemaName(subSchemaType)}</b> Schema Analysis`, getTypes(schema), schemaLinks(subSchemaType, tabUrl, scriptId))
+            card.addTable(
+                `<b>${flattenSchemaName(subSchemaType)}</b> Schema Analysis`,
+                getTypes(schema),
+                schemaLinks(subSchemaType, tabUrl, scriptId)
+            )
         })
-    }else {
-        card.addTable(`<b>${flattenSchemaName(schemaType)}</b> Schema Analysis`, getTypes(ldJson), schemaLinks(schemaType, tabUrl, scriptId))
+    } else {
+        card.addTable(
+            `<b>${flattenSchemaName(schemaType)}</b> Schema Analysis`,
+            getTypes(ldJson),
+            schemaLinks(schemaType, tabUrl, scriptId)
+        )
     }
-    card.addExpandableBlock(btnLabel, codeBlock(jsonCode, Mode.json, scriptId))
-        .tag('card-ok')
+    card.addExpandableBlock(btnLabel, codeBlock(jsonCode, Mode.json, scriptId)).tag('card-ok')
 
     report.addCard(card)
 
@@ -112,8 +115,10 @@ const getTypes = (ldJson: iJsonLD, level = 0): SdType[] => {
                 keyValueDesc.push(descriptionLine(`Name`, ldJson.name as string))
             }
             if (ldJson.url) {
-                if(getSchemaType(ldJson)=== 'ImageObject') {
-                    keyValueDesc.push(`<a href='${ldJson.url}' target='_new'><img src='${ldJson.url}' style='max-width:90%;padding:4px;margin:8px auto;display:block;border:solid 1px #c0c0c0;border-radius:3px;'></a>`)
+                if (getSchemaType(ldJson) === 'ImageObject') {
+                    keyValueDesc.push(
+                        `<a href='${ldJson.url}' target='_new'><img src='${ldJson.url}' style='max-width:90%;padding:4px;margin:8px auto;display:block;border:solid 1px #c0c0c0;border-radius:3px;'></a>`
+                    )
                 } else {
                     keyValueDesc.push(descriptionLine(`Url`, `<a href='${ldJson.url}' target='_new'>${ldJson.url}</a>`))
                 }
@@ -147,8 +152,8 @@ const getTypes = (ldJson: iJsonLD, level = 0): SdType[] => {
             if (ldJson.areaServed) {
                 keyValueDesc.push(descriptionLine(`areaServed`, ` ${ldJson.areaServed as string}`))
             }
-            if (ldJson.availableLanguage ) {
-                if(Array.isArray(ldJson.availableLanguage)){
+            if (ldJson.availableLanguage) {
+                if (Array.isArray(ldJson.availableLanguage)) {
                     keyValueDesc.push(descriptionLine(`areaServed`, ` ${(ldJson.areaServed as string[]).join('<br>')}`))
                 } else {
                     keyValueDesc.push(descriptionLine(`areaServed`, ` ${ldJson.areaServed as string}`))

@@ -126,8 +126,7 @@ const sitemapCard = (url: string, sitemaps: SitemapList, report: Report) =>
 export const createSiteMapCards = (sitemaps: SitemapList, report: Report) => {
     const promises = sitemaps.readyList.map(url => sitemapCard(url, sitemaps, report))
 
-    return Promise.allSettled(promises)
-        .then(() => sitemaps.readyList.map(url => sitemapCard(url, sitemaps, report)))
+    return Promise.allSettled(promises).then(() => sitemaps.readyList.map(url => sitemapCard(url, sitemaps, report)))
 }
 
 const sanitizeUrls = (urls: string[]) => {

@@ -47,24 +47,24 @@ const twitterLinkIcon =
 
 export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[], canonical: string) => {
     const imgPreviewId = disposableId()
-    const imgTag = selectedTags.find(m => m.tagLabel === 'twitter:image' || m.tagLabel === 'twitter:image:src')
-    const urlTag = selectedTags.find(m => m.tagLabel === 'twitter:url')
-    const obsoleteTag = selectedTags.find(m => m.tagLabel === 'twitter:domain')
-    const titleTag = selectedTags.find(m => m.tagLabel === 'twitter:title')
-    const descriptionTag = selectedTags.find(m => m.tagLabel === 'twitter:description')
-    const cardTag = selectedTags.find(m => m.tagLabel === 'twitter:card')
-    const siteTag = selectedTags.find(m => m.tagLabel === 'twitter:site')
+    const imgTag = selectedTags.find(m => m.label === 'twitter:image' || m.label === 'twitter:image:src')
+    const urlTag = selectedTags.find(m => m.label === 'twitter:url')
+    const obsoleteTag = selectedTags.find(m => m.label === 'twitter:domain')
+    const titleTag = selectedTags.find(m => m.label === 'twitter:title')
+    const descriptionTag = selectedTags.find(m => m.label === 'twitter:description')
+    const cardTag = selectedTags.find(m => m.label === 'twitter:card')
+    const siteTag = selectedTags.find(m => m.label === 'twitter:site')
 
-    const imgFallbackTag = allTag.find(m => m.tagLabel === 'og:image' || m.tagLabel === 'image')
-    const titleFallbackTag = allTag.find(m => m.tagLabel === 'og:title' || m.tagLabel === 'title')
-    const descriptionFallbackTag = allTag.find(m => m.tagLabel === 'og:description' || m.tagLabel === 'description')
-    const urlFallbackTag = allTag.find(m => m.tagLabel === 'og:url' || m.tagLabel === 'url')
+    const imgFallbackTag = allTag.find(m => m.label === 'og:image' || m.label === 'image')
+    const titleFallbackTag = allTag.find(m => m.label === 'og:title' || m.label === 'title')
+    const descriptionFallbackTag = allTag.find(m => m.label === 'og:description' || m.label === 'description')
+    const urlFallbackTag = allTag.find(m => m.label === 'og:url' || m.label === 'url')
 
-    let title = titleTag?.tagValue || titleFallbackTag?.tagValue || ''
-    let img = imgTag?.tagValue || imgFallbackTag?.tagValue || ''
-    let description = descriptionTag?.tagValue || descriptionFallbackTag?.tagValue || ''
+    let title = titleTag?.value || titleFallbackTag?.value || ''
+    let img = imgTag?.value || imgFallbackTag?.value || ''
+    let description = descriptionTag?.value || descriptionFallbackTag?.value || ''
     description = description.length < 128 ? description : description.substr(0, 128) + '&mldr;'
-    var domain = urlTag?.tagValue || urlFallbackTag?.tagValue || ''
+    var domain = urlTag?.value || urlFallbackTag?.value || ''
 
     if (domain.startsWith('http')) {
         domain = domain.replace(/https?:\/\/(www.)?((\w+\.)?\w+\.\w+).*/i, `$2`)
@@ -75,7 +75,7 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[],
     }
 
     if (obsoleteTag) {
-        Tips.tag_Obsolete(card, 'Twitter', obsoleteTag.tagLabel, obsoleteTag.originalCode)
+        Tips.tag_Obsolete(card, 'Twitter', obsoleteTag.label, obsoleteTag.code)
     }
 
     if (!cardTag) {
@@ -86,15 +86,20 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[],
         Tips.tag_Missing(card, 'Twitter', 'twitter:site')
     }
 
+    const validCardValues: string[] = ['summary', 'summary_large_image', 'app', 'player']
+    if (cardTag && !validCardValues.includes(cardTag.value)) {
+        Tips.tag_InvalidValue(card, 'Twitter', cardTag, validCardValues)
+    }
+
     if (urlTag) {
-        if (urlTag.tagValue.length === 0) {
+        if (urlTag.value.length === 0) {
             Tips.tag_NoValue(card, 'Twitter', urlTag)
         } else {
-            if (!urlTag.tagValue.startsWith('https://')) {
+            if (!urlTag.value.startsWith('https://')) {
                 Tips.tagUrl_RelativePath(card, 'Twitter', urlTag)
-            } else if (urlTag.tagValue.startsWith('http://')) {
+            } else if (urlTag.value.startsWith('http://')) {
                 Tips.tagUrl_ObsoleteProtocol(card, 'Twitter', urlTag)
-            } else if (urlTag.tagValue !== canonical) {
+            } else if (canonical.length > 0 && urlTag.value !== canonical) {
                 Tips.tagUrl_NonCanonical(card, 'Twitter', urlTag, canonical)
             }
         }
@@ -107,11 +112,11 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[],
     }
 
     if (titleTag) {
-        if (titleTag.tagValue.length === 0) {
+        if (titleTag.value.length === 0) {
             Tips.tag_NoValue(card, 'Twitter', titleTag)
-        } else if (titleTag.tagValue.length <= 4) {
+        } else if (titleTag.value.length <= 4) {
             Tips.tag_Placeholder(card, 'Twitter', titleTag)
-        } else if (titleTag.tagValue.length > 50) {
+        } else if (titleTag.value.length > 50) {
             Tips.tag_OverRecommendedLength(card, 'Twitter', titleTag, '70', '60')
         }
     } else {
@@ -123,11 +128,11 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[],
     }
 
     if (descriptionTag) {
-        if (descriptionTag.tagValue.length === 0) {
+        if (descriptionTag.value.length === 0) {
             Tips.tag_NoValue(card, 'Twitter', descriptionTag)
-        } else if (descriptionTag.tagValue.length <= 4) {
+        } else if (descriptionTag.value.length <= 4) {
             Tips.tag_Placeholder(card, 'Twitter', descriptionTag)
-        } else if (descriptionTag.tagValue.length > 200) {
+        } else if (descriptionTag.value.length > 200) {
             Tips.tag_OverRecommendedLength(card, 'Twitter', descriptionTag, '280', '200')
         }
     } else {
@@ -139,18 +144,18 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[],
     }
 
     if (imgTag) {
-        if (imgTag.tagValue.length === 0) {
+        if (imgTag.value.length === 0) {
             Tips.tag_NoValue(card, 'Twitter', imgTag)
         } else {
-            if (imgTag.tagValue.includes('/assets/no-image-')) {
+            if (imgTag.value.includes('/assets/no-image-')) {
                 Tips.tagImage_Placeholder(card, 'Twitter', imgTag)
             }
-            if (!imgTag.tagValue.startsWith('http')) {
+            if (!imgTag.value.startsWith('http')) {
                 Tips.tagUrl_RelativePath(card, 'Twitter', imgTag)
-            } else if (imgTag.tagValue.startsWith('http://')) {
+            } else if (imgTag.value.startsWith('http://')) {
                 Tips.tagUrl_ObsoleteProtocol(card, 'Twitter', imgTag)
             }
-            if (imgTag.tagValue.startsWith('https://')) {
+            if (imgTag.value.startsWith('https://')) {
                 fileExists(img).catch(() => {
                     Tips.tagImage_NoImage(card, 'Twitter', imgTag)
                     hideCardElement(card, imgPreviewId)
@@ -183,39 +188,39 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[],
 
 export const openGraphPreview = (card: Card, selectedTags: iTag[], allMeta: iTag[], canonical: string) => {
     const imgPreviewId = disposableId()
-    const imgTag = selectedTags.find(m => m.tagLabel === 'og:image')
-    const urlTag = selectedTags.find(m => m.tagLabel === 'og:url' || m.tagLabel === 'og:image:secure_url')
-    const titleTag = selectedTags.find(m => m.tagLabel === 'og:title')
-    const descriptionTag = selectedTags.find(m => m.tagLabel === 'og:description')
-    const typeTag = selectedTags.find(m => m.tagLabel === 'og:type')
+    const imgTag = selectedTags.find(m => m.label === 'og:image')
+    const urlTag = selectedTags.find(m => m.label === 'og:url' || m.label === 'og:image:secure_url')
+    const titleTag = selectedTags.find(m => m.label === 'og:title')
+    const descriptionTag = selectedTags.find(m => m.label === 'og:description')
+    const typeTag = selectedTags.find(m => m.label === 'og:type')
 
-    const imgFallbackTag = allMeta.find(m => m.tagLabel === 'image')
-    const descriptionFallbackTag = allMeta.find(m => m.tagLabel === 'description')
-    const urlFallbackTag = allMeta.find(m => m.tagLabel === 'url')
-    const titleFallbackTag = allMeta.find(m => m.tagLabel === 'title')
+    const imgFallbackTag = allMeta.find(m => m.label === 'image')
+    const descriptionFallbackTag = allMeta.find(m => m.label === 'description')
+    const urlFallbackTag = allMeta.find(m => m.label === 'url')
+    const titleFallbackTag = allMeta.find(m => m.label === 'title')
 
-    let url = urlTag?.tagValue || urlFallbackTag?.tagValue || ''
+    let url = urlTag?.value || urlFallbackTag?.value || ''
     if (url && url.startsWith('http')) {
         url = url.replace(/https?:\/\/(www.)?((\w+\.)?\w+\.\w+).*/i, `$2`)
     }
 
-    let img = imgTag?.tagValue || imgFallbackTag?.tagValue || ''
+    let img = imgTag?.value || imgFallbackTag?.value || ''
     img = img.replace('http://', 'https://')
 
-    let title = titleTag?.tagValue || titleFallbackTag?.tagValue || ''
+    let title = titleTag?.value || titleFallbackTag?.value || ''
 
-    let description = descriptionTag?.tagValue || descriptionFallbackTag?.tagValue || ''
+    let description = descriptionTag?.value || descriptionFallbackTag?.value || ''
     description = description.length < 215 ? description : description.substr(0, 214) + '&mldr;'
 
     if (urlTag) {
-        if (urlTag.tagValue.length === 0) {
+        if (urlTag.value.length === 0) {
             Tips.tag_NoValue(card, 'Facebook', urlTag)
         } else {
-            if (!urlTag.tagValue.startsWith('http')) {
+            if (!urlTag.value.startsWith('http')) {
                 Tips.tagUrl_RelativePath(card, 'Facebook', urlTag)
-            } else if (urlTag.tagValue.startsWith('http://')) {
+            } else if (urlTag.value.startsWith('http://')) {
                 Tips.tagUrl_ObsoleteProtocol(card, 'Facebook', urlTag)
-            } else if (urlTag.tagValue !== canonical) {
+            } else if (canonical.length > 0 && urlTag.value !== canonical) {
                 Tips.tagUrl_NonCanonical(card, 'Facebook', urlTag, canonical)
             }
         }
@@ -228,11 +233,11 @@ export const openGraphPreview = (card: Card, selectedTags: iTag[], allMeta: iTag
     }
 
     if (titleTag) {
-        if (titleTag.tagValue.length === 0) {
+        if (titleTag.value.length === 0) {
             Tips.tag_NoValue(card, 'Facebook', titleTag)
-        } else if (titleTag.tagValue.length <= 4) {
+        } else if (titleTag.value.length <= 4) {
             Tips.tag_Placeholder(card, 'Facebook', titleTag)
-        } else if (titleTag.tagValue.length > 55) {
+        } else if (titleTag.value.length > 55) {
             Tips.tag_OverRecommendedLength(card, 'Facebook', titleTag, '95', '55')
         }
     } else {
@@ -244,19 +249,36 @@ export const openGraphPreview = (card: Card, selectedTags: iTag[], allMeta: iTag
     }
 
     if (typeTag) {
-        if (typeTag.tagValue.length === 0) {
+        if (typeTag.value.length === 0) {
             Tips.tag_NoValue(card, 'Facebook', typeTag)
+        }
+        const validCardValues: string[] = [
+            'music.song',
+            'music.album',
+            'music.playlist',
+            'music.radio_station',
+            'video.movie',
+            'video.episode',
+            'video.tv_show',
+            'video.other',
+            'article',
+            'book',
+            'profile',
+            'website',
+        ]
+        if (typeTag && !validCardValues.includes(typeTag.value)) {
+            Tips.tag_InvalidValue(card, 'Facebook', typeTag, validCardValues)
         }
     } else {
         Tips.tag_Missing(card, 'Facebook', 'og:type')
     }
 
     if (descriptionTag) {
-        if (descriptionTag.tagValue.length === 0) {
+        if (descriptionTag.value.length === 0) {
             Tips.tag_NoValue(card, 'Facebook', descriptionTag)
-        } else if (descriptionTag.tagValue.length <= 4) {
+        } else if (descriptionTag.value.length <= 4) {
             Tips.tag_Placeholder(card, 'Facebook', descriptionTag)
-        } else if (descriptionTag.tagValue.length > 110) {
+        } else if (descriptionTag.value.length > 110) {
             Tips.tag_OverRecommendedLength(card, 'Facebook', descriptionTag, '110 (200 when the url is missing)', '55')
         }
     } else {
@@ -268,25 +290,25 @@ export const openGraphPreview = (card: Card, selectedTags: iTag[], allMeta: iTag
     }
 
     if (imgTag) {
-        if (imgTag.tagValue.length === 0) {
+        if (imgTag.value.length === 0) {
             Tips.tag_NoValue(card, 'Facebook', imgTag)
         } else {
-            if (imgTag.tagValue.includes('/assets/no-image-')) {
+            if (imgTag.value.includes('/assets/no-image-')) {
                 Tips.tagImage_Placeholder(card, 'Facebook', imgTag)
             }
-            if (imgTag.tagValue.length === 0) {
-                Tips.tagImage_NoTag(card, 'Facebook', imgTag.tagLabel)
+            if (imgTag.value.length === 0) {
+                Tips.tagImage_NoTag(card, 'Facebook', imgTag.label)
             }
-            if (imgTag.tagValue.startsWith('https://')) {
-                fileExists(imgTag.tagValue).catch(() => {
+            if (imgTag.value.startsWith('https://')) {
+                fileExists(imgTag.value).catch(() => {
                     Tips.tagImage_NoImage(card, 'Facebook', imgTag)
                     hideCardElement(card, imgPreviewId)
                 })
             }
-            if (!imgTag.tagValue.startsWith('http')) {
+            if (!imgTag.value.startsWith('http')) {
                 Tips.tagUrl_RelativePath(card, 'Facebook', imgTag)
             }
-            if (imgTag.tagValue.startsWith('http://')) {
+            if (imgTag.value.startsWith('http://')) {
                 Tips.tagUrl_ObsoleteProtocol(card, 'Facebook', imgTag)
             }
         }
@@ -330,7 +352,7 @@ export const tagCategories: iTagCategory[] = [
             `Simply add a few lines of markup to your webpage, and users who Tweet links to your content will have a "Card" added to the Tweet that's visible to their followers.`,
         url: 'https://developer.twitter.com/en/docs/twitter-for-websites/cards/guides/getting-started',
         cssClass: `icon-twitter`,
-        filter: m => m.tagLabel.startsWith('twitter:'),
+        filter: m => m.label.startsWith('twitter:'),
         preview: twitterPreview,
     },
     {
@@ -342,15 +364,15 @@ export const tagCategories: iTagCategory[] = [
         url: 'https://ogp.me/',
         cssClass: 'icon-open-graph',
         filter: m =>
-            m.tagLabel.startsWith('og:') ||
-            m.tagLabel.startsWith('fb:') ||
-            m.tagLabel.startsWith('ia:') ||
-            m.tagLabel.startsWith('product:') ||
-            m.tagLabel.startsWith('article:') ||
-            m.tagLabel.startsWith('music:') ||
-            m.tagLabel.startsWith('book:') ||
-            m.tagLabel.startsWith('video:') ||
-            m.tagLabel.startsWith('profile:'),
+            m.label.startsWith('og:') ||
+            m.label.startsWith('fb:') ||
+            m.label.startsWith('ia:') ||
+            m.label.startsWith('product:') ||
+            m.label.startsWith('article:') ||
+            m.label.startsWith('music:') ||
+            m.label.startsWith('book:') ||
+            m.label.startsWith('video:') ||
+            m.label.startsWith('profile:'),
         preview: openGraphPreview,
     },
     {
@@ -358,7 +380,7 @@ export const tagCategories: iTagCategory[] = [
         description: `Deprecated since February 2, 2020. Publishing App Link metadata is as simple as adding a few lines to the <head> tag in the HTML for your content. Apps that link to your content can then use this metadata to deep-link into your app, take users to an app store to download the app, or take them directly to the web to view the content. This allows developers to provide the best possible experience for their users when linking to their content.`,
         url: 'https://developers.facebook.com/docs/applinks/metadata-reference/',
         cssClass: 'icon-open-graph',
-        filter: m => m.tagLabel.startsWith('al:'),
+        filter: m => m.label.startsWith('al:'),
         preview: noPreview,
     },
     {
@@ -374,7 +396,7 @@ export const tagCategories: iTagCategory[] = [
         description: `Google supports both page-level meta-tags and inline directives to help control how your site's pages will appear in Google Search.`,
         url: 'https://developers.google.com/search/docs/advanced/crawling/special-tags',
         cssClass: 'icon-google',
-        filter: m => m.tagLabel === 'google',
+        filter: m => m.label === 'google',
         preview: noPreview,
     },
     {
@@ -382,7 +404,7 @@ export const tagCategories: iTagCategory[] = [
         description: `REP (Robots Exclusion Protocol) are directive to control the way pages are indexed by Search Engines. In addition to root-level robots.txt files, robots exclusion directives can be applied at a more granular level through the use of Robots meta tags and X-Robots-Tag HTTP headers. The robots meta tag cannot be used for non-HTML files such as images, text files, or PDF documents.`,
         url: 'https://www.metatags.org/all-meta-tags-overview/the-important-meta-tags/meta-name-robots-tag/',
         cssClass: 'icon-rep',
-        filter: m => m.tagLabel === 'robots' || m.tagLabel === 'googlebot',
+        filter: m => m.label === 'robots' || m.label === 'googlebot',
         preview: noPreview,
     },
     {
@@ -390,8 +412,7 @@ export const tagCategories: iTagCategory[] = [
         description: `Authorization Meta Tags are used to certify the ownership of a website or page. If you have access to the source code of the &lt;head&gt; section of a page you are trusted as owner or authorized manager of that page.`,
         url: 'https://support.google.com/webmasters/answer/9008080?hl=en#zippy=%2Chtml-tag',
         cssClass: 'icon-lock',
-        filter: m =>
-            m.tagLabel.includes('verification') || m.tagLabel.includes(`validate`) || m.tagLabel.includes(`verify`),
+        filter: m => m.label.includes('verification') || m.label.includes(`validate`) || m.label.includes(`verify`),
         preview: noPreview,
     },
     {
@@ -416,7 +437,7 @@ export const tagCategories: iTagCategory[] = [
                 `format-detection`,
                 `referrer`,
                 `Content-Security-Policy`,
-            ].includes(m.tagLabel),
+            ].includes(m.label),
         preview: noPreview,
     },
     {
@@ -424,7 +445,7 @@ export const tagCategories: iTagCategory[] = [
         description: `Optional Meta Tags are used to help Microsoft Windows to customize the default behavior and appearance of the pinned site shortcut.`,
         url: 'https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/ff976295(v=vs.85)',
         cssClass: 'icon-windows',
-        filter: m => m.tagLabel.includes('msapplication-'),
+        filter: m => m.label.includes('msapplication-'),
         preview: noPreview,
     },
     {
@@ -432,7 +453,7 @@ export const tagCategories: iTagCategory[] = [
         description: `Microsoft uses metadata on Docs for reporting, discoverability of the content via search, and to drive aspects of the site experience. Metadata can be applied in the article (in the YAML front matter) or globally in the docfx.json file for the repo.`,
         url: 'https://docs.microsoft.com/en-us/contribute/metadata',
         cssClass: 'icon-ms',
-        filter: m => m.tagLabel.startsWith(`ms.`),
+        filter: m => m.label.startsWith(`ms.`),
         preview: noPreview,
     },
     {
@@ -441,7 +462,7 @@ export const tagCategories: iTagCategory[] = [
     Briefly, the web needs new features, and iteration yields the best designs and implementations for those features. However, previous efforts have seen experiments prematurely become de-facto standards, with browser vendors scrambling to implement the features, and web developers coming to rely on these features. These experimental features became burned-in, and resistant to change (or removal), even though better implementations were identified/available.`,
         url: 'https://googlechrome.github.io/OriginTrials/',
         cssClass: 'icon-chromium',
-        filter: m => m.tagLabel === 'origin-trial',
+        filter: m => m.label === 'origin-trial',
         preview: noPreview,
     },
     {
@@ -449,7 +470,7 @@ export const tagCategories: iTagCategory[] = [
         description: `Cxense proprietary meta tags. Cxense was a Norwegian technology company, acquired by Piano.`,
         url: 'https://www.cxense.com/',
         cssClass: 'icon-cxense',
-        filter: m => m.tagLabel.startsWith('cxense:') || m.tagLabel.startsWith('cxenseparse:'),
+        filter: m => m.label.startsWith('cxense:') || m.label.startsWith('cxenseparse:'),
         preview: noPreview,
     },
     {
@@ -457,7 +478,7 @@ export const tagCategories: iTagCategory[] = [
         description: `OutBrain proprietary meta tags. Outbrain is a marketing company.`,
         url: 'https://www.outbrain.com/',
         cssClass: 'icon-outbrain',
-        filter: m => m.tagLabel.startsWith('vr:'),
+        filter: m => m.label.startsWith('vr:'),
         preview: noPreview,
     },
     {
@@ -465,7 +486,7 @@ export const tagCategories: iTagCategory[] = [
         description: `Apple proprietary meta tags.`,
         url: 'https://www.apple.com/',
         cssClass: 'icon-apple',
-        filter: m => m.tagLabel.startsWith('apple-'),
+        filter: m => m.label.startsWith('apple-'),
         preview: noPreview,
     },
     {
@@ -473,7 +494,7 @@ export const tagCategories: iTagCategory[] = [
         description: `Shopify proprietary meta tags.`,
         url: 'https://www.shopify.com/',
         cssClass: 'icon-shopify',
-        filter: m => m.tagLabel.startsWith('shopify-'),
+        filter: m => m.label.startsWith('shopify-'),
         preview: noPreview,
     },
     {
@@ -481,7 +502,7 @@ export const tagCategories: iTagCategory[] = [
         description: `Branch proprietary meta tags. Branch isa a mobile measurement and deep linking platform, trusted by the most top ranking apps to increase efficiency and revenue.`,
         url: 'https://www.branch.com/',
         cssClass: 'icon-branch',
-        filter: m => m.tagLabel.startsWith('branch:'),
+        filter: m => m.label.startsWith('branch:'),
         preview: noPreview,
     },
     {
@@ -489,7 +510,7 @@ export const tagCategories: iTagCategory[] = [
         description: `X-UA-Compatible is a document mode meta tag that allows web authors to choose what version of Internet Explorer the page should be rendered as. It is used by Internet Explorer 8 to specify whether a page should be rendered as IE 7 (compatibility view) or IE 8 (standards view).`,
         url: 'https://docs.microsoft.com/en-us/openspecs/ie_standards/ms-iedoco/380e2488-f5eb-4457-a07a-0cb1b6e4b4b5',
         cssClass: 'icon-ie',
-        filter: m => m.tagLabel === `x-ua-compatible` || m.tagLabel == 'cleartype',
+        filter: m => m.label === `x-ua-compatible` || m.label == 'cleartype',
         preview: noPreview,
     },
     {
@@ -497,7 +518,7 @@ export const tagCategories: iTagCategory[] = [
         description: `CSRF (Cross-Site Request Forgery) meta tags are indications for ajax requests to use these as one of the form parameters to make a request to the server. Rails expects the csrf as part of your form body (params) to process your requests. Using these meta tags you can construct the form body or the csrf header to suit your needs.`,
         url: 'https://cwe.mitre.org/data/definitions/352.html',
         cssClass: 'icon-lock',
-        filter: m => m.tagLabel.startsWith(`csrf-`),
+        filter: m => m.label.startsWith(`csrf-`),
         preview: noPreview,
     },
     {
@@ -505,7 +526,7 @@ export const tagCategories: iTagCategory[] = [
         description: `Google Programmable Search Engine meta tags are used by GoogThe meta tag "keywords"le Programmable Search Engine to render the result of a search local to a website.`,
         url: 'https://cse.google.com/',
         cssClass: 'icon-google',
-        filter: m => m.tagLabel.startsWith(`thumbnail`),
+        filter: m => m.label.startsWith(`thumbnail`),
         preview: noPreview,
     },
     {
@@ -530,7 +551,7 @@ export const metaTagsCard = (
         return
     }
 
-    const listOfMeta = selectedTags.map(m => m.originalCode.trim()).join('\n')
+    const listOfMeta = selectedTags.map(m => m.code.trim()).join('\n')
     const divId = disposableId()
 
     const links: iLink[] = []
@@ -538,7 +559,7 @@ export const metaTagsCard = (
         links.push({url: tagCategory.url, label: 'Reference'})
     }
 
-    const table = selectedTags.map(tag => [tag.tagLabel, tag.tagValue])
+    const table = selectedTags.map(tag => [tag.label, tag.value])
 
     const card = new Card()
         .open(`Meta Tags`, tagCategory.title, tagCategory.cssClass)

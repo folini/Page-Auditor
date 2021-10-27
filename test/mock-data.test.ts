@@ -51,46 +51,45 @@ export const RawMetaTagsSample: string[] = `
 export const MetaTagsSample: iTag[] = [
     {
         class: '',
-        tagValue: 'summary_large_image',
-        tagLabel: 'twitter:card',
-        originalCode: '',
+        value: 'summary_large_image',
+        label: 'twitter:card',
+        code: '',
     },
     {
         class: '',
-        tagValue: 'REI Co-op: Outdoor Clothing, Gear, and Footwear from Top Brands | REI Co-op',
-        tagLabel: 'twitter:title',
-        originalCode: '',
+        value: 'REI Co-op: Outdoor Clothing, Gear, and Footwear from Top Brands | REI Co-op',
+        label: 'twitter:title',
+        code: '',
     },
     {
         class: '',
-        tagValue: 'REI Co-op - Outdoor Retailer',
-        tagLabel: 'twitter:image:alt',
-        originalCode: '',
+        value: 'REI Co-op - Outdoor Retailer',
+        label: 'twitter:image:alt',
+        code: '',
     },
     {
         class: '',
-        tagValue: '@REI',
-        tagLabel: 'twitter:site',
-        originalCode: '',
+        value: '@REI',
+        label: 'twitter:site',
+        code: '',
     },
     {
         class: '',
-        tagValue:
-            'From backpacking to cycling to staying in shape and more, outfit your outdoor activities with the latest gear, clothing, and footwear at REI.',
-        tagLabel: 'twitter:description',
-        originalCode: '',
+        value: 'From backpacking to cycling to staying in shape and more, outfit your outdoor activities with the latest gear, clothing, and footwear at REI.',
+        label: 'twitter:description',
+        code: '',
     },
     {
         class: '',
-        tagValue: '@REI',
-        tagLabel: 'twitter:creator',
-        originalCode: '',
+        value: '@REI',
+        label: 'twitter:creator',
+        code: '',
     },
     {
         class: '',
-        tagValue: 'https://www.rei.com/assets/img/seo/evergreen/rei-og.jpg',
-        tagLabel: 'twitter:image',
-        originalCode: '',
+        value: 'https://www.rei.com/assets/img/seo/evergreen/rei-og.jpg',
+        label: 'twitter:image',
+        code: '',
     },
 ]
 
@@ -167,12 +166,12 @@ export const SitemapXmlEncodedBodySample: string = htmlEncode(SitemapXmlBodySamp
 
 export const MetaTagSample: iTag = {
     class: 'abc-class',
-    tagValue: 'any content',
-    tagLabel: 'any:property',
-    originalCode: '<meta property="any:property" content="any content" class="abc-class" />',
+    value: 'any content',
+    label: 'any:property',
+    code: '<meta property="any:property" content="any content" class="abc-class" />',
 }
 
-export const EmptyMetaTag: iTag = {class: '', tagValue: '', tagLabel: '', originalCode: ''}
+export const EmptyMetaTag: iTag = {class: '', value: '', label: '', code: ''}
 
 export const MetaTagCategorySample: iTagCategory = {
     title: `Other Tags`,

@@ -12,10 +12,10 @@ import {Suggestions} from './suggestions'
 import {Errors} from './errors'
 
 export interface iTag {
-    tagLabel: string
-    tagValue: string
+    label: string
+    value: string
     class: string
-    originalCode: string
+    code: string
 }
 
 interface iDataFromPage {
@@ -28,18 +28,18 @@ const codeInjector: CodeInjectorFunc = () => {
         .map(
             m =>
                 ({
-                    tagLabel: (
+                    label: (
                         m.getAttribute(`property`) ||
                         m.getAttribute('name') ||
                         m.getAttribute('http-equiv') ||
                         ''
                     ).toLowerCase(),
-                    tagValue: (m.content || '').trim(),
+                    value: (m.content || '').trim(),
                     class: m.getAttribute('class') || '',
-                    originalCode: m.outerHTML.replace(/content="\s*/gi, 'content="'),
+                    code: m.outerHTML.replace(/content="\s*/gi, 'content="'),
                 } as iTag)
         )
-        .filter(m => m.tagValue !== '' && m.tagLabel !== '') as iTag[]
+        .filter(m => m.value !== '' && m.label !== '') as iTag[]
     const canonical = document.querySelector('head link[rel="canonical"]')?.getAttribute('href') || ''
     return {
         tags: tags,

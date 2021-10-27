@@ -9,7 +9,6 @@ import {Mode} from '../colorCode'
 import {codeBlock} from '../codeBlock'
 
 export class Errors {
-
     // ------------------------------------------------------------------------
     // Google Chrome Errors
     public static chrome_UnableToAnalyzeTab() {
@@ -110,7 +109,6 @@ export class Errors {
         return new Card().error().addParagraph(msg1).setTitle('Robots.Txt Not Found')
     }
 
-
     // ------------------------------------------------------------------------
     // Script Errors
     public static script_NotFound() {
@@ -165,5 +163,4 @@ export class Errors {
             .addParagraph(msg5)
             .setTitle('Generic Error')
     }
-
 }
