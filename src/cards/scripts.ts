@@ -65,11 +65,8 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, report: Report): v
 
     var discoveredScripts: iTrackMatch[] = []
 
-console.log(`Analyzing All Scripts  [${discoveredScripts.length}]`)
     scriptClasses.forEach(cat => {
-        console.log(`Analyzing Scripts Calls [${cat.name}]`)
-        scripts.forEach(scr => {
-            console.log(`Analyzing Scripts SRC [${scr.code.substr(0, 25)}]`)
+        scripts.forEach(scr =>
             cat.patterns
                 .map(pattern => scr.code.split('\n')[0].match(new RegExp(pattern, 'ig')))
                 .filter(match => match !== null && match.length > 0)
@@ -79,13 +76,12 @@ console.log(`Analyzing All Scripts  [${discoveredScripts.length}]`)
                         scr.done = true
                     }
                 })
-        })
+        )
         if (cat.scripts.length > 0) {
             discoveredScripts.push(cat)
         }
     })
 
-    console.log(`Filtering Scripts [${discoveredScripts.length}]`)
     scripts
         .filter(scr => !scr.done && scr.code.match(/^https\:\/\//))
         .forEach(scr => unresolvedJS.scripts.push(scr.code))
@@ -96,16 +92,13 @@ console.log(`Analyzing All Scripts  [${discoveredScripts.length}]`)
         Tips.internalError(card)
     }
 
-    console.log(`Sorting Scripts [${discoveredScripts.length}]`)
     discoveredScripts = discoveredScripts.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))
 
     if (unresolvedJS.scripts.length > 0) {
         discoveredScripts.push(unresolvedJS)
     }
 
-    console.log(`Reporting Scripts [${discoveredScripts.length}]`)
     discoveredScripts.forEach(discoveredItem => {
-        console.log(`Discovered Script [${discoveredItem.name}][${discoveredItem.url}]`)
         const links: iLink[] = []
         if (discoveredItem.url.length > 0) {
             links.push({url: discoveredItem.url, label: 'Reference'})

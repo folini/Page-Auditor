@@ -381,6 +381,10 @@ body#id-page-auditor .box-card div.code {
   border-radius: 3px;
   background-color: var(--color-bright-white);
   padding: var(--card-padding);
+  position: relative;
+}
+body#id-page-auditor .box-card div.code:hover .icon-copy {
+  visibility: visible;
 }
 body#id-page-auditor .box-card div.code a {
   color: darkblue;
@@ -388,6 +392,30 @@ body#id-page-auditor .box-card div.code a {
 }
 body#id-page-auditor .box-card div.code a:hover {
   text-decoration: underline !important;
+}
+body#id-page-auditor .box-card div.code div.icon-copy {
+  height: 14px;
+  width: 28px;
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  visibility: hidden;
+  border: solid 1px #ccc;
+  border-width: 0 1px 1px 0;
+  border-radius: 0 0 3px 0;
+}
+body#id-page-auditor .box-card div.code div.icon-copy:before {
+  content: 'Copy';
+  position: absolute;
+  top: 1px;
+  left: 3px;
+  font-size: 10px;
+}
+body#id-page-auditor .box-card div.code div.icon-copy:hover {
+  cursor: pointer;
+  background-color: #00640026;
 }
 body#id-page-auditor .preview-card {
   width: 100%;
@@ -416,6 +444,9 @@ body#id-page-auditor .preview-card img {
 body#id-page-auditor .preview-card div {
   padding-top: 8px;
 }
+body#id-page-auditor .preview-card.twitter-card {
+  border-color: #1da1f2;
+}
 body#id-page-auditor .preview-card.twitter-card .preview-label {
   background-color: #1da1f2;
 }
@@ -436,6 +467,9 @@ body#id-page-auditor .preview-card.twitter-card div.twitter-card-legend .twitter
   line-height: 16px;
   display: inline-block;
   font-size: 13px;
+}
+body#id-page-auditor .preview-card.facebook-card {
+  border-color: #4267b2;
 }
 body#id-page-auditor .preview-card.facebook-card .preview-label {
   background-color: #4267b2;
@@ -1149,18 +1183,4 @@ body#id-page-auditor .icon-git:not(.box-card) {
 }
 body#id-page-auditor .icon-gmail:not(.box-card) {
   background-image: url(../logos/Gmail_100x100.png);
-}
-body#id-page-auditor div.icon-copy {
-  background-image: url(../logos/Copy_100x100.png);
-  height: 14px;
-  background-repeat: no-repeat;
-  background-size: auto 100%;
-  position: relative;
-  margin-bottom: -16px;
-  right: calc(16px - 100%);
-  aspect-ratio: 1;
-}
-body#id-page-auditor div.icon-copy:hover {
-  background-image: url(../logos/CopyHover_100x100.png);
-  cursor: pointer;
 }

@@ -18,8 +18,13 @@ export interface iTag {
     originalCode: string
 }
 
-const codeInjector: CodeInjectorFunc = () =>
-    ([...document.querySelectorAll(`head meta`)] as HTMLMetaElement[])
+interface iDataFromPage {
+    tags: iTag[]
+    canonical: string
+}
+
+const codeInjector: CodeInjectorFunc = () => {
+    const tags = ([...document.querySelectorAll(`head meta`)] as HTMLMetaElement[])
         .map(
             m =>
                 ({
@@ -35,38 +40,45 @@ const codeInjector: CodeInjectorFunc = () =>
                 } as iTag)
         )
         .filter(m => m.tagValue !== '' && m.tagLabel !== '') as iTag[]
+    const canonical = document.querySelector('head link[rel="canonical"]')?.getAttribute('href') || ''
+    return {
+        tags: tags,
+        canonical: canonical,
+    }
+}
 
 const reportGenerator: ReportGeneratorFunc = (url: string, data: any, report: Report): void => {
-    var allTags = data as iTag[]
-    let atLeastOneScript = false
-    let twitterMetaPresent = false
-    let openGraphMetaPresent = false
+    var allTags = (data as iDataFromPage).tags
+    const canonical = (data as iDataFromPage).canonical
+    let scriptsDone = 0
+    let twitterDone = false
+    let openGraphDone = false
     tagCategories.map(tagCategory => {
         const selectedTags = allTags.filter(tagCategory.filter)
         allTags = allTags.filter(tag => !selectedTags.includes(tag))
         if (selectedTags.length > 0) {
-            metaTagsCard(allTags, tagCategory, selectedTags, report)
-            atLeastOneScript = true
+            metaTagsCard(allTags, tagCategory, selectedTags, canonical, report)
+            scriptsDone++
             if (tagCategory.title.includes('Twitter')) {
-                twitterMetaPresent = true
+                twitterDone = true
             } else if (tagCategory.title.includes('Facebook')) {
-                openGraphMetaPresent = true
+                openGraphDone = true
             }
         }
     })
 
-    if (!atLeastOneScript) {
+    if (scriptsDone === 0) {
         const card = Errors.metaTags_NotFound()
         report.addCard(card)
-        Tips.addMetaTags(card)
+        Tips.tag_AllMissing(card)
         return
     }
 
-    if (!twitterMetaPresent) {
+    if (!twitterDone) {
         report.addCard(Suggestions.noTwitterMetaTags())
     }
 
-    if (!openGraphMetaPresent) {
+    if (!openGraphDone) {
         report.addCard(Suggestions.noOpenGraphMetaTags())
     }
 }

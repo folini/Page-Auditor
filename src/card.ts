@@ -7,7 +7,6 @@
 import {disposableId} from './main'
 import {codeBlock} from './codeBlock'
 import {Mode} from './colorCode'
-import { runInThisContext } from 'vm'
 
 export interface iLink {
     label: string
@@ -94,7 +93,7 @@ export class Card {
 
     public addCTA(links: iLink[]) {
         let toolbar = this.#body.querySelector('.cta-toolbar')
-        if(toolbar === null) {
+        if (toolbar === null) {
             toolbar = document.createElement('div')
             toolbar.className = 'cta-toolbar'
             this.#body.append(toolbar)
@@ -111,11 +110,12 @@ export class Card {
     }
 
     #add(str: string) {
+        if (str.length === 0) {
+            return this
+        }
         const tmpDiv = document.createElement('div')
         tmpDiv.innerHTML = str
-        if (str.length > 0) {
-            this.#body.append(...tmpDiv.childNodes)
-        }
+        this.#body.append(...tmpDiv.childNodes)
         return this
     }
 
@@ -123,11 +123,6 @@ export class Card {
         const divId = disposableId()
         this.addParagraph(codeBlock(code, mode, divId))
         const block = this.#body.querySelector(`#${divId}`)
-        const copyDiv = document.createElement('div')
-        copyDiv.className = 'icon-copy'
-        copyDiv.title = 'Copy code'
-        block!.parentElement!.insertBefore(copyDiv, block)
-        copyDiv.addEventListener('click', () => this.#copyToClipboard(block as HTMLDivElement))
         return this
     }
 
@@ -140,26 +135,22 @@ export class Card {
         const codeDiv = this.#div.querySelector(`#${divId}`) as HTMLDivElement
         codeDiv.style.display = 'none'
         btn.addEventListener('click', () => this.#toggle(btn, codeDiv))
-        ;[...this.#body.querySelectorAll(`#${divId} :is(> div, div).code`)].forEach(block => {
-            const copyDiv = document.createElement('div')
-            copyDiv.className = 'icon-copy'
-            copyDiv.title = 'Copy code'
-            block.parentElement!.insertBefore(copyDiv, block)
-            copyDiv.addEventListener('click', () => this.#copyToClipboard(block as HTMLDivElement))
-        })
         return this
     }
 
     public addParagraph(text: string | undefined, cssClass: string = '', id: string = '') {
-        return text === undefined
-            ? this
-            : this.#add(
-                  `<div${cssClass !== '' ? ` class='${cssClass}'` : ``}${id === '' ? '' : ` id='${id}'`}>${text}</div>`
-              )
+        if (text === undefined || text.length === 0) {
+            return this
+        }
+        return this.#add(
+            `<div${cssClass !== '' ? ` class='${cssClass}'` : ``}${id === '' ? '' : ` id='${id}'`}>${text}</div>`
+        )
     }
 
     public addTable(title: string, table: string[][], links: iLink[] = []) {
-        const linksHtml = links.map(link => `<a class='small-btn' href='${link.url}' target='_blank'>${link.label}</a>`).join(' ')
+        const linksHtml = links
+            .map(link => `<a class='small-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
+            .join(' ')
         let html = ''
         html += '<table class="card-table">'
         if (title.length > 0) {
@@ -177,7 +168,7 @@ export class Card {
     }
 
     public tag(tag: string) {
-        if(tag==='card-ok' && this.#head.classList.contains('icon-fix')) {
+        if (tag === 'card-ok' && this.#head.classList.contains('icon-fix')) {
             return this
         }
         const oppositeTag = tag === 'card-ok' ? 'card-fix' : 'card-ok'
@@ -185,7 +176,7 @@ export class Card {
         this.#head.classList.add(tag)
         return this
     }
-    public addTip(title: string, txts: string[], cta: iLink = {label: '' ,url: ''}) {
+    public addTip(title: string, txts: string[], cta: iLink = {label: '', url: ''}) {
         const tipDiv = document.createElement('div')
         tipDiv.className = 'card-tip'
         const tipTitle = document.createElement('div')
@@ -193,7 +184,10 @@ export class Card {
         tipTitle.innerHTML = title
         const tipBody = document.createElement('div')
         tipBody.className = 'tip-body'
-        tipBody.innerHTML = txts.map(txt => `<div>${txt}</div>`).join('')
+        tipBody.innerHTML = txts
+            .filter(txt => txt.length > 0)
+            .map(txt => `<div>${txt}</div>`)
+            .join('')
         const tipCTA = document.createElement('div')
         tipCTA.className = 'cta-toolbar'
         const tipBtn = document.createElement('a')
@@ -227,7 +221,7 @@ export class Card {
         }
     }
 
-    #copyToClipboard(div: HTMLElement) {
+    public static copyToClipboard(div: HTMLElement) {
         const txt = div.innerText
         navigator.clipboard.writeText(txt)
         alert(`Code copied to clipboard`)

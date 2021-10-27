@@ -12,6 +12,7 @@ import './logos/Logo_256x256.png'
 import {Report} from './report'
 import {Mode} from './colorCode'
 import {Errors} from './cards/errors'
+import {Card} from "./card"
 import {version as versionNumber} from '../package.json'
 import * as JsonLd from './cards/sd'
 import * as Scripts from './cards/scripts'
@@ -133,7 +134,13 @@ export const worker = new Worker('worker.js')
 worker.onmessage = event => {
     let id = event.data.id
     let code = event.data.code
-    document.getElementById(id)!.innerHTML = code
+    const elem = document.getElementById(id) as HTMLElement
+    elem.innerHTML = code
+    const copyDiv = document.createElement('div')
+    copyDiv.className = 'icon-copy'
+    copyDiv.title = 'Copy code'
+    elem.insertBefore(copyDiv, elem.firstChild)
+    elem.addEventListener('click', () => Card.copyToClipboard(elem as HTMLDivElement))
 }
 
 export const sendTaskToWorker = (divId: string, mode: Mode, code: string) => {
