@@ -42,18 +42,20 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
         .catch(() => {
             const card = Errors.robotsTxt_NotFound(defaultRobotsUrl)
             report.addCard(card)
-            Tips.missingRobotsTxt(card) 
+            Tips.missingRobotsTxt(card)
         })
-        .then(()=> createSiteMapCards(sitemaps, report))
-        .finally(() => {
-            if (sitemaps.doneList.length === 0) {
-                const card = Errors.sitemap_NotFound(sitemaps.failedList)
-                Tips.missingSitemap(card)
-                report.addCard(card)
-            }
-            if (sitemaps.skippedList.length > 0) {
-                report.addCard(Info.notAllSitemapsLoaded(SitemapList.maxSitemapsToLoad(), sitemaps.skippedList))
-            }
+        .then(() => createSiteMapCards(sitemaps, report))
+        .then(p => {
+            Promise.allSettled(p).then(() => {
+                if (sitemaps.doneList.length === 0) {
+                    const card = Errors.sitemap_NotFound(sitemaps.failedList)
+                    Tips.missingSitemap(card)
+                    report.addCard(card)
+                }
+                if (sitemaps.skippedList.length > 0) {
+                    report.addCard(Info.notAllSitemapsLoaded(SitemapList.maxSitemapsToLoad(), sitemaps.skippedList))
+                }
+            })
         })
 }
 

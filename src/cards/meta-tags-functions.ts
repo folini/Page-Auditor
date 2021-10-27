@@ -131,7 +131,7 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[])
             Tips.tag_AddValue(card, 'Twitter', descriptionTag)
         } else if (descriptionTag.tagValue.length <= 4) {
             Tips.tag_ReplacePlaceholder(card, 'Twitter', descriptionTag)
-        } else if (descriptionTag.tagValue.length > 50) {
+        } else if (descriptionTag.tagValue.length > 200) {
             Tips.tag_OverRecommendedLength(
                 card,
                 'Twitter',
