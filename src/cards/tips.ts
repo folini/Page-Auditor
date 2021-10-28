@@ -105,7 +105,7 @@ export class Tips {
             `Sitemap files should be always linked using the safe <code>https</code> protocol.<br>` +
             `This is a list of the duplicate Urls:`
         const msg3 = codeBlock(urls.join('<br>'), Mode.txt)
-        card.addTip(`Tip #${this.#tipNumber++}: Remove Duplicate Sitemap Links`, [msg1, msg2, msg3], robotsTxtReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Remove Duplicate Sitemap Links`, [msg1, msg2, msg3], robotsTxtReference, 25)
     }
 
     public static unsafeSitemapLinkInRobots(card: Card, urls: string[]) {
@@ -115,7 +115,7 @@ export class Tips {
         let msg2 =
             `It's important to correct and update the sitemap links in the  <code>robots.txt</code> by switching to the <code>https</code> protocol. ` +
             `Sitemap files should be always linked using the safe <code>https</code> protocol.`
-        card.addTip(`Tip #${this.#tipNumber++}: Update Unsafe Sitemap Link`, [msg1, msg2], robotsTxtReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Update Unsafe Sitemap Link`, [msg1, msg2], robotsTxtReference, 35)
     }
 
     public static addSitemapLinkToRobotsTxt = (card: Card, domain: string) => {
@@ -129,7 +129,8 @@ export class Tips {
         card.addTip(
             `Tip #${this.#tipNumber++}: Link Your Sitemap.xml From Robots.txt`,
             [msg1, msg2, msg3, msg4],
-            robotsTxtReference
+            robotsTxtReference,
+            50
         )
     }
 
@@ -138,21 +139,21 @@ export class Tips {
             `Double check the syntax of the <code>robots.txt</code> and update it ASAP. ` +
             `It's important for the <code>robots.txt</code> file to be consistent with the standard syntax. `
         const msg2 = `The <code>Robots.txt</code> of a website, if present, is extensively used by all Search Engines bots a it's a very important factor in SEO ranking of the site.`
-        card.addTip(`Tip  #${this.#tipNumber++}: Fix Robots.txt Syntax`, [msg1], robotsTxtReference)
+        card.addTip(`Tip  #${this.#tipNumber++}: Fix Robots.txt Syntax`, [msg1], robotsTxtReference, 75)
     }
 
     public static emptyRobotsTxt(card: Card) {
         const msg1 =
             `It's critical to add the missing content to the <code>robots.txt</code> file. ` +
-            `Robots.txt are a very critical factor in SEO ranking.`
-        card.addTip(`Tip #${this.#tipNumber++}: Add Content to Robots.txt`, [msg1], robotsTxtReference)
+            `Robots.txt are a very important factor in SEO ranking.`
+        card.addTip(`Tip #${this.#tipNumber++}: Add Content to Robots.txt`, [msg1], robotsTxtReference, 40)
     }
 
     public static missingRobotsTxt(card: Card) {
         const msg1 =
             `It's critical to add the missing <code>robots.txt</code> file. ` +
             `Robots.txt are a very important factor in SEO ranking.`
-        card.addTip(`Tip  #${this.#tipNumber++}: Add Robots.txt file`, [msg1], robotsTxtReference)
+        card.addTip(`Tip  #${this.#tipNumber++}: Add Robots.txt file`, [msg1], robotsTxtReference, 80)
     }
 
     public static sitemapInRobotsDoesNotExist(card: Card, url: string) {
@@ -160,7 +161,7 @@ export class Tips {
             `The <code>robots.txt</code> file list <code>sitemap.xml</code> url pointing to a file that doesn't exist. ` +
             `This is the broken link:`
         const msg2 = codeBlock(url, Mode.txt)
-        card.addTip(`Tip #${this.#tipNumber++}: Add Robots.txt file`, [msg1, msg2], robotsTxtReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Add Robots.txt file`, [msg1, msg2], robotsTxtReference, 50)
     }
 
     // ------------------------------------------------------------------------
@@ -178,7 +179,7 @@ export class Tips {
         const msg2 =
             `A good XML sitemap acts as a roadmap of your website that leads Google to all your important pages. ` +
             `XML sitemaps can be good for SEO, as they allow Google to find your essential website pages quickly, even if your internal linking isn't perfect.`
-        card.addTip(`Tip #${this.#tipNumber++}: Add a Sitemap.xml File`, [msg1, msg2], sitemapSyntaxReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Add a Sitemap.xml File`, [msg1, msg2], sitemapSyntaxReference, 80)
     }
 
     public static uncompressedLargeSitemap(card: Card, url: string, size: number) {
@@ -191,7 +192,7 @@ export class Tips {
         const msg2 =
             `Compressing your sitemap.xml with <i>gzip</i> will reduce the load on your server and speedup upload and download of the file. ` +
             `However, there are no SEO direct benefits in compressing a sitemap.`
-        card.addTip(`Tip #${this.#tipNumber++}: Compress Sitemap`, [msg1, msg2], sitemapSyntaxReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Compress Sitemap`, [msg1, msg2], sitemapSyntaxReference, 15)
     }
 
     public static sitemapWithoutXmlExtension = (card: Card, url: string) => {
@@ -199,14 +200,14 @@ export class Tips {
             `This sitemap's url is lacking the standard extension for XML files: <code>.xml</code>. ` +
             `Consider to adopt the best practices for sitemaps by adding the <code>.xml</code> extension. ` +
             `However, Google bot should be able to process your sitemaps even if they don't have the correct extension.`
-        card.addTip(`Tip #${this.#tipNumber++}: Add the XML Extension to Your Sitemap`, [msg1], sitemapSyntaxReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Add the XML Extension to Your Sitemap`, [msg1], sitemapSyntaxReference, 25)
     }
 
     public static compressedSitemapNotFound(card: Card, url: string) {
         const msg1 =
             `This compressed file at the doesn't exist. ` +
             `Upload the file to the webserver to let Google bot properly index the website.`
-        card.addTip(`Tip #${this.#tipNumber++}: Upload The Missing Compressed Sitemap File`, [msg1], sitemapReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Upload The Missing Compressed Sitemap File`, [msg1], sitemapReference, 80)
     }
 
     public static malformedSitemapXml(card: Card) {
@@ -214,7 +215,7 @@ export class Tips {
             `Double check the syntax of the <code>sitemap.xml</code> and update it ASAP. ` +
             `It's important for the <code>sitemap.xml</code> file to be consistent with the standard XML syntax. `
         const msg2 = `The <code>sitemap.xml</code> of a website, if present, is extensively used by all Search Engines bots a it's a very important factor in SEO ranking of the site.`
-        card.addTip(`Tip #${this.#tipNumber++}: Fix Sitemap.xml Syntax`, [msg1, msg2], sitemapSyntaxReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Fix Sitemap.xml Syntax`, [msg1, msg2], sitemapSyntaxReference, 80)
     }
 
     // ------------------------------------------------------------------------
@@ -249,7 +250,7 @@ export class Tips {
         const msg1 =
             `Meta Data should always be include in every web page. Meta tags provide important information to teh browser and to the Search Engine bots about the page. ` +
             `Also Meta tags allow the page to control how it will be shared by users providing recommendation for title, image and descriptions to be use for sharing post on Social Media .`
-        card.addTip(`Tip #${this.#tipNumber++}: Add Meta Tags`, [msg1], metaTagsReference)
+        card.addTip(`Tip #${this.#tipNumber++}: Add Meta Tags`, [msg1], metaTagsReference, 85)
     }
 
     public static tag_NoValue(card: Card, platform: Platform, tag: iTag) {
@@ -258,7 +259,8 @@ export class Tips {
         card.addTip(
             `Tip #${this.#tipNumber++}: Update The <code>${tag.label}</code> Meta Tag`,
             [msg1, msg2],
-            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
+            70
         )
     }
 
@@ -270,7 +272,8 @@ export class Tips {
         card.addTip(
             `Tip #${this.#tipNumber++}: Fix The <code>${tag.label}</code> Meta Tag`,
             [msg1, msg2, msg3, msg4],
-            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
+            80
         )
     }
 
@@ -283,7 +286,8 @@ export class Tips {
         card.addTip(
             `Tip #${this.#tipNumber++}: Add the <code>${tag}</code> Image Meta Tag`,
             [msg1, msg2, msg3],
-            'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+            'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
+            70
         )
     }
 
@@ -295,7 +299,8 @@ export class Tips {
         card.addTip(
             `Tip #${this.#tipNumber++}: Upload The ${platform} Meta Tag Image`,
             [msg1, msg2, msg3, msg4],
-            'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+            'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
+            65
         )
     }
 
@@ -307,7 +312,8 @@ export class Tips {
         card.addTip(
             `Tip #${this.#tipNumber++}: Replace the Image Placeholder in <code>${tag.label}</code>`,
             [msg1, msg2, msg3, msg4],
-            'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+            'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
+            60
         )
     }
 
@@ -320,7 +326,8 @@ export class Tips {
         card.addTip(
             `Tip #${this.#tipNumber++}: Update the <code>${tag.label}</code> Meta Tag with Canonical Url`,
             [msg1, msg2, msg3, msg4, msg5],
-            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
+            60
         )
     }
 
@@ -333,7 +340,8 @@ export class Tips {
         card.addTip(
             `Tip #${this.#tipNumber++}: Change the <code>${tag.label}</code> Url to Absolute`,
             [msg1, msg2, msg3],
-            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
+            65
         )
     }
 
@@ -346,7 +354,8 @@ export class Tips {
         card.addTip(
             `Tip #${this.#tipNumber++}: Change <code>${tag.label}</code> Url Protocol To HTTPS`,
             [msg1, msg2, msg3],
-            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
+            35
         )
     }
 
@@ -357,7 +366,8 @@ export class Tips {
         card.addTip(
             `Tip #${this.#tipNumber++}: Replace The Placeholder in the <code>${tag.label}</code> Meta Tag`,
             [msg1, msg2, msg3],
-            'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+            'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
+            50
         )
     }
 
@@ -369,12 +379,29 @@ export class Tips {
         recommendedLength: string
     ) {
         const msg1 = `On this page, the <code>${tag.label}</code> tag is <b>${tag.value.length}</b> characters long.`
-        const msg2 = `The maximum length for this tag is <b>${maxLength}</b>, but best practices recommend to keep the field length length under <b>${recommendedLength}</b>.`
+        const msg2 = `While it's under the the maximum length for this tag, defined at ${maxLength}, best practices recommend to keep the field length length under <b>${recommendedLength}</b>.`
         const msg3 = `Reduce the length of the tag value to make sure your <code>${tag.label}</code> will not be trimmed by ${platform} on posts sharing this page on all devices.`
         card.addTip(
-            `Tip #${this.#tipNumber++}: Shorten the <code>${tag.label}</code> Meta Tag`,
+            `Tip #${this.#tipNumber++}: Consider shortening the <code>${tag.label}</code> Meta Tag`,
             [msg1, msg2, msg3],
-            'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+            'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
+            15
+        )
+    }
+
+    public static tag_OverMaxLength(
+        card: Card,
+        platform: Platform,
+        tag: iTag,
+        maxLength: string
+    ) {
+        const msg1 = `On this page, the <code>${tag.label}</code> tag is <b>${tag.value.length}</b> characters long, over the maximum length of <b>${maxLength}</b>, specified for this tag.`
+        const msg2 = `Reduce the length of the tag value to make sure your <code>${tag.label}</code> will not be trimmed by ${platform} on posts sharing this page on all devices.`
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Shorten the <code>${tag.label}</code> Meta Tag`,
+            [msg1, msg2],
+            'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
+            40
         )
     }
 
@@ -389,7 +416,8 @@ export class Tips {
         card.addTip(
             `Tip #${this.#tipNumber++}: Use the More Specific <code>${tagLabel}</code> Meta Tag`,
             [msg1, msg2, example.msg, example.code],
-            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
+            10
         )
     }
 
@@ -401,7 +429,8 @@ export class Tips {
         card.addTip(
             `Tip #${this.#tipNumber++}: Add the Missing <code>${tagLabel}</code> Meta Tag`,
             [msg1, example.msg, example.code],
-            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
+            55
         )
     }
 
@@ -411,9 +440,10 @@ export class Tips {
             `Remove the following Meta Tag to comply with the best practices recommended by ${platform}.`
         const msg2 = codeBlock(htmlTag, Mode.html)
         card.addTip(
-            `Tip #${this.#tipNumber++}: Remove the <code>${tagName}</code> Meta Tag`,
+            `Tip #${this.#tipNumber++}: Remove the Obsolete <code>${tagName}</code> Meta Tag`,
             [msg1, msg2],
-            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference
+            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
+            15
         )
     }
 
@@ -425,8 +455,9 @@ export class Tips {
         const msg3 = `With only relative paths all Search Engines will ignore the Structured Data in the page.`
         card.addTip(
             `Tip #${this.#tipNumber++}: Rewrite URLs in "${objectName}" with Absolute Path`,
-            [msg1, msg2],
-            structuredDataReference
+            [msg1, msg2, msg3],
+            structuredDataReference,
+            70
         )
     }
 
@@ -436,7 +467,8 @@ export class Tips {
         card.addTip(
             `Tip #${this.#tipNumber++}: Merge the "${objectName}" Data Structures`,
             [msg1, msg2],
-            structuredDataReference
+            structuredDataReference,
+            25
         )
     }
 
@@ -445,7 +477,7 @@ export class Tips {
         const msg2 =
             `Structured data is important for SEO because it helps search engines find and understand your content and website. ` +
             `It's also an important way to prepare for the future of search, as Google and other engines continue to personalize the user experience and answer questions directly on their SERPs.`
-        card.addTip(`Tip #${this.#tipNumber++}: Add Structured Data Snippets`, [msg1, msg2], structuredDataHowToUse)
+        card.addTip(`Tip #${this.#tipNumber++}: Add Structured Data Snippets`, [msg1, msg2], structuredDataHowToUse, 75)
     }
 
     public static sd_invalidSyntax(card: Card) {
@@ -454,7 +486,8 @@ export class Tips {
         card.addTip(
             `Tip #${this.#tipNumber++}: Fix the Invalid Structured Data Snippet`,
             [msg1],
-            structuredDataReference
+            structuredDataReference,
+            75
         )
     }
 }

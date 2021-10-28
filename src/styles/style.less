@@ -399,11 +399,81 @@ body#id-page-auditor {
                 }
                 .tip-body {
                     padding-bottom: 16px;
+                    position: relative;
 
                     > div {
                         margin-top: 8px;
                         > .code {
                             margin-top: 16px;
+                        }
+                    }
+                    .tip-scale-title {
+                        top: 0;
+                        text-align: center;
+                        font-size: 12px;
+                        position: absolute;
+                        left: ~"calc(50% - 100px)";
+                        width: 200px;
+                        text-align: center;
+                        font-weight: bold;
+                    }
+                    .tip-scale {
+                        border: solid 1px var(--border-color);
+                        border-radius: 3px;
+                        height: 25px;
+                        margin: 16px auto 24px;
+                        background: linear-gradient(
+                            45deg,
+                            rgb(255 215 0 / 50%),
+                            rgb(255 165 0 / 50%),
+                            rgb(255 0 0 / 50%)
+                        );
+                        position: relative;
+                        &::before {
+                            content: '0';
+                            position: absolute;
+                            top: 6px;
+                            left: 2px;
+                            font-size: 12px;
+                        }
+                        &::after {
+                            content: '100';
+                            position: absolute;
+                            top: 6px;
+                            right: 2px;
+                            font-size: 12px;
+                        }
+
+                        .tip-scale-level {
+                            position: relative;
+                            width: 50%;
+                            &:before {
+                                content: attr(data-scale);
+                                position: relative;
+                                right: ~'calc(-100% + 14px)';
+                                top: 26px;
+                                z-index: 100;
+                                font-size: 11px;
+                                display: block;
+                                width: 28px;
+                                text-align: center;
+                                background-color: rgb(128 128 128 / 75%);
+                                border-radius: 0 0 4px 4px;
+                                color: white;
+                                padding-bottom: 2px;
+                                box-shadow: 0 2px 4px #AAA;
+                            }
+                            &:after {
+                                height: 0;
+                                content: '';
+                                right: -20px;
+                                top: -14px;
+                                position: absolute;
+                                border-style: solid;
+                                border-width: 20px;
+                                border-color: transparent transparent rgb(128 128 128 / 75%);
+                                transform: scaleX(0.72);
+                            }
                         }
                     }
                 }

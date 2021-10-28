@@ -176,7 +176,7 @@ export class Card {
         this.#head.classList.add(tag)
         return this
     }
-    public addTip(title: string, txts: string[], cta: iLink = {label: '', url: ''}) {
+    public addTip(title: string, txts: string[], cta: iLink, severity: number = 0) { 
         const tipDiv = document.createElement('div')
         tipDiv.className = 'card-tip'
         const tipTitle = document.createElement('div')
@@ -188,6 +188,20 @@ export class Card {
             .filter(txt => txt.length > 0)
             .map(txt => `<div>${txt}</div>`)
             .join('')
+        if(severity > 0) {
+            const scaleTitle = document.createElement('div')
+            scaleTitle.innerText = `Severity`
+            scaleTitle.className = 'tip-scale-title'
+            const scaleDiv = document.createElement('div')
+            scaleDiv.className = 'tip-scale'
+            const scaleLevel = document.createElement('div')
+            scaleLevel.className = 'tip-scale-level'
+            scaleLevel.style.width = `${severity.toFixed()}%`
+            scaleLevel.setAttribute('data-scale', `${severity.toFixed()}`)
+            scaleDiv.append(scaleLevel)
+            tipBody.insertBefore(scaleDiv, tipBody.firstChild)
+            tipBody.insertBefore(scaleTitle, tipBody.firstChild)
+        }
         const tipCTA = document.createElement('div')
         tipCTA.className = 'cta-toolbar'
         const tipBtn = document.createElement('a')

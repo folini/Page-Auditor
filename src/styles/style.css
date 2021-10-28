@@ -376,12 +376,75 @@ body#id-page-auditor .box-card .card-footer .card-tip .tip-title code {
 }
 body#id-page-auditor .box-card .card-footer .card-tip .tip-body {
   padding-bottom: 16px;
+  position: relative;
 }
 body#id-page-auditor .box-card .card-footer .card-tip .tip-body > div {
   margin-top: 8px;
 }
 body#id-page-auditor .box-card .card-footer .card-tip .tip-body > div > .code {
   margin-top: 16px;
+}
+body#id-page-auditor .box-card .card-footer .card-tip .tip-body .tip-scale-title {
+  top: 0;
+  font-size: 12px;
+  position: absolute;
+  left: calc(50% - 100px);
+  width: 200px;
+  text-align: center;
+  font-weight: bold;
+}
+body#id-page-auditor .box-card .card-footer .card-tip .tip-body .tip-scale {
+  border: solid 1px var(--border-color);
+  border-radius: 3px;
+  height: 25px;
+  margin: 16px auto 24px;
+  background: linear-gradient(45deg, rgba(255, 215, 0, 0.5), rgba(255, 165, 0, 0.5), rgba(255, 0, 0, 0.5));
+  position: relative;
+}
+body#id-page-auditor .box-card .card-footer .card-tip .tip-body .tip-scale::before {
+  content: '0';
+  position: absolute;
+  top: 6px;
+  left: 2px;
+  font-size: 12px;
+}
+body#id-page-auditor .box-card .card-footer .card-tip .tip-body .tip-scale::after {
+  content: '100';
+  position: absolute;
+  top: 6px;
+  right: 2px;
+  font-size: 12px;
+}
+body#id-page-auditor .box-card .card-footer .card-tip .tip-body .tip-scale .tip-scale-level {
+  position: relative;
+  width: 50%;
+}
+body#id-page-auditor .box-card .card-footer .card-tip .tip-body .tip-scale .tip-scale-level:before {
+  content: attr(data-scale);
+  position: relative;
+  right: calc(-100% + 14px);
+  top: 26px;
+  z-index: 100;
+  font-size: 11px;
+  display: block;
+  width: 28px;
+  text-align: center;
+  background-color: rgba(128, 128, 128, 0.75);
+  border-radius: 0 0 4px 4px;
+  color: white;
+  padding-bottom: 2px;
+  box-shadow: 0 2px 4px #AAA;
+}
+body#id-page-auditor .box-card .card-footer .card-tip .tip-body .tip-scale .tip-scale-level:after {
+  height: 0;
+  content: '';
+  right: -20px;
+  top: -14px;
+  position: absolute;
+  border-style: solid;
+  border-width: 20px;
+  border-color: transparent transparent rgba(128, 128, 128, 0.75);
+  transform: scaleX(0.72);
 }
 body#id-page-auditor .box-card div.code {
   font-family: monospace, 'Courier New', Courier, monospace;

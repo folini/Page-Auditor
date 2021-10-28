@@ -116,7 +116,9 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[],
             Tips.tag_NoValue(card, 'Twitter', titleTag)
         } else if (titleTag.value.length <= 4) {
             Tips.tag_Placeholder(card, 'Twitter', titleTag)
-        } else if (titleTag.value.length > 50) {
+        } else if (titleTag.value.length > 70) {
+            Tips.tag_OverMaxLength(card, 'Twitter', titleTag, '70')
+        } else if (titleTag.value.length > 60) {
             Tips.tag_OverRecommendedLength(card, 'Twitter', titleTag, '70', '60')
         }
     } else {
@@ -132,6 +134,8 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[],
             Tips.tag_NoValue(card, 'Twitter', descriptionTag)
         } else if (descriptionTag.value.length <= 4) {
             Tips.tag_Placeholder(card, 'Twitter', descriptionTag)
+        } else if (descriptionTag.value.length > 280) {
+            Tips.tag_OverMaxLength(card, 'Twitter', descriptionTag, '280')
         } else if (descriptionTag.value.length > 200) {
             Tips.tag_OverRecommendedLength(card, 'Twitter', descriptionTag, '280', '200')
         }
@@ -237,6 +241,8 @@ export const openGraphPreview = (card: Card, selectedTags: iTag[], allMeta: iTag
             Tips.tag_NoValue(card, 'Facebook', titleTag)
         } else if (titleTag.value.length <= 4) {
             Tips.tag_Placeholder(card, 'Facebook', titleTag)
+        } else if (titleTag.value.length > 95) {
+            Tips.tag_OverMaxLength(card, 'Facebook', titleTag, '95')
         } else if (titleTag.value.length > 55) {
             Tips.tag_OverRecommendedLength(card, 'Facebook', titleTag, '95', '55')
         }
@@ -279,6 +285,8 @@ export const openGraphPreview = (card: Card, selectedTags: iTag[], allMeta: iTag
         } else if (descriptionTag.value.length <= 4) {
             Tips.tag_Placeholder(card, 'Facebook', descriptionTag)
         } else if (descriptionTag.value.length > 110) {
+            Tips.tag_OverMaxLength(card, 'Facebook', descriptionTag, '110 (200 when the url is missing)')
+        } else if (descriptionTag.value.length > 55) {
             Tips.tag_OverRecommendedLength(card, 'Facebook', descriptionTag, '110 (200 when the url is missing)', '55')
         }
     } else {

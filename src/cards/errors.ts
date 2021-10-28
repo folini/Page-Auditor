@@ -125,18 +125,18 @@ export class Errors {
 
     // ------------------------------------------------------------------------
     // Structured Data Errors
-    public static structuredData_NotFound(url: string) {
+    public static sd_NotFound(url: string) {
         const msg1 = `No <i>Structured Data</i> was found at location:`
-        return new Card().error().addParagraph(msg1).addCodeBlock(url, Mode.txt).setTitle('Missing Structured Data')
+        return new Card().error().addParagraph(msg1).addCodeBlock(url, Mode.txt).setTitle('No Structured Data')
     }
 
-    public static structuredData_InvalidJSON(json: string) {
+    public static sd_InvalidJSON(json: string) {
         const msg1 = `A Structured data JSON script contains the following invalid JSON code.`
         return new Card()
             .error()
             .addParagraph(msg1)
             .addExpandableBlock('Invalid JSON Code', codeBlock(json, Mode.txt))
-            .setTitle('Invalid JSON Code')
+            .setTitle('Invalid LD-JSON Code')
     }
 
     // ------------------------------------------------------------------------
