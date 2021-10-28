@@ -38,7 +38,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, repo
     if (jsonStrings.length == 0) {
         const card = Errors.structuredData_NotFound(tabUrl)
         report.addCard(card)
-        Tips.missingStructuredData(card)
+        Tips.sd_noStructuredData(card)
         return
     }
 
@@ -52,13 +52,13 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, repo
             const ldJson: iJsonLD = JSON.parse(json)
             if (getSchemaType(ldJson) === '') {
                 const card = Errors.structuredData_InvalidJSON(json)
-                Tips.invalidStructuredData(card)
+                Tips.sd_invalidSyntax(card)
                 return
             }
             ldJsonCard(ldJson, tabUrl, occurrences, report)
         } catch (err) {
             const card = Errors.structuredData_InvalidJSON(json)
-            Tips.invalidStructuredData(card)
+            Tips.sd_invalidSyntax(card)
         }
     })
 }

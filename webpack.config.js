@@ -34,13 +34,14 @@ module.exports = {
                 type: 'javascript/auto',
             },
             {
-                test: /Logo_256x256\.(png)$/,
+                test: [/Logo_256x256\.(png)$/, /_noRendering_400x200\.(png)$/],
                 loader: 'file-loader',
                 options: {
                     name: '[name].png',
                     outputPath: 'logos',
                 },
             },
+
             {
                 test: /\.(less)$/,
                 use: ['style-loader', 'css-loader', 'less-loader'],

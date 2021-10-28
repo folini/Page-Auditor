@@ -419,8 +419,19 @@ export class Tips {
 
     // ---------------------------------------------------------------------------------------------
     // Structure Data TIPS
-    public static multipleStructuredData(card: Card, objectName: string, occurrences: number) {
-        const msg1 = `Detected ${occurrences.toFixed()} copies of the "${objectName}" Structured Data snippet.`
+    public static sd_relativeUrl(card: Card, objectName: string, urls: string[]) {
+        const msg1 = `Detected ${urls.length.toFixed()} urls with local path listed in the "${objectName}" Structured Data snippet of the page.`
+        const msg2 = codeBlock(urls.join('\n'), Mode.txt)
+        const msg3 = `With only relative paths all Search Engines will ignore the Structured Data in the page.`
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Rewrite URLs in "${objectName}" with Absolute Path`,
+            [msg1, msg2],
+            structuredDataReference
+        )
+    }
+
+    public static sd_repeatedSchemas(card: Card, objectName: string, occurrences: number) {
+        const msg1 = `Detected ${occurrences.toFixed()} copies of the "${objectName}" Structured Data snippet of the page.`
         const msg2 = `Consider removing the duplicates and merging the information about the ${objectName} into one single snippet.`
         card.addTip(
             `Tip #${this.#tipNumber++}: Merge the "${objectName}" Data Structures`,
@@ -429,7 +440,7 @@ export class Tips {
         )
     }
 
-    public static missingStructuredData(card: Card) {
+    public static sd_noStructuredData(card: Card) {
         const msg1 = `Structured Data is an important SEO factor. It's very important to add a Structured Data snippet to each page.`
         const msg2 =
             `Structured data is important for SEO because it helps search engines find and understand your content and website. ` +
@@ -437,7 +448,7 @@ export class Tips {
         card.addTip(`Tip #${this.#tipNumber++}: Add Structured Data Snippets`, [msg1, msg2], structuredDataHowToUse)
     }
 
-    public static invalidStructuredData(card: Card) {
+    public static sd_invalidSyntax(card: Card) {
         const msg1 = `A Structured Data snippet contains invalid JSON code blocking the Search Engine spiders/bots from efficiently indexing the page.`
         const msg2 = `Fix the LD-JSON code to benefit from the inclusion of Structured Data in the page.`
         card.addTip(
