@@ -4,7 +4,7 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {Card} from '../card'
+import {Card, CardKind} from '../card'
 import {Mode} from '../colorCode'
 import {codeBlock} from '../codeBlock'
 
@@ -13,8 +13,7 @@ export class Info {
         const msg1 = `Too many sitemaps to load and analyze. Only the first ${maxNumber} were loaded and analyzed.`
         const msg2 = `${urls.length} sitemaps in the list below were not loaded and analyzed.`
         const block = `${urls.map(url => `${url.trim()}`).join('\n')}`
-        return new Card()
-            .info()
+        return new Card(CardKind.info)
             .addParagraph(msg1)
             .addParagraph(msg2)
             .addExpandableBlock('SiteMaps Not Loaded', codeBlock(block, Mode.txt))
@@ -23,6 +22,6 @@ export class Info {
 
     public static noScriptsOnThisPage() {
         const msg1 = `No External Scripts were found on this page.`
-        return new Card().info().addParagraph(msg1).setTitle('No JavaScripts found on this page')
+        return new Card(CardKind.info).addParagraph(msg1).setTitle('No JavaScripts found on this page')
     }
 }

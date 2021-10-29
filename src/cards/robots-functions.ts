@@ -4,7 +4,7 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {Card, iLink} from '../card'
+import {Card, iLink, CardKind} from '../card'
 import {Report} from '../report'
 import {Mode} from '../colorCode'
 import {disposableId, formatNumber, fileExists} from '../main'
@@ -13,7 +13,7 @@ import {Tips} from './tips'
 import {codeBlock} from '../codeBlock'
 import {htmlDecode} from 'js-htmlencode'
 import {SitemapList} from '../sitemapList'
-import {sitemapMaxSize} from "../main"
+import {sitemapMaxSize} from '../main'
 
 export const readFile = (url: string) =>
     fileExists(url)
@@ -46,8 +46,8 @@ const sitemapCard = (url: string, sitemaps: SitemapList, report: Report) =>
                     ['Compression type', 'Gzip'],
                 ]
 
-                const card = new Card()
-                    .open(`Sitemap #${sitemaps.doneList.length + 1} (Compressed)`, fileName, 'icon-sitemap')
+                const card = new Card(CardKind.report)
+                    .open(`Detected Sitemap #${sitemaps.doneList.length + 1} (Compressed)`, fileName, 'icon-sitemap')
                     .addParagraph(`Found a compressed <code>sitemap.xml</code> file at the url:`)
                     .addCodeBlock(url, Mode.txt)
                     .addTable('Sitemap Analysis', table, getSitemapToolbarLinks(url, ''))
@@ -99,8 +99,8 @@ const sitemapCard = (url: string, sitemaps: SitemapList, report: Report) =>
                 ['Compressed', 'No Compression Detected'],
             ]
 
-            const card = new Card()
-                .open(`Sitemap  #${sitemaps.doneList.length + 1}`, fileName, 'icon-sitemap')
+            const card = new Card(CardKind.report)
+                .open(`Detected Sitemap  #${sitemaps.doneList.length + 1}`, fileName, 'icon-sitemap')
                 .addParagraph(`Found a <code>sitemap.xml</code> file at the url:`)
                 .addCodeBlock(url, Mode.txt)
                 .addParagraph(sitemapXmlDescription)
@@ -229,8 +229,8 @@ const robotsTxtCard = (url: string, robotsTxtBody: string): Card => {
         ])
     }
 
-    const card = new Card()
-        .open('Robot.Txt', `Robots.txt file`, 'icon-rep')
+    const card = new Card(CardKind.report)
+        .open('Detected Robot.Txt', `Robots.txt file`, 'icon-rep')
         .addParagraph(`Found a <code>Robots.txt</code> file at the url:`)
         .addCodeBlock(url, Mode.txt)
         .addParagraph(robotsTxtDescription)

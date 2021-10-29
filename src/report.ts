@@ -18,7 +18,8 @@ export class Report {
         if (typeof card.getDiv === 'function') {
             this.#container.append(card.getDiv())
         } else {
-            this.#container.append(Errors.internal_fromError(card, 'Unable to add item to report').getDiv())
+            const errCard = Errors.internal_fromError(card, 'Unable to add item to report')
+            this.#container.append(errCard.getDiv())
         }
         return card
     }

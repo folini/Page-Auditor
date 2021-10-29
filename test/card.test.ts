@@ -4,7 +4,7 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {Card, iLink} from '../src/card'
+import {Card, CardKind} from '../src/card'
 
 // Jest imports
 import 'jest-get-type'
@@ -65,7 +65,7 @@ import 'jest-extended'
 
 test('Error Card generates valid HTML', () => {
     const msg = '<div>Some error description</div>'
-    const data = new Card().error().addParagraph(msg).getDiv().innerHTML
+    const data = new Card(CardKind.error).addParagraph(msg).getDiv().innerHTML
     expect(data)
         .toBeString()
         .toContain(
@@ -81,7 +81,7 @@ test('Error Card generates valid HTML', () => {
 
 test('Suggestion Card generates valid HTML', () => {
     const msg = '<div>Some suggestion</div>'
-    const htmlCode = new Card().suggestion().addParagraph(msg).getDiv().innerHTML
+    const htmlCode = new Card(CardKind.suggestion).addParagraph(msg).getDiv().innerHTML
     expect(htmlCode)
         .toBeString()
         .toContain(

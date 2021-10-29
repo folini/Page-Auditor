@@ -4,7 +4,7 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {Card, iLink} from '../card'
+import {Card, iLink, CardKind} from '../card'
 import {Report} from '../report'
 import {sectionActions, NoArgsNoReturnFunc, disposableId} from '../main'
 import {Mode} from '../colorCode'
@@ -106,7 +106,7 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, report: Report): v
         const plural = discoveredItem.scripts.length > 1 ? 's' : ''
         const btnLabel = `${discoveredItem.scripts.length.toFixed()} Script${plural}`
         const block = discoveredItem.scripts.map((script, j) => codeBlock(script, Mode.js, disposableId())).join('')
-        const card = new Card()
+        const card = new Card(CardKind.report)
             .open(discoveredItem.category, discoveredItem.name, discoveredItem.iconClass)
             .addParagraph(discoveredItem.description)
             .addExpandableBlock(btnLabel, block)

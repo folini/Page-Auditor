@@ -27,7 +27,7 @@ export class Card {
     #kind: CardKind
     #footer: HTMLDivElement
 
-    constructor() {
+    constructor(kind: CardKind) {
         this.#div = document.createElement('div')
         this.#div.className = `box-card`
         this.#head = document.createElement('h2')
@@ -38,8 +38,19 @@ export class Card {
         this.#footer = document.createElement('div')
         this.#footer.className = 'card-footer hide'
         this.#div.append(this.#head, hr, this.#body, this.#footer)
-
-        this.#kind = CardKind.report
+        this.#kind = kind
+        switch (this.#kind) {
+            case CardKind.error:
+                this.open('Error', '', 'icon-error')
+                break
+            case CardKind.suggestion:
+                this.open('Suggestion', '', 'icon-suggestion')
+                break
+            case CardKind.info:
+                this.open('Info', '', 'icon-info')
+                break
+        }
+        return this
     }
 
     public open(preTitle: string, title: string, cssClass: string) {
@@ -54,17 +65,16 @@ export class Card {
         return this
     }
 
+    public setLogo(cssClass: string) {
+        ;[...this.#div.classList.entries()]
+            .filter(c => c[1].startsWith('icon-'))
+            .forEach(c => this.#div.classList.remove(c[1]))
+        this.#div.classList.add(cssClass)
+        return this
+    }
+
     public getDiv() {
         return this.#div
-    }
-
-    public getKind() {
-        return this.#kind
-    }
-
-    public setKind(value: CardKind) {
-        this.#kind = value
-        return this
     }
 
     public setTitle(title: string) {
@@ -77,18 +87,6 @@ export class Card {
         const h2div = this.#div.querySelector('.cardPreTitle') as HTMLDivElement
         h2div.innerHTML = title
         return this
-    }
-
-    public error() {
-        return this.open('Error', '', 'icon-error').setKind(CardKind.error)
-    }
-
-    public suggestion() {
-        return this.open('Suggestion', '', 'icon-suggestion').setKind(CardKind.suggestion)
-    }
-
-    public info() {
-        return this.open('Info', '', 'icon-info').setKind(CardKind.info)
     }
 
     public addCTA(links: iLink[]) {
@@ -176,7 +174,7 @@ export class Card {
         this.#head.classList.add(tag)
         return this
     }
-    public addTip(title: string, txts: string[], cta: iLink, severity: number = 0) { 
+    public addTip(title: string, txts: string[], cta: iLink, severity: number = 0) {
         const tipDiv = document.createElement('div')
         tipDiv.className = 'card-tip'
         const tipTitle = document.createElement('div')
@@ -188,7 +186,7 @@ export class Card {
             .filter(txt => txt.length > 0)
             .map(txt => `<div>${txt}</div>`)
             .join('')
-        if(severity > 0) {
+        if (severity > 0) {
             const scaleTitle = document.createElement('div')
             scaleTitle.innerText = `Severity`
             scaleTitle.className = 'tip-scale-title'

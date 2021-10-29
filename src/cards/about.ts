@@ -5,7 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Report} from '../report'
-import {Card} from '../card'
+import {Card, CardKind} from '../card'
 import {sectionActions, ReportGeneratorFunc} from '../main'
 
 const scriptClasses = require('../jsons/scriptClasses.json') as any[]
@@ -55,7 +55,7 @@ const suggestedSites = [
 
 const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report: Report): void => {
     report.addCard(
-        new Card()
+        new Card(CardKind.report)
             .open(``, `How to use Page Auditor for Technical SEO`, 'icon-how')
             .addParagraph(
                 `<i>Page Auditor</i> shows the snippets of code and tags included in the HTML code relevant for the on-page SEO of a web page.<br/>` +
@@ -72,7 +72,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
     )
 
     report.addCard(
-        new Card()
+        new Card(CardKind.report)
             .open(``, `Why Page Auditor`, 'icon-why')
             .addParagraph(
                 `<b>Page Auditor</b> r is a professional tool for Digital Marketers. Even if you are not a marketing expert, you can use "Page Auditor" to learn about on-page technical SEO.`
@@ -92,7 +92,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
     )
 
     report.addCard(
-        new Card()
+        new Card(CardKind.report)
             .open(``, `Open-Source Project`, 'icon-open')
             .addParagraph(
                 `<b>Page Auditor</b> is an open source project created by <a target="_new" href='https://www.linkedin.com/in/francofolini/'>Franco Folini</a>. 
@@ -110,7 +110,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
     )
 
     report.addCard(
-        new Card()
+        new Card(CardKind.report)
             .open('Credits', `Page Auditor for Technical SEO`, 'icon-fc')
             .addParagraph(
                 `<b>Page Auditor for Technical SEO</b> is a free Google Chrome Extension created by <a href='https://www.linkedin.com/in/francofolini/' target='_new'>Franco Folini</a>.
@@ -133,7 +133,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
     )
 
     report.addCard(
-        new Card()
+        new Card(CardKind.report)
             .open('Credits', `About the Author`, 'icon-franco-avatar')
             .addParagraph(
                 `<b>Franco Folini</b> has a passion for Web Development and Digital Marketing.` +

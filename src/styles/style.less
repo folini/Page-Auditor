@@ -68,6 +68,7 @@
     --card-info-color: rgb(100 149 237 / 40%);
 
     --tip-color: rgb(255 215 0 / 7%);
+    --inner-box-shadow: 0px 0px 8px hsl(0deg 0% 53% / 20%);
 }
 
 .small-btn {
@@ -374,6 +375,7 @@ body#id-page-auditor {
             padding-top: 0;
             .card-tip {
                 border: solid 1px var(--border-color);
+                box-shadow: var(--inner-box-shadow);
                 padding: 0 16px 16px 16px;
                 border-radius: 8px 8px 16px 16px;
                 background-color: var(--tip-color);
@@ -419,7 +421,7 @@ body#id-page-auditor {
                     }
                     .tip-scale {
                         border: solid 1px var(--border-color);
-                        border-radius: 3px;
+                        border-radius: 20px;
                         height: 25px;
                         margin: 16px auto 24px;
                         background-repeat: no-repeat;
@@ -440,20 +442,21 @@ body#id-page-auditor {
                             linear-gradient(var(--border-color), var(--border-color)),
                             linear-gradient(var(--border-color), var(--border-color)),
                             linear-gradient(var(--border-color), var(--border-color));
-                            background-position: 0 center, 10% center, 20% center, 30% center, 40% center, 50% center, 60% center, 70% center, 80% center, 90% center;
+                        background-position: 0 center, 10% center, 20% center, 30% center, 40% center, 50% center,
+                            60% center, 70% center, 80% center, 90% center;
                         position: relative;
                         &::before {
                             content: '0';
                             position: absolute;
                             top: 6px;
-                            left: 2px;
+                            left: 6px;
                             font-size: 12px;
                         }
                         &::after {
                             content: '100';
                             position: absolute;
                             top: 6px;
-                            right: 2px;
+                            right: 6px;
                             font-size: 12px;
                         }
 
@@ -464,7 +467,7 @@ body#id-page-auditor {
                                 content: attr(data-scale);
                                 position: relative;
                                 right: ~'calc(-100% + 14px)';
-                                top: 26px;
+                                top: 28px;
                                 z-index: 100;
                                 font-size: 11px;
                                 display: block;
@@ -480,7 +483,7 @@ body#id-page-auditor {
                                 height: 0;
                                 content: '';
                                 right: -20px;
-                                top: -14px;
+                                top: -12px;
                                 position: absolute;
                                 border-style: solid;
                                 border-width: 20px;
@@ -552,6 +555,7 @@ body#id-page-auditor {
         margin: 24px auto 0;
         max-width: 504px;
         font-size: 15px;
+        box-shadow: var(--inner-box-shadow);
         .preview-label {
             color: #fff;
             padding: 8px 0;
@@ -567,11 +571,12 @@ body#id-page-auditor {
             width: 100%;
         }
         div {
-            padding-top: 8px;
+            padding-top: 4px;
         }
 
         &.twitter-card {
-            border-color: #1da1f2;
+            border-color: #1da1f280;
+            cursor: pointer;
             .preview-label {
                 background-color: #1da1f2;
             }
@@ -581,23 +586,27 @@ body#id-page-auditor {
 
             div.twitter-card-legend {
                 padding: 12px;
+                background-color: #fff;
                 .twitter-card-title {
+                    font-size: 15px;
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
+                    color: #0f1419;
                 }
-                .twitter-card-domain svg {
-                    height: 1.25em;
-                    position: relative;
-                    line-height: 16px;
-                    display: inline-block;
-                    font-size: 13px;
+                .twitter-card-domain {
+                    font-size: 15px;
+                    color: #536471;
+                }
+                .twitter-card-description {
+                    font-size: 15px;
+                    color: #536471;
                 }
             }
         }
 
         &.facebook-card {
-            border-color: #4267b2;
+            border-color: #4267b280;
             .preview-label {
                 background-color: #4267b2;
             }
@@ -736,6 +745,9 @@ body#id-page-auditor {
         }
         &.icon-tag-manager > h2 {
             background-image: url(../logos/GoogleTagManager_100x100.png);
+        }
+        &.icon-facebook > h2 {
+            background-image: url(../logos/Facebook_100x100.png);
         }
         &.icon-facebook-pixel > h2 {
             background-image: url(../logos/FacebookPixel_100x100.png);
@@ -883,6 +895,9 @@ body#id-page-auditor {
         }
         &.icon-chromium > h2 {
             background-image: url(../logos/Chromium_100x100.png);
+        }
+        &.icon-micro-formats > h2 {
+            background-image: url(../logos/MicroFormats_100x100.png);
         }
         &.icon-apple > h2 {
             background-image: url(../logos/Apple_100x100.png);

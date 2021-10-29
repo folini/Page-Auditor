@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------------
 import {iTag} from './meta-tags'
 import {Report} from '../report'
-import {Card, iLink} from '../card'
+import {Card, iLink, CardKind} from '../card'
 import {disposableId, fileExists} from '../main'
 import {Errors} from './errors'
 import {Mode} from '../colorCode'
@@ -46,6 +46,9 @@ const twitterLinkIcon =
     `</svg>`
 
 export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[], canonical: string) => {
+    const obsoleteTwitterCardValues: string[] = ['photo', 'gallery', 'product']
+    const validTwitterCardValues: string[] = ['summary', 'summary_large_image', 'app', 'player']
+
     const imgPreviewId = disposableId()
     const imgTag = selectedTags.find(m => m.label === 'twitter:image' || m.label === 'twitter:image:src')
     const urlTag = selectedTags.find(m => m.label === 'twitter:url')
@@ -82,15 +85,13 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[],
         Tips.tag_Missing(card, 'Twitter', 'twitter:site')
     }
 
-    const obsoleteCardValues: string[] = ['photo', 'gallery', 'product']
-    const validCardValues: string[] = ['summary', 'summary_large_image', 'app', 'player']
     if (!cardTag) {
         Tips.tag_Missing(card, 'Twitter', 'twitter:card')
     } else {
-        if (obsoleteCardValues.includes(cardTag.value)) {
-            Tips.tag_ObsoleteValue(card, 'Twitter', cardTag, validCardValues)
-        } else if (!validCardValues.includes(cardTag.value)) {
-            Tips.tag_InvalidValue(card, 'Twitter', cardTag, validCardValues)
+        if (obsoleteTwitterCardValues.includes(cardTag.value)) {
+            Tips.tag_ObsoleteValue(card, 'Twitter', cardTag, validTwitterCardValues)
+        } else if (!validTwitterCardValues.includes(cardTag.value)) {
+            Tips.tag_InvalidValue(card, 'Twitter', cardTag, validTwitterCardValues)
         }
     }
 
@@ -159,6 +160,9 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[],
             }
             if (!imgTag.value.startsWith('http')) {
                 Tips.tagUrl_RelativePath(card, 'Twitter', imgTag)
+                if (canonical.length > 0 && canonical.startsWith('http')) {
+                    img = new URL(canonical).origin + imgTag.value
+                }
             } else if (imgTag.value.startsWith('http://')) {
                 Tips.tagUrl_ObsoleteProtocol(card, 'Twitter', imgTag)
             }
@@ -181,9 +185,9 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[],
         `<div class="preview-label">Twitter Preview</div>
         ${img.length > 0 && img.startsWith('http') ? `<img id='${imgPreviewId}' src='${img}'>` : ``}
         <div class='twitter-card-legend'>
+            ${domain.length > 0 ? `<div class='twitter-card-domain'>${domain}</div>` : ''}
             <div class='twitter-card-title'>${htmlEncode(title)}</div>
             <div class='twitter-card-description'>${htmlEncode(description)}</div>
-            ${domain.length > 0 ? `<div class='twitter-card-domain'>${twitterLinkIcon} ${domain}</div>` : ''}
          </div>`,
         'preview-card twitter-card'
     )
@@ -318,6 +322,9 @@ export const openGraphPreview = (card: Card, selectedTags: iTag[], allMeta: iTag
             }
             if (!imgTag.value.startsWith('http')) {
                 Tips.tagUrl_RelativePath(card, 'Facebook', imgTag)
+                if (canonical.length > 0 && canonical.startsWith('http')) {
+                    img = new URL(canonical).origin + imgTag.value
+                }
             }
             if (imgTag.value.startsWith('http://')) {
                 Tips.tagUrl_ObsoleteProtocol(card, 'Facebook', imgTag)
@@ -390,7 +397,7 @@ export const tagCategories: iTagCategory[] = [
         title: `AppLinks Tags (Facebook)`,
         description: `Deprecated since February 2, 2020. Publishing App Link metadata is as simple as adding a few lines to the <head> tag in the HTML for your content. Apps that link to your content can then use this metadata to deep-link into your app, take users to an app store to download the app, or take them directly to the web to view the content. This allows developers to provide the best possible experience for their users when linking to their content.`,
         url: 'https://developers.facebook.com/docs/applinks/metadata-reference/',
-        cssClass: 'icon-open-graph',
+        cssClass: 'icon-facebook',
         filter: m => m.label.startsWith('al:'),
         preview: noPreview,
     },
@@ -574,8 +581,8 @@ export const metaTagsCard = (
 
     const table = selectedTags.map(tag => [tag.label, tag.value])
 
-    const card = new Card()
-        .open(`Meta Tags`, tagCategory.title, tagCategory.cssClass)
+    const card = new Card(CardKind.report)
+        .open(`Detected Meta Tags`, tagCategory.title, tagCategory.cssClass)
         .addParagraph(tagCategory.description)
         .addTable(`${tagCategory.title} Analysis`, table)
         .addExpandableBlock('Tags HTML Code', codeBlock(listOfMeta, Mode.html))

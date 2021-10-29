@@ -74,7 +74,7 @@ export class Tips {
     // INTERNAL ERROR TIPS
     public static internalError(card: Card) {
         const msg1 = `Something went wrong.`
-        const msg2 = `Consider updating the "Page Auditor" Chrome Extension to teh latest version.`
+        const msg2 = `Consider updating the "Page Auditor" Chrome Extension to the latest version.`
         card.addTip(
             `Tip #${this.#tipNumber++}: Update Page Auditor to the latest version`,
             [msg1, msg2],
@@ -105,7 +105,12 @@ export class Tips {
             `Sitemap files should be always linked using the safe <code>https</code> protocol.<br>` +
             `This is a list of the duplicate Urls:`
         const msg3 = codeBlock(urls.join('<br>'), Mode.txt)
-        card.addTip(`Tip #${this.#tipNumber++}: Remove Duplicate Sitemap Links`, [msg1, msg2, msg3], robotsTxtReference, 25)
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Remove Duplicate Sitemap Links`,
+            [msg1, msg2, msg3],
+            robotsTxtReference,
+            25
+        )
     }
 
     public static unsafeSitemapLinkInRobots(card: Card, urls: string[]) {
@@ -200,14 +205,24 @@ export class Tips {
             `This sitemap's url is lacking the standard extension for XML files: <code>.xml</code>. ` +
             `Consider to adopt the best practices for sitemaps by adding the <code>.xml</code> extension. ` +
             `However, Google bot should be able to process your sitemaps even if they don't have the correct extension.`
-        card.addTip(`Tip #${this.#tipNumber++}: Add the XML Extension to Your Sitemap`, [msg1], sitemapSyntaxReference, 25)
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Add the XML Extension to Your Sitemap`,
+            [msg1],
+            sitemapSyntaxReference,
+            25
+        )
     }
 
     public static compressedSitemapNotFound(card: Card, url: string) {
         const msg1 =
             `This compressed file at the doesn't exist. ` +
             `Upload the file to the webserver to let Google bot properly index the website.`
-        card.addTip(`Tip #${this.#tipNumber++}: Upload The Missing Compressed Sitemap File`, [msg1], sitemapReference, 80)
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Upload The Missing Compressed Sitemap File`,
+            [msg1],
+            sitemapReference,
+            80
+        )
     }
 
     public static malformedSitemapXml(card: Card) {
@@ -248,7 +263,7 @@ export class Tips {
 
     public static tag_AllMissing(card: Card) {
         const msg1 =
-            `Meta Data should always be include in every web page. Meta tags provide important information to teh browser and to the Search Engine bots about the page. ` +
+            `Meta Data should always be include in every web page. Meta tags provide important information to the browser and to the Search Engine bots about the page. ` +
             `Also Meta tags allow the page to control how it will be shared by users providing recommendation for title, image and descriptions to be use for sharing post on Social Media .`
         card.addTip(`Tip #${this.#tipNumber++}: Add Meta Tags`, [msg1], metaTagsReference, 85)
     }
@@ -267,7 +282,7 @@ export class Tips {
     public static tag_ObsoleteValue(card: Card, platform: Platform, tag: iTag, acceptedValues: string[]) {
         const msg1 = `The <code>${tag.label}</code> tag has an obsolete value that is not anymore valid:`
         const msg2 = codeBlock(`<meta property="${tag.label}" content="${tag.value}">`, Mode.html)
-        const msg3 = `While for now ${platform} might honoring obsolete values, it's important to update teh tag by selecting an item from the following list of valid values:`
+        const msg3 = `While for now ${platform} might honoring obsolete values, it's important to update the tag by selecting an item from the following list of valid values:`
         const msg4 = codeBlock(acceptedValues.join('<br>'), Mode.txt)
         card.addTip(
             `Tip #${this.#tipNumber++}: Fix The Obsolete Value for <code>${tag.label}</code> Meta Tag`,
@@ -354,7 +369,7 @@ export class Tips {
             `Tip #${this.#tipNumber++}: Change the <code>${tag.label}</code> Url to Absolute`,
             [msg1, msg2, msg3],
             platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
-            65
+            75
         )
     }
 
@@ -402,12 +417,7 @@ export class Tips {
         )
     }
 
-    public static tag_OverMaxLength(
-        card: Card,
-        platform: Platform,
-        tag: iTag,
-        maxLength: string
-    ) {
+    public static tag_OverMaxLength(card: Card, platform: Platform, tag: iTag, maxLength: string) {
         const msg1 = `On this page, the <code>${tag.label}</code> tag is <b>${tag.value.length}</b> characters long, over the maximum length of <b>${maxLength}</b>, specified for this tag.`
         const msg2 = `Reduce the length of the tag value to make sure your <code>${tag.label}</code> will not be trimmed by ${platform} on posts sharing this page on all devices.`
         card.addTip(
@@ -461,9 +471,9 @@ export class Tips {
     }
 
     public static tag_noOpenGraphTags(card: Card) {
-        const msg1 =
-            `Meta Tags specific for Facebook, called Open Graph meta tags, should always be include in every web page.`
-        const msg2 = `While they don't have a direct impact on SEO, Open Graph Meta Tags control how the page will appear when shared on Facebook. ` +
+        const msg1 = `Meta Tags specific for Facebook, called Open Graph meta tags, should always be include in every web page.`
+        const msg2 =
+            `While they don't have a direct impact on SEO, Open Graph Meta Tags control how the page will appear when shared on Facebook and other social media platforms. ` +
             `They provide recommendation to Facebook for title, image, and descriptions.`
         card.addTip(
             `Tip #${this.#tipNumber++}: Add Facebook (Open Graph) Meta Tags`,
@@ -471,19 +481,15 @@ export class Tips {
             openGraphMetaTagsReference,
             75
         )
-     }
+    }
 
-     public static tag_noTwitterTags(card: Card) {
+    public static tag_noTwitterTags(card: Card) {
         const msg1 = `Meta Tags specific for Twitter should always be include in every web page.`
-        const msg2 = `While they don't have a direct impact on SEO, Twitter Meta Tags control how the page will appear when shared on Twitter. ` +
-        `They provide recommendation to Twitter for title, image, and descriptions.`
-        card.addTip(
-            `Tip #${this.#tipNumber++}: Add Twitter Meta Tags`,
-            [msg1, msg2],
-            twitterMetaTagsReference,
-            75
-        )
-     }
+        const msg2 =
+            `While they don't have a direct impact on SEO, Twitter Meta Tags control how the page will appear when shared on Twitter. ` +
+            `They provide recommendation to Twitter for title, image, and descriptions.`
+        card.addTip(`Tip #${this.#tipNumber++}: Add Twitter Meta Tags`, [msg1, msg2], twitterMetaTagsReference, 75)
+    }
 
     // ---------------------------------------------------------------------------------------------
     // Structure Data TIPS
@@ -535,6 +541,3 @@ export class Tips {
         )
     }
 }
-
-
-
