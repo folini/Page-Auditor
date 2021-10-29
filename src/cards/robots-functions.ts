@@ -8,12 +8,12 @@ import {Card, iLink} from '../card'
 import {Report} from '../report'
 import {Mode} from '../colorCode'
 import {disposableId, formatNumber, fileExists} from '../main'
-import {Suggestions} from './suggestions'
 import {Errors} from './errors'
 import {Tips} from './tips'
 import {codeBlock} from '../codeBlock'
 import {htmlDecode} from 'js-htmlencode'
 import {SitemapList} from '../sitemapList'
+import {sitemapMaxSize} from "../main"
 
 export const readFile = (url: string) =>
     fileExists(url)
@@ -110,7 +110,7 @@ const sitemapCard = (url: string, sitemaps: SitemapList, report: Report) =>
 
             report.addCard(card)
 
-            if (sitemapBody.length > Suggestions.sitemapMaxSize()) {
+            if (sitemapBody.length > sitemapMaxSize) {
                 Tips.uncompressedLargeSitemap(card, url, sitemapBody.length)
             }
             if (!fileName.includes('.xml')) {

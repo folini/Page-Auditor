@@ -154,7 +154,7 @@ body#id-page-auditor header {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 100;
+  z-index: 1001;
 }
 body#id-page-auditor header h1 {
   text-align: left;
@@ -364,7 +364,7 @@ body#id-page-auditor .box-card .card-footer .card-tip .tip-title {
   border-bottom: solid 1px var(--border-color);
   margin-left: -16px;
   margin-right: -16px;
-  background-color: #fddeb5;
+  background-color: #d8e4d9;
   background-image: url(../logos/Suggestion_100x100.png);
   background-repeat: no-repeat;
   background-size: 24px;
@@ -391,14 +391,18 @@ body#id-page-auditor .box-card .card-footer .card-tip .tip-body .tip-scale-title
   left: calc(50% - 100px);
   width: 200px;
   text-align: center;
-  font-weight: bold;
+  z-index: 200;
 }
 body#id-page-auditor .box-card .card-footer .card-tip .tip-body .tip-scale {
   border: solid 1px var(--border-color);
   border-radius: 3px;
   height: 25px;
   margin: 16px auto 24px;
-  background: linear-gradient(45deg, rgba(255, 215, 0, 0.5), rgba(255, 165, 0, 0.5), rgba(255, 0, 0, 0.5));
+  background-repeat: no-repeat;
+  background-size: 100% 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%,
+                            1px 100%, 1px 100%;
+  background-image: linear-gradient(90deg, rgba(255, 215, 0, 0.5), rgba(255, 165, 0, 0.5), rgba(255, 0, 0, 0.5)), linear-gradient(var(--border-color), var(--border-color)), linear-gradient(var(--border-color), var(--border-color)), linear-gradient(var(--border-color), var(--border-color)), linear-gradient(var(--border-color), var(--border-color)), linear-gradient(var(--border-color), var(--border-color)), linear-gradient(var(--border-color), var(--border-color)), linear-gradient(var(--border-color), var(--border-color)), linear-gradient(var(--border-color), var(--border-color)), linear-gradient(var(--border-color), var(--border-color));
+  background-position: 0 center, 10% center, 20% center, 30% center, 40% center, 50% center, 60% center, 70% center, 80% center, 90% center;
   position: relative;
 }
 body#id-page-auditor .box-card .card-footer .card-tip .tip-body .tip-scale::before {
@@ -433,7 +437,7 @@ body#id-page-auditor .box-card .card-footer .card-tip .tip-body .tip-scale .tip-
   border-radius: 0 0 4px 4px;
   color: white;
   padding-bottom: 2px;
-  box-shadow: 0 2px 4px #AAA;
+  box-shadow: 0 2px 4px #aaa;
 }
 body#id-page-auditor .box-card .card-footer .card-tip .tip-body .tip-scale .tip-scale-level:after {
   height: 0;
@@ -445,6 +449,7 @@ body#id-page-auditor .box-card .card-footer .card-tip .tip-body .tip-scale .tip-
   border-width: 20px;
   border-color: transparent transparent rgba(128, 128, 128, 0.75);
   transform: scaleX(0.72);
+  z-index: 300;
 }
 body#id-page-auditor .box-card div.code {
   font-family: monospace, 'Courier New', Courier, monospace;
@@ -574,7 +579,7 @@ body#id-page-auditor nav {
   position: fixed;
   background-color: var(--color-white);
   width: 100%;
-  z-index: 99;
+  z-index: 1000;
 }
 body#id-page-auditor nav .tabs {
   display: flex;

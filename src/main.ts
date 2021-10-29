@@ -18,7 +18,6 @@ import * as JsonLd from './cards/sd'
 import * as Scripts from './cards/scripts'
 import * as Credits from './cards/about'
 import * as Meta from './cards/meta-tags'
-import * as Intro from './cards/intro'
 import * as Robots from './cards/robots'
 import {Tips} from './cards/tips'
 
@@ -27,6 +26,8 @@ export type CodeInjectorFunc = () => any
 export type ReportGeneratorFunc = (url: string, data: any, report: Report) => void
 
 const classLoadingSpinnerDiv = 'loading-spinner'
+
+export const sitemapMaxSize = 5 * 1024 * 1024
 
 export type sectionActions = {
     codeInjector?: CodeInjectorFunc

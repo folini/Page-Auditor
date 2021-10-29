@@ -9,10 +9,10 @@ import {Card, iLink} from '../card'
 import {Mode} from '../colorCode'
 import {disposableId} from '../main'
 import {codeBlock} from '../codeBlock'
-import {Suggestions} from './suggestions'
 import {Report} from '../report'
 import {htmlEncode} from 'js-htmlencode'
 import {Tips} from './tips'
+import {Errors} from "./errors"
 import "../logos/_noRendering_400x200.png"
 
 export const schemaLinks = (schemaName: string, ldjsonUrl: string, codeId: string): iLink[] => [
@@ -43,7 +43,9 @@ export const getSchemaType = (ldJson: iJsonLD) => {
 
 export const ldJsonCard = (ldJson: iJsonLD, tabUrl: string, occurrences: MustBeUniqueOccurrences, report: Report) => {
     if (Object.keys(ldJson).length === 0) {
-        report.addCard(Suggestions.emptyStructuredData())
+        const card = Errors.sd_IsEmpty(tabUrl)
+        report.addCard(card)
+        Tips.sd_noStructuredData(card)
     }
     let schemaType = getSchemaType(ldJson)
 

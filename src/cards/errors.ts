@@ -120,14 +120,29 @@ export class Errors {
     // Meta Tags Errors
     public static metaTags_NotFound() {
         const msg1 = `No Meta Tags found on page.`
-        return new Card().error().addParagraph(msg1).setTitle('Missing Meta Tags')
+        return new Card().error().addParagraph(msg1).setTitle('Page Has No Meta Tags')
+    }
+
+    public static metaTags_noOpenGraphTags() {
+        const msg1 = `The page is missing Meta Tags for Facebook (Open Graph).`
+        return new Card().error().addParagraph(msg1).setTitle('Page Has No Facebook Meta Tags')
+    }
+
+    public static metaTags_noTwitterTags() {
+        const msg1 = `The page is missing Meta Tags for Twitter.`
+        return new Card().error().addParagraph(msg1).setTitle('Page Has No Twitter Meta Tags')
     }
 
     // ------------------------------------------------------------------------
     // Structured Data Errors
     public static sd_NotFound(url: string) {
         const msg1 = `No <i>Structured Data</i> was found at location:`
-        return new Card().error().addParagraph(msg1).addCodeBlock(url, Mode.txt).setTitle('No Structured Data')
+        return new Card().error().addParagraph(msg1).addCodeBlock(url, Mode.txt).setTitle('Page Has No Structured Data')
+    }
+
+    public static sd_IsEmpty(url: string) {
+        const msg1 = `The <i>Structured Data</i> snippet found at following location appears to be empty:`
+        return new Card().error().addParagraph(msg1).addCodeBlock(url, Mode.txt).setTitle('Structured Data Is Present But Empty')
     }
 
     public static sd_InvalidJSON(json: string) {

@@ -8,7 +8,6 @@ import {Tips} from './tips'
 import {Report} from '../report'
 import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../main'
 import {tagCategories, metaTagsCard} from './meta-tags-functions'
-import {Suggestions} from './suggestions'
 import {Errors} from './errors'
 
 export interface iTag {
@@ -75,11 +74,15 @@ const reportGenerator: ReportGeneratorFunc = (url: string, data: any, report: Re
     }
 
     if (!twitterDone) {
-        report.addCard(Suggestions.noTwitterMetaTags())
+        const card = Errors.metaTags_noTwitterTags()
+        report.addCard(card)
+        Tips.tag_noTwitterTags(card)
     }
 
     if (!openGraphDone) {
-        report.addCard(Suggestions.noOpenGraphMetaTags())
+        const card = Errors.metaTags_noOpenGraphTags()
+        report.addCard(card)
+        Tips.tag_noOpenGraphTags(card)
     }
 }
 

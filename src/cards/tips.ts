@@ -7,7 +7,7 @@
 import {iTag} from './meta-tags'
 import {codeBlock} from '../codeBlock'
 import {Card, iLink} from '../card'
-import {Suggestions} from './suggestions'
+import {sitemapMaxSize} from '../main'
 import {Mode} from '../colorCode'
 import {formatNumber} from '../main'
 
@@ -186,7 +186,7 @@ export class Tips {
         const msg1 =
             `This sitemap file size is about ${(size / 1024).toFixed(2)} KB. ` +
             `The recommended maximum size for uncompressed files is ${formatNumber(
-                Suggestions.sitemapMaxSize() / 1024 / 1024
+                sitemapMaxSize / 1024 / 1024
             )} MB. ` +
             `However, Google and Bing can handle sitemap.xml file files up to 50 Mb in uncompressed size. `
         const msg2 =
@@ -257,10 +257,23 @@ export class Tips {
         const msg1 = `The <code>${tag.label}</code> tag doesn't contain any value.`
         const msg2 = `Add the missing value to maximize the impact of every on ${platform} post about this page.`
         card.addTip(
-            `Tip #${this.#tipNumber++}: Update The <code>${tag.label}</code> Meta Tag`,
+            `Tip #${this.#tipNumber++}: Update The Invalid <code>${tag.label}</code> Meta Tag`,
             [msg1, msg2],
             platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
             70
+        )
+    }
+
+    public static tag_ObsoleteValue(card: Card, platform: Platform, tag: iTag, acceptedValues: string[]) {
+        const msg1 = `The <code>${tag.label}</code> tag has an obsolete value that is not anymore valid:`
+        const msg2 = codeBlock(`<meta property="${tag.label}" content="${tag.value}">`, Mode.html)
+        const msg3 = `While for now ${platform} might honoring obsolete values, it's important to update teh tag by selecting an item from the following list of valid values:`
+        const msg4 = codeBlock(acceptedValues.join('<br>'), Mode.txt)
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Fix The Obsolete Value for <code>${tag.label}</code> Meta Tag`,
+            [msg1, msg2, msg3, msg4],
+            platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
+            40
         )
     }
 
@@ -270,7 +283,7 @@ export class Tips {
         const msg3 = `Please select an item from the following list of valid values:`
         const msg4 = codeBlock(acceptedValues.join('<br>'), Mode.txt)
         card.addTip(
-            `Tip #${this.#tipNumber++}: Fix The <code>${tag.label}</code> Meta Tag`,
+            `Tip #${this.#tipNumber++}: Fix The Invalid Value For <code>${tag.label}</code> Meta Tag`,
             [msg1, msg2, msg3, msg4],
             platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
             80
@@ -447,8 +460,39 @@ export class Tips {
         )
     }
 
+    public static tag_noOpenGraphTags(card: Card) {
+        const msg1 =
+            `Meta Tags specific for Facebook, called Open Graph meta tags, should always be include in every web page.`
+        const msg2 = `While they don't have a direct impact on SEO, Open Graph Meta Tags control how the page will appear when shared on Facebook. ` +
+            `They provide recommendation to Facebook for title, image, and descriptions.`
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Add Facebook (Open Graph) Meta Tags`,
+            [msg1, msg2],
+            openGraphMetaTagsReference,
+            75
+        )
+     }
+
+     public static tag_noTwitterTags(card: Card) {
+        const msg1 = `Meta Tags specific for Twitter should always be include in every web page.`
+        const msg2 = `While they don't have a direct impact on SEO, Twitter Meta Tags control how the page will appear when shared on Twitter. ` +
+        `They provide recommendation to Twitter for title, image, and descriptions.`
+        card.addTip(
+            `Tip #${this.#tipNumber++}: Add Twitter Meta Tags`,
+            [msg1, msg2],
+            twitterMetaTagsReference,
+            75
+        )
+     }
+
     // ---------------------------------------------------------------------------------------------
     // Structure Data TIPS
+    public static sd_noSdInChromeBrowserPages(card: Card) {
+        const msg1 = `The internal pages of Google Chrome browser as well the empty tabs don't have Structured Data associated.`
+        const msg2 = `Consider opening any website before opening the "Page Auditor" Chrome Extension.`
+        card.addTip(`Tip #${this.#tipNumber++}: Open a Regular WebSite or Web Page`, [msg1, msg2], robotsTxtReference)
+    }
+
     public static sd_relativeUrl(card: Card, objectName: string, urls: string[]) {
         const msg1 = `Detected ${urls.length.toFixed()} urls with local path listed in the "${objectName}" Structured Data snippet of the page.`
         const msg2 = codeBlock(urls.join('\n'), Mode.txt)
@@ -491,3 +535,6 @@ export class Tips {
         )
     }
 }
+
+
+

@@ -1281,7 +1281,7 @@
         "url": "https://www.tune.com/"
     },
     {
-        "patterns": ["(.|/)ads-twitter", "(.|/)twitter.com/", "(.|/)analytics.twitter", "(.|/)twimg.twitter"],
+        "patterns": ["(.|/)ads-twitter", "(.|/)twitter.com/", "(.|/)analytics.twitter", "(.|/)twimg.twitter", "(.|/)twimg.com/"],
         "name": "Twitter",
         "category": "Ads and Analytics",
         "iconClass": "icon-twitter",

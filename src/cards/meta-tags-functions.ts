@@ -78,17 +78,20 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[],
         Tips.tag_Obsolete(card, 'Twitter', obsoleteTag.label, obsoleteTag.code)
     }
 
-    if (!cardTag) {
-        Tips.tag_Missing(card, 'Twitter', 'twitter:card')
-    }
-
     if (!siteTag) {
         Tips.tag_Missing(card, 'Twitter', 'twitter:site')
     }
 
+    const obsoleteCardValues: string[] = ['photo', 'gallery', 'product']
     const validCardValues: string[] = ['summary', 'summary_large_image', 'app', 'player']
-    if (cardTag && !validCardValues.includes(cardTag.value)) {
-        Tips.tag_InvalidValue(card, 'Twitter', cardTag, validCardValues)
+    if (!cardTag) {
+        Tips.tag_Missing(card, 'Twitter', 'twitter:card')
+    } else {
+        if (obsoleteCardValues.includes(cardTag.value)) {
+            Tips.tag_ObsoleteValue(card, 'Twitter', cardTag, validCardValues)
+        } else if (!validCardValues.includes(cardTag.value)) {
+            Tips.tag_InvalidValue(card, 'Twitter', cardTag, validCardValues)
+        }
     }
 
     if (urlTag) {
@@ -99,7 +102,7 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[],
                 Tips.tagUrl_RelativePath(card, 'Twitter', urlTag)
             } else if (urlTag.value.startsWith('http://')) {
                 Tips.tagUrl_ObsoleteProtocol(card, 'Twitter', urlTag)
-            } else if (canonical.length > 0 && urlTag.value !== canonical) {
+            } else if (canonical.length > 0 && urlTag.value.toLowerCase() !== canonical.toLowerCase()) {
                 Tips.tagUrl_NonCanonical(card, 'Twitter', urlTag, canonical)
             }
         }
@@ -224,7 +227,7 @@ export const openGraphPreview = (card: Card, selectedTags: iTag[], allMeta: iTag
                 Tips.tagUrl_RelativePath(card, 'Facebook', urlTag)
             } else if (urlTag.value.startsWith('http://')) {
                 Tips.tagUrl_ObsoleteProtocol(card, 'Facebook', urlTag)
-            } else if (canonical.length > 0 && urlTag.value !== canonical) {
+            } else if (canonical.length > 0 && urlTag.value.toLowerCase() !== canonical.toLowerCase()) {
                 Tips.tagUrl_NonCanonical(card, 'Facebook', urlTag, canonical)
             }
         }
@@ -364,7 +367,7 @@ export const tagCategories: iTagCategory[] = [
         preview: twitterPreview,
     },
     {
-        title: `Facebook Tags (OpenGraph)`,
+        title: `OpenGraph Tags`,
         description:
             `Open Graph (Facebook) meta tags are snippets of code that control how URLs are displayed when shared on social media. ` +
             `They're part of Facebook's <i>Open Graph</i> protocol and are also used by other social media sites, including LinkedIn and Twitter (when Twitter specific meta-tags are absent). ` +
@@ -555,7 +558,9 @@ export const metaTagsCard = (
     report: Report
 ) => {
     if (selectedTags.length === 0) {
-        report.addCard(Errors.internal_NoMetaTagsInThisCategory(tagCategory.title))
+        const card = Errors.internal_NoMetaTagsInThisCategory(tagCategory.title)
+        report.addCard(card)
+        Tips.sd_noSdInChromeBrowserPages(card)
         return
     }
 
