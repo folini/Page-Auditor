@@ -302,7 +302,7 @@ body#id-page-auditor .box-card .card-body .table-container table.card-table tr +
 }
 body#id-page-auditor .box-card .card-body .table-container table.card-table tr td {
   padding: 6px 4px;
-  font-size: 13px;
+  font-size: 14px;
   min-width: 100px;
   word-break: break-all;
 }
@@ -316,6 +316,9 @@ body#id-page-auditor .box-card .card-footer {
 }
 body#id-page-auditor .box-card .card-footer .cta-toolbar {
   text-align: center !important;
+}
+body#id-page-auditor .box-card .expandable-code :is(.label-open, .label-close) {
+  background: linear-gradient(45deg, #005aff59, #f0f0f0);
 }
 body#id-page-auditor .box-card .card-tip {
   margin-bottom: 16px;
@@ -334,7 +337,7 @@ body#id-page-auditor .box-card .card-tip .tip-title code {
 }
 body#id-page-auditor .box-card .card-tip .tip-body {
   padding: 16px;
-  background-color: var(--tip-color);
+  background-color: #fff;
   padding-bottom: 16px;
   position: relative;
 }
@@ -357,7 +360,7 @@ body#id-page-auditor .box-card .card-tip .tip-body .tip-scale {
   border: solid 1px var(--border-color);
   border-radius: 20px;
   height: 25px;
-  margin: 0 auto 24px;
+  margin: 0 auto 32px;
   background-repeat: no-repeat;
   background-size: 100% 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%,
                         1px 100%, 1px 100%;
@@ -388,7 +391,7 @@ body#id-page-auditor .box-card .card-tip .tip-body .tip-scale .tip-scale-level:b
   content: attr(data-scale);
   position: relative;
   right: calc(-100% + 14px);
-  top: 28px;
+  top: 30px;
   z-index: 100;
   font-size: 11px;
   display: block;
@@ -404,7 +407,7 @@ body#id-page-auditor .box-card .card-tip .tip-body .tip-scale .tip-scale-level:a
   height: 0;
   content: '';
   right: -20px;
-  top: -12px;
+  top: -10px;
   position: absolute;
   border-style: solid;
   border-width: 20px;
@@ -1239,7 +1242,7 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
 }
 .sd-box .sd-box-body {
   padding: 8px 0 8px 8px;
-  font-size: 12px;
+  font-size: 14px;
 }
 .sd-box .sd-box-body .sd-description-line {
   margin-bottom: 6px;

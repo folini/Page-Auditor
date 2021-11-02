@@ -365,7 +365,7 @@ export class Tips {
             `This is the current meta tag you should fix:`
         const msg3 = codeBlock(tag.code, Mode.html)
         card.addTip(
-            `Tip #${this.#tipNumber++}: Change the <code>${tag.label}</code> Url to Absolute`,
+            `Tip #${this.#tipNumber++}: Change the Url to Absolute in <code>${tag.label}</code>`,
             [msg1, msg2, msg3],
             platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
             75
@@ -391,7 +391,7 @@ export class Tips {
         const msg2 = codeBlock(`<meta property="${tag.label}" content="${tag.value}">`, Mode.html)
         const msg3 = `Replace the placeholder with something more meaningful to maximize the impact of posts on ${platform} sharing this page.`
         card.addTip(
-            `Tip #${this.#tipNumber++}: Replace The Meta Tag Placeholder in the <code>${tag.label}</code>`,
+            `Tip #${this.#tipNumber++}: Replace the Placeholder in the <code>${tag.label}</code>`,
             [msg1, msg2, msg3],
             'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
             50
@@ -449,7 +449,7 @@ export class Tips {
             `Add it to maximize your visibility on ${platform} when people are sharing this page.`
         const example = Tips.#tagExample(tagLabel, platform, card)
         card.addTip(
-            `Tip #${this.#tipNumber++}: Add the ${platform} Meta Tag <code>${tagLabel}</code>`,
+            `Tip #${this.#tipNumber++}: Add the Meta Tag <code>${tagLabel}</code>`,
             [msg1, example.msg, example.code],
             platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
             55
