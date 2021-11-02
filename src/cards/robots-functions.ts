@@ -39,9 +39,6 @@ const sitemapCard = (url: string, sitemaps: SitemapList, report: Report) =>
                 const fileName = url.replace(/(.*)\/([a-z0-9\-_\.]+(\.xml)?(\.gz)?)(.*)/i, '$2')
                 const table = [
                     ['File Name', fileName],
-                    ['File Size', `n/a`],
-                    ['Pages', `n/a`],
-                    ['Sub Sitemap', `n/a`],
                     ['Compressed', 'Yes'],
                     ['Compression type', 'Gzip'],
                 ]

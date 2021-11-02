@@ -6,17 +6,10 @@
 // ----------------------------------------------------------------------------
 import {Report} from '../report'
 import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../main'
-import {ldJsonCard, getSchemaType} from './sd-functions'
+import {ldJsonCard} from './sd-functions'
 import {Errors} from './errors'
 import {Tips} from './tips'
-
-export interface iJsonLD {
-    [name: string]: string | [] | {}
-}
-
-export interface iJsonLevel {
-    depth: number
-}
+import {Schema} from '../schema'
 
 export type MustBeUniqueOccurrences = {
     organization: number
@@ -51,13 +44,13 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, repo
     }
     jsonStrings.forEach(json => {
         try {
-            const ldJson: iJsonLD = JSON.parse(json)
-            if (getSchemaType(ldJson) === '') {
+            const schema = new Schema(json)
+            if (Schema.getSchemaType(schema.getJson()) === '') {
                 const card = Errors.sd_InvalidJSON(json)
                 Tips.sd_invalidSyntax(card)
                 return
             }
-            ldJsonCard(ldJson, tabUrl, occurrences, report)
+            ldJsonCard(schema, tabUrl, occurrences, report)
         } catch (err) {
             const card = Errors.sd_InvalidJSON(json)
             Tips.sd_invalidSyntax(card)

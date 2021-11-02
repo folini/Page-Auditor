@@ -36,7 +36,7 @@ export class Card {
         this.#body = document.createElement('div')
         this.#body.className = 'card-body'
         this.#footer = document.createElement('div')
-        this.#footer.className = 'card-footer hide'
+        this.#footer.className = 'card-footer'
         this.#div.append(this.#head, hr, this.#body, this.#footer)
         this.#kind = kind
         switch (this.#kind) {
@@ -94,11 +94,12 @@ export class Card {
         if (toolbar === null) {
             toolbar = document.createElement('div')
             toolbar.className = 'cta-toolbar'
-            this.#body.append(toolbar)
+            this.#footer.append(toolbar)
+            this.#footer.style.display = 'block'
         }
         links.forEach(link => {
             const btn = document.createElement('a')
-            btn.className = 'large-btn'
+            btn.className = 'large-btn external-link'
             btn.innerHTML = link.label
             btn.href = link.url
             btn.target = '_blank'
@@ -126,13 +127,13 @@ export class Card {
 
     public addExpandableBlock(btnLabel: string, block: string) {
         const divId = disposableId()
-        const btnId = disposableId()
-        this.addParagraph(`<a class='large-btn btn-expandable' id='${btnId}'>${btnLabel}</a>`, 'cta-toolbar')
-        this.addParagraph(block, 'code-snippets', divId)
-        const btn = this.#div.querySelector(`#${btnId}`) as HTMLAnchorElement
-        const codeDiv = this.#div.querySelector(`#${divId}`) as HTMLDivElement
-        codeDiv.style.display = 'none'
-        btn.addEventListener('click', () => this.#toggle(btn, codeDiv))
+        this.#add(
+            `<div class='expandable-code'>` +
+                `<div class='label-close' id='${divId}'>${btnLabel}</div>` +
+                `<div class='body-close'>${block}</div>` +
+            `</div>`)
+        const labelDiv = this.#div.querySelector(`#${divId}`) as HTMLDivElement
+        labelDiv.addEventListener('click', () => Card.toggle(labelDiv))
         return this
     }
 
@@ -145,24 +146,32 @@ export class Card {
         )
     }
 
+    public addPreview(text: string, cssClass: string) {
+        this.addParagraph(text, cssClass)
+        const divTitle = this.#div.querySelector('.box-label') as HTMLDivElement
+        divTitle.addEventListener('click', () => Card.toggle(divTitle))
+        return this
+    }
+
     public addTable(title: string, table: string[][], links: iLink[] = []) {
+        const divId = disposableId()
         const linksHtml = links
             .map(link => `<a class='small-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
             .join(' ')
         let html = ''
+        html += `<div class='table-title label-close' id='${divId}'>${title}${linksHtml}</div>`
+        html += `<div class='body-close'>`
         html += '<table class="card-table">'
-        if (title.length > 0) {
-            html += `<thead>`
-            html += `<tr>`
-            html += `<th colspan='2'>${title}${linksHtml}</th>`
-            html += `</tr>`
-            html += `</thead>`
-        }
         html += '<tbody>'
         html += table.map(row => `<tr>${row.map(col => `<td>${col}</td>`).join('')}</tr>`).join('')
         html += '</tbody>'
         html += '</table>'
-        return this.#add(`<div>${html}</div>`)
+        html += `</div>`
+        const card = this.#add(`<div class='table-container'>${html}</div>`)
+        const titleDiv = card.#div.querySelector(`#${divId}`) as HTMLDivElement
+        titleDiv.addEventListener('click', () => Card.toggle(titleDiv))
+
+        return this
     }
 
     public tag(tag: string) {
@@ -174,63 +183,64 @@ export class Card {
         this.#head.classList.add(tag)
         return this
     }
+    
     public addTip(title: string, txts: string[], cta: iLink, severity: number = 0) {
         const tipDiv = document.createElement('div')
         tipDiv.className = 'card-tip'
+
         const tipTitle = document.createElement('div')
-        tipTitle.className = 'tip-title'
+        tipTitle.className = 'tip-title label-close'
         tipTitle.innerHTML = title
+
         const tipBody = document.createElement('div')
-        tipBody.className = 'tip-body'
+        tipBody.className = 'tip-body body-close'
         tipBody.innerHTML = txts
             .filter(txt => txt.length > 0)
             .map(txt => `<div>${txt}</div>`)
             .join('')
+
         if (severity > 0) {
-            const scaleTitle = document.createElement('div')
-            scaleTitle.innerText = `Severity`
-            scaleTitle.className = 'tip-scale-title'
-            const scaleDiv = document.createElement('div')
-            scaleDiv.className = 'tip-scale'
             const scaleLevel = document.createElement('div')
             scaleLevel.className = 'tip-scale-level'
             scaleLevel.style.width = `${severity.toFixed()}%`
             scaleLevel.setAttribute('data-scale', `${severity.toFixed()}`)
+
+            const scaleDiv = document.createElement('div')
+            scaleDiv.className = 'tip-scale'
             scaleDiv.append(scaleLevel)
             tipBody.insertBefore(scaleDiv, tipBody.firstChild)
+
+            const scaleTitle = document.createElement('div')
+            scaleTitle.innerText = `Severity`
+            scaleTitle.className = 'tip-scale-title'
             tipBody.insertBefore(scaleTitle, tipBody.firstChild)
         }
-        const tipCTA = document.createElement('div')
-        tipCTA.className = 'cta-toolbar'
+
         const tipBtn = document.createElement('a')
-        tipBtn.className = 'large-btn'
+        tipBtn.className = 'large-btn external-link'
         tipBtn.innerHTML = cta.label
         tipBtn.target = '_blank'
         tipBtn.href = cta.url as string
-        tipCTA.append(tipBtn)
-        tipDiv.append(tipTitle, tipBody, tipCTA)
 
-        this.#footer.append(tipDiv)
-        if (this.#footer.classList.contains('hide')) {
-            this.#footer.classList.remove('hide')
-            this.#footer.classList.add('show')
-        }
+        const tipCTA = document.createElement('div')
+        tipCTA.className = 'cta-toolbar'
+        tipCTA.append(tipBtn)
+
+        tipBody.append(tipCTA)
+        tipDiv.append(tipTitle, tipBody)
+        tipTitle.addEventListener('click', () => Card.toggle(tipTitle))
+
+        this.#body.append(tipDiv)
         this.tag('card-fix')
         return this
     }
 
-    #toggle(btn: HTMLAnchorElement, codeDiv: HTMLDivElement) {
-        if (btn.classList.contains('btn-expandable')) {
-            codeDiv.style.display = 'block'
-            btn.classList.remove('btn-expandable')
-            btn.classList.add('btn-expanded')
-            btn.parentElement!.style.marginBottom = '16px'
-        } else {
-            codeDiv.style.display = 'none'
-            btn.classList.remove('btn-expanded')
-            btn.classList.add('btn-expandable')
-            btn.parentElement!.style.marginBottom = '0'
-        }
+    static toggle(label: HTMLElement) {
+        label.classList.toggle('label-close')
+        label.classList.toggle('label-open')
+        const body = label.nextElementSibling as HTMLElement
+        body.classList.toggle('body-open')
+        body.classList.toggle('body-close')
     }
 
     public static copyToClipboard(div: HTMLElement) {

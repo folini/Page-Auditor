@@ -180,7 +180,7 @@ export class Tips {
     public static missingSitemap(card: Card) {
         const msg1 =
             `It's critical to add the missing <code>sitemap.xml</code> file. ` +
-            `Sitemaps are a very critical factor in SEO ranking of a page.`
+            `Sitemaps are a very important factor in SEO ranking of a page.`
         const msg2 =
             `A good XML sitemap acts as a roadmap of your website that leads Google to all your important pages. ` +
             `XML sitemaps can be good for SEO, as they allow Google to find your essential website pages quickly, even if your internal linking isn't perfect.`
@@ -265,14 +265,14 @@ export class Tips {
         const msg1 =
             `Meta Data should always be include in every web page. Meta tags provide important information to the browser and to the Search Engine bots about the page. ` +
             `Also Meta tags allow the page to control how it will be shared by users providing recommendation for title, image and descriptions to be use for sharing post on Social Media .`
-        card.addTip(`Tip #${this.#tipNumber++}: Add Meta Tags`, [msg1], metaTagsReference, 85)
+        card.addTip(`Tip #${this.#tipNumber++}: Add Meta Tags to the Page`, [msg1], metaTagsReference, 85)
     }
 
     public static tag_NoValue(card: Card, platform: Platform, tag: iTag) {
         const msg1 = `The <code>${tag.label}</code> tag doesn't contain any value.`
         const msg2 = `Add the missing value to maximize the impact of every on ${platform} post about this page.`
         card.addTip(
-            `Tip #${this.#tipNumber++}: Update The Invalid <code>${tag.label}</code> Meta Tag`,
+            `Tip #${this.#tipNumber++}: Update The Invalid Meta Tag <code>${tag.label}</code>`,
             [msg1, msg2],
             platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
             70
@@ -285,7 +285,7 @@ export class Tips {
         const msg3 = `While for now ${platform} might honoring obsolete values, it's important to update the tag by selecting an item from the following list of valid values:`
         const msg4 = codeBlock(acceptedValues.join('<br>'), Mode.txt)
         card.addTip(
-            `Tip #${this.#tipNumber++}: Fix The Obsolete Value for <code>${tag.label}</code> Meta Tag`,
+            `Tip #${this.#tipNumber++}: Fix The Obsolete Value for Meta Tag <code>${tag.label}</code>`,
             [msg1, msg2, msg3, msg4],
             platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
             40
@@ -293,13 +293,12 @@ export class Tips {
     }
 
     public static tag_InvalidValue(card: Card, platform: Platform, tag: iTag, acceptedValues: string[]) {
-        const msg1 = `The <code>${tag.label}</code> tag has an invalid value (misspelling?):`
-        const msg2 = codeBlock(`<meta property="${tag.label}" content="${tag.value}">`, Mode.html)
+        const msg1 = `The <code>${tag.label}</code> is currently set to <code>${tag.value}</code>. It's not a valid value for this tag.`
         const msg3 = `Please select an item from the following list of valid values:`
         const msg4 = codeBlock(acceptedValues.join('<br>'), Mode.txt)
         card.addTip(
-            `Tip #${this.#tipNumber++}: Fix The Invalid Value For <code>${tag.label}</code> Meta Tag`,
-            [msg1, msg2, msg3, msg4],
+            `Tip #${this.#tipNumber++}: Select a Valid Value For <code>${tag.label}</code>`,
+            [msg1, msg3, msg4],
             platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
             80
         )
@@ -312,7 +311,7 @@ export class Tips {
         const msg2 = codeBlock(`<meta property="${tag}" content="https://www.example.com/my_image.jpg">`, Mode.html)
         const msg3 = platform === 'Twitter' ? tweeterImageSpecs : facebookImageSpecs
         card.addTip(
-            `Tip #${this.#tipNumber++}: Add the <code>${tag}</code> Image Meta Tag`,
+            `Tip #${this.#tipNumber++}: Add the Meta Tag <code>${tag}</code> for Image Preview`,
             [msg1, msg2, msg3],
             'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
             70
@@ -325,7 +324,7 @@ export class Tips {
         const msg3 = `Upload the missing image or fix the url to maximize the visual impact on ${platform} of every posts about this page.`
         const msg4 = platform === 'Twitter' ? tweeterImageSpecs : facebookImageSpecs
         card.addTip(
-            `Tip #${this.#tipNumber++}: Upload The ${platform} Meta Tag Image`,
+            `Tip #${this.#tipNumber++}: Upload The ${platform} Meta Tag for Image Preview`,
             [msg1, msg2, msg3, msg4],
             'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
             65
@@ -338,7 +337,7 @@ export class Tips {
         const msg3 = `Upload an image to maximize the visual impact of posts on ${platform} sharing this page.`
         const msg4 = platform === 'Twitter' ? tweeterImageSpecs : facebookImageSpecs
         card.addTip(
-            `Tip #${this.#tipNumber++}: Replace the Image Placeholder in <code>${tag.label}</code>`,
+            `Tip #${this.#tipNumber++}: Replace the Image Preview Placeholder in <code>${tag.label}</code>`,
             [msg1, msg2, msg3, msg4],
             'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
             60
@@ -352,7 +351,7 @@ export class Tips {
         const msg4 = `With the following <code>${tag.label}</code> code:`
         const msg5 = codeBlock(`<meta property="${tag.label}" content="${canonical}">`, Mode.html)
         card.addTip(
-            `Tip #${this.#tipNumber++}: Update the <code>${tag.label}</code> Meta Tag with Canonical Url`,
+            `Tip #${this.#tipNumber++}: Update the Meta Tag <code>${tag.label}</code> with Canonical Url`,
             [msg1, msg2, msg3, msg4, msg5],
             platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
             60
@@ -392,7 +391,7 @@ export class Tips {
         const msg2 = codeBlock(`<meta property="${tag.label}" content="${tag.value}">`, Mode.html)
         const msg3 = `Replace the placeholder with something more meaningful to maximize the impact of posts on ${platform} sharing this page.`
         card.addTip(
-            `Tip #${this.#tipNumber++}: Replace The Placeholder in the <code>${tag.label}</code> Meta Tag`,
+            `Tip #${this.#tipNumber++}: Replace The Meta Tag Placeholder in the <code>${tag.label}</code>`,
             [msg1, msg2, msg3],
             'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
             50
@@ -410,7 +409,7 @@ export class Tips {
         const msg2 = `While it's under the the maximum length for this tag, defined at ${maxLength}, best practices recommend to keep the field length length under <b>${recommendedLength}</b>.`
         const msg3 = `Reduce the length of the tag value to make sure your <code>${tag.label}</code> will not be trimmed by ${platform} on posts sharing this page on all devices.`
         card.addTip(
-            `Tip #${this.#tipNumber++}: Consider shortening the <code>${tag.label}</code> Meta Tag`,
+            `Tip #${this.#tipNumber++}: Consider shortening the Meta Tag <code>${tag.label}</code>`,
             [msg1, msg2, msg3],
             'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
             15
@@ -421,7 +420,7 @@ export class Tips {
         const msg1 = `On this page, the <code>${tag.label}</code> tag is <b>${tag.value.length}</b> characters long, over the maximum length of <b>${maxLength}</b>, specified for this tag.`
         const msg2 = `Reduce the length of the tag value to make sure your <code>${tag.label}</code> will not be trimmed by ${platform} on posts sharing this page on all devices.`
         card.addTip(
-            `Tip #${this.#tipNumber++}: Shorten the <code>${tag.label}</code> Meta Tag`,
+            `Tip #${this.#tipNumber++}: Shorten the Meta Tag <code>${tag.label}</code>`,
             [msg1, msg2],
             'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
             40
@@ -437,7 +436,7 @@ export class Tips {
         const msg2 = `Best practices recommend to use the specific meta tags for the ${platform} platform to maximize the performance of all posts sharing this page.`
         const example = Tips.#tagExample(tagLabel, platform, card)
         card.addTip(
-            `Tip #${this.#tipNumber++}: Use the More Specific <code>${tagLabel}</code> Meta Tag`,
+            `Tip #${this.#tipNumber++}: Use the ${platform} Specific Meta Tag <code>${tagLabel}</code>`,
             [msg1, msg2, example.msg, example.code],
             platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
             10
@@ -450,7 +449,7 @@ export class Tips {
             `Add it to maximize your visibility on ${platform} when people are sharing this page.`
         const example = Tips.#tagExample(tagLabel, platform, card)
         card.addTip(
-            `Tip #${this.#tipNumber++}: Add the Missing <code>${tagLabel}</code> Meta Tag`,
+            `Tip #${this.#tipNumber++}: Add the ${platform} Meta Tag <code>${tagLabel}</code>`,
             [msg1, example.msg, example.code],
             platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
             55
@@ -463,7 +462,7 @@ export class Tips {
             `Remove the following Meta Tag to comply with the best practices recommended by ${platform}.`
         const msg2 = codeBlock(htmlTag, Mode.html)
         card.addTip(
-            `Tip #${this.#tipNumber++}: Remove the Obsolete <code>${tagName}</code> Meta Tag`,
+            `Tip #${this.#tipNumber++}: Remove the Obsolete ${platform} Meta Tag <code>${tagName}</code>`,
             [msg1, msg2],
             platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
             15
@@ -473,10 +472,9 @@ export class Tips {
     public static tag_noOpenGraphTags(card: Card) {
         const msg1 = `Meta Tags specific for Facebook, called Open Graph meta tags, should always be include in every web page.`
         const msg2 =
-            `While they don't have a direct impact on SEO, Open Graph Meta Tags control how the page will appear when shared on Facebook and other social media platforms. ` +
-            `They provide recommendation to Facebook for title, image, and descriptions.`
+            `While they don't have a direct impact on SEO, use Open Graph meta tags to ensure the Facebook Crawler scrapes useful information, such as title, description, and preview image, about your website when it is shared on Facebook.`
         card.addTip(
-            `Tip #${this.#tipNumber++}: Add Facebook (Open Graph) Meta Tags`,
+            `Tip #${this.#tipNumber++}: Add Facebook (Open Graph) Meta Tags to the Page`,
             [msg1, msg2],
             openGraphMetaTagsReference,
             75
@@ -488,7 +486,7 @@ export class Tips {
         const msg2 =
             `While they don't have a direct impact on SEO, Twitter Meta Tags control how the page will appear when shared on Twitter. ` +
             `They provide recommendation to Twitter for title, image, and descriptions.`
-        card.addTip(`Tip #${this.#tipNumber++}: Add Twitter Meta Tags`, [msg1, msg2], twitterMetaTagsReference, 75)
+        card.addTip(`Tip #${this.#tipNumber++}: Add Twitter Meta Tags to the Page`, [msg1, msg2], twitterMetaTagsReference, 75)
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -527,14 +525,14 @@ export class Tips {
         const msg2 =
             `Structured data is important for SEO because it helps search engines find and understand your content and website. ` +
             `It's also an important way to prepare for the future of search, as Google and other engines continue to personalize the user experience and answer questions directly on their SERPs.`
-        card.addTip(`Tip #${this.#tipNumber++}: Add Structured Data Snippets`, [msg1, msg2], structuredDataHowToUse, 75)
+        card.addTip(`Tip #${this.#tipNumber++}: Add Structured Data To the Page`, [msg1, msg2], structuredDataHowToUse, 75)
     }
 
     public static sd_invalidSyntax(card: Card) {
         const msg1 = `A Structured Data snippet contains invalid JSON code blocking the Search Engine spiders/bots from efficiently indexing the page.`
         const msg2 = `Fix the LD-JSON code to benefit from the inclusion of Structured Data in the page.`
         card.addTip(
-            `Tip #${this.#tipNumber++}: Fix the Invalid Structured Data Snippet`,
+            `Tip #${this.#tipNumber++}: Fix the Invalid Structured Data`,
             [msg1],
             structuredDataReference,
             75

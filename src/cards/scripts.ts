@@ -127,6 +127,8 @@ const localJsMatch = (url: string): iTrackMatch => {
     var patterns = [`(.|/)${domainParts.join('.')}/`]
     patterns.push(`(.|/)${domainParts[0]}cdn.${domainParts[1]}/`)
     patterns.push(`(.|/)cdn${domainParts[0]}.${domainParts[1]}/`)
+    patterns.push(`(.|/)static${domainParts[0]}.${domainParts[1]}/`)
+    patterns.push(`(.|/)${domainParts[0]}static.${domainParts[1]}/`)
 
     return {
         patterns: patterns,

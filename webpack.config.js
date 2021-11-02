@@ -34,10 +34,10 @@ module.exports = {
                 type: 'javascript/auto',
             },
             {
-                test: [/Logo_256x256\.(png)$/, /_noRendering_400x200\.(png)$/],
+                test: [/Logo_256x256\.(png)$/, /_noRendering_400x200\.(png)$/, /fa-regular-400\.(woff)$/],
                 loader: 'file-loader',
                 options: {
-                    name: '[name].png',
+                    name: '[name].[ext]',
                     outputPath: 'logos',
                 },
             },

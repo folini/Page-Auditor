@@ -46,6 +46,7 @@ const twitterLinkIcon =
     `</svg>`
 
 export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[], canonical: string) => {
+    console.log(`1. MetaTag Twitter Preview!`)
     const obsoleteTwitterCardValues: string[] = ['photo', 'gallery', 'product']
     const validTwitterCardValues: string[] = ['summary', 'summary_large_image', 'app', 'player']
 
@@ -69,6 +70,7 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[],
     description = description.length < 128 ? description : description.substr(0, 128) + '&mldr;'
     var domain = urlTag?.value || urlFallbackTag?.value || ''
 
+    console.log(`2. MetaTag Twitter Preview!`)
     if (domain.startsWith('http')) {
         domain = domain.replace(/https?:\/\/(www.)?((\w+\.)?\w+\.\w+).*/i, `$2`)
     }
@@ -181,23 +183,34 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[],
         }
     }
 
-    card.addParagraph(
-        `<div class="preview-label">Twitter Preview</div>
-        ${img.length > 0 && img.startsWith('http') ? `<img id='${imgPreviewId}' src='${img}'>` : ``}
-        <div class='twitter-card-legend'>
-            ${domain.length > 0 ? `<div class='twitter-card-domain'>${domain}</div>` : ''}
-            <div class='twitter-card-title'>${htmlEncode(title)}</div>
-            <div class='twitter-card-description'>${htmlEncode(description)}</div>
-         </div>`,
-        'preview-card twitter-card'
+    console.log(`3. MetaTag Twitter Preview!`)
+    card.addPreview(
+        `<div class='box-label label-close'>Twitter Preview</div>` +
+            `<div class='box-body body-close'>` +
+                (img.length > 0 && img.startsWith('http')
+                    ? `<img class='preview-img' id='${imgPreviewId}' src='${img}'>`
+                    : ``) +
+                `<div class='preview-legend'>` +
+                    (domain.length > 0 
+                        ? `<div class='twitter-card-domain'>${domain}</div>` 
+                        : '') +
+                    `<div class='twitter-card-title'>${htmlEncode(title)}</div>` +
+                    `<div class='twitter-card-description'>${htmlEncode(description)}</div>` +
+                `</div>` +
+            `</div>` +
+        `</div>`,
+        'twitter-card'
     )
 
+    console.log(`4. MetaTag Twitter Preview!`)
     if (!img.startsWith('http')) {
         hideCardElement(card, imgPreviewId)
     }
+    console.log(`MetaTag End of Twitter Preview!`)
 }
 
 export const openGraphPreview = (card: Card, selectedTags: iTag[], allMeta: iTag[], canonical: string) => {
+    console.log(`MetaTag begin of Facebook Preview!`)
     const imgPreviewId = disposableId()
     const imgTag = selectedTags.find(m => m.label === 'og:image')
     const urlTag = selectedTags.find(m => m.label === 'og:url' || m.label === 'og:image:secure_url')
@@ -261,25 +274,25 @@ export const openGraphPreview = (card: Card, selectedTags: iTag[], allMeta: iTag
         }
     }
 
+    const validCardValues: string[] = [
+        'music.song',
+        'music.album',
+        'music.playlist',
+        'music.radio_station',
+        'video.movie',
+        'video.episode',
+        'video.tv_show',
+        'video.other',
+        'article',
+        'book',
+        'profile',
+        'website',
+        'og:product',
+    ]
     if (typeTag) {
         if (typeTag.value.length === 0) {
             Tips.tag_NoValue(card, 'Facebook', typeTag)
-        }
-        const validCardValues: string[] = [
-            'music.song',
-            'music.album',
-            'music.playlist',
-            'music.radio_station',
-            'video.movie',
-            'video.episode',
-            'video.tv_show',
-            'video.other',
-            'article',
-            'book',
-            'profile',
-            'website',
-        ]
-        if (typeTag && !validCardValues.includes(typeTag.value)) {
+        } else if (!validCardValues.includes(typeTag.value) && !typeTag.value.includes(':')) {
             Tips.tag_InvalidValue(card, 'Facebook', typeTag, validCardValues)
         }
     } else {
@@ -338,21 +351,29 @@ export const openGraphPreview = (card: Card, selectedTags: iTag[], allMeta: iTag
         }
     }
 
-    card.addParagraph(
-        `
-            <div class="preview-label">Facebook Preview</div>       
-            ${img.length > 0 ? `<img id='${imgPreviewId}' src='${img}'>` : ``}
-            <div class='open-graph-card-legend'>
-              ${url.length > 0 ? `<div class='open-graph-card-domain'>${url.toUpperCase()}</div>` : ''}
-              <h2>${htmlEncode(title)}</h2>
-              <div class='og-description'>${htmlEncode(description)}</div>
-            </div>`,
-        'preview-card facebook-card'
+    card.addPreview(
+        `<div class="box-label label-close">Facebook Preview</div>` +
+            `<div class='box-body body-close'>` +
+                (img.length > 0 
+                    ? `<img class='preview-img' id='${imgPreviewId}' src='${img}'>` 
+                    : ``) +
+                `<div class='preview-legend'>` +
+                    (url.length > 0 
+                        ? `<div class='open-graph-card-domain'>${url.toUpperCase()}</div>` 
+                        : '') +
+                    `<h2>${htmlEncode(title)}</h2>` +
+                    `<div class='og-description'>${htmlEncode(description)}</div>` +
+                `</div>` +
+            `</div>` +
+        `</div>`,
+        'facebook-card'
     )
 
     if (!img.startsWith('https://')) {
         hideCardElement(card, imgPreviewId)
     }
+    console.log(`MetaTag End of Facebook Preview!`)
+
 }
 
 const hideCardElement = (card: Card, id: string) => {
@@ -565,6 +586,7 @@ export const metaTagsCard = (
     report: Report
 ) => {
     if (selectedTags.length === 0) {
+        console.log(`MetaTag card [selectedTags.length === 0]`)
         const card = Errors.internal_NoMetaTagsInThisCategory(tagCategory.title)
         report.addCard(card)
         Tips.sd_noSdInChromeBrowserPages(card)
@@ -581,6 +603,7 @@ export const metaTagsCard = (
 
     const table = selectedTags.map(tag => [tag.label, tag.value])
 
+    console.log(`MetaTag card almost ready!`)
     const card = new Card(CardKind.report)
         .open(`Detected Meta Tags`, tagCategory.title, tagCategory.cssClass)
         .addParagraph(tagCategory.description)
@@ -588,7 +611,10 @@ export const metaTagsCard = (
         .addExpandableBlock('Tags HTML Code', codeBlock(listOfMeta, Mode.html))
         .addCTA(links)
         .tag('card-ok')
+    console.log(`MetaTag card Done!`)
 
+    console.log(`MetaTag before Preview!`)
     tagCategory.preview(card, selectedTags, allTags, canonical)
+    console.log(`MetaTag after Preview!`)
     report.addCard(card)
 }
