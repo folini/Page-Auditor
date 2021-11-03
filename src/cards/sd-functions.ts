@@ -5,7 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {MustBeUniqueOccurrences} from './sd'
-import {Card, iLink, CardKind} from '../card'
+import {Card, CardKind} from '../card'
 import {Mode} from '../colorCode'
 import {disposableId} from '../main'
 import {codeBlock} from '../codeBlock'
@@ -15,17 +15,6 @@ import {Errors} from './errors'
 import {Schema} from '../schema'
 
 import '../logos/_noRendering_400x200.png'
-
-export const schemaLinks = (schemaName: string, ldjsonUrl: string, codeId: string): iLink[] => [
-    {
-        url: `https://validator.schema.org/#url=${encodeURI(ldjsonUrl)}`,
-        label: `Validate`,
-    },
-    {
-        url: `https://schema.org/${schemaName === 'Graph' ? '' : schemaName}`,
-        label: `Schema`,
-    },
-]
 
 export const ldJsonCard = (ldJson: Schema, tabUrl: string, occurrences: MustBeUniqueOccurrences, report: Report) => {
     if (ldJson.isEmpty()) {

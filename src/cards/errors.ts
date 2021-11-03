@@ -19,6 +19,7 @@ export class Errors {
             .addParagraph(msg1)
             .addParagraph(msg2)
             .setTitle('Unable To Analyze Chrome Tab')
+            .tag('card-error')
     }
 
     public static chrome_TabUrlUndefined() {
@@ -29,6 +30,7 @@ export class Errors {
             .addParagraph(msg1)
             .addParagraph(msg2)
             .setTitle('Chrome Tab Undefined')
+            .tag('card-error')
     }
 
     public static chrome_UnableToAnalyzePage(url: string) {
@@ -40,6 +42,7 @@ export class Errors {
             .addCodeBlock(url, Mode.txt)
             .addParagraph(msg2)
             .setTitle('Unable To Analyze Page')
+            .tag('card-error')
     }
 
     // ------------------------------------------------------------------------
@@ -55,6 +58,7 @@ export class Errors {
             .addParagraph(msg2)
             .addExpandableBlock(btnLabel, codeBlock(code, Mode.html))
             .setTitle('Invalid Sitemap.xml Syntax')
+            .tag('card-error')
     }
 
     public static sitemap_404(url: string) {
@@ -66,6 +70,7 @@ export class Errors {
             .addCodeBlock(url, Mode.txt)
             .addParagraph(msg2)
             .setTitle('Sitemap.xml Not Found')
+            .tag('card-error')
     }
 
     public static sitemap_NotFound(urls: string[]) {
@@ -77,6 +82,7 @@ export class Errors {
             .addCodeBlock(urls.join('<br/>'), Mode.txt)
             .addParagraph(msg2)
             .setTitle('Sitemap.xml Not Found')
+            .tag('card-error')
     }
 
     // ------------------------------------------------------------------------
@@ -92,6 +98,7 @@ export class Errors {
             .addParagraph(msg2)
             .addExpandableBlock(btnLabel, codeBlock(code, Mode.html))
             .setTitle('Invalid Robots.Txt Syntax')
+            .tag('card-error')
     }
 
     public static robotsTxt_IsEmpty(url: string) {
@@ -102,6 +109,7 @@ export class Errors {
             .addParagraph(msg1)
             .addParagraph(msg2)
             .setTitle('Robots.Txt Is Empty')
+            .tag('card-error')
     }
 
     public static robotsTxt_OnlyComments(url: string, code: string) {
@@ -114,25 +122,38 @@ export class Errors {
             .addParagraph(msg2)
             .addExpandableBlock(btnLabel, codeBlock(code, Mode.html))
             .setTitle('Robots.Txt Contains Only Comments')
+            .tag('card-error')
     }
 
     public static robotsTxt_NotFound(url: string) {
         const msg1 = `<code>Robots.Txt</code> file at location <a target="_new" href="${url}">${url}</a> not found.`
-        return new Card(CardKind.error).setLogo('icon-rep').addParagraph(msg1).setTitle('Robots.Txt Not Found')
+        return new Card(CardKind.error)
+            .setLogo('icon-rep')
+            .addParagraph(msg1)
+            .setTitle('Robots.Txt Not Found')
+            .tag('card-error')
     }
 
     // ------------------------------------------------------------------------
     // Script Errors
     public static script_NotFound() {
         const msg1 = `No JavaScript code script found.`
-        return new Card(CardKind.error).setLogo('icon-js').addParagraph(msg1).setTitle('No Script Found')
+        return new Card(CardKind.error)
+            .setLogo('icon-js')
+            .addParagraph(msg1)
+            .setTitle('No Script Found')
+            .tag('card-error')
     }
 
     // ------------------------------------------------------------------------
     // Meta Tags Errors
     public static metaTags_NotFound() {
         const msg1 = `No Meta Tags found on page.`
-        return new Card(CardKind.error).setLogo('icon-tag').addParagraph(msg1).setTitle('Page Has No Meta Tags')
+        return new Card(CardKind.error)
+            .setLogo('icon-tag')
+            .addParagraph(msg1)
+            .setTitle('Page Has No Meta Tags')
+            .tag('card-error')
     }
 
     public static metaTags_noOpenGraphTags() {
@@ -141,6 +162,7 @@ export class Errors {
             .setLogo('icon-open-graph')
             .addParagraph(msg1)
             .setTitle('Page Has No Open Graph Meta Tags')
+            .tag('card-error')
     }
 
     public static metaTags_noTwitterTags() {
@@ -149,6 +171,7 @@ export class Errors {
             .setLogo('icon-twitter')
             .addParagraph(msg1)
             .setTitle('Page Has No Twitter Meta Tags')
+            .tag('card-error')
     }
 
     // ------------------------------------------------------------------------
@@ -160,6 +183,7 @@ export class Errors {
             .addParagraph(msg1)
             .addCodeBlock(url, Mode.txt)
             .setTitle('Page Has No Structured Data')
+            .tag('card-error')
     }
 
     public static sd_IsEmpty(url: string) {
@@ -169,6 +193,7 @@ export class Errors {
             .addParagraph(msg1)
             .addCodeBlock(url, Mode.txt)
             .setTitle('Structured Data Is Present But Empty')
+            .tag('card-error')
     }
 
     public static sd_InvalidJSON(json: string) {
@@ -178,6 +203,7 @@ export class Errors {
             .addParagraph(msg1)
             .addExpandableBlock('Invalid JSON Code', codeBlock(json, Mode.txt))
             .setTitle('Invalid LD-JSON Code')
+            .tag('card-error')
     }
 
     // ------------------------------------------------------------------------
@@ -190,6 +216,7 @@ export class Errors {
             .addParagraph(msg1)
             .addParagraph(msg2)
             .setTitle('Internal Error')
+            .tag('card-error')
     }
 
     public static internal_fromError(err: Error, optMsg: string = '') {
@@ -207,5 +234,6 @@ export class Errors {
             .addParagraph(msg4)
             .addParagraph(msg5)
             .setTitle('Generic Error')
+            .tag('card-error')
     }
 }

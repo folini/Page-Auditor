@@ -95,6 +95,8 @@ export class Card {
             toolbar = document.createElement('div')
             toolbar.className = 'cta-toolbar'
             this.#footer.append(toolbar)
+        }
+        if(links.length> 0){
             this.#footer.style.display = 'block'
         }
         links.forEach(link => {
@@ -128,9 +130,9 @@ export class Card {
     public addExpandableBlock(btnLabel: string, block: string) {
         const divId = disposableId()
         this.#add(
-            `<div class='expandable-code'>` +
-                `<div class='label-close' id='${divId}'>${btnLabel}</div>` +
-                `<div class='body-close'>${block}</div>` +
+            `<div class='code-box'>` +
+                `<div class='code-label label-close' id='${divId}'>${btnLabel}</div>` +
+                `<div class='code-body body-close'>${block}</div>` +
             `</div>`)
         const labelDiv = this.#div.querySelector(`#${divId}`) as HTMLDivElement
         labelDiv.addEventListener('click', () => Card.toggle(labelDiv))

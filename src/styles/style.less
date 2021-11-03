@@ -110,7 +110,7 @@
     cursor: pointer;
     display: inline-block !important;
     font-size: 12px;
-    padding: 6px 16px 6px 24px;
+    padding: 6px 8px;
     position: relative;
 
     &:hover {
@@ -119,13 +119,16 @@
         background-color: var(--color-white) !important;
     }
 
-    &.external-link::before {
-        content: '\f08e';
-        font-family: FontAwesome;
-        font-size: 1.3em;
-        position: absolute;
-        top: 0.36em;
-        left: 0.26em;
+    &.external-link {
+        padding-left: 24px;
+        &::before {
+            content: '\f08e';
+            font-family: FontAwesome;
+            font-size: 1.3em;
+            position: absolute;
+            top: 0.36em;
+            left: 0.26em;
+        }
     }
 }
 
@@ -253,11 +256,20 @@ body#id-page-auditor {
             }
 
             &.card-fix {
-                background-color: #ffa00052;
+                //background-color: #ffa00052;
                 color: var(--color-black);
 
                 &:after {
                     background-image: url(../logos/WARNING_100x100.png);
+                }
+            }
+
+            &.card-error {
+                background-color: #ffa00052;
+                color: var(--color-black);
+
+                &:after {
+                    background-image: url(../logos/ERROR_100x100.png);
                 }
             }
 
@@ -308,6 +320,16 @@ body#id-page-auditor {
                 padding: 0 4px;
             }
             .table-container {
+                .table-title {
+                    &::after {
+                        font-family: 'FontAwesome';
+                        content: '\f002';
+                        float: right;
+                        font-size: 20px;
+                        margin-right: 4px;
+                        margin-top: -2px;
+                    }
+                }
                 table.card-table {
                     background-color: var(--color-bright-white);
                     width: 100%;
@@ -341,9 +363,19 @@ body#id-page-auditor {
             }
         }
 
-        .expandable-code {
-            :is(.label-open, .label-close) {
-                background: linear-gradient(45deg, #005aff59, #f0f0f0);
+        .code-box {
+            .code-label {
+                //background: linear-gradient(45deg, #005aff59, #f0f0f0);
+                // &::after {
+                //     font-family: 'FontAwesome';
+                //     content: '\f121';
+                //     float: right;
+                //     font-size: 22px;
+                //     margin-top: -4px;
+                // }
+            }
+            .code-body {
+                padding: 8px;
             }
         }
 
@@ -351,13 +383,16 @@ body#id-page-auditor {
             margin-bottom: 16px;
 
             .tip-title {
-                background: linear-gradient(90deg, #fddeb5, #f0f0f0, #fddeb5);
+                //background: linear-gradient(90deg, #fddeb5, #f0f0f0, #fddeb5);
+                background-color: #fddeb599;
                 &:after {
                     font-family: 'FontAwesome';
                     content: '\f0eb';
                     float: right;
-                    font-size: 18px;
-                }  
+                    font-size: 22px;
+                    margin-top: -3px;
+                    margin-right: 4px;
+                }
                 code {
                     background-color: transparent !important;
                 }
@@ -365,7 +400,7 @@ body#id-page-auditor {
 
             .tip-body {
                 padding: 16px;
-                background-color: #fff;
+                background-color: #fce9d12b;
                 padding-bottom: 16px;
                 position: relative;
 
@@ -376,15 +411,16 @@ body#id-page-auditor {
                     }
                 }
                 .tip-scale-title {
-                    top: 16px;
+                    top: 13px;
                     text-align: center;
-                    font-size: 12px;
+                    font-size: 14px;
                     position: absolute;
                     left: ~'calc(50% - 100px)';
                     width: 200px;
                     text-align: center;
                     z-index: 200;
                     position: absolute;
+                    text-shadow: 0 0 1px #fff;
                 }
                 .tip-scale {
                     border: solid 1px var(--border-color);
@@ -441,7 +477,7 @@ body#id-page-auditor {
                             width: 28px;
                             text-align: center;
                             background-color: rgb(128 128 128 / 75%);
-                            border-radius: 0 0 4px 4px;
+                            border-radius: 1px 1px 4px 4px;
                             color: white;
                             padding-bottom: 2px;
                             box-shadow: 0 2px 4px #aaa;
@@ -455,16 +491,12 @@ body#id-page-auditor {
                             border-style: solid;
                             border-width: 20px;
                             border-color: transparent transparent rgb(128 128 128 / 75%);
-                            transform: scaleX(0.72);
+                            transform: scaleX(0.7);
                             z-index: 300;
                         }
                     }
                 }
             }
-        }
-
-        .expandable-code .body-open {
-            padding: 8px;
         }
 
         .code {
@@ -523,13 +555,16 @@ body#id-page-auditor {
         cursor: pointer;
 
         .box-label {
-            background: linear-gradient(90deg, #1da1f2, #f0f0f0, #1da1f2);
+            //background: linear-gradient(90deg, #1da1f2, #f0f0f0, #1da1f2);
+            background-color: #1da1f2e6;
             color: #fff;
             &:after {
                 font-family: 'FontAwesome';
                 content: '\f099';
                 float: right;
-                font-size: 18px;
+                font-size: 22px;
+                margin-top: -2px;
+                margin-right: 2px;
             }
         }
         .preview-img {
@@ -558,13 +593,16 @@ body#id-page-auditor {
 
     .facebook-card {
         .box-label {
-            background: linear-gradient(90deg, #4267b2, #f0f0f0, #4267b2);
-            color: #fff;      
+            //background: linear-gradient(90deg, #4267b2, #f0f0f0, #4267b2);
+            background-color: #4267b2e6;
+            color: #fff;
             &:after {
                 font-family: 'FontAwesome';
                 content: '\f230';
-                font-size: 18px;
                 float: right;
+                font-size: 22px;
+                margin-top: -2px;
+                margin-right: 2px;
             }
         }
         .preview-img {
@@ -1361,47 +1399,52 @@ body#id-page-auditor {
 .label-close,
 .label-open {
     padding-left: 2.2em !important;
-    background: linear-gradient(90deg, #00640026, #f0f0f0, #00640026);
+    //background: linear-gradient(90deg, #00640026, #f0f0f0, #00640026);
+    background-color: #f0f0f0;
     padding: 8px 6px;
     font-size: 14px;
     position: relative;
     border: solid 1px var(--border-color);
-    background-color: #f0f0f0;
     cursor: pointer;
+    &::after {
+        opacity: 0.5;
+    }
+    &:hover {
+        &::before {
+            opacity: 1;
+        }
+        &::after {
+            opacity: 1;
+        }
+    }
 }
 
 .label-close {
     border-radius: 6px;
     &::before {
-        content: '\f0da';
+        content: '\f196';
         font-family: FontAwesome;
-        font-size: 2em;
+        font-size: 18px;
         position: absolute;
-        top: 2px;
-        left: 0.5em;
-        opacity: 0.5;
+        top: 9px;
+        left: 8px;
+        opacity: 0.7;
     }
     &:hover {
         border-color: #bbb !important;
-        &::before {
-            opacity: 1;
-        }
     }
 }
 
 .label-open {
     border-radius: 6px 6px 0 0;
     &::before {
-        content: '\f0d7';
+        content: '\f147';
         font-family: FontAwesome;
-        font-size: 2em;
+        font-size: 18px;
         position: absolute;
-        top: 3px;
-        left: 0.32em;
+        top: 9px;
+        left: 8px;
         opacity: 0.5;
-    }
-    &:hover::before {
-        opacity: 1;
     }
 }
 

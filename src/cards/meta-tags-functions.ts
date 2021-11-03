@@ -187,18 +187,16 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[],
     card.addPreview(
         `<div class='box-label label-close'>Twitter Preview</div>` +
             `<div class='box-body body-close'>` +
-                (img.length > 0 && img.startsWith('http')
-                    ? `<img class='preview-img' id='${imgPreviewId}' src='${img}'>`
-                    : ``) +
-                `<div class='preview-legend'>` +
-                    (domain.length > 0 
-                        ? `<div class='twitter-card-domain'>${domain}</div>` 
-                        : '') +
-                    `<div class='twitter-card-title'>${htmlEncode(title)}</div>` +
-                    `<div class='twitter-card-description'>${htmlEncode(description)}</div>` +
-                `</div>` +
+            (img.length > 0 && img.startsWith('http')
+                ? `<img class='preview-img' id='${imgPreviewId}' src='${img}'>`
+                : ``) +
+            `<div class='preview-legend'>` +
+            (domain.length > 0 ? `<div class='twitter-card-domain'>${domain}</div>` : '') +
+            `<div class='twitter-card-title'>${htmlEncode(title)}</div>` +
+            `<div class='twitter-card-description'>${htmlEncode(description)}</div>` +
             `</div>` +
-        `</div>`,
+            `</div>` +
+            `</div>`,
         'twitter-card'
     )
 
@@ -354,18 +352,14 @@ export const openGraphPreview = (card: Card, selectedTags: iTag[], allMeta: iTag
     card.addPreview(
         `<div class="box-label label-close">Facebook Preview</div>` +
             `<div class='box-body body-close'>` +
-                (img.length > 0 
-                    ? `<img class='preview-img' id='${imgPreviewId}' src='${img}'>` 
-                    : ``) +
-                `<div class='preview-legend'>` +
-                    (url.length > 0 
-                        ? `<div class='open-graph-card-domain'>${url.toUpperCase()}</div>` 
-                        : '') +
-                    `<h2>${htmlEncode(title)}</h2>` +
-                    `<div class='og-description'>${htmlEncode(description)}</div>` +
-                `</div>` +
+            (img.length > 0 ? `<img class='preview-img' id='${imgPreviewId}' src='${img}'>` : ``) +
+            `<div class='preview-legend'>` +
+            (url.length > 0 ? `<div class='open-graph-card-domain'>${url.toUpperCase()}</div>` : '') +
+            `<h2>${htmlEncode(title)}</h2>` +
+            `<div class='og-description'>${htmlEncode(description)}</div>` +
             `</div>` +
-        `</div>`,
+            `</div>` +
+            `</div>`,
         'facebook-card'
     )
 
@@ -373,7 +367,6 @@ export const openGraphPreview = (card: Card, selectedTags: iTag[], allMeta: iTag
         hideCardElement(card, imgPreviewId)
     }
     console.log(`MetaTag End of Facebook Preview!`)
-
 }
 
 const hideCardElement = (card: Card, id: string) => {
@@ -600,6 +593,9 @@ export const metaTagsCard = (
     if (tagCategory.url.length > 0) {
         links.push({url: tagCategory.url, label: 'Reference'})
     }
+    const linksHtml = links
+        .map(link => `<a class='small-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
+        .join(' ')
 
     const table = selectedTags.map(tag => [tag.label, tag.value])
 
@@ -608,8 +604,7 @@ export const metaTagsCard = (
         .open(`Detected Meta Tags`, tagCategory.title, tagCategory.cssClass)
         .addParagraph(tagCategory.description)
         .addTable(`Tags Analysis`, table)
-        .addExpandableBlock('HTML Code', codeBlock(listOfMeta, Mode.html))
-        .addCTA(links)
+        .addExpandableBlock('HTML Code' + linksHtml, codeBlock(listOfMeta, Mode.html))
         .tag('card-ok')
     console.log(`MetaTag card Done!`)
 

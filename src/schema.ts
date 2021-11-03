@@ -5,7 +5,6 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 
-
 import {
     Product,
     Offer,
@@ -28,7 +27,7 @@ import {
     Thing,
     ListItem,
 } from 'schema-dts'
-import { Card } from './card'
+import {Card, iLink} from './card'
 
 export interface iJsonLD {
     [name: string | '@type' | '@id']: string | string[] | iJsonLD[] | iJsonLD
@@ -40,15 +39,17 @@ export interface iJsonLevel {
 
 export class Schema {
     #jsonLD: iJsonLD
+    #tabUrl: string
     #relativeUrls: string[]
     #firstBoxDone: boolean
     #dictionary: {[key: string]: unknown}
 
-    constructor(json: string | iJsonLD) {
+    constructor(json: string | iJsonLD, url: string) {
         this.#jsonLD = typeof json === 'string' ? JSON.parse(json) : json
         this.#relativeUrls = []
         this.#firstBoxDone = false
         this.#dictionary = {}
+        this.#tabUrl = url
     }
 
     getJson() {
@@ -96,14 +97,19 @@ export class Schema {
         return url
     }
 
-    #openBox(label: string) {
-        const html =
-            `<div class='sd-box'><div class='sd-box-label ${
-                this.#firstBoxDone ? `label-open` : `label-close`
-            }'>${label}</div>` + `<div class='sd-box-body ${this.#firstBoxDone ? `body-open` : `body-close`}'>`
-        this.#firstBoxDone = true
-        return html
-    }
+    #openBox(label: string, schemaName: string) {
+        const linksHtml = Schema.schemaLinks(schemaName, this.#tabUrl)
+            .map(link => `<a class='small-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
+            .join(' ')
+
+        const openStr =
+             `<div class='sd-box'>` +
+            `<div class='sd-box-label ${this.#firstBoxDone ? `label-open` : `label-close`}'>${label}${linksHtml}</div>` + 
+            `<div class='sd-box-body ${this.#firstBoxDone ? `body-open` : `body-close`}'>`
+            this.#firstBoxDone = true
+            
+        return openStr
+        }
 
     #closeBox() {
         return `</div></div>`
@@ -117,7 +123,7 @@ export class Schema {
         if (Array.isArray(this.#jsonLD['@graph'])) {
             console.log('@graph is an array')
             const boxes = this.#jsonLD['@graph'].map(json => {
-                const schema = new Schema(json)
+                const schema = new Schema(json, this.#tabUrl)
                 return schema.schemaToHtml()
             })
             return boxes.join('')
@@ -181,12 +187,13 @@ export class Schema {
             return []
         }
 
-        if(Array.isArray(str)) {
+        if (Array.isArray(str)) {
             return [
                 `<div class='sd-description-line'>` +
                     `<span class='sd-label'>${label}s:</span>` +
-                    `<ul>${str.map(word => `<li>${word}</li>`).join('')}</ul>`  +
-                `</div>`]
+                    `<ul>${str.map(word => `<li>${word}</li>`).join('')}</ul>` +
+                    `</div>`,
+            ]
         }
 
         if (typeof str !== 'string') {
@@ -203,12 +210,13 @@ export class Schema {
             return []
         }
 
-        if(Array.isArray(num)) {
+        if (Array.isArray(num)) {
             return [
                 `<div class='sd-description-line'>` +
                     `<span class='sd-label'>${label}s:</span>` +
-                    `<ul>${num.map(n => `<li>${(n as number).toFixed()}</li>`).join('')}</ul>`  +
-                `</div>`]
+                    `<ul>${num.map(n => `<li>${(n as number).toFixed()}</li>`).join('')}</ul>` +
+                    `</div>`,
+            ]
         }
 
         if (typeof num !== 'number') {
@@ -226,9 +234,9 @@ export class Schema {
         }
 
         return [
-            `<div class='sd-description-line'><span class='sd-label'>${label}: </span><span class='sd-description'>${Schema.flattenName(str
-                .split('/')
-                .at(-1))}</span></div>`,
+            `<div class='sd-description-line'><span class='sd-label'>${label}: </span><span class='sd-description'>${Schema.flattenName(
+                str.split('/').at(-1)
+            )}</span></div>`,
         ]
     }
 
@@ -268,14 +276,14 @@ export class Schema {
             return []
         }
 
-        if(sd['@id'] !== undefined && Object.keys(sd).length > 1) {
+        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
             this.#addToDictionary(sd['@id'], sd)
-        } else if(sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             this.#product(this.#getFromDictionary(sd['@id']) as Product, label)
         }
 
         const html: string[] = []
-        html.push(this.#openBox(label))
+        html.push(this.#openBox(label, 'Product'))
         html.push(...this.#string(sd.name, `Name`))
         html.push(...this.#string(sd.description, `Description`))
         html.push(...this.#string(sd.weight, `Weight`))
@@ -297,7 +305,7 @@ export class Schema {
 
         const html: string[] = []
         if (Array.isArray(sd)) {
-            html.push(this.#openBox(label))
+            html.push(this.#openBox(label, 'Offer'))
             sd.forEach((offer, i) => {
                 html.push(...this.#offers(offer, `Offer #${i + 1}`))
             })
@@ -305,13 +313,13 @@ export class Schema {
             return html
         }
 
-        if(sd['@id'] !== undefined && Object.keys(sd).length > 1) {
+        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
             this.#addToDictionary(sd['@id'], sd)
-        } else if(sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#offers(this.#getFromDictionary(sd['@id']) as unknown as Offer, label)
         }
 
-        html.push(this.#openBox(label))
+        html.push(this.#openBox(label, 'Offer'))
         if (sd.priceCurrency && sd.price !== undefined) {
             html.push(...this.#string(`${sd.priceCurrency.valueOf()} ${sd.price.valueOf()}`, `Price`))
         }
@@ -342,14 +350,14 @@ export class Schema {
             }
         }
 
-        if(sd['@id'] !== undefined && Object.keys(sd).length > 1) {
+        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
             this.#addToDictionary(sd['@id'], sd)
-        } else if(sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#thing(this.#getFromDictionary(sd['@id']) as unknown as Thing, label)
         }
 
         const html: string[] = []
-        html.push(this.#openBox(label))
+        html.push(this.#openBox(label, 'Thing'))
         html.push(...this.#string(sd.name, `Name`))
         html.push(this.#closeBox())
 
@@ -369,14 +377,14 @@ export class Schema {
             return sd.map(person => this.#person(person, label)).flat()
         }
 
-        if(sd['@id'] !== undefined && Object.keys(sd).length > 1) {
+        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
             this.#addToDictionary(sd['@id'], sd)
-        } else if(sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#person(this.#getFromDictionary(sd['@id']) as Person, label)
         }
 
         const html: string[] = []
-        html.push(this.#openBox(label))
+        html.push(this.#openBox(label, 'Person'))
         html.push(...this.#string(sd.name, `Name`))
         html.push(...this.#string(sd.description, `Description`))
         html.push(...this.#imageObject(sd.image as ImageObject, `Logo`))
@@ -394,24 +402,28 @@ export class Schema {
         }
 
         if (Array.isArray(sd)) {
-            return  sd.map(org => this.#organization(org, label)).flat() as string[]
+            return sd.map(org => this.#organization(org, label)).flat() as string[]
         }
 
-        if(sd['@id'] !== undefined && Object.keys(sd).length > 1) {
+        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
             this.#addToDictionary(sd['@id'], sd)
-        } else if(sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#organization(this.#getFromDictionary(sd['@id']) as unknown as Organization, label)
         }
 
         const html: string[] = []
-        html.push(this.#openBox(label))
+        html.push(this.#openBox(label, 'Organization'))
         html.push(...this.#string(sd.name, `Name`))
+        html.push(...this.#url(sd.url, `Url`))
         html.push(...this.#imageObject(sd.logo as ImageObject, `Logo`))
         html.push(this.#closeBox())
         return html
     }
 
-    #personOrOrganization(sd: undefined | string | Person | Person[] | Organization | Organization[], label: string): string[] {
+    #personOrOrganization(
+        sd: undefined | string | Person | Person[] | Organization | Organization[],
+        label: string
+    ): string[] {
         if (sd === undefined) {
             return []
         }
@@ -424,9 +436,9 @@ export class Schema {
             return sd.map(personOrOrg => this.#personOrOrganization(personOrOrg, label)).flat() as string[]
         }
 
-        if(sd['@id'] !== undefined && Object.keys(sd).length > 1) {
+        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
             this.#addToDictionary(sd['@id'], sd)
-        } else if(sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#personOrOrganization(this.#getFromDictionary(sd['@id']) as Person | Organization, label)
         }
 
@@ -444,14 +456,14 @@ export class Schema {
             return []
         }
 
-        if(sd['@id'] !== undefined && Object.keys(sd).length > 1) {
+        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
             this.#addToDictionary(sd['@id'], sd)
-        } else if(sd['@id'] !== undefined && Object.keys(sd).length === 1) {
-           return this.#newsArticle(this.#getFromDictionary(sd['@id']) as unknown as NewsArticle, label)
+        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+            return this.#newsArticle(this.#getFromDictionary(sd['@id']) as unknown as NewsArticle, label)
         }
 
         const html: string[] = []
-        html.push(this.#openBox(label))
+        html.push(this.#openBox(label, 'NewsArticle'))
         html.push(...this.#string(sd.headline, `Headline`))
         html.push(...this.#string(sd.inLanguage, `Language`))
         html.push(...this.#string(sd.keywords, `Keywords`))
@@ -468,14 +480,14 @@ export class Schema {
             return []
         }
 
-        if(sd['@id'] !== undefined && Object.keys(sd).length > 1) {
+        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
             this.#addToDictionary(sd['@id'], sd)
-        } else if(sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#article(this.#getFromDictionary(sd['@id']) as Article, label)
         }
 
         const html: string[] = []
-        html.push(this.#openBox(label))
+        html.push(this.#openBox(label, 'Article'))
         html.push(...this.#person(sd.author as Person, `Author`))
         html.push(...this.#string(sd.headline, `Headline`))
         html.push(...this.#string(sd.inLanguage, `Language`))
@@ -492,14 +504,14 @@ export class Schema {
             return []
         }
 
-        if(sd['@id'] !== undefined && Object.keys(sd).length > 1) {
+        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
             this.#addToDictionary(sd['@id'], sd)
-        } else if(sd['@id'] !== undefined && Object.keys(sd).length === 1) {
-            return this.#webSite( this.#getFromDictionary(sd['@id']) as WebSite, label)
+        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+            return this.#webSite(this.#getFromDictionary(sd['@id']) as WebSite, label)
         }
 
         const html: string[] = []
-        html.push(this.#openBox(label))
+        html.push(this.#openBox(label, 'WebSite'))
         html.push(...this.#url(sd.url, `Url`))
         html.push(...this.#string(sd.name, `Name`))
         html.push(...this.#string(sd.description, `Description`))
@@ -510,18 +522,18 @@ export class Schema {
     }
 
     #breadcrumbList(sd: undefined | BreadcrumbList, label: string): string[] {
-        if (sd=== undefined) {
+        if (sd === undefined) {
             return []
         }
 
-        if(sd['@id'] !== undefined && Object.keys(sd).length > 1) {
+        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
             this.#addToDictionary(sd['@id'], sd)
-        } else if(sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#breadcrumbList(this.#getFromDictionary(sd['@id']) as BreadcrumbList, label)
         }
 
         const html: string[] = []
-        html.push(this.#openBox(label))
+        html.push(this.#openBox(label, 'BreadcrumbList'))
         html.push(...this.#listItem(sd.itemListElement as ListItem, `Breadcrumbs`))
         html.push(this.#closeBox())
 
@@ -535,7 +547,7 @@ export class Schema {
 
         const html: string[] = []
         if (Array.isArray(sd)) {
-            html.push(this.#openBox(label))
+            html.push(this.#openBox(label, 'ListItem'))
             sd.forEach((item, i) => {
                 html.push(...this.#listItem(item, `Item #${i + 1}`))
             })
@@ -543,13 +555,13 @@ export class Schema {
             return html
         }
 
-        if(sd['@id'] !== undefined && Object.keys(sd).length > 1) {
+        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
             this.#addToDictionary(sd['@id'], sd)
-        } else if(sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#listItem(this.#getFromDictionary(sd['@id']) as ListItem, label)
         }
 
-        html.push(this.#openBox(label))
+        html.push(this.#openBox(label, 'ListItem'))
         html.push(...this.#string(sd.position, `Position`))
         html.push(...this.#string(sd.name, `Name`))
         html.push(...this.#thing(sd?.item as Thing, `Item`))
@@ -566,8 +578,8 @@ export class Schema {
         if (Array.isArray(sd)) {
             return [
                 `<div class='sd-description-line'>` +
-                sd.map((url, i) => this.#image(url, `Image #${i + 1}`)).join('') +
-                `</div>`
+                    sd.map((url, i) => this.#image(url, `Image #${i + 1}`)).join('') +
+                    `</div>`,
             ]
         }
 
@@ -579,10 +591,10 @@ export class Schema {
 
         return [
             `<div class='sd-description-line'>` +
-            `<a href='${sd}' target='_new'>` +
-            `<picture data-label='${label}:'><img src='${src}'></picture>` +
-            `</a>` +
-            `</div>`
+                `<a href='${sd}' target='_new'>` +
+                `<picture data-label='${label}:'><img src='${src}'></picture>` +
+                `</a>` +
+                `</div>`,
         ]
     }
 
@@ -593,19 +605,19 @@ export class Schema {
 
         const html: string[] = []
         if (typeof sd === 'string') {
-            html.push(this.#openBox(label))
+            html.push(this.#openBox(label, 'ImageObject'))
             html.push(...this.#image(sd, `Image`))
             html.push(this.#closeBox())
             return html
         }
 
-        if(sd['@id'] !== undefined && Object.keys(sd).length > 1) {
+        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
             this.#addToDictionary(sd['@id'], sd)
-        } else if(sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#imageObject(this.#getFromDictionary(sd['@id']) as ImageObject, label)
         }
 
-        html.push(this.#openBox(label))
+        html.push(this.#openBox(label, 'ImageObject'))
         html.push(...this.#image((sd.contentUrl || sd.url) as string, `Image`))
         if (sd.width && sd.height) {
             html.push(...this.#string(`${sd.width} x ${sd.height} pixels`, `Size`))
@@ -623,14 +635,14 @@ export class Schema {
             return []
         }
 
-        if(sd['@id'] !== undefined && Object.keys(sd).length > 1) {
+        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
             this.#addToDictionary(sd['@id'], sd)
-        } else if(sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#videoObject(this.#getFromDictionary(sd['@id']) as VideoObject, label)
         }
 
         const html: string[] = []
-        html.push(this.#openBox(label))
+        html.push(this.#openBox(label, 'VideoObject'))
         html.push(...this.#string(sd.name, `Name`))
         html.push(...this.#string(sd.description, `Description`))
         html.push(...this.#string(sd.duration, `Duration`))
@@ -641,18 +653,18 @@ export class Schema {
     }
 
     #aggregateRating(sd: undefined | AggregateRating, label: string): string[] {
-        if (sd=== undefined) {
+        if (sd === undefined) {
             return []
         }
 
-        if(sd['@id'] !== undefined && Object.keys(sd).length > 1) {
+        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
             this.#addToDictionary(sd['@id'], sd)
-        } else if(sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#aggregateRating(this.#getFromDictionary(sd['@id']) as AggregateRating, label)
         }
 
         const html: string[] = []
-        html.push(this.#openBox(`Aggregate Rating`))
+        html.push(this.#openBox(`Aggregate Rating`, 'AggregateRating'))
         html.push(...this.#string(sd.ratingValue, `Rating Value`))
         html.push(...this.#string(sd.ratingCount, `Rating Count`))
         html.push(...this.#string(sd.reviewCount, `Review Count`))
@@ -670,14 +682,14 @@ export class Schema {
             return sd.map((review, i) => this.#review(review, `Review #${i + 1}`)).flat()
         }
 
-        if(sd['@id'] !== undefined && Object.keys(sd).length > 1) {
+        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
             this.#addToDictionary(sd['@id'], sd)
-        } else if(sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#review(this.#getFromDictionary(sd['@id']) as Review, label)
         }
 
         const html: string[] = []
-        html.push(this.#openBox(label))
+        html.push(this.#openBox(label, 'Review'))
         html.push(...this.#string(sd.name, `Name`))
         html.push(...this.#string(sd.reviewBody, `Review Body`))
         html.push(...this.#person(sd.author as Person, `Author`))
@@ -693,18 +705,19 @@ export class Schema {
             return []
         }
 
-        if(sd['@id'] !== undefined && Object.keys(sd).length > 1) {
+        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
             this.#addToDictionary(sd['@id'], sd)
-        } else if(sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#webPage(this.#getFromDictionary(sd['@id']) as WebPage, label)
         }
 
         const html: string[] = []
-        html.push(this.#openBox(label))
+        html.push(this.#openBox(label, 'WebPage'))
         html.push(...this.#string(sd.name, `Name`))
         html.push(...this.#url(sd.url, `Url`))
         html.push(...this.#string(sd.description, `Description`))
         html.push(...this.#string(sd.inLanguage, `Language`))
+        html.push(...this.#imageObject(sd.image as ImageObject | string, `Image`))
         html.push(...this.#personOrOrganization(sd.publisher as Organization | Person | string, `Publisher`))
         html.push(this.#closeBox())
 
@@ -716,14 +729,14 @@ export class Schema {
             return []
         }
 
-        if(sd['@id'] !== undefined && Object.keys(sd).length > 1) {
+        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
             this.#addToDictionary(sd['@id'], sd)
-        } else if(sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#softwareApplication(this.#getFromDictionary(sd['@id']) as SoftwareApplication, label)
         }
 
         const html: string[] = []
-        html.push(this.#openBox(label))
+        html.push(this.#openBox(label, 'SoftwareApplication'))
         html.push(...this.#string(sd.name, `Name`))
         html.push(...this.#url(sd.url, `Url`))
         html.push(...this.#string(sd.description, `Description`))
@@ -738,13 +751,13 @@ export class Schema {
         return html
     }
 
-    #administrativeArea(sd: undefined | AdministrativeArea, label: string) :string[] {
+    #administrativeArea(sd: undefined | AdministrativeArea, label: string): string[] {
         if (sd === undefined) {
             return []
         }
 
         const html: string[] = []
-        html.push(this.#openBox(label))
+        html.push(this.#openBox(label, 'AdministrativeArea'))
         html.push(...this.#string((sd as any).name, `Location Name`))
         html.push(this.#closeBox())
         return html
@@ -755,25 +768,36 @@ export class Schema {
             return []
         }
 
-        if(sd['@id'] !== undefined && Object.keys(sd).length > 1) {
+        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
             this.#addToDictionary(sd['@id'], sd)
-        } else if(sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#rating(this.#getFromDictionary(sd['@id']) as Rating, label)
         }
 
         const html: string[] = []
-        html.push(this.#openBox(label))
+        html.push(this.#openBox(label, 'Rating'))
         html.push(...this.#string(sd.ratingValue, `Rating Value`))
         html.push(this.#closeBox())
 
         return html
     }
 
+    static schemaLinks = (schemaName: string, ldjsonUrl: string): iLink[] => [
+        {
+            url: `https://validator.schema.org/#url=${encodeURI(ldjsonUrl)}`,
+            label: `Validate`,
+        },
+        {
+            url: `https://schema.org/${schemaName === 'Graph' ? '' : schemaName}`,
+            label: `Schema`,
+        },
+    ]
+
     static enableOpenClose(div: HTMLDivElement) {
         const boxLabels = [...div.getElementsByClassName(`sd-box-label`)] as HTMLDivElement[]
         boxLabels.forEach(boxLabel => {
             const boxBody = boxLabel.nextElementSibling as HTMLDivElement
             boxLabel.addEventListener('click', () => Card.toggle(boxLabel))
-       })
+        })
     }
 }

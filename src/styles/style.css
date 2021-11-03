@@ -116,13 +116,16 @@
   cursor: pointer;
   display: inline-block !important;
   font-size: 12px;
-  padding: 6px 16px 6px 24px;
+  padding: 6px 8px;
   position: relative;
 }
 .large-btn:hover {
   text-decoration: none !important;
   color: var(--tabs-bg-color) !important;
   background-color: var(--color-white) !important;
+}
+.large-btn.external-link {
+  padding-left: 24px;
 }
 .large-btn.external-link::before {
   content: '\f08e';
@@ -246,11 +249,17 @@ body#id-page-auditor .box-card h2.cardTitle.card-ok:after {
   background-image: url(../logos/OK_100x100.png);
 }
 body#id-page-auditor .box-card h2.cardTitle.card-fix {
-  background-color: #ffa00052;
   color: var(--color-black);
 }
 body#id-page-auditor .box-card h2.cardTitle.card-fix:after {
   background-image: url(../logos/WARNING_100x100.png);
+}
+body#id-page-auditor .box-card h2.cardTitle.card-error {
+  background-color: #ffa00052;
+  color: var(--color-black);
+}
+body#id-page-auditor .box-card h2.cardTitle.card-error:after {
+  background-image: url(../logos/ERROR_100x100.png);
 }
 body#id-page-auditor .box-card h2.cardTitle .cardPreTitle {
   font-variant: small-caps;
@@ -292,6 +301,14 @@ body#id-page-auditor .box-card .card-body code {
   background-color: #eaeaea;
   padding: 0 4px;
 }
+body#id-page-auditor .box-card .card-body .table-container .table-title::after {
+  font-family: 'FontAwesome';
+  content: '\f002';
+  float: right;
+  font-size: 20px;
+  margin-right: 4px;
+  margin-top: -2px;
+}
 body#id-page-auditor .box-card .card-body .table-container table.card-table {
   background-color: var(--color-bright-white);
   width: 100%;
@@ -317,27 +334,29 @@ body#id-page-auditor .box-card .card-footer {
 body#id-page-auditor .box-card .card-footer .cta-toolbar {
   text-align: center !important;
 }
-body#id-page-auditor .box-card .expandable-code :is(.label-open, .label-close) {
-  background: linear-gradient(45deg, #005aff59, #f0f0f0);
+body#id-page-auditor .box-card .code-box .code-body {
+  padding: 8px;
 }
 body#id-page-auditor .box-card .card-tip {
   margin-bottom: 16px;
 }
 body#id-page-auditor .box-card .card-tip .tip-title {
-  background: linear-gradient(90deg, #fddeb5, #f0f0f0, #fddeb5);
+  background-color: #fddeb599;
 }
 body#id-page-auditor .box-card .card-tip .tip-title:after {
   font-family: 'FontAwesome';
   content: '\f0eb';
   float: right;
-  font-size: 18px;
+  font-size: 22px;
+  margin-top: -3px;
+  margin-right: 4px;
 }
 body#id-page-auditor .box-card .card-tip .tip-title code {
   background-color: transparent !important;
 }
 body#id-page-auditor .box-card .card-tip .tip-body {
   padding: 16px;
-  background-color: #fff;
+  background-color: #fce9d12b;
   padding-bottom: 16px;
   position: relative;
 }
@@ -348,13 +367,14 @@ body#id-page-auditor .box-card .card-tip .tip-body > div > .code {
   margin-top: 16px;
 }
 body#id-page-auditor .box-card .card-tip .tip-body .tip-scale-title {
-  top: 16px;
-  font-size: 12px;
+  top: 13px;
+  font-size: 14px;
   left: calc(50% - 100px);
   width: 200px;
   text-align: center;
   z-index: 200;
   position: absolute;
+  text-shadow: 0 0 1px #fff;
 }
 body#id-page-auditor .box-card .card-tip .tip-body .tip-scale {
   border: solid 1px var(--border-color);
@@ -398,7 +418,7 @@ body#id-page-auditor .box-card .card-tip .tip-body .tip-scale .tip-scale-level:b
   width: 28px;
   text-align: center;
   background-color: rgba(128, 128, 128, 0.75);
-  border-radius: 0 0 4px 4px;
+  border-radius: 1px 1px 4px 4px;
   color: white;
   padding-bottom: 2px;
   box-shadow: 0 2px 4px #aaa;
@@ -412,11 +432,8 @@ body#id-page-auditor .box-card .card-tip .tip-body .tip-scale .tip-scale-level:a
   border-style: solid;
   border-width: 20px;
   border-color: transparent transparent rgba(128, 128, 128, 0.75);
-  transform: scaleX(0.72);
+  transform: scaleX(0.7);
   z-index: 300;
-}
-body#id-page-auditor .box-card .expandable-code .body-open {
-  padding: 8px;
 }
 body#id-page-auditor .box-card .code {
   font-family: monospace, 'Courier New', Courier, monospace;
@@ -471,14 +488,16 @@ body#id-page-auditor .twitter-card {
   cursor: pointer;
 }
 body#id-page-auditor .twitter-card .box-label {
-  background: linear-gradient(90deg, #1da1f2, #f0f0f0, #1da1f2);
+  background-color: #1da1f2e6;
   color: #fff;
 }
 body#id-page-auditor .twitter-card .box-label:after {
   font-family: 'FontAwesome';
   content: '\f099';
   float: right;
-  font-size: 18px;
+  font-size: 22px;
+  margin-top: -2px;
+  margin-right: 2px;
 }
 body#id-page-auditor .twitter-card .preview-img {
   width: 100%;
@@ -503,14 +522,16 @@ body#id-page-auditor .twitter-card .preview-legend .twitter-card-description {
   color: #536471;
 }
 body#id-page-auditor .facebook-card .box-label {
-  background: linear-gradient(90deg, #4267b2, #f0f0f0, #4267b2);
+  background-color: #4267b2e6;
   color: #fff;
 }
 body#id-page-auditor .facebook-card .box-label:after {
   font-family: 'FontAwesome';
   content: '\f230';
-  font-size: 18px;
   float: right;
+  font-size: 22px;
+  margin-top: -2px;
+  margin-right: 2px;
 }
 body#id-page-auditor .facebook-card .preview-img {
   width: 100%;
@@ -1282,46 +1303,51 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
 .label-close,
 .label-open {
   padding-left: 2.2em !important;
-  background: linear-gradient(90deg, #00640026, #f0f0f0, #00640026);
+  background-color: #f0f0f0;
   padding: 8px 6px;
   font-size: 14px;
   position: relative;
   border: solid 1px var(--border-color);
-  background-color: #f0f0f0;
   cursor: pointer;
+}
+.label-close::after,
+.label-open::after {
+  opacity: 0.5;
+}
+.label-close:hover::before,
+.label-open:hover::before {
+  opacity: 1;
+}
+.label-close:hover::after,
+.label-open:hover::after {
+  opacity: 1;
 }
 .label-close {
   border-radius: 6px;
 }
 .label-close::before {
-  content: '\f0da';
+  content: '\f196';
   font-family: FontAwesome;
-  font-size: 2em;
+  font-size: 18px;
   position: absolute;
-  top: 2px;
-  left: 0.5em;
-  opacity: 0.5;
+  top: 9px;
+  left: 8px;
+  opacity: 0.7;
 }
 .label-close:hover {
   border-color: #bbb !important;
-}
-.label-close:hover::before {
-  opacity: 1;
 }
 .label-open {
   border-radius: 6px 6px 0 0;
 }
 .label-open::before {
-  content: '\f0d7';
+  content: '\f147';
   font-family: FontAwesome;
-  font-size: 2em;
+  font-size: 18px;
   position: absolute;
-  top: 3px;
-  left: 0.32em;
+  top: 9px;
+  left: 8px;
   opacity: 0.5;
-}
-.label-open:hover::before {
-  opacity: 1;
 }
 .body-close {
   display: none;

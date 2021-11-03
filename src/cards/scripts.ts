@@ -103,15 +103,17 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, report: Report): v
         if (discoveredItem.url.length > 0) {
             links.push({url: discoveredItem.url, label: 'Reference'})
         }
+        const linksHtml = links
+        .map(link => `<a class='small-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
+        .join(' ')
         const plural = discoveredItem.scripts.length > 1 ? 's' : ''
         const btnLabel = `${discoveredItem.scripts.length.toFixed()} Script${plural}`
         const block = discoveredItem.scripts.map((script, j) => codeBlock(script, Mode.js, disposableId())).join('')
         const card = new Card(CardKind.report)
             .open(discoveredItem.category, discoveredItem.name, discoveredItem.iconClass)
             .addParagraph(discoveredItem.description)
-            .addExpandableBlock(btnLabel, block)
-            .addCTA(links)
-            .tag('card-ok')
+            .addExpandableBlock(btnLabel+ linksHtml, block)
+             .tag('card-ok')
         report.addCard(card)
     })
 

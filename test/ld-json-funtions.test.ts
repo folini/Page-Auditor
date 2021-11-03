@@ -4,7 +4,7 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {schemaLinks, ldJsonCard} from '../src/cards/sd-functions'
+import {Schema} from '../src/schema'
 import * as MockData from './mock-data.test'
 
 // Jest imports
@@ -14,7 +14,7 @@ import 'jest-chain'
 import 'jest-extended'
 
 test('SchemaLinks() generates proper links', async () => {
-    const data = schemaLinks('Graph', 'https://mydomain.com/homepage.htm', '')
+    const data = Schema.schemaLinks('Graph', 'https://mydomain.com/homepage.htm')
     expect(data).toBeArray()
     expect(data.length).toBe(3)
     data.forEach(btn => {

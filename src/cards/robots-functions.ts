@@ -75,7 +75,7 @@ const sitemapCard = (url: string, sitemaps: SitemapList, report: Report) =>
             const fileName = url.replace(/(.*)\/([a-z0-9\-_\.]+(\.xml)?)(\?.*)?/i, '$2')
 
             const divId = disposableId()
-            const btnLabel = `Sitemap`
+            const btnLabel = `Sitemap.xml`
             const links = sitemapAllLinks(sitemapBody)
             const linksToSitemaps = sitemapLinksToSitemap(sitemapBody)
             const linksToPages = links.length - linksToSitemaps.length
@@ -95,14 +95,17 @@ const sitemapCard = (url: string, sitemaps: SitemapList, report: Report) =>
                 ],
                 ['Compressed', 'No Compression Detected'],
             ]
-
+            const linksHtml = getSitemapToolbarLinks(url, divId)
+            .map(link => `<a class='small-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
+            .join(' ')
+        
             const card = new Card(CardKind.report)
                 .open(`Detected Sitemap  #${sitemaps.doneList.length + 1}`, fileName, 'icon-sitemap')
                 .addParagraph(`Found a <code>sitemap.xml</code> file at the url:`)
                 .addCodeBlock(url, Mode.txt)
                 .addParagraph(sitemapXmlDescription)
-                .addTable('Sitemap Analysis', table, getSitemapToolbarLinks(url, divId))
-                .addExpandableBlock(btnLabel, codeBlock(sitemapBody, Mode.xml, divId))
+                .addTable('Sitemap Analysis', table)
+                .addExpandableBlock(btnLabel + linksHtml, codeBlock(sitemapBody, Mode.xml, divId))
                 .tag('card-ok')
 
             report.addCard(card)
@@ -225,14 +228,16 @@ const robotsTxtCard = (url: string, robotsTxtBody: string): Card => {
             linksToSitemap.map(sm => `<a href='${sm}' target='_new'>${sm}</a>`).join('<br>'),
         ])
     }
-
+    const linksHtml = robotsToolbarLinks(url, divId)
+    .map(link => `<a class='small-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
+    .join(' ')
     const card = new Card(CardKind.report)
         .open('Detected Robot.Txt', `Robots.txt file`, 'icon-rep')
         .addParagraph(`Found a <code>Robots.txt</code> file at the url:`)
         .addCodeBlock(url, Mode.txt)
         .addParagraph(robotsTxtDescription)
-        .addTable('Robots.txt Analysis', table, robotsToolbarLinks(url, divId))
-        .addExpandableBlock(btnLabel, codeBlock(robotsTxtBody, Mode.txt, divId))
+        .addTable('Robots.txt Analysis', table)
+        .addExpandableBlock(btnLabel + linksHtml, codeBlock(robotsTxtBody, Mode.txt, divId))
         .tag(`card-ok`)
 
     if (linksToSitemap.length === 0) {
