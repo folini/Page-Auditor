@@ -5,6 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 
+import {getLanguage} from './language-code'
 import {
     Product,
     Offer,
@@ -26,6 +27,7 @@ import {
     Rating,
     Thing,
     ListItem,
+    ItemList,
     Store,
     Brand,
     GeoCoordinates,
@@ -35,6 +37,7 @@ import {
     NutritionInformation,
     HowToStep,
     HowToSection,
+    ContactPoint,
 } from 'schema-dts'
 import {Card, iLink} from './card'
 
@@ -77,7 +80,7 @@ export class Schema {
     static #addToDictionary(key: string, value: unknown) {
         Schema.#dictionary[key.trim()] = value
     }
-    
+
     static #getFromDictionary(key: string): unknown {
         return Schema.#dictionary[key.trim()]
     }
@@ -115,11 +118,11 @@ export class Schema {
         const links: iLink[] = [
             {
                 url: `https://schema.org/${schemaName === 'Graph' ? '' : schemaName}`,
-                label: `${schemaName} Schema`
-            }
+                label: `${schemaName} Schema`,
+            },
         ]
 
-        if(!this.#firstBoxDone) {
+        if (!this.#firstBoxDone) {
             links.push({
                 url: `https://validator.schema.org/#url=${encodeURI(this.#tabUrl)}`,
                 label: `Validate`,
@@ -131,13 +134,15 @@ export class Schema {
             .join(' ')
 
         const openStr =
-             `<div class='sd-box'>` +
-            `<div class='sd-box-label ${this.#firstBoxDone ? `label-open` : `label-close`}'>${label}${linksHtml}</div>` + 
+            `<div class='sd-box'>` +
+            `<div class='sd-box-label ${
+                this.#firstBoxDone ? `label-open` : `label-close`
+            }'>${label}${linksHtml}</div>` +
             `<div class='sd-box-body ${this.#firstBoxDone ? `body-open` : `body-close`}'>`
-            this.#firstBoxDone = true
-            
+        this.#firstBoxDone = true
+
         return openStr
-        }
+    }
 
     #closeBox() {
         return `</div></div>`
@@ -179,6 +184,9 @@ export class Schema {
                 break
             case 'Person':
                 html.push(...this.#person(this.#jsonLD as unknown as Person, `Person`))
+                break
+            case 'ContactPoint':
+                html.push(...this.#contactPoint(this.#jsonLD as unknown as ContactPoint, `Contact Point`))
                 break
             case 'Article':
                 html.push(...this.#article(this.#jsonLD as unknown as Article, `Article`))
@@ -223,7 +231,12 @@ export class Schema {
                 html.push(...this.#postalAddress(this.#jsonLD as unknown as PostalAddress, `Postal Address`))
                 break
             case 'NutritionInformation':
-                html.push(...this.#nutritionInformation(this.#jsonLD as unknown as NutritionInformation, `Nutrition Information`))
+                html.push(
+                    ...this.#nutritionInformation(
+                        this.#jsonLD as unknown as NutritionInformation,
+                        `Nutrition Information`
+                    )
+                )
                 break
             case 'SoftwareApplication':
                 html.push(
@@ -234,6 +247,9 @@ export class Schema {
 
         return html.join('')
     }
+
+    #language = (str: unknown, label: string): string[] => 
+        this.#string(getLanguage(str as string), label)
 
     #string(str: unknown, label: string): string[] {
         if (str === undefined) {
@@ -392,6 +408,7 @@ export class Schema {
         html.push(...this.#const(sd.itemCondition, `Condition`))
         html.push(...this.#url(sd.url, 'Url'))
         html.push(...this.#image(sd.image as string, 'Image'))
+        html.push(...this.#offers((sd as any).offers as Offer, 'Offers'))
         html.push(...this.#personOrOrganizationOrBrand(sd.seller as Person | Organization, 'Seller'))
         html.push(this.#closeBox())
 
@@ -422,6 +439,31 @@ export class Schema {
         html.push(...this.#string(sd.name, `Name`))
         html.push(this.#closeBox())
 
+        return html
+    }
+
+    #contactPoint(sd: undefined | string | ContactPoint | ContactPoint[], label: string): string[] {
+        if (sd === undefined) {
+            return []
+        }
+
+        if (typeof sd === 'string') {
+            return this.#string(sd, label)
+        }
+
+        if (Array.isArray(sd)) {
+            return sd.map(contact => this.#contactPoint(contact, label)).flat()
+        }
+
+        const html: string[] = []
+        html.push(this.#openBox(label, 'Person'))
+        html.push(...this.#string(sd.contactType, `Contact Type`))
+        html.push(...this.#string(sd.telephone, `Telephone`))
+        html.push(...this.#string(sd.faxNumber, `Fax`))
+        html.push(...this.#string(sd.email, `E-mail`))
+        html.push(...this.#url(sd.sameAs, `Same As`))
+        html.push(...this.#imageObject(sd.image as ImageObject, `Logo`))
+        html.push(this.#closeBox())
         return html
     }
 
@@ -477,10 +519,17 @@ export class Schema {
         html.push(this.#openBox(label, 'Organization'))
         html.push(...this.#string(sd.name, `Name`))
         html.push(...this.#string(sd.description, `Description`))
+        html.push(...this.#string(sd.legalName, `Legal Name`))
+        html.push(...this.#string(sd.telephone, `Telephone`))
+        html.push(...this.#string(sd.naics, `NAICS Code`))
+        html.push(...this.#string(sd.foundingDate, `Founding Date`))
         html.push(...this.#url(sd.url, `Url`))
         html.push(...this.#url(sd.sameAs, `Same As`))
         html.push(...this.#imageObject(sd.image as ImageObject, `Image`))
         html.push(...this.#imageObject(sd.logo as ImageObject, `Logo`))
+        html.push(...this.#brand(sd.brand as Brand, `Brand`))
+        html.push(...this.#postalAddress(sd.address as PostalAddress, `Address`))
+        html.push(...this.#contactPoint(sd.contactPoint as ContactPoint, `Contact Point`))
         html.push(this.#closeBox())
         return html
     }
@@ -576,13 +625,16 @@ export class Schema {
         if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
             Schema.#addToDictionary(sd['@id'], sd)
         } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
-            return this.#personOrOrganizationOrBrand(Schema.#getFromDictionary(sd['@id']) as Person | Organization, label)
+            return this.#personOrOrganizationOrBrand(
+                Schema.#getFromDictionary(sd['@id']) as Person | Organization,
+                label
+            )
         }
 
         if (sd['@type'] === 'Person') {
             return this.#person(sd, label)
         }
-        
+
         if (sd['@type'] === 'Organization') {
             return this.#organization(sd, label)
         }
@@ -608,8 +660,10 @@ export class Schema {
         const html: string[] = []
         html.push(this.#openBox(label, 'NewsArticle'))
         html.push(...this.#string(sd.headline, `Headline`))
-        html.push(...this.#string(sd.inLanguage, `Language`))
+        html.push(...this.#language(sd.inLanguage, `Language`))
         html.push(...this.#string(sd.keywords, `Keywords`))
+        html.push(...this.#string(sd.datePublished, `Published`))
+        html.push(...this.#string(sd.dateModified, `Modified`))
         html.push(...this.#person(sd.author as Person, `Author`))
         html.push(...this.#imageObject(sd.image as ImageObject, `Image`))
         html.push(...this.#organization(sd.publisher as Organization, `Publisher`))
@@ -633,7 +687,7 @@ export class Schema {
         html.push(this.#openBox(label, 'Article'))
         html.push(...this.#person(sd.author as Person, `Author`))
         html.push(...this.#string(sd.headline, `Headline`))
-        html.push(...this.#string(sd.inLanguage, `Language`))
+        html.push(...this.#language(sd.inLanguage, `Language`))
         html.push(...this.#string(sd.datePublished, `Published`))
         html.push(...this.#string(sd.dateModified, `Modified`))
         html.push(...this.#string(sd.wordCount, `Word Count`))
@@ -661,7 +715,8 @@ export class Schema {
         html.push(...this.#url(sd.url, `Url`))
         html.push(...this.#string(sd.name, `Name`))
         html.push(...this.#string(sd.description, `Description`))
-        html.push(...this.#string(sd.inLanguage, `Language`))
+        html.push(...this.#string(sd.alternateName, `Alternative Name`))
+        html.push(...this.#language(sd.inLanguage, `Language`))
         html.push(this.#closeBox())
 
         return html
@@ -686,22 +741,21 @@ export class Schema {
         return html
     }
 
-    #listItem(sd: undefined | ListItem | ListItem[], label: string): string[] {
+    #itemList(sd: undefined | ItemList | ItemList[], label: string): string[] {
         if (sd === undefined) {
             return []
         }
 
         const html: string[] = []
         if (Array.isArray(sd)) {
-            html.push(this.#openBox(label, 'ListItem'))
-            sd.forEach((item, i) => {
-                html.push(...this.#listItem(item, `${
-                    item['@type'] === 'HowToStep' 
-                    ? `Step` 
-                    : item['@type'] === 'HowToSection'
-                    ? `Section`
-                    :`Item`
-                } #${i + 1}`))
+            html.push(this.#openBox(label, 'ItemList'))
+            sd.filter(item => !!item).forEach((item, i) => {
+                html.push(
+                    ...this.#listItem(
+                        item as ListItem,
+                        `${`Item`} #${i + 1}`
+                    )
+                )
             })
             html.push(this.#closeBox())
             return html
@@ -713,22 +767,64 @@ export class Schema {
             return this.#listItem(Schema.#getFromDictionary(sd['@id']) as ListItem, label)
         }
 
-        if(typeof sd === 'string') {
+        html.push(this.#openBox(label, 'ListItem'))
+        html.push(...this.#url(sd.url, `Url`))
+        html.push(...this.#string(sd.numberOfItems, `Number Of Items`))
+        html.push(...this.#listItem(sd.itemListElement as ListItem[], `Items`))
+        html.push(this.#closeBox())
+
+        return html
+    }
+
+    #listItem(sd: undefined | ListItem | ListItem[], label: string): string[] {
+        if (sd === undefined) {
+            return []
+        }
+
+        const html: string[] = []
+        if (Array.isArray(sd)) {
+            html.push(this.#openBox(label, 'ListItem'))
+            sd.filter(item => !!item).forEach((item, i) => {
+                html.push(
+                    ...this.#listItem(
+                        item,
+                        `${
+                            item['@type'] === 'HowToStep'
+                                ? `Step`
+                                : item['@type'] === 'HowToSection'
+                                ? `Section`
+                                : `Item`
+                        } #${i + 1}`
+                    )
+                )
+            })
+            html.push(this.#closeBox())
+            return html
+        }
+
+        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
+            Schema.#addToDictionary(sd['@id'], sd)
+        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+            return this.#listItem(Schema.#getFromDictionary(sd['@id']) as ListItem, label)
+        }
+
+        if (typeof sd === 'string') {
             return this.#string(sd, label)
         }
 
-        if(sd['@type'] === 'HowToStep') {
+        if (sd['@type'] === 'HowToStep') {
             return this.#howToStep(sd, label)
         }
 
-        if(sd['@type'] === 'HowToSection') {
+        if (sd['@type'] === 'HowToSection') {
             return this.#howToSection(sd, label)
         }
 
         html.push(this.#openBox(label, 'ListItem'))
         html.push(...this.#string(sd.position, `Position`))
         html.push(...this.#string(sd.name, `Name`))
-        html.push(...this.#thing(sd?.item as Thing, `Item`))
+        html.push(...this.#url(sd.url, `Url`))
+        html.push(...this.#thing(sd.item as Thing, `Item`))
         html.push(this.#closeBox())
 
         return html
@@ -779,14 +875,14 @@ export class Schema {
 
         const html: string[] = []
         html.push(this.#openBox(label, 'ImageObject'))
-        html.push(...this.#image((sd.contentUrl || sd.url) as string, `Image`))
         if (sd.width && sd.height) {
             html.push(...this.#string(`${sd.width} x ${sd.height} pixels`, `Size`))
         }
         html.push(...this.#string(sd.caption as any, `Caption`))
         html.push(...this.#string(sd.name, `Name`))
         html.push(...this.#string(sd.description, `Description`))
-        html.push(...this.#string(sd.inLanguage, `Language`))
+        html.push(...this.#language(sd.inLanguage, `Language`))
+        html.push(...this.#image((sd.contentUrl || sd.url) as string, `Image`))
         html.push(this.#closeBox())
 
         return html
@@ -878,11 +974,12 @@ export class Schema {
         html.push(...this.#string(sd.name, `Name`))
         html.push(...this.#url(sd.url, `Url`))
         html.push(...this.#string(sd.description, `Description`))
-        html.push(...this.#string(sd.inLanguage, `Language`))
+        html.push(...this.#language(sd.inLanguage, `Language`))
         html.push(...this.#string(sd.datePublished, `Published`))
         html.push(...this.#string(sd.dateModified, `Modified`))
         html.push(...this.#imageObject(sd.image as ImageObject | string, `Image`))
-        html.push(...this.#imageObject(sd.primaryImageOfPage as ImageObject, `Primary Image`))
+        html.push(...this.#imageObject(sd.primaryImageOfPage as ImageObject, `Primary Image Of Page`))
+        html.push(...this.#itemList(sd.mainEntity as ItemList, `Main Entities`))
         html.push(...this.#personOrOrganizationOrBrand(sd.publisher as Organization | Person | string, `Publisher`))
         html.push(this.#closeBox())
 
@@ -933,7 +1030,7 @@ export class Schema {
             return []
         }
 
-        if(typeof sd === 'string') {
+        if (typeof sd === 'string') {
             return this.#url(sd, `Url`)
         }
 
@@ -1086,7 +1183,7 @@ export class Schema {
             return []
         }
 
-        if( typeof sd === 'string') {
+        if (typeof sd === 'string') {
             return this.#string(sd, label)
         }
 
@@ -1111,7 +1208,7 @@ export class Schema {
             return []
         }
 
-        if( typeof sd === 'string') {
+        if (typeof sd === 'string') {
             return this.#string(sd, label)
         }
 

@@ -1258,8 +1258,16 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
 .sd-box {
   margin: 8px 0 0;
 }
-.sd-box + .sd-box {
+.sd-box .sd-box {
   margin-top: 16px !important;
+}
+.sd-box .sd-box .body-open {
+  border-right: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+.sd-box .sd-box .label-open {
+  border-right: 0 !important;
+  border-top-right-radius: 0 !important;
 }
 .sd-box .sd-box-body {
   padding: 8px 0 8px 8px;
@@ -1280,7 +1288,7 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
 }
 .sd-box .sd-box-body .sd-description-line picture {
   max-width: calc(100% - 2px - 16px);
-  padding: 16px 0 0 0;
+  padding: 0;
   margin: 0 auto 0 0;
   display: block;
   border-radius: 3px;
@@ -1289,7 +1297,8 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
 .sd-box .sd-box-body .sd-description-line picture:before {
   content: attr(data-label);
   position: absolute;
-  top: 0;
+  top: 6px;
+  left: 6px;
   font-weight: bold;
   color: var(--color-black) !important;
 }
@@ -1298,7 +1307,7 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
   max-width: 100%;
   background-color: #fff;
   border-radius: 3px;
-  padding: 4px;
+  padding: 24px 4px 4px 4px;
 }
 .label-close,
 .label-open {
