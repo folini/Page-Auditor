@@ -23,6 +23,7 @@ export const ldJsonCard = (ldJson: Schema, tabUrl: string, occurrences: MustBeUn
         Tips.sd_noStructuredData(card)
     }
     let schemaType = Schema.getSchemaType(ldJson.getJson())
+    Schema.resetDictionary()
 
     const scriptId = disposableId()
     const structuredDataDescription = `Structured Data communicates content (data) to the Search Engines in an organized manner so they can display the content in the SERPs in an attractive manner.`

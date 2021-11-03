@@ -101,7 +101,7 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, report: Report): v
     discoveredScripts.forEach(discoveredItem => {
         const links: iLink[] = []
         if (discoveredItem.url.length > 0) {
-            links.push({url: discoveredItem.url, label: 'Reference'})
+            links.push({url: discoveredItem.url, label: `${discoveredItem.name} Reference`})
         }
         const linksHtml = links
         .map(link => `<a class='small-btn' href='${link.url}' target='_blank'>${link.label}</a>`)

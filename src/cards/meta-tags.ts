@@ -56,7 +56,6 @@ const reportGenerator: ReportGeneratorFunc = (url: string, data: any, report: Re
         const selectedTags = allTags.filter(tagCategory.filter)
         allTags = allTags.filter(tag => !selectedTags.includes(tag))
         if (selectedTags.length > 0) {
-            console.log(`Building MetaTags Card`)
             metaTagsCard(allTags, tagCategory, selectedTags, canonical, report)
             scriptsDone++
             if (tagCategory.title.includes('Twitter')) {

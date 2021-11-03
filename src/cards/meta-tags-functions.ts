@@ -46,7 +46,6 @@ const twitterLinkIcon =
     `</svg>`
 
 export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[], canonical: string) => {
-    console.log(`1. MetaTag Twitter Preview!`)
     const obsoleteTwitterCardValues: string[] = ['photo', 'gallery', 'product']
     const validTwitterCardValues: string[] = ['summary', 'summary_large_image', 'app', 'player']
 
@@ -70,7 +69,6 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[],
     description = description.length < 128 ? description : description.substr(0, 128) + '&mldr;'
     var domain = urlTag?.value || urlFallbackTag?.value || ''
 
-    console.log(`2. MetaTag Twitter Preview!`)
     if (domain.startsWith('http')) {
         domain = domain.replace(/https?:\/\/(www.)?((\w+\.)?\w+\.\w+).*/i, `$2`)
     }
@@ -183,7 +181,6 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[],
         }
     }
 
-    console.log(`3. MetaTag Twitter Preview!`)
     card.addPreview(
         `<div class='box-label label-close'>Twitter Preview</div>` +
             `<div class='box-body body-close'>` +
@@ -200,15 +197,12 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[],
         'twitter-card'
     )
 
-    console.log(`4. MetaTag Twitter Preview!`)
     if (!img.startsWith('http')) {
         hideCardElement(card, imgPreviewId)
     }
-    console.log(`MetaTag End of Twitter Preview!`)
 }
 
 export const openGraphPreview = (card: Card, selectedTags: iTag[], allMeta: iTag[], canonical: string) => {
-    console.log(`MetaTag begin of Facebook Preview!`)
     const imgPreviewId = disposableId()
     const imgTag = selectedTags.find(m => m.label === 'og:image')
     const urlTag = selectedTags.find(m => m.label === 'og:url' || m.label === 'og:image:secure_url')
@@ -366,7 +360,6 @@ export const openGraphPreview = (card: Card, selectedTags: iTag[], allMeta: iTag
     if (!img.startsWith('https://')) {
         hideCardElement(card, imgPreviewId)
     }
-    console.log(`MetaTag End of Facebook Preview!`)
 }
 
 const hideCardElement = (card: Card, id: string) => {
@@ -579,7 +572,6 @@ export const metaTagsCard = (
     report: Report
 ) => {
     if (selectedTags.length === 0) {
-        console.log(`MetaTag card [selectedTags.length === 0]`)
         const card = Errors.internal_NoMetaTagsInThisCategory(tagCategory.title)
         report.addCard(card)
         Tips.sd_noSdInChromeBrowserPages(card)
@@ -599,17 +591,13 @@ export const metaTagsCard = (
 
     const table = selectedTags.map(tag => [tag.label, tag.value])
 
-    console.log(`MetaTag card almost ready!`)
     const card = new Card(CardKind.report)
         .open(`Detected Meta Tags`, tagCategory.title, tagCategory.cssClass)
         .addParagraph(tagCategory.description)
         .addTable(`Tags Analysis`, table)
         .addExpandableBlock('HTML Code' + linksHtml, codeBlock(listOfMeta, Mode.html))
         .tag('card-ok')
-    console.log(`MetaTag card Done!`)
 
-    console.log(`MetaTag before Preview!`)
     tagCategory.preview(card, selectedTags, allTags, canonical)
-    console.log(`MetaTag after Preview!`)
     report.addCard(card)
 }
