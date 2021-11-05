@@ -6,78 +6,108 @@
 // ----------------------------------------------------------------------------
 const maxSitemapsToLoad = 15
 
-export class SitemapList {
-    public doneList: string[]
-    public skippedList: string[]
-    public failedList: string[]
-    public readyList: string[]
+export enum SmSource {
+    RobotsTxt = 1,
+    SitemapIndex = 1,
+    Default = 0
+}
+
+export interface iSmCandidate {
+    url: string
+    source: SmSource
+}
+
+export class SmList {
+    public doneList: iSmCandidate[]
+    public skippedList: iSmCandidate[]
+    public failedList: iSmCandidate[]
+    public toDoList: iSmCandidate[]
 
     constructor() {
         this.doneList = []
         this.skippedList = []
         this.failedList = []
-        this.readyList = []
+        this.toDoList = []
     }
 
-    public static cleanseUrls(urls: string[]) {
-        return [...new Set(urls.map(url => url.trim().replace('http://', 'https://')))]
+    #isFailed(sm: iSmCandidate) {
+        return this.failedList.filter(failedSm => failedSm.url === sm.url).length > 0
     }
 
-    private static removeUrlFromList(url: string, list: string[]) {
-        const position = list.indexOf(url)
-        if (position >= 0) {
-            list.splice(position, 1)
-        }
+    #isSkipped(sm: iSmCandidate) {
+        return this.skippedList.filter(skippedSm => skippedSm.url === sm.url).length > 0
+    }
+
+    #isDone(sm: iSmCandidate) {
+        return this.doneList.filter(doneSm => doneSm.url === sm.url).length > 0
+    }
+
+    #removeToDo(sm: iSmCandidate) {
+        this.toDoList = this.toDoList.filter(item => item.url !== sm.url)
+    }
+
+    static #sanitizeSm(sm: iSmCandidate): iSmCandidate {
+        return {url: sm.url.replace('http://', 'https://'), source: sm.source}
+    }
+
+    public static cleanseCandidates(sitemaps: iSmCandidate[]) {
+        sitemaps.forEach((sm1, indexSm1) => {
+            while (sitemaps.filter(sm => sm1.url=== sm.url).length > 1) {
+                const indexSm2 = sitemaps.findIndex((sm, i) => sm.url === sm1.url && i !== indexSm1)
+                if(sm1.source > sitemaps[indexSm2].source) {
+                    sitemaps.splice(indexSm2, 1)
+                } else {
+                    sitemaps.splice(indexSm1, 1)
+                }
+            }
+        })
+        return sitemaps
     }
 
     public static maxSitemapsToLoad() {
         return maxSitemapsToLoad
     }
 
-    public addToReady(urlsToAdd: string[]) {
-        let toAdd: string[] = []
-        let toSkip: string[] = []
-        urlsToAdd = SitemapList.cleanseUrls(urlsToAdd)
-        urlsToAdd.forEach(url => {
-            if (toAdd.length + this.doneList.length + this.readyList.length >= SitemapList.maxSitemapsToLoad()) {
-                toSkip.push(url)
-            } else {
-                toAdd.push(url)
+    public addToDo(sms: iSmCandidate[]) {
+        sms = sms.map(sm => SmList.#sanitizeSm(sm))
+        sms.forEach(candidateSm => {
+            if (!this.#isFailed(candidateSm) && !this.#isSkipped(candidateSm) && !this.#isDone(candidateSm)) {
+                this.toDoList.push(candidateSm)
             }
         })
-        this.addToSkipped(toSkip)
-        this.failedList.forEach(url => SitemapList.removeUrlFromList(url, toAdd))
-        this.skippedList.forEach(url => SitemapList.removeUrlFromList(url, toAdd))
-        this.readyList.forEach(url => SitemapList.removeUrlFromList(url, toAdd))
-        this.readyList.push(...toAdd)
+        
+        while (this.toDoList.length > maxSitemapsToLoad) {
+            this.addSkipped(this.toDoList.at(-1)!)
+            this.toDoList.pop()
+        }
+        SmList.cleanseCandidates(sms)
     }
 
-    public addToFailed(urlsToAdd: string[]) {
-        let toAdd = SitemapList.cleanseUrls(urlsToAdd)
-        toAdd.forEach(url => SitemapList.removeUrlFromList(url, this.readyList))
-        toAdd.forEach(url => SitemapList.removeUrlFromList(url, this.failedList))
-        toAdd.forEach(url => SitemapList.removeUrlFromList(url, this.skippedList))
-        this.failedList.push(...toAdd)
+    public addFailed(sm: iSmCandidate) {
+        sm = SmList.#sanitizeSm(sm)
+        if(!this.#isFailed(sm) && !this.#isSkipped(sm) && !this.#isDone(sm)) {
+            this.failedList.push(sm)
+        }
+        this.#removeToDo(sm)
     }
 
-    public addToSkipped(urlsToAdd: string[]) {
-        let toAdd = SitemapList.cleanseUrls(urlsToAdd)
-        toAdd.forEach(url => SitemapList.removeUrlFromList(url, this.readyList))
-        toAdd.forEach(url => SitemapList.removeUrlFromList(url, this.failedList))
-        toAdd.forEach(url => SitemapList.removeUrlFromList(url, this.skippedList))
-        this.skippedList.push(...toAdd)
+    public addSkipped(sm: iSmCandidate) {
+        sm = SmList.#sanitizeSm(sm)
+        if(!this.#isFailed(sm) && !this.#isSkipped(sm) && !this.#isDone(sm)) {
+            this.skippedList.push(sm)
+        }
+        this.#removeToDo(sm)
     }
 
-    public addToDone(urlsToAdd: string[]) {
-        let toAdd = SitemapList.cleanseUrls(urlsToAdd)
-        toAdd.forEach(url => SitemapList.removeUrlFromList(url, this.readyList))
-        toAdd.forEach(url => SitemapList.removeUrlFromList(url, this.failedList))
-        toAdd.forEach(url => SitemapList.removeUrlFromList(url, this.skippedList))
-        toAdd.forEach(url => SitemapList.removeUrlFromList(url, this.doneList))
-        this.doneList.push(...toAdd)
+    public addDone(sm: iSmCandidate) {
+        sm = SmList.#sanitizeSm(sm)
+        if(!this.#isFailed(sm) && !this.#isSkipped(sm) && !this.#isDone(sm)) {
+            this.doneList.push(sm)
+        }
+        this.#removeToDo(sm)
     }
 
     public toString() {
-        return `[Ready: ${this.readyList.length}, Done: ${this.doneList.length}, Skip: ${this.skippedList.length}, Failed: ${this.failedList.length}]`
+        return `[Ready: ${this.toDoList.length}, Done: ${this.doneList.length}, Skip: ${this.skippedList.length}, Failed: ${this.failedList.length}]`
     }
 }

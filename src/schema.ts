@@ -38,8 +38,13 @@ import {
     HowToStep,
     HowToSection,
     ContactPoint,
+    SiteNavigationElement,
 } from 'schema-dts'
 import {Card, iLink} from './card'
+
+declare type IdReference = {
+    "@id": string;
+}
 
 export interface iJsonLD {
     [name: string | '@type' | '@id']: string | string[] | iJsonLD[] | iJsonLD
@@ -55,6 +60,7 @@ export class Schema {
     #relativeUrls: string[]
     #firstBoxDone: boolean
     static #dictionary: {[key: string]: unknown} = {}
+    static #idStack: string[] = []
 
     constructor(json: string | iJsonLD, url: string) {
         this.#jsonLD = typeof json === 'string' ? JSON.parse(json) : json
@@ -77,8 +83,16 @@ export class Schema {
         this.#dictionary = {}
     }
 
-    static #addToDictionary(key: string, value: unknown) {
-        Schema.#dictionary[key.trim()] = value
+    static #addToDictionary(json: iJsonLD) {
+        let id = json['@id']
+        if (typeof id === 'string') {
+            id = id.trim()
+            delete json['@id']
+            Schema.#idStack.push(id)
+            if (Object.keys(json).length > 1) {
+                Schema.#dictionary[id] = json
+            }
+        }
     }
 
     static #getFromDictionary(key: string): unknown {
@@ -107,7 +121,7 @@ export class Schema {
         return ''
     }
 
-    validateUrl(url: string): string {
+    #validateUrl(url: string): string {
         if (!url.startsWith('http')) {
             this.#relativeUrls.push(url)
         }
@@ -248,8 +262,7 @@ export class Schema {
         return html.join('')
     }
 
-    #language = (str: unknown, label: string): string[] => 
-        this.#string(getLanguage(str as string), label)
+    #language = (str: unknown, label: string): string[] => this.#string(getLanguage(str as string), label)
 
     #string(str: unknown, label: string): string[] {
         if (str === undefined) {
@@ -328,7 +341,7 @@ export class Schema {
                     `<span class='sd-label'>${label}: </span>` +
                     `<ul>` +
                     sd
-                        .map(url => this.validateUrl(url))
+                        .map(url => this.#validateUrl(url))
                         .map(url => `<li><a href='${url}' target='_new'>${url}</a></li>`)
                         .join('') +
                     `</ul>` +
@@ -343,7 +356,7 @@ export class Schema {
         return [
             `<div class='sd-description-line'>` +
                 `<span class='sd-label'>${label}: </span>` +
-                `<a href='${this.validateUrl(sd)}' target='_new'>${sd}</a>` +
+                `<a href='${this.#validateUrl(sd)}' target='_new'>${sd}</a>` +
                 `</div>`,
         ]
     }
@@ -353,9 +366,8 @@ export class Schema {
             return []
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             this.#product(Schema.#getFromDictionary(sd['@id']) as Product, label)
         }
 
@@ -390,9 +402,8 @@ export class Schema {
             return html
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#offers(Schema.#getFromDictionary(sd['@id']) as unknown as Offer, label)
         }
 
@@ -428,10 +439,15 @@ export class Schema {
             }
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#thing(Schema.#getFromDictionary(sd['@id']) as unknown as Thing, label)
+        }
+
+        const typeName = sd['@type']
+
+        if(typeName === 'ItemList') {
+            return this.#itemList(sd as ItemList, label)
         }
 
         const html: string[] = []
@@ -480,9 +496,8 @@ export class Schema {
             return sd.map(person => this.#person(person, label)).flat()
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#person(Schema.#getFromDictionary(sd['@id']) as Person, label)
         }
 
@@ -509,9 +524,8 @@ export class Schema {
             return sd.map(org => this.#organization(org, label)).flat() as string[]
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#organization(Schema.#getFromDictionary(sd['@id']) as unknown as Organization, label)
         }
 
@@ -547,9 +561,8 @@ export class Schema {
             return sd.map(org => this.#corporation(org, label)).flat() as string[]
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#organization(Schema.#getFromDictionary(sd['@id']) as unknown as Organization, label)
         }
 
@@ -588,9 +601,8 @@ export class Schema {
             return sd.map(org => this.#brand(sd, label)).flat() as string[]
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#organization(Schema.#getFromDictionary(sd['@id']) as unknown as Organization, label)
         }
 
@@ -622,9 +634,8 @@ export class Schema {
             return sd.map(personOrOrg => this.#personOrOrganizationOrBrand(personOrOrg, label)).flat() as string[]
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#personOrOrganizationOrBrand(
                 Schema.#getFromDictionary(sd['@id']) as Person | Organization,
                 label
@@ -651,9 +662,8 @@ export class Schema {
             return []
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#newsArticle(Schema.#getFromDictionary(sd['@id']) as unknown as NewsArticle, label)
         }
 
@@ -677,9 +687,8 @@ export class Schema {
             return []
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#article(Schema.#getFromDictionary(sd['@id']) as Article, label)
         }
 
@@ -704,9 +713,8 @@ export class Schema {
             return []
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#webSite(Schema.#getFromDictionary(sd['@id']) as WebSite, label)
         }
 
@@ -727,9 +735,8 @@ export class Schema {
             return []
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#breadcrumbList(Schema.#getFromDictionary(sd['@id']) as BreadcrumbList, label)
         }
 
@@ -750,20 +757,14 @@ export class Schema {
         if (Array.isArray(sd)) {
             html.push(this.#openBox(label, 'ItemList'))
             sd.filter(item => !!item).forEach((item, i) => {
-                html.push(
-                    ...this.#listItem(
-                        item as ListItem,
-                        `${`Item`} #${i + 1}`
-                    )
-                )
+                html.push(...this.#listItem(item as ListItem, `${`Item`} #${i + 1}`))
             })
             html.push(this.#closeBox())
             return html
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#listItem(Schema.#getFromDictionary(sd['@id']) as ListItem, label)
         }
 
@@ -785,13 +786,14 @@ export class Schema {
         if (Array.isArray(sd)) {
             html.push(this.#openBox(label, 'ListItem'))
             sd.filter(item => !!item).forEach((item, i) => {
+                const itemType = item['@type']
                 html.push(
                     ...this.#listItem(
                         item,
                         `${
-                            item['@type'] === 'HowToStep'
+                            itemType === 'HowToStep'
                                 ? `Step`
-                                : item['@type'] === 'HowToSection'
+                                : itemType === 'HowToSection'
                                 ? `Section`
                                 : `Item`
                         } #${i + 1}`
@@ -802,9 +804,9 @@ export class Schema {
             return html
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#listItem(Schema.#getFromDictionary(sd['@id']) as ListItem, label)
         }
 
@@ -812,12 +814,18 @@ export class Schema {
             return this.#string(sd, label)
         }
 
-        if (sd['@type'] === 'HowToStep') {
+        const typeName = sd['@type']
+
+        if (typeName === 'HowToStep') {
             return this.#howToStep(sd, label)
         }
 
-        if (sd['@type'] === 'HowToSection') {
+        if (typeName === 'HowToSection') {
             return this.#howToSection(sd, label)
+        }
+
+        if ((typeName as string) === 'SiteNavigationElement') {
+            return this.#siteNavigationElement(sd as unknown as SiteNavigationElement, label)
         }
 
         html.push(this.#openBox(label, 'ListItem'))
@@ -867,9 +875,8 @@ export class Schema {
             return this.#image(sd, label)
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#imageObject(Schema.#getFromDictionary(sd['@id']) as ImageObject, label)
         }
 
@@ -893,9 +900,8 @@ export class Schema {
             return []
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#videoObject(Schema.#getFromDictionary(sd['@id']) as VideoObject, label)
         }
 
@@ -904,6 +910,8 @@ export class Schema {
         html.push(...this.#string(sd.name, `Name`))
         html.push(...this.#string(sd.description, `Description`))
         html.push(...this.#string(sd.duration, `Duration`))
+        html.push(...this.#string(sd.uploadDate, `Upload Date`))
+        html.push(...this.#url(sd.embedUrl, `Embed Url`))
         html.push(...this.#imageObject(sd.image as ImageObject, `Image`))
         html.push(...this.#image(sd.thumbnailUrl as string, `Thumbnail`))
         html.push(this.#closeBox())
@@ -915,9 +923,8 @@ export class Schema {
             return []
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#aggregateRating(Schema.#getFromDictionary(sd['@id']) as AggregateRating, label)
         }
 
@@ -940,9 +947,8 @@ export class Schema {
             return sd.map((review, i) => this.#review(review, `Review #${i + 1}`)).flat()
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#review(Schema.#getFromDictionary(sd['@id']) as Review, label)
         }
 
@@ -963,9 +969,8 @@ export class Schema {
             return []
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#webPage(Schema.#getFromDictionary(sd['@id']) as WebPage, label)
         }
 
@@ -979,7 +984,7 @@ export class Schema {
         html.push(...this.#string(sd.dateModified, `Modified`))
         html.push(...this.#imageObject(sd.image as ImageObject | string, `Image`))
         html.push(...this.#imageObject(sd.primaryImageOfPage as ImageObject, `Primary Image Of Page`))
-        html.push(...this.#itemList(sd.mainEntity as ItemList, `Main Entities`))
+        html.push(...this.#thing(sd.mainEntity as Thing, `Main Entities`))
         html.push(...this.#personOrOrganizationOrBrand(sd.publisher as Organization | Person | string, `Publisher`))
         html.push(this.#closeBox())
 
@@ -991,9 +996,8 @@ export class Schema {
             return []
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#softwareApplication(Schema.#getFromDictionary(sd['@id']) as SoftwareApplication, label)
         }
 
@@ -1056,9 +1060,8 @@ export class Schema {
             return []
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#rating(Schema.#getFromDictionary(sd['@id']) as Rating, label)
         }
 
@@ -1075,9 +1078,8 @@ export class Schema {
             return []
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#rating(Schema.#getFromDictionary(sd['@id']) as Rating, label)
         }
 
@@ -1095,9 +1097,8 @@ export class Schema {
             return []
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#rating(Schema.#getFromDictionary(sd['@id']) as Rating, label)
         }
 
@@ -1118,9 +1119,8 @@ export class Schema {
             return []
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#rating(Schema.#getFromDictionary(sd['@id']) as Rating, label)
         }
 
@@ -1148,9 +1148,8 @@ export class Schema {
             return []
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#rating(Schema.#getFromDictionary(sd['@id']) as Rating, label)
         }
 
@@ -1187,14 +1186,37 @@ export class Schema {
             return this.#string(sd, label)
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#rating(Schema.#getFromDictionary(sd['@id']) as Rating, label)
         }
 
         const html: string[] = []
         html.push(this.#openBox(label, 'HowTo Step'))
+        html.push(...this.#string(sd.name, `Name`))
+        html.push(...this.#string(sd.text, `Description`))
+        html.push(...this.#url(sd.url, `Url`))
+        html.push(this.#closeBox())
+
+        return html
+    }
+
+    #siteNavigationElement(sd: undefined | string | SiteNavigationElement, label: string): string[] {
+        if (sd === undefined) {
+            return []
+        }
+
+        if (typeof sd === 'string') {
+            return this.#string(sd, label)
+        }
+
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+            return this.#rating(Schema.#getFromDictionary(sd['@id']) as Rating, label)
+        }
+
+        const html: string[] = []
+        html.push(this.#openBox(label, 'Site Navigation Element'))
         html.push(...this.#string(sd.name, `Name`))
         html.push(...this.#string(sd.text, `Description`))
         html.push(...this.#url(sd.url, `Url`))
@@ -1212,9 +1234,8 @@ export class Schema {
             return this.#string(sd, label)
         }
 
-        if (sd['@id'] !== undefined && Object.keys(sd).length > 1) {
-            Schema.#addToDictionary(sd['@id'], sd)
-        } else if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
+        Schema.#addToDictionary(sd as unknown as iJsonLD)
+        if (sd['@id'] !== undefined && Object.keys(sd).length === 1) {
             return this.#rating(Schema.#getFromDictionary(sd['@id']) as Rating, label)
         }
 

@@ -176,13 +176,17 @@ export class Card {
         return this
     }
 
-    public tag(tag: string) {
-        if (tag === 'card-ok' && this.#head.classList.contains('icon-fix')) {
+    public tag(tagToAdd: string) {
+        if (tagToAdd === 'card-ok' && (this.#head.classList.contains('card-fix') || this.#head.classList.contains('card-error'))) {
             return this
         }
-        const oppositeTag = tag === 'card-ok' ? 'card-fix' : 'card-ok'
-        this.#head.classList.remove(oppositeTag)
-        this.#head.classList.add(tag)
+        if (tagToAdd === 'card-fix' && this.#head.classList.contains('card-error')) {
+            return this
+        }
+        this.#head.classList.remove('card-ok')
+        this.#head.classList.remove('card-error')
+        this.#head.classList.remove('card-fix')
+        this.#head.classList.add(tagToAdd)
         return this
     }
     
@@ -234,6 +238,7 @@ export class Card {
 
         this.#body.append(tipDiv)
         this.tag('card-fix')
+        
         return this
     }
 

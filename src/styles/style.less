@@ -217,7 +217,7 @@ body#id-page-auditor {
             background-size: var(--card-icon-size) var(--card-icon-size);
             background-repeat: no-repeat;
             background-position: ~'calc(var(--card-padding) - 2px)' center;
-            background-color: #00688c3b; // var(--color-white);
+            background-color: #12787840; // var(--color-white);
             padding: var(--card-padding);
             padding-left: ~'calc(var(--card-icon-size) + 2 * var(--card-padding))';
             position: relative;
@@ -246,31 +246,16 @@ body#id-page-auditor {
                 background-size: 48px;
                 content: '';
             }
-            &.card-ok {
-                background-color: #00640026;
-                color: var(--color-black);
-
-                &:after {
-                    background-image: url(../logos/OK_100x100.png);
-                }
+            &.card-ok:after {
+                background-image: url(../logos/OK_100x100.png);
             }
 
-            &.card-fix {
-                //background-color: #ffa00052;
-                color: var(--color-black);
-
-                &:after {
-                    background-image: url(../logos/WARNING_100x100.png);
-                }
+            &.card-fix:after {
+                background-image: url(../logos/WARNING_100x100.png);
             }
 
-            &.card-error {
-                background-color: #ffa00052;
-                color: var(--color-black);
-
-                &:after {
-                    background-image: url(../logos/ERROR_100x100.png);
-                }
+            &.card-error:after {
+                background-image: url(../logos/ERROR_100x100.png);
             }
 
             .cardPreTitle {
@@ -404,6 +389,14 @@ body#id-page-auditor {
                 padding-bottom: 16px;
                 position: relative;
 
+                .tip-what-why-how {
+                    margin: 16px 0;
+
+                    .tip-code {
+                        margin: 8px 0;
+                    }
+                }
+
                 > div {
                     margin: 8px 0;
                     > .code {
@@ -426,7 +419,7 @@ body#id-page-auditor {
                     border: solid 1px var(--border-color);
                     border-radius: 20px;
                     height: 25px;
-                    margin: 0 auto 32px;
+                    margin: 0 auto 42px;
                     background-repeat: no-repeat;
                     background-size: 100% 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%,
                         1px 100%, 1px 100%;

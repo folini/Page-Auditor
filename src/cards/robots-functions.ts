@@ -12,7 +12,7 @@ import {Errors} from './errors'
 import {Tips} from './tips'
 import {codeBlock} from '../codeBlock'
 import {htmlDecode} from 'js-htmlencode'
-import {SitemapList} from '../sitemapList'
+import {SmList, SmSource, iSmCandidate} from '../sitemapList'
 import {sitemapMaxSize} from '../main'
 
 export const readFile = (url: string) =>
@@ -32,11 +32,11 @@ export const readFile = (url: string) =>
         })
         .catch(() => Promise.reject())
 
-const sitemapCard = (url: string, sitemaps: SitemapList, report: Report) =>
-    readFile(url)
+const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
+    readFile(sm.url)
         .then(sitemapBody => {
-            if (url.endsWith('.gz')) {
-                const fileName = url.replace(/(.*)\/([a-z0-9\-_\.]+(\.xml)?(\.gz)?)(.*)/i, '$2')
+            if (sm.url.endsWith('.gz')) {
+                const fileName = sm.url.replace(/(.*)\/([a-z0-9\-_\.]+(\.xml)?(\.gz)?)(.*)/i, '$2')
                 const table = [
                     ['File Name', fileName],
                     ['Compressed', 'Yes'],
@@ -46,38 +46,38 @@ const sitemapCard = (url: string, sitemaps: SitemapList, report: Report) =>
                 const card = new Card(CardKind.report)
                     .open(`Detected Sitemap #${sitemaps.doneList.length + 1} (Compressed)`, fileName, 'icon-sitemap')
                     .addParagraph(`Found a compressed <code>sitemap.xml</code> file at the url:`)
-                    .addCodeBlock(url, Mode.txt)
-                    .addTable('Sitemap Analysis', table, getSitemapToolbarLinks(url, ''))
+                    .addCodeBlock(sm.url, Mode.txt)
+                    .addTable('Sitemap Analysis', table, getSitemapToolbarLinks(sm.url, ''))
                     .addParagraph(`Unable to display the content of compressed files.`)
                     .tag('card-ok')
                 report.addCard(card)
-                sitemaps.addToDone([url])
-                fileExists(url).catch(_ => Tips.compressedSitemapNotFound(card, url))
+                sitemaps.addDone(sm)
+                fileExists(sm.url).catch(_ => Tips.compressedSitemapNotFound(card, sm.url))
                 return
             }
 
             if (sitemapBody.match(/not found/gim) !== null || sitemapBody.match(/error 404/gim) !== null) {
-                const card = Errors.sitemap_404(url)
+                const card = Errors.sitemap_404(sm)
                 report.addCard(card)
                 Tips.malformedSitemapXml(card)
-                sitemaps.addToDone([url])
+                sitemaps.addDone(sm)
                 return
             }
 
             if (sitemapBody.includes(`<head>`) || sitemapBody.includes(`<meta`)) {
-                const card = Errors.sitemap_IsHTMLFormat(url, sitemapBody)
+                const card = Errors.sitemap_IsARedirect(sm, sitemapBody)
                 report.addCard(card)
-                Tips.malformedSitemapXml(card)
-                sitemaps.addToDone([url])
+                Tips.missingSitemap(card)
+                sitemaps.addDone(sm)
                 return
             }
 
-            const fileName = url.replace(/(.*)\/([a-z0-9\-_\.]+(\.xml)?)(\?.*)?/i, '$2')
+            const fileName = sm.url.replace(/(.*)\/([a-z0-9\-_\.]+(\.xml)?)(\?.*)?/i, '$2')
 
             const divId = disposableId()
             const btnLabel = `Sitemap.xml`
             const links = sitemapAllLinks(sitemapBody)
-            const linksToSitemaps = sitemapLinksToSitemap(sitemapBody)
+            const linksToSitemaps = sitemapLinksToSitemap(sitemapBody, SmSource.SitemapIndex)
             const linksToPages = links.length - linksToSitemaps.length
             const sitemapXmlDescription =
                 `A good XML sitemap acts as a roadmap of your website that leads Google to all your important pages. ` +
@@ -95,14 +95,14 @@ const sitemapCard = (url: string, sitemaps: SitemapList, report: Report) =>
                 ],
                 ['Compressed', 'No Compression Detected'],
             ]
-            const linksHtml = getSitemapToolbarLinks(url, divId)
+            const linksHtml = getSitemapToolbarLinks(sm.url, divId)
             .map(link => `<a class='small-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
             .join(' ')
         
             const card = new Card(CardKind.report)
                 .open(`Detected Sitemap  #${sitemaps.doneList.length + 1}`, fileName, 'icon-sitemap')
                 .addParagraph(`Found a <code>sitemap.xml</code> file at the url:`)
-                .addCodeBlock(url, Mode.txt)
+                .addCodeBlock(sm.url, Mode.txt)
                 .addParagraph(sitemapXmlDescription)
                 .addTable('Sitemap Analysis', table)
                 .addExpandableBlock(btnLabel + linksHtml, codeBlock(sitemapBody, Mode.xml, divId))
@@ -111,22 +111,22 @@ const sitemapCard = (url: string, sitemaps: SitemapList, report: Report) =>
             report.addCard(card)
 
             if (sitemapBody.length > sitemapMaxSize) {
-                Tips.uncompressedLargeSitemap(card, url, sitemapBody.length)
+                Tips.uncompressedLargeSitemap(card, sm.url, sitemapBody.length)
             }
             if (!fileName.includes('.xml')) {
-                Tips.sitemapWithoutXmlExtension(card, url)
+                Tips.sitemapWithoutXmlExtension(card, sm.url)
             }
-            sitemaps.addToDone([url])
-            sitemaps.addToReady(sitemapLinksToSitemap(sitemapBody))
+            sitemaps.addDone(sm)
+            sitemaps.addToDo(sitemapLinksToSitemap(sitemapBody, SmSource.SitemapIndex))
 
             return
         })
-        .catch(() => sitemaps.addToFailed([url]))
+        .catch(() => sitemaps.addFailed(sm))
 
-export const createSiteMapCards = (sitemaps: SitemapList, report: Report) => {
-    const promises = sitemaps.readyList.map(url => sitemapCard(url, sitemaps, report))
+export const createSiteMapCards = (sitemaps: SmList, report: Report) => {
+    const promises = sitemaps.toDoList.map(sm => sitemapCard(sm, sitemaps, report))
 
-    return Promise.allSettled(promises).then(() => sitemaps.readyList.map(url => sitemapCard(url, sitemaps, report)))
+    return Promise.allSettled(promises).then(() => sitemaps.toDoList.map(sm => sitemapCard(sm, sitemaps, report)))
 }
 
 const sanitizeUrls = (urls: string[]) => {
@@ -145,9 +145,9 @@ export const processRobotsTxt = (robotsTxtBody: string, url: string, report: Rep
     }
 
     if (robotsTxtBody.includes(`<head>`) || robotsTxtBody.includes(`<meta`)) {
-        const card = Errors.robotsTxt_HTMLFormat(url, robotsTxtBody)
+        const card = Errors.robotsTxt_IsARedirect(url, robotsTxtBody)
         report.addCard(card)
-        Tips.malformedRobotsTxt(card)
+        Tips.missingRobotsTxt(card)
         return
     }
 
@@ -264,20 +264,21 @@ const robotsTxtCard = (url: string, robotsTxtBody: string): Card => {
     return card
 }
 
-export const sitemapUrlsFromRobotsTxt = (robotsTxtBody: string) =>
+export const sitemapUrlsFromRobotsTxt = (robotsTxtBody: string): iSmCandidate[] =>
     robotsTxtBody
         .split('\n')
         .filter(line => line.startsWith('Sitemap: '))
         .map(line => line.split(': ')[1].trim())
         .filter(line => line.length > 0)
+        .map(url => ({url: url, source: SmSource.RobotsTxt}))
 
-export const sitemapLinksToSitemap = (sitemapBody: string) => {
+export const sitemapLinksToSitemap = (sitemapBody: string, source: SmSource): iSmCandidate[] => {
     let subSitemaps = (sitemapBody.match(
         /<sitemap>\s*<loc>(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9\-]+\.[^(\s|<|>)]{2,})<\/loc>/gim
     ) ?? []) as string[]
     subSitemaps = subSitemaps.map(link => link.replace(/(<\/?sitemap>|<\/?loc>)/gm, '').trim())
     subSitemaps = subSitemaps.map(link => htmlDecode(link))
-    return sanitizeUrls(subSitemaps)
+    return sanitizeUrls(subSitemaps).map(url => ({url: url, source:source }))
 }
 
 export const sitemapAllLinks = (sitemapBody: string) => {

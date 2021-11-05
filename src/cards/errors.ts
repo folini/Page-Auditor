@@ -7,6 +7,7 @@
 import {Card, CardKind} from '../card'
 import {Mode} from '../colorCode'
 import {codeBlock} from '../codeBlock'
+import {SmSource, iSmCandidate} from '../sitemapList'
 
 export class Errors {
     // ------------------------------------------------------------------------
@@ -47,39 +48,45 @@ export class Errors {
 
     // ------------------------------------------------------------------------
     // Sitemap Errors
-    public static sitemap_IsHTMLFormat(url: string, code: string) {
-        const msg1 = `Found a syntactically invalid <code>Sitemap.xml</code> file at the url:`
-        const msg2 = `It's an HTML page or a redirect to an HTML page.`
+    public static sitemap_IsARedirect(sm: iSmCandidate, code: string) {
+        const preMsg = 
+            sm.source === SmSource.Default 
+            ? `While checking for a sitemap at the default location and with the default name` 
+            : sm.source === SmSource.RobotsTxt
+            ? `While checking for a sitemap listed in your <code>robots.txt</code> file`
+            : `While checking for a sitemap listed in a sitemap-index in your website`
+        const msg1 = `${preMsg} we found a syntactically invalid <code>Sitemap.xml</code> file. The url is:`
+        const msg2 = `It's an HTML page, likely a standard redirect for non-existent pages.`
         const btnLabel = `Invalid Sitemap`
         return new Card(CardKind.error)
             .setLogo('icon-sitemap')
             .addParagraph(msg1)
-            .addCodeBlock(url, Mode.txt)
+            .addCodeBlock(sm.url, Mode.txt)
             .addParagraph(msg2)
             .addExpandableBlock(btnLabel, codeBlock(code, Mode.html))
             .setTitle('Invalid Sitemap.xml Syntax')
             .tag('card-error')
     }
 
-    public static sitemap_404(url: string) {
-        const msg1 = `No <code>Sitemap.xml</code> file at location`
+    public static sitemap_404(sm: iSmCandidate) {
+        const msg1 = `No <code>Sitemap.xml</code> file was found at location:`
         const msg2 = `Server returns 404 error code.`
         return new Card(CardKind.error)
             .setLogo('icon-sitemap')
             .addParagraph(msg1)
-            .addCodeBlock(url, Mode.txt)
+            .addCodeBlock(sm.url, Mode.txt)
             .addParagraph(msg2)
-            .setTitle('Sitemap.xml Not Found')
+            .setTitle('Sitemap.xml Not Found, code 404')
             .tag('card-error')
     }
 
-    public static sitemap_NotFound(urls: string[]) {
-        const msg1 = `No <code>Sitemap.xml</code> file at location:`
+    public static sitemap_NotFound(sms: iSmCandidate[]) {
+        const msg1 = `No <code>Sitemap.xml</code> file was found at at location:`
         const msg2 = `File not found.`
         return new Card(CardKind.error)
             .setLogo('icon-sitemap')
             .addParagraph(msg1)
-            .addCodeBlock(urls.join('<br/>'), Mode.txt)
+            .addCodeBlock(sms.map(sm => sm.url).join('<br/>'), Mode.txt)
             .addParagraph(msg2)
             .setTitle('Sitemap.xml Not Found')
             .tag('card-error')
@@ -87,9 +94,9 @@ export class Errors {
 
     // ------------------------------------------------------------------------
     // Robots.txt Errors
-    public static robotsTxt_HTMLFormat(url: string, code: string) {
+    public static robotsTxt_IsARedirect(url: string, code: string) {
         const msg1 = `Found a syntactically invalid <code>Robots.Txt</code> file at the url:`
-        const msg2 = `It's an HTML page or a redirect to an HTML page.`
+        const msg2 = `It's an HTML page, likely a standard redirect for non-existent pages.`
         const btnLabel = `Robots.Txt`
         return new Card(CardKind.error)
             .setLogo('icon-rep')

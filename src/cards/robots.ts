@@ -9,7 +9,7 @@ import {sectionActions, ReportGeneratorFunc} from '../main'
 import {createSiteMapCards, readFile, processRobotsTxt, sitemapUrlsFromRobotsTxt} from './robots-functions'
 import {Errors} from './errors'
 import {Info} from './info'
-import {SitemapList} from '../sitemapList'
+import {iSmCandidate, SmList, SmSource} from '../sitemapList'
 import {Tips} from './tips'
 
 const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Report): void => {
@@ -27,17 +27,17 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
         return
     }
 
-    var defaultSitemapUrl = new URL(tabUrl).origin + '/sitemap.xml'
+    var defaultSitemap: iSmCandidate = {url: new URL(tabUrl).origin + '/sitemap.xml', source: SmSource.Default}
     var defaultRobotsUrl = new URL(tabUrl).origin + '/robots.txt'
 
-    const sitemaps = new SitemapList()
-    sitemaps.addToReady([defaultSitemapUrl])
+    const sitemaps = new SmList()
+    sitemaps.addToDo([defaultSitemap])
 
     readFile(defaultRobotsUrl)
         .then(robotsTxtBody => {
             processRobotsTxt(robotsTxtBody, defaultRobotsUrl, report)
-            const newUrls = sitemapUrlsFromRobotsTxt(robotsTxtBody)
-            sitemaps.addToReady(newUrls)
+            const newSm = sitemapUrlsFromRobotsTxt(robotsTxtBody)
+            sitemaps.addToDo(newSm)
         })
         .catch(() => {
             const card = Errors.robotsTxt_NotFound(defaultRobotsUrl)
@@ -53,7 +53,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
                     report.addCard(card)
                 }
                 if (sitemaps.skippedList.length > 0) {
-                    report.addCard(Info.notAllSitemapsLoaded(SitemapList.maxSitemapsToLoad(), sitemaps.skippedList))
+                    report.addCard(Info.notAllSitemapsLoaded(SmList.maxSitemapsToLoad(), sitemaps.skippedList.map(sm => sm.url)))
                 }
             })
         })
