@@ -45,7 +45,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, repo
     jsonStrings.forEach(json => {
         try {
             const schema = new Schema(json, tabUrl)
-            if (Schema.getSchemaType(schema.getJson()) === '') {
+            if (Schema.getType(schema.getJson()) === '') {
                 const card = Errors.sd_InvalidJSON(json)
                 Tips.sd_invalidSyntax(card)
                 return

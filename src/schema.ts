@@ -6,6 +6,7 @@
 // ----------------------------------------------------------------------------
 import {getLanguage, isLanguage} from './language-code'
 import {Card, iLink} from './card'
+import { openGraphPreview } from './cards/meta-tags-functions'
 
 export interface iJsonLD {
     [name: string | '@type' | '@id']: string | string[] | iJsonLD[] | iJsonLD
@@ -66,17 +67,20 @@ export class Schema {
         return name.charAt(0).toUpperCase() + name.slice(1)
     }
 
-    static getSchemaType(json: iJsonLD): string {
+    static getType(json: iJsonLD): string {
         const schemaType = json['@type']
 
         if (schemaType === undefined) {
             return 'Graph'
         }
+        if (typeof schemaType === 'string' && schemaType.startsWith('http')) {
+            return Schema.flattenName(Schema.#getSchemaEnum(schemaType))
+        }
         if (typeof schemaType === 'string') {
             return schemaType
         }
         if (Array.isArray(schemaType) && schemaType.length > 0) {
-            return typeof schemaType[0] === 'string' ? schemaType[0] : Schema.getSchemaType(schemaType[0])
+            return typeof schemaType[0] === 'string' ? schemaType[0] : Schema.getType(schemaType[0])
         }
         return ''
     }
@@ -116,7 +120,7 @@ export class Schema {
     }
 
     schemaToHtml(): string {
-        return this.#toHtml(this.#jsonLD, Schema.getSchemaType(this.#jsonLD), Schema.getSchemaType(this.#jsonLD))
+        return this.#toHtml(this.#jsonLD, Schema.getType(this.#jsonLD), Schema.getType(this.#jsonLD))
     }
 
     #toHtml(genericSd: unknown, label: string, typeName: string): string {
@@ -153,12 +157,12 @@ export class Schema {
         if (Array.isArray(genericSd)) {
             return genericSd.map(json => {
                 const sdJson = json as iJsonLD
-                const newTypeName = sdJson['@type'] ? (sdJson['@type'] as string) : 'UNDEFINED'
+                const newTypeName = Schema.getType(sdJson)
                 return this.#toHtml(sdJson, newTypeName, newTypeName)
             }).join('')
         }
 
-        const newTypeName = sd['@type'] ? (sd['@type'] as string) : 'UNDEFINED'
+        const newTypeName = Schema.getType(sd)
         return (
             this.#openBox(label, newTypeName) +
             Object.keys(sd)
@@ -275,7 +279,7 @@ export class Schema {
     }
 
     static #isSchemaEnum(str: string): boolean {
-        return str.startsWith('https://schema.org/')
+        return str.startsWith('https://schema.org/') || str.startsWith('http://schema.org/')
     }
 
     static #getSchemaEnum(str: string): string {

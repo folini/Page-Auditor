@@ -22,7 +22,7 @@ export const ldJsonCard = (ldJson: Schema, tabUrl: string, occurrences: MustBeUn
         report.addCard(card)
         Tips.sd_noStructuredData(card)
     }
-    let schemaType = Schema.getSchemaType(ldJson.getJson())
+    let schemaType = Schema.getType(ldJson.getJson())
     Schema.resetDictionary()
 
     const scriptId = disposableId()
