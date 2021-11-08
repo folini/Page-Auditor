@@ -1010,7 +1010,7 @@ body#id-page-auditor .box-card.icon-sitemap > h2 {
 body#id-page-auditor .box-card.icon-moat > h2 {
   background-image: url(../logos/MOAT_100x100.png);
 }
-body#id-page-auditor .box-card.icon-rich-audience {
+body#id-page-auditor .box-card.icon-rich-audience > h2 {
   background-image: url(../logos/RichAudience_100x100.png);
 }
 body#id-page-auditor .box-card.icon-gladly > h2 {
@@ -1235,6 +1235,18 @@ body#id-page-auditor .box-card.icon-tune > h2 {
 body#id-page-auditor .box-card.icon-subbly > h2 {
   background-image: url(../logos/Subbly_100x100.png);
 }
+body#id-page-auditor .box-card.icon-netweek > h2 {
+  background-image: url(../logos/NetWeek_100x100.png);
+}
+body#id-page-auditor .box-card.icon-jsdelivr > h2 {
+  background-image: url(../logos/JsDelivr_100x100.png);
+}
+body#id-page-auditor .box-card.icon-vimeo > h2 {
+  background-image: url(../logos/Vimeo_100x100.png);
+}
+body#id-page-auditor .box-card.icon-sharethis > h2 {
+  background-image: url(../logos/ShareThis_100x100.png);
+}
 body#id-page-auditor .icon-linkedin:not(.box-card) {
   background-image: url(../logos/LinkedInAds_100x100.png);
 }
@@ -1251,7 +1263,7 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
   background-image: url(../logos/Gmail_100x100.png);
 }
 .sd-box {
-  margin: 8px 0 0;
+  margin: 8px 0;
 }
 .sd-box .sd-box {
   margin-top: 16px !important;

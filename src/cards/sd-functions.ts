@@ -10,7 +10,7 @@ import {Mode} from '../colorCode'
 import {disposableId} from '../main'
 import {codeBlock} from '../codeBlock'
 import {Report} from '../report'
-import {Tips} from './tips'
+import * as Tips from './tips'
 import {Errors} from './errors'
 import {Schema} from '../schema'
 

@@ -10,7 +10,7 @@ import {createSiteMapCards, readFile, processRobotsTxt, sitemapUrlsFromRobotsTxt
 import {Errors} from './errors'
 import {Info} from './info'
 import {iSmCandidate, SmList, SmSource} from '../sitemapList'
-import {Tips} from './tips'
+import * as Tips from './tips'
 
 const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Report): void => {
     if (tabUrl === '') {

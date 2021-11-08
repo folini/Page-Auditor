@@ -19,7 +19,7 @@ import * as Scripts from './cards/scripts'
 import * as Credits from './cards/about'
 import * as Meta from './cards/meta-tags'
 import * as Robots from './cards/robots'
-import {Tips} from './cards/tips'
+import * as Tips from './cards/tips'
 
 export type NoArgsNoReturnFunc = () => void
 export type CodeInjectorFunc = () => any

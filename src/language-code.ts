@@ -6,6 +6,9 @@
 // ----------------------------------------------------------------------------
 export const getLanguage = (code: string): string => map[code] || code
 
+export const isLanguage = (code: string): boolean =>
+    Object.keys(map).includes(code)
+
 const map: {[ket: string]: string} = {
     'af': 'Afrikaans',
     'af-ZA': 'Afrikaans (South Africa)',

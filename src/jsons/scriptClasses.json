@@ -1430,5 +1430,37 @@
         "iconClass": "icon-userzoom",
         "description": "UserZoom can source a wide variety of demographics and segment users based on their age, gender, household income, geographic location and device type. This profiling helps with targeting, allowing us to deliver the most relevant users for your research, no matter what your study type.",
         "url": "https://www.userzoom.com/"
+    },
+    {
+        "patterns": ["(.|/)netweek.it/"],
+        "name": "NetWeek",
+        "category": "Italian Publisher and Advertiser",
+        "iconClass": "icon-netweek",
+        "description": "Netweek S.p.A. operates as an Internet media company. The Company offers news, sports, entertainment, education, and economic contents online in a searchable format. Netweek also provides online placement, real estate, and email news.",
+        "url": "https://netweek.it/"
+    },
+    {
+        "patterns": ["(.|/)jsdelivr.net/"],
+        "name": "JsDelivr",
+        "category": "Javascript Hosting Service",
+        "iconClass": "icon-jsdelivr",
+        "description": "JSDelivr is a free public CDN for open-source projects. It can serve web files directly from the npm registry and GitHub repositories without any configuration.",
+        "url": "https://www.jsdelivr.com/"
+    },
+    {
+        "patterns": ["(.|/)vimeo.com/", "(.|/)vimeocdn.com/"],
+        "name": "Vimeo",
+        "category": "Video Hosting Service",
+        "iconClass": "icon-vimeo",
+        "description": "Vimeo is a video hosting, sharing, and services platform provider. Vimeo focuses on the delivery of high-definition video across a range of devices.",
+        "url": "https://www.vimeo.com/"
+    },
+    {
+        "patterns": ["(.|/)sharethis.com/"],
+        "name": "ShareThis",
+        "category": "Video Hosting Service",
+        "iconClass": "icon-sharethis",
+        "description": "ShareThis is a technology company that provides free engagement and growth tools (e.g., share buttons, follow buttons, and reaction buttons) for site owners.",
+        "url": "https://sharethis.com/"
     }
 ]

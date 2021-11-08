@@ -11,7 +11,7 @@ import {disposableId, fileExists} from '../main'
 import {Errors} from './errors'
 import {Mode} from '../colorCode'
 import {htmlEncode} from 'js-htmlencode'
-import {Tips} from './tips'
+import * as Tips from './tips'
 import {codeBlock} from '../codeBlock'
 
 interface iTagPreviewer {
@@ -532,7 +532,7 @@ export const tagCategories: iTagCategory[] = [
     },
     {
         title: `Internet Explorer Tags`,
-        description: `X-UA-Compatible is a document mode meta tag that allows web authors to choose what version of Internet Explorer the page should be rendered as. It is used by Internet Explorer 8 to specify whether a page should be rendered as IE 7 (compatibility view) or IE 8 (standards view).`,
+        description: `<code>X-UA-Compatible</code> is a document-mode Meta Tag that allows web authors to choose what version of Internet Explorer the page should be rendered as. It is used by Internet Explorer 8 to specify whether a page should be rendered as IE 7 (compatibility view) or IE 8 (standards view).`,
         url: 'https://docs.microsoft.com/en-us/openspecs/ie_standards/ms-iedoco/380e2488-f5eb-4457-a07a-0cb1b6e4b4b5',
         cssClass: 'icon-ie',
         filter: m => m.label === `x-ua-compatible` || m.label == 'cleartype',

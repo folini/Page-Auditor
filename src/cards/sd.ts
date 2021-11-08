@@ -8,7 +8,7 @@ import {Report} from '../report'
 import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../main'
 import {ldJsonCard} from './sd-functions'
 import {Errors} from './errors'
-import {Tips} from './tips'
+import * as Tips from './tips'
 import {Schema} from '../schema'
 
 export type MustBeUniqueOccurrences = {

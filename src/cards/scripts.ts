@@ -10,7 +10,7 @@ import {sectionActions, NoArgsNoReturnFunc, disposableId} from '../main'
 import {Mode} from '../colorCode'
 import {codeBlock} from '../codeBlock'
 import {Errors} from './errors'
-import {Tips} from './tips'
+import * as Tips from './tips'
 import {Info} from './info'
 
 const listOfScriptClasses = require('../jsons/scriptClasses.json') as iTrackClass[]
@@ -131,6 +131,7 @@ const localJsMatch = (url: string): iTrackMatch => {
     patterns.push(`(.|/)cdn${domainParts[0]}.${domainParts[1]}/`)
     patterns.push(`(.|/)static${domainParts[0]}.${domainParts[1]}/`)
     patterns.push(`(.|/)${domainParts[0]}static.${domainParts[1]}/`)
+    patterns.push(`(.|/)${domainParts[0]}img1.${domainParts[1]}/`)
 
     return {
         patterns: patterns,
