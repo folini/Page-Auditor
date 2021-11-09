@@ -96,7 +96,7 @@ export class Card {
             toolbar.className = 'cta-toolbar'
             this.#footer.append(toolbar)
         }
-        if(links.length> 0){
+        if (links.length > 0) {
             this.#footer.style.display = 'block'
         }
         links.forEach(link => {
@@ -133,7 +133,8 @@ export class Card {
             `<div class='code-box'>` +
                 `<div class='code-label label-close' id='${divId}'>${btnLabel}</div>` +
                 `<div class='code-body body-close'>${block}</div>` +
-            `</div>`)
+                `</div>`
+        )
         const labelDiv = this.#div.querySelector(`#${divId}`) as HTMLDivElement
         labelDiv.addEventListener('click', () => Card.toggle(labelDiv))
         return this
@@ -177,7 +178,10 @@ export class Card {
     }
 
     public tag(tagToAdd: string) {
-        if (tagToAdd === 'card-ok' && (this.#head.classList.contains('card-fix') || this.#head.classList.contains('card-error'))) {
+        if (
+            tagToAdd === 'card-ok' &&
+            (this.#head.classList.contains('card-fix') || this.#head.classList.contains('card-error'))
+        ) {
             return this
         }
         if (tagToAdd === 'card-fix' && this.#head.classList.contains('card-error')) {
@@ -189,7 +193,7 @@ export class Card {
         this.#head.classList.add(tagToAdd)
         return this
     }
-    
+
     public addTip(title: string, txts: string[], cta: iLink, severity: number = 0) {
         const tipDiv = document.createElement('div')
         tipDiv.className = 'card-tip'
@@ -238,7 +242,7 @@ export class Card {
 
         this.#body.append(tipDiv)
         this.tag('card-fix')
-        
+
         return this
     }
 

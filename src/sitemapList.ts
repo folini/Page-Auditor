@@ -9,7 +9,7 @@ const maxSitemapsToLoad = 15
 export enum SmSource {
     RobotsTxt = 1,
     SitemapIndex = 1,
-    Default = 0
+    Default = 0,
 }
 
 export interface iSmCandidate {
@@ -52,9 +52,9 @@ export class SmList {
 
     public static cleanseCandidates(sitemaps: iSmCandidate[]) {
         sitemaps.forEach((sm1, indexSm1) => {
-            while (sitemaps.filter(sm => sm1.url=== sm.url).length > 1) {
+            while (sitemaps.filter(sm => sm1.url === sm.url).length > 1) {
                 const indexSm2 = sitemaps.findIndex((sm, i) => sm.url === sm1.url && i !== indexSm1)
-                if(sm1.source > sitemaps[indexSm2].source) {
+                if (sm1.source > sitemaps[indexSm2].source) {
                     sitemaps.splice(indexSm2, 1)
                 } else {
                     sitemaps.splice(indexSm1, 1)
@@ -75,7 +75,7 @@ export class SmList {
                 this.toDoList.push(candidateSm)
             }
         })
-        
+
         while (this.toDoList.length > maxSitemapsToLoad) {
             this.addSkipped(this.toDoList.at(-1)!)
             this.toDoList.pop()
@@ -85,7 +85,7 @@ export class SmList {
 
     public addFailed(sm: iSmCandidate) {
         sm = SmList.#sanitizeSm(sm)
-        if(!this.#isFailed(sm) && !this.#isSkipped(sm) && !this.#isDone(sm)) {
+        if (!this.#isFailed(sm) && !this.#isSkipped(sm) && !this.#isDone(sm)) {
             this.failedList.push(sm)
         }
         this.#removeToDo(sm)
@@ -93,7 +93,7 @@ export class SmList {
 
     public addSkipped(sm: iSmCandidate) {
         sm = SmList.#sanitizeSm(sm)
-        if(!this.#isFailed(sm) && !this.#isSkipped(sm) && !this.#isDone(sm)) {
+        if (!this.#isFailed(sm) && !this.#isSkipped(sm) && !this.#isDone(sm)) {
             this.skippedList.push(sm)
         }
         this.#removeToDo(sm)
@@ -101,7 +101,7 @@ export class SmList {
 
     public addDone(sm: iSmCandidate) {
         sm = SmList.#sanitizeSm(sm)
-        if(!this.#isFailed(sm) && !this.#isSkipped(sm) && !this.#isDone(sm)) {
+        if (!this.#isFailed(sm) && !this.#isSkipped(sm) && !this.#isDone(sm)) {
             this.doneList.push(sm)
         }
         this.#removeToDo(sm)

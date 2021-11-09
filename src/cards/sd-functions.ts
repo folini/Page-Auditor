@@ -64,6 +64,3 @@ export const ldJsonCard = (ldJson: Schema, tabUrl: string, occurrences: MustBeUn
             break
     }
 }
-
-
-

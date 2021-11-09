@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------------
 import {getLanguage, isLanguage} from './language-code'
 import {Card, iLink} from './card'
-import { openGraphPreview } from './cards/meta-tags-functions'
+import {openGraphPreview} from './cards/meta-tags-functions'
 
 export interface iJsonLD {
     [name: string | '@type' | '@id']: string | string[] | iJsonLD[] | iJsonLD
@@ -133,11 +133,15 @@ export class Schema {
             return this.#number(genericSd, label)
         }
 
+        if (typeof genericSd === 'boolean') {
+            return this.#bool(genericSd, label)
+        }
+
         if (
             (typeof genericSd === 'string' || Schema.#isArrayOfStrings(genericSd)) &&
             ['image', 'logo'].includes(label.toLowerCase())
         ) {
-            return this.#image(genericSd as string[], label)
+            return this.#image(genericSd as string[], label, typeName)
         }
 
         if (typeof genericSd === 'string' && isLanguage(genericSd)) {
@@ -155,11 +159,13 @@ export class Schema {
         const sd = genericSd as iJsonLD
 
         if (Array.isArray(genericSd)) {
-            return genericSd.map(json => {
-                const sdJson = json as iJsonLD
-                const newTypeName = Schema.getType(sdJson)
-                return this.#toHtml(sdJson, newTypeName, newTypeName)
-            }).join('')
+            return genericSd
+                .map(json => {
+                    const sdJson = json as iJsonLD
+                    const newTypeName = Schema.getType(sdJson)
+                    return this.#toHtml(sdJson, `${newTypeName}`, newTypeName)
+                })
+                .join('')
         }
 
         const newTypeName = Schema.getType(sd)
@@ -172,11 +178,7 @@ export class Schema {
         )
     }
 
-    #string(str: string | string[] | undefined, label: string, typeName: string): string {
-        if (str === undefined) {
-            return ''
-        }
-
+    #string(str: string | string[], label: string, typeName: string): string {
         if (Array.isArray(str)) {
             if (label.toLowerCase().includes('url')) {
                 str = str.map(u => (u.startsWith('/') ? `${this.#tabUrl}${u}` : u))
@@ -185,7 +187,7 @@ export class Schema {
                 ['image', 'imageobject', 'logo'].includes(typeName.toLowerCase()) &&
                 label.toLowerCase().includes('url')
             ) {
-                return str.map(url => this.#image(url, label)).join('')
+                return str.map((url, i) => this.#image(url, `${label} #${i + 1}`, typeName)).join('')
             }
             return (
                 `<div class='sd-description-line'>` +
@@ -203,7 +205,7 @@ export class Schema {
         }
 
         if (['image', 'imageobject', 'logo'].includes(typeName.toLowerCase()) && label.toLowerCase().includes('url')) {
-            return this.#image(str, label)
+            return this.#image(str, label, typeName)
         }
 
         if (label.toLowerCase() === 'type') {
@@ -215,11 +217,13 @@ export class Schema {
         }</span></div>`
     }
 
-    #number(num: number | number[] | undefined, label: string): string {
-        if (num === undefined) {
-            return ''
-        }
+    #bool(bool: boolean, label: string): string {
+        return `<div class='sd-description-line'><span class='sd-label'>${label}:</span> <span class='sd-description'>${
+            bool ? 'Yes' : 'No'
+        }</span></div>`
+    }
 
+    #number(num: number | number[], label: string): string {
         if (Array.isArray(num)) {
             return (
                 `<div class='sd-description-line'>` +
@@ -229,22 +233,16 @@ export class Schema {
             )
         }
 
-        if (typeof num !== 'number') {
-            return ''
-        }
-
         return `<div class='sd-description-line'><span class='sd-label'>${label}:</span> <span class='sd-description'>${num.toFixed()}</span></div>`
     }
 
-    #image(sd: undefined | string | string[], label: string): string {
-        if (sd === undefined) {
-            return ''
-        }
-
+    #image(sd: string | string[], label: string, typeName: string): string {
+        console.log(`#image("${sd}", "${label}", "${typeName}")`)
         if (Array.isArray(sd)) {
             return (
+                this.#string(sd, label, typeName) +
                 `<div class='sd-description-line'>` +
-                sd.map((url, i) => this.#image(url, `Image #${i + 1}`)).join('') +
+                sd.map((url, i) => this.#image(url, `${label} #${i + 1}`, typeName)).join('') +
                 `</div>`
             )
         }
@@ -259,8 +257,14 @@ export class Schema {
 
         return (
             `<div class='sd-description-line'>` +
+            `<span class='sd-label'>${label}:</span> ` +
+            `<a href='${sd}' target='_new'>${
+                sd.length > 0 ? sd : `<span style='color:red'>Image Url is Empty</span>`
+            }</a>` +
+            `</div>` +
+            `<div class='sd-description-line'>` +
             `<a href='${sd}' target='_new'>` +
-            `<picture data-label='${label}'><img src='${src}'></picture>` +
+            `<picture data-label='Image Preview'><img src='${src}'></picture>` +
             `</a>` +
             `</div>`
         )
@@ -285,5 +289,4 @@ export class Schema {
     static #getSchemaEnum(str: string): string {
         return Schema.flattenName(str).split('/').at(-1)!
     }
-
 }

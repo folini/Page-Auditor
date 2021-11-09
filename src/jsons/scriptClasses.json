@@ -186,17 +186,33 @@
     {
         "patterns": ["(.|/).bing.com/p/action", "(.|/).bing.com/bat.js", "(.|/).bing.com/"],
         "name": "Bing",
-        "category": " Ads Tracking",
+        "category": "Ads Tracking",
         "iconClass": "icon-bing-ads",
         "description": "Microsoft Advertising is a service that provides pay per click advertising on the Bing, Yahoo!, and DuckDuckGo search engines. As of June 2015, Bing Ads has 33% market share in the United States.",
         "url": "https://ads.microsoft.com/"
+    },
+    {
+        "patterns": ["(.|/)clarity.ms/", "(.|/)clarity.microsoft.com/"],
+        "name": "Clarity",
+        "category": "Tracking and Analytics",
+        "iconClass": "icon-ms",
+        "description": "Microsoft Clarity is a free analytics tool that gives you more insights on how users are interacting with on your website.",
+        "url": "https://clarity.microsoft.com/"
     },
     {
         "patterns": ["(.|/)tags.bluekai.com/", "(.|/)bkrtx.com/"],
         "name": "Bluekai (now Oracle)",
         "category": "Campaign Personalization",
         "iconClass": "icon-bluekai",
-        "description": " BlueKai is a cloud-based big data platform that enables companies to personalize online, offline, and mobile marketing campaigns.",
+        "description": "BlueKai is a cloud-based big data platform that enables companies to personalize online, offline, and mobile marketing campaigns.",
+        "url": "http://www.bluekai.com/"
+    },
+    {
+        "patterns": ["(.|/)oracleinfinity.io/", "(.|/)oracleimg.com/"],
+        "name": "Oracle Infinity IQ",
+        "category": "User Experience Personalization",
+        "iconClass": "icon-oracle",
+        "description": "Oracle Infinity IQ enables brands to master customer signals by applying intelligence to real-time digital behaviors, optimizing a customer’s in-flight digital journey through better recommendations, predictions, and personalization while customers are still engaged.",
         "url": "http://www.bluekai.com/"
     },
     {
@@ -288,7 +304,7 @@
         "url": "https://chartbeat.com/"
     },
     {
-        "patterns": ["(.|/)clearbit.com/", "(.|/)clearbitjs.com/"],
+        "patterns": ["(.|/)clearbit.com/", "(.|/)clearbitjs.com/", "(.|/)clearbitscripts.com/"],
         "name": "Clearbit",
         "category": "Affiliate Marketing",
         "iconClass": "icon-clearbit",
@@ -304,7 +320,7 @@
         "url": "https://www.clickcease.com/"
     },
     {
-        "patterns": ["(.|/)cloudflareinsights.com/", "(.|/)cloudflare.com/"],
+        "patterns": ["(.|/)cloudflareinsights.com/", "(.|/)cloudflare.com/", "(.|/)adreadyclick.com/"],
         "name": "CloudFlare",
         "category": "Tracking &amp; Analytics",
         "iconClass": "icon-cloudflare",
@@ -318,6 +334,14 @@
         "iconClass": "icon-cloudfront",
         "description": "Cloudfront.net is a legitimate and safe content delivery network owned by Amazon, however cyber criminals are abusing this CDN to deliver malicious content. And. This CloudFront.net redirect is usually caused by adware installed on your computer.",
         "url": "https://aws.amazon.com/cloudfront/"
+    },
+    {
+        "patterns": ["(.|/)abtasty.com/"],
+        "name": "ABtasty",
+        "category": "A?B Testing Platform",
+        "iconClass": "icon-abtasty",
+        "description": "AB Tasty is a SaaS (Software as a Service) solution that's hosted in the cloud and provides a web interface for the ultra-simple creation of A/B tests.",
+        "url": "https://www.abtasty.com/"
     },
     {
         "patterns": ["(.|/)consensu.org/"],
@@ -352,12 +376,44 @@
         "url": "https://www.cookiepro.com/"
     },
     {
+        "patterns": ["(.|/)trustarc.com/", "(.|/)truste.com"],
+        "name": "TrustArc",
+        "category": "Privacy Platform",
+        "iconClass": "icon-trustarc",
+        "description": "TrustArc provides software and services to help corporations update their privacy management processes so they comply with government laws and best practices..",
+        "url": "https://trustarc.com/"
+    },
+    {
         "patterns": ["(.|/)cookie-script.com/"],
         "name": "CookieScript",
         "category": "GDPR Cookie Compliance",
         "iconClass": "icon-cookie-script",
         "description": "Cookie scripts is the piece of code that website can implement in their source code to manage cookie control and end-user control, as required by the EU's General Data Protection Regulation (GDPR).",
-        "url": "https://"
+        "url": "https://cookie-script.com/"
+    },
+    {
+        "patterns": ["(.|/)accessibleweb.com/"],
+        "name": "AccessibleWeb",
+        "category": "ADA & AODA Compliance",
+        "iconClass": "icon-accessibleweb",
+        "description": "AccessibleWeb offers Web Accessibility Audits & VPAT Certifications.",
+        "url": "https://accessibleweb.com/"
+    },
+    {
+        "patterns": ["(.|/)attn.tv/"],
+        "name": "Attentive",
+        "category": "Text Messaging Marketing",
+        "iconClass": "icon-attentive",
+        "description": "Attentive is a personalized mobile text messaging platform for brands and organizations.",
+        "url": "https://www.attentivemobile.com/"
+    },
+    {
+        "patterns": ["(.|/)klarnaservices.com/", "(.|/)klarna.com/"],
+        "name": "Klarna",
+        "category": "Financing for Online Purchases",
+        "iconClass": "icon-klarna",
+        "description": "Klarna provides online financial services such as payments for online storefronts and direct payments along with post-purchase payments.",
+        "url": "https://www.klarna.com/"
     },
     {
         "patterns": ["(.|/)cookiebot.com/"],
@@ -1462,5 +1518,149 @@
         "iconClass": "icon-sharethis",
         "description": "ShareThis is a technology company that provides free engagement and growth tools (e.g., share buttons, follow buttons, and reaction buttons) for site owners.",
         "url": "https://sharethis.com/"
+    },
+    {
+        "patterns": ["(.|/)polyfill.io/"],
+        "name": "Polyfill.io",
+        "category": "Javascript Hosting Service",
+        "iconClass": "icon-polyfill",
+        "description": "It's a service which accepts a request for a set of browser features and returns only the polyfills that are needed by the requesting browser.",
+        "url": "https://polyfill.io/"
+    },
+    {
+        "patterns": ["(.|/)securedvisit.com/"],
+        "name": "4Cite",
+        "category": "People Identification and Tracking",
+        "iconClass": "icon-4cite",
+        "description": "4Cite is a People-Based Identification and Data Insights services provider that uses proprietary web visitor identification, advanced data email trigger technology to enable e-commerce retailers to influence their customer's purchasing activity and optimize conversion rates.",
+        "url": "https://www.4cite.com/"
+    },
+    {
+        "patterns": ["(.|/)igodigital.com/"],
+        "name": "IGoDigital (SalesForce)",
+        "category": "Customer Experience",
+        "iconClass": "icon-igodigital",
+        "description": "iGoDigital provides a suite of web-based commerce tools designed to increase the value of every customer interaction by emulating and, in many cases, improving the in-store shopping experience.",
+        "url": "https://www.4cite.com/"
+    },
+    {
+        "patterns": ["(.|/)privacy-center.org/", "(.|/)didomi.io/"],
+        "name": "Didomi",
+        "category": "Privacy Services",
+        "iconClass": "icon-didomi",
+        "description": "Didomi builds technology to help companies put their users in control of their personal data.",
+        "url": "https://www.didomi.io/"
+    },
+    {
+        "patterns": ["(.|/)sf-syn.com/", "(.|/)sourceforge.net/"],
+        "name": "SourceForge",
+        "category": "Open-Source and Business Platform",
+        "iconClass": "icon-source-forge",
+        "description": "SourceForge is an Open Source community resource dedicated to helping open source projects be as successful as possible.",
+        "url": "https://sourceforge.net/"
+    },
+    {
+        "patterns": ["(.|/)ubembed.com/", "(.|/)unbounce.com/"],
+        "name": "Unbounce",
+        "category": "Landing Pages Service",
+        "iconClass": "icon-unbounce",
+        "description": "Unbounce is a Canadian software company headquartered in Vancouver, BC. The company produces landing pages for websites, and is the host of the annual Call to Action Conference.",
+        "url": "https://unbounce.com/"
+    },
+    {
+        "patterns": ["(.|/)discourse-cdn.com/", "(.|/)discourse.com/", "(.|/)discourse.org/"],
+        "name": "Discourse",
+        "category": "Forum and mailing list service",
+        "iconClass": "icon-discourse",
+        "description": "Discourse is an open source Internet forum and mailing list management software application founded in 2013.",
+        "url": "https://www.discourse.org/"
+    },
+    {
+        "patterns": ["(.|/)kissmetrics.com/", "(.|/)neilpatel.com/"],
+        "name": "Kissmetrics (Neil Patel)",
+        "category": "Marketing Services",
+        "iconClass": "icon-kissmetrics",
+        "description": "Customer Engagement Automation by Kissmetrics. Analyze, segment and engage all in one place with easy to read reports and friendly user interface.",
+        "url": "https://www.kissmetrics.io/"
+    },
+    {
+        "patterns": ["(.|/)subscribers.com/"],
+        "name": "Subscribers",
+        "category": "Push Notifications",
+        "iconClass": "icon-subscribers",
+        "description": "Push Notifications For Desktop And Mobile.",
+        "url": "https://subscribers.com/"
+    },
+    {
+        "patterns": ["(.|/)azureedge.net"],
+        "name": "Azure CDN",
+        "category": "Content Delivery Network",
+        "iconClass": "icon-azure",
+        "description": "Microsoft Content Delivery Network for Microsoft Azure.",
+        "url": "https://microsoft.com/"
+    },
+    {
+        "patterns": ["(.|/)digitaloceanspaces.com/", "(.|/)digitalocean.com/"],
+        "name": "DigitalOcean",
+        "category": "Cloud Services",
+        "iconClass": "icon-digital-ocean",
+        "description": "DigitalOcean provides developers cloud services that help to deploy and scale applications that run simultaneously on multiple computers.",
+        "url": "https://www.digitalocean.com/"
+    },
+    {
+        "patterns": ["(.|/)hull.io/"],
+        "name": "Hull",
+        "category": "Customer Data Platform",
+        "iconClass": "icon-hull",
+        "description": "Hull is a customer data platform to unify data across and to create one-to-one integrations from one application.",
+        "url": "https://hull.io/"
+    },
+    {
+        "patterns": ["(.|/)chilipiper.com/"],
+        "name": "Chili Piper",
+        "category": "Customer Engagement Platform",
+        "iconClass": "icon-chilipiper",
+        "description": "ChiliPiper helps revenue teams with inbound conversion rates and customer satisfaction.",
+        "url": "https://www.chilipiper.com/"
+    },
+    {
+        "patterns": ["(.|/)sentry.com/", "(.|/)sentry-cdn.com/", "(.|/)sentry.io/", "(.|/)sentry.dev/"],
+        "name": "Sentry",
+        "category": "Error Tracking Platform",
+        "iconClass": "icon-sentry",
+        "description": "Open-source error tracking with full stack-traces &amp; asynchronous context.",
+        "url": "https://www.sentry.io/"
+    },
+    {
+        "patterns": ["(.|/)customer.io/"],
+        "name": "Customer",
+        "category": "Messaging Automation",
+        "iconClass": "icon-customer",
+        "description": "Customer.io is an automated messaging platform for tech-savvy marketers who want more control and flexibility to craft and send data-driven emails, push notifications, and SMS messages.",
+        "url": "https://assets.customer.io/"
+    },
+    {
+        "patterns": ["(.|/)mutinycdn.com/", "(.|/)mutinyhq.com/"],
+        "name": "Mutiny",
+        "category": "AI Marketing",
+        "iconClass": "icon-mutiny",
+        "description": "Mutiny is a no-code AI platform that helps marketers convert their top of funnel demand into revenue, without engineers.",
+        "url": "https://www.mutinyhq.com/"
+    },
+    {
+        "patterns": ["(.|/)jetboost.io/"],
+        "name": "Jetboost",
+        "category": "Web search for Webflow",
+        "iconClass": "icon-jetboost",
+        "description": "Jetboost is an addon for the Webflow hosting platform.",
+        "url": "https://jetboost.io/"
+    },
+    {
+        "patterns": ["(.|/)website-files.com/", "(.|/)webflow.com/"],
+        "name": "Webflow",
+        "category": "Blogs and Websites Hosting Platform",
+        "iconClass": "icon-webflow",
+        "description": "Webflow is a company based in San Francisco, that provides software as a service for website building and hosting.",
+        "url": "https://webflow.com/"
     }
 ]

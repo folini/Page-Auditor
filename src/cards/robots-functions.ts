@@ -96,9 +96,9 @@ const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
                 ['Compressed', 'No Compression Detected'],
             ]
             const linksHtml = getSitemapToolbarLinks(sm.url, divId)
-            .map(link => `<a class='small-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
-            .join(' ')
-        
+                .map(link => `<a class='small-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
+                .join(' ')
+
             const card = new Card(CardKind.report)
                 .open(`Detected Sitemap  #${sitemaps.doneList.length + 1}`, fileName, 'icon-sitemap')
                 .addParagraph(`Found a <code>sitemap.xml</code> file at the url:`)
@@ -229,8 +229,8 @@ const robotsTxtCard = (url: string, robotsTxtBody: string): Card => {
         ])
     }
     const linksHtml = robotsToolbarLinks(url, divId)
-    .map(link => `<a class='small-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
-    .join(' ')
+        .map(link => `<a class='small-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
+        .join(' ')
     const card = new Card(CardKind.report)
         .open('Detected Robot.Txt', `Robots.txt file`, 'icon-rep')
         .addParagraph(`Found a <code>Robots.txt</code> file at the url:`)
@@ -278,7 +278,7 @@ export const sitemapLinksToSitemap = (sitemapBody: string, source: SmSource): iS
     ) ?? []) as string[]
     subSitemaps = subSitemaps.map(link => link.replace(/(<\/?sitemap>|<\/?loc>)/gm, '').trim())
     subSitemaps = subSitemaps.map(link => htmlDecode(link))
-    return sanitizeUrls(subSitemaps).map(url => ({url: url, source:source }))
+    return sanitizeUrls(subSitemaps).map(url => ({url: url, source: source}))
 }
 
 export const sitemapAllLinks = (sitemapBody: string) => {

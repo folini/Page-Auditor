@@ -574,7 +574,7 @@ export const metaTagsCard = (
     if (selectedTags.length === 0) {
         const card = Errors.internal_NoMetaTagsInThisCategory(tagCategory.title)
         report.addCard(card)
-        Tips.sd_noSdInChromeBrowserPages(card)
+        Tips.unableToAnalyzeChromeBrowserPages(card)
         return
     }
 

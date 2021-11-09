@@ -93,7 +93,7 @@ async function action(section: SectionType, actions: sectionActions) {
         actions.reportGenerator(tabUrl, data, report)
     } catch (err: any) {
         if (err.message === `Cannot access a chrome:// URL`) {
-            const card = Errors.chrome_UnableToAnalyzeTab()
+            const card = Errors.chrome_UnableToAnalyzeTabs()
             report.addCard(card)
             Tips.unableToAnalyzeChromeBrowserPages(card)
         } else {

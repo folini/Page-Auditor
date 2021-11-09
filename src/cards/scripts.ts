@@ -46,7 +46,8 @@ const unresolvedJS: iTrackMatch = {
 const codeInjector: NoArgsNoReturnFunc = (): iScript[] => {
     return [...document.scripts]
         .filter(s => s.type !== 'application/ld+json')
-        .map(s => (s.src === '' ? s.text : s.src))
+        .filter(s => s.src)
+        .map(s => s.src)
         .filter(Boolean)
         .map(s => ({code: s, done: false})) as iScript[]
 }
@@ -104,16 +105,16 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, report: Report): v
             links.push({url: discoveredItem.url, label: `${discoveredItem.name} Reference`})
         }
         const linksHtml = links
-        .map(link => `<a class='small-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
-        .join(' ')
+            .map(link => `<a class='small-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
+            .join(' ')
         const plural = discoveredItem.scripts.length > 1 ? 's' : ''
         const btnLabel = `${discoveredItem.scripts.length.toFixed()} Script${plural}`
         const block = discoveredItem.scripts.map((script, j) => codeBlock(script, Mode.js, disposableId())).join('')
         const card = new Card(CardKind.report)
             .open(discoveredItem.category, discoveredItem.name, discoveredItem.iconClass)
             .addParagraph(discoveredItem.description)
-            .addExpandableBlock(btnLabel+ linksHtml, block)
-             .tag('card-ok')
+            .addExpandableBlock(btnLabel + linksHtml, block)
+            .tag('card-ok')
         report.addCard(card)
     })
 
@@ -126,12 +127,17 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, report: Report): v
 const localJsMatch = (url: string): iTrackMatch => {
     var domainParts = url.split('/')[2].split('.')
     domainParts = domainParts.splice(-2)
-    var patterns = [`(.|/)${domainParts.join('.')}/`]
-    patterns.push(`(.|/)${domainParts[0]}cdn.${domainParts[1]}/`)
-    patterns.push(`(.|/)cdn${domainParts[0]}.${domainParts[1]}/`)
-    patterns.push(`(.|/)static${domainParts[0]}.${domainParts[1]}/`)
-    patterns.push(`(.|/)${domainParts[0]}static.${domainParts[1]}/`)
-    patterns.push(`(.|/)${domainParts[0]}img1.${domainParts[1]}/`)
+    var patterns = [`(.|\/)${domainParts.join('.')}/`]
+    patterns.push(`(.|\/)${domainParts[0]}cdn.${domainParts[1]}/`)
+    patterns.push(`(.|\/)${domainParts[0]}-cdn.${domainParts[1]}/`)
+    patterns.push(`(.|\/)cdn${domainParts[0]}.${domainParts[1]}/`)
+    patterns.push(`(.|\/)cdn-${domainParts[0]}.${domainParts[1]}/`)
+    patterns.push(`(.|\/)static${domainParts[0]}.${domainParts[1]}/`)
+    patterns.push(`(.|\/)static-${domainParts[0]}.${domainParts[1]}/`)
+    patterns.push(`(.|\/)${domainParts[0]}static.${domainParts[1]}/`)
+    patterns.push(`(.|\/)${domainParts[0]}-static.${domainParts[1]}/`)
+    patterns.push(`(.|\/)${domainParts[0]}img1.${domainParts[1]}/`)
+    patterns.push(`(.|\/)${domainParts[0]}-img1.${domainParts[1]}/`)
 
     return {
         patterns: patterns,

@@ -59,7 +59,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
             .open('Credits', `Page Auditor for Technical SEO`, 'icon-fc')
             .addParagraph(
                 `<b>Page Auditor for Technical SEO</b> is a free Google Chrome Extension created by <a href='https://www.linkedin.com/in/francofolini/' target='_new'>Franco Folini</a>.
-                <br><br>The purpose of <i>Page Auditor for Technical SEO</i> is to analyze and show, in a way that is simple and easy to understand, all SEO factors that5 can affect the SEO performance of a website or single webpage.
+                <br><br>The purpose of <i>Page Auditor for Technical SEO</i> is to analyze and show, in a way that is simple and easy to understand, all SEO factors that can affect the SEO performance of a website or single webpage.
                 <br><br>When possible, <i>Page Auditor</i> also provides suggestions on how to improve the page SEO and to fix a diagnosed problem.`,
                 'credits'
             )

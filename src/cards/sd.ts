@@ -26,7 +26,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, repo
     if (tabUrl === '') {
         const card = Errors.chrome_TabUrlUndefined()
         report.addCard(card)
-        Tips.sd_noSdInChromeBrowserPages(card)
+        Tips.unableToAnalyzeChromeBrowserPages(card)
         return
     }
 

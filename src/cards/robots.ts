@@ -16,14 +16,14 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
     if (tabUrl === '') {
         const card = Errors.chrome_TabUrlUndefined()
         report.addCard(card)
-        Tips.noRobotsTxtInChromeBrowserPages(card)
+        Tips.unableToAnalyzeChromeBrowserPages(card)
         return
     }
 
     if (tabUrl.startsWith(`chrome://`)) {
-        const card = Errors.chrome_UnableToAnalyzeTab()
+        const card = Errors.chrome_UnableToAnalyzeTabs()
         report.addCard(card)
-        Tips.noRobotsTxtInChromeBrowserPages(card)
+        Tips.unableToAnalyzeChromeBrowserPages(card)
         return
     }
 
@@ -53,7 +53,12 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
                     report.addCard(card)
                 }
                 if (sitemaps.skippedList.length > 0) {
-                    report.addCard(Info.notAllSitemapsLoaded(SmList.maxSitemapsToLoad(), sitemaps.skippedList.map(sm => sm.url)))
+                    report.addCard(
+                        Info.notAllSitemapsLoaded(
+                            SmList.maxSitemapsToLoad(),
+                            sitemaps.skippedList.map(sm => sm.url)
+                        )
+                    )
                 }
             })
         })

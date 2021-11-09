@@ -12,14 +12,14 @@ import {SmSource, iSmCandidate} from '../sitemapList'
 export class Errors {
     // ------------------------------------------------------------------------
     // Google Chrome Errors
-    public static chrome_UnableToAnalyzeTab() {
+    public static chrome_UnableToAnalyzeTabs() {
         const msg1 = `<i>Page Auditor</i> can not run on empty tabs or Chrome internal tabs.`
         const msg2 = `Please launch <i>Page Auditor for Technical SEO</i> on a regular web page.`
         return new Card(CardKind.error)
             .setLogo('icon-chromium')
             .addParagraph(msg1)
             .addParagraph(msg2)
-            .setTitle('Unable To Analyze Chrome Tab')
+            .setTitle('Unable To Analyze Chrome Tabs')
             .tag('card-error')
     }
 
@@ -49,12 +49,12 @@ export class Errors {
     // ------------------------------------------------------------------------
     // Sitemap Errors
     public static sitemap_IsARedirect(sm: iSmCandidate, code: string) {
-        const preMsg = 
-            sm.source === SmSource.Default 
-            ? `While checking for a sitemap at the default location and with the default name` 
-            : sm.source === SmSource.RobotsTxt
-            ? `While checking for a sitemap listed in your <code>robots.txt</code> file`
-            : `While checking for a sitemap listed in a sitemap-index in your website`
+        const preMsg =
+            sm.source === SmSource.Default
+                ? `While checking for a sitemap at the default location and with the default name`
+                : sm.source === SmSource.RobotsTxt
+                ? `While checking for a sitemap listed in your <code>robots.txt</code> file`
+                : `While checking for a sitemap listed in a sitemap-index in your website`
         const msg1 = `${preMsg} we found a syntactically invalid <code>Sitemap.xml</code> file. The url is:`
         const msg2 = `It's an HTML page, likely a standard redirect for non-existent pages.`
         const btnLabel = `Invalid Sitemap`
