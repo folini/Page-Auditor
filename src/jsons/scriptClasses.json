@@ -360,7 +360,7 @@
         "url": "https://contentsquare.com/"
     },
     {
-        "patterns": ["(.|/)fastclick.net/", "(.|/)conversant.com/"],
+        "patterns": ["(.|/)fastclick.net/", "(.|/)conversant.com/", "(.|/)dotomi.com/", "(.|/)epsilon.com/", "(.|/)mediaplex.com/"],
         "name": "Conversant",
         "category": "Interaction Management",
         "iconClass": "icon-conversant",
@@ -376,7 +376,7 @@
         "url": "https://www.cookiepro.com/"
     },
     {
-        "patterns": ["(.|/)trustarc.com/", "(.|/)truste.com"],
+        "patterns": ["(.|/)trustarc.com/", "(.|/)truste.com/"],
         "name": "TrustArc",
         "category": "Privacy Platform",
         "iconClass": "icon-trustarc",
@@ -1662,5 +1662,45 @@
         "iconClass": "icon-webflow",
         "description": "Webflow is a company based in San Francisco, that provides software as a service for website building and hosting.",
         "url": "https://webflow.com/"
+    },
+    {
+        "patterns": ["(.|/)treasuredata.com/"],
+        "name": "Treasure Data",
+        "category": "Customer Data Platform",
+        "iconClass": "icon-treasuredata",
+        "description": "A platform to connect marketing, service, and sales systems and teams for one unified customer experience.",
+        "url": "https://treasuredata.com/"
+    },
+    {
+        "patterns": ["(.|/)onesignal.com/"],
+        "name": "One Signal",
+        "category": "Customer Messaging Platform",
+        "iconClass": "icon-onesignal",
+        "description": "OneSignal is a service that enables push notifications, abstracting details such as the platform the device is running on.",
+        "url": "https://onesignal.com/"
+    },
+    {
+        "patterns": ["(.|/)mxpnl.com/", "(.|/)mixpanel.com/"],
+        "name": "Mixpanel",
+        "category": "Business Analytics",
+        "iconClass": "icon-mixpanel",
+        "description": "Mixpanel is a business analytics service company. It tracks user interactions with web and mobile applications and provides tools for targeted communication with them.",
+        "url": "https://mixpanel.com/"
+    },
+    {
+        "patterns": ["(.|/)wisepops.com/"],
+        "name": "WisePops",
+        "category": "Popup Generator",
+        "iconClass": "icon-wisepops",
+        "description": "Create contextual popups, banners and bars for your mobile and desktop visitors.",
+        "url": "https://wisepops.com/"
+    },
+    {
+        "patterns": ["(.|/)webanalytics.italia.it/"],
+        "name": "Web Analytics Italia",
+        "category": "Web Analytics",
+        "iconClass": "icon-web-analytics-italia",
+        "description": "Web Analytics for website run by the Italian government.",
+        "url": "https://webanalytics.italia.it/"
     }
 ]

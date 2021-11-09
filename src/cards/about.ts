@@ -119,7 +119,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
                 `<b>Page Auditor</b> r is a professional tool for Digital Marketers. Even if you are not a marketing expert, you can use "Page Auditor" to learn about on-page technical SEO.`
             )
             .addParagraph(
-                `<b>Page Auditor</b> can recognize ${scriptClasses.length.toFixed()} different types of JavaScript code injected into a web page.
+                `<b>Page Auditor</b> can recognize <b>${scriptClasses.length.toFixed()}</b> different types of JavaScript code injected into a web page.
                         Among the categories of JavaScript identified by <b>Page Auditor</b>:
                         <ul>
                             <li>Advertising</li>

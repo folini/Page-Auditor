@@ -52,7 +52,7 @@ const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
                     .tag('card-ok')
                 report.addCard(card)
                 sitemaps.addDone(sm)
-                fileExists(sm.url).catch(_ => Tips.compressedSitemapNotFound(card, sm.url))
+                fileExists(sm.url).catch(_ => Tips.compressedSitemapNotFound(card, sm.url, sm.source))
                 return
             }
 
@@ -254,6 +254,14 @@ const robotsTxtCard = (url: string, robotsTxtBody: string): Card => {
     if (duplicateUrls.length > 0) {
         Tips.duplicateSitemapsInRobots(card, duplicateUrls)
     }
+
+    linksToSitemap = linksToSitemap.map(sm => {
+        if(sm.startsWith('/')) {
+            Tips.sitemapInRobotsWithRelativePath(card, sm, new URL(url).origin + sm)
+            return new URL(url).origin + sm
+        }
+        return sm
+    })
 
     ;[...new Set(linksToSitemap)].forEach(url =>
         fileExists(url).catch(() => {

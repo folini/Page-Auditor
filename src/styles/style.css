@@ -345,7 +345,7 @@ body#id-page-auditor .box-card .card-tip .tip-title code {
 }
 body#id-page-auditor .box-card .card-tip .tip-body {
   padding: 16px;
-  background-color: #fce9d12b;
+  background-color: #fff;
   padding-bottom: 16px;
   position: relative;
 }
@@ -1318,6 +1318,21 @@ body#id-page-auditor .box-card.icon-jetboost > h2 {
 }
 body#id-page-auditor .box-card.icon-webflow > h2 {
   background-image: url(../logos/Webflow_100x100.png);
+}
+body#id-page-auditor .box-card.icon-treasuredata > h2 {
+  background-image: url(../logos/TreasureData_100x100.png);
+}
+body#id-page-auditor .box-card.icon-onesignal > h2 {
+  background-image: url(../logos/OneSignal_100x100.png);
+}
+body#id-page-auditor .box-card.icon-mixpanel > h2 {
+  background-image: url(../logos/Mixpanel_100x100.png);
+}
+body#id-page-auditor .box-card.icon-wisepops > h2 {
+  background-image: url(../logos/Wisepops_100x100.png);
+}
+body#id-page-auditor .box-card.icon-web-analytics-italia > h2 {
+  background-image: url(../logos/WebAnalyticsItalia_100x100.png);
 }
 body#id-page-auditor .icon-linkedin:not(.box-card) {
   background-image: url(../logos/LinkedInAds_100x100.png);

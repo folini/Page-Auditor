@@ -10,6 +10,7 @@ import {Card, iLink} from '../card'
 import {sitemapMaxSize} from '../main'
 import {Mode} from '../colorCode'
 import {formatNumber} from '../main'
+import { SmSource } from '../sitemapList'
 
 export type Platform = 'Twitter' | 'Facebook' | 'Instagram' | 'LinkedIn' | 'YouTube' | 'Reddit'
 
@@ -155,7 +156,7 @@ export const unsafeSitemapLinkInRobots = (card: Card, urls: string[]) => {
 export const addSitemapLinkToRobotsTxt = (card: Card, domain: string) => {
     const what = tipWhat(`The <code>robots.txt</code> doesn't list any <code>sitemap.xml</code> file.`)
     const why = tipWhy(
-        `Linking a Sitemap from <code>Robots.txt</code> is a way to ensure Google bot doesn't miss it. It's an optional directive, but strongly recommended.`,
+        `Linking a Sitemap from <code>robots.txt</code> is a way to ensure Google bot doesn't miss it. It's an optional directive, but strongly recommended.`,
         `While Google crawler can leverage the information provided in the GSC (Google Search Console), other search-engines will greatly benefit from finding a list of sitemaps in the <code>robots.txt</code> file.`
     )
     const how = tipHow(
@@ -172,7 +173,7 @@ export const malformedRobotsTxt = (card: Card) => {
         `The syntax of the <code>robots.txt</code> file doesn't seems to be aligned with the expected syntax.`
     )
     const why = tipWhy(
-        `The <code>Robots.txt</code> file, when present, is extensively used by all Search Engines bots a it's a very important factor in SEO ranking of the site.`,
+        `The <code>robots.txt</code> file, when present, is extensively used by all Search Engines bots a it's a very important factor in SEO ranking of the site.`,
         `But, it's important for the <code>robots.txt</code> file to be consistent with the standard syntax.`
     )
     const how = tipHow(`Double check the syntax of the <code>robots.txt</code> and update it ASAP.`)
@@ -180,33 +181,52 @@ export const malformedRobotsTxt = (card: Card) => {
 }
 
 export const emptyRobotsTxt = (card: Card) => {
-    const what = tipWhat(`The <code>robots.txt</code> file is empty.`)
+    const what = tipWhat(`A <code>robots.txt</code> file was detected, but it's empty with no content.`)
     const why = tipWhy(
         `It's critical to add the missing content to the <code>robots.txt</code> file.`,
-        `Robots.txt are a very important factor in SEO ranking.`,
-        `Unless this is a trivial website, there are pages that should not be indexed and therefore should be included in the robots.txt`
+        `Complete <code>robots.txt</code> are a very important factor in SEO ranking.`,
+        `Unless this is a trivial website, there are pages that should not be indexed and therefore should be included in the <code>robots.txt</code>.`
     )
     const how = tipHow(
-        `Add a few lines to the empty robots.txt blocking the pages you don't want to be indexed by the search-engines crawlers.`,
+        `Add a few lines to the empty <code>robots.txt</code> blocking the pages you don't want to be indexed by the search-engines crawlers.`,
         `Typical examples of pages you don't want to be indexed are login pages, account pages, cart pages, order confirmation pages.`,
-        `Also any temporary page you might have in your website should be disallowed in the robots.txt file.`
+        `Also any temporary page you might have in your website should be disallowed in the <code>robots.txt</code> file.`
     )
     card.addTip(`Tip #${tipNumber++}: Add Content to Robots.txt`, [what, why, how], robotsTxtReference, 40)
 }
 
 export const missingRobotsTxt = (card: Card) => {
-    const what = tipWhat(`The <code>robots.txt</code> file is missing from this website.`)
+    const what = tipWhat(`No <code>robots.txt</code> file was detected on this website.`)
     const why = tipWhy(
         `It's critical to add a <code>robots.txt</code> file to this website.`,
-        `Robots.txt are a very important factor in SEO ranking.`,
+        `<code>robots.txt</code> are a very important factor in SEO ranking.`,
         `They provide a list of pages the crawlers are allowed to index, and a lis of pages to avoid (like temporary, login, and cart pages)`
     )
     const how = tipHow(
         `Add a simple <code>robots.txt</code> file.`,
         `To begin, you can write as a simple text file and upload it to your website.`,
-        `Many website platform provide tools or option to automatically create a robots.txt file for you.`
+        `Many website platform provide tools or option to automatically create a <code>robots.txt</code> file for you.`
     )
     card.addTip(`Tip  #${tipNumber++}: Add a Robots.txt file`, [what, why, how], robotsTxtReference, 80)
+}
+
+export const sitemapInRobotsWithRelativePath = (card: Card, relUrl: string, absUrl :string) => {
+    const what = tipWhat(
+        `The <code>robots.txt</code> file lists <code>sitemap.xml</code> url with a relative path.`,
+        `This is the incorrect line:`,
+        codeBlock(`Sitemap: ${relUrl}`, Mode.txt)
+    )
+    const why = tipWhy(
+        `All links to a sitemap from the <code>robots.txt</code> must be absolute!`,
+        `Linking your <code>sitemap.xml</code> from <code>robots.txt</code> makes the sitemap discoverable for all search-engines.`,
+        `If the link is relative, search engines, like Google, will not be able to access the information in your sitemap.`
+    )
+    const how = tipHow(
+        `Update the link to your sitemap the <code>robots.txt</code> with an absolute path (absolute paths starts with <code>https:</code>.).`,
+        `The correct line with the link should look like this:`,
+        codeBlock(`Sitemap: ${absUrl}`, Mode.txt) 
+    )
+    card.addTip(`Tip #${tipNumber++}: Update links in your Robots.txt file`, [what, why, how], robotsTxtReference, 60)
 }
 
 export const sitemapInRobotsDoesNotExist = (card: Card, url: string) => {
@@ -216,19 +236,19 @@ export const sitemapInRobotsDoesNotExist = (card: Card, url: string) => {
         codeBlock(url, Mode.txt)
     )
     const why = tipWhy(
-        `Linking your sitemap.xml from robots.txt makes the sitemap discoverable for all search-engines.`,
+        `Linking your <code>sitemap.xml</code> from <code>robots.txt</code> makes the sitemap discoverable for all search-engines.`,
         `If the link is broken or wrong, search engines, like Google, will not be able to access the information in your sitemap.`
     )
     const how = tipHow(
-        `Move your sitemap to the location specified in th <code>robots.txt</code> or, keep the sitemap where it is and update the link.`
+        `Move your sitemap to the location specified in the <code>robots.txt</code> or, keep the sitemap where it is and update the link.`
     )
-    card.addTip(`Tip #${tipNumber++}: Add a Robots.txt file`, [what, why, how], robotsTxtReference, 50)
+    card.addTip(`Tip #${tipNumber++}: Update your Robots.txt file`, [what, why, how], robotsTxtReference, 50)
 }
 
 // ------------------------------------------------------------------------
 // SITEMAP XML TIPS
 export const missingSitemap = (card: Card) => {
-    const what = tipWhat(`The <code>sitemap.xml</code> file is missing.`)
+    const what = tipWhat(`No <code>sitemap.xml</code> file was detected on this website.`)
     const why = tipWhy(
         `It's critical to add the missing <code>sitemap.xml</code> file.`,
         `Sitemaps are a very important factor in SEO ranking of a page.`,
@@ -246,14 +266,14 @@ export const missingSitemap = (card: Card) => {
 export const uncompressedLargeSitemap = (card: Card, url: string, size: number) => {
     const what = tipWhat(`This uncompressed sitemap file size is about ${(size / 1024).toFixed(2)} KB.`)
     const why = tipWhy(
-        `While Google and Bing can easily handle sitemap.xml file files up to 50 Mb in uncompressed size,`,
+        `While Google and Bing can easily handle <code>sitemap.xml</code> files up to 50 Mb in uncompressed size,`,
         `the recommended maximum size for uncompressed files is ${formatNumber(sitemapMaxSize / 1024 / 1024)} MB.`,
         `Compressed sitemap reduce the load on the website server and speedup upload and download of the file. ` +
             `However, there are no SEO direct benefits in compressing a sitemap.`
     )
     const how = tipHow(
         `Use a compressor, like <i>gzip</i>, to compress your sitemap file and upload it again to the webserver.`,
-        `Don't forget to update the sitemap link in the Robots.txt and in the GSG (Google Search Console).`
+        `Don't forget to update the sitemap link in the <code>robots.txt</code> and in your GSG (Google Search Console).`
     )
     card.addTip(`Tip #${tipNumber++}: Compress Sitemap`, [what, why, how], sitemapSyntaxReference, 15)
 }
@@ -275,8 +295,9 @@ export const sitemapWithoutXmlExtension = (card: Card, url: string) => {
     )
 }
 
-export const compressedSitemapNotFound = (card: Card, url: string) => {
-    const what = tipWhat(`The compressed sitemap file is missing.`)
+export const compressedSitemapNotFound = (card: Card, url: string, source: SmSource) => {
+    const what = tipWhat(`The compressed sitemap ws not detected on this website. The sitemap, listed in your ${source == SmSource.RobotsTxt ? '<code>robots.txt</code>' : '<code>sitemap.xml</code>'} should be available at the url:`,
+        codeBlock(url, Mode.txt))
     const why = tipWhy(
         `It's critical to add the missing <code>sitemap.xml</code> file.`,
         `Sitemaps are a very important factor in SEO ranking of a page.`,
@@ -382,7 +403,7 @@ export const tagImage_NoTag = (card: Card, platform: Platform, tag: string) => {
         `If the <code>${tag}</code> meta tag is missing, ${platform} will not able to associate an image to any post or link about this page, compromising its visibility across social-media.`
     )
     const how = tipHow(
-        `Add teh missing tag.`,
+        `Add the missing tag.`,
         `This is an example of the ${platform} Meta Tag that should be added:`,
         codeBlock(`<meta property="${tag}" content="https://www.example.com/my_image.jpg">`, Mode.html),
         platform === 'Twitter' ? tweeterImageSpecs : facebookImageSpecs
@@ -519,7 +540,7 @@ export const tag_OverRecommendedLength = (
         `On this page, the <code>${tag.label}</code> tag is <b>${tag.value.length}</b> characters long.`
     )
     const why = tipWhy(
-        `While this tag value is below the the maximum length for tag, set by the specs at ${maxLength}, best practices recommend to keep the field even shorter, below <b>${recommendedLength}</b>.`,
+        `While this tag value is below the the maximum length for <code>${tag.label}</code>, set at ${maxLength} by the specs, best practices recommend to keep the field even shorter, below <b>${recommendedLength}</b>.`,
         `Keeping the tag at that length will ensure that the value will not be trimmed when a post on ${platform} sharing this page is displayed an small devices.`,
         `Automatic trim can disrupt the content you carefully crafted for this page with unpredictable results.`
     )

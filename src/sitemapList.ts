@@ -80,7 +80,7 @@ export class SmList {
             this.addSkipped(this.toDoList.at(-1)!)
             this.toDoList.pop()
         }
-        SmList.cleanseCandidates(sms)
+        SmList.cleanseCandidates(this.toDoList)
     }
 
     public addFailed(sm: iSmCandidate) {

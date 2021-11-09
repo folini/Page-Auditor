@@ -69,7 +69,7 @@ export class Errors {
     }
 
     public static sitemap_404(sm: iSmCandidate) {
-        const msg1 = `No <code>Sitemap.xml</code> file was found at location:`
+        const msg1 = `No <code>Sitemap.xml</code> file was detected at location:`
         const msg2 = `Server returns 404 error code.`
         return new Card(CardKind.error)
             .setLogo('icon-sitemap')
@@ -81,7 +81,7 @@ export class Errors {
     }
 
     public static sitemap_NotFound(sms: iSmCandidate[]) {
-        const msg1 = `No <code>Sitemap.xml</code> file was found at at location:`
+        const msg1 = `No <code>Sitemap.xml</code> file was detected at at location:`
         const msg2 = `File not found.`
         return new Card(CardKind.error)
             .setLogo('icon-sitemap')
