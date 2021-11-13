@@ -16,31 +16,28 @@ import {Schema} from '../schema'
 
 import '../logos/_noRendering_400x200.png'
 
-export const ldJsonCard = (ldJson: Schema, tabUrl: string, occurrences: MustBeUniqueOccurrences, report: Report) => {
-    if (ldJson.isEmpty()) {
+export const ldJsonCard = (schema: Schema, tabUrl: string, occurrences: MustBeUniqueOccurrences, report: Report) => {
+    if (schema.isEmpty()) {
         const card = Errors.sd_IsEmpty(tabUrl)
         report.addCard(card)
         Tips.sd_noStructuredData(card)
     }
-    let schemaType = Schema.getType(ldJson.getJson())
+    let schemaType = Schema.getType(schema.getJson())
     Schema.resetDictionary()
 
     const scriptId = disposableId()
     const structuredDataDescription = `Structured Data communicates content (data) to the Search Engines in an organized manner so they can display the content in the SERPs in an attractive manner.`
-    const btnLabel = 'LD-JSON Code'
-    const relativeUrlList: string[] = []
     const card = new Card(CardKind.report)
         .open(`Structured Data`, Schema.flattenName(schemaType), 'icon-ld-json')
         .addParagraph(structuredDataDescription)
+        .addParagraph(schema.schemaToHtml())
+        .addExpandableBlock('JSON-LD Code', codeBlock(schema.getCodeAsString(), Mode.json, scriptId))
+        .tag('card-ok')
 
-    card.addParagraph(ldJson.schemaToHtml())
-    card.addExpandableBlock(btnLabel, codeBlock(ldJson.getCodeAsString(), Mode.json, scriptId)).tag('card-ok')
     Schema.enableOpenClose(card.getDiv())
 
-    report.addCard(card)
-
-    if (relativeUrlList.length > 0) {
-        Tips.sd_relativeUrl(card, Schema.flattenName(schemaType), relativeUrlList)
+    if (schema.getRelativeUrls().length > 0) {
+        Tips.sd_relativeUrl(Promise.resolve(card), Schema.flattenName(schemaType), schema.getRelativeUrls(), tabUrl)
     }
 
     switch (schemaType) {
@@ -63,4 +60,6 @@ export const ldJsonCard = (ldJson: Schema, tabUrl: string, occurrences: MustBeUn
             }
             break
     }
+
+    return card
 }

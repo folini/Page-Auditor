@@ -7,7 +7,7 @@
 import {Card, iLink, CardKind} from '../card'
 import {Report} from '../report'
 import {Mode} from '../colorCode'
-import {disposableId, formatNumber, fileExists} from '../main'
+import {disposableId, formatNumber, fileExists, xmlContentType, textContentType, ContentType} from '../main'
 import {Errors} from './errors'
 import * as Tips from './tips'
 import {codeBlock} from '../codeBlock'
@@ -15,8 +15,8 @@ import {htmlDecode} from 'js-htmlencode'
 import {SmList, SmSource, iSmCandidate} from '../sitemapList'
 import {sitemapMaxSize} from '../main'
 
-export const readFile = (url: string) =>
-    fileExists(url)
+export const readFile = (url: string, contentType: ContentType[]) =>
+    fileExists(url, contentType)
         .then(() => {
             if (url.match(/\.gz($|\?)/) !== null) {
                 return Promise.resolve('')
@@ -33,7 +33,7 @@ export const readFile = (url: string) =>
         .catch(() => Promise.reject())
 
 const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
-    readFile(sm.url)
+    readFile(sm.url, xmlContentType)
         .then(sitemapBody => {
             if (sm.url.endsWith('.gz')) {
                 const fileName = sm.url.replace(/(.*)\/([a-z0-9\-_\.]+(\.xml)?(\.gz)?)(.*)/i, '$2')
@@ -52,7 +52,7 @@ const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
                     .tag('card-ok')
                 report.addCard(card)
                 sitemaps.addDone(sm)
-                fileExists(sm.url).catch(_ => Tips.compressedSitemapNotFound(card, sm.url, sm.source))
+                fileExists(sm.url, xmlContentType).catch(_ => Tips.compressedSitemapNotFound(card, sm.url, sm.source))
                 return
             }
 
@@ -256,15 +256,14 @@ const robotsTxtCard = (url: string, robotsTxtBody: string): Card => {
     }
 
     linksToSitemap = linksToSitemap.map(sm => {
-        if(sm.startsWith('/')) {
+        if (sm.startsWith('/')) {
             Tips.sitemapInRobotsWithRelativePath(card, sm, new URL(url).origin + sm)
             return new URL(url).origin + sm
         }
         return sm
     })
-
     ;[...new Set(linksToSitemap)].forEach(url =>
-        fileExists(url).catch(() => {
+        fileExists(url, xmlContentType).catch(() => {
             Tips.sitemapInRobotsDoesNotExist(card, url)
         })
     )

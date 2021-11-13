@@ -20,12 +20,14 @@ import * as Credits from './cards/about'
 import * as Meta from './cards/meta-tags'
 import * as Robots from './cards/robots'
 import * as Tips from './cards/tips'
+import * as Spinner from './spinner'
+import * as Todo from './todo'
+import {resolve} from 'path/posix'
+import {rejects} from 'assert'
 
 export type NoArgsNoReturnFunc = () => void
 export type CodeInjectorFunc = () => any
 export type ReportGeneratorFunc = (url: string, data: any, report: Report) => void
-
-const classLoadingSpinnerDiv = 'loading-spinner'
 
 export const sitemapMaxSize = 5 * 1024 * 1024
 
@@ -89,18 +91,19 @@ async function action(section: SectionType, actions: sectionActions) {
         }
         const tabUrl = tab.url || ''
         const data = res.length > 0 ? res[0].result : undefined
-        Tips.resetTipCounter()
         actions.reportGenerator(tabUrl, data, report)
     } catch (err: any) {
         if (err.message === `Cannot access a chrome:// URL`) {
             const card = Errors.chrome_UnableToAnalyzeTabs()
             report.addCard(card)
             Tips.unableToAnalyzeChromeBrowserPages(card)
+            report.completed()
         } else {
             const tabUrl = tab?.url || ''
             const card = Errors.chrome_UnableToAnalyzePage(tabUrl)
             report.addCard(card)
             Tips.unableToAnalyzeChromeBrowserPages(card)
+            report.completed()
         }
     }
 }
@@ -112,16 +115,7 @@ const activateReport = (activeSec: SectionType) => {
     })
     document.getElementById(activeSec.tabId)?.classList.add('active')
     document.getElementById(activeSec.reportId)?.classList.add('show')
-    showSpinner(document.getElementById(activeSec.reportId) as HTMLDivElement)
     window.scrollTo(0, 0)
-    action(activeSec, activeSec.actions)
-}
-
-const showSpinner = (container: HTMLDivElement) => {
-    Array.from(container.children).forEach(child => child.remove())
-    const spinner = document.createElement('div')
-    spinner.className = classLoadingSpinnerDiv
-    container.append(spinner)
 }
 
 export const worker = new Worker('worker.js')
@@ -131,7 +125,11 @@ worker.onmessage = event => {
     let code = event.data.code
     const elem = document.getElementById(id) as HTMLElement
     elem.innerHTML = code
-    const copyDiv = document.createElement('div')
+    addCopyToClipboard(elem)
+}
+
+export const addCopyToClipboard = (elem: HTMLElement) => {
+    const copyDiv = elem.ownerDocument.createElement('div')
     copyDiv.className = 'icon-copy'
     copyDiv.title = 'Copy code'
     elem.insertBefore(copyDiv, elem.firstChild)
@@ -165,12 +163,53 @@ document.addEventListener('DOMContentLoaded', () => {
         reportDiv.id = section.reportId
         reportDiv.className = 'inner-report-container'
         reportContainer.append(reportDiv)
-        showSpinner(reportDiv)
+        Spinner.show(reportDiv)
     })
     activateReport(sections[0])
-    ;(document.getElementById('id-version') as HTMLElement).innerHTML = `Version ${versionNumber}`
+
+    const reportPromise: Promise<void>[] = []
+    sections.forEach(section => {
+        Spinner.show(document.getElementById(section.reportId)!)
+        reportPromise.push(action(section, section.actions))
+    })
+
+    Promise.all(reportPromise).then(() => enableTodo())
+    ;(document.getElementById('id-version') as HTMLElement).innerHTML = `Ver. ${versionNumber}`
 })
 
 export const formatNumber = (num: number) => num.toLocaleString(undefined, {maximumFractionDigits: 0})
 
-export const fileExists = (url: string) => fetch(url, {method: 'HEAD', cache: 'no-store'}).then(r => r.status === 200)
+export const fileExists = (url: string, contentTypes: ContentType[]) =>
+    fetch(url, {
+        method: 'HEAD',
+        cache: 'no-store',
+        headers: contentTypes.map(cType => ['Content-Type', cType]),
+    }).then(r => (r.status === 200 ? Promise.resolve(true) : Promise.reject()))
+
+const enableTodo = () => {
+    chrome.tabs.query({active: true, currentWindow: true}).then(tabs => {
+        const btn = document.getElementById('btn-todo') as HTMLButtonElement
+        btn.style.display = 'block'
+        btn.addEventListener('click', () => Todo.open(tabs[0].url!, tabs[0].title!))
+    })
+}
+
+export type ContentType =
+    | 'application/json'
+    | 'application/xml'
+    | 'application/html'
+    | 'text/json'
+    | 'text/xml'
+    | 'text/html'
+    | 'text/plain'
+    | 'image/jpeg'
+    | 'image/pjpeg'
+    | 'image/gif'
+    | 'image/png'
+    | 'image/webp'
+
+export const imageContentType: ContentType[] = ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png', 'image/webp']
+export const xmlContentType: ContentType[] = ['application/xml', 'text/xml']
+export const htmlContentType: ContentType[] = ['application/html', 'text/html']
+export const jsonContentType: ContentType[] = ['application/json', 'text/json']
+export const textContentType: ContentType[] = ['text/plain']

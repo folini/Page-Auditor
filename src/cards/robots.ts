@@ -5,7 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Report} from '../report'
-import {sectionActions, ReportGeneratorFunc} from '../main'
+import {sectionActions, ReportGeneratorFunc, textContentType} from '../main'
 import {createSiteMapCards, readFile, processRobotsTxt, sitemapUrlsFromRobotsTxt} from './robots-functions'
 import {Errors} from './errors'
 import {Info} from './info'
@@ -17,6 +17,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
         const card = Errors.chrome_TabUrlUndefined()
         report.addCard(card)
         Tips.unableToAnalyzeChromeBrowserPages(card)
+        report.completed()
         return
     }
 
@@ -24,6 +25,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
         const card = Errors.chrome_UnableToAnalyzeTabs()
         report.addCard(card)
         Tips.unableToAnalyzeChromeBrowserPages(card)
+        report.completed()
         return
     }
 
@@ -33,7 +35,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
     const sitemaps = new SmList()
     sitemaps.addToDo([defaultSitemap])
 
-    readFile(defaultRobotsUrl)
+    readFile(defaultRobotsUrl, textContentType)
         .then(robotsTxtBody => {
             processRobotsTxt(robotsTxtBody, defaultRobotsUrl, report)
             const newSm = sitemapUrlsFromRobotsTxt(robotsTxtBody)
@@ -62,6 +64,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
                 }
             })
         })
+        .finally(() => report.completed())
 }
 
 export const actions: sectionActions = {

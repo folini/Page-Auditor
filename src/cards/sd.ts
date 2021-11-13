@@ -10,6 +10,7 @@ import {ldJsonCard} from './sd-functions'
 import {Errors} from './errors'
 import * as Tips from './tips'
 import {Schema} from '../schema'
+import {Card} from '../card'
 
 export type MustBeUniqueOccurrences = {
     organization: number
@@ -27,6 +28,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, repo
         const card = Errors.chrome_TabUrlUndefined()
         report.addCard(card)
         Tips.unableToAnalyzeChromeBrowserPages(card)
+        report.completed()
         return
     }
 
@@ -34,6 +36,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, repo
         const card = Errors.sd_NotFound(tabUrl)
         report.addCard(card)
         Tips.sd_noStructuredData(card)
+        report.completed()
         return
     }
 
@@ -45,17 +48,20 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, repo
     jsonStrings.forEach(json => {
         try {
             const schema = new Schema(json, tabUrl)
-            if (Schema.getType(schema.getJson()) === '') {
-                const card = Errors.sd_InvalidJSON(json)
-                Tips.sd_invalidSyntax(card)
-                return
-            }
-            ldJsonCard(schema, tabUrl, occurrences, report)
+            var resolveCard: (value: Card) => void = (_: Card) => {}
+            const cardPromise = new Promise<Card>(r => (resolveCard = r))
+            schema.setCardPromise(cardPromise)
+            const card = ldJsonCard(schema, tabUrl, occurrences, report)
+            report.addCard(card)
+            resolveCard(card)
         } catch (err) {
             const card = Errors.sd_InvalidJSON(json)
+            report.addCard(card)
             Tips.sd_invalidSyntax(card)
         }
     })
+
+    report.completed()
 }
 
 export const actions: sectionActions = {

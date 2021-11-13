@@ -6,7 +6,8 @@
 // ----------------------------------------------------------------------------
 import {getLanguage, isLanguage} from './language-code'
 import {Card, iLink} from './card'
-import {openGraphPreview} from './cards/meta-tags-functions'
+import {fileExists, imageContentType} from './main'
+import * as Tips from './cards/tips'
 
 export interface iJsonLD {
     [name: string | '@type' | '@id']: string | string[] | iJsonLD[] | iJsonLD
@@ -20,13 +21,18 @@ export class Schema {
     #jsonLD: iJsonLD
     #tabUrl: string
     #firstBoxDone: boolean
-    static #dictionary: {[key: string]: unknown} = {}
+    #cardPromise: Promise<Card> | undefined
+    #relativeUrls: string[]
+    static #dictionary: {[key: string]: iJsonLD} = {}
     static #idStack: string[] = []
+    static #referenceBlocks: boolean = false
 
     constructor(json: string | iJsonLD, url: string) {
         this.#jsonLD = typeof json === 'string' ? JSON.parse(json) : json
         this.#firstBoxDone = false
         this.#tabUrl = url
+        this.#cardPromise = undefined
+        this.#relativeUrls = []
     }
 
     getJson() {
@@ -39,24 +45,34 @@ export class Schema {
         return JSON.stringify(this.#jsonLD)
     }
 
+    getRelativeUrls() {
+        return this.#relativeUrls
+    }
+
+    setCardPromise(cardPromise: Promise<Card>) {
+        this.#cardPromise = cardPromise
+    }
+
     static resetDictionary() {
         this.#dictionary = {}
     }
 
     static #addToDictionary(json: iJsonLD) {
-        let id = json['@id']
-        if (typeof id === 'string') {
+        let id = Schema.getId(json)
+        if (typeof id === 'string' && id.length > 0) {
             id = id.trim()
             delete json['@id']
-            Schema.#idStack.push(id)
             if (Object.keys(json).length > 1) {
                 Schema.#dictionary[id] = json
             }
         }
     }
 
-    static #getFromDictionary(key: string): unknown {
-        return Schema.#dictionary[key.trim()]
+    static #getFromDictionary(id: string): iJsonLD {
+        if (id.length === 0 || Schema.#idStack.includes(id) || Schema.#dictionary[id] === undefined) {
+            return {'@id': id}
+        }
+        return Schema.#dictionary[id.trim()]
     }
 
     static flattenName(name: string | undefined) {
@@ -65,6 +81,10 @@ export class Schema {
         }
         name = name.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^@/, '')
         return name.charAt(0).toUpperCase() + name.slice(1)
+    }
+
+    static getId(json: iJsonLD): string {
+        return (json['@id'] as string) ?? ''
     }
 
     static getType(json: iJsonLD): string {
@@ -104,12 +124,15 @@ export class Schema {
             .map(link => `<a class='small-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
             .join('')
 
-        const openStr =
+            const labelOpenClosed = 
+                this.#firstBoxDone && !Schema.#referenceBlocks ? `label-open` : `label-close` + (Schema.#referenceBlocks ? ` label-reference` : '')
+            const bodyOpenClosed = 
+                this.#firstBoxDone && !Schema.#referenceBlocks ? `body-open` : `body-close`
+
+            const openStr = 
             `<div class='sd-box'>` +
-            `<div class='sd-box-label ${
-                this.#firstBoxDone ? `label-open` : `label-close`
-            }'>${label}${linksHtml}</div>` +
-            `<div class='sd-box-body ${this.#firstBoxDone ? `body-open` : `body-close`}'>`
+            `<div class='sd-box-label ${labelOpenClosed}'>${label}${linksHtml}</div>` +
+            `<div class='sd-box-body ${bodyOpenClosed}'>`
         this.#firstBoxDone = true
 
         return openStr
@@ -139,7 +162,7 @@ export class Schema {
 
         if (
             (typeof genericSd === 'string' || Schema.#isArrayOfStrings(genericSd)) &&
-            ['image', 'logo'].includes(label.toLowerCase())
+            ['image', 'logo', 'content url'].includes(label.toLowerCase())
         ) {
             return this.#image(genericSd as string[], label, typeName)
         }
@@ -156,9 +179,13 @@ export class Schema {
             return this.#string(genericSd as string, label, typeName)
         }
 
-        const sd = genericSd as iJsonLD
+        let sd = genericSd as iJsonLD
 
         if (Array.isArray(genericSd)) {
+            if (genericSd.length === 1 && genericSd[0] === null) {
+                return this.#string('NULL', label, typeName)
+            }
+
             return genericSd
                 .map(json => {
                     const sdJson = json as iJsonLD
@@ -169,18 +196,36 @@ export class Schema {
         }
 
         const newTypeName = Schema.getType(sd)
-        return (
-            this.#openBox(label, newTypeName) +
-            Object.keys(sd)
-                .map(key => this.#toHtml(sd[key], key, newTypeName))
-                .join('') +
-            this.#closeBox()
-        )
+        const blockId = Schema.getId(sd)
+        if (blockId.length > 0 && Object.entries(sd).length > 1) {
+            Schema.#addToDictionary(sd)
+        }
+
+        const isResolving = Schema.#referenceBlocks
+        if (Object.keys(sd).length === 1 && Object.keys(sd)[0] === '@id') {
+            sd = Schema.#getFromDictionary(blockId)
+            Schema.#referenceBlocks = Object.keys(sd).length > 1
+        }
+
+        Schema.#idStack.push(blockId)
+        let html = this.#openBox(label, newTypeName)
+
+        html += Object.keys(sd)
+            .map(key => this.#toHtml(sd[key], key, newTypeName))
+            .join('')
+
+        html += this.#closeBox()
+        Schema.#idStack.pop()
+
+        Schema.#referenceBlocks = isResolving
+
+        return html
     }
 
     #string(str: string | string[], label: string, typeName: string): string {
         if (Array.isArray(str)) {
             if (label.toLowerCase().includes('url')) {
+                this.#relativeUrls.push(...str.filter(s => s.startsWith('/')))
                 str = str.map(u => (u.startsWith('/') ? `${this.#tabUrl}${u}` : u))
             }
             if (
@@ -218,9 +263,7 @@ export class Schema {
     }
 
     #bool(bool: boolean, label: string): string {
-        return `<div class='sd-description-line'><span class='sd-label'>${label}:</span> <span class='sd-description'>${
-            bool ? 'Yes' : 'No'
-        }</span></div>`
+        return `<div class='sd-description-line'><span class='sd-label'>${label}:</span> <span class='sd-description'>${bool ? 'Yes' : 'No'}</span></div>`
     }
 
     #number(num: number | number[], label: string): string {
@@ -237,7 +280,6 @@ export class Schema {
     }
 
     #image(sd: string | string[], label: string, typeName: string): string {
-        console.log(`#image("${sd}", "${label}", "${typeName}")`)
         if (Array.isArray(sd)) {
             return (
                 this.#string(sd, label, typeName) +
@@ -247,13 +289,25 @@ export class Schema {
             )
         }
 
-        const src = sd.startsWith('//')
-            ? `https:${sd}`
-            : sd.startsWith('http')
-            ? sd
-            : sd.startsWith('/')
-            ? `https://${new URL(this.#tabUrl).host}${sd}`
-            : `../logos/_noRendering_400x200.png`
+        let src = sd
+        if (sd.startsWith('//')) {
+            Tips.sd_imageUrlMissingProtocol(this.#cardPromise!, label, [sd])
+            sd = `https:${sd}`
+            src = `../logos/_noRendering_400x200.png`
+        }
+
+        if (sd.startsWith('/')) {
+            const correctUrl = `https://${new URL(this.#tabUrl).host}${sd}`
+            Tips.sd_relativeUrl(this.#cardPromise!, label, [sd], this.#tabUrl)
+            src = correctUrl
+        }
+
+        if (sd.length === 0) {
+            Tips.sd_imageEmptyUrl(this.#cardPromise!, label)
+            src = `../logos/_noRendering_400x200.png`
+        }
+
+        fileExists(src, imageContentType).catch(_ => Tips.sd_ImageNotFound(this.#cardPromise!, src, label, typeName))
 
         return (
             `<div class='sd-description-line'>` +

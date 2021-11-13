@@ -71,6 +71,8 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
             )
             .setPreTitle('Intro')
     )
+
+    report.completed()
 }
 
 export const actions: sectionActions = {

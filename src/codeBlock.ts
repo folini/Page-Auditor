@@ -35,5 +35,5 @@ export const codeBlock = (code: string, mode: Mode, id: string = '') => {
             codeToDisplay = code.replace(/\n/g, '<br/>').replace(/\s/gm, '&nbsp;')
     }
 
-    return `<div class='code' id='${id}'>${codeToDisplay}</div>`
+    return `<div class='code' id='${id}' data-mode='${mode}'>${codeToDisplay}</div>`
 }

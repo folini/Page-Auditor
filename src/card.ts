@@ -7,6 +7,7 @@
 import {disposableId} from './main'
 import {codeBlock} from './codeBlock'
 import {Mode} from './colorCode'
+import * as Todo from './todo'
 
 export interface iLink {
     label: string
@@ -123,7 +124,6 @@ export class Card {
     public addCodeBlock(code: string, mode: Mode) {
         const divId = disposableId()
         this.addParagraph(codeBlock(code, mode, divId))
-        const block = this.#body.querySelector(`#${divId}`)
         return this
     }
 
@@ -194,6 +194,13 @@ export class Card {
         return this
     }
 
+    public addTipDiv(div: HTMLDivElement) {
+        this.#body.append(div)
+        this.tag('card-fix')
+        Todo.add(div.cloneNode(true) as HTMLElement)
+        return this
+    }
+
     public addTip(title: string, txts: string[], cta: iLink, severity: number = 0) {
         const tipDiv = document.createElement('div')
         tipDiv.className = 'card-tip'
@@ -201,6 +208,7 @@ export class Card {
         const tipTitle = document.createElement('div')
         tipTitle.className = 'tip-title label-close'
         tipTitle.innerHTML = title
+        tipTitle.setAttribute('data-severity', severity > 0 ? severity.toString() : '')
 
         const tipBody = document.createElement('div')
         tipBody.className = 'tip-body body-close'
@@ -240,10 +248,11 @@ export class Card {
         tipDiv.append(tipTitle, tipBody)
         tipTitle.addEventListener('click', () => Card.toggle(tipTitle))
 
-        this.#body.append(tipDiv)
-        this.tag('card-fix')
+        return this.addTipDiv(tipDiv)
+    }
 
-        return this
+    public getTips() {
+        return [...this.#div.getElementsByClassName('card-tip')] as HTMLDivElement[]
     }
 
     static toggle(label: HTMLElement) {
@@ -259,6 +268,16 @@ export class Card {
         navigator.clipboard
             .writeText(txt)
             .then(() => alert(`Code copied to clipboard: \n ${txt}`))
-            .catch(err => alert(`Error copying code to clipboard: \n ${err}`))
+            .catch(() => {
+                // On the extension secondary window clipboard API doesn't work
+                // We need to go the old way
+                const copyFrom = document.createElement('textarea')
+                copyFrom.textContent = txt
+                document.body.appendChild(copyFrom)
+                copyFrom.select()
+                document.execCommand('copy')
+                copyFrom.blur()
+                document.body.removeChild(copyFrom)
+            })
     }
 }

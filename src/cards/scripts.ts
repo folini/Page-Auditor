@@ -122,6 +122,8 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, report: Report): v
         const card = Info.noScriptsOnThisPage()
         report.addCard(card)
     }
+
+    report.completed()
 }
 
 const localJsMatch = (url: string): iTrackMatch => {

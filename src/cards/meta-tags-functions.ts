@@ -7,7 +7,7 @@
 import {iTag} from './meta-tags'
 import {Report} from '../report'
 import {Card, iLink, CardKind} from '../card'
-import {disposableId, fileExists} from '../main'
+import {disposableId, fileExists, imageContentType} from '../main'
 import {Errors} from './errors'
 import {Mode} from '../colorCode'
 import {htmlEncode} from 'js-htmlencode'
@@ -19,7 +19,7 @@ interface iTagPreviewer {
 }
 
 interface iTagValidator {
-    (url: string): void
+    (card: Card, selectedTags: iTag[]): void
 }
 
 interface iTagCategoryFilter {
@@ -33,7 +33,21 @@ export interface iTagCategory {
     cssClass: string
     filter: iTagCategoryFilter
     preview: iTagPreviewer
-    validate?: iTagValidator
+    validator?: iTagValidator
+}
+
+const validator_RepTags = (card: Card, selectedTags: iTag[]) => {
+    const robots = selectedTags.find(m => m.label.toLowerCase() === 'robots')
+    if(!robots) {
+        return
+    }
+    const values = robots.value
+        .split(',')
+        .map(v => v.trim().toLowerCase())
+        .filter(val => val === 'index' || val === 'follow')
+    if(values.length>0) {
+        Tips.tag_REP_redundant(card, selectedTags, values)
+    }
 }
 
 export const noPreview: iTagPreviewer = (card: Card, selectedTag: iTag[], allTags: iTag[], canonical: string) => void 0
@@ -167,7 +181,7 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[],
                 Tips.tagUrl_ObsoleteProtocol(card, 'Twitter', imgTag)
             }
             if (imgTag.value.startsWith('https://')) {
-                fileExists(img).catch(() => {
+                fileExists(img, imageContentType).catch(() => {
                     Tips.tagImage_NoImage(card, 'Twitter', imgTag)
                     hideCardElement(card, imgPreviewId)
                 })
@@ -320,7 +334,7 @@ export const openGraphPreview = (card: Card, selectedTags: iTag[], allMeta: iTag
                 Tips.tagImage_NoTag(card, 'Facebook', imgTag.label)
             }
             if (imgTag.value.startsWith('https://')) {
-                fileExists(imgTag.value).catch(() => {
+                fileExists(imgTag.value, imageContentType).catch(() => {
                     Tips.tagImage_NoImage(card, 'Facebook', imgTag)
                     hideCardElement(card, imgPreviewId)
                 })
@@ -431,6 +445,7 @@ export const tagCategories: iTagCategory[] = [
         cssClass: 'icon-rep',
         filter: m => m.label === 'robots' || m.label === 'googlebot',
         preview: noPreview,
+        validator: validator_RepTags,
     },
     {
         title: `Authorization Tags`,
@@ -579,7 +594,6 @@ export const metaTagsCard = (
     }
 
     const listOfMeta = selectedTags.map(m => m.code.trim()).join('\n')
-    const divId = disposableId()
 
     const links: iLink[] = []
     if (tagCategory.url.length > 0) {
@@ -599,5 +613,9 @@ export const metaTagsCard = (
         .tag('card-ok')
 
     tagCategory.preview(card, selectedTags, allTags, canonical)
+    if(tagCategory.validator) {
+        tagCategory.validator(card, selectedTags);
+    }
+
     report.addCard(card)
 }

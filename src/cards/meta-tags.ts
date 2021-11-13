@@ -70,6 +70,7 @@ const reportGenerator: ReportGeneratorFunc = (url: string, data: any, report: Re
         const card = Errors.metaTags_NotFound()
         report.addCard(card)
         Tips.tag_AllMissing(card)
+        report.completed()
         return
     }
 
@@ -84,6 +85,8 @@ const reportGenerator: ReportGeneratorFunc = (url: string, data: any, report: Re
         report.addCard(card)
         Tips.tag_noOpenGraphTags(card)
     }
+
+    report.completed()
 }
 
 export const actions: sectionActions = {
