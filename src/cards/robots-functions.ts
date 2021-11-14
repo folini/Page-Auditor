@@ -30,7 +30,7 @@ export const readFile = (url: string, contentType: ContentType[]) =>
                 })
                 .catch(() => Promise.reject())
         })
-        .catch(() => Promise.reject())
+        .catch((err) => Promise.reject(err))
 
 const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
     readFile(sm.url, xmlContentType)
@@ -121,7 +121,7 @@ const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
 
             return
         })
-        .catch(() => sitemaps.addFailed(sm))
+        .catch((err) => sitemaps.addFailed(sm))
 
 export const createSiteMapCards = (sitemaps: SmList, report: Report) => {
     const promises = sitemaps.toDoList.map(sm => sitemapCard(sm, sitemaps, report))

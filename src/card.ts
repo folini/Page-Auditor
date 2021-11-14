@@ -27,6 +27,7 @@ export class Card {
     #body: HTMLDivElement
     #kind: CardKind
     #footer: HTMLDivElement
+    #tipNumber: number
 
     constructor(kind: CardKind) {
         this.#div = document.createElement('div')
@@ -40,6 +41,7 @@ export class Card {
         this.#footer.className = 'card-footer'
         this.#div.append(this.#head, hr, this.#body, this.#footer)
         this.#kind = kind
+        this.#tipNumber = 1
         switch (this.#kind) {
             case CardKind.error:
                 this.open('Error', '', 'icon-error')
@@ -207,7 +209,7 @@ export class Card {
 
         const tipTitle = document.createElement('div')
         tipTitle.className = 'tip-title label-close'
-        tipTitle.innerHTML = title
+        tipTitle.innerHTML = `Tip #${this.#tipNumber++}: ${title}`
         tipTitle.setAttribute('data-severity', severity > 0 ? severity.toString() : '')
 
         const tipBody = document.createElement('div')

@@ -184,7 +184,9 @@ export const fileExists = (url: string, contentTypes: ContentType[]) =>
         method: 'HEAD',
         cache: 'no-store',
         headers: contentTypes.map(cType => ['Content-Type', cType]),
-    }).then(r => (r.status === 200 ? Promise.resolve(true) : Promise.reject()))
+    }).then(r => {
+        return (r.status === 200 || r.status === 406? Promise.resolve(true) : Promise.reject())
+    })
 
 const enableTodo = () => {
     chrome.tabs.query({active: true, currentWindow: true}).then(tabs => {
@@ -209,7 +211,7 @@ export type ContentType =
     | 'image/webp'
 
 export const imageContentType: ContentType[] = ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png', 'image/webp']
-export const xmlContentType: ContentType[] = ['application/xml', 'text/xml']
+export const xmlContentType: ContentType[] = ['application/xml', 'text/xml', ]
 export const htmlContentType: ContentType[] = ['application/html', 'text/html']
 export const jsonContentType: ContentType[] = ['application/json', 'text/json']
 export const textContentType: ContentType[] = ['text/plain']

@@ -99,7 +99,6 @@ export const stdTagsDescription_MinLength = 50
 export const stdTagsDescription_MaxLength = 155
 export const stdTagsTitle_MaxLength = 60
 
-var tipNumber = 1
 
 // ----------------------------------------------------------------------------
 // INTERNAL ERROR TIPS
@@ -107,14 +106,14 @@ export const internalError = (card: Card) => {
     const what = tipWhat(`Something went wrong.`)
     const why = tipWhy(`Something unexpected happened that the Extension was not able to properly manage.`)
     const how = tipHow(`Consider updating the "Page Auditor" Chrome Extension to the latest version.`)
-    card.addTip(`Tip #${tipNumber++}: Update Page Auditor to the latest version`, [what, why, how], robotsTxtReference)
+    card.addTip(`Update Page Auditor to the latest version`, [what, why, how], robotsTxtReference)
 }
 
 export const unableToAnalyzeChromeBrowserPages = (card: Card) => {
     const what = tipWhat(`Unable to analyze Chrome browser pages.`)
     const why = tipWhy(`Google Chrome browser doesn't allow the analysis of internal pages and empty tabs.`)
     const how = tipHow(`Consider opening any website before opening the "Page Auditor" Chrome Extension`)
-    card.addTip(`Tip #${tipNumber++}: Open a Regular WebSite or Web Page`, [what, why, how], robotsTxtReference)
+    card.addTip(`Open a Regular WebSite or Web Page`, [what, why, how], robotsTxtReference)
 }
 
 // ----------------------------------------------------------------------------
@@ -131,7 +130,7 @@ export const duplicateSitemapsInRobots = (card: Card, urls: string[]) => {
         `This is a list of the duplicate Urls:`,
         codeBlock(urls.join('<br>'), Mode.txt)
     )
-    card.addTip(`Tip #${tipNumber++}: Remove Duplicate Sitemap Links`, [what, why, how], robotsTxtReference, 25)
+    card.addTip(`Remove Duplicate Sitemap Links`, [what, why, how], robotsTxtReference, 25)
 }
 
 export const unsafeSitemapLinkInRobots = (card: Card, urls: string[]) => {
@@ -150,7 +149,7 @@ export const unsafeSitemapLinkInRobots = (card: Card, urls: string[]) => {
         `And this how it should be:`,
         codeBlock(urls.map(url => url.replace('http:', 'https:')).join('<br>'), Mode.txt)
     )
-    card.addTip(`Tip #${tipNumber++}: Update Unsafe Sitemap Link`, [what, why, how], robotsTxtReference, 35)
+    card.addTip(`Update Unsafe Sitemap Link`, [what, why, how], robotsTxtReference, 35)
 }
 
 export const addSitemapLinkToRobotsTxt = (card: Card, domain: string) => {
@@ -165,7 +164,7 @@ export const addSitemapLinkToRobotsTxt = (card: Card, domain: string) => {
         codeBlock(`Sitemap: ${domain}/sitemap.xml`, Mode.txt),
         `This directive is independent of the user-agent line, so it doesn't matter where you place it in your file.`
     )
-    card.addTip(`Tip #${tipNumber++}: Link Your Sitemap.xml From Robots.txt`, [what, why, how], robotsTxtReference, 50)
+    card.addTip(`Link Your Sitemap.xml From Robots.txt`, [what, why, how], robotsTxtReference, 50)
 }
 
 export const malformedRobotsTxt = (card: Card) => {
@@ -177,7 +176,7 @@ export const malformedRobotsTxt = (card: Card) => {
         `But, it's important for the <code>robots.txt</code> file to be consistent with the standard syntax.`
     )
     const how = tipHow(`Double check the syntax of the <code>robots.txt</code> and update it ASAP.`)
-    card.addTip(`Tip  #${tipNumber++}: Fix Robots.txt Syntax`, [what, why, how], robotsTxtReference, 75)
+    card.addTip(`Fix Robots.txt Syntax`, [what, why, how], robotsTxtReference, 75)
 }
 
 export const emptyRobotsTxt = (card: Card) => {
@@ -192,7 +191,7 @@ export const emptyRobotsTxt = (card: Card) => {
         `Typical examples of pages you don't want to be indexed are login pages, account pages, cart pages, order confirmation pages.`,
         `Also any temporary page you might have in your website should be disallowed in the <code>robots.txt</code> file.`
     )
-    card.addTip(`Tip #${tipNumber++}: Add Content to Robots.txt`, [what, why, how], robotsTxtReference, 40)
+    card.addTip(`Add Content to Robots.txt`, [what, why, how], robotsTxtReference, 40)
 }
 
 export const missingRobotsTxt = (card: Card) => {
@@ -207,7 +206,7 @@ export const missingRobotsTxt = (card: Card) => {
         `To begin, you can write as a simple text file and upload it to your website.`,
         `Many website platform provide tools or option to automatically create a <code>robots.txt</code> file for you.`
     )
-    card.addTip(`Tip #${tipNumber++}: Add a Robots.txt file`, [what, why, how], robotsTxtReference, 80)
+    card.addTip(`Add a Robots.txt file`, [what, why, how], robotsTxtReference, 80)
 }
 
 export const sitemapInRobotsWithRelativePath = (card: Card, relUrl: string, absUrl: string) => {
@@ -227,7 +226,7 @@ export const sitemapInRobotsWithRelativePath = (card: Card, relUrl: string, absU
         codeBlock(`Sitemap: ${absUrl}`, Mode.txt)
     )
     card.addTip(
-        `Tip #${tipNumber++}: Change links in your Robots.txt file to absolute`,
+        `Change links in your Robots.txt file to absolute`,
         [what, why, how],
         robotsTxtReference,
         60
@@ -248,7 +247,7 @@ export const sitemapInRobotsDoesNotExist = (card: Card, url: string) => {
         `Move your sitemap to the location specified in the <code>robots.txt</code> or, keep the sitemap where it is and update the link.`
     )
     card.addTip(
-        `Tip #${tipNumber++}: Update broken link in your Robots.txt file`,
+        `Update broken link in your Robots.txt file`,
         [what, why, how],
         robotsTxtReference,
         50
@@ -270,7 +269,7 @@ export const missingSitemap = (card: Card) => {
         `To begin, you can start writing as a simple text file and upload it to your website.`,
         `Many website platform provide tools or option to automatically create the sitemap.`
     )
-    card.addTip(`Tip #${tipNumber++}: Add a Sitemap.xml File`, [what, why, how], sitemapSyntaxReference, 85)
+    card.addTip(`Add a Sitemap.xml File`, [what, why, how], sitemapSyntaxReference, 85)
 }
 
 export const uncompressedLargeSitemap = (card: Card, url: string, size: number) => {
@@ -289,7 +288,7 @@ export const uncompressedLargeSitemap = (card: Card, url: string, size: number) 
         `Use a compressor, like <i>gzip</i>, to compress your sitemap file and upload it again to the webserver.`,
         `Don't forget to update the sitemap link in the <code>robots.txt</code> and in your GSG (Google Search Console).`
     )
-    card.addTip(`Tip #${tipNumber++}: Compress Sitemap`, [what, why, how], sitemapSyntaxReference, 15)
+    card.addTip(`Compress Sitemap`, [what, why, how], sitemapSyntaxReference, 15)
 }
 
 export const sitemapWithoutXmlExtension = (card: Card, url: string) => {
@@ -306,7 +305,7 @@ export const sitemapWithoutXmlExtension = (card: Card, url: string) => {
         `Consider to adopt the best practices for sitemaps by adding the <code>.xml</code> extension to all your sitemaps.`
     )
     card.addTip(
-        `Tip #${tipNumber++}: Add the XML Extension to Your Sitemap`,
+        `Add the XML Extension to Your Sitemap`,
         [what, how, why],
         sitemapSyntaxReference,
         25
@@ -330,7 +329,7 @@ export const compressedSitemapNotFound = (card: Card, url: string, source: SmSou
         `Upload the missing compress <code>sitemap.xml</code> file to the webserver to help Google bot properly index your website.`
     )
     card.addTip(
-        `Tip #${tipNumber++}: Upload The Missing Compressed Sitemap File`,
+        `Upload The Missing Compressed Sitemap File`,
         [what, why, how],
         sitemapReference,
         80
@@ -350,7 +349,7 @@ export const malformedSitemapXml = (card: Card) => {
     const how = tipHow(
         `Upload a correct <code>sitemap.xml</code> to the webserver to let Google bot properly index the website.`
     )
-    card.addTip(`Tip #${tipNumber++}: Fix Sitemap.xml Syntax`, [what, why, how], sitemapSyntaxReference, 80)
+    card.addTip(`Fix Sitemap.xml Syntax`, [what, why, how], sitemapSyntaxReference, 80)
 }
 
 // ------------------------------------------------------------------------
@@ -363,7 +362,7 @@ export const tag_AllMissing = (card: Card) => {
         `Also Meta tags allow the page to control how it will be shared by users providing recommendation for title, image and descriptions to be use for sharing post on Social-Media.`
     )
     const how = tipHow(`Add Meta Tags to Your Page in the <code>&lt;head&gt;</code> section of the HTML code.`)
-    card.addTip(`Tip #${tipNumber++}: Add Meta Tags to the Page`, [what, why, how], metaTagsReference, 85)
+    card.addTip(`Add Meta Tags to the Page`, [what, why, how], metaTagsReference, 85)
 }
 
 export const tag_NoValue = (card: Card, platform: Platform, tag: iTag) => {
@@ -371,7 +370,7 @@ export const tag_NoValue = (card: Card, platform: Platform, tag: iTag) => {
     const why = tipWhy(`A missing value can block crawlers form properly read and process your page meta tags.`)
     const how = tipHow(`Add the missing value to maximize the impact of every on ${platform} post about this page.`)
     card.addTip(
-        `Tip #${tipNumber++}: Update The Invalid Meta Tag <code>${tag.label}</code>`,
+        `Update The Invalid Meta Tag <code>${tag.label}</code>`,
         [what, why, how],
         platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
         70
@@ -391,7 +390,7 @@ export const tag_ObsoleteValue = (card: Card, platform: Platform, tag: iTag, acc
         codeBlock(acceptedValues.join('<br>'), Mode.txt)
     )
     card.addTip(
-        `Tip #${tipNumber++}: Fix The Obsolete Value for Meta Tag <code>${tag.label}</code>`,
+        `Fix The Obsolete Value for Meta Tag <code>${tag.label}</code>`,
         [what, why, how],
         platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
         40
@@ -410,7 +409,7 @@ export const tag_InvalidValue = (card: Card, platform: Platform, tag: iTag, acce
         codeBlock(acceptedValues.join('<br>'), Mode.txt)
     )
     card.addTip(
-        `Tip #${tipNumber++}: Select a Valid Value For <code>${tag.label}</code>`,
+        `Select a Valid Value For <code>${tag.label}</code>`,
         [what, why, how],
         platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
         80
@@ -431,7 +430,7 @@ export const tag_REP_redundant = (card: Card, tags: iTag[], redundantValues: str
     )
     const how = tipHow(`Remove the listed values, and if nothing else is left, remove the entire meta tag.`)
     card.addTip(
-        `Tip #${tipNumber++}: The Value For the <code>${tags[0].label}</code> Meta Tag Is Redundant`,
+        `The Value For the <code>${tags[0].label}</code> Meta Tag Is Redundant`,
         [what, why, how],
         {
             label: `Google Reference`,
@@ -453,7 +452,7 @@ export const tag_Std_KeywordsIsObsolete = (card: Card, keywordsTag: iTag) => {
         `Remove the <code>${keywordsTag.label}</code> from the HTML of your page. There will be no direct SEO benefit, but your page will be simpler and smaller.`
     )
     card.addTip(
-        `Tip #${tipNumber++}: The <code>${keywordsTag.label}</code> Meta Tag Is Useless and Obsolete.`,
+        `The <code>${keywordsTag.label}</code> Meta Tag Is Useless and Obsolete.`,
         [what, why, how],
         {
             label: `Google Reference`,
@@ -475,7 +474,7 @@ export const tag_Std_TitleIsTooLong = (card: Card, titleTag: iTag) => {
         `Rewrite the title using less than ${stdTagsDescription_MaxLength} characters and update the <code>${titleTag.label}</code> Meta tag accordingly.`
     )
     card.addTip(
-        `Tip #${tipNumber++}: The <code>${titleTag.label}<c/ode> Meta Tag Is Too Long.`,
+        `The <code>${titleTag.label}<c/ode> Meta Tag Is Too Long.`,
         [what, why, how],
         {
             label: `Google Reference`,
@@ -497,7 +496,7 @@ export const tag_Std_DescriptionIsTooLong = (card: Card, descriptionTag: iTag) =
         `Rewrite teh description using less than ${stdTagsDescription_MaxLength} characters and update the <code>${descriptionTag.label}</code> Meta tag accordingly.`
     )
     card.addTip(
-        `Tip #${tipNumber++}: The <code>${descriptionTag.label}<c/ode> Meta Tag Is Too Long.`,
+        `The <code>${descriptionTag.label}<c/ode> Meta Tag Is Too Long.`,
         [what, why, how],
         {
             label: `Google Reference`,
@@ -519,7 +518,7 @@ export const tag_Std_DescriptionIsTooShort = (card: Card, descriptionTag: iTag) 
         `Rewrite teh description using more than ${stdTagsDescription_MinLength} characters and update the <code>${descriptionTag.label}</code> Meta tag accordingly.`
     )
     card.addTip(
-        `Tip #${tipNumber++}: The <code>${descriptionTag.label}</code> Meta Tag Is Too Short.`,
+        `The <code>${descriptionTag.label}</code> Meta Tag Is Too Short.`,
         [what, why, how],
         {
             label: `Google Reference`,
@@ -543,7 +542,7 @@ export const tagImage_NoTag = (card: Card, platform: Platform, tag: string) => {
         platform === 'Twitter' ? tweeterImageSpecs : facebookImageSpecs
     )
     card.addTip(
-        `Tip #${tipNumber++}: Add the Meta Tag <code>${tag}</code> for Image Preview`,
+        `Add the Meta Tag <code>${tag}</code> for Image Preview`,
         [what, why, how],
         'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
         70
@@ -563,7 +562,7 @@ export const tagImage_NoImage = (card: Card, platform: Platform, tag: iTag) => {
         platform === 'Twitter' ? tweeterImageSpecs : facebookImageSpecs
     )
     card.addTip(
-        `Tip #${tipNumber++}: Upload The Image Preview Meta Tag for ${platform}`,
+        `Upload The Image Preview Meta Tag for ${platform}`,
         [what, why, how],
         'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
         65
@@ -585,7 +584,7 @@ export const tagImage_Placeholder = (card: Card, platform: Platform, tag: iTag) 
         platform === 'Twitter' ? tweeterImageSpecs : facebookImageSpecs
     )
     card.addTip(
-        `Tip #${tipNumber++}: Replace the Image Preview Placeholder in <code>${tag.label}</code>`,
+        `Replace the Image Preview Placeholder in <code>${tag.label}</code>`,
         [what, why, how],
         'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
         60
@@ -606,7 +605,7 @@ export const tagUrl_NonCanonical = (card: Card, platform: Platform, tag: iTag, c
         codeBlock(`<meta property="${tag.label}" content="${canonical}">`, Mode.html)
     )
     card.addTip(
-        `Tip #${tipNumber++}: Use the Canonical Url for the Meta Tag <code>${tag.label}</code>`,
+        `Use the Canonical Url for the Meta Tag <code>${tag.label}</code>`,
         [what, why, how],
         platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
         60
@@ -621,7 +620,7 @@ export const tagUrl_RelativePath = (card: Card, platform: Platform, tag: iTag) =
     )
     const how = tipHow(`This is the current meta tag you should fix:`, codeBlock(tag.code, Mode.html))
     card.addTip(
-        `Tip #${tipNumber++}: Change the Url to Absolute in <code>${tag.label}</code>`,
+        `Change the Url to Absolute in <code>${tag.label}</code>`,
         [what, why, how],
         platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
         75
@@ -637,7 +636,7 @@ export const tagUrl_ObsoleteProtocol = (card: Card, platform: Platform, tag: iTa
     )
     const how = tipHow(`This is the meta tag you should fix:`, codeBlock(tag.code, Mode.html))
     card.addTip(
-        `Tip #${tipNumber++}: Change <code>${tag.label}</code> Url Protocol To HTTPS`,
+        `Change <code>${tag.label}</code> Url Protocol To HTTPS`,
         [what, why, how],
         platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
         35
@@ -656,7 +655,7 @@ export const tag_Placeholder = (card: Card, platform: Platform, tag: iTag) => {
         `Replace the placeholder with something more meaningful to maximize the impact of posts on ${platform} sharing this page.`
     )
     card.addTip(
-        `Tip #${tipNumber++}: Replace the Placeholder in the <code>${tag.label}</code>`,
+        `Replace the Placeholder in the <code>${tag.label}</code>`,
         [what, why, how],
         'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
         50
@@ -680,7 +679,7 @@ export const tag_OverRecommendedLength = (
     )
     const how = tipHow(`Reduce the length of the tag value to ${recommendedLength}.`)
     card.addTip(
-        `Tip #${tipNumber++}: Consider shortening the Meta Tag <code>${tag.label}</code>`,
+        `Consider shortening the Meta Tag <code>${tag.label}</code>`,
         [what, why, how],
         'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
         15
@@ -698,7 +697,7 @@ export const tag_OverMaxLength = (card: Card, platform: Platform, tag: iTag, max
         `Reduce the length of the tag value to make sure your <code>${tag.label}</code> will not be trimmed by ${platform} on posts sharing this page.`
     )
     card.addTip(
-        `Tip #${tipNumber++}: Shorten the Meta Tag <code>${tag.label}</code>`,
+        `Shorten the Meta Tag <code>${tag.label}</code>`,
         [what, why, how],
         'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
         40
@@ -723,7 +722,7 @@ export const tag_NonSpecific = (card: Card, platform: Platform, tagLabel: string
     )
     const how = tipHow(`Add the following meta tag to your page:`, tagExample(tagLabel, platform))
     card.addTip(
-        `Tip #${tipNumber++}: Use the ${
+        `Use the ${
             tagIsCritical(tagLabel) ? `Critical ` : platform
         } Meta Tag <code>${tagLabel}</code>`,
         [what, why, how],
@@ -745,7 +744,7 @@ export const tag_Missing = (card: Card, platform: Platform, tagLabel: string) =>
     )
     const how = tipHow(`Add a meta tag similar to the following:`, tagExample(tagLabel, platform))
     card.addTip(
-        `Tip #${tipNumber++}: Add the ${
+        `Add the ${
             tagIsCritical(tagLabel) ? `Critical ` : platform
         } Meta Tag <code>${tagLabel}</code>`,
         [what, why, how],
@@ -765,7 +764,7 @@ export const tag_Obsolete = (card: Card, platform: Platform, tagName: string, ht
         codeBlock(htmlTag, Mode.html)
     )
     card.addTip(
-        `Tip #${tipNumber++}: Remove the Obsolete ${platform} Meta Tag <code>${tagName}</code>`,
+        `Remove the Obsolete ${platform} Meta Tag <code>${tagName}</code>`,
         [what, why, how],
         platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
         15
@@ -784,7 +783,7 @@ export const tag_noOpenGraphTags = (card: Card) => {
         codeBlock(criticalOpenGraphTags.join('\n'), Mode.txt)
     )
     card.addTip(
-        `Tip #${tipNumber++}: Add Facebook (Open Graph) Meta Tags to the Page`,
+        `Add Facebook (Open Graph) Meta Tags to the Page`,
         [what, why, how],
         openGraphMetaTagsReference,
         75
@@ -803,7 +802,7 @@ export const tag_noTwitterTags = (card: Card) => {
         codeBlock(criticalTwitterTags.join('\n'), Mode.txt)
     )
     card.addTip(
-        `Tip #${tipNumber++}: Add Twitter Meta Tags to the Page`,
+        `Add Twitter Meta Tags to the Page`,
         [what, why, how],
         twitterMetaTagsReference,
         75
@@ -825,7 +824,7 @@ export const sd_relativeUrl = (cardPromise: Promise<Card>, objectName: string, u
     )
     cardPromise.then(card =>
         card.addTip(
-            `Tip #${tipNumber++}: Rewrite URLs in "${objectName}" with Absolute Path`,
+            `Rewrite URLs in "${objectName}" with Absolute Path`,
             [what, why, how],
             structuredDataReference,
             50
@@ -849,7 +848,7 @@ export const sd_imageUrlMissingProtocol = (cardPromise: Promise<Card>, objectNam
     )
     cardPromise.then(card =>
         card.addTip(
-            `Tip #${tipNumber++}: Rewrite URLs in "${objectName}" adding the <code>https</code> protocol`,
+            `Rewrite URLs in "${objectName}" adding the <code>https</code> protocol`,
             [what, why, how],
             structuredDataReference,
             25
@@ -866,7 +865,7 @@ export const sd_imageEmptyUrl = (cardPromise: Promise<Card>, objectName: string)
     )
     cardPromise.then(card =>
         card.addTip(
-            `Tip #${tipNumber++}: Replace the empty URL in "${objectName}".`,
+            `Replace the empty URL in "${objectName}".`,
             [what, why, how],
             structuredDataReference,
             25
@@ -886,7 +885,7 @@ export const sd_repeatedSchemas = (card: Card, objectName: string, occurrences: 
         `Consider removing the duplicates and merging the information about the ${objectName} into one single snippet.`
     )
     card.addTip(
-        `Tip #${tipNumber++}: Merge the "${objectName}" Data Structures`,
+        `Merge the "${objectName}" Data Structures`,
         [what, why, how],
         structuredDataReference,
         25
@@ -907,7 +906,7 @@ export const sd_noStructuredData = (card: Card) => {
         `Add Structured Data to each page of your website. There are 3 available formats: JSON-LD, MicroData and RDFa. Google recommends to use <code>JSON-LD</code>.`,
         `<code>JSON-LD</code> is also the easiest format to create and to maintain.`
     )
-    card.addTip(`Tip #${tipNumber++}: Add Structured Data To the Page`, [what, why, how], structuredDataHowToUse, 85)
+    card.addTip(`Add Structured Data To the Page`, [what, why, how], structuredDataHowToUse, 85)
 }
 
 export const sd_invalidSyntax = (card: Card) => {
@@ -916,7 +915,7 @@ export const sd_invalidSyntax = (card: Card) => {
         `Invalid Structured Data can block the Search Engine spiders/bots from efficiently indexing the page.`
     )
     const how = tipHow(`Fix the LD-JSON code to benefit from the inclusion of Structured Data in the page.`)
-    card.addTip(`Tip #${tipNumber++}: Fix the Invalid Structured Data`, [what, why, how], structuredDataReference, 75)
+    card.addTip(`Fix the Invalid Structured Data`, [what, why, how], structuredDataReference, 75)
 }
 
 export const sd_ImageNotFound = (cardPromise: Promise<Card>, url: string, label: string, typeName: string) => {
@@ -934,7 +933,7 @@ export const sd_ImageNotFound = (cardPromise: Promise<Card>, url: string, label:
     )
     cardPromise.then(card =>
         card.addTip(
-            `Tip #${tipNumber++}: Add Image Listed in Structured Data That Is Missing`,
+            `Add Image Listed in Structured Data That Is Missing`,
             [what, why, how],
             structuredDataReference,
             75

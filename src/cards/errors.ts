@@ -81,8 +81,9 @@ export class Errors {
     }
 
     public static sitemap_NotFound(sms: iSmCandidate[]) {
-        const msg1 = `No <code>Sitemap.xml</code> file was detected at at location:`
-        const msg2 = `File not found.`
+        const plural = sms.length > 1 ? 's' : ''
+        const msg1 = `No <code>Sitemap.xml</code> file${plural} detected at at location${plural}:`
+        const msg2 = `File${plural} not found.`
         return new Card(CardKind.error)
             .setLogo('icon-sitemap')
             .addParagraph(msg1)
