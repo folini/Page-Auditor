@@ -7,8 +7,8 @@
 import {iTag} from '../src/cards/meta-tags'
 import {
     tagCategories,
-    twitterPreview,
-    openGraphPreview,
+    previewer_TwitterTags,
+    previewer_OpenGraphTags,
     noPreview,
     metaTagsCard,
 } from '../src/cards/meta-tags-functions'

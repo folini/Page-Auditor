@@ -129,11 +129,15 @@ export class Schema {
             const bodyOpenClosed = 
                 this.#firstBoxDone && !Schema.#referenceBlocks ? `body-open` : `body-close`
 
-            const openStr = 
+            let openStr = 
             `<div class='sd-box'>` +
             `<div class='sd-box-label ${labelOpenClosed}'>${label}${linksHtml}</div>` +
             `<div class='sd-box-body ${bodyOpenClosed}'>`
         this.#firstBoxDone = true
+
+        if(Schema.#referenceBlocks) {
+            openStr += `<div class='sd-description-line sd-block-intro'>This block is a reference to a block of information defined elsewhere. The items you see here are just a copy of the original; items.</div>`
+        }
 
         return openStr
     }

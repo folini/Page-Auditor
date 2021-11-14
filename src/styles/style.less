@@ -487,6 +487,41 @@ body#id-page-auditor {
         }
     }
 
+    .serp-card {
+        .box-label {
+            background-color: #3a9736;
+            color: #fff;
+            &:after {
+                font-family: 'FontAwesome';
+                content: '\f1a0';
+                float: right;
+                font-size: 22px;
+                margin-top: -2px;
+                margin-right: 2px;
+            }
+        }
+        .box-body {
+            padding: 16px;
+
+            .serp-card-url {
+                font-size: 14px;
+                color: #202124;
+                padding: 1px 0 2px 0;
+            }
+            .serp-card-title {
+                color: #1a0dab;
+                font-size: 20px;
+                padding: 5px 0 0 0;
+            }
+            .serp-card-description {
+                font-size: 14px;
+                color: #4d5156;
+                line-height: 22.12px;
+                font-weight: 400;
+            }
+        }
+    }
+
     .pointers {
         list-style: none;
         padding: 4px 0 4px 24px;
@@ -1267,17 +1302,16 @@ body#id-page-auditor {
     .sd-box-label.label-reference {
         background-color: #008b8b3d;
         &::after {
-        content: 'Reference';
-        font-weight: normal;
-        padding: 0px 8px;
-        border-radius: 2px;
-        margin-left: 4px;
-        border: solid 1px #888;
-        opacity: 1;
-        font-size: 0.9em;
+            content: 'Reference';
+            font-weight: normal;
+            padding: 0px 8px;
+            border-radius: 2px;
+            margin-left: 4px;
+            border: solid 1px #888;
+            opacity: 1;
+            font-size: 0.9em;
+        }
     }
-}
-
     .sd-box {
         margin-top: 16px !important;
 
@@ -1298,6 +1332,14 @@ body#id-page-auditor {
         .sd-description-line {
             margin-bottom: 6px;
             word-break: break-word;
+
+            &.sd-block-intro {
+                margin-bottom: 16px;
+            }
+            &.sd-block-intro {
+                margin-bottom: 16px;
+            }
+
             span.sd-label {
                 font-weight: bold;
             }
@@ -1337,21 +1379,15 @@ body#id-page-auditor {
 .label-close,
 .label-open {
     padding-left: 2.2em !important;
-    //background: linear-gradient(90deg, #00640026, #f0f0f0, #00640026);
     background-color: #f0f0f0;
     padding: 8px 6px;
     font-size: 14px;
     position: relative;
     border: solid 1px var(--border-color);
     cursor: pointer;
-    &::after {
-        opacity: 0.5;
-    }
+
     &:hover {
         &::before {
-            opacity: 1;
-        }
-        &::after {
             opacity: 1;
         }
     }

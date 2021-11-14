@@ -179,7 +179,7 @@ export const MetaTagCategorySample: iTagCategory = {
     url: '',
     cssClass: 'icon-tag',
     filter: m => true,
-    preview: noPreview,
+    previewer: noPreview,
 }
 
 export const JavaScriptsArraySample = [

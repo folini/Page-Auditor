@@ -15,7 +15,7 @@ import * as Tips from './tips'
 import {codeBlock} from '../codeBlock'
 
 interface iTagPreviewer {
-    (card: Card, selectedTags: iTag[], allTags: iTag[], canonical: string): void
+    (card: Card, selectedTags: iTag[], allTags: iTag[], canonical: string, title: string, url: string): void
 }
 
 interface iTagValidator {
@@ -32,25 +32,46 @@ export interface iTagCategory {
     url: string
     cssClass: string
     filter: iTagCategoryFilter
-    preview: iTagPreviewer
+    previewer: iTagPreviewer
     validator?: iTagValidator
 }
 
 const validator_RepTags = (card: Card, selectedTags: iTag[]) => {
     const robots = selectedTags.find(m => m.label.toLowerCase() === 'robots')
-    if(!robots) {
+    if (!robots) {
         return
     }
     const values = robots.value
         .split(',')
         .map(v => v.trim().toLowerCase())
         .filter(val => val === 'index' || val === 'follow')
-    if(values.length>0) {
+    if (values.length > 0) {
         Tips.tag_REP_redundant(card, selectedTags, values)
     }
 }
 
-export const noPreview: iTagPreviewer = (card: Card, selectedTag: iTag[], allTags: iTag[], canonical: string) => void 0
+const validator_StandardTags = (card: Card, selectedTags: iTag[]) => {
+    const keywords = selectedTags.find(m => m.label.toLowerCase() === 'keywords')
+    if (keywords) {
+        Tips.tag_Std_KeywordsIsObsolete(card, keywords)
+    }
+
+    const description = selectedTags.find(m => m.label.toLowerCase() === 'description')
+    if (description && description.value.length > Tips.stdTagsDescription_MaxLength) {
+        Tips.tag_Std_DescriptionIsTooLong(card, description)
+    }
+    
+    if (description && description.value.length < Tips.stdTagsDescription_MinLength) {
+        Tips.tag_Std_DescriptionIsTooShort(card, description)
+    }
+
+    const title = selectedTags.find(m => m.label.toLowerCase() === 'title')
+    if (title && title.value.length > Tips.stdTagsTitle_MaxLength) {
+        Tips.tag_Std_TitleIsTooLong(card, title)
+    }
+}
+
+export const noPreview: iTagPreviewer = (card: Card, selectedTag: iTag[], allTags: iTag[], canonical: string, title: string) => void 0
 
 const twitterLinkIcon =
     `<svg viewBox="0 0 24 24" aria-hidden="true" class="r-4qtqp9 r-yyyyoo r-1xvli5t r-dnmrzs r-bnwqim r-1plcrui r-lrvibr">` +
@@ -59,7 +80,22 @@ const twitterLinkIcon =
     `</g>` +
     `</svg>`
 
-export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[], canonical: string) => {
+export const previewer_StdTags = (card: Card, selectedTags: iTag[], allTag: iTag[], canonical: string, tabTitle: string, tabUrl: string) => {
+    const description = selectedTags.find(m => m.label.toLowerCase() === 'description')?.value || ''
+    const title = selectedTags.find(m => m.label.toLowerCase() === 'title')?.value || tabTitle
+    
+    card.addPreview(
+        `<div class='box-label label-close'>Google SERP Preview</div>` +
+            `<div class='box-body body-close'>` +
+            `<div class='serp-card-url'>${tabUrl}</div>` +
+            `<div class='serp-card-title'>${title}</div>` +
+            `<div class='serp-card-description'>${description}</div>` +
+            `</div>`,
+        'serp-card'
+    )
+}
+
+export const previewer_TwitterTags = (card: Card, selectedTags: iTag[], allTag: iTag[], canonical: string, tabTitle: string) => {
     const obsoleteTwitterCardValues: string[] = ['photo', 'gallery', 'product']
     const validTwitterCardValues: string[] = ['summary', 'summary_large_image', 'app', 'player']
 
@@ -216,7 +252,7 @@ export const twitterPreview = (card: Card, selectedTags: iTag[], allTag: iTag[],
     }
 }
 
-export const openGraphPreview = (card: Card, selectedTags: iTag[], allMeta: iTag[], canonical: string) => {
+export const previewer_OpenGraphTags = (card: Card, selectedTags: iTag[], allMeta: iTag[], canonical: string, tabTitle: string) => {
     const imgPreviewId = disposableId()
     const imgTag = selectedTags.find(m => m.label === 'og:image')
     const urlTag = selectedTags.find(m => m.label === 'og:url' || m.label === 'og:image:secure_url')
@@ -392,7 +428,7 @@ export const tagCategories: iTagCategory[] = [
         url: 'https://developer.twitter.com/en/docs/twitter-for-websites/cards/guides/getting-started',
         cssClass: `icon-twitter`,
         filter: m => m.label.startsWith('twitter:'),
-        preview: twitterPreview,
+        previewer: previewer_TwitterTags,
     },
     {
         title: `OpenGraph Tags`,
@@ -412,7 +448,7 @@ export const tagCategories: iTagCategory[] = [
             m.label.startsWith('book:') ||
             m.label.startsWith('video:') ||
             m.label.startsWith('profile:'),
-        preview: openGraphPreview,
+        previewer: previewer_OpenGraphTags,
     },
     {
         title: `AppLinks Tags (Facebook)`,
@@ -420,7 +456,7 @@ export const tagCategories: iTagCategory[] = [
         url: 'https://developers.facebook.com/docs/applinks/metadata-reference/',
         cssClass: 'icon-facebook',
         filter: m => m.label.startsWith('al:'),
-        preview: noPreview,
+        previewer: noPreview,
     },
     {
         title: `Swiftype Tags`,
@@ -428,7 +464,7 @@ export const tagCategories: iTagCategory[] = [
         url: 'https://swiftype.com/documentation/site-search/crawler-configuration/meta-tags',
         cssClass: 'icon-swiftype',
         filter: m => m.class === 'swiftype',
-        preview: noPreview,
+        previewer: noPreview,
     },
     {
         title: `Google Tags`,
@@ -436,7 +472,7 @@ export const tagCategories: iTagCategory[] = [
         url: 'https://developers.google.com/search/docs/advanced/crawling/special-tags',
         cssClass: 'icon-google',
         filter: m => m.label === 'google',
-        preview: noPreview,
+        previewer: noPreview,
     },
     {
         title: `REP Tags`,
@@ -444,7 +480,7 @@ export const tagCategories: iTagCategory[] = [
         url: 'https://www.metatags.org/all-meta-tags-overview/the-important-meta-tags/meta-name-robots-tag/',
         cssClass: 'icon-rep',
         filter: m => m.label === 'robots' || m.label === 'googlebot',
-        preview: noPreview,
+        previewer: noPreview,
         validator: validator_RepTags,
     },
     {
@@ -453,7 +489,7 @@ export const tagCategories: iTagCategory[] = [
         url: 'https://support.google.com/webmasters/answer/9008080?hl=en#zippy=%2Chtml-tag',
         cssClass: 'icon-lock',
         filter: m => m.label.includes('verification') || m.label.includes(`validate`) || m.label.includes(`verify`),
-        preview: noPreview,
+        previewer: noPreview,
     },
     {
         title: `Standard Tags`,
@@ -478,7 +514,8 @@ export const tagCategories: iTagCategory[] = [
                 `referrer`,
                 `Content-Security-Policy`,
             ].includes(m.label),
-        preview: noPreview,
+        previewer: previewer_StdTags,
+        validator: validator_StandardTags,
     },
     {
         title: `Windows Meta Tags`,
@@ -486,7 +523,7 @@ export const tagCategories: iTagCategory[] = [
         url: 'https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/ff976295(v=vs.85)',
         cssClass: 'icon-windows',
         filter: m => m.label.includes('msapplication-'),
-        preview: noPreview,
+        previewer: noPreview,
     },
     {
         title: `Microsoft Docs Tags`,
@@ -494,7 +531,7 @@ export const tagCategories: iTagCategory[] = [
         url: 'https://docs.microsoft.com/en-us/contribute/metadata',
         cssClass: 'icon-ms',
         filter: m => m.label.startsWith(`ms.`),
-        preview: noPreview,
+        previewer: noPreview,
     },
     {
         title: `Chromium Origin Trials Tags`,
@@ -503,7 +540,7 @@ export const tagCategories: iTagCategory[] = [
         url: 'https://googlechrome.github.io/OriginTrials/',
         cssClass: 'icon-chromium',
         filter: m => m.label === 'origin-trial',
-        preview: noPreview,
+        previewer: noPreview,
     },
     {
         title: `Cxense Tags`,
@@ -511,7 +548,7 @@ export const tagCategories: iTagCategory[] = [
         url: 'https://www.cxense.com/',
         cssClass: 'icon-cxense',
         filter: m => m.label.startsWith('cxense:') || m.label.startsWith('cxenseparse:'),
-        preview: noPreview,
+        previewer: noPreview,
     },
     {
         title: `OutBrain Tags`,
@@ -519,7 +556,7 @@ export const tagCategories: iTagCategory[] = [
         url: 'https://www.outbrain.com/',
         cssClass: 'icon-outbrain',
         filter: m => m.label.startsWith('vr:'),
-        preview: noPreview,
+        previewer: noPreview,
     },
     {
         title: `Apple Tags`,
@@ -527,7 +564,7 @@ export const tagCategories: iTagCategory[] = [
         url: 'https://www.apple.com/',
         cssClass: 'icon-apple',
         filter: m => m.label.startsWith('apple-'),
-        preview: noPreview,
+        previewer: noPreview,
     },
     {
         title: `Shopify Tags`,
@@ -535,7 +572,7 @@ export const tagCategories: iTagCategory[] = [
         url: 'https://www.shopify.com/',
         cssClass: 'icon-shopify',
         filter: m => m.label.startsWith('shopify-'),
-        preview: noPreview,
+        previewer: noPreview,
     },
     {
         title: `Branch Tags`,
@@ -543,7 +580,7 @@ export const tagCategories: iTagCategory[] = [
         url: 'https://www.branch.com/',
         cssClass: 'icon-branch',
         filter: m => m.label.startsWith('branch:'),
-        preview: noPreview,
+        previewer: noPreview,
     },
     {
         title: `Internet Explorer Tags`,
@@ -551,7 +588,7 @@ export const tagCategories: iTagCategory[] = [
         url: 'https://docs.microsoft.com/en-us/openspecs/ie_standards/ms-iedoco/380e2488-f5eb-4457-a07a-0cb1b6e4b4b5',
         cssClass: 'icon-ie',
         filter: m => m.label === `x-ua-compatible` || m.label == 'cleartype',
-        preview: noPreview,
+        previewer: noPreview,
     },
     {
         title: `CSRF Tags`,
@@ -559,7 +596,7 @@ export const tagCategories: iTagCategory[] = [
         url: 'https://cwe.mitre.org/data/definitions/352.html',
         cssClass: 'icon-lock',
         filter: m => m.label.startsWith(`csrf-`),
-        preview: noPreview,
+        previewer: noPreview,
     },
     {
         title: `Google Programmable Search Engine Tags`,
@@ -567,7 +604,7 @@ export const tagCategories: iTagCategory[] = [
         url: 'https://cse.google.com/',
         cssClass: 'icon-google',
         filter: m => m.label.startsWith(`thumbnail`),
-        preview: noPreview,
+        previewer: noPreview,
     },
     {
         title: `Other Tags`,
@@ -575,7 +612,7 @@ export const tagCategories: iTagCategory[] = [
         url: '',
         cssClass: 'icon-tag',
         filter: m => true,
-        preview: noPreview,
+        previewer: noPreview,
     },
 ]
 
@@ -584,6 +621,8 @@ export const metaTagsCard = (
     tagCategory: iTagCategory,
     selectedTags: iTag[],
     canonical: string,
+    title: string,
+    url: string,
     report: Report
 ) => {
     if (selectedTags.length === 0) {
@@ -612,9 +651,9 @@ export const metaTagsCard = (
         .addExpandableBlock('HTML Code' + linksHtml, codeBlock(listOfMeta, Mode.html))
         .tag('card-ok')
 
-    tagCategory.preview(card, selectedTags, allTags, canonical)
-    if(tagCategory.validator) {
-        tagCategory.validator(card, selectedTags);
+    tagCategory.previewer(card, selectedTags, allTags, canonical, title, url)
+    if (tagCategory.validator) {
+        tagCategory.validator(card, selectedTags)
     }
 
     report.addCard(card)

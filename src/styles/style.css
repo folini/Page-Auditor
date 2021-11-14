@@ -444,6 +444,37 @@ body#id-page-auditor .facebook-card .preview-legend .og-description {
   color: #b0b3b8;
   line-height: 16.08px;
 }
+body#id-page-auditor .serp-card .box-label {
+  background-color: #3a9736;
+  color: #fff;
+}
+body#id-page-auditor .serp-card .box-label:after {
+  font-family: 'FontAwesome';
+  content: '\f1a0';
+  float: right;
+  font-size: 22px;
+  margin-top: -2px;
+  margin-right: 2px;
+}
+body#id-page-auditor .serp-card .box-body {
+  padding: 16px;
+}
+body#id-page-auditor .serp-card .box-body .serp-card-url {
+  font-size: 14px;
+  color: #202124;
+  padding: 1px 0 2px 0;
+}
+body#id-page-auditor .serp-card .box-body .serp-card-title {
+  color: #1a0dab;
+  font-size: 20px;
+  padding: 5px 0 0 0;
+}
+body#id-page-auditor .serp-card .box-body .serp-card-description {
+  font-size: 14px;
+  color: #4d5156;
+  line-height: 22.12px;
+  font-weight: 400;
+}
 body#id-page-auditor .pointers {
   list-style: none;
   padding: 4px 0 4px 24px;
@@ -1243,6 +1274,12 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
   margin-bottom: 6px;
   word-break: break-word;
 }
+.sd-box .sd-box-body .sd-description-line.sd-block-intro {
+  margin-bottom: 16px;
+}
+.sd-box .sd-box-body .sd-description-line.sd-block-intro {
+  margin-bottom: 16px;
+}
 .sd-box .sd-box-body .sd-description-line span.sd-label {
   font-weight: bold;
 }
@@ -1285,16 +1322,8 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
   border: solid 1px var(--border-color);
   cursor: pointer;
 }
-.label-close::after,
-.label-open::after {
-  opacity: 0.5;
-}
 .label-close:hover::before,
 .label-open:hover::before {
-  opacity: 1;
-}
-.label-close:hover::after,
-.label-open:hover::after {
   opacity: 1;
 }
 .label-close {

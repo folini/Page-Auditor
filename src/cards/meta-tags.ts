@@ -20,6 +20,7 @@ export interface iTag {
 interface iDataFromPage {
     tags: iTag[]
     canonical: string
+    title :string
 }
 
 const codeInjector: CodeInjectorFunc = () => {
@@ -43,12 +44,14 @@ const codeInjector: CodeInjectorFunc = () => {
     return {
         tags: tags,
         canonical: canonical,
+        title: document.title
     }
 }
 
 const reportGenerator: ReportGeneratorFunc = (url: string, data: any, report: Report): void => {
     var allTags = (data as iDataFromPage).tags
     const canonical = (data as iDataFromPage).canonical
+    const title = (data as iDataFromPage).title
     let scriptsDone = 0
     let twitterDone = false
     let openGraphDone = false
@@ -56,7 +59,7 @@ const reportGenerator: ReportGeneratorFunc = (url: string, data: any, report: Re
         const selectedTags = allTags.filter(tagCategory.filter)
         allTags = allTags.filter(tag => !selectedTags.includes(tag))
         if (selectedTags.length > 0) {
-            metaTagsCard(allTags, tagCategory, selectedTags, canonical, report)
+            metaTagsCard(allTags, tagCategory, selectedTags, canonical, title, url, report)
             scriptsDone++
             if (tagCategory.title.includes('Twitter')) {
                 twitterDone = true

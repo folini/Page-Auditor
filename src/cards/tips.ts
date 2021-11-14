@@ -95,6 +95,10 @@ const tagExample = (tagLabel: string, platform: string) => {
     return codeBlock(`<meta property="${tagLabel}" content="${exampleTagValue}">`, Mode.html)
 }
 
+export const stdTagsDescription_MinLength = 50
+export const stdTagsDescription_MaxLength = 155
+export const stdTagsTitle_MaxLength = 60
+
 var tipNumber = 1
 
 // ----------------------------------------------------------------------------
@@ -419,8 +423,12 @@ export const tag_REP_redundant = (card: Card, tags: iTag[], redundantValues: str
         `These are the redundant values listed for the tag:`,
         codeBlock(redundantValues.join('<br>'), Mode.txt)
     )
-    const why = tipWhy(`There is no need to specify the default values for the REP (Robots Exclusion Protocol).`,
-        `According to Google documentation, the values <i>${redundantValues.join(', ')}</i> are already set by default, no need to specify them explicitly`)
+    const why = tipWhy(
+        `There is no need to specify the default values for the REP (Robots Exclusion Protocol).`,
+        `According to Google documentation, the values <i>${redundantValues.join(
+            ', '
+        )}</i> are already set by default, no need to specify them explicitly`
+    )
     const how = tipHow(`Remove the listed values, and if nothing else is left, remove the entire meta tag.`)
     card.addTip(
         `Tip #${tipNumber++}: The Value For the <code>${tags[0].label}</code> Meta Tag Is Redundant`,
@@ -430,6 +438,94 @@ export const tag_REP_redundant = (card: Card, tags: iTag[], redundantValues: str
             url: 'https://developers.google.com/search/blog/2007/03/using-robots-meta-tag',
         },
         10
+    )
+}
+
+export const tag_Std_KeywordsIsObsolete = (card: Card, keywordsTag: iTag) => {
+    const what = tipWhat(
+        `This page includes a <code>${keywordsTag.label}</code> Meta tag. This tag is not required anymore and is obsolete.`
+    )
+    const why = tipWhy(
+        `The <code>${keywordsTag.label}</code> Meta tag was abused in the past and stuffed with all sort of unrelated keywords.`,
+        `Because of that all major search engines are now ignoring this tag and the tag itself is considered obsolete.`
+    )
+    const how = tipHow(
+        `Remove the <code>${keywordsTag.label}</code> from the HTML of your page. There will be no direct SEO benefit, but your page will be simpler and smaller.`
+    )
+    card.addTip(
+        `Tip #${tipNumber++}: The <code>${keywordsTag.label}</code> Meta Tag Is Useless and Obsolete.`,
+        [what, why, how],
+        {
+            label: `Google Reference`,
+            url: 'https://developers.google.com/search/blog/2007/03/using-robots-meta-tag',
+        },
+        10
+    )
+}
+
+export const tag_Std_TitleIsTooLong = (card: Card, titleTag: iTag) => {
+    const what = tipWhat(
+        `This page includes a <code>${titleTag.label}</code> Meta tag that is longer than the recommended max of <b>${stdTagsTitle_MaxLength}<b> characters.`
+    )
+    const why = tipWhy(
+        `The <code>${titleTag.label}</code> might be used by Google when returning your page as a result of a search.`,
+        `According to Moz, if the title is longer than ${stdTagsDescription_MaxLength} characters, Google will truncate it or will use a sentence arbitrarily selected from the page content.`
+    )
+    const how = tipHow(
+        `Rewrite the title using less than ${stdTagsDescription_MaxLength} characters and update the <code>${titleTag.label}</code> Meta tag accordingly.`
+    )
+    card.addTip(
+        `Tip #${tipNumber++}: The <code>${titleTag.label}<c/ode> Meta Tag Is Too Long.`,
+        [what, why, how],
+        {
+            label: `Google Reference`,
+            url: 'https://developers.google.com/search/blog/2007/03/using-robots-meta-tag',
+        },
+        25
+    )
+}
+
+export const tag_Std_DescriptionIsTooLong = (card: Card, descriptionTag: iTag) => {
+    const what = tipWhat(
+        `This page includes a <code>${descriptionTag.label}</code> Meta tag that is longer than the recommended max of <b>${stdTagsDescription_MaxLength}<b> characters.`
+    )
+    const why = tipWhy(
+        `The <code>${descriptionTag.label}</code> might be used by Google when returning your page as a result of a search.`,
+        `If the description is longer than ${stdTagsDescription_MaxLength} characters, Google will truncate it or will use a sentence arbitrarily selected from the page content.`
+    )
+    const how = tipHow(
+        `Rewrite teh description using less than ${stdTagsDescription_MaxLength} characters and update the <code>${descriptionTag.label}</code> Meta tag accordingly.`
+    )
+    card.addTip(
+        `Tip #${tipNumber++}: The <code>${descriptionTag.label}<c/ode> Meta Tag Is Too Long.`,
+        [what, why, how],
+        {
+            label: `Google Reference`,
+            url: 'https://developers.google.com/search/blog/2007/03/using-robots-meta-tag',
+        },
+        35
+    )
+}
+
+export const tag_Std_DescriptionIsTooShort = (card: Card, descriptionTag: iTag) => {
+    const what = tipWhat(
+        `This page includes a <code>${descriptionTag.label}</code> Meta tag that is shorter than the recommended minimum of <b>${stdTagsDescription_MinLength}<b> characters.`
+    )
+    const why = tipWhy(
+        `The <code>${descriptionTag.label}</code> might be used by Google when returning your page as a result of a search.`,
+        `If the description is shorter than ${stdTagsDescription_MinLength} characters, Google might use a sentence arbitrarily selected from the page content.`
+    )
+    const how = tipHow(
+        `Rewrite teh description using more than ${stdTagsDescription_MinLength} characters and update the <code>${descriptionTag.label}</code> Meta tag accordingly.`
+    )
+    card.addTip(
+        `Tip #${tipNumber++}: The <code>${descriptionTag.label}</code> Meta Tag Is Too Short.`,
+        [what, why, how],
+        {
+            label: `Google Reference`,
+            url: 'https://developers.google.com/search/blog/2007/03/using-robots-meta-tag',
+        },
+        40
     )
 }
 
@@ -467,7 +563,7 @@ export const tagImage_NoImage = (card: Card, platform: Platform, tag: iTag) => {
         platform === 'Twitter' ? tweeterImageSpecs : facebookImageSpecs
     )
     card.addTip(
-        `Tip #${tipNumber++}: Upload The ${platform} Meta Tag for Image Preview`,
+        `Tip #${tipNumber++}: Upload The Image Preview Meta Tag for ${platform}`,
         [what, why, how],
         'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
         65
