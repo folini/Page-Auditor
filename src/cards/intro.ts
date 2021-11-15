@@ -22,7 +22,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
             .open(``, `How to use Page Auditor for Technical SEO`, 'icon-how')
             .addParagraph(
                 `<i>Page Auditor</i> shows the snippets of code and tags included in the HTML code relevant for the on-page SEO of a web page.<br/>` +
-                    `To test this Chrome Extension, visit a popular page like:` +
+                    `To test this Microsoft Edge and Google Chrome Extension, visit a popular page like:` +
                     `<ul>` +
                     suggestedSites
                         .map(link => `<li><a href='${link.url}' target='_new'>${link.label}</a></li>`)

@@ -92,14 +92,14 @@ const tagExample = (tagLabel: string, platform: string) => {
 export const internalError = (card: Card) => {
     const what = tipWhat(`Something went wrong.`)
     const why = tipWhy(`Something unexpected happened that the Extension was not able to properly manage.`)
-    const how = tipHow(`Consider updating the "Page Auditor" Chrome Extension to the latest version.`)
+    const how = tipHow(`Consider updating the "Page Auditor" Microsoft Edge and Google Chrome Extension to the latest version.`)
     card.addTip(`Update Page Auditor to the latest version`, [what, why, how], robotsTxtReference)
 }
 
-export const unableToAnalyzeChromeBrowserPages = (card: Card) => {
-    const what = tipWhat(`Unable to analyze Chrome browser pages.`)
-    const why = tipWhy(`Google Chrome browser doesn't allow the analysis of internal pages and empty tabs.`)
-    const how = tipHow(`Consider opening any website before opening the "Page Auditor" Chrome Extension`)
+export const unableToAnalyzeBrowserPages = (card: Card) => {
+    const what = tipWhat(`Unable to analyze browser proprietary pages.`)
+    const why = tipWhy(`The browser doesn't allow the analysis of internal pages and empty tabs.`)
+    const how = tipHow(`Consider opening any website before opening the "Page Auditor" Microsoft Edge and Google Chrome Extension`)
     card.addTip(`Open a Regular WebSite or Web Page`, [what, why, how], robotsTxtReference)
 }
 

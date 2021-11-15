@@ -27,7 +27,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, repo
     if (tabUrl === '') {
         const card = Errors.chrome_TabUrlUndefined()
         report.addCard(card)
-        Tips.unableToAnalyzeChromeBrowserPages(card)
+        Tips.unableToAnalyzeBrowserPages(card)
         report.completed()
         return
     }

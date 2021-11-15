@@ -71,7 +71,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
                     `<form action="https://www.paypal.com/donate" method="post" target="_new" style="margin-bottom:0">
                     <input type="hidden" name="business" value="UZ2HN43RZVJGA" />
                     <input type="hidden" name="no_recurring" value="0" />
-                    <input type="hidden" name="item_name" value="Support the development and maintenance of the free 'Page Auditor' Chrome Extension." />
+                    <input type="hidden" name="item_name" value="Support the development and maintenance of the free 'Page Auditor' Microsoft Edge and google Chrome and Extension." />
                     <input type="hidden" name="currency_code" value="USD" />
                     <div class='cta-toolbar'>
                         <input type="submit" name="submit" class='large-btn' value="Donate" border="0" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />

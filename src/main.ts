@@ -92,13 +92,13 @@ async function action(section: SectionType, actions: sectionActions) {
         if (err.message === `Cannot access a chrome:// URL`) {
             const card = Errors.chrome_UnableToAnalyzeTabs()
             report.addCard(card)
-            Tips.unableToAnalyzeChromeBrowserPages(card)
+            Tips.unableToAnalyzeBrowserPages(card)
             report.completed()
         } else {
             const tabUrl = tab?.url || ''
             const card = Errors.chrome_UnableToAnalyzePage(tabUrl)
             report.addCard(card)
-            Tips.unableToAnalyzeChromeBrowserPages(card)
+            Tips.unableToAnalyzeBrowserPages(card)
             report.completed()
         }
     }

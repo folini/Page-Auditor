@@ -13,7 +13,7 @@ export class Errors {
     // ------------------------------------------------------------------------
     // Google Chrome Errors
     public static chrome_UnableToAnalyzeTabs() {
-        const msg1 = `<i>Page Auditor</i> can not run on empty tabs or Chrome internal tabs.`
+        const msg1 = `<i>Page Auditor</i> can not run on empty tabs or browser internal tabs.`
         const msg2 = `Please launch <i>Page Auditor for Technical SEO</i> on a regular web page.`
         return new Card(CardKind.error)
             .setLogo('icon-chromium')
@@ -24,7 +24,7 @@ export class Errors {
     }
 
     public static chrome_TabUrlUndefined() {
-        const msg1 = `The current Chrome tab is undefined.`
+        const msg1 = `The current browser's tab is undefined.`
         const msg2 = `Please re-launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
         return new Card(CardKind.error)
             .setLogo('icon-chromium')
