@@ -59,7 +59,10 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
             new Card(CardKind.report)
                 .open('Credits', `Page Auditor for Technical SEO`, 'icon-fc')
                 .addParagraph(
-                    `<b>Page Auditor for Technical SEO</b> is a free Google Chrome Extension created by <a href='https://www.linkedin.com/in/francofolini/' target='_new'>Franco Folini</a>.
+                    `<b>Page Auditor for Technical SEO</b> is a free Extension for 
+                    <a href='https://www.microsoft.com/en-us/edge' target='_new'>Microsoft Edge</a> and 
+                    <a href='https://www.google.com/chrome/' target='_new'>Google Chrome</a> created by 
+                    <a href='https://www.linkedin.com/in/francofolini/' target='_new'>Franco Folini</a>.
                 <br><br>The purpose of <i>Page Auditor for Technical SEO</i> is to analyze and show, in a way that is simple and easy to understand, all SEO factors that can affect the SEO performance of a website or single webpage.
                 <br><br>When possible, <i>Page Auditor</i> also provides suggestions on how to improve the page SEO and to fix a diagnosed problem.`,
                     'credits'
@@ -93,41 +96,6 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
                             .join('') +
                         `</ul>`
                 )
-        )
-        .addCard(
-            new Card(CardKind.report)
-                .open(``, `How to use Page Auditor for Technical SEO`, 'icon-how')
-                .addParagraph(
-                    `<i>Page Auditor</i> shows the snippets of code and tags included in the HTML code relevant for the on-page SEO of a web page.<br/>` +
-                        `To test this Chrome Extension, visit a popular page like:` +
-                        `<ul>` +
-                        suggestedSites
-                            .map(link => `<li><a href='${link.url}' target='_new'>${link.label}</a></li>`)
-                            .join('') +
-                        `</ul>` +
-                        `Once the browser has loaded the selected page, launch the Page Auditor for Technical SEO extension. ` +
-                        `Now you can access all reports and learn about what contributes to the SEO performance of the page.`
-                )
-                .setPreTitle('Intro')
-        )
-        .addCard(
-            new Card(CardKind.report)
-                .open(``, `Why Page Auditor`, 'icon-why')
-                .addParagraph(
-                    `<b>Page Auditor</b> r is a professional tool for Digital Marketers. Even if you are not a marketing expert, you can use "Page Auditor" to learn about on-page technical SEO.`
-                )
-                .addParagraph(
-                    `<b>Page Auditor</b> can recognize <b>${scriptClasses.length.toFixed()}</b> different types of JavaScript code injected into a web page.
-                        Among the categories of JavaScript identified by <b>Page Auditor</b>:
-                        <ul>
-                            <li>Advertising</li>
-                            <li>Tracking</li>
-                            <li>Email &amp; Marketing Automation</li>
-                            <li>Analytics</li>
-                            <li>Tag Managers</li>
-                        </ul>`
-                )
-                .setPreTitle('Intro')
         )
         .addCard(
             new Card(CardKind.report)

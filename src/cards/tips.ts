@@ -54,15 +54,7 @@ const metaTagsReference: iLink = {
     url: 'https://moz.com/blog/the-ultimate-guide-to-seo-meta-tags',
 }
 
-const tweeterImageSpecs =
-    'Images must be less than 5MB in size. JPG, PNG, WEBP and GIF formats are supported. Only the first frame of an animated GIF will be used. SVG is not supported.'
-
-const facebookImageSpecs = `The most frequently recommended resolution for an OG image is 1200 pixels x 627 pixels (1.91/1 ratio). At this size, your thumbnail will be big and stand out from the crowd. Just don't exceed the 5MB size limit.`
-
-const criticalOpenGraphTags = ['og:title', 'og:description', 'og:image', 'og:url']
-const criticalTwitterTags = ['twitter:title', 'twitter:description', 'twitter:image']
-
-const tagIsCritical = (tag: string) => criticalOpenGraphTags.includes(tag) || criticalTwitterTags.includes(tag)
+const tagIsCritical = (tag: string) => specs.openGraphTags.recommendedTags.includes(tag) || specs.openGraphTags.recommendedTags.includes(tag)
 
 const tipWhat = (...msg: string[]) => tipWhatWhyHow(`What's Wrong?`, ...msg)
 
@@ -469,7 +461,7 @@ export const tag_Std_TitleIsTooLong = (card: Card, titleTag: iTag) => {
         `Rewrite the title using less than ${specs.stdTags.Title.MaxLen} characters and update the <code>${titleTag.label}</code> Meta tag accordingly.`
     )
     card.addTip(
-        `The <code>${titleTag.label}<c/ode> Meta Tag Is Too Long.`,
+        `The <code>${titleTag.label}</code> Meta Tag Is Too Long.`,
         [what, why, how],
         {
             label: `Google Reference`,
@@ -534,7 +526,7 @@ export const tagImage_NoTag = (card: Card, platform: Platform, tag: string) => {
         `Add the missing tag.`,
         `This is an example of the ${platform} Meta Tag that should be added:`,
         codeBlock(`<meta property="${tag}" content="https://www.example.com/my_image.jpg">`, Mode.html),
-        platform === 'Twitter' ? tweeterImageSpecs : facebookImageSpecs
+        platform === 'Twitter' ? specs.twitterTags.imageSpecsTextual : specs.openGraphTags.imageSpecsTextual
     )
     card.addTip(
         `Add the Meta Tag <code>${tag}</code> for Image Preview`,
@@ -554,7 +546,7 @@ export const tagImage_NoImage = (card: Card, platform: Platform, tag: iTag) => {
     )
     const how = tipHow(
         `Upload the missing image or fix the url to maximize the visual impact on ${platform} of every posts about this page.`,
-        platform === 'Twitter' ? tweeterImageSpecs : facebookImageSpecs
+        platform === 'Twitter' ? specs.twitterTags.imageSpecsTextual : specs.openGraphTags.imageSpecsTextual
     )
     card.addTip(
         `Upload The Image Preview Meta Tag for ${platform}`,
@@ -576,7 +568,7 @@ export const tagImage_Placeholder = (card: Card, platform: Platform, tag: iTag) 
     )
     const how = tipHow(
         `Upload an image to maximize the visual impact of posts on ${platform} sharing this page.`,
-        platform === 'Twitter' ? tweeterImageSpecs : facebookImageSpecs
+        platform === 'Twitter' ? specs.twitterTags.imageSpecsTextual : specs.openGraphTags.imageSpecsTextual
     )
     card.addTip(
         `Replace the Image Preview Placeholder in <code>${tag.label}</code>`,
@@ -774,8 +766,8 @@ export const tag_noOpenGraphTags = (card: Card) => {
             `They provide recommendation to Twitter for title, image, and descriptions.`
     )
     const how = tipHow(
-        `Add at least the most critical Open Graph meta tags to the page.`,
-        codeBlock(criticalOpenGraphTags.join('\n'), Mode.txt)
+        `Add at least the following most critical Open Graph meta tags to the page.`,
+        codeBlock(specs.openGraphTags.recommendedTags.join('\n'), Mode.txt)
     )
     card.addTip(
         `Add Facebook (Open Graph) Meta Tags to the Page`,
@@ -793,8 +785,8 @@ export const tag_noTwitterTags = (card: Card) => {
             `They provide recommendation to Twitter for title, image, and descriptions.`
     )
     const how = tipHow(
-        `Add at least the most critical Twitter meta tags to the page.`,
-        codeBlock(criticalTwitterTags.join('\n'), Mode.txt)
+        `Add at least the following most critical Twitter meta tags to the page.`,
+        codeBlock(specs.twitterTags.recommendedTags.join('\n'), Mode.txt)
     )
     card.addTip(
         `Add Twitter Meta Tags to the Page`,
