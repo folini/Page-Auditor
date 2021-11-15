@@ -4,8 +4,7 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {actions} from '../src/cards/robots'
-import * as RobotFunctions from '../src/cards/robots-functions'
+import {actions} from '../src/cards/rtsm'
 import * as MockData from './mock-data.test'
 import * as main from '../src/main'
 

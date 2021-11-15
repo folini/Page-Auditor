@@ -5,12 +5,14 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Report} from '../report'
-import {sectionActions, ReportGeneratorFunc, textContentType} from '../main'
-import {createSiteMapCards, readFile, processRobotsTxt, sitemapUrlsFromRobotsTxt} from './robots-functions'
+import {sectionActions, ReportGeneratorFunc} from '../main'
+import * as File from '../file'
+import * as SiteMaps from './rtsm-sitemapxml'
 import {Errors} from './errors'
 import {Info} from './info'
 import {iSmCandidate, SmList, SmSource} from '../sitemapList'
 import * as Tips from './tips'
+import {processRobotsTxt} from './rtsm-robotstxt'
 
 const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Report): void => {
     if (tabUrl === '') {
@@ -35,7 +37,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
     const sitemaps = new SmList()
     sitemaps.addToDo([defaultSitemap])
 
-    readFile(defaultRobotsUrl, textContentType)
+    File.read(defaultRobotsUrl, File.textContentType)
         .then(robotsTxtBody => {
             processRobotsTxt(robotsTxtBody, defaultRobotsUrl, report)
             const newSm = sitemapUrlsFromRobotsTxt(robotsTxtBody)
@@ -46,7 +48,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
             report.addCard(card)
             Tips.missingRobotsTxt(card)
         })
-        .then(() => createSiteMapCards(sitemaps, report))
+        .then(() => SiteMaps.createSiteMapCards(sitemaps, report))
         .then(p => {
             Promise.allSettled(p).then(() => {
                 if (sitemaps.doneList.length === 0) {
@@ -70,3 +72,11 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
 export const actions: sectionActions = {
     reportGenerator: reportGenerator,
 }
+
+export const sitemapUrlsFromRobotsTxt = (robotsTxtBody: string): iSmCandidate[] =>
+    robotsTxtBody
+        .split('\n')
+        .filter(line => line.startsWith('Sitemap: '))
+        .map(line => line.split(': ')[1].trim())
+        .filter(line => line.length > 0)
+        .map(url => ({url: url, source: SmSource.RobotsTxt}))

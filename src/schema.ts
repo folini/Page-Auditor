@@ -6,8 +6,8 @@
 // ----------------------------------------------------------------------------
 import {getLanguage, isLanguage} from './language-code'
 import {Card, iLink} from './card'
-import {fileExists, imageContentType} from './main'
 import * as Tips from './cards/tips'
+import * as File from "./file"
 
 export interface iJsonLD {
     [name: string | '@type' | '@id']: string | string[] | iJsonLD[] | iJsonLD
@@ -124,14 +124,15 @@ export class Schema {
             .map(link => `<a class='small-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
             .join('')
 
-            const labelOpenClosed = 
-                this.#firstBoxDone && !Schema.#referenceBlocks ? `label-open` : `label-close` + (Schema.#referenceBlocks ? ` label-reference` : '')
-            const bodyOpenClosed = 
-                this.#firstBoxDone && !Schema.#referenceBlocks ? `body-open` : `body-close`
+            const blockIsOpen = this.#firstBoxDone && !Schema.#referenceBlocks
+            const labelOpenClosed = blockIsOpen ? ` label-open` : ` label-close`
+            const labelReference = Schema.#referenceBlocks ? ` label-reference` : ''
+            const labelShowIcon = this.#firstBoxDone ? ' label-json-no-icon' : ' label-json-icon'
+            const bodyOpenClosed = blockIsOpen ? ` body-open` : ` body-close`
 
             let openStr = 
             `<div class='sd-box'>` +
-            `<div class='sd-box-label ${labelOpenClosed}'>${label}${linksHtml}</div>` +
+            `<div class='sd-box-label ${labelOpenClosed}${labelShowIcon}${labelReference}'><span class='label-text'>${label}${linksHtml}</span></div>` +
             `<div class='sd-box-body ${bodyOpenClosed}'>`
         this.#firstBoxDone = true
 
@@ -311,7 +312,7 @@ export class Schema {
             src = `../logos/_noRendering_400x200.png`
         }
 
-        fileExists(src, imageContentType).catch(_ => Tips.sd_ImageNotFound(this.#cardPromise!, src, label, typeName))
+        File.exists(src, File.imageContentType).catch(() => Tips.sd_ImageNotFound(this.#cardPromise!, src, label, typeName))
 
         return (
             `<div class='sd-description-line'>` +

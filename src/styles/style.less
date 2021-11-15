@@ -12,7 +12,7 @@
     font-style: normal;
     font-weight: 400;
     font-display: block;
-    src: url('http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.ttf?v=4.3.0');
+    src: url('http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.ttf?v=4.7.0');
 }
 
 @keyframes spinner {
@@ -359,12 +359,8 @@ body#id-page-auditor {
             .table-container {
                 .table-title {
                     &::after {
-                        font-family: 'FontAwesome';
-                        content: '\f002';
-                        float: right;
-                        font-size: 20px;
-                        margin-right: 4px;
-                        margin-top: -2px;
+                        content: '\f013';
+                        color: #004b80;
                     }
                 }
                 table.card-table {
@@ -384,6 +380,10 @@ body#id-page-auditor {
 
                             + td {
                                 border-left: solid 1px var(--border-color-light);
+
+                                .small-btn {
+                                    float: none;
+                                }
                             }
                         }
                     }
@@ -401,6 +401,10 @@ body#id-page-auditor {
         }
 
         .code-box {
+            .code-label::after {
+                content: '\f1c9';
+                color: #06620d;
+            }
             .code-body {
                 padding: 8px;
             }
@@ -411,16 +415,9 @@ body#id-page-auditor {
         cursor: pointer;
 
         .box-label {
-            //background: linear-gradient(90deg, #1da1f2, #f0f0f0, #1da1f2);
-            background-color: #1da1f2e6;
-            color: #fff;
             &:after {
-                font-family: 'FontAwesome';
+                color: #1da1f2e6;
                 content: '\f099';
-                float: right;
-                font-size: 22px;
-                margin-top: -2px;
-                margin-right: 2px;
             }
         }
         .preview-img {
@@ -449,16 +446,9 @@ body#id-page-auditor {
 
     .facebook-card {
         .box-label {
-            //background: linear-gradient(90deg, #4267b2, #f0f0f0, #4267b2);
-            background-color: #4267b2e6;
-            color: #fff;
             &:after {
-                font-family: 'FontAwesome';
+                color: #4267b2e6;
                 content: '\f230';
-                float: right;
-                font-size: 22px;
-                margin-top: -2px;
-                margin-right: 2px;
             }
         }
         .preview-img {
@@ -489,35 +479,35 @@ body#id-page-auditor {
 
     .serp-card {
         .box-label {
-            background-color: #3a9736;
-            color: #fff;
             &:after {
-                font-family: 'FontAwesome';
+                color: #058300;
                 content: '\f1a0';
-                float: right;
-                font-size: 22px;
-                margin-top: -2px;
-                margin-right: 2px;
             }
         }
         .box-body {
-            padding: 16px;
+            padding: 12px;
 
-            .serp-card-url {
-                font-size: 14px;
-                color: #202124;
-                padding: 1px 0 2px 0;
-            }
-            .serp-card-title {
-                color: #1a0dab;
-                font-size: 20px;
-                padding: 5px 0 0 0;
-            }
-            .serp-card-description {
-                font-size: 14px;
-                color: #4d5156;
-                line-height: 22.12px;
-                font-weight: 400;
+            .serp-body {
+                padding: 8px;
+                border: solid 1px var(--border-color);
+                box-shadow: var(--inner-box-shadow);
+
+                .serp-card-url {
+                    font-size: 14px;
+                    color: #202124;
+                    padding: 1px 0 2px 0;
+                }
+                .serp-card-title {
+                    color: #1a0dab;
+                    font-size: 20px;
+                    padding: 5px 0 0 0;
+                }
+                .serp-card-description {
+                    font-size: 14px;
+                    color: #4d5156;
+                    line-height: 22.12px;
+                    font-weight: 400;
+                }
             }
         }
     }
@@ -1299,17 +1289,19 @@ body#id-page-auditor {
 .sd-box {
     margin: 8px 0;
 
-    .sd-box-label.label-reference {
-        background-color: #008b8b3d;
-        &::after {
-            content: 'Reference';
-            font-weight: normal;
-            padding: 0px 8px;
-            border-radius: 2px;
-            margin-left: 4px;
-            border: solid 1px #888;
-            opacity: 1;
-            font-size: 0.9em;
+    .sd-box-label {
+        &.label-reference {
+            background-color: #008b8b3d;
+            .label-text::before {
+                content: 'Reference To ';
+            }
+        }
+        &.label-json-icon::after {
+            content: '\f0e8';
+            color: cadetblue;
+        }
+        &.label-json-no-icon {
+            padding-right: 8px;
         }
     }
     .sd-box {
@@ -1322,6 +1314,11 @@ body#id-page-auditor {
         .label-open {
             border-right: 0 !important;
             border-top-right-radius: 0 !important;
+        }
+        .label-close {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-right: none;
         }
     }
 
@@ -1380,7 +1377,7 @@ body#id-page-auditor {
 .label-open {
     padding-left: 2.2em !important;
     background-color: #f0f0f0;
-    padding: 8px 6px;
+    padding: 8px 32px 8px 6px;
     font-size: 14px;
     position: relative;
     border: solid 1px var(--border-color);
@@ -1390,6 +1387,17 @@ body#id-page-auditor {
         &::before {
             opacity: 1;
         }
+    }
+
+    &::after {
+        font-family: 'FontAwesome';
+        position: absolute;
+        font-size: 22px;
+        right: 4px;
+        top: 6px;
+        color: var(--color-black);
+        width: 22px;
+        text-align: center;
     }
 }
 
@@ -1438,23 +1446,29 @@ body#id-page-auditor {
     margin-bottom: 16px;
 
     .tip-title {
-        background-color: #fddeb599;
+        background-color: #fddeb54d;
         &:after {
-            font-family: 'FontAwesome';
             content: '\f0eb';
-            float: right;
-            font-size: 22px;
-            margin-top: -3px;
-            margin-right: 4px;
+            color: #9f8600;
         }
         code {
             background-color: transparent !important;
+            font-family: var(--body-font-family);
+            font-style: italic;
+
+            &::before {
+                content: '"';
+            }
+
+            &::after {
+                content: '"';
+            }
         }
     }
 
     .tip-body {
         padding: 16px;
-        background-color: #fff; //#fce9d12b;
+        background-color: #fff;
         padding-bottom: 16px;
         position: relative;
 

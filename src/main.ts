@@ -17,19 +17,15 @@ import {version as versionNumber} from '../package.json'
 import * as JsonLd from './cards/sd'
 import * as Scripts from './cards/scripts'
 import * as Credits from './cards/about'
-import * as Meta from './cards/meta-tags'
-import * as Robots from './cards/robots'
+import * as Meta from './cards/mt'
+import * as Robots from './cards/rtsm'
 import * as Tips from './cards/tips'
 import * as Spinner from './spinner'
 import * as Todo from './todo'
-import {resolve} from 'path/posix'
-import {rejects} from 'assert'
 
 export type NoArgsNoReturnFunc = () => void
 export type CodeInjectorFunc = () => any
 export type ReportGeneratorFunc = (url: string, data: any, report: Report) => void
-
-export const sitemapMaxSize = 5 * 1024 * 1024
 
 export type sectionActions = {
     codeInjector?: CodeInjectorFunc
@@ -173,22 +169,13 @@ document.addEventListener('DOMContentLoaded', () => {
         reportPromise.push(action(section, section.actions))
     })
 
-    Promise.all(reportPromise).then(() => enableTodo())
+    Promise.all(reportPromise).then(() => enableTodoBtn())
     ;(document.getElementById('id-version') as HTMLElement).innerHTML = `Ver. ${versionNumber}`
 })
 
 export const formatNumber = (num: number) => num.toLocaleString(undefined, {maximumFractionDigits: 0})
 
-export const fileExists = (url: string, contentTypes: ContentType[]) =>
-    fetch(url, {
-        method: 'HEAD',
-        cache: 'no-store',
-        headers: contentTypes.map(cType => ['Content-Type', cType]),
-    }).then(r => {
-        return (r.status === 200 || r.status === 406? Promise.resolve(true) : Promise.reject())
-    })
-
-const enableTodo = () => {
+const enableTodoBtn = () => {
     chrome.tabs.query({active: true, currentWindow: true}).then(tabs => {
         const btn = document.getElementById('btn-todo') as HTMLButtonElement
         btn.style.display = 'block'
@@ -196,22 +183,3 @@ const enableTodo = () => {
     })
 }
 
-export type ContentType =
-    | 'application/json'
-    | 'application/xml'
-    | 'application/html'
-    | 'text/json'
-    | 'text/xml'
-    | 'text/html'
-    | 'text/plain'
-    | 'image/jpeg'
-    | 'image/pjpeg'
-    | 'image/gif'
-    | 'image/png'
-    | 'image/webp'
-
-export const imageContentType: ContentType[] = ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png', 'image/webp']
-export const xmlContentType: ContentType[] = ['application/xml', 'text/xml', ]
-export const htmlContentType: ContentType[] = ['application/html', 'text/html']
-export const jsonContentType: ContentType[] = ['application/json', 'text/json']
-export const textContentType: ContentType[] = ['text/plain']

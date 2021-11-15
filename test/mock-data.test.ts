@@ -5,9 +5,10 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {htmlEncode} from 'js-htmlencode'
-import {iTag} from '../src/cards/meta-tags'
-import {noPreview, iTagCategory} from '../src/cards/meta-tags-functions'
+import {iTag} from '../src/cards/mt'
+import {iTagCategory} from '../src/cards/mt-categories'
 import {Card} from '../src/card'
+import * as Previewer from "../src/cards/mt-previewer"
 
 // Jest imports
 import 'jest-get-type'
@@ -179,7 +180,7 @@ export const MetaTagCategorySample: iTagCategory = {
     url: '',
     cssClass: 'icon-tag',
     filter: m => true,
-    previewer: noPreview,
+    previewer: Previewer.noPreview,
 }
 
 export const JavaScriptsArraySample = [

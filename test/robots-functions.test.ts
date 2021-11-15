@@ -5,7 +5,6 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 
-import {robotsToolbarLinks, getSitemapToolbarLinks} from '../src/cards/robots-functions'
 import * as main from '../src/main'
 import * as MockData from './mock-data.test'
 
@@ -68,20 +67,6 @@ describe('getSiteMaps() and getRobotsTxt()', () => {
     //         expect(true).toBeFalse()
     //     }
     // })
-})
-
-test('getRobotsLinks() generates valid array with 2 objects', async () => {
-    const data = robotsToolbarLinks(MockData.RobotsTxtUrlSample, '')
-    expect(data).toBeArray()
-    expect(data.length).toBe(2)
-    data.forEach(item => expect(item).toBeObject())
-})
-
-test('getSitemapLinks() generates valid array with 2 objects', async () => {
-    const data = getSitemapToolbarLinks(MockData.SitemapUrlSample, '')
-    expect(data).toBeArray()
-    expect(data.length).toBe(2)
-    data.forEach(item => expect(item).toBeObject())
 })
 
 // test('extractSiteMapUrls() gets the urls', async () => {

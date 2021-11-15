@@ -31,7 +31,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url('http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/fonts/fontawesome-webfont.ttf?v=4.3.0');
+  src: url('http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/fonts/fontawesome-webfont.ttf?v=4.7.0');
 }
 @keyframes spinner {
   0% {
@@ -337,12 +337,8 @@ body#id-page-auditor .box-card .card-body code {
   padding: 0 4px;
 }
 body#id-page-auditor .box-card .card-body .table-container .table-title::after {
-  font-family: 'FontAwesome';
-  content: '\f002';
-  float: right;
-  font-size: 20px;
-  margin-right: 4px;
-  margin-top: -2px;
+  content: '\f013';
+  color: #004b80;
 }
 body#id-page-auditor .box-card .card-body .table-container table.card-table {
   background-color: var(--color-bright-white);
@@ -361,6 +357,9 @@ body#id-page-auditor .box-card .card-body .table-container table.card-table tr t
 body#id-page-auditor .box-card .card-body .table-container table.card-table tr td + td {
   border-left: solid 1px var(--border-color-light);
 }
+body#id-page-auditor .box-card .card-body .table-container table.card-table tr td + td .small-btn {
+  float: none;
+}
 body#id-page-auditor .box-card .card-footer {
   padding: 8px;
   border-top: solid 1px var(--border-color);
@@ -369,23 +368,19 @@ body#id-page-auditor .box-card .card-footer {
 body#id-page-auditor .box-card .card-footer .cta-toolbar {
   text-align: center !important;
 }
+body#id-page-auditor .box-card .code-box .code-label::after {
+  content: '\f1c9';
+  color: #06620d;
+}
 body#id-page-auditor .box-card .code-box .code-body {
   padding: 8px;
 }
 body#id-page-auditor .twitter-card {
   cursor: pointer;
 }
-body#id-page-auditor .twitter-card .box-label {
-  background-color: #1da1f2e6;
-  color: #fff;
-}
 body#id-page-auditor .twitter-card .box-label:after {
-  font-family: 'FontAwesome';
+  color: #1da1f2e6;
   content: '\f099';
-  float: right;
-  font-size: 22px;
-  margin-top: -2px;
-  margin-right: 2px;
 }
 body#id-page-auditor .twitter-card .preview-img {
   width: 100%;
@@ -409,17 +404,9 @@ body#id-page-auditor .twitter-card .preview-legend .twitter-card-description {
   font-size: 15px;
   color: #536471;
 }
-body#id-page-auditor .facebook-card .box-label {
-  background-color: #4267b2e6;
-  color: #fff;
-}
 body#id-page-auditor .facebook-card .box-label:after {
-  font-family: 'FontAwesome';
+  color: #4267b2e6;
   content: '\f230';
-  float: right;
-  font-size: 22px;
-  margin-top: -2px;
-  margin-right: 2px;
 }
 body#id-page-auditor .facebook-card .preview-img {
   width: 100%;
@@ -444,32 +431,29 @@ body#id-page-auditor .facebook-card .preview-legend .og-description {
   color: #b0b3b8;
   line-height: 16.08px;
 }
-body#id-page-auditor .serp-card .box-label {
-  background-color: #3a9736;
-  color: #fff;
-}
 body#id-page-auditor .serp-card .box-label:after {
-  font-family: 'FontAwesome';
+  color: #058300;
   content: '\f1a0';
-  float: right;
-  font-size: 22px;
-  margin-top: -2px;
-  margin-right: 2px;
 }
 body#id-page-auditor .serp-card .box-body {
-  padding: 16px;
+  padding: 12px;
 }
-body#id-page-auditor .serp-card .box-body .serp-card-url {
+body#id-page-auditor .serp-card .box-body .serp-body {
+  padding: 8px;
+  border: solid 1px var(--border-color);
+  box-shadow: var(--inner-box-shadow);
+}
+body#id-page-auditor .serp-card .box-body .serp-body .serp-card-url {
   font-size: 14px;
   color: #202124;
   padding: 1px 0 2px 0;
 }
-body#id-page-auditor .serp-card .box-body .serp-card-title {
+body#id-page-auditor .serp-card .box-body .serp-body .serp-card-title {
   color: #1a0dab;
   font-size: 20px;
   padding: 5px 0 0 0;
 }
-body#id-page-auditor .serp-card .box-body .serp-card-description {
+body#id-page-auditor .serp-card .box-body .serp-body .serp-card-description {
   font-size: 14px;
   color: #4d5156;
   line-height: 22.12px;
@@ -1245,15 +1229,15 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
 .sd-box .sd-box-label.label-reference {
   background-color: #008b8b3d;
 }
-.sd-box .sd-box-label.label-reference::after {
-  content: 'Reference';
-  font-weight: normal;
-  padding: 0px 8px;
-  border-radius: 2px;
-  margin-left: 4px;
-  border: solid 1px #888;
-  opacity: 1;
-  font-size: 0.9em;
+.sd-box .sd-box-label.label-reference .label-text::before {
+  content: 'Reference To ';
+}
+.sd-box .sd-box-label.label-json-icon::after {
+  content: '\f0e8';
+  color: cadetblue;
+}
+.sd-box .sd-box-label.label-json-no-icon {
+  padding-right: 8px;
 }
 .sd-box .sd-box {
   margin-top: 16px !important;
@@ -1265,6 +1249,11 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
 .sd-box .sd-box .label-open {
   border-right: 0 !important;
   border-top-right-radius: 0 !important;
+}
+.sd-box .sd-box .label-close {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: none;
 }
 .sd-box .sd-box-body {
   padding: 8px 0 8px 8px;
@@ -1316,7 +1305,7 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
 .label-open {
   padding-left: 2.2em !important;
   background-color: #f0f0f0;
-  padding: 8px 6px;
+  padding: 8px 32px 8px 6px;
   font-size: 14px;
   position: relative;
   border: solid 1px var(--border-color);
@@ -1325,6 +1314,17 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
 .label-close:hover::before,
 .label-open:hover::before {
   opacity: 1;
+}
+.label-close::after,
+.label-open::after {
+  font-family: 'FontAwesome';
+  position: absolute;
+  font-size: 22px;
+  right: 4px;
+  top: 6px;
+  color: var(--color-black);
+  width: 22px;
+  text-align: center;
 }
 .label-close {
   border-radius: 6px;
@@ -1367,18 +1367,22 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
   margin-bottom: 16px;
 }
 .card-tip .tip-title {
-  background-color: #fddeb599;
+  background-color: #fddeb54d;
 }
 .card-tip .tip-title:after {
-  font-family: 'FontAwesome';
   content: '\f0eb';
-  float: right;
-  font-size: 22px;
-  margin-top: -3px;
-  margin-right: 4px;
+  color: #9f8600;
 }
 .card-tip .tip-title code {
   background-color: transparent !important;
+  font-family: var(--body-font-family);
+  font-style: italic;
+}
+.card-tip .tip-title code::before {
+  content: '"';
+}
+.card-tip .tip-title code::after {
+  content: '"';
 }
 .card-tip .tip-body {
   padding: 16px;

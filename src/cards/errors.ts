@@ -57,7 +57,7 @@ export class Errors {
                 : `While checking for a sitemap listed in a sitemap-index in your website`
         const msg1 = `${preMsg} we found a syntactically invalid <code>Sitemap.xml</code> file. The url is:`
         const msg2 = `It's an HTML page, likely a standard redirect for non-existent pages.`
-        const btnLabel = `Invalid Sitemap`
+        const btnLabel = `Invalid Sitemap.xml`
         return new Card(CardKind.error)
             .setLogo('icon-sitemap')
             .addParagraph(msg1)
@@ -76,7 +76,7 @@ export class Errors {
             .addParagraph(msg1)
             .addCodeBlock(sm.url, Mode.txt)
             .addParagraph(msg2)
-            .setTitle('Sitemap.xml Not Found, code 404')
+            .setTitle('Sitemap.xml Not Found, Code 404')
             .tag('card-error')
     }
 
@@ -98,7 +98,7 @@ export class Errors {
     public static robotsTxt_IsARedirect(url: string, code: string) {
         const msg1 = `Found a syntactically invalid <code>Robots.Txt</code> file at the url:`
         const msg2 = `It's an HTML page, likely a standard redirect for non-existent pages.`
-        const btnLabel = `Robots.Txt`
+        const btnLabel = `Invalid Robots.Txt`
         return new Card(CardKind.error)
             .setLogo('icon-rep')
             .addParagraph(msg1)

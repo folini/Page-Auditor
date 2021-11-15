@@ -6,8 +6,11 @@
 // ----------------------------------------------------------------------------
 import * as Tips from './tips'
 import {Report} from '../report'
+import {Card, CardKind, iLink} from "../card"
+import {codeBlock} from '../codeBlock'
+import {Mode} from '../colorCode'
 import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../main'
-import {tagCategories, metaTagsCard} from './meta-tags-functions'
+import {tagCategories, iTagCategory} from './mt-categories'
 import {Errors} from './errors'
 
 export interface iTag {
@@ -95,4 +98,50 @@ const reportGenerator: ReportGeneratorFunc = (url: string, data: any, report: Re
 export const actions: sectionActions = {
     codeInjector: codeInjector,
     reportGenerator: reportGenerator,
+}
+
+export const metaTagsCard = (
+    allTags: iTag[],
+    tagCategory: iTagCategory,
+    selectedTags: iTag[],
+    canonical: string,
+    title: string,
+    url: string,
+    report: Report
+) => {
+    if (selectedTags.length === 0) {
+        const card = Errors.internal_NoMetaTagsInThisCategory(tagCategory.title)
+        report.addCard(card)
+        Tips.unableToAnalyzeChromeBrowserPages(card)
+        return
+    }
+
+    const listOfMeta = selectedTags.map(m => m.code.trim()).join('\n')
+
+    let table = selectedTags.map(tag => {
+        if(tag.label === 'twitter:creator' || tag.label === 'twitter:site') {
+            return {label: tag.label, value: `<a href='https://twitter.com/${tag.value.substr(1)}'>${tag.value}</a>`}
+        }
+        return {label: tag.label, value: tag.value}
+    }).map(tag => [tag.label, tag.value])
+    if (tagCategory.url.length > 0) {
+        table = [
+            ['Reference', `<a class='small-btn' style='float:none' href='${tagCategory.url}' target='_blank'>${tagCategory.title} Reference</a>`],
+            ...table
+        ]
+    }
+
+    const card = new Card(CardKind.report)
+        .open(`Detected Meta Tags`, tagCategory.title, tagCategory.cssClass)
+        .addParagraph(tagCategory.description)
+        .addTable(`Tags Analysis`, table)
+        .addExpandableBlock('HTML Code', codeBlock(listOfMeta, Mode.html))
+        .tag('card-ok')
+
+    tagCategory.previewer(card, selectedTags, allTags, canonical, title, url)
+    if (tagCategory.validator) {
+        tagCategory.validator(card, allTags, selectedTags, canonical)
+    }
+
+    report.addCard(card)
 }

@@ -4,13 +4,13 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {iTag} from './meta-tags'
+import {iTag} from './mt'
 import {codeBlock} from '../codeBlock'
 import {Card, iLink} from '../card'
-import {sitemapMaxSize} from '../main'
 import {Mode} from '../colorCode'
 import {formatNumber} from '../main'
 import {SmSource} from '../sitemapList'
+import { specs} from "./specs"
 
 export type Platform = 'Twitter' | 'Facebook' | 'Instagram' | 'LinkedIn' | 'YouTube' | 'Reddit'
 
@@ -94,11 +94,6 @@ const tagExample = (tagLabel: string, platform: string) => {
     }
     return codeBlock(`<meta property="${tagLabel}" content="${exampleTagValue}">`, Mode.html)
 }
-
-export const stdTagsDescription_MinLength = 50
-export const stdTagsDescription_MaxLength = 155
-export const stdTagsTitle_MaxLength = 60
-
 
 // ----------------------------------------------------------------------------
 // INTERNAL ERROR TIPS
@@ -280,7 +275,7 @@ export const uncompressedLargeSitemap = (card: Card, url: string, size: number) 
     )
     const why = tipWhy(
         `While Google and Bing can easily handle <code>sitemap.xml</code> files up to 50 Mb in uncompressed size,`,
-        `the recommended maximum size for uncompressed files is ${formatNumber(sitemapMaxSize / 1024 / 1024)} MB.`,
+        `the recommended maximum size for uncompressed files is ${formatNumber(specs.siteMap.RecommendedMaxUncompressedSize / 1024 / 1024)} MB.`,
         `Compressed sitemap reduce the load on the website server and speedup upload and download of the file. ` +
             `However, there are no SEO direct benefits in compressing a sitemap.`
     )
@@ -464,14 +459,14 @@ export const tag_Std_KeywordsIsObsolete = (card: Card, keywordsTag: iTag) => {
 
 export const tag_Std_TitleIsTooLong = (card: Card, titleTag: iTag) => {
     const what = tipWhat(
-        `This page includes a <code>${titleTag.label}</code> Meta tag that is longer than the recommended max of <b>${stdTagsTitle_MaxLength}<b> characters.`
+        `This page includes a <code>${titleTag.label}</code> Meta tag that is longer than the recommended max of <b>${specs.stdTags.Title.MaxLen}<b> characters.`
     )
     const why = tipWhy(
         `The <code>${titleTag.label}</code> might be used by Google when returning your page as a result of a search.`,
-        `According to Moz, if the title is longer than ${stdTagsDescription_MaxLength} characters, Google will truncate it or will use a sentence arbitrarily selected from the page content.`
+        `According to Moz, if the title is longer than ${specs.stdTags.Title.MaxLen} characters, Google will truncate it or will use a sentence arbitrarily selected from the page content.`
     )
     const how = tipHow(
-        `Rewrite the title using less than ${stdTagsDescription_MaxLength} characters and update the <code>${titleTag.label}</code> Meta tag accordingly.`
+        `Rewrite the title using less than ${specs.stdTags.Title.MaxLen} characters and update the <code>${titleTag.label}</code> Meta tag accordingly.`
     )
     card.addTip(
         `The <code>${titleTag.label}<c/ode> Meta Tag Is Too Long.`,
@@ -486,14 +481,14 @@ export const tag_Std_TitleIsTooLong = (card: Card, titleTag: iTag) => {
 
 export const tag_Std_DescriptionIsTooLong = (card: Card, descriptionTag: iTag) => {
     const what = tipWhat(
-        `This page includes a <code>${descriptionTag.label}</code> Meta tag that is longer than the recommended max of <b>${stdTagsDescription_MaxLength}<b> characters.`
+        `This page includes a <code>${descriptionTag.label}</code> Meta tag that is longer than the recommended max of <b>${specs.stdTags.Desc.MaxLen}<b> characters.`
     )
     const why = tipWhy(
         `The <code>${descriptionTag.label}</code> might be used by Google when returning your page as a result of a search.`,
-        `If the description is longer than ${stdTagsDescription_MaxLength} characters, Google will truncate it or will use a sentence arbitrarily selected from the page content.`
+        `If the description is longer than ${specs.stdTags.Desc.MaxLen} characters, Google will truncate it or will use a sentence arbitrarily selected from the page content.`
     )
     const how = tipHow(
-        `Rewrite teh description using less than ${stdTagsDescription_MaxLength} characters and update the <code>${descriptionTag.label}</code> Meta tag accordingly.`
+        `Rewrite teh description using less than ${specs.stdTags.Desc.MaxLen} characters and update the <code>${descriptionTag.label}</code> Meta tag accordingly.`
     )
     card.addTip(
         `The <code>${descriptionTag.label}<c/ode> Meta Tag Is Too Long.`,
@@ -508,14 +503,14 @@ export const tag_Std_DescriptionIsTooLong = (card: Card, descriptionTag: iTag) =
 
 export const tag_Std_DescriptionIsTooShort = (card: Card, descriptionTag: iTag) => {
     const what = tipWhat(
-        `This page includes a <code>${descriptionTag.label}</code> Meta tag that is shorter than the recommended minimum of <b>${stdTagsDescription_MinLength}<b> characters.`
+        `This page includes a <code>${descriptionTag.label}</code> Meta tag that is shorter than the recommended minimum of <b>${specs.stdTags.Desc.MinLen}<b> characters.`
     )
     const why = tipWhy(
         `The <code>${descriptionTag.label}</code> might be used by Google when returning your page as a result of a search.`,
-        `If the description is shorter than ${stdTagsDescription_MinLength} characters, Google might use a sentence arbitrarily selected from the page content.`
+        `If the description is shorter than ${specs.stdTags.Desc.MinLen} characters, Google might use a sentence arbitrarily selected from the page content.`
     )
     const how = tipHow(
-        `Rewrite teh description using more than ${stdTagsDescription_MinLength} characters and update the <code>${descriptionTag.label}</code> Meta tag accordingly.`
+        `Rewrite teh description using more than ${specs.stdTags.Desc.MinLen} characters and update the <code>${descriptionTag.label}</code> Meta tag accordingly.`
     )
     card.addTip(
         `The <code>${descriptionTag.label}</code> Meta Tag Is Too Short.`,
@@ -666,18 +661,18 @@ export const tag_OverRecommendedLength = (
     card: Card,
     platform: Platform,
     tag: iTag,
-    maxLength: string,
-    recommendedLength: string
+    maxLength: number,
+    recommendedLength: number
 ) => {
     const what = tipWhat(
         `On this page, the <code>${tag.label}</code> tag is <b>${tag.value.length}</b> characters long.`
     )
     const why = tipWhy(
-        `While this tag value is below the the maximum length for <code>${tag.label}</code>, set at ${maxLength} by the specs, best practices recommend to keep the field even shorter, below <b>${recommendedLength}</b>.`,
+        `While this tag value is below the the maximum length for <code>${tag.label}</code>, set at ${maxLength.toFixed()} by the specs, best practices recommend to keep the field even shorter, below <b>${recommendedLength}</b>.`,
         `Keeping the tag at that length will ensure that the value will not be trimmed when a post on ${platform} sharing this page is displayed an small devices.`,
         `Automatic trim can disrupt the content you carefully crafted for this page with unpredictable results.`
     )
-    const how = tipHow(`Reduce the length of the tag value to ${recommendedLength}.`)
+    const how = tipHow(`Reduce the length of the tag value to ${recommendedLength.toFixed()}.`)
     card.addTip(
         `Consider shortening the Meta Tag <code>${tag.label}</code>`,
         [what, why, how],
@@ -686,10 +681,10 @@ export const tag_OverRecommendedLength = (
     )
 }
 
-export const tag_OverMaxLength = (card: Card, platform: Platform, tag: iTag, maxLength: string) => {
+export const tag_OverMaxLength = (card: Card, platform: Platform, tag: iTag, maxLength: number) => {
     const what = tipWhat(`The <code>${tag.label}</code> tag value is <b>${tag.value.length}</b> characters long.`)
     const why = tipWhy(
-        `The length is over the maximum of <b>${maxLength}</b>, specified by ${platform} for this tag.`,
+        `The length is over the maximum of <b>${maxLength.toFixed()}</b>, specified by ${platform} for this tag.`,
         `Longer values could be trimmed on some device when ${platform} will display a post linking to this page.`,
         `Automatic trim of the content can affect visibility and popularity of post sharing your page on ${platform}.`
     )
