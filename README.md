@@ -4,7 +4,7 @@
 
 
 # Purpose
-**Page Auditor** is a _Google Chrome Extension_ that can be installed on any Google Chrome and used to explore the content of any webpage. The goal is to make the _On-Page Technical SEO Analysis_ of a web page easier for everybody, and in particular for non technical people.
+**Page Auditor** is a _Microsoft Edge_ and _Google Chrome_ Extension that can be installed on any Microsoft Edge or Google Chrome and used to explore the content of any webpage. The goal is to make the _On-Page Technical SEO Analysis_ of a web page easier for everybody, and in particular for non technical people.
 
 Performing a _On-Page Technical SEO Analysis_ requires exploring many of the hidden elements of an HTML page, including Meta Tags, Structured Data, JavaScrips, `Robots.txt` and `Sitemap.xml` files. It can be challenging, in particular for people without a technical background. All these components are important for the page SEO performance. **Page Auditor** makes it easy to look at all these elements and can be used to analyze our own web pages, as well our competitors' pages.
 
@@ -37,16 +37,16 @@ Performing a _On-Page Technical SEO Analysis_ requires exploring many of the hid
 This _Google Chrome Extension_ is open source and it is released under [__BSD-3-Clause__](./LICENSE.md) license.
 
 ## Running the Live Version
-Testing the live version of **Page Auditor**, the version publicly available on the Google Web Store, is very simple. Visit the [*Page Auditor* page](https://chrome.google.com/webstore/detail/page-auditor-for-technica/dogloealpnibhaieipodofhcbamacabh) on Google Chrome Store and select the [__Add to Chrome__] button on the top right corner to start the installation.
+Testing the live version of **Page Auditor**, the version publicly available on the _Microsoft Edge Add-ons Store_ and on the _Google Chrome Web Store_, is very simple. Visit the [*Page Auditor for Edge* page](https://microsoftedge.microsoft.com/addons/Microsoft-Edge-Extensions-Home) on Edge Add-ons or the [*Page Auditor for Chrome* page](https://chrome.google.com/webstore/detail/page-auditor-for-technica/dogloealpnibhaieipodofhcbamacabh) on Google Chrome Store and follow the instructions to start the installation.
 Once you installed the extension, visit to any web page you would like to analyze and start the extension from the *Extensions Menu* on the top right corner of the browser.
 
-| _Page Auditor_ on Google Chrome Web Store |
+| _Page Auditor_ on Microsoft Edge Add-ons Store and Google Chrome Web Store |
 | -- |
 |!["Page Auditor" on Google Chrome Web Store](web-store-images/ChromeWebStore.png)|
 
 
-## Testing a New Version 
-This is how to test the Extension or any variation opf it on your Google Chrome:
+## Testing a New Version on Chrome
+This is how to test the Extension or any variation opf it on your _Google Chrome Web Store_:
 1. Generate a new build with the command `npm run build`
 1. Open the Google Chrome Extensions page on your browser by entering the following URL: [`chrome://extensions/`](chrome://extensions/)
 1. Select the [*Load Unpacked*] button on the top left corner of the page.

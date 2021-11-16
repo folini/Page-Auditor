@@ -360,6 +360,9 @@ body#id-page-auditor .box-card .card-body .table-container table.card-table tr t
 body#id-page-auditor .box-card .card-body .table-container table.card-table tr td + td .small-btn {
   float: none;
 }
+body#id-page-auditor .box-card .card-body .table-container table.card-table tr td .missing-info {
+  color: var(--color-red);
+}
 body#id-page-auditor .box-card .card-footer {
   padding: 8px;
   border-top: solid 1px var(--border-color);
@@ -652,6 +655,9 @@ body#id-page-auditor .box-card.icon-seo > h2 {
 }
 body#id-page-auditor .box-card.icon-chromium > h2 {
   background-image: url(../logos/Chromium_100x100.png);
+}
+body#id-page-auditor .box-card.icon-edge > h2 {
+  background-image: url(../logos/Edge_100x100.png);
 }
 body#id-page-auditor .box-card.icon-micro-formats > h2 {
   background-image: url(../logos/MicroFormats_100x100.png);
@@ -1208,6 +1214,9 @@ body#id-page-auditor .box-card.icon-addthis > h2 {
 body#id-page-auditor .box-card.icon-zoho > h2 {
   background-image: url(../logos/Zoho_100x100.png);
 }
+body#id-page-auditor .box-card.icon-html-tag > h2 {
+  background-image: url(../logos/HtmlTag_100x100.png);
+}
 body#id-page-auditor .icon-linkedin:not(.box-card) {
   background-image: url(../logos/LinkedInAds_100x100.png);
 }
@@ -1305,7 +1314,7 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
 .label-open {
   padding-left: 2.2em !important;
   background-color: #f0f0f0;
-  padding: 8px 32px 8px 6px;
+  padding: 8px 22px 8px 6px;
   font-size: 14px;
   position: relative;
   border: solid 1px var(--border-color);
@@ -1325,6 +1334,10 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
   color: var(--color-black);
   width: 22px;
   text-align: center;
+}
+.label-close .small-btn,
+.label-open .small-btn {
+  margin-right: 4px;
 }
 .label-close {
   border-radius: 6px;
@@ -1388,12 +1401,14 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
   background-color: transparent !important;
   font-family: var(--body-font-family);
   font-style: italic;
+  padding: 0!important;
 }
 .card-tip .tip-title code::before {
   content: '"';
 }
 .card-tip .tip-title code::after {
   content: '"';
+  margin-right: 3px;
 }
 .card-tip .tip-body {
   padding: 16px;

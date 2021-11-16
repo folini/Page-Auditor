@@ -50,3 +50,6 @@ export const read = (url: string, contentType: ContentType[]) =>
                 .catch(() => Promise.reject())
         })
         .catch(err => Promise.reject(err))
+
+export const name = (url: string) =>
+    url.split('/').at(-1)!.split('#')[0].split('?')[0]

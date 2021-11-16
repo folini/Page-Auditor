@@ -16,15 +16,15 @@ import {processRobotsTxt} from './rtsm-robotstxt'
 
 const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Report): void => {
     if (tabUrl === '') {
-        const card = Errors.chrome_TabUrlUndefined()
+        const card = Errors.browser_TabUrlUndefined()
         report.addCard(card)
         Tips.unableToAnalyzeBrowserPages(card)
         report.completed()
         return
     }
 
-    if (tabUrl.startsWith(`chrome://`)) {
-        const card = Errors.chrome_UnableToAnalyzeTabs()
+    if (tabUrl.startsWith(`chrome://`) || tabUrl.startsWith(`edge://`)) {
+        const card = Errors.browser_UnableToAnalyzeTabs()
         report.addCard(card)
         Tips.unableToAnalyzeBrowserPages(card)
         report.completed()

@@ -385,6 +385,10 @@ body#id-page-auditor {
                                     float: none;
                                 }
                             }
+
+                            .missing-info {
+                                color: var(--color-red);
+                            }
                         }
                     }
                 }
@@ -711,6 +715,9 @@ body#id-page-auditor {
         }
         &.icon-chromium > h2 {
             background-image: url(../logos/Chromium_100x100.png);
+        }
+        &.icon-edge > h2 {
+            background-image: url(../logos/Edge_100x100.png);
         }
         &.icon-micro-formats > h2 {
             background-image: url(../logos/MicroFormats_100x100.png);
@@ -1267,6 +1274,9 @@ body#id-page-auditor {
         &.icon-zoho > h2 {
             background-image: url(../logos/Zoho_100x100.png);
         }
+        &.icon-html-tag > h2 {
+            background-image: url(../logos/HtmlTag_100x100.png);
+        }
     }
 
     .icon-linkedin:not(.box-card) {
@@ -1377,7 +1387,7 @@ body#id-page-auditor {
 .label-open {
     padding-left: 2.2em !important;
     background-color: #f0f0f0;
-    padding: 8px 32px 8px 6px;
+    padding: 8px 22px 8px 6px;
     font-size: 14px;
     position: relative;
     border: solid 1px var(--border-color);
@@ -1398,6 +1408,10 @@ body#id-page-auditor {
         color: var(--color-black);
         width: 22px;
         text-align: center;
+    }
+
+    .small-btn {
+        margin-right: 4px;
     }
 }
 
@@ -1467,6 +1481,7 @@ body#id-page-auditor {
             background-color: transparent !important;
             font-family: var(--body-font-family);
             font-style: italic;
+            padding: 0!important;
 
             &::before {
                 content: '"';
@@ -1474,6 +1489,7 @@ body#id-page-auditor {
 
             &::after {
                 content: '"';
+                margin-right: 3px;
             }
         }
     }

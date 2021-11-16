@@ -52,7 +52,6 @@ export const stdTags = (card: Card, allTags: iTag[], selectedTags: iTag[], canon
 }
 
 export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string) => {
-    console.log(`Validator.twitterTags => received ${tagToString(selectedTags)}`)
     const obsoleteTag = selectedTags.find(m => m.label === 'twitter:domain')
     const cardTag = selectedTags.find(m => m.label === 'twitter:card')
     const siteTag = selectedTags.find(m => m.label === 'twitter:site')
@@ -105,7 +104,7 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
             }
         }
     } else {
-        if (url.length > 0) {
+        if (url.length > 0 && urlFallbackTag) {
             Tips.tag_NonSpecific(card, 'Twitter', 'twitter:url', urlFallbackTag)
         } else {
             Tips.tag_Missing(card, 'Twitter', 'twitter:url')
@@ -129,7 +128,7 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
             )
         }
     } else {
-        if (title.length > 0) {
+        if (title.length > 0 && titleFallbackTag) {
             Tips.tag_NonSpecific(card, 'Twitter', 'twitter:title', titleFallbackTag)
         } else {
             Tips.tag_Missing(card, 'Twitter', 'twitter:title')
@@ -153,7 +152,7 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
             )
         }
     } else {
-        if (description.length > 0) {
+        if (description.length > 0 && descriptionFallbackTag) {
             Tips.tag_NonSpecific(card, 'Twitter', 'twitter:description', descriptionFallbackTag)
         } else {
             Tips.tag_Missing(card, 'Twitter', 'twitter:description')
@@ -183,7 +182,7 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
             }
         }
     } else {
-        if (img.length > 0) {
+        if (img.length > 0 && imgFallbackTag) {
             Tips.tag_NonSpecific(card, 'Twitter', 'twitter:image', imgFallbackTag)
         } else {
             Tips.tag_Missing(card, 'Twitter', 'twitter:image')
@@ -192,7 +191,6 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
 }
 
 export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string) => {
-    console.log(`Validator.openGraphTags => received ${tagToString(selectedTags)}`)
     const imgTag = selectedTags.find(m => m.label === 'og:image')
     const urlTag = selectedTags.find(m => m.label === 'og:url' || m.label === 'og:image:secure_url')
     const titleTag = selectedTags.find(m => m.label === 'og:title')
@@ -230,7 +228,7 @@ export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[],
             }
         }
     } else {
-        if (url.length > 0) {
+        if (url.length > 0 && urlFallbackTag) {
             Tips.tag_NonSpecific(card, 'Facebook', 'og:url', urlFallbackTag)
         } else {
             Tips.tag_Missing(card, 'Facebook', 'og:url')
@@ -248,7 +246,7 @@ export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[],
             Tips.tag_OverRecommendedLength(card, 'Facebook', titleTag, specs.openGraphTags.ogTitle.MaxLen, specs.openGraphTags.ogTitle.MaxRecommendedLen)
         }
     } else {
-        if (title.length > 0) {
+        if (title.length > 0 && titleFallbackTag) {
             Tips.tag_NonSpecific(card, 'Facebook', 'og:title', titleFallbackTag)
         } else {
             Tips.tag_Missing(card, 'Facebook', 'og:title')
@@ -276,7 +274,7 @@ export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[],
             Tips.tag_OverRecommendedLength(card, 'Facebook', descriptionTag, specs.openGraphTags.ogDescription.MaxLen, specs.openGraphTags.ogDescription.MaxRecommendedLen)
         }
     } else {
-        if (description.length > 0) {
+        if (description.length > 0 && descriptionFallbackTag) {
             Tips.tag_NonSpecific(card, 'Facebook', 'og:description', descriptionFallbackTag)
         } else {
             Tips.tag_Missing(card, 'Facebook', 'og:description')
@@ -310,7 +308,7 @@ export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[],
             }
         }
     } else {
-        if (img.length > 0) {
+        if (img.length > 0 && imgFallbackTag) {
             Tips.tag_NonSpecific(card, 'Facebook', 'og:image', imgFallbackTag)
         } else {
             Tips.tag_Missing(card, 'Facebook', 'og:image')

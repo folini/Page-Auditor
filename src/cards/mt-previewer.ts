@@ -52,7 +52,6 @@ export const stdTags = (
 }
 
 export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string, tabTitle: string) => {
-    console.log(`Previewer.twitterTags => received ${tagToString(selectedTags)}`)
     const imgTag = selectedTags.find(m => m.label === 'twitter:image') || selectedTags.find(m => m.label === 'twitter:image:src')
     const urlTag = selectedTags.find(m => m.label === 'twitter:url')
     const titleTag = selectedTags.find(m => m.label === 'twitter:title')
@@ -98,7 +97,6 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
 }
 
 export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[], tabTitle: string) => {
-    console.log(`Previewer.openGraphTags => received ${tagToString(selectedTags)}`)
     const imgTag = selectedTags.find(m => m.label === 'og:image')
     const urlTag = selectedTags.find(m => m.label === 'og:url') || selectedTags.find(m => m.label === 'og:image:secure_url')
     const titleTag = selectedTags.find(m => m.label === 'og:title')

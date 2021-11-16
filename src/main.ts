@@ -20,6 +20,7 @@ import * as Credits from './cards/about'
 import * as Meta from './cards/mt'
 import * as Robots from './cards/rtsm'
 import * as Tips from './cards/tips'
+import * as Html from './cards/html'
 import * as Spinner from './spinner'
 import * as Todo from './todo'
 
@@ -65,6 +66,12 @@ const sections: SectionType[] = [
         actions: Robots.actions,
     },
     {
+        tabId: 'id-html',
+        name: 'HTML &amp;<br/>Structure',
+        reportId: 'id-report-html',
+        actions: Html.actions,
+    },
+    {
         tabId: 'id-credits',
         name: 'About',
         reportId: 'id-report-credits',
@@ -89,14 +96,15 @@ async function action(section: SectionType, actions: sectionActions) {
         const data = res.length > 0 ? res[0].result : undefined
         actions.reportGenerator(tabUrl, data, report)
     } catch (err: any) {
-        if (err.message === `Cannot access a chrome:// URL`) {
-            const card = Errors.chrome_UnableToAnalyzeTabs()
+        console.error(err)
+        if (err.message === `Cannot access a "chrome://" URL`) {
+            const card = Errors.browser_UnableToAnalyzeTabs()
             report.addCard(card)
             Tips.unableToAnalyzeBrowserPages(card)
             report.completed()
         } else {
             const tabUrl = tab?.url || ''
-            const card = Errors.chrome_UnableToAnalyzePage(tabUrl)
+            const card = Errors.browser_UnableToAnalyzePage(tabUrl)
             report.addCard(card)
             Tips.unableToAnalyzeBrowserPages(card)
             report.completed()

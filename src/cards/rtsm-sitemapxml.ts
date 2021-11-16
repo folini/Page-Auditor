@@ -7,7 +7,7 @@
 import * as Tips from './tips'
 import * as File from '../file'
 import {Report} from '../report'
-import {Card, CardKind, iLink} from '../card'
+import {Card, CardKind} from '../card'
 import {codeBlock} from '../codeBlock'
 import {Errors} from './errors'
 import {Mode} from "../colorCode"
@@ -24,7 +24,7 @@ const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
                 sm.url
             )}`
             if (sm.url.endsWith('.gz')) {
-                const fileName = sm.url.replace(/(.*)\/([a-z0-9\-_\.]+(\.xml)?(\.gz)?)(.*)/i, '$2')
+                const fileName = File.name(sm.url)
                 const table = [
                     ['Validate Sitemap', `<a class='small-btn' href='${validationLink}' target='_blank'>Validate ${fileName}</a>`],    
                     ['File Name', fileName],
@@ -61,7 +61,7 @@ const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
                 return
             }
 
-            const fileName = sm.url.replace(/(.*)\/([a-z0-9\-_\.]+(\.xml)?)(\?.*)?/i, '$2')
+            const fileName = File.name(sm.url)
 
             const divId = disposableId()
             const btnLabel = `Sitemap.xml`

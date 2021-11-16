@@ -8,41 +8,43 @@ import {Card, CardKind} from '../card'
 import {Mode} from '../colorCode'
 import {codeBlock} from '../codeBlock'
 import {SmSource, iSmCandidate} from '../sitemapList'
+import {target as Platform} from '../../package.json'
+
 
 export class Errors {
     // ------------------------------------------------------------------------
     // Google Chrome Errors
-    public static chrome_UnableToAnalyzeTabs() {
+    public static browser_UnableToAnalyzeTabs() {
         const msg1 = `<i>Page Auditor</i> can not run on empty tabs or browser internal tabs.`
         const msg2 = `Please launch <i>Page Auditor for Technical SEO</i> on a regular web page.`
         return new Card(CardKind.error)
-            .setLogo('icon-chromium')
+            .setLogo(Platform === 'Chrome' ? 'icon-chromium': 'icon-edge')
             .addParagraph(msg1)
             .addParagraph(msg2)
-            .setTitle('Unable To Analyze <code>chrome:</code> &amp; <code>edge:</code> Tabs')
+            .setTitle(`Unable To Analyze <code>${Platform === 'Chrome' ? 'chrome:' : 'edge:'}</code> Tabs`)
             .tag('card-error')
     }
 
-    public static chrome_TabUrlUndefined() {
+    public static browser_TabUrlUndefined() {
         const msg1 = `The current browser's tab is undefined.`
         const msg2 = `Please re-launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
         return new Card(CardKind.error)
-            .setLogo('icon-chromium')
+            .setLogo(Platform === 'Chrome' ? 'icon-chromium': 'icon-edge')
             .addParagraph(msg1)
             .addParagraph(msg2)
-            .setTitle('Chrome Tab Undefined')
+            .setTitle(`${Platform} Tab Undefined`)
             .tag('card-error')
     }
 
-    public static chrome_UnableToAnalyzePage(url: string) {
+    public static browser_UnableToAnalyzePage(url: string) {
         const msg1 = `<b>Page Auditor</b> can not run on page at the url:`
         const msg2 = `Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
         return new Card(CardKind.error)
-            .setLogo('icon-chromium')
+            .setLogo(Platform === 'Chrome' ? 'icon-chromium': 'icon-edge')
             .addParagraph(msg1)
             .addCodeBlock(url, Mode.txt)
             .addParagraph(msg2)
-            .setTitle('Unable To Analyze Page')
+            .setTitle(`Unable To Analyze ${Platform} Pages`)
             .tag('card-error')
     }
 
@@ -64,7 +66,7 @@ export class Errors {
             .addCodeBlock(sm.url, Mode.txt)
             .addParagraph(msg2)
             .addExpandableBlock(btnLabel, codeBlock(code, Mode.html))
-            .setTitle('Invalid Sitemap.xml Syntax')
+            .setTitle('Sitemap.xml Redirects to an HTML File')
             .tag('card-error')
     }
 
@@ -97,7 +99,7 @@ export class Errors {
     // Robots.txt Errors
     public static robotsTxt_IsARedirect(url: string, code: string) {
         const msg1 = `Found a syntactically invalid <code>Robots.Txt</code> file at the url:`
-        const msg2 = `It's an HTML page, likely a standard redirect for non-existent pages.`
+        const msg2 = `It's an HTML page, very likely a standard redirect for non-existent pages.`
         const btnLabel = `Invalid Robots.Txt`
         return new Card(CardKind.error)
             .setLogo('icon-rep')
@@ -105,7 +107,7 @@ export class Errors {
             .addCodeBlock(url, Mode.txt)
             .addParagraph(msg2)
             .addExpandableBlock(btnLabel, codeBlock(code, Mode.html))
-            .setTitle('Invalid Robots.Txt Syntax')
+            .setTitle('Robots.Txt Redirects to an HTML File')
             .tag('card-error')
     }
 
@@ -116,7 +118,7 @@ export class Errors {
             .setLogo('icon-rep')
             .addParagraph(msg1)
             .addParagraph(msg2)
-            .setTitle('Robots.Txt Is Empty')
+            .setTitle('The Robots.Txt File Is Empty')
             .tag('card-error')
     }
 

@@ -10,7 +10,7 @@ import {Card, iLink} from '../card'
 import {Mode} from '../colorCode'
 import {formatNumber} from '../main'
 import {SmSource} from '../sitemapList'
-import { specs} from "./specs"
+import {specs} from './specs'
 
 export type Platform = 'Twitter' | 'Facebook' | 'Instagram' | 'LinkedIn' | 'YouTube' | 'Reddit'
 
@@ -54,7 +54,8 @@ const metaTagsReference: iLink = {
     url: 'https://moz.com/blog/the-ultimate-guide-to-seo-meta-tags',
 }
 
-const tagIsCritical = (tag: string) => specs.openGraphTags.recommendedTags.includes(tag) || specs.openGraphTags.recommendedTags.includes(tag)
+const tagIsCritical = (tag: string) =>
+    specs.openGraphTags.recommendedTags.includes(tag) || specs.openGraphTags.recommendedTags.includes(tag)
 
 const tipWhat = (...msg: string[]) => tipWhatWhyHow(`What's Wrong?`, ...msg)
 
@@ -92,14 +93,18 @@ const tagExample = (tagLabel: string, platform: string) => {
 export const internalError = (card: Card) => {
     const what = tipWhat(`Something went wrong.`)
     const why = tipWhy(`Something unexpected happened that the Extension was not able to properly manage.`)
-    const how = tipHow(`Consider updating the "Page Auditor" Microsoft Edge and Google Chrome Extension to the latest version.`)
+    const how = tipHow(
+        `Consider updating the "Page Auditor" Microsoft Edge and Google Chrome Extension to the latest version.`
+    )
     card.addTip(`Update Page Auditor to the latest version`, [what, why, how], robotsTxtReference)
 }
 
 export const unableToAnalyzeBrowserPages = (card: Card) => {
     const what = tipWhat(`Unable to analyze browser proprietary pages.`)
     const why = tipWhy(`The browser doesn't allow the analysis of internal pages and empty tabs.`)
-    const how = tipHow(`Consider opening any website before opening the "Page Auditor" Microsoft Edge and Google Chrome Extension`)
+    const how = tipHow(
+        `Consider opening any website before opening the "Page Auditor" Microsoft Edge and Google Chrome Extension`
+    )
     card.addTip(`Open a Regular WebSite or Web Page`, [what, why, how], robotsTxtReference)
 }
 
@@ -117,7 +122,7 @@ export const duplicateSitemapsInRobots = (card: Card, urls: string[]) => {
         `This is a list of the duplicate Urls:`,
         codeBlock(urls.join('<br>'), Mode.txt)
     )
-    card.addTip(`Remove Duplicate Sitemap Links`, [what, why, how], robotsTxtReference, 25)
+    card.addTip(`Remove Duplicate <code>Sitemap.xml</code> Links`, [what, why, how], robotsTxtReference, 25)
 }
 
 export const unsafeSitemapLinkInRobots = (card: Card, urls: string[]) => {
@@ -136,7 +141,7 @@ export const unsafeSitemapLinkInRobots = (card: Card, urls: string[]) => {
         `And this how it should be:`,
         codeBlock(urls.map(url => url.replace('http:', 'https:')).join('<br>'), Mode.txt)
     )
-    card.addTip(`Update Unsafe Sitemap Link`, [what, why, how], robotsTxtReference, 35)
+    card.addTip(`Update The Unsafe <code>Sitemap.xml</code> Link`, [what, why, how], robotsTxtReference, 35)
 }
 
 export const addSitemapLinkToRobotsTxt = (card: Card, domain: string) => {
@@ -151,7 +156,12 @@ export const addSitemapLinkToRobotsTxt = (card: Card, domain: string) => {
         codeBlock(`Sitemap: ${domain}/sitemap.xml`, Mode.txt),
         `This directive is independent of the user-agent line, so it doesn't matter where you place it in your file.`
     )
-    card.addTip(`Link Your Sitemap.xml From Robots.txt`, [what, why, how], robotsTxtReference, 50)
+    card.addTip(
+        `Link Your <code>Sitemap.xml</code> From <code>Robots.txt</code>`,
+        [what, why, how],
+        robotsTxtReference,
+        50
+    )
 }
 
 export const malformedRobotsTxt = (card: Card) => {
@@ -163,7 +173,7 @@ export const malformedRobotsTxt = (card: Card) => {
         `But, it's important for the <code>robots.txt</code> file to be consistent with the standard syntax.`
     )
     const how = tipHow(`Double check the syntax of the <code>robots.txt</code> and update it ASAP.`)
-    card.addTip(`Fix Robots.txt Syntax`, [what, why, how], robotsTxtReference, 75)
+    card.addTip(`Fix Your <code>Robots.txt</code> File Syntax`, [what, why, how], robotsTxtReference, 75)
 }
 
 export const emptyRobotsTxt = (card: Card) => {
@@ -178,7 +188,7 @@ export const emptyRobotsTxt = (card: Card) => {
         `Typical examples of pages you don't want to be indexed are login pages, account pages, cart pages, order confirmation pages.`,
         `Also any temporary page you might have in your website should be disallowed in the <code>robots.txt</code> file.`
     )
-    card.addTip(`Add Content to Robots.txt`, [what, why, how], robotsTxtReference, 40)
+    card.addTip(`Add Content to <code>Robots.txt</code>`, [what, why, how], robotsTxtReference, 40)
 }
 
 export const missingRobotsTxt = (card: Card) => {
@@ -193,7 +203,7 @@ export const missingRobotsTxt = (card: Card) => {
         `To begin, you can write as a simple text file and upload it to your website.`,
         `Many website platform provide tools or option to automatically create a <code>robots.txt</code> file for you.`
     )
-    card.addTip(`Add a Robots.txt file`, [what, why, how], robotsTxtReference, 80)
+    card.addTip(`Add a <code>Robots.txt</code> file`, [what, why, how], robotsTxtReference, 80)
 }
 
 export const sitemapInRobotsWithRelativePath = (card: Card, relUrl: string, absUrl: string) => {
@@ -213,7 +223,7 @@ export const sitemapInRobotsWithRelativePath = (card: Card, relUrl: string, absU
         codeBlock(`Sitemap: ${absUrl}`, Mode.txt)
     )
     card.addTip(
-        `Change links in your Robots.txt file to absolute`,
+        `Change links in your <code>Robots.txt</code> file to absolute`,
         [what, why, how],
         robotsTxtReference,
         60
@@ -233,12 +243,7 @@ export const sitemapInRobotsDoesNotExist = (card: Card, url: string) => {
     const how = tipHow(
         `Move your sitemap to the location specified in the <code>robots.txt</code> or, keep the sitemap where it is and update the link.`
     )
-    card.addTip(
-        `Update broken link in your Robots.txt file`,
-        [what, why, how],
-        robotsTxtReference,
-        50
-    )
+    card.addTip(`Update broken link in your <code>Robots.txt</code> file`, [what, why, how], robotsTxtReference, 50)
 }
 
 // ------------------------------------------------------------------------
@@ -256,7 +261,7 @@ export const missingSitemap = (card: Card) => {
         `To begin, you can start writing as a simple text file and upload it to your website.`,
         `Many website platform provide tools or option to automatically create the sitemap.`
     )
-    card.addTip(`Add a Sitemap.xml File`, [what, why, how], sitemapSyntaxReference, 85)
+    card.addTip(`Add a <code>Sitemap.xml</code> File`, [what, why, how], sitemapSyntaxReference, 85)
 }
 
 export const uncompressedLargeSitemap = (card: Card, url: string, size: number) => {
@@ -267,7 +272,9 @@ export const uncompressedLargeSitemap = (card: Card, url: string, size: number) 
     )
     const why = tipWhy(
         `While Google and Bing can easily handle <code>sitemap.xml</code> files up to 50 Mb in uncompressed size,`,
-        `the recommended maximum size for uncompressed files is ${formatNumber(specs.siteMap.RecommendedMaxUncompressedSize / 1024 / 1024)} MB.`,
+        `the recommended maximum size for uncompressed files is ${formatNumber(
+            specs.siteMap.RecommendedMaxUncompressedSize / 1024 / 1024
+        )} MB.`,
         `Compressed sitemap reduce the load on the website server and speedup upload and download of the file. ` +
             `However, there are no SEO direct benefits in compressing a sitemap.`
     )
@@ -275,7 +282,7 @@ export const uncompressedLargeSitemap = (card: Card, url: string, size: number) 
         `Use a compressor, like <i>gzip</i>, to compress your sitemap file and upload it again to the webserver.`,
         `Don't forget to update the sitemap link in the <code>robots.txt</code> and in your GSG (Google Search Console).`
     )
-    card.addTip(`Compress Sitemap`, [what, why, how], sitemapSyntaxReference, 15)
+    card.addTip(`Compress your <code>Sitemap.xml</code>`, [what, why, how], sitemapSyntaxReference, 15)
 }
 
 export const sitemapWithoutXmlExtension = (card: Card, url: string) => {
@@ -292,7 +299,7 @@ export const sitemapWithoutXmlExtension = (card: Card, url: string) => {
         `Consider to adopt the best practices for sitemaps by adding the <code>.xml</code> extension to all your sitemaps.`
     )
     card.addTip(
-        `Add the XML Extension to Your Sitemap`,
+        `Add the XML Extension to Your <code>Sitemap.xml</code> File`,
         [what, how, why],
         sitemapSyntaxReference,
         25
@@ -315,12 +322,7 @@ export const compressedSitemapNotFound = (card: Card, url: string, source: SmSou
     const how = tipHow(
         `Upload the missing compress <code>sitemap.xml</code> file to the webserver to help Google bot properly index your website.`
     )
-    card.addTip(
-        `Upload The Missing Compressed Sitemap File`,
-        [what, why, how],
-        sitemapReference,
-        80
-    )
+    card.addTip(`Upload The Missing Compressed <code>Sitemap.xml</code> File`, [what, why, how], sitemapReference, 80)
 }
 
 export const malformedSitemapXml = (card: Card) => {
@@ -336,7 +338,7 @@ export const malformedSitemapXml = (card: Card) => {
     const how = tipHow(
         `Upload a correct <code>sitemap.xml</code> to the webserver to let Google bot properly index the website.`
     )
-    card.addTip(`Fix Sitemap.xml Syntax`, [what, why, how], sitemapSyntaxReference, 80)
+    card.addTip(`Fix Your <code>Sitemap.xml</code> File Syntax`, [what, why, how], sitemapSyntaxReference, 80)
 }
 
 // ------------------------------------------------------------------------
@@ -660,7 +662,9 @@ export const tag_OverRecommendedLength = (
         `On this page, the <code>${tag.label}</code> tag is <b>${tag.value.length}</b> characters long.`
     )
     const why = tipWhy(
-        `While this tag value is below the the maximum length for <code>${tag.label}</code>, set at ${maxLength.toFixed()} by the specs, best practices recommend to keep the field even shorter, below <b>${recommendedLength}</b>.`,
+        `While this tag value is below the the maximum length for <code>${
+            tag.label
+        }</code>, set at ${maxLength.toFixed()} by the specs, best practices recommend to keep the field even shorter, below <b>${recommendedLength}</b>.`,
         `Keeping the tag at that length will ensure that the value will not be trimmed when a post on ${platform} sharing this page is displayed an small devices.`,
         `Automatic trim can disrupt the content you carefully crafted for this page with unpredictable results.`
     )
@@ -691,11 +695,7 @@ export const tag_OverMaxLength = (card: Card, platform: Platform, tag: iTag, max
     )
 }
 
-export const tag_NonSpecific = (card: Card, platform: Platform, tagLabel: string, fallbackTag: iTag | undefined) => {
-    if (fallbackTag === undefined) {
-        tag_Missing(card, platform, tagLabel)
-        return
-    }
+export const tag_NonSpecific = (card: Card, platform: Platform, tagLabel: string, fallbackTag: iTag) => {
     const what = tipWhat(
         `The page doesn't include the specific ${
             tagIsCritical(tagLabel) ? `and critical ` : ``
@@ -709,9 +709,7 @@ export const tag_NonSpecific = (card: Card, platform: Platform, tagLabel: string
     )
     const how = tipHow(`Add the following meta tag to your page:`, tagExample(tagLabel, platform))
     card.addTip(
-        `Use the ${
-            tagIsCritical(tagLabel) ? `Critical ` : platform
-        } Meta Tag <code>${tagLabel}</code>`,
+        `Add the ${tagIsCritical(tagLabel) ? `Critical` : `specific`} ${platform} Tag <code>${tagLabel}</code>`,
         [what, why, how],
         platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
         tagIsCritical(tagLabel) ? 20 : 10
@@ -731,9 +729,7 @@ export const tag_Missing = (card: Card, platform: Platform, tagLabel: string) =>
     )
     const how = tipHow(`Add a meta tag similar to the following:`, tagExample(tagLabel, platform))
     card.addTip(
-        `Add the ${
-            tagIsCritical(tagLabel) ? `Critical ` : platform
-        } Meta Tag <code>${tagLabel}</code>`,
+        `Add the ${tagIsCritical(tagLabel) ? `Critical ` : platform} Meta Tag <code>${tagLabel}</code>`,
         [what, why, how],
         platform === 'Twitter' ? twitterMetaTagsReference : openGraphMetaTagsReference,
         tagIsCritical(tagLabel) ? 65 : 45
@@ -769,12 +765,7 @@ export const tag_noOpenGraphTags = (card: Card) => {
         `Add at least the following most critical Open Graph meta tags to the page.`,
         codeBlock(specs.openGraphTags.recommendedTags.join('\n'), Mode.txt)
     )
-    card.addTip(
-        `Add Facebook (Open Graph) Meta Tags to the Page`,
-        [what, why, how],
-        openGraphMetaTagsReference,
-        75
-    )
+    card.addTip(`Add Facebook (Open Graph) Meta Tags to the Page`, [what, why, how], openGraphMetaTagsReference, 75)
 }
 
 export const tag_noTwitterTags = (card: Card) => {
@@ -788,12 +779,7 @@ export const tag_noTwitterTags = (card: Card) => {
         `Add at least the following most critical Twitter meta tags to the page.`,
         codeBlock(specs.twitterTags.recommendedTags.join('\n'), Mode.txt)
     )
-    card.addTip(
-        `Add Twitter Meta Tags to the Page`,
-        [what, why, how],
-        twitterMetaTagsReference,
-        75
-    )
+    card.addTip(`Add Twitter Meta Tags to the Page`, [what, why, how], twitterMetaTagsReference, 75)
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -810,12 +796,7 @@ export const sd_relativeUrl = (cardPromise: Promise<Card>, objectName: string, u
         codeBlock(urls.map(u => `${new URL(pageUrl).origin}${u}`).join('\n'), Mode.txt)
     )
     cardPromise.then(card =>
-        card.addTip(
-            `Rewrite URLs in "${objectName}" with Absolute Path`,
-            [what, why, how],
-            structuredDataReference,
-            50
-        )
+        card.addTip(`Rewrite URLs in "${objectName}" with Absolute Path`, [what, why, how], structuredDataReference, 50)
     )
 }
 
@@ -851,12 +832,7 @@ export const sd_imageEmptyUrl = (cardPromise: Promise<Card>, objectName: string)
         `If you don't intend to provide this url, just remove the property <code>${objectName}</code> from the page <code>JSON-LD</code>.`
     )
     cardPromise.then(card =>
-        card.addTip(
-            `Replace the empty URL in "${objectName}".`,
-            [what, why, how],
-            structuredDataReference,
-            25
-        )
+        card.addTip(`Replace the empty URL in "${objectName}".`, [what, why, how], structuredDataReference, 25)
     )
 }
 
@@ -871,12 +847,7 @@ export const sd_repeatedSchemas = (card: Card, objectName: string, occurrences: 
     const how = tipHow(
         `Consider removing the duplicates and merging the information about the ${objectName} into one single snippet.`
     )
-    card.addTip(
-        `Merge the "${objectName}" Data Structures`,
-        [what, why, how],
-        structuredDataReference,
-        25
-    )
+    card.addTip(`Merge the "${objectName}" Data Structures`, [what, why, how], structuredDataReference, 25)
 }
 
 export const sd_noStructuredData = (card: Card) => {
@@ -925,5 +896,47 @@ export const sd_ImageNotFound = (cardPromise: Promise<Card>, url: string, label:
             structuredDataReference,
             75
         )
+    )
+}
+
+export const html_ImgWithoutAlt = (card: Card, images: string[]) => {
+    const plural = images.length > 1 ? 's' : ''
+    const what = tipWhat(
+        `The following image${plural} in the HTML of the page are missing have the alt attribute.`,
+        `This is the list:`,
+        codeBlock(images.join('\n'), Mode.txt)
+    )
+    const why = tipWhy(
+        `The <code>alt</code> attribute of the <code>img</code> tags helps all search engine crawlers. Not setting this attribute for all images can have a detrimental effect on the ranking of your web pages.`,
+        `Alt attribute is also very important to make the page accessible to everybody including disabled people accessing the page with special devices.`
+    )
+    const how = tipHow(
+        `Edit the HTML of the page adding the missing alt attributes.`,
+        `It is important to describe what is happening in the image and avoid keyword "stuffing".`
+    )
+    card.addTip(
+        `Add the <code>alt</code> attribute to ${images.length.toFixed()} Image${plural}`,
+        [what, why, how],
+        structuredDataReference,
+        20
+    )
+}
+
+export const html_ImageNotFound = (card: Card, image: string) => {
+    const what = tipWhat(
+        `The following image used in the HTML of the page was not found:`,
+        codeBlock(image, Mode.txt)
+    )
+    const why = tipWhy(
+        `TWhy a missing image should not affect the EO ranking of a page, it can compromise the user experience resulting in a higher bounce rate that over time can hurt the page reputation and the SEo performance.`
+    )
+    const how = tipHow(
+        `upload the missing image or remove all te references to that image from the page's HTML code.`
+    )
+    card.addTip(
+        `Add a Missing Image Used by the Page HTML`,
+        [what, why, how],
+        structuredDataReference,
+        15
     )
 }

@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------------
 import * as Tips from './tips'
 import {Report} from '../report'
-import {Card, CardKind, iLink} from '../card'
+import {Card, CardKind} from '../card'
 import {codeBlock} from '../codeBlock'
 import {Mode} from '../colorCode'
 import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../main'
@@ -68,7 +68,6 @@ const reportGenerator: ReportGeneratorFunc = (url: string, data: any, report: Re
 
     tagCategories.map(tagCategory => {
         const selectedTags = allTags.filter(tagCategory.filter)
-        console.log(`EXTRACTED selectedTags for [${tagCategory.title}] = ${tagToString(selectedTags)}`)
         allTags = allTags.filter(tag => !selectedTags.includes(tag))
         if (selectedTags.length > 0) {
             metaTagsCard(tagCategory, selectedTags, allTags, canonical, title, url, report)
