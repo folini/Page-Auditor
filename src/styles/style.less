@@ -339,7 +339,7 @@ body#id-page-auditor {
             font-size: 14px;
 
             > div {
-                margin-bottom: 16px;
+                margin-bottom: 8px;
                 &:last-child {
                     margin-bottom: 0 !important;
                 }
@@ -1442,8 +1442,20 @@ body#id-page-auditor {
     overflow: hidden;
 }
 
+:not(.card-tip) + .card-tip {
+    margin-top: 24px;
+    &:before {
+        content: 'Tips & Recommendations';
+        width: 100%;
+        text-align: center;
+        display: block;
+        padding-bottom: 16px;
+        font-size: 1.2em;
+    }
+}
+
 .card-tip {
-    margin-bottom: 16px;
+    margin-bottom: 8px;
 
     .tip-title {
         background-color: #fddeb54d;

@@ -5,8 +5,8 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {iTag} from './mt'
-import * as Previewer from "./mt-previewer"
-import * as Validator from "./mt-validator"
+import * as Previewer from './mt-previewer'
+import * as Validator from './mt-validator'
 
 interface iTagCategoryFilter {
     (m: iTag): boolean
@@ -19,8 +19,19 @@ export interface iTagCategory {
     cssClass: string
     filter: iTagCategoryFilter
     previewer: Previewer.iTagPreviewer
-    validator?: Validator.iTagValidator
+    validator: Validator.iTagValidator
 }
+
+const toString = (category: iTagCategory): string =>
+    `{` +
+    `\n\tcss: "${category.cssClass}"",` +
+    `\n\tdescription: "${category.description}"",` +
+    `\n\ttitle: "${category.title}"",` +
+    `\n\turl: "${category.url}"",` +
+    `\n\tpreviewer: ${typeof category.previewer === 'function'},` +
+    `\n\tvalidator: ${typeof category.validator === 'function'}` +
+    `\n\tfilter: ${typeof category.filter === 'function'}` +
+    `\n}\n`
 
 export const tagCategories: iTagCategory[] = [
     {
@@ -32,6 +43,7 @@ export const tagCategories: iTagCategory[] = [
         cssClass: `icon-twitter`,
         filter: m => m.label.startsWith('twitter:'),
         previewer: Previewer.twitterTags,
+        validator: Validator.twitterTags,
     },
     {
         title: `OpenGraph Tags`,
@@ -52,6 +64,7 @@ export const tagCategories: iTagCategory[] = [
             m.label.startsWith('video:') ||
             m.label.startsWith('profile:'),
         previewer: Previewer.openGraphTags,
+        validator: Validator.openGraphTags,
     },
     {
         title: `AppLinks Tags (Facebook)`,
@@ -60,6 +73,7 @@ export const tagCategories: iTagCategory[] = [
         cssClass: 'icon-facebook',
         filter: m => m.label.startsWith('al:'),
         previewer: Previewer.noPreview,
+        validator: Validator.noValidation,
     },
     {
         title: `Swiftype Tags`,
@@ -68,6 +82,7 @@ export const tagCategories: iTagCategory[] = [
         cssClass: 'icon-swiftype',
         filter: m => m.class === 'swiftype',
         previewer: Previewer.noPreview,
+        validator: Validator.noValidation,
     },
     {
         title: `Google Tags`,
@@ -76,6 +91,7 @@ export const tagCategories: iTagCategory[] = [
         cssClass: 'icon-google',
         filter: m => m.label === 'google',
         previewer: Previewer.noPreview,
+        validator: Validator.noValidation,
     },
     {
         title: `REP Tags`,
@@ -93,6 +109,7 @@ export const tagCategories: iTagCategory[] = [
         cssClass: 'icon-lock',
         filter: m => m.label.includes('verification') || m.label.includes(`validate`) || m.label.includes(`verify`),
         previewer: Previewer.noPreview,
+        validator: Validator.noValidation,
     },
     {
         title: `Standard Tags`,
@@ -125,8 +142,9 @@ export const tagCategories: iTagCategory[] = [
         description: `Optional Meta Tags are used to help Microsoft Windows to customize the default behavior and appearance of the pinned site shortcut.`,
         url: 'https://docs.microsoft.com/en-us/previous-versions/windows/internet-explorer/ie-developer/platform-apis/ff976295(v=vs.85)',
         cssClass: 'icon-windows',
-        filter: m => m.label.includes('msapplication-'),
+        filter: m => m.label.startsWith('msapplication-'),
         previewer: Previewer.noPreview,
+        validator: Validator.noValidation,
     },
     {
         title: `Microsoft Docs Tags`,
@@ -135,6 +153,7 @@ export const tagCategories: iTagCategory[] = [
         cssClass: 'icon-ms',
         filter: m => m.label.startsWith(`ms.`),
         previewer: Previewer.noPreview,
+        validator: Validator.noValidation,
     },
     {
         title: `Chromium Origin Trials Tags`,
@@ -144,6 +163,7 @@ export const tagCategories: iTagCategory[] = [
         cssClass: 'icon-chromium',
         filter: m => m.label === 'origin-trial',
         previewer: Previewer.noPreview,
+        validator: Validator.noValidation,
     },
     {
         title: `Cxense Tags`,
@@ -152,6 +172,7 @@ export const tagCategories: iTagCategory[] = [
         cssClass: 'icon-cxense',
         filter: m => m.label.startsWith('cxense:') || m.label.startsWith('cxenseparse:'),
         previewer: Previewer.noPreview,
+        validator: Validator.noValidation,
     },
     {
         title: `OutBrain Tags`,
@@ -160,6 +181,7 @@ export const tagCategories: iTagCategory[] = [
         cssClass: 'icon-outbrain',
         filter: m => m.label.startsWith('vr:'),
         previewer: Previewer.noPreview,
+        validator: Validator.noValidation,
     },
     {
         title: `Apple Tags`,
@@ -168,6 +190,7 @@ export const tagCategories: iTagCategory[] = [
         cssClass: 'icon-apple',
         filter: m => m.label.startsWith('apple-'),
         previewer: Previewer.noPreview,
+        validator: Validator.noValidation,
     },
     {
         title: `Shopify Tags`,
@@ -176,6 +199,7 @@ export const tagCategories: iTagCategory[] = [
         cssClass: 'icon-shopify',
         filter: m => m.label.startsWith('shopify-'),
         previewer: Previewer.noPreview,
+        validator: Validator.noValidation,
     },
     {
         title: `Branch Tags`,
@@ -184,6 +208,7 @@ export const tagCategories: iTagCategory[] = [
         cssClass: 'icon-branch',
         filter: m => m.label.startsWith('branch:'),
         previewer: Previewer.noPreview,
+        validator: Validator.noValidation,
     },
     {
         title: `Internet Explorer Tags`,
@@ -192,6 +217,7 @@ export const tagCategories: iTagCategory[] = [
         cssClass: 'icon-ie',
         filter: m => m.label === `x-ua-compatible` || m.label == 'cleartype',
         previewer: Previewer.noPreview,
+        validator: Validator.noValidation,
     },
     {
         title: `CSRF Tags`,
@@ -200,6 +226,7 @@ export const tagCategories: iTagCategory[] = [
         cssClass: 'icon-lock',
         filter: m => m.label.startsWith(`csrf-`),
         previewer: Previewer.noPreview,
+        validator: Validator.noValidation,
     },
     {
         title: `Google Programmable Search Engine Tags`,
@@ -208,6 +235,7 @@ export const tagCategories: iTagCategory[] = [
         cssClass: 'icon-google',
         filter: m => m.label.startsWith(`thumbnail`),
         previewer: Previewer.noPreview,
+        validator: Validator.noValidation,
     },
     {
         title: `Other Tags`,
@@ -216,5 +244,6 @@ export const tagCategories: iTagCategory[] = [
         cssClass: 'icon-tag',
         filter: m => true,
         previewer: Previewer.noPreview,
+        validator: Validator.noValidation,
     },
 ]

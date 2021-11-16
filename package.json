@@ -1,6 +1,6 @@
 {
   "name": "page-auditor",
-  "version": "1.10.15",
+  "version": "1.10.17",
   "description": "An open source Google Chrome Extension to analyze Structured Data, Meta tags, and JavaScript from any web page",
   "main": "src/main.ts",
   "scripts": {

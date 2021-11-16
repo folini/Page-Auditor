@@ -269,16 +269,6 @@
     },
     {
         "patterns": [
-            "(.|/)azureedge.net"
-        ],
-        "name": "Azure CDN",
-        "category": "Content Delivery Network",
-        "iconClass": "icon-azure",
-        "description": "Microsoft Content Delivery Network for Microsoft Azure.",
-        "url": "https://microsoft.com/"
-    },
-    {
-        "patterns": [
             "(.|/)baidu.com/"
         ],
         "name": "Baidu",
@@ -299,8 +289,6 @@
     },
     {
         "patterns": [
-            "(.|/).bing.com/p/action",
-            "(.|/).bing.com/bat.js",
             "(.|/).bing.com/"
         ],
         "name": "Bing",
@@ -311,7 +299,7 @@
     },
     {
         "patterns": [
-            "(.|/)tags.bluekai.com/",
+            "(.|/)bluekai.com/",
             "(.|/)bkrtx.com/"
         ],
         "name": "Bluekai (now Oracle)",
@@ -332,7 +320,7 @@
     },
     {
         "patterns": [
-            "(.|/)bootstrapcdn.com",
+            "(.|/)bootstrapcdn.com/",
             "(.|/)bootstrap.com/"
         ],
         "name": "Bootstrap",
@@ -343,7 +331,7 @@
     },
     {
         "patterns": [
-            "(.|/)bounceexchange.com",
+            "(.|/)bounceexchange.com/",
             "(.|/)wunderkind.co/"
         ],
         "name": "BounceExchange (Wunderkind)",
@@ -405,7 +393,7 @@
     },
     {
         "patterns": [
-            "(.|/)cartkitcdn.com"
+            "(.|/)cartkitcdn.com/"
         ],
         "name": "CartKit",
         "category": "Shopify and Wix App",
@@ -827,7 +815,7 @@
         "name": "GeoEdge",
         "category": "Ads security and verification",
         "iconClass": "icon-geoedge",
-        "description": "GeoEdge is the premier provider of ad security and verification solutions for the online ‎& mobile advertising ecosystem. GeoEdge ensures high ad quality and verifies that sites ‎and apps offer a clean, safe, and engaging user experience.",
+        "description": "GeoEdge is the premier provider of ad security and verification solutions for the online &amp; mobile advertising ecosystem. GeoEdge ensures high ad quality and verifies that sites ‎and apps offer a clean, safe, and engaging user experience.",
         "url": "https://www.geoedge.com/"
     },
     {
@@ -871,7 +859,7 @@
         "patterns": [
             "(.|/)doubleclick.net/",
             "(.|/)googleadservices.com/",
-            "(.|/)adservice.google",
+            "(.|/)adservice.google/",
             "/adsense/",
             "(.|/)googlesyndication.com/"
         ],
@@ -1077,7 +1065,7 @@
     {
         "patterns": [
             "(.|/)justuno.com/",
-            "(.|/)jst.ai"
+            "(.|/)jst.ai/"
         ],
         "name": "JustUno",
         "category": "Website Conversions",
@@ -1161,7 +1149,6 @@
     {
         "patterns": [
             "(.|/)licdn.com/",
-            "(.|/)linkedin.com/js/analytics",
             "(.|/)linkedin.com/"
         ],
         "name": "LinkedIn",
@@ -1250,7 +1237,7 @@
     {
         "patterns": [
             "(.|/)marketo.net/",
-            ".marketo.com/",
+            "(.|/)marketo.com/",
             "(.|/)bizible.com/"
         ],
         "name": "Marketo &amp; Bizible",
@@ -1292,6 +1279,19 @@
     },
     {
         "patterns": [
+            "(.|/)azureedge.net/",
+            "(.|/)azure.com/",
+            "(.|/)aspnetcdn.com/",
+            "(.|/)msecnd.net/"
+        ],
+        "name": "Microsoft Azure and ASP.NET",
+        "category": "Web Hosting and CDN(Content Delivery Network)",
+        "iconClass": "icon-azure",
+        "description": "Microsoft Web hosting platform and Content Delivery Network for Microsoft Azure.",
+        "url": "https://microsoft.com/"
+    },
+    {
+        "patterns": [
             "(.|/)mxpnl.com/",
             "(.|/)mixpanel.com/"
         ],
@@ -1314,7 +1314,7 @@
     {
         "patterns": [
             "(.|/)movologist.net/",
-            "(.|/)https://movinghub.io/",
+            "(.|/)movinghub.io/",
             "(.|/)utilihub.io/"
         ],
         "name": "Movinghub and Utilihub",
@@ -1547,7 +1547,7 @@
     {
         "patterns": [
             "(.|/)pinimg.com/",
-            ".pinterest.com/"
+            "(.|/)pinterest.com/"
         ],
         "name": "Pinterest",
         "category": "Ads Tracking",
@@ -1712,7 +1712,6 @@
     },
     {
         "patterns": [
-            "(.|/)segment.com/analytics",
             "(.|/)segment.com/"
         ],
         "name": "Segment",
@@ -1949,7 +1948,7 @@
             "(.|/)tiqcdn.com/",
             "(.|/)tealium.com/",
             "(.|/)tealiumiq.com/",
-            "(.|/)rmtag.com"
+            "(.|/)rmtag.com/"
         ],
         "name": "Tealium Tag Manager",
         "category": "Ads &amp; Tracking",
@@ -2033,10 +2032,8 @@
     },
     {
         "patterns": [
-            "(.|/)ads-twitter",
+            "(.|/)ads-twitter.com/",
             "(.|/)twitter.com/",
-            "(.|/)analytics.twitter",
-            "(.|/)twimg.twitter",
             "(.|/)twimg.com/"
         ],
         "name": "Twitter",
@@ -2196,6 +2193,8 @@
     {
         "patterns": [
             "(.|/)wp.com/",
+            "(.|/)wordpress.com/",
+            "(.|/)wordpress.org/",
             "/wp-includes/",
             "/wp-content/"
         ],

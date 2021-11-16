@@ -9,6 +9,7 @@ import {iTag} from '../src/cards/mt'
 import {iTagCategory} from '../src/cards/mt-categories'
 import {Card} from '../src/card'
 import * as Previewer from "../src/cards/mt-previewer"
+import * as Validator from "../src/cards/mt-validator"
 
 // Jest imports
 import 'jest-get-type'
@@ -181,6 +182,7 @@ export const MetaTagCategorySample: iTagCategory = {
     cssClass: 'icon-tag',
     filter: m => true,
     previewer: Previewer.noPreview,
+    validator: Validator.noValidation,
 }
 
 export const JavaScriptsArraySample = [

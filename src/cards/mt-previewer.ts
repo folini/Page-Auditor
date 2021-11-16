@@ -4,18 +4,18 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {iTag} from './mt'
+import {iTag, tagToString} from './mt'
 import {Card} from '../card'
 import {htmlEncode} from 'js-htmlencode'
 
 export interface iTagPreviewer {
-    (card: Card, selectedTags: iTag[], allTags: iTag[], canonical: string, title: string, url: string): void
+    (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string, title: string, url: string): void
 }
 
 export const noPreview: iTagPreviewer = (
     card: Card,
-    selectedTag: iTag[],
     allTags: iTag[],
+    selectedTag: iTag[],
     canonical: string,
     title: string
 ) => void 0
@@ -29,9 +29,9 @@ const twitterLinkIcon =
 
 export const stdTags = (
     card: Card,
+   allTag: iTag[],
     selectedTags: iTag[],
-    allTag: iTag[],
-    canonical: string,
+     canonical: string,
     tabTitle: string,
     tabUrl: string
 ) => {
@@ -51,25 +51,27 @@ export const stdTags = (
     )
 }
 
-export const twitterTags = (card: Card, selectedTags: iTag[], allTag: iTag[], canonical: string, tabTitle: string) => {
-    const imgTag = selectedTags.find(m => m.label === 'twitter:image' || m.label === 'twitter:image:src')
+export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string, tabTitle: string) => {
+    console.log(`Previewer.twitterTags => received ${tagToString(selectedTags)}`)
+    const imgTag = selectedTags.find(m => m.label === 'twitter:image') || selectedTags.find(m => m.label === 'twitter:image:src')
     const urlTag = selectedTags.find(m => m.label === 'twitter:url')
     const titleTag = selectedTags.find(m => m.label === 'twitter:title')
     const descriptionTag = selectedTags.find(m => m.label === 'twitter:description')
+    const domainTag = selectedTags.find(m => m.label === 'twitter:domain')
 
-    const imgFallbackTag = allTag.find(m => m.label === 'og:image' || m.label === 'image')
-    const titleFallbackTag = allTag.find(m => m.label === 'og:title' || m.label === 'title')
-    const descriptionFallbackTag = allTag.find(m => m.label === 'og:description' || m.label === 'description')
-    const urlFallbackTag = allTag.find(m => m.label === 'og:url' || m.label === 'url')
+    const imgFallbackTag = allTags.find(m => m.label === 'og:image') || allTags.find(m => m.label === 'image')
+    const titleFallbackTag = allTags.find(m => m.label === 'og:title') || allTags.find(m => m.label === 'title')
+    const descriptionFallbackTag = allTags.find(m => m.label === 'og:description') || allTags.find(m => m.label === 'description')
+    const urlFallbackTag = allTags.find(m => m.label === 'og:url') || allTags.find(m => m.label === 'url')
 
     let title = titleTag?.value || titleFallbackTag?.value || ''
     let img = imgTag?.value || imgFallbackTag?.value || ''
     let description = descriptionTag?.value || descriptionFallbackTag?.value || ''
-    description = description.length < 128 ? description : description.substr(0, 128) + '&mldr;'
-    var domain = urlTag?.value || urlFallbackTag?.value || ''
+    description = description.length < 128 ? description : description.substr(0, 128) + '...'
+    var pageDomain = domainTag?.value || urlTag?.value || urlFallbackTag?.value || ''
 
-    if (domain.startsWith('http')) {
-        domain = domain.replace(/https?:\/\/(www.)?((\w+\.)?\w+\.\w+).*/i, `$2`)
+    if (pageDomain.startsWith('http')) {
+        pageDomain = pageDomain.replace(/https?:\/\/(www.)?((\w+\.)?\w+\.\w+).*/i, `$2`)
     }
 
     if (img.startsWith('http://')) {
@@ -81,7 +83,7 @@ export const twitterTags = (card: Card, selectedTags: iTag[], allTag: iTag[], ca
             `<div class='box-body body-close'>` +
             (img.length > 0 && img.startsWith('http') ? `<img class='preview-img' src='${img}'>` : ``) +
             `<div class='preview-legend'>` +
-            (domain.length > 0 ? `<div class='twitter-card-domain'>${domain}</div>` : '') +
+            (pageDomain.length > 0 ? `<div class='twitter-card-domain'>${pageDomain}</div>` : '') +
             `<div class='twitter-card-title'>${htmlEncode(title)}</div>` +
             `<div class='twitter-card-description'>${htmlEncode(description)}</div>` +
             `</div>` +
@@ -95,16 +97,17 @@ export const twitterTags = (card: Card, selectedTags: iTag[], allTag: iTag[], ca
     }
 }
 
-export const openGraphTags = (card: Card, selectedTags: iTag[], allMeta: iTag[], tabTitle: string) => {
+export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[], tabTitle: string) => {
+    console.log(`Previewer.openGraphTags => received ${tagToString(selectedTags)}`)
     const imgTag = selectedTags.find(m => m.label === 'og:image')
-    const urlTag = selectedTags.find(m => m.label === 'og:url' || m.label === 'og:image:secure_url')
+    const urlTag = selectedTags.find(m => m.label === 'og:url') || selectedTags.find(m => m.label === 'og:image:secure_url')
     const titleTag = selectedTags.find(m => m.label === 'og:title')
     const descriptionTag = selectedTags.find(m => m.label === 'og:description')
 
-    const imgFallbackTag = allMeta.find(m => m.label === 'image')
-    const descriptionFallbackTag = allMeta.find(m => m.label === 'description')
-    const urlFallbackTag = allMeta.find(m => m.label === 'url')
-    const titleFallbackTag = allMeta.find(m => m.label === 'title')
+    const imgFallbackTag = allTags.find(m => m.label === 'image')
+    const descriptionFallbackTag = allTags.find(m => m.label === 'description')
+    const urlFallbackTag = allTags.find(m => m.label === 'url')
+    const titleFallbackTag = allTags.find(m => m.label === 'title')
 
     let url = urlTag?.value || urlFallbackTag?.value || ''
     if (url && url.startsWith('http')) {

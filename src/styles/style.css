@@ -320,7 +320,7 @@ body#id-page-auditor .box-card .card-body {
   font-size: 14px;
 }
 body#id-page-auditor .box-card .card-body > div {
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 body#id-page-auditor .box-card .card-body > div:last-child {
   margin-bottom: 0 !important;
@@ -1363,8 +1363,19 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
   border-radius: 0 0 6px 6px;
   overflow: hidden;
 }
+:not(.card-tip) + .card-tip {
+  margin-top: 24px;
+}
+:not(.card-tip) + .card-tip:before {
+  content: 'Tips & Recommendations';
+  width: 100%;
+  text-align: center;
+  display: block;
+  padding-bottom: 16px;
+  font-size: 1.2em;
+}
 .card-tip {
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 .card-tip .tip-title {
   background-color: #fddeb54d;

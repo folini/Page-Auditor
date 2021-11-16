@@ -19,7 +19,7 @@ export class Errors {
             .setLogo('icon-chromium')
             .addParagraph(msg1)
             .addParagraph(msg2)
-            .setTitle('Unable To Analyze Chrome Tabs')
+            .setTitle('Unable To Analyze <code>chrome:</code> &amp; <code>edge:</code> Tabs')
             .tag('card-error')
     }
 
