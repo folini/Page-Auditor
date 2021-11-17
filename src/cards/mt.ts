@@ -4,7 +4,7 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import * as Tips from './tips'
+import * as Tips from '../tips/tips'
 import {Report} from '../report'
 import {Card, CardKind} from '../card'
 import {codeBlock} from '../codeBlock'
@@ -26,8 +26,8 @@ interface iDataFromPage {
     title: string
 }
 
-export const tagToString = (tag: iTag| iTag[]): string => {
-    if(Array.isArray(tag)) {
+export const tagToString = (tag: iTag | iTag[]): string => {
+    if (Array.isArray(tag)) {
         return `\n[${tag.map(t => tagToString(t)).join('\n')}]\n\n`
     }
     return `{"${tag.label}": "${tag.value}"`
@@ -84,7 +84,7 @@ const reportGenerator: ReportGeneratorFunc = (url: string, data: any, report: Re
     if (scriptsDone === 0) {
         const card = Errors.metaTags_NotFound()
         report.addCard(card)
-        Tips.tag_AllMissing(card)
+        Tips.MetaTags.noTagsFound(card)
         report.completed()
         return
     }
@@ -92,13 +92,13 @@ const reportGenerator: ReportGeneratorFunc = (url: string, data: any, report: Re
     if (!twitterDone) {
         const card = Errors.metaTags_noTwitterTags()
         report.addCard(card)
-        Tips.tag_noTwitterTags(card)
+        Tips.MetaTags.tagTwitterNotFound(card)
     }
 
     if (!openGraphDone) {
         const card = Errors.metaTags_noOpenGraphTags()
         report.addCard(card)
-        Tips.tag_noOpenGraphTags(card)
+        Tips.MetaTags.tagOpenGraphNotFound(card)
     }
 
     report.completed()
@@ -121,7 +121,7 @@ export const metaTagsCard = (
     if (selectedTags.length === 0) {
         const card = Errors.internal_NoMetaTagsInThisCategory(tagCategory.title)
         report.addCard(card)
-        Tips.unableToAnalyzeBrowserPages(card)
+        Tips.Internal.unableToAnalyzeBrowserPages(card)
         return
     }
 
@@ -159,5 +159,4 @@ export const metaTagsCard = (
     tagCategory.previewer(card, allTags, selectedTags, canonical, title, url)
     tagCategory.validator(card, allTags, selectedTags, canonical)
     report.addCard(card)
-
 }

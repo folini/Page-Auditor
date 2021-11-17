@@ -10,7 +10,7 @@ import {Mode} from '../colorCode'
 import {disposableId} from '../main'
 import {codeBlock} from '../codeBlock'
 import {Report} from '../report'
-import * as Tips from './tips'
+import * as Tips from '../tips/tips'
 import {Errors} from './errors'
 import {Schema} from '../schema'
 
@@ -20,7 +20,7 @@ export const ldJsonCard = (schema: Schema, tabUrl: string, occurrences: MustBeUn
     if (schema.isEmpty()) {
         const card = Errors.sd_IsEmpty(tabUrl)
         report.addCard(card)
-        Tips.sd_noStructuredData(card)
+        Tips.StructuredData.noStructuredData(card)
     }
     let schemaType = Schema.getType(schema.getJson())
     Schema.resetDictionary()
@@ -37,26 +37,31 @@ export const ldJsonCard = (schema: Schema, tabUrl: string, occurrences: MustBeUn
     Schema.enableOpenClose(card.getDiv())
 
     if (schema.getRelativeUrls().length > 0) {
-        Tips.sd_relativeUrl(Promise.resolve(card), Schema.flattenName(schemaType), schema.getRelativeUrls(), tabUrl)
+        Tips.StructuredData.avoidRelativeUrls(
+            Promise.resolve(card),
+            Schema.flattenName(schemaType),
+            schema.getRelativeUrls(),
+            tabUrl
+        )
     }
 
     switch (schemaType) {
         case 'Organization':
             occurrences.organization++
             if (occurrences.organization > 1) {
-                Tips.sd_repeatedSchemas(card, schemaType, occurrences.organization)
+                Tips.StructuredData.repeatedSchemas(card, schemaType, occurrences.organization)
             }
             break
         case 'WebSite':
             occurrences.website++
             if (occurrences.website > 1) {
-                Tips.sd_repeatedSchemas(card, schemaType, occurrences.website)
+                Tips.StructuredData.repeatedSchemas(card, schemaType, occurrences.website)
             }
             break
         case 'BreadcrumbList':
             occurrences.breadcrumbs++
             if (occurrences.breadcrumbs > 1) {
-                Tips.sd_repeatedSchemas(card, schemaType, occurrences.breadcrumbs)
+                Tips.StructuredData.repeatedSchemas(card, schemaType, occurrences.breadcrumbs)
             }
             break
     }

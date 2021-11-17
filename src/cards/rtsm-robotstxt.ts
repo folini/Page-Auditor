@@ -4,7 +4,7 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import * as Tips from './tips'
+import * as Tips from '../tips/tips'
 import * as File from '../file'
 import {Report} from '../report'
 import {Card, CardKind} from '../card'
@@ -17,28 +17,28 @@ export const processRobotsTxt = (robotsTxtBody: string, url: string, report: Rep
     if (robotsTxtBody.match(/page not found/gim) !== null || robotsTxtBody.match(/error 404/gim) !== null) {
         const card = Errors.robotsTxt_NotFound(url)
         report.addCard(card)
-        Tips.missingRobotsTxt(card)
+        Tips.RobotsTxt.missingRobotsTxt(card)
         return
     }
 
     if (robotsTxtBody.includes(`<head>`) || robotsTxtBody.includes(`<meta`)) {
         const card = Errors.robotsTxt_IsARedirect(url, robotsTxtBody)
         report.addCard(card)
-        Tips.missingRobotsTxt(card)
+        Tips.RobotsTxt.missingRobotsTxt(card)
         return
     }
 
     if (robotsTxtBody.replace(/[\s\n]/g, '').length === 0) {
         const card = Errors.robotsTxt_IsEmpty(url)
         report.addCard(card)
-        Tips.emptyRobotsTxt(card)
+        Tips.RobotsTxt.emptyRobotsTxt(card)
         return
     }
 
     if (extractDirectives(robotsTxtBody).length === 0) {
         const card = Errors.robotsTxt_OnlyComments(url, robotsTxtBody)
         report.addCard(card)
-        Tips.emptyRobotsTxt(card)
+        Tips.RobotsTxt.emptyRobotsTxt(card)
         return
     }
 
@@ -75,7 +75,10 @@ const robotsTxtCard = (url: string, robotsTxtBody: string): Card => {
         url
     )}`
     const table = [
-        [`Validate robots.txt`, `<a class='small-btn' href='${validationLink}' target='_blank'>Validate Robots.txt</a>`],
+        [
+            `Validate robots.txt`,
+            `<a class='small-btn' href='${validationLink}' target='_blank'>Validate Robots.txt</a>`,
+        ],
         ['File Name', 'robots.txt'],
         ['File Size', formatNumber(robotsTxtBody.length) + ' bytes'],
     ]
@@ -120,30 +123,30 @@ const robotsTxtCard = (url: string, robotsTxtBody: string): Card => {
         .tag(`card-ok`)
 
     if (linksToSitemap.length === 0) {
-        Tips.addSitemapLinkToRobotsTxt(card, new URL(url).origin)
+        Tips.RobotsTxt.addSitemapLink(card, new URL(url).origin)
     }
 
     const unsafeUrls = linksToSitemap.filter(url => url.includes(`http://`))
     if (unsafeUrls.length > 0) {
-        Tips.unsafeSitemapLinkInRobots(card as Card, unsafeUrls)
+        Tips.RobotsTxt.unsafeSitemapLink(card as Card, unsafeUrls)
     }
 
     linksToSitemap = linksToSitemap.map(url => url.replace('http://', 'https://'))
     const duplicateUrls = linksToSitemap.filter(uUrl => linksToSitemap.filter(url => url === uUrl).length > 1)
     if (duplicateUrls.length > 0) {
-        Tips.duplicateSitemapsInRobots(card, duplicateUrls)
+        Tips.RobotsTxt.duplicateSitemapsLink(card, duplicateUrls)
     }
 
     linksToSitemap = linksToSitemap.map(sm => {
         if (sm.startsWith('/')) {
-            Tips.sitemapInRobotsWithRelativePath(card, sm, new URL(url).origin + sm)
+            Tips.RobotsTxt.sitemapLinkWithRelativePath(card, sm, new URL(url).origin + sm)
             return new URL(url).origin + sm
         }
         return sm
     })
     ;[...new Set(linksToSitemap)].forEach(url =>
         File.exists(url, File.xmlContentType).catch(() => {
-            Tips.sitemapInRobotsDoesNotExist(card, url)
+            Tips.RobotsTxt.sitemapLinkedNotFound(card, url)
         })
     )
 

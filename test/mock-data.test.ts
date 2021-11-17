@@ -8,8 +8,8 @@ import {htmlEncode} from 'js-htmlencode'
 import {iTag} from '../src/cards/mt'
 import {iTagCategory} from '../src/cards/mt-categories'
 import {Card} from '../src/card'
-import * as Previewer from "../src/cards/mt-previewer"
-import * as Validator from "../src/cards/mt-validator"
+import * as Previewer from '../src/cards/mt-previewer'
+import * as Validator from '../src/cards/mt-validator'
 
 // Jest imports
 import 'jest-get-type'

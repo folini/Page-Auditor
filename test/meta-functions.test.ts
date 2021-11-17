@@ -5,9 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {iTag} from '../src/cards/mt'
-import {
-    tagCategories,
-} from '../src/cards/mt-categories'
+import {tagCategories} from '../src/cards/mt-categories'
 import * as MockData from './mock-data.test'
 
 // Jest imports

@@ -5,7 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {iTag, tagToString} from './mt'
-import * as Tips from './tips'
+import * as Tips from '../tips/tips'
 import {Card} from '../card'
 import {specs} from './specs'
 import * as File from '../file'
@@ -26,28 +26,28 @@ export const repTags = (card: Card, allTags: iTag[], selectedTags: iTag[], canon
         .map(v => v.trim().toLowerCase())
         .filter(val => val === 'index' || val === 'follow')
     if (values.length > 0) {
-        Tips.tag_REP_redundant(card, selectedTags, values)
+        Tips.MetaTags.tagRepRedundantValue(card, selectedTags, values)
     }
 }
 
 export const stdTags = (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string) => {
     const keywords = selectedTags.find(m => m.label.toLowerCase() === 'keywords')
     if (keywords) {
-        Tips.tag_Std_KeywordsIsObsolete(card, keywords)
+        Tips.MetaTags.tagKeywordsIsObsolete(card, keywords)
     }
 
     const description = selectedTags.find(m => m.label.toLowerCase() === 'description')
     if (description && description.value.length > specs.stdTags.Desc.MaxLen) {
-        Tips.tag_Std_DescriptionIsTooLong(card, description)
+        Tips.MetaTags.tagDescriptionIsTooLong(card, description)
     }
 
     if (description && description.value.length < specs.stdTags.Desc.MinLen) {
-        Tips.tag_Std_DescriptionIsTooShort(card, description)
+        Tips.MetaTags.tagDescriptionIsTooShort(card, description)
     }
 
     const title = selectedTags.find(m => m.label.toLowerCase() === 'title')
     if (title && title.value.length > specs.stdTags.Title.MaxLen) {
-        Tips.tag_Std_TitleIsTooLong(card, title)
+        Tips.MetaTags.tagTitleIsTooLong(card, title)
     }
 }
 
@@ -60,7 +60,6 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
     const urlTag = selectedTags.find(m => m.label === 'twitter:url')
     const titleTag = selectedTags.find(m => m.label === 'twitter:title')
     const descriptionTag = selectedTags.find(m => m.label === 'twitter:description')
-    const domainTag = selectedTags.find(m => m.label === 'twitter:domain')
 
     const imgFallbackTag = allTags.find(m => m.label === 'og:image') || allTags.find(m => m.label === 'image')
     const titleFallbackTag = allTags.find(m => m.label === 'og:title') || allTags.find(m => m.label === 'title')
@@ -74,52 +73,52 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
     let description = descriptionTag?.value || descriptionFallbackTag?.value || ''
 
     if (!!obsoleteTag) {
-        Tips.tag_Obsolete(card, 'Twitter', obsoleteTag.label, obsoleteTag.code)
+        Tips.MetaTags.tagIsObsolete(card, 'Twitter', obsoleteTag.label, obsoleteTag.code)
     }
 
     if (!siteTag) {
-        Tips.tag_Missing(card, 'Twitter', 'twitter:site')
+        Tips.MetaTags.tagIsMissing(card, 'Twitter', 'twitter:site')
     }
 
     if (!cardTag) {
-        Tips.tag_Missing(card, 'Twitter', 'twitter:card')
+        Tips.MetaTags.tagIsMissing(card, 'Twitter', 'twitter:card')
     } else {
         if (specs.twitterTags.twitterCard.obsoleteValues.includes(cardTag.value)) {
-            Tips.tag_ObsoleteValue(card, 'Twitter', cardTag, specs.twitterTags.twitterCard.obsoleteValues)
+            Tips.MetaTags.tagWithObsoleteValue(card, 'Twitter', cardTag, specs.twitterTags.twitterCard.obsoleteValues)
         } else if (!specs.twitterTags.twitterCard.validValues.includes(cardTag.value)) {
-            Tips.tag_InvalidValue(card, 'Twitter', cardTag, specs.twitterTags.twitterCard.validValues)
+            Tips.MetaTags.tagWithInvalidValue(card, 'Twitter', cardTag, specs.twitterTags.twitterCard.validValues)
         }
     }
 
     if (!!urlTag) {
         if (urlTag.value.length === 0) {
-            Tips.tag_NoValue(card, 'Twitter', urlTag)
+            Tips.MetaTags.tagWithEmptyValue(card, 'Twitter', urlTag)
         } else {
             if (!urlTag.value.startsWith('https://')) {
-                Tips.tagUrl_RelativePath(card, 'Twitter', urlTag)
+                Tips.MetaTags.tagUrlIsRelativePath(card, 'Twitter', urlTag)
             } else if (urlTag.value.startsWith('http://')) {
-                Tips.tagUrl_ObsoleteProtocol(card, 'Twitter', urlTag)
+                Tips.MetaTags.tagUrlUsesObsoleteProtocol(card, 'Twitter', urlTag)
             } else if (canonical.length > 0 && urlTag.value.toLowerCase() !== canonical.toLowerCase()) {
-                Tips.tagUrl_NonCanonical(card, 'Twitter', urlTag, canonical)
+                Tips.MetaTags.tagUrlIsNonCanonical(card, 'Twitter', urlTag, canonical)
             }
         }
     } else {
         if (url.length > 0 && urlFallbackTag) {
-            Tips.tag_NonSpecific(card, 'Twitter', 'twitter:url', urlFallbackTag)
+            Tips.MetaTags.tagShouldBeSpecific(card, 'Twitter', 'twitter:url', urlFallbackTag)
         } else {
-            Tips.tag_Missing(card, 'Twitter', 'twitter:url')
+            Tips.MetaTags.tagIsMissing(card, 'Twitter', 'twitter:url')
         }
     }
 
     if (!!titleTag) {
         if (titleTag.value.length === 0) {
-            Tips.tag_NoValue(card, 'Twitter', titleTag)
+            Tips.MetaTags.tagWithEmptyValue(card, 'Twitter', titleTag)
         } else if (titleTag.value.length <= specs.twitterTags.twTitle.MinLen) {
-            Tips.tag_Placeholder(card, 'Twitter', titleTag)
+            Tips.MetaTags.tagIsaPlaceholder(card, 'Twitter', titleTag)
         } else if (titleTag.value.length > specs.twitterTags.twTitle.MaxLen) {
-            Tips.tag_OverMaxLength(card, 'Twitter', titleTag, specs.twitterTags.twTitle.MaxLen)
+            Tips.MetaTags.tagLongerThanMax(card, 'Twitter', titleTag, specs.twitterTags.twTitle.MaxLen)
         } else if (titleTag.value.length > specs.twitterTags.twTitle.MaxRecommendedLen) {
-            Tips.tag_OverRecommendedLength(
+            Tips.MetaTags.tagLongerThanRecommended(
                 card,
                 'Twitter',
                 titleTag,
@@ -129,21 +128,21 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
         }
     } else {
         if (title.length > 0 && titleFallbackTag) {
-            Tips.tag_NonSpecific(card, 'Twitter', 'twitter:title', titleFallbackTag)
+            Tips.MetaTags.tagShouldBeSpecific(card, 'Twitter', 'twitter:title', titleFallbackTag)
         } else {
-            Tips.tag_Missing(card, 'Twitter', 'twitter:title')
+            Tips.MetaTags.tagIsMissing(card, 'Twitter', 'twitter:title')
         }
     }
 
     if (!!descriptionTag) {
         if (descriptionTag.value.length === 0) {
-            Tips.tag_NoValue(card, 'Twitter', descriptionTag)
+            Tips.MetaTags.tagWithEmptyValue(card, 'Twitter', descriptionTag)
         } else if (descriptionTag.value.length <= specs.twitterTags.twDesc.MinLen) {
-            Tips.tag_Placeholder(card, 'Twitter', descriptionTag)
+            Tips.MetaTags.tagIsaPlaceholder(card, 'Twitter', descriptionTag)
         } else if (descriptionTag.value.length > specs.twitterTags.twDesc.MaxLen) {
-            Tips.tag_OverMaxLength(card, 'Twitter', descriptionTag, specs.twitterTags.twDesc.MaxLen)
+            Tips.MetaTags.tagLongerThanMax(card, 'Twitter', descriptionTag, specs.twitterTags.twDesc.MaxLen)
         } else if (descriptionTag.value.length > specs.twitterTags.twDesc.MaxWithUrlLen) {
-            Tips.tag_OverRecommendedLength(
+            Tips.MetaTags.tagLongerThanRecommended(
                 card,
                 'Twitter',
                 descriptionTag,
@@ -153,39 +152,39 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
         }
     } else {
         if (description.length > 0 && descriptionFallbackTag) {
-            Tips.tag_NonSpecific(card, 'Twitter', 'twitter:description', descriptionFallbackTag)
+            Tips.MetaTags.tagShouldBeSpecific(card, 'Twitter', 'twitter:description', descriptionFallbackTag)
         } else {
-            Tips.tag_Missing(card, 'Twitter', 'twitter:description')
+            Tips.MetaTags.tagIsMissing(card, 'Twitter', 'twitter:description')
         }
     }
 
     if (!!imgTag) {
         if (imgTag.value.length === 0) {
-            Tips.tag_NoValue(card, 'Twitter', imgTag)
+            Tips.MetaTags.tagWithEmptyValue(card, 'Twitter', imgTag)
         } else {
             if (imgTag.value.includes('/assets/no-image-')) {
-                Tips.tagImage_Placeholder(card, 'Twitter', imgTag)
+                Tips.MetaTags.tagImageIsaPlaceholder(card, 'Twitter', imgTag)
             }
             if (!imgTag.value.startsWith('http')) {
-                Tips.tagUrl_RelativePath(card, 'Twitter', imgTag)
+                Tips.MetaTags.tagUrlIsRelativePath(card, 'Twitter', imgTag)
                 if (canonical.length > 0 && canonical.startsWith('http')) {
                     img = new URL(canonical).origin + imgTag.value
                 }
             } else if (imgTag.value.startsWith('http://')) {
-                Tips.tagUrl_ObsoleteProtocol(card, 'Twitter', imgTag)
+                Tips.MetaTags.tagUrlUsesObsoleteProtocol(card, 'Twitter', imgTag)
             }
             if (imgTag.value.startsWith('https://')) {
                 File.exists(img, File.imageContentType).catch(() => {
-                    Tips.tagImage_NoImage(card, 'Twitter', imgTag)
+                    Tips.MetaTags.tagImageNotFound(card, 'Twitter', imgTag)
                     card.hideElement(`.preview-img`)
                 })
             }
         }
     } else {
         if (img.length > 0 && imgFallbackTag) {
-            Tips.tag_NonSpecific(card, 'Twitter', 'twitter:image', imgFallbackTag)
+            Tips.MetaTags.tagShouldBeSpecific(card, 'Twitter', 'twitter:image', imgFallbackTag)
         } else {
-            Tips.tag_Missing(card, 'Twitter', 'twitter:image')
+            Tips.MetaTags.tagIsMissing(card, 'Twitter', 'twitter:image')
         }
     }
 }
@@ -217,101 +216,113 @@ export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[],
 
     if (!!urlTag) {
         if (urlTag.value.length === 0) {
-            Tips.tag_NoValue(card, 'Facebook', urlTag)
+            Tips.MetaTags.tagWithEmptyValue(card, 'Facebook', urlTag)
         } else {
             if (!urlTag.value.startsWith('http')) {
-                Tips.tagUrl_RelativePath(card, 'Facebook', urlTag)
+                Tips.MetaTags.tagUrlIsRelativePath(card, 'Facebook', urlTag)
             } else if (urlTag.value.startsWith('http://')) {
-                Tips.tagUrl_ObsoleteProtocol(card, 'Facebook', urlTag)
+                Tips.MetaTags.tagUrlUsesObsoleteProtocol(card, 'Facebook', urlTag)
             } else if (canonical.length > 0 && urlTag.value.toLowerCase() !== canonical.toLowerCase()) {
-                Tips.tagUrl_NonCanonical(card, 'Facebook', urlTag, canonical)
+                Tips.MetaTags.tagUrlIsNonCanonical(card, 'Facebook', urlTag, canonical)
             }
         }
     } else {
         if (url.length > 0 && urlFallbackTag) {
-            Tips.tag_NonSpecific(card, 'Facebook', 'og:url', urlFallbackTag)
+            Tips.MetaTags.tagShouldBeSpecific(card, 'Facebook', 'og:url', urlFallbackTag)
         } else {
-            Tips.tag_Missing(card, 'Facebook', 'og:url')
+            Tips.MetaTags.tagIsMissing(card, 'Facebook', 'og:url')
         }
     }
 
     if (!!titleTag) {
         if (titleTag.value.length === 0) {
-            Tips.tag_NoValue(card, 'Facebook', titleTag)
+            Tips.MetaTags.tagWithEmptyValue(card, 'Facebook', titleTag)
         } else if (titleTag.value.length <= specs.openGraphTags.ogTitle.MinLen) {
-            Tips.tag_Placeholder(card, 'Facebook', titleTag)
+            Tips.MetaTags.tagIsaPlaceholder(card, 'Facebook', titleTag)
         } else if (titleTag.value.length > specs.openGraphTags.ogTitle.MaxLen) {
-            Tips.tag_OverMaxLength(card, 'Facebook', titleTag, specs.openGraphTags.ogTitle.MaxLen)
+            Tips.MetaTags.tagLongerThanMax(card, 'Facebook', titleTag, specs.openGraphTags.ogTitle.MaxLen)
         } else if (titleTag.value.length > specs.openGraphTags.ogTitle.MaxRecommendedLen) {
-            Tips.tag_OverRecommendedLength(card, 'Facebook', titleTag, specs.openGraphTags.ogTitle.MaxLen, specs.openGraphTags.ogTitle.MaxRecommendedLen)
+            Tips.MetaTags.tagLongerThanRecommended(
+                card,
+                'Facebook',
+                titleTag,
+                specs.openGraphTags.ogTitle.MaxLen,
+                specs.openGraphTags.ogTitle.MaxRecommendedLen
+            )
         }
     } else {
         if (title.length > 0 && titleFallbackTag) {
-            Tips.tag_NonSpecific(card, 'Facebook', 'og:title', titleFallbackTag)
+            Tips.MetaTags.tagShouldBeSpecific(card, 'Facebook', 'og:title', titleFallbackTag)
         } else {
-            Tips.tag_Missing(card, 'Facebook', 'og:title')
+            Tips.MetaTags.tagIsMissing(card, 'Facebook', 'og:title')
         }
     }
 
     if (!!typeTag) {
         if (typeTag.value.length === 0) {
-            Tips.tag_NoValue(card, 'Facebook', typeTag)
+            Tips.MetaTags.tagWithEmptyValue(card, 'Facebook', typeTag)
         } else if (!specs.openGraphTags.ogType.validValues.includes(typeTag.value) && !typeTag.value.includes(':')) {
-            Tips.tag_InvalidValue(card, 'Facebook', typeTag, specs.openGraphTags.ogType.validValues)
+            Tips.MetaTags.tagWithInvalidValue(card, 'Facebook', typeTag, specs.openGraphTags.ogType.validValues)
         }
     } else {
-        Tips.tag_Missing(card, 'Facebook', 'og:type')
+        Tips.MetaTags.tagIsMissing(card, 'Facebook', 'og:type')
     }
 
     if (!!descriptionTag) {
         if (descriptionTag.value.length === 0) {
-            Tips.tag_NoValue(card, 'Facebook', descriptionTag)
+            Tips.MetaTags.tagWithEmptyValue(card, 'Facebook', descriptionTag)
         } else if (descriptionTag.value.length <= specs.openGraphTags.ogDescription.MinLen) {
-            Tips.tag_Placeholder(card, 'Facebook', descriptionTag)
+            Tips.MetaTags.tagIsaPlaceholder(card, 'Facebook', descriptionTag)
         } else if (descriptionTag.value.length > specs.openGraphTags.ogDescription.MaxLen) {
-            Tips.tag_OverMaxLength(card, 'Facebook', descriptionTag, specs.openGraphTags.ogDescription.MaxLen)
+            Tips.MetaTags.tagLongerThanMax(card, 'Facebook', descriptionTag, specs.openGraphTags.ogDescription.MaxLen)
         } else if (descriptionTag.value.length > specs.openGraphTags.ogDescription.MaxRecommendedLen) {
-            Tips.tag_OverRecommendedLength(card, 'Facebook', descriptionTag, specs.openGraphTags.ogDescription.MaxLen, specs.openGraphTags.ogDescription.MaxRecommendedLen)
+            Tips.MetaTags.tagLongerThanRecommended(
+                card,
+                'Facebook',
+                descriptionTag,
+                specs.openGraphTags.ogDescription.MaxLen,
+                specs.openGraphTags.ogDescription.MaxRecommendedLen
+            )
         }
     } else {
         if (description.length > 0 && descriptionFallbackTag) {
-            Tips.tag_NonSpecific(card, 'Facebook', 'og:description', descriptionFallbackTag)
+            Tips.MetaTags.tagShouldBeSpecific(card, 'Facebook', 'og:description', descriptionFallbackTag)
         } else {
-            Tips.tag_Missing(card, 'Facebook', 'og:description')
+            Tips.MetaTags.tagIsMissing(card, 'Facebook', 'og:description')
         }
     }
 
     if (!!imgTag) {
         if (imgTag.value.length === 0) {
-            Tips.tag_NoValue(card, 'Facebook', imgTag)
+            Tips.MetaTags.tagWithEmptyValue(card, 'Facebook', imgTag)
         } else {
             if (imgTag.value.includes('/assets/no-image-')) {
-                Tips.tagImage_Placeholder(card, 'Facebook', imgTag)
+                Tips.MetaTags.tagImageIsaPlaceholder(card, 'Facebook', imgTag)
             }
             if (imgTag.value.length === 0) {
-                Tips.tagImage_NoTag(card, 'Facebook', imgTag.label)
+                Tips.MetaTags.tagImageIsMissing(card, 'Facebook', imgTag.label)
             }
             if (imgTag.value.startsWith('https://')) {
                 File.exists(imgTag.value, File.imageContentType).catch(() => {
-                    Tips.tagImage_NoImage(card, 'Facebook', imgTag)
+                    Tips.MetaTags.tagImageNotFound(card, 'Facebook', imgTag)
                     card.hideElement(`.preview-img`)
                 })
             }
             if (!imgTag.value.startsWith('http')) {
-                Tips.tagUrl_RelativePath(card, 'Facebook', imgTag)
+                Tips.MetaTags.tagUrlIsRelativePath(card, 'Facebook', imgTag)
                 if (canonical.length > 0 && canonical.startsWith('http')) {
                     img = new URL(canonical).origin + imgTag.value
                 }
             }
             if (imgTag.value.startsWith('http://')) {
-                Tips.tagUrl_ObsoleteProtocol(card, 'Facebook', imgTag)
+                Tips.MetaTags.tagUrlUsesObsoleteProtocol(card, 'Facebook', imgTag)
             }
         }
     } else {
         if (img.length > 0 && imgFallbackTag) {
-            Tips.tag_NonSpecific(card, 'Facebook', 'og:image', imgFallbackTag)
+            Tips.MetaTags.tagShouldBeSpecific(card, 'Facebook', 'og:image', imgFallbackTag)
         } else {
-            Tips.tag_Missing(card, 'Facebook', 'og:image')
+            Tips.MetaTags.tagIsMissing(card, 'Facebook', 'og:image')
         }
     }
 }

@@ -6,6 +6,7 @@
 // ----------------------------------------------------------------------------
 import {iTag, tagToString} from './mt'
 import {Card} from '../card'
+import * as File from '../file'
 import {htmlEncode} from 'js-htmlencode'
 
 export interface iTagPreviewer {
@@ -29,9 +30,9 @@ const twitterLinkIcon =
 
 export const stdTags = (
     card: Card,
-   allTag: iTag[],
+    allTag: iTag[],
     selectedTags: iTag[],
-     canonical: string,
+    canonical: string,
     tabTitle: string,
     tabUrl: string
 ) => {
@@ -42,9 +43,9 @@ export const stdTags = (
         `<div class='box-label label-close'>Google SERP Preview</div>` +
             `<div class='box-body body-close'>` +
             `<div class='serp-body'>` +
-                `<div class='serp-card-url'>${tabUrl}</div>` +
-                `<div class='serp-card-title'>${title}</div>` +
-                `<div class='serp-card-description'>${description}</div>` +
+            `<div class='serp-card-url'>${tabUrl}</div>` +
+            `<div class='serp-card-title'>${title}</div>` +
+            `<div class='serp-card-description'>${description}</div>` +
             `</div>` +
             `</div>`,
         'serp-card'
@@ -52,26 +53,29 @@ export const stdTags = (
 }
 
 export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string, tabTitle: string) => {
-    const imgTag = selectedTags.find(m => m.label === 'twitter:image') || selectedTags.find(m => m.label === 'twitter:image:src')
-    const urlTag = selectedTags.find(m => m.label === 'twitter:url')
-    const titleTag = selectedTags.find(m => m.label === 'twitter:title')
-    const descriptionTag = selectedTags.find(m => m.label === 'twitter:description')
-    const domainTag = selectedTags.find(m => m.label === 'twitter:domain')
+    let img =
+        selectedTags.find(m => m.label === 'twitter:image')?.value ||
+        selectedTags.find(m => m.label === 'twitter:image:url')?.value ||
+        allTags.find(m => m.label === 'og:image')?.value ||
+        allTags.find(m => m.label === 'image')?.value ||
+        ''
+    let url =
+        selectedTags.find(m => m.label === 'twitter:url')?.value ||
+        selectedTags.find(m => m.label === 'twitter:domain')?.value ||
+        allTags.find(m => m.label === 'og:url')?.value ||
+        allTags.find(m => m.label === 'url')?.value ||
+        ''
+    const title =
+        selectedTags.find(m => m.label === 'twitter:title')?.value ||
+        allTags.find(m => m.label === 'og:title')?.value ||
+        allTags.find(m => m.label === 'title')?.value ||
+        ''
 
-    const imgFallbackTag = allTags.find(m => m.label === 'og:image') || allTags.find(m => m.label === 'image')
-    const titleFallbackTag = allTags.find(m => m.label === 'og:title') || allTags.find(m => m.label === 'title')
-    const descriptionFallbackTag = allTags.find(m => m.label === 'og:description') || allTags.find(m => m.label === 'description')
-    const urlFallbackTag = allTags.find(m => m.label === 'og:url') || allTags.find(m => m.label === 'url')
+    let description = selectedTags.find(m => m.label === 'twitter:description')?.value || ''
 
-    let title = titleTag?.value || titleFallbackTag?.value || ''
-    let img = imgTag?.value || imgFallbackTag?.value || ''
-    let description = descriptionTag?.value || descriptionFallbackTag?.value || ''
     description = description.length < 128 ? description : description.substr(0, 128) + '...'
-    var pageDomain = domainTag?.value || urlTag?.value || urlFallbackTag?.value || ''
 
-    if (pageDomain.startsWith('http')) {
-        pageDomain = pageDomain.replace(/https?:\/\/(www.)?((\w+\.)?\w+\.\w+).*/i, `$2`)
-    }
+    url = File.rootDomain(url)
 
     if (img.startsWith('http://')) {
         img = img.replace('http://', 'https://')
@@ -82,7 +86,7 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
             `<div class='box-body body-close'>` +
             (img.length > 0 && img.startsWith('http') ? `<img class='preview-img' src='${img}'>` : ``) +
             `<div class='preview-legend'>` +
-            (pageDomain.length > 0 ? `<div class='twitter-card-domain'>${pageDomain}</div>` : '') +
+            (url.length > 0 ? `<div class='twitter-card-domain'>${url}</div>` : '') +
             `<div class='twitter-card-title'>${htmlEncode(title)}</div>` +
             `<div class='twitter-card-description'>${htmlEncode(description)}</div>` +
             `</div>` +
@@ -97,28 +101,28 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
 }
 
 export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[], tabTitle: string) => {
-    const imgTag = selectedTags.find(m => m.label === 'og:image')
-    const urlTag = selectedTags.find(m => m.label === 'og:url') || selectedTags.find(m => m.label === 'og:image:secure_url')
-    const titleTag = selectedTags.find(m => m.label === 'og:title')
-    const descriptionTag = selectedTags.find(m => m.label === 'og:description')
+    let img =
+        selectedTags.find(m => m.label === 'og:image')?.value || allTags.find(m => m.label === 'image')?.value || ''
+    let url =
+        selectedTags.find(m => m.label === 'og:url')?.value ||
+        selectedTags.find(m => m.label === 'og:image:secure_url')?.value ||
+        allTags.find(m => m.label === 'url')?.value ||
+        ''
+    let title =
+        selectedTags.find(m => m.label === 'og:title')?.value ||
+        allTags.find(m => m.label === 'title')?.value ||
+        tabTitle
+    let description =
+        selectedTags.find(m => m.label === 'og:description')?.value ||
+        allTags.find(m => m.label === 'description')?.value ||
+        ''
 
-    const imgFallbackTag = allTags.find(m => m.label === 'image')
-    const descriptionFallbackTag = allTags.find(m => m.label === 'description')
-    const urlFallbackTag = allTags.find(m => m.label === 'url')
-    const titleFallbackTag = allTags.find(m => m.label === 'title')
-
-    let url = urlTag?.value || urlFallbackTag?.value || ''
-    if (url && url.startsWith('http')) {
-        url = url.replace(/https?:\/\/(www.)?((\w+\.)?\w+\.\w+).*/i, `$2`)
+    if (url.startsWith('http')) {
+        url = File.rootDomain(url)
     }
 
-    let img = imgTag?.value || imgFallbackTag?.value || ''
-    img = img.replace('http://', 'https://')
-
-    let title = titleTag?.value || titleFallbackTag?.value || ''
-
-    let description = descriptionTag?.value || descriptionFallbackTag?.value || ''
-    description = description.length < 215 ? description : description.substr(0, 214) + '&mldr;'
+    img = img.replace('http://', 'https://') || ''
+    description = description.length < 214 ? description : description.substr(0, 214) + '...'
 
     card.addPreview(
         `<div class="box-label label-close">Facebook Preview</div>` +

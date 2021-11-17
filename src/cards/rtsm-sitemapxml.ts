@@ -4,18 +4,17 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import * as Tips from './tips'
+import * as Tips from '../tips/tips'
 import * as File from '../file'
 import {Report} from '../report'
 import {Card, CardKind} from '../card'
 import {codeBlock} from '../codeBlock'
 import {Errors} from './errors'
-import {Mode} from "../colorCode"
+import {Mode} from '../colorCode'
 import {disposableId, formatNumber} from '../main'
 import {iSmCandidate, SmList, SmSource} from '../sitemapList'
 import {htmlDecode} from 'js-htmlencode'
-import { specs } from './specs'
-
+import {specs} from './specs'
 
 const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
     File.read(sm.url, File.xmlContentType)
@@ -26,7 +25,10 @@ const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
             if (sm.url.endsWith('.gz')) {
                 const fileName = File.name(sm.url)
                 const table = [
-                    ['Validate Sitemap', `<a class='small-btn' href='${validationLink}' target='_blank'>Validate ${fileName}</a>`],    
+                    [
+                        'Validate Sitemap',
+                        `<a class='small-btn' href='${validationLink}' target='_blank'>Validate ${fileName}</a>`,
+                    ],
                     ['File Name', fileName],
                     ['Compressed', 'Yes'],
                     ['Compression type', 'Gzip'],
@@ -41,14 +43,16 @@ const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
                     .tag('card-ok')
                 report.addCard(card)
                 sitemaps.addDone(sm)
-                File.exists(sm.url, File.xmlContentType).catch(() => Tips.compressedSitemapNotFound(card, sm.url, sm.source))
+                File.exists(sm.url, File.xmlContentType).catch(() =>
+                    Tips.Sitemap.compressedSitemapNotFound(card, sm.url, sm.source)
+                )
                 return
             }
 
             if (sitemapBody.match(/not found/gim) !== null || sitemapBody.match(/error 404/gim) !== null) {
                 const card = Errors.sitemap_404(sm)
                 report.addCard(card)
-                Tips.missingSitemap(card)
+                Tips.Sitemap.missingSitemap(card)
                 sitemaps.addDone(sm)
                 return
             }
@@ -56,7 +60,7 @@ const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
             if (sitemapBody.includes(`<head>`) || sitemapBody.includes(`<meta`)) {
                 const card = Errors.sitemap_IsARedirect(sm, sitemapBody)
                 report.addCard(card)
-                Tips.missingSitemap(card)
+                Tips.Sitemap.missingSitemap(card)
                 sitemaps.addDone(sm)
                 return
             }
@@ -72,7 +76,10 @@ const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
                 `A good XML sitemap acts as a roadmap of your website that leads Google to all your important pages. ` +
                 `XML sitemaps can be good for SEO, as they allow Google to find your essential website pages quickly, even if your internal linking isn't perfect.`
             const table = [
-                ['Validate Sitemap', `<a class='small-btn' href='${validationLink}' target='_blank'>Validate ${fileName}</a>`],
+                [
+                    'Validate Sitemap',
+                    `<a class='small-btn' href='${validationLink}' target='_blank'>Validate ${fileName}</a>`,
+                ],
                 ['File Name', fileName],
                 ['File Size', formatNumber(sitemapBody.length) + ' bytes'],
                 ['Sitemap Type', linksToSitemaps.length > 0 ? 'Sitemap Index' : 'Sitemap'],
@@ -98,10 +105,10 @@ const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
             report.addCard(card)
 
             if (sitemapBody.length > specs.siteMap.RecommendedMaxUncompressedSize) {
-                Tips.uncompressedLargeSitemap(card, sm.url, sitemapBody.length)
+                Tips.Sitemap.uncompressedLargeSitemap(card, sm.url, sitemapBody.length)
             }
             if (!fileName.includes('.xml')) {
-                Tips.sitemapWithoutXmlExtension(card, sm.url)
+                Tips.Sitemap.missingXmlExtension(card, sm.url)
             }
             sitemaps.addDone(sm)
             sitemaps.addToDo(sitemapLinksToSitemap(sitemapBody, SmSource.SitemapIndex))
@@ -134,8 +141,6 @@ export const sitemapAllLinks = (sitemapBody: string) => {
     return sanitizeUrls(subSitemaps)
 }
 
-
 const sanitizeUrls = (urls: string[]) => {
     return urls.map(url => url.replace(`http://`, `https://`))
 }
-

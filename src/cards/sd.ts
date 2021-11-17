@@ -8,7 +8,7 @@ import {Report} from '../report'
 import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../main'
 import {ldJsonCard} from './sd-functions'
 import {Errors} from './errors'
-import * as Tips from './tips'
+import * as Tips from '../tips/tips'
 import {Schema} from '../schema'
 import {Card} from '../card'
 
@@ -27,7 +27,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, repo
     if (tabUrl === '') {
         const card = Errors.browser_TabUrlUndefined()
         report.addCard(card)
-        Tips.unableToAnalyzeBrowserPages(card)
+        Tips.Internal.unableToAnalyzeBrowserPages(card)
         report.completed()
         return
     }
@@ -35,7 +35,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, repo
     if (jsonStrings.length == 0) {
         const card = Errors.sd_NotFound(tabUrl)
         report.addCard(card)
-        Tips.sd_noStructuredData(card)
+        Tips.StructuredData.noStructuredData(card)
         report.completed()
         return
     }
@@ -57,7 +57,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, repo
         } catch (err) {
             const card = Errors.sd_InvalidJSON(json)
             report.addCard(card)
-            Tips.sd_invalidSyntax(card)
+            Tips.StructuredData.invalidSyntax(card)
         }
     })
 

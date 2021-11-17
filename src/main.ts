@@ -19,7 +19,7 @@ import * as Scripts from './cards/scripts'
 import * as Credits from './cards/about'
 import * as Meta from './cards/mt'
 import * as Robots from './cards/rtsm'
-import * as Tips from './cards/tips'
+import * as Tips from './tips/tips'
 import * as Html from './cards/html'
 import * as Spinner from './spinner'
 import * as Todo from './todo'
@@ -100,13 +100,13 @@ async function action(section: SectionType, actions: sectionActions) {
         if (err.message === `Cannot access a "chrome://" URL`) {
             const card = Errors.browser_UnableToAnalyzeTabs()
             report.addCard(card)
-            Tips.unableToAnalyzeBrowserPages(card)
+            Tips.Internal.unableToAnalyzeBrowserPages(card)
             report.completed()
         } else {
             const tabUrl = tab?.url || ''
             const card = Errors.browser_UnableToAnalyzePage(tabUrl)
             report.addCard(card)
-            Tips.unableToAnalyzeBrowserPages(card)
+            Tips.Internal.unableToAnalyzeBrowserPages(card)
             report.completed()
         }
     }
@@ -190,4 +190,3 @@ const enableTodoBtn = () => {
         btn.addEventListener('click', () => Todo.open(tabs[0].url!, tabs[0].title!))
     })
 }
-

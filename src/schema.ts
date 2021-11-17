@@ -6,8 +6,9 @@
 // ----------------------------------------------------------------------------
 import {getLanguage, isLanguage} from './language-code'
 import {Card, iLink} from './card'
-import * as Tips from './cards/tips'
-import * as File from "./file"
+import * as Tips from './tips/tips'
+import * as File from './file'
+import {disposableId} from './main'
 
 export interface iJsonLD {
     [name: string | '@type' | '@id']: string | string[] | iJsonLD[] | iJsonLD
@@ -15,6 +16,13 @@ export interface iJsonLD {
 
 export interface iJsonLevel {
     depth: number
+}
+
+export interface iImageElement {
+    url: string
+    id: string
+    label: string
+    sdType: string
 }
 
 export class Schema {
@@ -26,6 +34,7 @@ export class Schema {
     static #dictionary: {[key: string]: iJsonLD} = {}
     static #idStack: string[] = []
     static #referenceBlocks: boolean = false
+    static #images: iImageElement[] = []
 
     constructor(json: string | iJsonLD, url: string) {
         this.#jsonLD = typeof json === 'string' ? JSON.parse(json) : json
@@ -124,19 +133,19 @@ export class Schema {
             .map(link => `<a class='small-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
             .join('')
 
-            const blockIsOpen = this.#firstBoxDone && !Schema.#referenceBlocks
-            const labelOpenClosed = blockIsOpen ? ` label-open` : ` label-close`
-            const labelReference = Schema.#referenceBlocks ? ` label-reference` : ''
-            const labelShowIcon = this.#firstBoxDone ? ' label-json-no-icon' : ' label-json-icon'
-            const bodyOpenClosed = blockIsOpen ? ` body-open` : ` body-close`
+        const blockIsOpen = this.#firstBoxDone && !Schema.#referenceBlocks
+        const labelOpenClosed = blockIsOpen ? ` label-open` : ` label-close`
+        const labelReference = Schema.#referenceBlocks ? ` label-reference` : ''
+        const labelShowIcon = this.#firstBoxDone ? ' label-json-no-icon' : ' label-json-icon'
+        const bodyOpenClosed = blockIsOpen ? ` body-open` : ` body-close`
 
-            let openStr = 
+        let openStr =
             `<div class='sd-box'>` +
             `<div class='sd-box-label ${labelOpenClosed}${labelShowIcon}${labelReference}'><span class='label-text'>${label}${linksHtml}</span></div>` +
             `<div class='sd-box-body ${bodyOpenClosed}'>`
         this.#firstBoxDone = true
 
-        if(Schema.#referenceBlocks) {
+        if (Schema.#referenceBlocks) {
             openStr += `<div class='sd-description-line sd-block-intro'>This block is a reference to a block of information defined elsewhere. The items you see here are just a copy of the original; items.</div>`
         }
 
@@ -148,7 +157,31 @@ export class Schema {
     }
 
     schemaToHtml(): string {
-        return this.#toHtml(this.#jsonLD, Schema.getType(this.#jsonLD), Schema.getType(this.#jsonLD))
+        this.#cardPromise!.then(card => {
+            const imgPromises = Schema.#images.map(img =>
+                File.exists(img.url, File.imageContentType)
+                    .then(() => Promise.resolve(img))
+                    .catch(() => Promise.reject(img))
+            )
+            Promise.allSettled(imgPromises).then(results => {
+                let missingImages = results
+                    .filter(p => p.status === 'rejected')
+                    .map(p => (p as any).reason) as iImageElement[]
+                if (missingImages.length === 0) {
+                    return
+                }
+                missingImages.forEach(imgObj => {
+                    const imgTag = card.getDiv().querySelector(`#${imgObj.id}`) as HTMLImageElement | undefined
+                    if (imgTag) {
+                        imgTag.src = `../logos/_noRendering_400x200.png`
+                    }
+                })
+                Tips.StructuredData.imagesNotFound(this.#cardPromise!, missingImages)
+            })
+        })
+
+        const html = this.#toHtml(this.#jsonLD, Schema.getType(this.#jsonLD), Schema.getType(this.#jsonLD))
+        return html
     }
 
     #toHtml(genericSd: unknown, label: string, typeName: string): string {
@@ -268,7 +301,9 @@ export class Schema {
     }
 
     #bool(bool: boolean, label: string): string {
-        return `<div class='sd-description-line'><span class='sd-label'>${label}:</span> <span class='sd-description'>${bool ? 'Yes' : 'No'}</span></div>`
+        return `<div class='sd-description-line'><span class='sd-label'>${label}:</span> <span class='sd-description'>${
+            bool ? 'Yes' : 'No'
+        }</span></div>`
     }
 
     #number(num: number | number[], label: string): string {
@@ -296,23 +331,25 @@ export class Schema {
 
         let src = sd
         if (sd.startsWith('//')) {
-            Tips.sd_imageUrlMissingProtocol(this.#cardPromise!, label, [sd])
+            Tips.StructuredData.imageUrlMissingProtocol(this.#cardPromise!, label, [sd])
             sd = `https:${sd}`
             src = `../logos/_noRendering_400x200.png`
         }
 
         if (sd.startsWith('/')) {
             const correctUrl = `https://${new URL(this.#tabUrl).host}${sd}`
-            Tips.sd_relativeUrl(this.#cardPromise!, label, [sd], this.#tabUrl)
+            Tips.StructuredData.avoidRelativeUrls(this.#cardPromise!, label, [sd], this.#tabUrl)
             src = correctUrl
         }
 
         if (sd.length === 0) {
-            Tips.sd_imageEmptyUrl(this.#cardPromise!, label)
+            Tips.StructuredData.imageUrlIsEmpty(this.#cardPromise!, label)
             src = `../logos/_noRendering_400x200.png`
         }
 
-        File.exists(src, File.imageContentType).catch(() => Tips.sd_ImageNotFound(this.#cardPromise!, src, label, typeName))
+        const imgId = disposableId()
+
+        Schema.#images.push({url: src, id: imgId, label: label, sdType: typeName})
 
         return (
             `<div class='sd-description-line'>` +
@@ -323,7 +360,7 @@ export class Schema {
             `</div>` +
             `<div class='sd-description-line'>` +
             `<a href='${sd}' target='_new'>` +
-            `<picture data-label='Image Preview'><img src='${src}'></picture>` +
+            `<picture data-label='Image Preview'><img src='${src}' id='${imgId}'></picture>` +
             `</a>` +
             `</div>`
         )

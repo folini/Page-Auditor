@@ -10,7 +10,6 @@ import {codeBlock} from '../codeBlock'
 import {SmSource, iSmCandidate} from '../sitemapList'
 import {target as Platform} from '../../package.json'
 
-
 export class Errors {
     // ------------------------------------------------------------------------
     // Google Chrome Errors
@@ -18,7 +17,7 @@ export class Errors {
         const msg1 = `<i>Page Auditor</i> can not run on empty tabs or browser internal tabs.`
         const msg2 = `Please launch <i>Page Auditor for Technical SEO</i> on a regular web page.`
         return new Card(CardKind.error)
-            .setLogo(Platform === 'Chrome' ? 'icon-chromium': 'icon-edge')
+            .setLogo(Platform === 'Chrome' ? 'icon-chromium' : 'icon-edge')
             .addParagraph(msg1)
             .addParagraph(msg2)
             .setTitle(`Unable To Analyze <code>${Platform === 'Chrome' ? 'chrome:' : 'edge:'}</code> Tabs`)
@@ -29,7 +28,7 @@ export class Errors {
         const msg1 = `The current browser's tab is undefined.`
         const msg2 = `Please re-launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
         return new Card(CardKind.error)
-            .setLogo(Platform === 'Chrome' ? 'icon-chromium': 'icon-edge')
+            .setLogo(Platform === 'Chrome' ? 'icon-chromium' : 'icon-edge')
             .addParagraph(msg1)
             .addParagraph(msg2)
             .setTitle(`${Platform} Tab Undefined`)
@@ -40,7 +39,7 @@ export class Errors {
         const msg1 = `<b>Page Auditor</b> can not run on page at the url:`
         const msg2 = `Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
         return new Card(CardKind.error)
-            .setLogo(Platform === 'Chrome' ? 'icon-chromium': 'icon-edge')
+            .setLogo(Platform === 'Chrome' ? 'icon-chromium' : 'icon-edge')
             .addParagraph(msg1)
             .addCodeBlock(url, Mode.txt)
             .addParagraph(msg2)

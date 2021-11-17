@@ -10,7 +10,7 @@ import {sectionActions, NoArgsNoReturnFunc, disposableId} from '../main'
 import {Mode} from '../colorCode'
 import {codeBlock} from '../codeBlock'
 import {Errors} from './errors'
-import * as Tips from './tips'
+import * as Tips from '../tips/tips'
 import {Info} from './info'
 
 const listOfScriptClasses = require('../jsons/scriptClasses.json') as iTrackClass[]
@@ -90,7 +90,7 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, report: Report): v
     if (discoveredScripts === null) {
         const card = Errors.script_NotFound()
         report.addCard(card)
-        Tips.internalError(card)
+        Tips.Internal.internalError(card)
     }
 
     discoveredScripts = discoveredScripts.sort((a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0))

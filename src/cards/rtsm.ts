@@ -11,14 +11,14 @@ import * as SiteMaps from './rtsm-sitemapxml'
 import {Errors} from './errors'
 import {Info} from './info'
 import {iSmCandidate, SmList, SmSource} from '../sitemapList'
-import * as Tips from './tips'
+import * as Tips from '../tips/tips'
 import {processRobotsTxt} from './rtsm-robotstxt'
 
 const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Report): void => {
     if (tabUrl === '') {
         const card = Errors.browser_TabUrlUndefined()
         report.addCard(card)
-        Tips.unableToAnalyzeBrowserPages(card)
+        Tips.Internal.unableToAnalyzeBrowserPages(card)
         report.completed()
         return
     }
@@ -26,7 +26,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
     if (tabUrl.startsWith(`chrome://`) || tabUrl.startsWith(`edge://`)) {
         const card = Errors.browser_UnableToAnalyzeTabs()
         report.addCard(card)
-        Tips.unableToAnalyzeBrowserPages(card)
+        Tips.Internal.unableToAnalyzeBrowserPages(card)
         report.completed()
         return
     }
@@ -46,14 +46,14 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
         .catch(() => {
             const card = Errors.robotsTxt_NotFound(defaultRobotsUrl)
             report.addCard(card)
-            Tips.missingRobotsTxt(card)
+            Tips.RobotsTxt.missingRobotsTxt(card)
         })
         .then(() => SiteMaps.createSiteMapCards(sitemaps, report))
         .then(p => {
             Promise.allSettled(p).then(() => {
                 if (sitemaps.doneList.length === 0) {
                     const card = Errors.sitemap_NotFound(sitemaps.failedList)
-                    Tips.missingSitemap(card)
+                    Tips.Sitemap.missingSitemap(card)
                     report.addCard(card)
                 }
                 if (sitemaps.skippedList.length > 0) {

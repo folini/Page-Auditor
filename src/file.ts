@@ -51,5 +51,30 @@ export const read = (url: string, contentType: ContentType[]) =>
         })
         .catch(err => Promise.reject(err))
 
-export const name = (url: string) =>
-    url.split('/').at(-1)!.split('#')[0].split('?')[0]
+export const name = (url: string) => url.split('/').at(-1)!.split('#')[0].split('?')[0]
+
+export const rootDomain = (url: string) => {
+    var domain = hostName(url),
+        splitArr = domain.split('.'),
+        arrLen = splitArr.length
+
+    if (arrLen > 2) {
+        domain = splitArr[arrLen - 2] + '.' + splitArr[arrLen - 1]
+        if (splitArr[arrLen - 2].length == 2 && splitArr[arrLen - 1].length == 2) {
+            domain = splitArr[arrLen - 3] + '.' + domain
+        }
+    }
+    return domain
+}
+
+export const hostName = (url: string) => {
+    var hostname
+
+    if (url.indexOf('//') > -1) {
+        hostname = url.split('/')[2]
+    } else {
+        hostname = url.split('/')[0]
+    }
+
+    return hostname.split(':')[0].split('?')[0]
+}

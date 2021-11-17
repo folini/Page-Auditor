@@ -262,7 +262,6 @@ export class Card {
             img.style.display = 'none'
         }
     }
-    
 
     static toggle(label: HTMLElement) {
         label.classList.toggle('label-close')
