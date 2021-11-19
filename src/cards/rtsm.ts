@@ -12,6 +12,7 @@ import {Errors} from './errors'
 import {Info} from './info'
 import {iSmCandidate, SmList, SmSource} from '../sitemapList'
 import * as Tips from '../tips/tips'
+import {Card, CardKind} from '../card'
 import {processRobotsTxt} from './rtsm-robotstxt'
 
 const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Report): void => {
@@ -37,6 +38,8 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
     const sitemaps = new SmList()
     sitemaps.addToDo([defaultSitemap])
 
+    var sitemapsAnalysisCardPlaceholder: Card | undefined = undefined
+
     File.read(defaultRobotsUrl, File.textContentType)
         .then(robotsTxtBody => {
             processRobotsTxt(robotsTxtBody, defaultRobotsUrl, report)
@@ -48,7 +51,11 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
             report.addCard(card)
             Tips.RobotsTxt.missingRobotsTxt(card)
         })
-        .then(() => SiteMaps.createSiteMapCards(sitemaps, report))
+        .then(() => {
+            sitemapsAnalysisCardPlaceholder = new Card(CardKind.info)
+            report.addCard(sitemapsAnalysisCardPlaceholder)
+            return SiteMaps.createSiteMapCards(sitemaps, report)
+        })
         .then(p => {
             Promise.allSettled(p).then(() => {
                 if (sitemaps.doneList.length === 0) {
@@ -56,17 +63,13 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
                     Tips.Sitemap.missingSitemap(card)
                     report.addCard(card)
                 }
-                if (sitemaps.skippedList.length > 0) {
-                    report.addCard(
-                        Info.notAllSitemapsLoaded(
-                            SmList.maxSitemapsToLoad(),
-                            sitemaps.skippedList.map(sm => sm.url)
-                        )
-                    )
+                const card = Info.sitemapsOverallAnalysis(sitemaps, sitemapsAnalysisCardPlaceholder)
+                if (sitemaps.withoutXmlExtension().length > 0) {
+                    Tips.Sitemap.missingXmlExtension(card, sitemaps.withoutXmlExtension())
                 }
+                report.completed()
             })
         })
-        .finally(() => report.completed())
 }
 
 export const actions: sectionActions = {

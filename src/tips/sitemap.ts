@@ -7,7 +7,7 @@
 import {Card} from '../card'
 import {codeBlock} from '../codeBlock'
 import {Mode} from '../colorCode'
-import {specs} from '../cards/specs'
+import {Specs} from '../specs'
 import {formatNumber} from '../main'
 import {SmSource} from '../sitemapList'
 import {tipWhat, tipWhy, tipHow} from './tips'
@@ -27,7 +27,7 @@ export const missingSitemap = (card: Card) => {
         `To begin, you can start writing as a simple text file and upload it to your website.`,
         `Many website platform provide tools or option to automatically create the sitemap.`
     )
-    card.addTip(`Add a <code>Sitemap.xml</code> File`, [what, why, how], specs.siteMap.syntax, 85)
+    card.addTip(`Add a <code>Sitemap.xml</code> File`, [what, why, how], Specs.siteMap.syntax, 85)
 }
 
 export const uncompressedLargeSitemap = (card: Card, url: string, size: number) => {
@@ -39,7 +39,7 @@ export const uncompressedLargeSitemap = (card: Card, url: string, size: number) 
     const why = tipWhy(
         `While Google and Bing can easily handle <code>sitemap.xml</code> files up to 50 Mb in uncompressed size,`,
         `the recommended maximum size for uncompressed files is ${formatNumber(
-            specs.siteMap.RecommendedMaxUncompressedSize / 1024 / 1024
+            Specs.siteMap.RecommendedMaxUncompressedSize / 1024 / 1024
         )} MB.`,
         `Compressed sitemap reduce the load on the website server and speedup upload and download of the file. ` +
             `However, there are no SEO direct benefits in compressing a sitemap.`
@@ -48,14 +48,19 @@ export const uncompressedLargeSitemap = (card: Card, url: string, size: number) 
         `Use a compressor, like <i>gzip</i>, to compress your sitemap file and upload it again to the webserver.`,
         `Don't forget to update the sitemap link in the <code>robots.txt</code> and in your GSG (Google Search Console).`
     )
-    card.addTip(`Compress your <code>Sitemap.xml</code>`, [what, why, how], specs.siteMap.syntax, 15)
+    card.addTip(`Compress your <code>Sitemap.xml</code>`, [what, why, how], Specs.siteMap.syntax, 15)
 }
 
-export const missingXmlExtension = (card: Card, url: string) => {
+export const missingXmlExtension = (card: Card, urls: string[]) => {
     const what = tipWhat(
-        `This sitemap's url is lacking the standard extension for XML files: <code>.xml</code>.`,
-        'This is the sitemap without proper extension:',
-        codeBlock(url, Mode.txt)
+        `This sitemap's url${urls.length > 1 ? 's' : ''} ${
+            urls.length > 1 ? 'are' : 'is'
+        } lacking the standard extension for XML files: <code>.xml</code>.`
+    )
+    const table = Card.createTable(
+        `Sitemaps without .xml extension`,
+        urls.map(url => [url]),
+        'list-style'
     )
     const why = tipWhy(
         `Google crawler can handle even sitemaps without the proper extension.`,
@@ -66,8 +71,8 @@ export const missingXmlExtension = (card: Card, url: string) => {
     )
     card.addTip(
         `Add the XML Extension to Your <code>Sitemap.xml</code> File`,
-        [what, how, why],
-        specs.siteMap.syntax,
+        [what, table, how, why],
+        Specs.siteMap.syntax,
         25
     )
 }
@@ -91,7 +96,7 @@ export const compressedSitemapNotFound = (card: Card, url: string, source: SmSou
     card.addTip(
         `Upload The Missing Compressed <code>Sitemap.xml</code> File`,
         [what, why, how],
-        specs.siteMap.reference,
+        Specs.siteMap.reference,
         80
     )
 }
@@ -109,5 +114,5 @@ export const malformedSitemapXml = (card: Card) => {
     const how = tipHow(
         `Upload a correct <code>sitemap.xml</code> to the webserver to let Google bot properly index the website.`
     )
-    card.addTip(`Fix Your <code>Sitemap.xml</code> File Syntax`, [what, why, how], specs.siteMap.syntax, 80)
+    card.addTip(`Fix Your <code>Sitemap.xml</code> File Syntax`, [what, why, how], Specs.siteMap.syntax, 80)
 }

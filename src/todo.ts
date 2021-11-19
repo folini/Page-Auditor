@@ -92,15 +92,19 @@ export const open = (url: string, title: string) => {
         })
         .forEach(child => reportInnerCOntainer.append(child.cloneNode(true)))
 
-    const titles = [...reportInnerCOntainer.getElementsByClassName('tip-title')]
+    const titles = [...reportInnerCOntainer.getElementsByClassName('label-close')]
 
     titles.forEach(title => {
-        title.addEventListener('click', () => Card.Card.toggle(title as HTMLElement))
+        title.addEventListener('click', () => Card.Card.toggleBlock(title as HTMLElement))
     })
 
     btn.addEventListener('click', () => {
-        btn.innerText = btn.innerText === 'Open All' ? 'Close All' : 'Open All'
-        titles.forEach(title => Card.Card.toggle(title as HTMLElement))
+        type Cmd = 'open' | 'close'
+        const cmd = btn.innerText === 'Open All' ? 'open' : 'close'
+        btn.innerText = cmd === 'open' ? 'Close All' : 'Open All'
+        titles.forEach(title =>
+            cmd === 'open' ? Card.Card.openBlock(title as HTMLElement) : Card.Card.closeBlock(title as HTMLElement)
+        )
     })
 
     const codeBlocks = [...document.getElementsByClassName('code')] as HTMLElement[]

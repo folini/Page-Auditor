@@ -137,6 +137,11 @@ const robotsTxtCard = (url: string, robotsTxtBody: string): Card => {
         Tips.RobotsTxt.duplicateSitemapsLink(card, duplicateUrls)
     }
 
+    const doubleDashUrls = linksToSitemap.filter(url => url.match(/[^:]\/\//))
+    if (doubleDashUrls.length > 0) {
+        Tips.RobotsTxt.doubleDashSitemapLink(card as Card, doubleDashUrls)
+    }
+
     linksToSitemap = linksToSitemap.map(sm => {
         if (sm.startsWith('/')) {
             Tips.RobotsTxt.sitemapLinkWithRelativePath(card, sm, new URL(url).origin + sm)

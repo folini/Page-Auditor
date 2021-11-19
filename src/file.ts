@@ -9,30 +9,51 @@ export type ContentType =
     | 'application/json'
     | 'application/xml'
     | 'application/html'
+    | 'application/javascript'
     | 'text/json'
     | 'text/xml'
     | 'text/html'
     | 'text/plain'
+    | 'text/javascript'
     | 'image/jpeg'
     | 'image/pjpeg'
     | 'image/gif'
     | 'image/png'
     | 'image/webp'
+    | '*/*'
 
 export const imageContentType: ContentType[] = ['image/jpeg', 'image/pjpeg', 'image/gif', 'image/png', 'image/webp']
 export const xmlContentType: ContentType[] = ['application/xml', 'text/xml']
 export const htmlContentType: ContentType[] = ['application/html', 'text/html']
 export const jsonContentType: ContentType[] = ['application/json', 'text/json']
 export const textContentType: ContentType[] = ['text/plain']
+export const jsContentType: ContentType[] = ['application/javascript', 'text/javascript']
+export const anyContentType: ContentType[] = ['*/*']
 
-export const exists = (url: string, contentTypes: ContentType[]) =>
+export const exists = (url: string, contentTypes: ContentType[]): Promise<boolean> =>
     fetch(url, {
         method: 'HEAD',
         cache: 'no-store',
         headers: contentTypes.map(cType => ['Content-Type', cType]),
-    }).then(r => {
-        return r.status === 200 || r.status === 406 ? Promise.resolve(true) : Promise.reject()
     })
+        .then(r => {
+            return [200, 400, 405, 406].includes(r.status) ? true : false
+        })
+        .catch(() => false)
+        .then(status => {
+            if (status) {
+                return true
+            } else {
+                return fetch(url)
+                    .then((response: Response) => {
+                        if (!response.ok || response.status !== 200) {
+                            return Promise.reject()
+                        }
+                        return Promise.resolve(true)
+                    })
+                    .catch(() => Promise.reject())
+            }
+        })
 
 export const read = (url: string, contentType: ContentType[]) =>
     exists(url, contentType)
@@ -78,3 +99,16 @@ export const hostName = (url: string) => {
 
     return hostname.split(':')[0].split('?')[0]
 }
+
+export interface iSize {
+    width: number
+    height: number
+}
+
+export const imageSize = (imageUrl: string): Promise<iSize> =>
+    new Promise((resolve, reject) => {
+        let img = new Image()
+        img.onload = () => resolve({width: img.width, height: img.height})
+        img.onerror = () => reject(undefined)
+        img.src = imageUrl
+    })

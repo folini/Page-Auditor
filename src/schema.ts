@@ -19,7 +19,7 @@ export interface iJsonLevel {
 }
 
 export interface iImageElement {
-    url: string
+    src: string
     id: string
     label: string
     sdType: string
@@ -159,7 +159,7 @@ export class Schema {
     schemaToHtml(): string {
         this.#cardPromise!.then(card => {
             const imgPromises = Schema.#images.map(img =>
-                File.exists(img.url, File.imageContentType)
+                File.exists(img.src, File.imageContentType)
                     .then(() => Promise.resolve(img))
                     .catch(() => Promise.reject(img))
             )
@@ -349,7 +349,7 @@ export class Schema {
 
         const imgId = disposableId()
 
-        Schema.#images.push({url: src, id: imgId, label: label, sdType: typeName})
+        Schema.#images.push({src: src, id: imgId, label: label, sdType: typeName})
 
         return (
             `<div class='sd-description-line'>` +
@@ -370,7 +370,7 @@ export class Schema {
         const boxLabels = [...div.getElementsByClassName(`sd-box-label`)] as HTMLDivElement[]
         boxLabels.forEach(boxLabel => {
             const boxBody = boxLabel.nextElementSibling as HTMLDivElement
-            boxLabel.addEventListener('click', () => Card.toggle(boxLabel))
+            boxLabel.addEventListener('click', () => Card.toggleBlock(boxLabel))
         })
     }
 

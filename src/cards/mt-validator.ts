@@ -7,7 +7,7 @@
 import {iTag, tagToString} from './mt'
 import * as Tips from '../tips/tips'
 import {Card} from '../card'
-import {specs} from './specs'
+import {Specs} from '../specs'
 import * as File from '../file'
 
 export interface iTagValidator {
@@ -37,16 +37,18 @@ export const stdTags = (card: Card, allTags: iTag[], selectedTags: iTag[], canon
     }
 
     const description = selectedTags.find(m => m.label.toLowerCase() === 'description')
-    if (description && description.value.length > specs.stdTags.Desc.MaxLen) {
+    if (!description) {
+        Tips.MetaTags.tagIsMissing(card, 'Standard', 'description')
+    } else if (description.value.length < Specs.metaTags.descTag.minLen) {
+        Tips.MetaTags.tagDescriptionIsTooShort(card, description)
+    } else if (description.value.length > Specs.metaTags.descTag.maxLen) {
         Tips.MetaTags.tagDescriptionIsTooLong(card, description)
     }
 
-    if (description && description.value.length < specs.stdTags.Desc.MinLen) {
-        Tips.MetaTags.tagDescriptionIsTooShort(card, description)
-    }
-
     const title = selectedTags.find(m => m.label.toLowerCase() === 'title')
-    if (title && title.value.length > specs.stdTags.Title.MaxLen) {
+    if (!title) {
+        Tips.MetaTags.tagIsMissing(card, 'Standard', 'title')
+    } else if (title && title.value.length > Specs.metaTags.titleTag.maxLen) {
         Tips.MetaTags.tagTitleIsTooLong(card, title)
     }
 }
@@ -83,10 +85,10 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
     if (!cardTag) {
         Tips.MetaTags.tagIsMissing(card, 'Twitter', 'twitter:card')
     } else {
-        if (specs.twitterTags.twitterCard.obsoleteValues.includes(cardTag.value)) {
-            Tips.MetaTags.tagWithObsoleteValue(card, 'Twitter', cardTag, specs.twitterTags.twitterCard.obsoleteValues)
-        } else if (!specs.twitterTags.twitterCard.validValues.includes(cardTag.value)) {
-            Tips.MetaTags.tagWithInvalidValue(card, 'Twitter', cardTag, specs.twitterTags.twitterCard.validValues)
+        if (Specs.twitterTags.twitterCard.obsoleteValues.includes(cardTag.value)) {
+            Tips.MetaTags.tagWithObsoleteValue(card, 'Twitter', cardTag, Specs.twitterTags.twitterCard.obsoleteValues)
+        } else if (!Specs.twitterTags.twitterCard.validValues.includes(cardTag.value)) {
+            Tips.MetaTags.tagWithInvalidValue(card, 'Twitter', cardTag, Specs.twitterTags.twitterCard.validValues)
         }
     }
 
@@ -95,7 +97,7 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
             Tips.MetaTags.tagWithEmptyValue(card, 'Twitter', urlTag)
         } else {
             if (!urlTag.value.startsWith('https://')) {
-                Tips.MetaTags.tagUrlIsRelativePath(card, 'Twitter', urlTag)
+                Tips.MetaTags.tagUrlIsRelativePath(card, 'Twitter', urlTag, canonical)
             } else if (urlTag.value.startsWith('http://')) {
                 Tips.MetaTags.tagUrlUsesObsoleteProtocol(card, 'Twitter', urlTag)
             } else if (canonical.length > 0 && urlTag.value.toLowerCase() !== canonical.toLowerCase()) {
@@ -113,17 +115,17 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
     if (!!titleTag) {
         if (titleTag.value.length === 0) {
             Tips.MetaTags.tagWithEmptyValue(card, 'Twitter', titleTag)
-        } else if (titleTag.value.length <= specs.twitterTags.twTitle.MinLen) {
+        } else if (titleTag.value.length <= Specs.twitterTags.twTitle.minLen) {
             Tips.MetaTags.tagIsaPlaceholder(card, 'Twitter', titleTag)
-        } else if (titleTag.value.length > specs.twitterTags.twTitle.MaxLen) {
-            Tips.MetaTags.tagLongerThanMax(card, 'Twitter', titleTag, specs.twitterTags.twTitle.MaxLen)
-        } else if (titleTag.value.length > specs.twitterTags.twTitle.MaxRecommendedLen) {
+        } else if (titleTag.value.length > Specs.twitterTags.twTitle.maxLen) {
+            Tips.MetaTags.tagLongerThanMax(card, 'Twitter', titleTag, Specs.twitterTags.twTitle.maxLen)
+        } else if (titleTag.value.length > Specs.twitterTags.twTitle.maxRecommendedLen) {
             Tips.MetaTags.tagLongerThanRecommended(
                 card,
                 'Twitter',
                 titleTag,
-                specs.twitterTags.twTitle.MaxLen,
-                specs.twitterTags.twTitle.MaxRecommendedLen
+                Specs.twitterTags.twTitle.maxLen,
+                Specs.twitterTags.twTitle.maxRecommendedLen
             )
         }
     } else {
@@ -137,17 +139,17 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
     if (!!descriptionTag) {
         if (descriptionTag.value.length === 0) {
             Tips.MetaTags.tagWithEmptyValue(card, 'Twitter', descriptionTag)
-        } else if (descriptionTag.value.length <= specs.twitterTags.twDesc.MinLen) {
+        } else if (descriptionTag.value.length <= Specs.twitterTags.twDesc.minLen) {
             Tips.MetaTags.tagIsaPlaceholder(card, 'Twitter', descriptionTag)
-        } else if (descriptionTag.value.length > specs.twitterTags.twDesc.MaxLen) {
-            Tips.MetaTags.tagLongerThanMax(card, 'Twitter', descriptionTag, specs.twitterTags.twDesc.MaxLen)
-        } else if (descriptionTag.value.length > specs.twitterTags.twDesc.MaxWithUrlLen) {
+        } else if (descriptionTag.value.length > Specs.twitterTags.twDesc.maxLen) {
+            Tips.MetaTags.tagLongerThanMax(card, 'Twitter', descriptionTag, Specs.twitterTags.twDesc.maxLen)
+        } else if (descriptionTag.value.length > Specs.twitterTags.twDesc.maxWithUrlLen) {
             Tips.MetaTags.tagLongerThanRecommended(
                 card,
                 'Twitter',
                 descriptionTag,
-                specs.twitterTags.twDesc.MaxLen,
-                specs.twitterTags.twDesc.MaxWithUrlLen
+                Specs.twitterTags.twDesc.maxLen,
+                Specs.twitterTags.twDesc.maxWithUrlLen
             )
         }
     } else {
@@ -166,7 +168,7 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
                 Tips.MetaTags.tagImageIsaPlaceholder(card, 'Twitter', imgTag)
             }
             if (!imgTag.value.startsWith('http')) {
-                Tips.MetaTags.tagUrlIsRelativePath(card, 'Twitter', imgTag)
+                Tips.MetaTags.tagUrlIsRelativePath(card, 'Twitter', imgTag, canonical)
                 if (canonical.length > 0 && canonical.startsWith('http')) {
                     img = new URL(canonical).origin + imgTag.value
                 }
@@ -219,7 +221,7 @@ export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[],
             Tips.MetaTags.tagWithEmptyValue(card, 'Facebook', urlTag)
         } else {
             if (!urlTag.value.startsWith('http')) {
-                Tips.MetaTags.tagUrlIsRelativePath(card, 'Facebook', urlTag)
+                Tips.MetaTags.tagUrlIsRelativePath(card, 'Facebook', urlTag, canonical)
             } else if (urlTag.value.startsWith('http://')) {
                 Tips.MetaTags.tagUrlUsesObsoleteProtocol(card, 'Facebook', urlTag)
             } else if (canonical.length > 0 && urlTag.value.toLowerCase() !== canonical.toLowerCase()) {
@@ -237,17 +239,17 @@ export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[],
     if (!!titleTag) {
         if (titleTag.value.length === 0) {
             Tips.MetaTags.tagWithEmptyValue(card, 'Facebook', titleTag)
-        } else if (titleTag.value.length <= specs.openGraphTags.ogTitle.MinLen) {
+        } else if (titleTag.value.length <= Specs.openGraphTags.ogTitle.minLen) {
             Tips.MetaTags.tagIsaPlaceholder(card, 'Facebook', titleTag)
-        } else if (titleTag.value.length > specs.openGraphTags.ogTitle.MaxLen) {
-            Tips.MetaTags.tagLongerThanMax(card, 'Facebook', titleTag, specs.openGraphTags.ogTitle.MaxLen)
-        } else if (titleTag.value.length > specs.openGraphTags.ogTitle.MaxRecommendedLen) {
+        } else if (titleTag.value.length > Specs.openGraphTags.ogTitle.maxLen) {
+            Tips.MetaTags.tagLongerThanMax(card, 'Facebook', titleTag, Specs.openGraphTags.ogTitle.maxLen)
+        } else if (titleTag.value.length > Specs.openGraphTags.ogTitle.maxRecommendedLen) {
             Tips.MetaTags.tagLongerThanRecommended(
                 card,
                 'Facebook',
                 titleTag,
-                specs.openGraphTags.ogTitle.MaxLen,
-                specs.openGraphTags.ogTitle.MaxRecommendedLen
+                Specs.openGraphTags.ogTitle.maxLen,
+                Specs.openGraphTags.ogTitle.maxRecommendedLen
             )
         }
     } else {
@@ -261,8 +263,8 @@ export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[],
     if (!!typeTag) {
         if (typeTag.value.length === 0) {
             Tips.MetaTags.tagWithEmptyValue(card, 'Facebook', typeTag)
-        } else if (!specs.openGraphTags.ogType.validValues.includes(typeTag.value) && !typeTag.value.includes(':')) {
-            Tips.MetaTags.tagWithInvalidValue(card, 'Facebook', typeTag, specs.openGraphTags.ogType.validValues)
+        } else if (!Specs.openGraphTags.ogType.validValues.includes(typeTag.value) && !typeTag.value.includes(':')) {
+            Tips.MetaTags.tagWithInvalidValue(card, 'Facebook', typeTag, Specs.openGraphTags.ogType.validValues)
         }
     } else {
         Tips.MetaTags.tagIsMissing(card, 'Facebook', 'og:type')
@@ -271,17 +273,17 @@ export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[],
     if (!!descriptionTag) {
         if (descriptionTag.value.length === 0) {
             Tips.MetaTags.tagWithEmptyValue(card, 'Facebook', descriptionTag)
-        } else if (descriptionTag.value.length <= specs.openGraphTags.ogDescription.MinLen) {
+        } else if (descriptionTag.value.length <= Specs.openGraphTags.ogDescription.minLen) {
             Tips.MetaTags.tagIsaPlaceholder(card, 'Facebook', descriptionTag)
-        } else if (descriptionTag.value.length > specs.openGraphTags.ogDescription.MaxLen) {
-            Tips.MetaTags.tagLongerThanMax(card, 'Facebook', descriptionTag, specs.openGraphTags.ogDescription.MaxLen)
-        } else if (descriptionTag.value.length > specs.openGraphTags.ogDescription.MaxRecommendedLen) {
+        } else if (descriptionTag.value.length > Specs.openGraphTags.ogDescription.maxLen) {
+            Tips.MetaTags.tagLongerThanMax(card, 'Facebook', descriptionTag, Specs.openGraphTags.ogDescription.maxLen)
+        } else if (descriptionTag.value.length > Specs.openGraphTags.ogDescription.maxRecommendedLen) {
             Tips.MetaTags.tagLongerThanRecommended(
                 card,
                 'Facebook',
                 descriptionTag,
-                specs.openGraphTags.ogDescription.MaxLen,
-                specs.openGraphTags.ogDescription.MaxRecommendedLen
+                Specs.openGraphTags.ogDescription.maxLen,
+                Specs.openGraphTags.ogDescription.maxRecommendedLen
             )
         }
     } else {
@@ -309,7 +311,7 @@ export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[],
                 })
             }
             if (!imgTag.value.startsWith('http')) {
-                Tips.MetaTags.tagUrlIsRelativePath(card, 'Facebook', imgTag)
+                Tips.MetaTags.tagUrlIsRelativePath(card, 'Facebook', imgTag, canonical)
                 if (canonical.length > 0 && canonical.startsWith('http')) {
                     img = new URL(canonical).origin + imgTag.value
                 }

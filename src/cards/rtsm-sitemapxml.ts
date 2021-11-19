@@ -14,7 +14,7 @@ import {Mode} from '../colorCode'
 import {disposableId, formatNumber} from '../main'
 import {iSmCandidate, SmList, SmSource} from '../sitemapList'
 import {htmlDecode} from 'js-htmlencode'
-import {specs} from './specs'
+import {Specs} from '../specs'
 
 const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
     File.read(sm.url, File.xmlContentType)
@@ -65,7 +65,7 @@ const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
                 return
             }
 
-            const fileName = File.name(sm.url)
+            const fileName = File.name(sm.url).length === 0 ? `<i>Sitemap Without Name</i>&nbsp;` : File.name(sm.url)
 
             const divId = disposableId()
             const btnLabel = `Sitemap.xml`
@@ -88,7 +88,9 @@ const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
                     'Sub Sitemap',
                     linksToSitemaps.length == 0
                         ? 'No links to other sitemaps'
-                        : `${formatNumber(linksToSitemaps.length)} sitemaps linked`,
+                        : `Linking ${formatNumber(linksToSitemaps.length)} Sitemap${
+                              linksToSitemaps.length === 1 ? '' : 's'
+                          }`,
                 ],
                 ['Compressed', 'No Compression Detected'],
             ]
@@ -104,12 +106,10 @@ const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
 
             report.addCard(card)
 
-            if (sitemapBody.length > specs.siteMap.RecommendedMaxUncompressedSize) {
+            if (sitemapBody.length > Specs.siteMap.RecommendedMaxUncompressedSize) {
                 Tips.Sitemap.uncompressedLargeSitemap(card, sm.url, sitemapBody.length)
             }
-            if (!fileName.includes('.xml')) {
-                Tips.Sitemap.missingXmlExtension(card, sm.url)
-            }
+
             sitemaps.addDone(sm)
             sitemaps.addToDo(sitemapLinksToSitemap(sitemapBody, SmSource.SitemapIndex))
 

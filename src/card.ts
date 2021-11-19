@@ -21,6 +21,8 @@ export enum CardKind {
     info,
 }
 
+export type TableStyle = 'table-style' | 'list-style'
+
 export class Card {
     #div: HTMLDivElement
     #head: HTMLHeadingElement
@@ -129,15 +131,18 @@ export class Card {
     }
 
     public addExpandableBlock(btnLabel: string, block: string) {
-        const divId = disposableId()
-        this.#add(
-            `<div class='code-box'>` +
-                `<div class='code-label label-close' id='${divId}'>${btnLabel}</div>` +
-                `<div class='code-body body-close'>${block}</div>` +
-                `</div>`
-        )
-        const labelDiv = this.#div.querySelector(`#${divId}`) as HTMLDivElement
-        labelDiv.addEventListener('click', () => Card.toggle(labelDiv))
+        const div = document.createElement('div')
+        div.className = 'code-box'
+        const divTitle = document.createElement('div')
+        divTitle.className = 'code-label label-close'
+        divTitle.innerHTML = btnLabel
+        const divBody = document.createElement('div')
+        divBody.className = 'code-body body-close'
+        divBody.innerHTML = block
+        div.append(divTitle, divBody)
+
+        this.#body.append(div)
+        divTitle.addEventListener('click', () => Card.toggleBlock(divTitle))
         return this
     }
 
@@ -153,28 +158,53 @@ export class Card {
     public addPreview(text: string, cssClass: string) {
         this.addParagraph(text, cssClass)
         const divTitle = this.#div.querySelector('.box-label') as HTMLDivElement
-        divTitle.addEventListener('click', () => Card.toggle(divTitle))
+        divTitle.addEventListener('click', () => Card.toggleBlock(divTitle))
         return this
     }
 
-    public addTable(title: string, table: string[][], links: iLink[] = []) {
-        const divId = disposableId()
-        const linksHtml = links
-            .map(link => `<a class='small-btn' href='${link.url}' target='_blank'>${link.label}</a>`)
-            .join(' ')
+    static #isUrl(url: string) {
+        return url.startsWith('http://') || url.startsWith('https://') || url.startsWith('//')
+    }
+
+    static #formatCell(content: string, maxLen: number) {
+        if (!Card.#isUrl(content)) {
+            return content
+        }
+
+        let url = `${content.startsWith('//') ? 'https' : ''}${content}`
+        if (url.length > maxLen) {
+            const ellipsis = '...'
+            const domain = new URL(content).origin + '/'
+            url = domain + ellipsis + url.substr(url.length - maxLen + domain.length + ellipsis.length)
+        }
+
+        return `<a href='${content}' title='${content}' target='_new'><code>${url}</code></a>`
+    }
+
+    public static createTable(title: string, table: string[][], tableStyle: TableStyle) {
         let html = ''
-        html += `<div class='table-title label-close' id='${divId}'>${title}${linksHtml}</div>`
+        html += `<div class='label-close ${tableStyle}'>${title}</div>`
         html += `<div class='body-close'>`
         html += '<table class="card-table">'
         html += '<tbody>'
-        html += table.map(row => `<tr>${row.map(col => `<td>${col}</td>`).join('')}</tr>`).join('')
+        html += table
+            .map(row => `<tr>${row.map(col => `<td>${Card.#formatCell(col, 55)}</td>`).join('')}</tr>`)
+            .join('')
         html += '</tbody>'
         html += '</table>'
         html += `</div>`
-        const card = this.#add(`<div class='table-container'>${html}</div>`)
-        const titleDiv = card.#div.querySelector(`#${divId}`) as HTMLDivElement
-        titleDiv.addEventListener('click', () => Card.toggle(titleDiv))
 
+        const div = document.createElement('div')
+        div.className = 'table-container'
+        div.innerHTML = html
+        const titleDiv = div.firstChild as HTMLDivElement
+        titleDiv.addEventListener('click', () => Card.toggleBlock(titleDiv))
+        return div
+    }
+
+    public addTable(title: string, table: string[][], tableStyle: TableStyle = 'table-style') {
+        const tableDiv = Card.createTable(title, table, tableStyle)
+        this.#body.append(tableDiv)
         return this
     }
 
@@ -202,7 +232,7 @@ export class Card {
         return this
     }
 
-    public addTip(title: string, txts: string[], cta: iLink, severity: number = 0) {
+    public addTip(title: string, divs: HTMLElement[], cta: iLink, severity: number = 0) {
         const tipDiv = document.createElement('div')
         tipDiv.className = 'card-tip'
 
@@ -213,10 +243,7 @@ export class Card {
 
         const tipBody = document.createElement('div')
         tipBody.className = 'tip-body body-close'
-        tipBody.innerHTML = txts
-            .filter(txt => txt.length > 0)
-            .map(txt => `<div>${txt}</div>`)
-            .join('')
+        divs.filter(div => div.innerHTML.length > 0).map(div => tipBody.append(div))
 
         if (severity > 0) {
             const scaleLevel = document.createElement('div')
@@ -247,7 +274,7 @@ export class Card {
 
         tipBody.append(tipCTA)
         tipDiv.append(tipTitle, tipBody)
-        tipTitle.addEventListener('click', () => Card.toggle(tipTitle))
+        tipTitle.addEventListener('click', () => Card.toggleBlock(tipTitle))
 
         return this.addTipDiv(tipDiv)
     }
@@ -263,12 +290,28 @@ export class Card {
         }
     }
 
-    static toggle(label: HTMLElement) {
+    static toggleBlock(label: HTMLElement) {
         label.classList.toggle('label-close')
         label.classList.toggle('label-open')
         const body = label.nextElementSibling as HTMLElement
         body.classList.toggle('body-open')
         body.classList.toggle('body-close')
+    }
+
+    static openBlock(label: HTMLElement) {
+        label.classList.remove('label-close')
+        label.classList.add('label-open')
+        const body = label.nextElementSibling as HTMLElement
+        body.classList.remove('body-close')
+        body.classList.add('body-open')
+    }
+
+    static closeBlock(label: HTMLElement) {
+        label.classList.remove('label-open')
+        label.classList.add('label-close')
+        const body = label.nextElementSibling as HTMLElement
+        body.classList.remove('body-open')
+        body.classList.add('body-close')
     }
 
     public static copyToClipboard(div: HTMLElement) {

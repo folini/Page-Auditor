@@ -5,7 +5,22 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 
-export const specs = {
+export const Specs = {
+    html: {
+        titleTag: {
+            maxLen: 60,
+            reference: {
+                label: 'Title tag Best Practices',
+                url: 'https://moz.com/learn/seo/title-tag',
+            },
+        },
+        imgTag: {
+            reference: {
+                label: 'Img tag Alt Attribute Best Practices',
+                url: 'https://moz.com/learn/seo/alt-text',
+            },
+        },
+    },
     structuredData: {
         reference: {
             label: 'Learn About Structured Data',
@@ -38,14 +53,12 @@ export const specs = {
             label: 'Meta Tags Reference',
             url: 'https://moz.com/blog/the-ultimate-guide-to-seo-meta-tags',
         },
-    },
-    stdTags: {
-        Desc: {
-            MinLen: 50,
-            MaxLen: 155,
+        descTag: {
+            minLen: 50,
+            maxLen: 155,
         },
-        Title: {
-            MaxLen: 60,
+        titleTag: {
+            maxLen: 60,
         },
     },
     twitterTags: {
@@ -57,14 +70,14 @@ export const specs = {
             'Images must be less than 5MB in size. JPG, PNG, WEBP and GIF formats are supported. Only the first frame of an animated GIF will be used. SVG is not supported.',
         recommendedTags: ['twitter:title', 'twitter:description', 'twitter:image'],
         twTitle: {
-            MinLen: 5,
-            MaxLen: 70,
-            MaxRecommendedLen: 60,
+            minLen: 5,
+            maxLen: 70,
+            maxRecommendedLen: 60,
         },
         twDesc: {
-            MinLen: 4,
-            MaxLen: 280,
-            MaxWithUrlLen: 200,
+            minLen: 4,
+            maxLen: 280,
+            maxWithUrlLen: 200,
         },
         twitterCard: {
             obsoleteValues: ['photo', 'gallery', 'product'],
@@ -79,14 +92,14 @@ export const specs = {
         imageSpecsTextual: `The most frequently recommended resolution for an OG image is 1200 pixels x 627 pixels (1.91/1 ratio). At this size, your thumbnail will be big and stand out from the crowd. Just don't exceed the 5MB size limit.`,
         recommendedTags: ['og:title', 'og:description', 'og:image', 'og:url'],
         ogTitle: {
-            MinLen: 4,
-            MaxLen: 95,
-            MaxRecommendedLen: 55,
+            minLen: 4,
+            maxLen: 95,
+            maxRecommendedLen: 55,
         },
         ogDescription: {
-            MinLen: 4,
-            MaxLen: 110,
-            MaxRecommendedLen: 55,
+            minLen: 4,
+            maxLen: 110,
+            maxRecommendedLen: 55,
         },
         ogType: {
             validValues: [

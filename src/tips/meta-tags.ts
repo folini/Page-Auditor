@@ -8,13 +8,13 @@ import {Card} from '../card'
 import {iTag} from '../cards/mt'
 import {codeBlock} from '../codeBlock'
 import {Mode} from '../colorCode'
-import {specs} from '../cards/specs'
+import {Specs} from '../specs'
 import {tipWhat, tipWhy, tipHow} from './tips'
 
 const tagIsCritical = (tag: string) =>
-    specs.openGraphTags.recommendedTags.includes(tag) || specs.openGraphTags.recommendedTags.includes(tag)
+    Specs.openGraphTags.recommendedTags.includes(tag) || Specs.openGraphTags.recommendedTags.includes(tag)
 
-export type Platform = 'Twitter' | 'Facebook' | 'Instagram' | 'LinkedIn' | 'YouTube' | 'Reddit'
+export type Platform = 'Twitter' | 'Facebook' | 'Instagram' | 'LinkedIn' | 'YouTube' | 'Reddit' | 'Standard'
 
 const tagExample = (tagLabel: string, platform: string) => {
     let exampleTagValue = ''
@@ -45,7 +45,7 @@ export const noTagsFound = (card: Card) => {
         `Also Meta tags allow the page to control how it will be shared by users providing recommendation for title, image and descriptions to be use for sharing post on Social-Media.`
     )
     const how = tipHow(`Add Meta Tags to Your Page in the <code>&lt;head&gt;</code> section of the HTML code.`)
-    card.addTip(`Add Meta Tags to the Page`, [what, why, how], specs.metaTags.reference, 85)
+    card.addTip(`Add Meta Tags to the Page`, [what, why, how], Specs.metaTags.reference, 85)
 }
 
 export const tagWithEmptyValue = (card: Card, platform: Platform, tag: iTag) => {
@@ -55,7 +55,7 @@ export const tagWithEmptyValue = (card: Card, platform: Platform, tag: iTag) => 
     card.addTip(
         `Update The Invalid Meta Tag <code>${tag.label}</code>`,
         [what, why, how],
-        platform === 'Twitter' ? specs.twitterTags.reference : specs.openGraphTags.reference,
+        platform === 'Twitter' ? Specs.twitterTags.reference : Specs.openGraphTags.reference,
         70
     )
 }
@@ -75,7 +75,7 @@ export const tagWithObsoleteValue = (card: Card, platform: Platform, tag: iTag, 
     card.addTip(
         `Fix The Obsolete Value for Meta Tag <code>${tag.label}</code>`,
         [what, why, how],
-        platform === 'Twitter' ? specs.twitterTags.reference : specs.openGraphTags.reference,
+        platform === 'Twitter' ? Specs.twitterTags.reference : Specs.openGraphTags.reference,
         40
     )
 }
@@ -94,7 +94,7 @@ export const tagWithInvalidValue = (card: Card, platform: Platform, tag: iTag, a
     card.addTip(
         `Select a Valid Value For <code>${tag.label}</code>`,
         [what, why, how],
-        platform === 'Twitter' ? specs.twitterTags.reference : specs.openGraphTags.reference,
+        platform === 'Twitter' ? Specs.twitterTags.reference : Specs.openGraphTags.reference,
         80
     )
 }
@@ -147,14 +147,14 @@ export const tagKeywordsIsObsolete = (card: Card, keywordsTag: iTag) => {
 
 export const tagTitleIsTooLong = (card: Card, titleTag: iTag) => {
     const what = tipWhat(
-        `This page includes a <code>${titleTag.label}</code> Meta tag that is longer than the recommended max of <b>${specs.stdTags.Title.MaxLen}<b> characters.`
+        `This page includes a <code>${titleTag.label}</code> Meta tag that is longer than the recommended max of <b>${Specs.metaTags.titleTag.maxLen}<b> characters.`
     )
     const why = tipWhy(
         `The <code>${titleTag.label}</code> might be used by Google when returning your page as a result of a search.`,
-        `According to Moz, if the title is longer than ${specs.stdTags.Title.MaxLen} characters, Google will truncate it or will use a sentence arbitrarily selected from the page content.`
+        `According to Moz, if the title is longer than ${Specs.metaTags.titleTag.maxLen} characters, Google will truncate it or will use a sentence arbitrarily selected from the page content.`
     )
     const how = tipHow(
-        `Rewrite the title using less than ${specs.stdTags.Title.MaxLen} characters and update the <code>${titleTag.label}</code> Meta tag accordingly.`
+        `Rewrite the title using less than ${Specs.metaTags.titleTag.maxLen} characters and update the <code>${titleTag.label}</code> Meta tag accordingly.`
     )
     card.addTip(
         `Shorten the Meta Tag <code>${titleTag.label}</code>`,
@@ -169,14 +169,14 @@ export const tagTitleIsTooLong = (card: Card, titleTag: iTag) => {
 
 export const tagDescriptionIsTooLong = (card: Card, descriptionTag: iTag) => {
     const what = tipWhat(
-        `This page includes a <code>${descriptionTag.label}</code> Meta tag that is longer than the recommended max of <b>${specs.stdTags.Desc.MaxLen}</b> characters.`
+        `This page includes a <code>${descriptionTag.label}</code> Meta tag that is longer than the recommended max of <b>${Specs.metaTags.descTag.maxLen}</b> characters.`
     )
     const why = tipWhy(
         `The <code>${descriptionTag.label}</code> might be used by Google when returning your page as a result of a search.`,
-        `If the description is longer than ${specs.stdTags.Desc.MaxLen} characters, Google will truncate it or will use a sentence arbitrarily selected from the page content.`
+        `If the description is longer than ${Specs.metaTags.descTag.maxLen} characters, Google will truncate it or will use a sentence arbitrarily selected from the page content.`
     )
     const how = tipHow(
-        `Rewrite teh description using less than ${specs.stdTags.Desc.MaxLen} characters and update the <code>${descriptionTag.label}</code> Meta tag accordingly.`
+        `Rewrite teh description using less than ${Specs.metaTags.descTag.maxLen} characters and update the <code>${descriptionTag.label}</code> Meta tag accordingly.`
     )
     card.addTip(
         `Shorten the Meta Tag <code>${descriptionTag.label}</code>`,
@@ -191,14 +191,14 @@ export const tagDescriptionIsTooLong = (card: Card, descriptionTag: iTag) => {
 
 export const tagDescriptionIsTooShort = (card: Card, descriptionTag: iTag) => {
     const what = tipWhat(
-        `This page includes a <code>${descriptionTag.label}</code> Meta tag that is shorter than the recommended minimum of <b>${specs.stdTags.Desc.MinLen}<b> characters.`
+        `This page includes a <code>${descriptionTag.label}</code> Meta tag that is shorter than the recommended minimum of <b>${Specs.metaTags.descTag.minLen}<b> characters.`
     )
     const why = tipWhy(
         `The <code>${descriptionTag.label}</code> might be used by Google when returning your page as a result of a search.`,
-        `If the description is shorter than ${specs.stdTags.Desc.MinLen} characters, Google might use a sentence arbitrarily selected from the page content.`
+        `If the description is shorter than ${Specs.metaTags.descTag.minLen} characters, Google might use a sentence arbitrarily selected from the page content.`
     )
     const how = tipHow(
-        `Rewrite teh description using more than ${specs.stdTags.Desc.MinLen} characters and update the <code>${descriptionTag.label}</code> Meta tag accordingly.`
+        `Rewrite teh description using more than ${Specs.metaTags.descTag.minLen} characters and update the <code>${descriptionTag.label}</code> Meta tag accordingly.`
     )
     card.addTip(
         `The <code>${descriptionTag.label}</code> Meta Tag Is Too Short.`,
@@ -222,12 +222,12 @@ export const tagImageIsMissing = (card: Card, platform: Platform, tag: string) =
         `Add the missing tag.`,
         `This is an example of the ${platform} Meta Tag that should be added:`,
         codeBlock(`<meta property="${tag}" content="https://www.example.com/my_image.jpg">`, Mode.html),
-        platform === 'Twitter' ? specs.twitterTags.imageSpecsTextual : specs.openGraphTags.imageSpecsTextual
+        platform === 'Twitter' ? Specs.twitterTags.imageSpecsTextual : Specs.openGraphTags.imageSpecsTextual
     )
     card.addTip(
         `Add the Meta Tag <code>${tag}</code> for Image Preview`,
         [what, why, how],
-        'Twitter' ? specs.twitterTags.reference : specs.openGraphTags.reference,
+        'Twitter' ? Specs.twitterTags.reference : Specs.openGraphTags.reference,
         70
     )
 }
@@ -242,12 +242,12 @@ export const tagImageNotFound = (card: Card, platform: Platform, tag: iTag) => {
     )
     const how = tipHow(
         `Upload the missing image or fix the url to maximize the visual impact on ${platform} of every posts about this page.`,
-        platform === 'Twitter' ? specs.twitterTags.imageSpecsTextual : specs.openGraphTags.imageSpecsTextual
+        platform === 'Twitter' ? Specs.twitterTags.imageSpecsTextual : Specs.openGraphTags.imageSpecsTextual
     )
     card.addTip(
-        `Upload The Image Preview Meta Tag for ${platform}`,
+        `Upload The Missing Image for the <code>${tag.label}</code> Meta Tag`,
         [what, why, how],
-        'Twitter' ? specs.twitterTags.reference : specs.openGraphTags.reference,
+        'Twitter' ? Specs.twitterTags.reference : Specs.openGraphTags.reference,
         65
     )
 }
@@ -264,12 +264,12 @@ export const tagImageIsaPlaceholder = (card: Card, platform: Platform, tag: iTag
     )
     const how = tipHow(
         `Upload an image to maximize the visual impact of posts on ${platform} sharing this page.`,
-        platform === 'Twitter' ? specs.twitterTags.imageSpecsTextual : specs.openGraphTags.imageSpecsTextual
+        platform === 'Twitter' ? Specs.twitterTags.imageSpecsTextual : Specs.openGraphTags.imageSpecsTextual
     )
     card.addTip(
         `Replace the Image Preview Placeholder in <code>${tag.label}</code>`,
         [what, why, how],
-        'Twitter' ? specs.twitterTags.reference : specs.openGraphTags.reference,
+        'Twitter' ? Specs.twitterTags.reference : Specs.openGraphTags.reference,
         60
     )
 }
@@ -290,22 +290,29 @@ export const tagUrlIsNonCanonical = (card: Card, platform: Platform, tag: iTag, 
     card.addTip(
         `Use the Canonical Url for the Meta Tag <code>${tag.label}</code>`,
         [what, why, how],
-        platform === 'Twitter' ? specs.twitterTags.reference : specs.openGraphTags.reference,
+        platform === 'Twitter' ? Specs.twitterTags.reference : Specs.openGraphTags.reference,
         60
     )
 }
 
-export const tagUrlIsRelativePath = (card: Card, platform: Platform, tag: iTag) => {
+export const tagUrlIsRelativePath = (card: Card, platform: Platform, tag: iTag, canonical: string) => {
     const what = tipWhat(`The Meta Tag <code>${tag.label}</code> for ${platform} is using a relative url path.`)
     const why = tipWhy(
         `Links in the Meta Tags must always use absolute paths, starting with <code>https://</code>.`,
         `Relative paths will be completely ignored by all search-engine crawler and they will compromise the value of the entire Structured Data section.`
     )
-    const how = tipHow(`This is the current meta tag you should fix:`, codeBlock(tag.code, Mode.html))
+    const how = tipHow(
+        `This is the current meta tag:`,
+        codeBlock(tag.code, Mode.html),
+        canonical.length === 0 ? '' : `And this is how you should fix it:`,
+        canonical.length === 0
+            ? ''
+            : codeBlock(tag.code.replace(' content="', `content="${new URL(canonical).origin}`), Mode.html)
+    )
     card.addTip(
         `Change the Url to Absolute in <code>${tag.label}</code>`,
         [what, why, how],
-        platform === 'Twitter' ? specs.twitterTags.reference : specs.openGraphTags.reference,
+        platform === 'Twitter' ? Specs.twitterTags.reference : Specs.openGraphTags.reference,
         75
     )
 }
@@ -321,7 +328,7 @@ export const tagUrlUsesObsoleteProtocol = (card: Card, platform: Platform, tag: 
     card.addTip(
         `Change <code>${tag.label}</code> Url Protocol To HTTPS`,
         [what, why, how],
-        platform === 'Twitter' ? specs.twitterTags.reference : specs.openGraphTags.reference,
+        platform === 'Twitter' ? Specs.twitterTags.reference : Specs.openGraphTags.reference,
         35
     )
 }
@@ -340,7 +347,7 @@ export const tagIsaPlaceholder = (card: Card, platform: Platform, tag: iTag) => 
     card.addTip(
         `Replace the Placeholder in the <code>${tag.label}</code>`,
         [what, why, how],
-        'Twitter' ? specs.twitterTags.reference : specs.openGraphTags.reference,
+        'Twitter' ? Specs.twitterTags.reference : Specs.openGraphTags.reference,
         50
     )
 }
@@ -366,7 +373,7 @@ export const tagLongerThanRecommended = (
     card.addTip(
         `Consider Shortening the Meta Tag <code>${tag.label}</code>`,
         [what, why, how],
-        'Twitter' ? specs.twitterTags.reference : specs.openGraphTags.reference,
+        'Twitter' ? Specs.twitterTags.reference : Specs.openGraphTags.reference,
         15
     )
 }
@@ -384,7 +391,7 @@ export const tagLongerThanMax = (card: Card, platform: Platform, tag: iTag, maxL
     card.addTip(
         `Shorten the Meta Tag <code>${tag.label}</code>`,
         [what, why, how],
-        'Twitter' ? specs.twitterTags.reference : specs.openGraphTags.reference,
+        'Twitter' ? Specs.twitterTags.reference : Specs.openGraphTags.reference,
         40
     )
 }
@@ -405,7 +412,7 @@ export const tagShouldBeSpecific = (card: Card, platform: Platform, tagLabel: st
     card.addTip(
         `Add the ${tagIsCritical(tagLabel) ? `Critical` : `Specific`} Meta Tag <code>${tagLabel}</code>`,
         [what, why, how],
-        platform === 'Twitter' ? specs.twitterTags.reference : specs.openGraphTags.reference,
+        platform === 'Twitter' ? Specs.twitterTags.reference : Specs.openGraphTags.reference,
         tagIsCritical(tagLabel) ? 20 : 10
     )
 }
@@ -425,7 +432,7 @@ export const tagIsMissing = (card: Card, platform: Platform, tagLabel: string) =
     card.addTip(
         `Add the ${tagIsCritical(tagLabel) ? `Critical ` : platform} Meta Tag <code>${tagLabel}</code>`,
         [what, why, how],
-        platform === 'Twitter' ? specs.twitterTags.reference : specs.openGraphTags.reference,
+        platform === 'Twitter' ? Specs.twitterTags.reference : Specs.openGraphTags.reference,
         tagIsCritical(tagLabel) ? 65 : 45
     )
 }
@@ -443,7 +450,7 @@ export const tagIsObsolete = (card: Card, platform: Platform, tagName: string, h
     card.addTip(
         `Remove the Obsolete ${platform} Meta Tag <code>${tagName}</code>`,
         [what, why, how],
-        platform === 'Twitter' ? specs.twitterTags.reference : specs.openGraphTags.reference,
+        platform === 'Twitter' ? Specs.twitterTags.reference : Specs.openGraphTags.reference,
         15
     )
 }
@@ -457,9 +464,9 @@ export const tagOpenGraphNotFound = (card: Card) => {
     )
     const how = tipHow(
         `Add at least the following most critical Open Graph meta tags to the page.`,
-        codeBlock(specs.openGraphTags.recommendedTags.join('\n'), Mode.txt)
+        codeBlock(Specs.openGraphTags.recommendedTags.join('\n'), Mode.txt)
     )
-    card.addTip(`Add Facebook (Open Graph) Meta Tags to the Page`, [what, why, how], specs.openGraphTags.reference, 75)
+    card.addTip(`Add Facebook (Open Graph) Meta Tags to the Page`, [what, why, how], Specs.openGraphTags.reference, 75)
 }
 
 export const tagTwitterNotFound = (card: Card) => {
@@ -471,7 +478,7 @@ export const tagTwitterNotFound = (card: Card) => {
     )
     const how = tipHow(
         `Add at least the following most critical Twitter meta tags to the page.`,
-        codeBlock(specs.twitterTags.recommendedTags.join('\n'), Mode.txt)
+        codeBlock(Specs.twitterTags.recommendedTags.join('\n'), Mode.txt)
     )
-    card.addTip(`Add Twitter Meta Tags to the Page`, [what, why, how], specs.twitterTags.reference, 75)
+    card.addTip(`Add Twitter Meta Tags to the Page`, [what, why, how], Specs.twitterTags.reference, 75)
 }

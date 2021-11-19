@@ -11,6 +11,7 @@ import {Mode} from '../colorCode'
 import {codeBlock} from '../codeBlock'
 import {Errors} from './errors'
 import * as Tips from '../tips/tips'
+import * as File from '../file'
 import {Info} from './info'
 
 const listOfScriptClasses = require('../jsons/scriptClasses.json') as iTrackClass[]
@@ -109,13 +110,30 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, report: Report): v
             .join(' ')
         const plural = discoveredItem.scripts.length > 1 ? 's' : ''
         const btnLabel = `${discoveredItem.scripts.length.toFixed()} Script${plural}`
-        const block = discoveredItem.scripts.map((script, j) => codeBlock(script, Mode.js, disposableId())).join('')
+        const block = discoveredItem.scripts.map((script, j) => codeBlock(script, Mode.js)).join('')
         const card = new Card(CardKind.report)
             .open(discoveredItem.category, discoveredItem.name, discoveredItem.iconClass)
             .addParagraph(discoveredItem.description)
             .addExpandableBlock(btnLabel + linksHtml, block)
             .tag('card-ok')
         report.addCard(card)
+
+        const unsafeLinks = discoveredItem.scripts.filter(script => script.match(/^http\:\/\//))
+        if (unsafeLinks.length > 0) {
+            console.log(`All[${discoveredItem.name}] = \n\t[${discoveredItem.scripts.join('\n\t')}]`)
+            console.log(`Unsafe[${discoveredItem.name}] = \n\t[${unsafeLinks.join('\n\t')}]`)
+            Tips.Scripts.unsafeLinks(card, unsafeLinks)
+        }
+
+        const brokenLinks: string[] = []
+        const scriptPromises = discoveredItem.scripts.map(script =>
+            File.exists(script, File.anyContentType).catch(() => brokenLinks.push(script))
+        )
+        Promise.allSettled(scriptPromises).then(() => {
+            if (brokenLinks.length > 0) {
+                Tips.Scripts.scriptNotFound(card, brokenLinks)
+            }
+        })
     })
 
     if (discoveredScripts.length === 0) {

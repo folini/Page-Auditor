@@ -4,7 +4,9 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-const maxSitemapsToLoad = 15
+import * as File from './file'
+
+export const maxSitemapsToLoad = 15
 
 export enum SmSource {
     RobotsTxt = 1,
@@ -68,6 +70,12 @@ export class SmList {
         return maxSitemapsToLoad
     }
 
+    public withoutXmlExtension() {
+        return [...this.doneList, ...this.skippedList, ...this.failedList]
+            .map(sm => sm.url)
+            .filter(url => !File.name(url).endsWith('.xml'))
+    }
+
     public addToDo(sms: iSmCandidate[]) {
         sms = sms.map(sm => SmList.#sanitizeSm(sm))
         sms.forEach(candidateSm => {
@@ -76,7 +84,7 @@ export class SmList {
             }
         })
 
-        while (this.toDoList.length > maxSitemapsToLoad) {
+        while (this.toDoList.length >= maxSitemapsToLoad) {
             this.addSkipped(this.toDoList.at(-1)!)
             this.toDoList.pop()
         }
@@ -85,7 +93,7 @@ export class SmList {
 
     public addFailed(sm: iSmCandidate) {
         sm = SmList.#sanitizeSm(sm)
-        if (!this.#isFailed(sm) && !this.#isSkipped(sm) && !this.#isDone(sm)) {
+        if (!this.#isFailed(sm) && !this.#isSkipped(sm) && !this.#isDone(sm) && !(sm.source === SmSource.Default)) {
             this.failedList.push(sm)
         }
         this.#removeToDo(sm)
@@ -105,9 +113,5 @@ export class SmList {
             this.doneList.push(sm)
         }
         this.#removeToDo(sm)
-    }
-
-    public toString() {
-        return `[Ready: ${this.toDoList.length}, Done: ${this.doneList.length}, Skip: ${this.skippedList.length}, Failed: ${this.failedList.length}]`
     }
 }

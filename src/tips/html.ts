@@ -7,7 +7,7 @@
 import {Card} from '../card'
 import {codeBlock} from '../codeBlock'
 import {Mode} from '../colorCode'
-import {specs} from '../cards/specs'
+import {Specs} from '../specs'
 import {tipWhat, tipWhy, tipHow} from './tips'
 
 // ---------------------------------------------------------------------------------------------
@@ -18,9 +18,14 @@ export const imgWithoutAlt = (card: Card, images: string[]) => {
         `${
             images.length > 1 ? 'Some' : 'One'
         } image${plural} in the HTML of the page are missing have the alt attribute.`,
-        `This is the list:`,
-        codeBlock(images.join('\n'), Mode.txt)
+        ` Excluding images like the Facebook Pixel that are typically 1 pixel by 1 pixel in size and are not intended to present any information to the page visitors.`
     )
+    const table = Card.createTable(
+        `List of ${images.length} Image${plural} Without <code>alt</code> attribute`,
+        images.map(image => [image]),
+        'list-style'
+    )
+
     const why = tipWhy(
         `The <code>alt</code> attribute of the <code>&lt;img&gt;</code> tags helps all search engine crawlers.`,
         `Not setting this attribute for all images can have a detrimental effect on the ranking of your web pages.`,
@@ -31,28 +36,30 @@ export const imgWithoutAlt = (card: Card, images: string[]) => {
         `It is important to describe what is happening in the image and to avoid keyword "stuffing".`
     )
     card.addTip(
-        `Add the Missing <code>alt</code> attribute to ${images.length.toFixed()} Image${plural}`,
-        [what, why, how],
-        specs.structuredData.reference,
+        `Add the Missing <code>alt</code> Attribute to ${images.length.toFixed()} Image${plural}`,
+        [what, table, why, how],
+        Specs.structuredData.reference,
         20
     )
 }
 
 export const imagesNotFound = (card: Card, images: string[]) => {
     const plural = images.length > 1 ? 's' : ''
-    const what = tipWhat(
-        `Unable to find the following image${plural} used in the HTML code of the page:`,
-        codeBlock(images.join('\n'), Mode.txt)
+    const what = tipWhat(`Unable to find the ${images.length} image${plural} used in the HTML code of the page`)
+    const table = Card.createTable(
+        `${images.length} Image${plural} Not Found`,
+        images.map(image => [image]),
+        'list-style'
     )
     const why = tipWhy(
-        `While a few missing images should does't directly affect the SEO of a page, it can compromise the user experience resulting in a higher bounce rate.`,
+        `While a few missing images should not directly affect the SEO of a page, they can compromise the user experience resulting in a higher bounce rate.`,
         `Over time an higher bounce rate can hurt the page reputation and the SEO performance.`
     )
     const how = tipHow(`Upload the missing image or remove all the references to that image from the page's HTML code.`)
     card.addTip(
         images.length === 1 ? 'Add a Missing Image' : `Add the Missing ${images.length.toFixed()} Images`,
-        [what, why, how],
-        specs.structuredData.reference,
+        [what, table, why, how],
+        Specs.structuredData.reference,
         15
     )
 }
@@ -71,9 +78,9 @@ export const imgWithoutSrc = (card: Card, nImages: number) => {
     )
     const how = tipHow(`Add the missing image url or remove the broken <code>&lt;img&gt;</code>.`)
     card.addTip(
-        `Add the Missing <code>src</code> attribute to ${nImages.toFixed()} <code>&lt;img&gt;</code> HTML Tags`,
+        `Add the Missing <code>src</code> Attribute to ${nImages.toFixed()} <code>&lt;img&gt;</code> HTML Tags`,
         [what, why, how],
-        specs.structuredData.reference,
+        Specs.html.imgTag.reference,
         25
     )
 }
@@ -91,9 +98,63 @@ export const imgWithInvalidSrc = (card: Card, nImages: number) => {
     )
     const how = tipHow(`Replace the image url or remove the broken <code>&lt;img&gt;</code>.`)
     card.addTip(
-        `Replace the incorrect <code>src</code> attribute for ${nImages.toFixed()} Images`,
+        `Replace the incorrect <code>src</code> Attribute for ${nImages.toFixed()} Images`,
         [what, why, how],
-        specs.structuredData.reference,
+        Specs.structuredData.reference,
         25
+    )
+}
+
+export const titleTooLong = (card: Card, title: string) => {
+    const what = tipWhat(
+        `The <code>&lt;title&gt;</code> tag in the <code>&lt;head&gt;</code> section of the page is ${title.length} chars, longer than the max recommended length of ${Specs.html.titleTag.maxLen} chars.`
+    )
+    const why = tipWhy(
+        `The <code>&lt;title&gt;</code> tag will likely be used by Google and other search engines to show a link to this page on SERP.`,
+        `Anything over ${Specs.html.titleTag.maxLen} characters will be automatically truncated.`,
+        `Automatic truncation of the title can compromise your title transforming it into some obscure sentence.`,
+        `Your title could look like this:`,
+        codeBlock(`${title.substr(0, Specs.html.titleTag.maxLen)}...`, Mode.txt)
+    )
+    const how = tipHow(
+        `Rewrite the <code>&lt;title&gt;</code> of the page and replace the content of the <code>&lt;title&gt;</code> tag in the page HTML.`
+    )
+    card.addTip(
+        `Shorten the <code>&lt;title&gt;</code> of the Page To ${Specs.html.titleTag.maxLen} Chars Or Less`,
+        [what, why, how],
+        Specs.html.titleTag.reference,
+        25
+    )
+}
+
+export const titleShouldMatchH1 = (card: Card, title: string, h1Title: string) => {
+    const what = tipWhat(`The <code>&lt;title&gt;</code> tag should match the <code>&lt;h1&gt;</code> tag.`)
+    const why = tipWhy(
+        `The <code>&lt;title&gt;</code> tag is very important for SEO, and Google will use it for SERP.`,
+        `The <code>&lt;h1&gt;</code> tag wil be used by search engines to better understand the content of the page.`,
+        `The impact of having different values for these two tags should be minimal, but SEO Best Practices recommend to match teh two tags.`
+    )
+    const how = tipHow(`Rewrite the title and the h1 tags to match exactly and replace them in the page HTML.`)
+    card.addTip(
+        `The <code>&lt;title&gt;</code> Tag and the <code>&lt;h1&gt;</code> Tag Should Match`,
+        [what, why, how],
+        Specs.html.titleTag.reference,
+        10
+    )
+}
+
+export const titleIsaPlaceholder = (card: Card, title: string) => {
+    const what = tipWhat(
+        `The <code>&lt;title&gt;</code> tag for this page is set to <i>${title}</i>, just a placeholder.`
+    )
+    const why = tipWhy(
+        `The <code>&lt;title&gt;</code> tag is very important for SEO and should be clear, concise and able to attract clicks when used by Google in SERP.`
+    )
+    const how = tipHow(`Write a good title and replace the placeholder in the page HTML.`)
+    card.addTip(
+        `Replace the Placeholder in the <code>&lt;title&gt;</code> HTML Tag`,
+        [what, why, how],
+        Specs.html.titleTag.reference,
+        70
     )
 }

@@ -256,129 +256,6 @@ body#id-page-auditor main #id-report-outer-container {
 body#id-page-auditor main #id-report-outer-container .inner-report-container {
     display: none;
 }
-body#id-page-auditor .box-card {
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 0;
-    margin-bottom: 32px;
-    background-color: var(--color-white);
-    overflow: hidden;
-}
-body#id-page-auditor .box-card:hover {
-    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);
-}
-body#id-page-auditor .box-card h2.cardTitle {
-    font-size: 18px;
-    margin: 0;
-    background-size: var(--card-icon-size) var(--card-icon-size);
-    background-repeat: no-repeat;
-    background-position: calc(var(--card-padding) - 2px) center;
-    background-color: #12787840;
-    padding: var(--card-padding);
-    padding-left: calc(var(--card-icon-size) + 2 * var(--card-padding));
-    position: relative;
-    font-weight: normal;
-    overflow: hidden;
-}
-body#id-page-auditor .box-card h2.cardTitle:after {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    width: var(--card-icon-size);
-    background-repeat: no-repeat;
-    background-position-y: center;
-    background-position-x: left;
-    background-size: calc(var(--card-icon-size) - 4px);
-    content: '';
-}
-body#id-page-auditor .box-card h2.cardTitle.card-ok:after {
-    background-image: url(../logos/OK_100x100.png);
-}
-body#id-page-auditor .box-card h2.cardTitle.card-fix:after {
-    background-image: url(../logos/WARNING_100x100.png);
-}
-body#id-page-auditor .box-card h2.cardTitle.card-error:after {
-    background-image: url(../logos/ERROR_100x100.png);
-}
-body#id-page-auditor .box-card h2.cardTitle .cardPreTitle {
-    font-variant: small-caps;
-    font-size: 14px;
-}
-body#id-page-auditor .box-card h2.cardTitle .cardTitleString {
-    max-height: 1.4rem;
-    display: inline-block;
-    overflow-x: hidden;
-}
-body#id-page-auditor .box-card hr {
-    border: none;
-    border-top: solid 1px var(--border-color);
-    margin: 0 -12px;
-}
-body#id-page-auditor .box-card .card-body {
-    padding: var(--card-padding);
-    font-size: 14px;
-}
-body#id-page-auditor .box-card .card-body > div {
-    margin-bottom: 8px;
-}
-body#id-page-auditor .box-card .card-body > div:last-child {
-    margin-bottom: 0 !important;
-}
-body#id-page-auditor .box-card .card-body a {
-    color: darkblue;
-    text-decoration: none;
-}
-body#id-page-auditor .box-card .card-body a:hover {
-    text-decoration: underline;
-}
-body#id-page-auditor .box-card .card-body code {
-    background-color: #f2f2f2;
-    padding: 0 3px;
-    border-radius: 4px;
-}
-body#id-page-auditor .box-card .card-body .table-container .table-title::after {
-    content: '\f013';
-    color: #004b80;
-}
-body#id-page-auditor .box-card .card-body .table-container table.card-table {
-    background-color: var(--color-bright-white);
-    width: 100%;
-    border-collapse: collapse;
-}
-body#id-page-auditor .box-card .card-body .table-container table.card-table tr + tr {
-    border-top: solid 1px var(--border-color-light);
-}
-body#id-page-auditor .box-card .card-body .table-container table.card-table tr td {
-    padding: 6px 4px;
-    font-size: 14px;
-    min-width: 100px;
-    word-break: break-all;
-}
-body#id-page-auditor .box-card .card-body .table-container table.card-table tr td + td {
-    border-left: solid 1px var(--border-color-light);
-}
-body#id-page-auditor .box-card .card-body .table-container table.card-table tr td + td .small-btn {
-    float: none;
-}
-body#id-page-auditor .box-card .card-body .table-container table.card-table tr td .missing-info {
-    color: var(--color-red);
-}
-body#id-page-auditor .box-card .card-footer {
-    padding: 8px;
-    border-top: solid 1px var(--border-color);
-    display: none;
-}
-body#id-page-auditor .box-card .card-footer .cta-toolbar {
-    text-align: center !important;
-}
-body#id-page-auditor .box-card .code-box .code-label::after {
-    content: '\f1c9';
-    color: #06620d;
-}
-body#id-page-auditor .box-card .code-box .code-body {
-    padding: 8px;
-}
 body#id-page-auditor .twitter-card {
     cursor: pointer;
 }
@@ -1314,7 +1191,7 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
 .label-close,
 .label-open {
     padding-left: 2.2em !important;
-    background-color: #f0f0f0;
+    background-color: #fafafa;
     padding: 8px 22px 8px 6px;
     font-size: 14px;
     position: relative;
@@ -1567,7 +1444,7 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
     font-size: 12px;
 }
 .todo-report main #id-report-outer-container .card-tip .tip-title {
-    background-color: #f0f0f0;
+    background: linear-gradient(90deg, #fafafa, #fff);
 }
 .todo-report main #id-report-outer-container .card-tip .tip-title:after {
     content: attr(data-severity);
@@ -1636,4 +1513,145 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
     position: absolute;
     top: 4px;
     left: 2px;
+}
+.table-container .table-style::after {
+    content: '\f013';
+    color: #3979a7ba;
+}
+.table-container .list-style::after {
+    content: '\f0ca';
+    color: #3979a7ba;
+    font-size: 20px;
+}
+.table-container table.card-table {
+    background-color: var(--color-bright-white);
+    width: 100%;
+    border-collapse: collapse;
+}
+.table-container table.card-table tr + tr {
+    border-top: dotted 1px var(--border-color-light);
+}
+.table-container table.card-table tr td {
+    padding: 6px 4px;
+    font-size: 14px;
+    min-width: 100px;
+    word-break: break-all;
+}
+.table-container table.card-table tr td a {
+    color: darkblue;
+    text-decoration: none;
+}
+.table-container table.card-table tr td a:hover {
+    text-decoration: underline;
+}
+.table-container table.card-table tr td a code {
+    background-color: transparent !important;
+}
+.table-container table.card-table tr td + td {
+    border-left: dotted 1px var(--border-color-light);
+}
+.table-container table.card-table tr td + td .small-btn {
+    float: none;
+}
+.table-container table.card-table tr td .regular-info {
+    color: darkgreen;
+}
+.table-container table.card-table tr td .missing-info {
+    color: var(--color-red);
+}
+.box-card {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 0;
+    margin-bottom: 32px;
+    background-color: var(--color-white);
+    overflow: hidden;
+}
+.box-card:hover {
+    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+}
+.box-card h2.cardTitle {
+    font-size: 18px;
+    margin: 0;
+    background-size: var(--card-icon-size) var(--card-icon-size);
+    background-repeat: no-repeat;
+    background-position: calc(var(--card-padding) - 2px) center;
+    background-color: #12787840;
+    padding: var(--card-padding);
+    padding-left: calc(var(--card-icon-size) + 2 * var(--card-padding));
+    position: relative;
+    font-weight: normal;
+    overflow: hidden;
+}
+.box-card h2.cardTitle:after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: var(--card-icon-size);
+    background-repeat: no-repeat;
+    background-position-y: center;
+    background-position-x: left;
+    background-size: calc(var(--card-icon-size) - 4px);
+    content: '';
+}
+.box-card h2.cardTitle.card-ok:after {
+    background-image: url(../logos/OK_100x100.png);
+}
+.box-card h2.cardTitle.card-fix:after {
+    background-image: url(../logos/WARNING_100x100.png);
+}
+.box-card h2.cardTitle.card-error:after {
+    background-image: url(../logos/ERROR_100x100.png);
+}
+.box-card h2.cardTitle .cardPreTitle {
+    font-variant: small-caps;
+    font-size: 14px;
+}
+.box-card h2.cardTitle .cardTitleString {
+    max-height: 1.4rem;
+    display: inline-block;
+    overflow-x: hidden;
+}
+.box-card hr {
+    border: none;
+    border-top: solid 1px var(--border-color);
+    margin: 0 -12px;
+}
+.box-card .card-body {
+    padding: var(--card-padding);
+    font-size: 14px;
+}
+.box-card .card-body > div {
+    margin-bottom: 8px;
+}
+.box-card .card-body > div:last-child {
+    margin-bottom: 0 !important;
+}
+.box-card .card-body a {
+    color: darkblue;
+    text-decoration: none;
+}
+.box-card .card-body a:hover {
+    text-decoration: underline;
+}
+.box-card .card-body code {
+    background-color: #f2f2f2;
+    padding: 0 3px;
+    border-radius: 4px;
+}
+.box-card .card-footer {
+    padding: 8px;
+    border-top: solid 1px var(--border-color);
+    display: none;
+}
+.box-card .card-footer .cta-toolbar {
+    text-align: center !important;
+}
+.box-card .code-box .code-label::after {
+    content: '\f1c9';
+    color: #06620d;
+}
+.box-card .code-box .code-body {
+    padding: 8px;
 }

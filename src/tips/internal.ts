@@ -5,7 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card} from '../card'
-import {specs} from '../cards/specs'
+import {Specs} from '../specs'
 import {tipWhat, tipWhy, tipHow} from './tips'
 
 // ----------------------------------------------------------------------------
@@ -16,7 +16,7 @@ export const internalError = (card: Card) => {
     const how = tipHow(
         `Consider updating the "Page Auditor" Microsoft Edge and Google Chrome Extension to the latest version.`
     )
-    card.addTip(`Update Page Auditor to the latest version`, [what, why, how], specs.robotsTxt.reference)
+    card.addTip(`Update Page Auditor to the latest version`, [what, why, how], Specs.robotsTxt.reference)
 }
 
 export const unableToAnalyzeBrowserPages = (card: Card) => {
@@ -25,5 +25,5 @@ export const unableToAnalyzeBrowserPages = (card: Card) => {
     const how = tipHow(
         `Consider opening any website before opening the "Page Auditor" Microsoft Edge and Google Chrome Extension`
     )
-    card.addTip(`Open a Regular WebSite or Web Page`, [what, why, how], specs.robotsTxt.reference)
+    card.addTip(`Open a Regular WebSite or Web Page`, [what, why, how], Specs.robotsTxt.reference)
 }
