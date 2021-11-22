@@ -21,7 +21,7 @@ export const titleCard = (report: Report, title: string, h1Title: string): void 
     }
 
     const card = new Card(CardKind.report)
-        .open(`Html`, `&lt;title&gt; Tag`, 'icon-html-tag')
+        .open(`Html`, `<code>&lt;title&gt;</code> Tag`, 'icon-html-tag')
         .tag('card-ok')
         .addParagraph(`The page title from the <code>&lt;title&gt;</code> is:`)
         .addCodeBlock(title, Mode.txt)
@@ -64,54 +64,64 @@ export const imgCard = (report: Report, imgs: iImg[]): void => {
             : !!img.alt
             ? img.alt
             : `<span class='missing-info'>No Alt Attribute</span>`,
-        `${img.width.toFixed()}px x ${img.height.toFixed()}px`,
+        `<div class='unbreakable'>${img.width.toFixed()}px by ${img.height.toFixed()}px</div>`,
     ])
 
     const id = disposableId()
     const table = [
-        ['Images On This Page', imgs.length.toFixed()],
-        [
-            'Regular Images (gif, png, jpg, webp)',
-            `${nOfImageFiles > 0 ? nOfImageFiles.toFixed() : 'None'} ${
-                imgs.length > 0 && nOfImageFiles > 0 ? `(${((nOfImageFiles / imgs.length) * 100).toFixed(2)}%)` : ''
-            }`,
-        ],
-        [
-            'Embedded Images (data:)',
-            `${nOfImageData > 0 ? nOfImageData.toFixed() : 'None'} ${
-                imgs.length > 0 && nOfImageData > 0 ? `(${((nOfImageData / imgs.length) * 100).toFixed(2)}%)` : ''
-            }`,
-        ],
-        [
-            'Images With No Alt',
-            `${imagesWithNoAlt.length > 0 ? imagesWithNoAlt.length.toFixed() : 'None'} ${
-                imgs.length > 0 && imagesWithNoAlt.length > 0
-                    ? `(${((imagesWithNoAlt.length / imgs.length) * 100).toFixed(2)}%)`
-                    : ''
-            }`,
-        ],
-        [
-            'Images With No Src',
-            `${nOfImagesWithNoSrc > 0 ? nOfImagesWithNoSrc.toFixed() : 'None'} ${
-                imgs.length > 0 && nOfImagesWithNoSrc > 0
-                    ? `(${((nOfImagesWithNoSrc / imgs.length) * 100).toFixed(2)}%)`
-                    : ''
-            }`,
-        ],
-        ['Pixel Images (1 x 1 pixels)', `${nOfImages1by1 > 0 ? nOfImages1by1.toFixed() : 'None'}`],
-        [
-            'Images With Invalid Src',
-            `${nOfImagesWithInvalidSrc > 0 ? nOfImagesWithInvalidSrc.toFixed() : 'None'} ${
-                imgs.length > 0 && nOfImagesWithInvalidSrc > 0
-                    ? `(${((nOfImagesWithInvalidSrc / imgs.length) * 100).toFixed(2)}%)`
-                    : ''
-            }`,
-        ],
-        ['Img Download Status', `<span id='${id}'>Calculating...</span>`],
+        ['Images Detected', imgs.length.toFixed()],
+        ['Images Status', `<span id='${id}'>Calculating...</span>`]
     ]
 
+    if(nOfImageFiles > 0) {
+        table.push([
+            'Linked Images (.gif, .png, .jpg, .webp)',
+            `${nOfImageFiles.toFixed()} (${
+                ((nOfImageFiles / imgs.length) * 100).toFixed(2)}%)`
+        ])
+    }
+
+    if(nOfImageData > 0) {
+        table.push([
+            'Embedded Images (data:)',
+            `${nOfImageData.toFixed()} (${((nOfImageData / imgs.length) * 100).toFixed(2)}%)`
+        ])
+    }
+
+    if(nOfImages1by1> 0) {
+        table.push(['Pixel Images (1 x 1 / 0 x 0 pixels)', `${nOfImages1by1.toFixed()}`])
+    }
+
+    if (imagesWithNoAlt.length > 0) {
+        table.push([
+            'Images Without Alt',
+            `<span class='missing-info'>${imagesWithNoAlt.length.toFixed()} (${(
+                (imagesWithNoAlt.length / imgs.length) *
+                100
+            ).toFixed(2)}%)</span>`,
+        ])
+    }
+    if (nOfImagesWithNoSrc > 0) {
+        table.push([
+            'Images Without Src',
+            `<span class='missing-info'>${nOfImagesWithNoSrc.toFixed()} (${(
+                (nOfImagesWithNoSrc / imgs.length) *
+                100
+            ).toFixed(2)}%)</span>`,
+        ])
+    }
+    if (nOfImagesWithInvalidSrc > 0) {
+        table.push([
+            'Images With Invalid Src',
+            `<span class='missing-info'>${nOfImagesWithInvalidSrc.toFixed()} (${(
+                (nOfImagesWithInvalidSrc / imgs.length) *
+                100
+            ).toFixed(2)}%)</span>`,
+        ])
+    }
+
     const card = new Card(CardKind.report)
-        .open(`Html`, `&lt;img&gt; Tags`, 'icon-html-tag')
+        .open(`Html`, `<code>&lt;img&gt;</code> Tags`, 'icon-html-tag')
         .addParagraph(`Found ${imgs.length} images in  <code>&lt;img&gt;</code> HTML tags.`)
         .addTable(`<code>&lt;img&gt;</code> Tags Analysis`, table)
         .addTable(`Images List`, tableAllImages)

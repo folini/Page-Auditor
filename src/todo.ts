@@ -69,13 +69,40 @@ export const open = (url: string, title: string) => {
     urlDiv.innerHTML = url
     context.append(urlDiv)
 
+    const divTodoSummary = win.document.createElement('div')
+    divTodoSummary.className = 'todo-summary'
+    const divTodoCritical = win.document.createElement('div')
+    divTodoCritical.className = 'todo-class todo-critical'
+    divTodoCritical.innerHTML = `<div class='todo-summary-label'>Critical Issues</div><div class='todo-summary-value' id='id-todo-critical'>0</div>`
+    const divTodoMedium = win.document.createElement('div')
+    divTodoMedium.className = 'todo-class todo-medium'
+    divTodoMedium.innerHTML = `<div class='todo-summary-label'>Medium Issues</div><div class='todo-summary-value' id='id-todo-medium'>0</div>`
+    const divTodoMinor = win.document.createElement('div')
+    divTodoMinor.className = 'todo-class todo-minor'
+    divTodoMinor.innerHTML = `<div class='todo-summary-label'>Minor Issues</div><div class='todo-summary-value' id='id-todo-minor'>0</div>`
+    divTodoSummary.append(divTodoCritical, divTodoMedium, divTodoMinor)
+
     const reportInnerCOntainer = win.document.createElement('div')
     reportInnerCOntainer.className = 'inner-report-container show'
-    reportOuterContainer.append(context, reportInnerCOntainer)
+    reportOuterContainer.append(context, divTodoSummary, reportInnerCOntainer)
 
-    const cardsToCOpy = [...shadowDoc.body.children]
+    const cardsToCopy = [...shadowDoc.body.children]
 
-    cardsToCOpy
+    cardsToCopy.forEach(card => {
+        const severityValue = parseInt(card.firstElementChild!.getAttribute('data-severity')!)
+        if (severityValue > severity.critical.min) {
+            severity.critical.value++
+            win.document.getElementById(severity.critical.divId)!.innerHTML = severity.critical.value.toFixed()
+        } else if(severityValue > severity.medium.min) {
+            severity.medium.value++
+            win.document.getElementById(severity.medium.divId)!.innerHTML = severity.medium.value.toFixed()
+        } else {
+            severity.minor.value++
+            win.document.getElementById(severity.minor.divId)!.innerHTML = severity.minor.value.toFixed()
+        }
+    })
+
+    cardsToCopy
         .sort(
             (a, b) =>
                 parseInt(b.firstElementChild!.getAttribute('data-severity') as string) -
@@ -121,4 +148,35 @@ export const open = (url: string, title: string) => {
 
 export const add = (tip: HTMLElement) => shadowDoc.body.append(tip)
 
-const severityColorMap = (severity: number) => (severity > 75 ? '#ff0000' : severity > 25 ? '#ffa500' : '#008000')
+const severity = {
+    critical: {
+        divId: 'id-todo-critical',
+        max: 100,
+        min: 75,
+        color: '#ff0000',
+        value: 0
+    },
+    medium: {
+        divId: 'id-todo-medium',
+        max: 75,
+        min: 25,
+        color: '#ffa500',
+        value: 0
+    },
+    minor: {
+        divId: 'id-todo-minor',
+        max: 25,
+        min: 0,
+        color: '#008000',
+        value: 0
+    }
+}
+
+
+const severityColorMap = (severityValue: number) => (severityValue > severity.critical.min 
+    ? severity.critical.color 
+    : severityValue > severity.medium.min 
+    ? severity.medium.color 
+    : severity.minor.color)
+
+

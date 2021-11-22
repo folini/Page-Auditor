@@ -46,7 +46,7 @@ describe('reportGenerator()', () => {
     //     actions.reportGenerator('', actions.codeInjector && actions.codeInjector(), MockData.reportTester))
 
     test("codeInjector() always returns 'undefined'", () => {
-        const data = actions.codeInjector && actions.codeInjector()
+        const data = actions.codeToInject && actions.codeToInject()
         expect(data).toBeUndefined()
     })
 })

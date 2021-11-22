@@ -23,13 +23,14 @@ import * as Tips from './tips/tips'
 import * as Html from './cards/html'
 import * as Spinner from './spinner'
 import * as Todo from './todo'
+import { table } from 'console'
 
 export type NoArgsNoReturnFunc = () => void
-export type CodeInjectorFunc = () => any
+export type CodeInjectorFunc = (() => any) | null
 export type ReportGeneratorFunc = (url: string, data: any, report: Report) => void
 
 export type sectionActions = {
-    codeInjector?: CodeInjectorFunc
+    codeToInject: CodeInjectorFunc
     reportGenerator: ReportGeneratorFunc
 }
 
@@ -79,25 +80,59 @@ const sections: SectionType[] = [
     },
 ]
 
-async function action(section: SectionType, actions: sectionActions) {
-    let res: chrome.scripting.InjectionResult[] = []
+document.addEventListener('DOMContentLoaded', () => {
+    chrome.tabs.query({active: true, currentWindow: true}).then(tabs => {
+        const tab = tabs[0]
+        buildNavigationArea(sections)
+        activateReport(sections[0])
+
+        const reportPromise = sections.map(section => action(section, section.actions, tab))
+        Promise.all(reportPromise).then(() => enableTodoBtn(tab))
+    })
+})
+
+// ----------------------------------------------------------------------------
+// FUNCTIONS
+// ----------------------------------------------------------------------------
+const buildNavigationArea = (sections: SectionType[]) => {
+    const versionDiv = document.getElementById('id-version') as HTMLElement
+    versionDiv.innerHTML = `Ver. ${versionNumber}`
+    const tabsContainer = document.getElementById('id-tabs') as HTMLUListElement
+    const reportContainer = document.getElementById('id-report-outer-container') as HTMLDivElement
+    sections.forEach((section, i) => {
+        const sep = document.createElement('li')
+        sep.className = i === 0 ? 'gap-mini' : 'gap-sep'
+        tabsContainer.append(sep)
+        const tab = document.createElement('li')
+        tab.id = section.tabId
+        tab.innerHTML = section.name
+        tabsContainer.append(tab)
+        const reportDiv = document.createElement('div')
+        reportDiv.id = section.reportId
+        reportDiv.className = 'inner-report-container'
+        reportContainer.append(reportDiv)
+        tab.addEventListener('click', () => activateReport(section))
+        Spinner.show(reportDiv)
+    })
+}
+
+async function action(section: SectionType, actions: sectionActions, tab: chrome.tabs.Tab) {
+    let response: chrome.scripting.InjectionResult[] = []
     const report = new Report(section.reportId)
-    let tab: chrome.tabs.Tab | undefined = undefined
+    let data: any = undefined
 
     try {
-        ;[tab] = await chrome.tabs.query({active: true, currentWindow: true})
-        if (actions.codeInjector) {
-            res = await chrome.scripting.executeScript({
+        if (actions.codeToInject !== null) {
+            response = await chrome.scripting.executeScript({
                 target: {tabId: tab.id} as chrome.scripting.InjectionTarget,
-                function: actions.codeInjector,
+                function: actions.codeToInject,
             })
+            data = response.length > 0 ? response[0].result : undefined
         }
-        const tabUrl = tab.url || ''
-        const data = res.length > 0 ? res[0].result : undefined
-        actions.reportGenerator(tabUrl, data, report)
+        actions.reportGenerator(tab.url || '', data, report)
     } catch (err: any) {
         console.error(err)
-        if (err.message === `Cannot access a "chrome://" URL`) {
+        if (tab.url?.startsWith('chrome://') || tab.url?.startsWith('edge://')) {
             const card = Errors.browser_UnableToAnalyzeTabs()
             report.addCard(card)
             Tips.Internal.unableToAnalyzeBrowserPages(card)
@@ -151,42 +186,10 @@ document.addEventListener('BeforeUnloadEvent', () => {
     worker.terminate()
 })
 
-document.addEventListener('DOMContentLoaded', () => {
-    const tabsContainer = document.getElementById('id-tabs') as HTMLUListElement
-    const reportContainer = document.getElementById('id-report-outer-container') as HTMLDivElement
-    sections.forEach((section, i) => {
-        const sep = document.createElement('li')
-        sep.className = i === 0 ? 'gap-mini' : 'gap-sep'
-        tabsContainer.append(sep)
-        const tab = document.createElement('li')
-        tab.id = section.tabId
-        tab.innerHTML = section.name
-        tab.addEventListener('click', () => activateReport(section))
-        tabsContainer.append(tab)
-        const reportDiv = document.createElement('div')
-        reportDiv.id = section.reportId
-        reportDiv.className = 'inner-report-container'
-        reportContainer.append(reportDiv)
-        Spinner.show(reportDiv)
-    })
-    activateReport(sections[0])
-
-    const reportPromise: Promise<void>[] = []
-    sections.forEach(section => {
-        Spinner.show(document.getElementById(section.reportId)!)
-        reportPromise.push(action(section, section.actions))
-    })
-
-    Promise.all(reportPromise).then(() => enableTodoBtn())
-    ;(document.getElementById('id-version') as HTMLElement).innerHTML = `Ver. ${versionNumber}`
-})
-
 export const formatNumber = (num: number) => num.toLocaleString(undefined, {maximumFractionDigits: 0})
 
-const enableTodoBtn = () => {
-    chrome.tabs.query({active: true, currentWindow: true}).then(tabs => {
-        const btn = document.getElementById('btn-todo') as HTMLButtonElement
-        btn.style.display = 'block'
-        btn.addEventListener('click', () => Todo.open(tabs[0].url!, tabs[0].title!))
-    })
+const enableTodoBtn = (tab: chrome.tabs.Tab) => {
+    const btn = document.getElementById('btn-todo') as HTMLButtonElement
+    btn.style.display = 'block'
+    btn.addEventListener('click', () => Todo.open(tab.url!, tab.title!))
 }

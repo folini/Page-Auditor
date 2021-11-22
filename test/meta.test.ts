@@ -28,7 +28,7 @@ describe('codeInjector() and reporter()', () => {
     afterAll(() => jest.resetAllMocks())
 
     test('codeInjector() returns Array of metaTags', () => {
-        const data = actions.codeInjector && actions.codeInjector()
+        const data = actions.codeToInject && actions.codeToInject()
         expect(data).toBeArray()
         expect(data.length).toBe(MockData.RawMetaTagsSample.length)
     })
@@ -52,7 +52,7 @@ describe('codeInjector() correctly process zero MetaTags', () => {
     afterAll(() => jest.resetAllMocks())
 
     test('codeInjector() returns Array of metaTags', () => {
-        const data = actions.codeInjector && actions.codeInjector()
+        const data = actions.codeToInject && actions.codeToInject()
         expect(data).toBeArray()
         expect(data.length).toBe(0)
     })

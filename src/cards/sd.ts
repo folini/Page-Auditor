@@ -65,6 +65,6 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, scripts: any, repo
 }
 
 export const actions: sectionActions = {
-    codeInjector: codeInjector,
+    codeToInject: codeInjector,
     reportGenerator: reportGenerator,
 }

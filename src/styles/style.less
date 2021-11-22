@@ -1324,25 +1324,18 @@ body#id-page-auditor {
     margin-bottom: 8px;
 
     .tip-title {
-        background-color: #fddeb54d;
-        &:after {
-            content: '\f0eb';
-            color: #9f8600;
+
+        &.label-close {
+            border-color: #9f860080;
+            &:after {
+                content: '\f0eb';
+                color: #9f8600;
+            }
         }
         code {
             background-color: transparent !important;
             font-family: var(--body-font-family);
-            font-style: italic;
             padding: 0 !important;
-
-            &::before {
-                content: '"';
-            }
-
-            &::after {
-                content: '"';
-                margin-right: 3px;
-            }
         }
     }
 
@@ -1386,7 +1379,7 @@ body#id-page-auditor {
             background-repeat: no-repeat;
             background-size: 100% 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%,
                 1px 100%;
-            background-image: linear-gradient(90deg, rgb(255 215 0 / 50%), rgb(255 165 0 / 50%), rgb(255 0 0 / 50%)),
+            background-image: linear-gradient(90deg, rgb(1 128 0 / 30%), rgb(255 165 1 / 30%), rgb(255 165 1 / 30%), rgb(255 0 0 / 30%)),
                 linear-gradient(var(--border-color), var(--border-color)),
                 linear-gradient(var(--border-color), var(--border-color)),
                 linear-gradient(var(--border-color), var(--border-color)),
@@ -1513,6 +1506,44 @@ body#id-page-auditor {
                     font-weight: normal;
                     padding-top: 8px;
                     font-size: 12px;
+                }
+            }
+
+            .todo-summary {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                justify-content: space-between;
+                gap:10px;
+                padding-bottom: 16px;
+
+                .todo-class {
+                    border: solid 1px #ccc;
+                    width: 100%;
+                    border-radius: 5px;
+                    text-align: center;
+                    padding: 8px;
+                    border-top-width: 8px;
+
+                    .todo-summary-value {
+                        font-size: 52px;
+                    }
+                    .todo-summary-label {
+                        color: var(--color-black);
+                    }
+                }
+
+                .todo-critical {
+                    color: #ff0000;
+                    border-color: #ff0000;
+                }
+                .todo-medium {
+                    color :#ffa500;
+                    border-color: #ffa500;
+                }
+                .todo-minor {
+                    color: #008000;
+                    border-color: #008000;
                 }
             }
 
@@ -1648,6 +1679,13 @@ body#id-page-auditor {
                 }
                 .missing-info {
                     color: var(--color-red);
+                    font-style: italic;
+                }
+                .unbreakable {
+                    white-space: nowrap;
+                }
+                .right-aligned {
+                    text-align: right;
                 }
             }
         }
@@ -1740,9 +1778,7 @@ body#id-page-auditor {
         }
 
         code {
-            background-color: #f2f2f2;
-            padding: 0 3px;
-            border-radius: 4px;
+            color: darkgreen;
         }
     }
 

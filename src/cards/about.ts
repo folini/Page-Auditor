@@ -117,11 +117,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
         .completed()
 }
 
-const codeInjector: CodeInjectorFunc = () => {
-    return document.title
-}
-
 export const actions: sectionActions = {
     reportGenerator: reportGenerator,
-    codeInjector: codeInjector,
+    codeToInject: null,
 }

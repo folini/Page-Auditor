@@ -25,7 +25,7 @@ export interface iDataFromInjector {
     headings: Map<HeadingLabels, number>
 }
 
-export const codeInjector: CodeInjectorFunc = () => {
+export const codeInjector: CodeInjectorFunc = (): iDataFromInjector => {
     const imgs = [...document.querySelectorAll(`img`)] as HTMLImageElement[]
 
     let headings = new Map<HeadingLabels, number>([
@@ -48,9 +48,9 @@ export const codeInjector: CodeInjectorFunc = () => {
             return {src: src, alt: alt, width: img.width, height: img.height} as iImg
         }),
         title: document.title,
-        h1Title: document.querySelector('h1')?.textContent || '',
+        h1Title: (document.querySelector('h1')?.textContent || '').replace('&nbsp;', ' ').trim(),
         headings: headings,
-    }
+    } as iDataFromInjector
 }
 
 const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report: Report): void => {
@@ -66,6 +66,6 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
 }
 
 export const actions: sectionActions = {
-    codeInjector: codeInjector,
+    codeToInject: codeInjector,
     reportGenerator: reportGenerator,
 }

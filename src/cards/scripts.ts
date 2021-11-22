@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------------
 import {Card, iLink, CardKind} from '../card'
 import {Report} from '../report'
-import {sectionActions, NoArgsNoReturnFunc, disposableId} from '../main'
+import {sectionActions, NoArgsNoReturnFunc, disposableId, CodeInjectorFunc} from '../main'
 import {Mode} from '../colorCode'
 import {codeBlock} from '../codeBlock'
 import {Errors} from './errors'
@@ -44,14 +44,13 @@ const unresolvedJS: iTrackMatch = {
     scripts: [],
 }
 
-const codeInjector: NoArgsNoReturnFunc = (): iScript[] => {
-    return [...document.scripts]
+const codeInjector: CodeInjectorFunc = (): iScript[] =>
+    [...document.scripts]
         .filter(s => s.type !== 'application/ld+json')
         .filter(s => s.src)
         .map(s => s.src)
         .filter(Boolean)
         .map(s => ({code: s, done: false})) as iScript[]
-}
 
 const reportGenerator = (tabUrl: string, untypedScripts: any, report: Report): void => {
     var scripts = untypedScripts as iScript[]
@@ -171,6 +170,6 @@ const localJsMatch = (url: string): iTrackMatch => {
 }
 
 export const actions: sectionActions = {
-    codeInjector: codeInjector,
+    codeToInject: codeInjector,
     reportGenerator: reportGenerator,
 }

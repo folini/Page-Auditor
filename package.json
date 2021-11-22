@@ -1,7 +1,7 @@
 {
   "name": "page-auditor",
-  "version": "1.10.18",
-  "target": "Edge",
+  "version": "1.10.19",
+  "target": "Chrome",
   "description": "An open source Microsoft Edge and Google Chrome Extension to analyze Structured Data, Meta tags, and JavaScript from any web page",
   "main": "src/main.ts",
   "scripts": {

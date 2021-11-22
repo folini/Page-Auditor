@@ -105,7 +105,7 @@ const reportGenerator: ReportGeneratorFunc = (url: string, data: any, report: Re
 }
 
 export const actions: sectionActions = {
-    codeInjector: codeInjector,
+    codeToInject: codeInjector,
     reportGenerator: reportGenerator,
 }
 

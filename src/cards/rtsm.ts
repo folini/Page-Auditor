@@ -74,6 +74,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
 
 export const actions: sectionActions = {
     reportGenerator: reportGenerator,
+    codeToInject: null,
 }
 
 export const sitemapUrlsFromRobotsTxt = (robotsTxtBody: string): iSmCandidate[] =>
