@@ -48,7 +48,7 @@ export const codeInjector: CodeInjectorFunc = (): iDataFromInjector => {
             return {src: src, alt: alt, width: img.width, height: img.height} as iImg
         }),
         title: document.title,
-        h1Title: (document.querySelector('h1')?.textContent || '').replace('&nbsp;', ' ').trim(),
+        h1Title: (document.querySelector('h1')?.textContent || '').replace('&nbsp;', ' ').replace(/\s+/g, ' ').trim(),
         headings: headings,
     } as iDataFromInjector
 }
@@ -56,7 +56,6 @@ export const codeInjector: CodeInjectorFunc = (): iDataFromInjector => {
 const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report: Report): void => {
     const dataFromInjector = data as iDataFromInjector
     const imgs = dataFromInjector.images
-    console.log(`FromInjector ${JSON.stringify(dataFromInjector)}`)
     if (imgs.length > 0) {
         HtmlCards.imgCard(report, imgs)
     }

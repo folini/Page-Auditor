@@ -4,6 +4,7 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
+import {iSize} from 'src/file'
 import {Card} from '../card'
 import {iTag} from '../cards/mt'
 import {codeBlock} from '../codeBlock'
@@ -23,9 +24,9 @@ const tagExample = (tagLabel: string, platform: string) => {
     } else if (tagLabel.includes('image')) {
         exampleTagValue = `https://mydomain.com/my_image.png`
     } else if (tagLabel.includes('title')) {
-        exampleTagValue = `My click capturing title for ${platform}`
+        exampleTagValue = `My click capturing title for ${platform} Tags`
     } else if (tagLabel.includes('description')) {
-        exampleTagValue = `My short description of the page for ${platform}`
+        exampleTagValue = `My short description of the page for ${platform} Tags`
     } else if (tagLabel === 'twitter:site') {
         exampleTagValue = `@myTwitterId`
     }
@@ -135,7 +136,7 @@ export const tagKeywordsIsObsolete = (card: Card, keywordsTag: iTag) => {
         `Remove the <code>${keywordsTag.label}</code> from the HTML of your page. There will be no direct SEO benefit, but your page will be simpler and smaller.`
     )
     card.addTip(
-        `The <code>${keywordsTag.label}</code> Meta Tag Is Useless and Obsolete.`,
+        `Remove the Useless and Obsolete <code>${keywordsTag.label}</code> Meta Tag.`,
         [what, why, how],
         {
             label: `Google Reference`,
@@ -222,7 +223,7 @@ export const tagImageIsMissing = (card: Card, platform: Platform, tag: string) =
         `Add the missing tag.`,
         `This is an example of the ${platform} Meta Tag that should be added:`,
         codeBlock(`<meta property="${tag}" content="https://www.example.com/my_image.jpg">`, Mode.html),
-        platform === 'Twitter' ? Specs.twitterTags.imageSpecsTextual : Specs.openGraphTags.imageSpecsTextual
+        platform === 'Twitter' ? Specs.twitterTags.twImage.textualSpecs : Specs.openGraphTags.ogImage.textualSpecs
     )
     card.addTip(
         `Add the Meta Tag <code>${tag}</code> for Image Preview`,
@@ -242,10 +243,10 @@ export const tagImageNotFound = (card: Card, platform: Platform, tag: iTag) => {
     )
     const how = tipHow(
         `Upload the missing image or fix the url to maximize the visual impact on ${platform} of every posts about this page.`,
-        platform === 'Twitter' ? Specs.twitterTags.imageSpecsTextual : Specs.openGraphTags.imageSpecsTextual
+        platform === 'Twitter' ? Specs.twitterTags.twImage.textualSpecs : Specs.openGraphTags.ogImage.textualSpecs
     )
     card.addTip(
-        `Upload The Missing Image for the <code>${tag.label}</code> Meta Tag`,
+        `<code>${tag.label}</code> Meta Tag is Missing. Replace it.`,
         [what, why, how],
         'Twitter' ? Specs.twitterTags.reference : Specs.openGraphTags.reference,
         65
@@ -264,7 +265,7 @@ export const tagImageIsaPlaceholder = (card: Card, platform: Platform, tag: iTag
     )
     const how = tipHow(
         `Upload an image to maximize the visual impact of posts on ${platform} sharing this page.`,
-        platform === 'Twitter' ? Specs.twitterTags.imageSpecsTextual : Specs.openGraphTags.imageSpecsTextual
+        platform === 'Twitter' ? Specs.twitterTags.twImage.textualSpecs : Specs.openGraphTags.ogImage.textualSpecs
     )
     card.addTip(
         `Replace the Image Preview Placeholder in <code>${tag.label}</code>`,
@@ -473,12 +474,60 @@ export const tagTwitterNotFound = (card: Card) => {
     const what = tipWhat(`The page doesn't include any Twitter meta tag.`)
     const why = tipWhy(
         `Meta Tags specific for Twitter should always be include in every web page.`,
-        `While they don't have a direct impact on SEO, they control how the page will appear when shared on Twitter.` +
-            `They provide recommendation to Twitter for title, image, and descriptions.`
+        `While they don't have a direct impact on SEO, they control how the page will appear when shared on Twitter.`,
+        `They provide recommendation to Twitter for title, image, and descriptions.`
     )
     const how = tipHow(
         `Add at least the following most critical Twitter meta tags to the page.`,
         codeBlock(Specs.twitterTags.recommendedTags.join('\n'), Mode.txt)
     )
     card.addTip(`Add Twitter Meta Tags to the Page`, [what, why, how], Specs.twitterTags.reference, 75)
+}
+
+export const tagImageIsTooSmall = (
+    card: Card,
+    platform: Platform,
+    tag: iTag,
+    minSize: iSize,
+    recommendedSize: iSize
+) => {
+    const what = tipWhat(`The images is smaller that the size recommended by Twitter specs.`)
+    const why = tipWhy(
+        `Image Meta Tags must conform to the ${platform} specs in order to be successfully included in a social media post.`,
+        `While they don't have a direct impact on SEO, non properly sized images can affect how the page will appear when shared on ${platform}.`
+    )
+    const how = tipHow(
+        `Replace the image with a new one with a size larger than ${minSize.width} by ${minSize.height} pixels.`,
+        `The recommended size is ${recommendedSize.width} by ${recommendedSize.height} pixels.`
+    )
+    card.addTip(
+        `Replace <code>${tag.label}</code> with a larger image`,
+        [what, why, how],
+        Specs.twitterTags.reference,
+        75
+    )
+}
+
+export const tagImageIsTooLarge = (
+    card: Card,
+    platform: Platform,
+    tag: iTag,
+    maxSize: iSize,
+    recommendedSize: iSize
+) => {
+    const what = tipWhat(`The images is larger that the size recommended by Twitter specs.`)
+    const why = tipWhy(
+        `Image Meta Tags must conform to the ${platform} specs in order to be successfully included in a social media post.`,
+        `While they don't have a direct impact on SEO, non properly sized images can affect how the page will appear when shared on ${platform}.`
+    )
+    const how = tipHow(
+        `Replace the image with a new one with a size smaller than ${maxSize.width} by ${maxSize.height} pixels.`,
+        `The recommended size is ${recommendedSize.width} by ${recommendedSize.height} pixels.`
+    )
+    card.addTip(
+        `Replace <code>${tag.label}</code> with a smaller image`,
+        [what, why, how],
+        Specs.twitterTags.reference,
+        75
+    )
 }

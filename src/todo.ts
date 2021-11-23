@@ -86,8 +86,9 @@ export const open = (url: string, title: string) => {
     reportInnerCOntainer.className = 'inner-report-container show'
     reportOuterContainer.append(context, divTodoSummary, reportInnerCOntainer)
 
-    const cardsToCopy = [...shadowDoc.body.children]
-        .filter(card => parseInt(card.firstElementChild!.getAttribute('data-severity') as string) > severity.minor.min)
+    const cardsToCopy = [...shadowDoc.body.children].filter(
+        card => parseInt(card.firstElementChild!.getAttribute('data-severity') as string) > severity.minor.min
+    )
 
     cardsToCopy.forEach(card => {
         const severityValue = parseInt(card.firstElementChild!.getAttribute('data-severity')!)

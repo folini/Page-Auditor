@@ -4,7 +4,7 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {disposableId} from './main'
+import {disposableId, compactUrl} from './main'
 import {codeBlock} from './codeBlock'
 import {Mode} from './colorCode'
 import * as Todo from './todo'
@@ -171,46 +171,45 @@ export class Card {
             return content
         }
 
-        console.log(`PRE URL = [${content}]`)
-        let url = `${content.startsWith('//') ? 'https:' : ''}${content}`
-        console.log(`NOW URL = [${url}]`)
-        if (url.length > maxLen) {
-            const ellipsis = '...'
-            const domain = new URL(url).origin + '/'
-            url = domain + ellipsis + url.substr(url.length - maxLen + domain.length + ellipsis.length)
+        return `<a href='${content}' title='${content}' target='_new'><code>${compactUrl(content, maxLen)}</code></a>`
+    }
+
+    public static createTable(title: string, table: string[][] | HTMLTableElement[], tableStyle: TableStyle) {
+        const tableContainerDiv = document.createElement('div')
+        tableContainerDiv.className = 'table-container'
+        const titleDiv = document.createElement('div')
+        titleDiv.className = `label-close ` + tableStyle
+        titleDiv.innerHTML = title
+        const bodyDiv = document.createElement('div')
+        bodyDiv.className = 'body-close'
+        tableContainerDiv.append(titleDiv, bodyDiv)
+
+        if (Array.isArray(table[0])) {
+            const stringTable = table as string[][]
+            let html = ''
+            html += '<table class="card-table">'
+            html += '<tbody>'
+            html += stringTable
+                .map(row =>
+                    row.length === 1
+                        ? `<tr>${row.map(col => `<td colspan='99'>${Card.#formatCell(col, 55)}</td>`)}</tr>`
+                        : `<tr>${row.map(col => `<td>${Card.#formatCell(col, 55)}</td>`).join('')}</tr>`
+                )
+                .join('')
+            html += '</tbody>'
+            html += '</table>'
+            html += `</div>`
+            bodyDiv.innerHTML = html
+        } else {
+            const htmlTable = table as HTMLTableElement[]
+            htmlTable.forEach(table => bodyDiv.append(table))
         }
-        console.log(`POST URL = [${content}]`)
 
-        return `<a href='${content}' title='${content}' target='_new'><code>${url}</code></a>`
-    }
-
-    public static createTable(title: string, table: string[][], tableStyle: TableStyle) {
-        let html = ''
-        html += `<div class='label-close ${tableStyle}'>${title}</div>`
-        html += `<div class='body-close'>`
-        html += '<table class="card-table">'
-        html += '<tbody>'
-        html += table
-            .map(row => row.length === 0
-                ? `<tr class='rows-separator'><td colspan='99'></td></tr>`
-                : row.length === 1 
-                ? `<tr>${row.map(col => `<td colspan='99'>${Card.#formatCell(col, 55)}</td>`)}</tr>`
-                : `<tr>${row.map(col => `<td>${Card.#formatCell(col, 55)}</td>`).join('')}</tr>`
-            )
-            .join('')
-        html += '</tbody>'
-        html += '</table>'
-        html += `</div>`
-
-        const div = document.createElement('div')
-        div.className = 'table-container'
-        div.innerHTML = html
-        const titleDiv = div.firstChild as HTMLDivElement
         titleDiv.addEventListener('click', () => Card.toggleBlock(titleDiv))
-        return div
+        return tableContainerDiv
     }
 
-    public addTable(title: string, table: string[][], tableStyle: TableStyle = 'table-style') {
+    public addTable(title: string, table: string[][] | HTMLTableElement[], tableStyle: TableStyle = 'table-style') {
         const tableDiv = Card.createTable(title, table, tableStyle)
         this.#body.append(tableDiv)
         return this

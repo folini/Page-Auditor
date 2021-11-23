@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------------
 import {Card, CardKind} from '../card'
 import {Report} from '../report'
-import {disposableId} from '../main'
+import {disposableId, compactUrl} from '../main'
 import {iImg} from './html'
 import * as File from '../file'
 import * as Tips from '../tips/tips'
@@ -49,9 +49,14 @@ export const imgCard = (report: Report, imgs: iImg[]): void => {
     const imagesWithNoAlt = imgs
         .filter(img => img.alt === undefined || img.alt.trim().length === 0)
         .filter(img => img.width > 1 && img.height > 1)
-        .map(img => img.src)
+
+    const imagesWithPlaceholderAlt = imgs
+        .filter(img => img.width > 1 && img.height > 1)
+        .filter(img => img.alt !== undefined && img.alt.trim().length > 0)
+        .filter(img => altIsPlaceholder(img.alt, File.name(img.src)))
+
     const nOfImagesWithNoSrc = imgs.filter(img => img.src === undefined || img.src.trim().length === 0).length
-    const nOfImages1by1 = imgs.filter(img => img.width <= 1 && img.height <= 1).length
+    const nOfImagesOnePixel = imgs.filter(img => img.width <= 1 && img.height <= 1).length
     const nOfImagesWithInvalidSrc = imgs.filter(
         img => !!img.src && !img.src.startsWith('data:') && File.name(img.src).length === 0
     ).length
@@ -78,13 +83,13 @@ export const imgCard = (report: Report, imgs: iImg[]): void => {
         ])
     }
 
-    if (nOfImages1by1 > 0) {
-        table.push(['Pixel Images (1 x 1 / 0 x 0 pixels)', `${nOfImages1by1.toFixed()}`])
+    if (nOfImagesOnePixel > 0) {
+        table.push(['Pixels (1 by 1 px or less)', `${nOfImagesOnePixel.toFixed()}`])
     }
 
     if (imagesWithNoAlt.length > 0) {
         table.push([
-            'Images Without Alt',
+            'Without Alt (excluding pixels)',
             `<span class='missing-info'>${imagesWithNoAlt.length.toFixed()} (${(
                 (imagesWithNoAlt.length / imgs.length) *
                 100
@@ -110,66 +115,18 @@ export const imgCard = (report: Report, imgs: iImg[]): void => {
         ])
     }
 
-    const tableAllImages: string[][] = []
-    imgs.forEach(img => {
-        const fileName = img.src.startsWith('data:') 
-            ? `<span class='regular-info'>Embedded Image</span>`
-            : htmlEncode(File.name(img.src))
-
-        if (img.src.startsWith('data:')) {
-            tableAllImages.push([
-                fileName,
-                img.alt,
-                `<div class='unbreakable'>${img.width.toFixed()}px by ${img.height.toFixed()}px</div>`,
-            ])
-            tableAllImages.push([])
-            return
-        }
-
-        tableAllImages.push([img.src])
-
-        if (img.width <= 1 && img.height <= 1) {
-            tableAllImages.push([
-                fileName,
-                `<span class='regular-info'>Pixel Image</span>`,
-                `<div class='unbreakable'>${img.width.toFixed()}px by ${img.height.toFixed()}px</div>`,
-            ])
-            tableAllImages.push([])
-            return
-        }
-
-        tableAllImages.push([
-            `<a class='image-in-list' href='${img.src}' title='${htmlEncode(img.src)}' target='_new'><img src='${
-                img.src
-            }'></a>`,
-        ])
-
-        if (!img.alt) {
-            tableAllImages.push([
-                fileName,
-                `<span class='missing-info'>No Alt Attribute</span>`,
-                `<div class='unbreakable'>${img.width.toFixed()}px by ${img.height.toFixed()}px</div>`,
-            ])
-            tableAllImages.push([])
-            return
-        }
-
-        tableAllImages.push([
-            fileName,
-            img.alt,
-            `<div class='unbreakable'>${img.width.toFixed()}px by ${img.height.toFixed()}px</div>`,
-        ])
-        tableAllImages.push([])
-    })
-
     const card = new Card(CardKind.report)
         .open(`Html`, `<code>&lt;img&gt;</code> Tags`, 'icon-html-tag')
-        .addParagraph(`Found ${imgs.length} images in  <code>&lt;img&gt;</code> HTML tags.`)
+        .addParagraph(`Found ${imgs.length} <code>&lt;img&gt;</code> HTML tags.`)
         .addTable(`<code>&lt;img&gt;</code> Tags Analysis`, table)
-        .addTable(`Images List`, tableAllImages)
+        .addTable(`Image List`, imgArray2Table(imgs))
         .tag('card-ok')
 
     report.addCard(card)
+
+    if (imagesWithPlaceholderAlt.length > 0) {
+        Tips.Html.imgWithAltPlaceholder(card, imagesWithPlaceholderAlt)
+    }
 
     if (imagesWithNoAlt.length > 0) {
         Tips.Html.imgWithoutAlt(card, imagesWithNoAlt)
@@ -200,3 +157,71 @@ export const imgCard = (report: Report, imgs: iImg[]): void => {
                 : `<span class='missing-info'>${missingImages.length.toFixed()} Missing Images</span>`
     })
 }
+
+export const imgArray2Table = (imgs: iImg[]) =>
+    imgs.map(img => {
+        const isPixel = img.width <= 1 && img.height <= 1
+        const fileSize = [
+            `<div class='cell-label'>Size (W x H)</div>`,
+            `<div class='unbreakable'>${img.width.toFixed()}px by ${img.height.toFixed()}px</div>`,
+        ]
+        const fileName = [
+            `<div class='cell-label'>Name</div>`,
+            `${
+                img.src.startsWith('data:')
+                    ? `<span class='regular-info'>Embedded Image</span>`
+                    : htmlEncode(File.name(img.src))
+            }`,
+        ]
+        const filePreview = [
+            `<a class='image-in-list' href='${img.src}' title='${htmlEncode(img.src)}' target='_new'><img src='${
+                img.src
+            }'></a>`,
+        ]
+        const fileAlt = [
+            `<div class='cell-label'>Alt</div>`,
+            `${
+                isPixel
+                    ? `This is a tracking Pixel, no need for the alt attribute`
+                    : !img.alt
+                    ? `<span class='missing-info'>The Alt attribute is missing</span>`
+                    : altIsPlaceholder(img.alt, File.name(img.src))
+                    ? `<div class='missing-info'>The Alt attribute is just a placeholder</div>${img.alt}`
+                    : img.alt
+            }`,
+        ]
+        const fileUrl = [
+            `<div class='cell-label'>URL</div>`,
+            `<a href='${img.src}' title='${htmlEncode(img.src)}'>${compactUrl(img.src.split('?')[0], 55)}</a>`,
+        ]
+
+        const tableContent = [filePreview, fileName, fileUrl, fileSize, fileAlt]
+        if (isPixel) {
+            tableContent.shift()
+        }
+
+        const table: HTMLTableElement = document.createElement('table')
+        table.className = 'card-table table-img'
+        const tBody = document.createElement('tbody')
+        table.append(tBody)
+
+        tableContent.forEach(row => {
+            const tr = document.createElement('tr')
+            tBody.append(tr)
+            const labelCell = document.createElement('td')
+            tr.append(labelCell)
+            labelCell.innerHTML = row[0]
+            if (row.length > 1) {
+                const labelValue = document.createElement('td')
+                tr.append(labelValue)
+                labelValue.innerHTML = row[1]
+            } else {
+                labelCell.colSpan = 2
+            }
+        })
+
+        return table
+    })
+
+const altIsPlaceholder = (alt: string, fileName: string) =>
+    alt.length <= 5 || alt === fileName || alt === fileName.replace(/\.\w*$/, '')

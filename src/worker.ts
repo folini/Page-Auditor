@@ -7,8 +7,8 @@
 import {colorCode, Mode} from './colorCode'
 
 export interface iWorkerRenderJob {
-    code: string,
-    id :string,
+    code: string
+    id: string
     mode: Mode
 }
 
@@ -16,7 +16,7 @@ export const workerAction = (event: MessageEvent<iWorkerRenderJob>) => {
     const msg: iWorkerRenderJob = {
         code: colorCode(event.data.code, event.data.mode),
         id: event.data.id,
-        mode: event.data.mode as Mode
+        mode: event.data.mode as Mode,
     }
     postMessage(msg)
 }

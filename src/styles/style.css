@@ -77,7 +77,7 @@
   --tabs-bg-color: darkcyan;
   --tabs-fg-color: var(--color-white);
   --border-color: #dadce0;
-  --border-color-light: #dadce0;
+  --border-color-light: #dadce080;
   --color-red: #900;
   --card-padding: 16px;
   --card-icon-size: 52px;
@@ -1262,7 +1262,7 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
 .card-tip:first-child:before {
   content: 'Tips & Recommendations';
   width: 100%;
-  text-align: center;
+  text-align: left;
   display: block;
   padding-bottom: 8px;
   font-size: 1.2em;
@@ -1312,6 +1312,7 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
   background-color: transparent !important;
   font-family: var(--body-font-family);
   padding: 0 !important;
+  color: darkblue;
 }
 .card-tip .tip-body {
   padding: 16px;
@@ -1498,7 +1499,7 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
 }
 .todo-report main #id-report-outer-container .card-tip .tip-title {
   background: linear-gradient(90deg, #fafafa, #fff);
-  padding-left: 38px!important;
+  padding-left: 38px !important;
 }
 .todo-report main #id-report-outer-container .card-tip .tip-title:before {
   content: attr(data-severity);
@@ -1582,11 +1583,16 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
   width: 100%;
   border-collapse: collapse;
 }
+.table-container table.card-table.table-img {
+  margin: 8px;
+  border: solid 1px var(--border-color);
+  width: calc(100% - 16px);
+}
 .table-container table.card-table tr.rows-separator {
   display: none;
 }
 .table-container table.card-table tr.rows-separator + tr {
-  border-top: solid 1px var(--border-color) !important;
+  border-top: double 3px var(--border-color) !important;
 }
 .table-container table.card-table tr + tr {
   border-top: dotted 1px var(--border-color-light);
@@ -1596,6 +1602,7 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
   font-size: 14px;
   min-width: 100px;
   word-break: break-all;
+  vertical-align: top;
 }
 .table-container table.card-table tr td a {
   color: darkblue;
@@ -1613,24 +1620,28 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
 .table-container table.card-table tr td + td .small-btn {
   float: none;
 }
+.table-container table.card-table tr td .cell-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: darkgreen;
+  letter-spacing: 0.75px;
+}
 .table-container table.card-table tr td .image-in-list {
   text-align: center;
   line-height: 0;
   display: block;
 }
 .table-container table.card-table tr td .image-in-list img {
-  max-height: 200px;
-  max-width: calc(100% - 8px);
-  border: solid 1px var(--border-color);
-  border-radius: 3px;
-  padding: 4px;
+  max-height: 240px;
+  max-width: calc(100% + 8px);
+  background-color: lightgray;
+  margin: -6px;
 }
 .table-container table.card-table tr td .regular-info {
   color: darkgreen;
 }
 .table-container table.card-table tr td .missing-info {
   color: var(--color-red);
-  font-style: italic;
 }
 .table-container table.card-table tr td .unbreakable {
   white-space: nowrap;

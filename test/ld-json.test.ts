@@ -16,7 +16,7 @@ import 'jest-chain'
 import 'jest-extended'
 //import 'jsdom-global/register'
 import 'jsdom-worker'
-import { iWorkerRenderJob } from 'src/worker'
+import {iWorkerRenderJob} from 'src/worker'
 
 describe(`codeInjector() mocking 'document.scrips'`, () => {
     beforeEach(() => {
@@ -28,9 +28,7 @@ describe(`codeInjector() mocking 'document.scrips'`, () => {
             )
             return head.querySelectorAll('script') as any as HTMLCollectionOf<HTMLScriptElement>
         })
-        jest.spyOn(main, 'sendRenderTaskToWorker').mockImplementation(
-            (task: iWorkerRenderJob) => {}
-        )
+        jest.spyOn(main, 'sendRenderTaskToWorker').mockImplementation((task: iWorkerRenderJob) => {})
     })
 
     afterEach(() => {

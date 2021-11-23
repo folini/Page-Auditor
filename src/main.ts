@@ -23,7 +23,7 @@ import * as Tips from './tips/tips'
 import * as Html from './cards/html'
 import * as Spinner from './spinner'
 import * as Todo from './todo'
-import { iWorkerRenderJob as iRenderTask } from './worker'
+import {iWorkerRenderJob as iRenderTask} from './worker'
 
 export type NoArgsNoReturnFunc = () => void
 export type CodeInjectorFunc = (() => any) | null
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showReport(sections[0])
 
         const reportPromise = sections.map(section => generateReport(section, section.actions, tab))
-        Promise.all(reportPromise).then(() => enableTodoBtn(tab))
+        Promise.all(reportPromise).then(() => enableTodoReportAccess(tab))
     })
 })
 
@@ -188,8 +188,22 @@ export const disposableId = () => 'id-' + Math.random().toString(36).substring(2
 
 export const formatNumber = (num: number) => num.toLocaleString(undefined, {maximumFractionDigits: 0})
 
-const enableTodoBtn = (tab: chrome.tabs.Tab) => {
+const enableTodoReportAccess = (tab: chrome.tabs.Tab) => {
     const btn = document.getElementById('btn-todo') as HTMLButtonElement
     btn.style.display = 'block'
     btn.addEventListener('click', () => Todo.open(tab.url!, tab.title!))
+}
+
+export const compactUrl = (url: string, maxLen: number) => {
+    if (url.startsWith('data:')) {
+        return url
+    }
+
+    url = `${url.startsWith('//') ? 'https:' : ''}${url}`
+    if (url.length > maxLen) {
+        const ellipsis = '...'
+        const domain = new URL(url).origin + '/'
+        return domain + ellipsis + url.substr(url.length - maxLen + domain.length + ellipsis.length)
+    }
+    return url
 }

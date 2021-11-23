@@ -157,6 +157,6 @@ export const metaTagsCard = (
         .tag('card-ok')
 
     tagCategory.previewer(card, allTags, selectedTags, canonical, title, url)
-    tagCategory.validator(card, allTags, selectedTags, canonical)
+    tagCategory.validator(card, allTags, selectedTags, canonical, url)
     report.addCard(card)
 }

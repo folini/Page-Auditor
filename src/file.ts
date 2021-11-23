@@ -31,7 +31,7 @@ export const jsContentType: ContentType[] = ['application/javascript', 'text/jav
 export const anyContentType: ContentType[] = ['*/*']
 
 export const exists = (url: string, contentTypes: ContentType[]): Promise<boolean> =>
-    fetch(url, {
+    fetch(url.replace('http:', 'https:'), {
         method: 'HEAD',
         cache: 'no-store',
         headers: contentTypes.map(cType => ['Content-Type', cType]),

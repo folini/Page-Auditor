@@ -45,26 +45,13 @@ export const ldJsonCard = (schema: Schema, tabUrl: string, occurrences: MustBeUn
         )
     }
 
-    switch (schemaType) {
-        case 'Organization':
-            occurrences.organization++
-            if (occurrences.organization > 1) {
-                Tips.StructuredData.repeatedSchemas(card, schemaType, occurrences.organization)
+    ;['Organization', 'WebSite', 'BreadcrumbList']
+        .filter(schema => schema === schemaType)
+        .forEach(schemaType => {
+            if (Schema.getSchemaCounter(schemaType) > 1) {
+                Tips.StructuredData.repeatedSchemas(card, schemaType, Schema.getSchemaCounter(schemaType))
             }
-            break
-        case 'WebSite':
-            occurrences.website++
-            if (occurrences.website > 1) {
-                Tips.StructuredData.repeatedSchemas(card, schemaType, occurrences.website)
-            }
-            break
-        case 'BreadcrumbList':
-            occurrences.breadcrumbs++
-            if (occurrences.breadcrumbs > 1) {
-                Tips.StructuredData.repeatedSchemas(card, schemaType, occurrences.breadcrumbs)
-            }
-            break
-    }
+        })
 
     return card
 }

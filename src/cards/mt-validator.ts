@@ -11,12 +11,12 @@ import {Specs} from '../specs'
 import * as File from '../file'
 
 export interface iTagValidator {
-    (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string): void
+    (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string, tabUrl :string): void
 }
 
-export const noValidation = (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string) => {}
+export const noValidation = (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string, tabUrl: string) => {}
 
-export const repTags = (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string) => {
+export const repTags = (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string, tabUrl: string) => {
     const robots = selectedTags.find(m => m.label.toLowerCase() === 'robots')
     if (!robots) {
         return
@@ -30,7 +30,7 @@ export const repTags = (card: Card, allTags: iTag[], selectedTags: iTag[], canon
     }
 }
 
-export const stdTags = (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string) => {
+export const stdTags = (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string, tabUrl: string) => {
     const keywords = selectedTags.find(m => m.label.toLowerCase() === 'keywords')
     if (keywords) {
         Tips.MetaTags.tagKeywordsIsObsolete(card, keywords)
@@ -53,7 +53,7 @@ export const stdTags = (card: Card, allTags: iTag[], selectedTags: iTag[], canon
     }
 }
 
-export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string) => {
+export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string, tabUrl: string) => {
     const obsoleteTag = selectedTags.find(m => m.label === 'twitter:domain')
     const cardTag = selectedTags.find(m => m.label === 'twitter:card')
     const siteTag = selectedTags.find(m => m.label === 'twitter:site')
@@ -175,11 +175,44 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
             } else if (imgTag.value.startsWith('http://')) {
                 Tips.MetaTags.tagUrlUsesObsoleteProtocol(card, 'Twitter', imgTag)
             }
+            imgTag.value = imgTag.value.replace('http://', 'https://') || ''
+            if (imgTag.value.startsWith('//')) {
+                imgTag.value = `https:${imgTag.value}`
+            }
+            if (imgTag.value.startsWith('/')) {
+                imgTag.value = `${new URL(tabUrl).origin}${imgTag.value}`
+            }
             if (imgTag.value.startsWith('https://')) {
-                File.exists(img, File.imageContentType).catch(() => {
-                    Tips.MetaTags.tagImageNotFound(card, 'Twitter', imgTag)
-                    card.hideElement(`.preview-img`)
-                })
+                File.imageSize(img)
+                    .then((size: File.iSize) => {
+                        if (
+                            Specs.twitterTags.twImage.minSize.width > size.width ||
+                            Specs.twitterTags.twImage.minSize.height > size.height
+                        ) {
+                            Tips.MetaTags.tagImageIsTooSmall(
+                                card,
+                                'Twitter',
+                                imgTag,
+                                Specs.twitterTags.twImage.minSize,
+                                Specs.twitterTags.twImage.recommendedSize
+                            )
+                        } else if (
+                            Specs.twitterTags.twImage.maxSize.width < size.width ||
+                            Specs.twitterTags.twImage.maxSize.height < size.height
+                        ) {
+                            Tips.MetaTags.tagImageIsTooLarge(
+                                card,
+                                'Twitter',
+                                imgTag,
+                                Specs.twitterTags.twImage.maxSize,
+                                Specs.twitterTags.twImage.recommendedSize
+                            )
+                        }
+                    })
+                    .catch(() => {
+                        Tips.MetaTags.tagImageNotFound(card, 'Twitter', imgTag)
+                        card.hideElement(`.preview-img`)
+                    })
             }
         }
     } else {
@@ -191,7 +224,7 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
     }
 }
 
-export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string) => {
+export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string, tabUrl: string) => {
     const imgTag = selectedTags.find(m => m.label === 'og:image')
     const urlTag = selectedTags.find(m => m.label === 'og:url' || m.label === 'og:image:secure_url')
     const titleTag = selectedTags.find(m => m.label === 'og:title')
@@ -304,11 +337,44 @@ export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[],
             if (imgTag.value.length === 0) {
                 Tips.MetaTags.tagImageIsMissing(card, 'Facebook', imgTag.label)
             }
+            imgTag.value = imgTag.value.replace('http://', 'https://') || ''
+            if (imgTag.value.startsWith('//')) {
+                imgTag.value = `https:${imgTag.value}`
+            }
+            if (imgTag.value.startsWith('/')) {
+                imgTag.value = `${new URL(tabUrl).origin}${imgTag.value}`
+            }
             if (imgTag.value.startsWith('https://')) {
-                File.exists(imgTag.value, File.imageContentType).catch(() => {
-                    Tips.MetaTags.tagImageNotFound(card, 'Facebook', imgTag)
-                    card.hideElement(`.preview-img`)
-                })
+                File.imageSize(img)
+                    .then((size: File.iSize) => {
+                        if (
+                            Specs.openGraphTags.ogImage.minSize.width > size.width ||
+                            Specs.openGraphTags.ogImage.minSize.height > size.height
+                        ) {
+                            Tips.MetaTags.tagImageIsTooSmall(
+                                card,
+                                'Facebook',
+                                imgTag,
+                                Specs.openGraphTags.ogImage.minSize,
+                                Specs.openGraphTags.ogImage.recommendedSize
+                            )
+                        } else if (
+                            Specs.openGraphTags.ogImage.maxSize.width < size.width ||
+                            Specs.openGraphTags.ogImage.maxSize.height < size.height
+                        ) {
+                            Tips.MetaTags.tagImageIsTooLarge(
+                                card,
+                                'Facebook',
+                                imgTag,
+                                Specs.openGraphTags.ogImage.maxSize,
+                                Specs.openGraphTags.ogImage.recommendedSize
+                            )
+                        }
+                    })
+                    .catch(() => {
+                        Tips.MetaTags.tagImageNotFound(card, 'Facebook', imgTag)
+                        card.hideElement(`.preview-img`)
+                    })
             }
             if (!imgTag.value.startsWith('http')) {
                 Tips.MetaTags.tagUrlIsRelativePath(card, 'Facebook', imgTag, canonical)

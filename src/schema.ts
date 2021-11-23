@@ -32,6 +32,7 @@ export class Schema {
     #cardPromise: Promise<Card> | undefined
     #relativeUrls: string[]
     static #dictionary: {[key: string]: iJsonLD} = {}
+    static #schemaCounter: {[schema: string]: number} = {}
     static #idStack: string[] = []
     static #referenceBlocks: boolean = false
     static #images: iImageElement[] = []
@@ -66,6 +67,10 @@ export class Schema {
         this.#dictionary = {}
     }
 
+    static getSchemaCounter(schemaName : string) {
+        return Schema.#schemaCounter[schemaName]?? 0
+    }
+    
     static #addToDictionary(json: iJsonLD) {
         let id = Schema.getId(json)
         if (typeof id === 'string' && id.length > 0) {
@@ -115,6 +120,7 @@ export class Schema {
     }
 
     #openBox(label: string, schemaName: string) {
+        Schema.#schemaCounter[schemaName] = Schema.#schemaCounter[schemaName] ? Schema.#schemaCounter[schemaName]+1 : 1
         const links: iLink[] = [
             {
                 url: `https://schema.org/${schemaName === 'Graph' ? '' : schemaName}`,

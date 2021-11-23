@@ -9,26 +9,61 @@ import {codeBlock} from '../codeBlock'
 import {Mode} from '../colorCode'
 import {Specs} from '../specs'
 import {tipWhat, tipWhy, tipHow} from './tips'
+import {iImg} from '../cards/html'
+import {imgArray2Table} from '../cards/html-cards'
 
 // ---------------------------------------------------------------------------------------------
 // HTML TIPS
-export const imgWithoutAlt = (card: Card, images: string[]) => {
-    const plural = images.length > 1 ? 's' : ''
+export const imgWithAltPlaceholder = (card: Card, images: iImg[]) => {
+    const isPlural = images.length > 0
     const what = tipWhat(
-        `${
-            images.length > 1 ? 'Some' : 'One'
-        } image${plural} in the HTML of the page are missing have the alt attribute.`,
-        ` Excluding images like the Facebook Pixel that are typically 1 pixel by 1 pixel in size and are not intended to present any information to the page visitors.`
+        `${isPlural ? 'Some' : 'One'} image${isPlural ? 's' : ''} in the HTML of the page ${
+            isPlural ? 'have' : 'has'
+        } a placeholder for the <code>alt</code> attribute of the <code>img</code> HTML tag.`,
+        `The count excludes images like the Facebook Pixel that are typically 1 pixel by 1 pixel in size and are not intended to contribute to the page content.`
     )
     const table = Card.createTable(
-        `List of ${images.length} Image${plural} Without <code>alt</code> attribute`,
-        images.map(image => [image]),
+        `${images.length} Image${isPlural ? 's' : ''} WIth <code>alt</code> Placeholder`,
+        imgArray2Table(images),
         'list-style'
     )
 
     const why = tipWhy(
         `The <code>alt</code> attribute of the <code>&lt;img&gt;</code> tags helps all search engine crawlers.`,
-        `Not setting this attribute for all images can have a detrimental effect on the ranking of your web pages.`,
+        `Images without a meaningful <code>alt</code> attribute can have a detrimental effect on the ranking of your web pages.`,
+        `The <code>alt</code> attribute is also very important to make the page accessible to everybody including disabled people accessing the page with special devices.`
+    )
+    const how = tipHow(
+        `Edit the HTML of the page adding the missing <code>alt</code> attributes.`,
+        `It is important to describe what is happening in the image and to avoid keyword "stuffing".`
+    )
+    card.addTip(
+        `Replace the Placeholder for the <code>alt</code> Attribute of ${images.length.toFixed()} Image${
+            isPlural ? 's' : ''
+        }`,
+        [what, table, why, how],
+        Specs.structuredData.reference,
+        20
+    )
+}
+
+export const imgWithoutAlt = (card: Card, images: iImg[]) => {
+    const plural = images.length > 1 ? 's' : ''
+    const what = tipWhat(
+        `${
+            images.length > 1 ? 'Some' : 'One'
+        } image${plural} in the HTML of the page are missing have the <code>alt</code> attribute of the <code>img</code> HTML tag.`,
+        `The count excludes images like the Facebook Pixel that are typically 1 pixel by 1 pixel in size and are not intended to contribute to the page content.`
+    )
+    const table = Card.createTable(
+        `${images.length} Image${plural} Without <code>alt</code> attribute`,
+        imgArray2Table(images),
+        'list-style'
+    )
+
+    const why = tipWhy(
+        `The <code>alt</code> attribute of the <code>&lt;img&gt;</code> tags helps all search engine crawlers.`,
+        `Images without the <code>alt</code> attribute can have a detrimental effect on the ranking of your web pages.`,
         `The <code>alt</code> attribute is also very important to make the page accessible to everybody including disabled people accessing the page with special devices.`
     )
     const how = tipHow(
@@ -110,7 +145,8 @@ export const titleTooLong = (card: Card, title: string) => {
         `The <code>&lt;title&gt;</code> tag in the <code>&lt;head&gt;</code> section of the page is ${title.length} chars, longer than the max recommended length of ${Specs.html.titleTag.maxLen} chars.`
     )
     const why = tipWhy(
-        `The <code>&lt;title&gt;</code> tag will likely be used by Google and other search engines to show a link to this page on SERP.`,
+        `While the length of the title doesn't have any direct impact on the page SEO,`,
+        `the <code>&lt;title&gt;</code> tag is used by Google and other search engines to show a link to this page on SERP.`,
         `Anything over ${Specs.html.titleTag.maxLen} characters will be automatically truncated.`,
         `Automatic truncation of the title can compromise your title transforming it into some obscure sentence.`,
         `Your title could look like this:`,

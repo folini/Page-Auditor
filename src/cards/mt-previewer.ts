@@ -4,7 +4,7 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {iTag, tagToString} from './mt'
+import {iTag} from './mt'
 import {Card} from '../card'
 import * as File from '../file'
 import {htmlEncode} from 'js-htmlencode'
@@ -18,7 +18,8 @@ export const noPreview: iTagPreviewer = (
     allTags: iTag[],
     selectedTag: iTag[],
     canonical: string,
-    title: string
+    title: string,
+    url: string
 ) => void 0
 
 const twitterLinkIcon =
@@ -28,7 +29,7 @@ const twitterLinkIcon =
     `</g>` +
     `</svg>`
 
-export const stdTags = (
+export const stdTags: iTagPreviewer = (
     card: Card,
     allTag: iTag[],
     selectedTags: iTag[],
@@ -52,7 +53,14 @@ export const stdTags = (
     )
 }
 
-export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string, tabTitle: string) => {
+export const twitterTags: iTagPreviewer = (
+    card: Card,
+    allTags: iTag[],
+    selectedTags: iTag[],
+    canonical: string,
+    tabTitle: string,
+    tabUrl: string
+) => {
     let img =
         selectedTags.find(m => m.label === 'twitter:image')?.value ||
         selectedTags.find(m => m.label === 'twitter:image:url')?.value ||
@@ -77,14 +85,18 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
 
     url = File.rootDomain(url)
 
-    if (img.startsWith('http://')) {
-        img = img.replace('http://', 'https://')
+    img = img.replace('http://', 'https://') || ''
+    if (img.startsWith('//')) {
+        img = `https:${img}`
+    }
+    if (img.startsWith('/')) {
+        img = `${new URL(tabUrl).origin}${img}`
     }
 
     card.addPreview(
         `<div class='box-label label-close'>Twitter Preview</div>` +
             `<div class='box-body body-close'>` +
-            (img.length > 0 && img.startsWith('http') ? `<img class='preview-img' src='${img}'>` : ``) +
+            (img.length > 0 && img.startsWith('http') ? `<img class='preview-img' src='${img}'/>` : ``) +
             `<div class='preview-legend'>` +
             (url.length > 0 ? `<div class='twitter-card-domain'>${url}</div>` : '') +
             `<div class='twitter-card-title'>${htmlEncode(title)}</div>` +
@@ -100,7 +112,14 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
     }
 }
 
-export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[], tabTitle: string) => {
+export const openGraphTags: iTagPreviewer = (
+    card: Card,
+    allTags: iTag[],
+    selectedTags: iTag[],
+    canonical: string,
+    tabTitle: string,
+    tabUrl: string
+) => {
     let img =
         selectedTags.find(m => m.label === 'og:image')?.value || allTags.find(m => m.label === 'image')?.value || ''
     let url =
@@ -122,12 +141,18 @@ export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[],
     }
 
     img = img.replace('http://', 'https://') || ''
+    if (img.startsWith('//')) {
+        img = `https:${img}`
+    }
+    if (img.startsWith('/')) {
+        img = `${new URL(tabUrl).origin}${img}`
+    }
     description = description.length < 214 ? description : description.substr(0, 214) + '...'
 
     card.addPreview(
         `<div class="box-label label-close">Facebook Preview</div>` +
             `<div class='box-body body-close'>` +
-            (img.length > 0 ? `<img class='preview-img' src='${img}'>` : ``) +
+            (img.length > 0 ? `<img class='preview-img' src='${img}'/>` : ``) +
             `<div class='preview-legend'>` +
             (url.length > 0 ? `<div class='open-graph-card-domain'>${url.toUpperCase()}</div>` : '') +
             `<h2>${htmlEncode(title)}</h2>` +

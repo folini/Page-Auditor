@@ -66,7 +66,7 @@
 
     --tabs-fg-color: var(--color-white);
     --border-color: #dadce0;
-    --border-color-light: #dadce0;
+    --border-color-light: #dadce080;
 
     --color-red: #900;
     --card-padding: 16px;
@@ -1314,7 +1314,7 @@ body#id-page-auditor {
     &:before {
         content: 'Tips & Recommendations';
         width: 100%;
-        text-align: center;
+        text-align: left;
         display: block;
         padding-bottom: 8px;
         font-size: 1.2em;
@@ -1344,8 +1344,8 @@ body#id-page-auditor {
     .tip-title {
         border-radius: 0 !important;
         padding-left: 6px !important;
-        &:before{ 
-            content:''
+        &:before {
+            content: '';
         }
 
         &.label-open {
@@ -1370,6 +1370,7 @@ body#id-page-auditor {
             background-color: transparent !important;
             font-family: var(--body-font-family);
             padding: 0 !important;
+            color: darkblue;
         }
     }
 
@@ -1591,7 +1592,7 @@ body#id-page-auditor {
 
             .card-tip .tip-title {
                 background: linear-gradient(90deg, #fafafa, #fff);
-                padding-left: 38px!important;
+                padding-left: 38px !important;
                 &:before {
                     content: attr(data-severity);
                     font-family: Roboto;
@@ -1688,11 +1689,17 @@ body#id-page-auditor {
         width: 100%;
         border-collapse: collapse;
 
+        &.table-img {
+            margin: 8px;
+            border: solid 1px var(--border-color);
+            width: calc(100% - 16px);
+        }
+
         tr {
             &.rows-separator {
                 display: none;
                 + tr {
-                    border-top: solid 1px var(--border-color) !important;
+                    border-top: double 3px var(--border-color) !important;
                 }
             }
             + tr {
@@ -1703,6 +1710,7 @@ body#id-page-auditor {
                 font-size: 14px;
                 min-width: 100px;
                 word-break: break-all;
+                vertical-align: top;
 
                 a {
                     color: darkblue;
@@ -1723,16 +1731,21 @@ body#id-page-auditor {
                     }
                 }
 
+                .cell-label {
+                    font-size: 11px;
+                    text-transform: uppercase;
+                    color: darkgreen;
+                    letter-spacing: 0.75px;
+                }
                 .image-in-list {
                     text-align: center;
                     line-height: 0;
                     display: block;
                     img {
-                        max-height: 200px;
-                        max-width: ~'calc(100% - 8px)';
-                        border: solid 1px var(--border-color);
-                        border-radius: 3px;
-                        padding: 4px;
+                        max-height: 240px;
+                        max-width: ~'calc(100% + 8px)';
+                        background-color: lightgray;
+                        margin: -6px;
                     }
                 }
                 .regular-info {
@@ -1740,7 +1753,6 @@ body#id-page-auditor {
                 }
                 .missing-info {
                     color: var(--color-red);
-                    font-style: italic;
                 }
                 .unbreakable {
                     white-space: nowrap;

@@ -66,8 +66,23 @@ export const Specs = {
             label: 'Learn about Twitter Meta Tags',
             url: 'https://developer.twitter.com/en/docs/twitter-for-websites/cards/guides/getting-started',
         },
-        imageSpecsTextual:
-            'Images must be less than 5MB in size. JPG, PNG, WEBP and GIF formats are supported. Only the first frame of an animated GIF will be used. SVG is not supported.',
+        twImage: {
+            textualSpecs:
+                'Images must be less than 5MB in size. JPG, PNG, WEBP and GIF formats are supported. Only the first frame of an animated GIF will be used. SVG is not supported.',
+            ratio: ['2:1'],
+            minSize: {
+                width: 300,
+                height: 157,
+            },
+            maxSize: {
+                width: 4096,
+                height: 4096,
+            },
+            recommendedSize: {
+                width: 1024,
+                height: 512,
+            },
+        },
         recommendedTags: ['twitter:title', 'twitter:description', 'twitter:image'],
         twTitle: {
             minLen: 5,
@@ -89,8 +104,23 @@ export const Specs = {
             label: 'Learn about Facebook Meta Tags',
             url: 'https://ogp.me/',
         },
-        imageSpecsTextual: `The most frequently recommended resolution for an OG image is 1200 pixels x 627 pixels (1.91/1 ratio). At this size, your thumbnail will be big and stand out from the crowd. Just don't exceed the 5MB size limit.`,
         recommendedTags: ['og:title', 'og:description', 'og:image', 'og:url'],
+        ogImage: {
+            textualSpecs: `The most frequently recommended resolution for an OG image is 1200 pixels x 627 pixels (1.91/1 ratio). At this size, your thumbnail will be big and stand out from the crowd. Just don't exceed the 5MB size limit.`,
+            ratio: ['2:1'],
+            minSize: {
+                width: 200,
+                height: 200,
+            },
+            maxSize: {
+                width: 4096,
+                height: 4096,
+            },
+            recommendedSize: {
+                width: 1200,
+                height: 630,
+            },
+        },
         ogTitle: {
             minLen: 4,
             maxLen: 95,
