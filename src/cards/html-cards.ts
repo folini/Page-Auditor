@@ -12,6 +12,7 @@ import * as File from '../file'
 import * as Tips from '../tips/tips'
 import {Specs} from '../specs'
 import {Mode} from '../colorCode'
+import {htmlEncode} from 'js-htmlencode'
 
 export const titleCard = (report: Report, title: string, h1Title: string): void => {
     if (title.length === 0) {
@@ -57,38 +58,27 @@ export const imgCard = (report: Report, imgs: iImg[]): void => {
     const nOfImageFiles = imgs.filter(img => !!img.src && !img.src.startsWith('data:')).length
     const nOfImageData = imgs.filter(img => !!img.src && img.src.startsWith('data:')).length
 
-    const tableAllImages = imgs.map(img => [
-        `<a href='${img.src}' title='${img.src}' target='_new'>${File.name(img.src)}</a>`,
-        img.width <= 1 && img.height <= 1
-            ? `<span class='regular-info'>Tracking Pixel</span>`
-            : !!img.alt
-            ? img.alt
-            : `<span class='missing-info'>No Alt Attribute</span>`,
-        `<div class='unbreakable'>${img.width.toFixed()}px by ${img.height.toFixed()}px</div>`,
-    ])
-
     const id = disposableId()
     const table = [
         ['Images Detected', imgs.length.toFixed()],
-        ['Images Status', `<span id='${id}'>Calculating...</span>`]
+        ['Images Status', `<span id='${id}'>Calculating...</span>`],
     ]
 
-    if(nOfImageFiles > 0) {
+    if (nOfImageFiles > 0) {
         table.push([
             'Linked Images (.gif, .png, .jpg, .webp)',
-            `${nOfImageFiles.toFixed()} (${
-                ((nOfImageFiles / imgs.length) * 100).toFixed(2)}%)`
+            `${nOfImageFiles.toFixed()} (${((nOfImageFiles / imgs.length) * 100).toFixed(2)}%)`,
         ])
     }
 
-    if(nOfImageData > 0) {
+    if (nOfImageData > 0) {
         table.push([
             'Embedded Images (data:)',
-            `${nOfImageData.toFixed()} (${((nOfImageData / imgs.length) * 100).toFixed(2)}%)`
+            `${nOfImageData.toFixed()} (${((nOfImageData / imgs.length) * 100).toFixed(2)}%)`,
         ])
     }
 
-    if(nOfImages1by1> 0) {
+    if (nOfImages1by1 > 0) {
         table.push(['Pixel Images (1 x 1 / 0 x 0 pixels)', `${nOfImages1by1.toFixed()}`])
     }
 
@@ -120,6 +110,58 @@ export const imgCard = (report: Report, imgs: iImg[]): void => {
         ])
     }
 
+    const tableAllImages: string[][] = []
+    imgs.forEach(img => {
+        const fileName = img.src.startsWith('data:') 
+            ? `<span class='regular-info'>Embedded Image</span>`
+            : htmlEncode(File.name(img.src))
+
+        if (img.src.startsWith('data:')) {
+            tableAllImages.push([
+                fileName,
+                img.alt,
+                `<div class='unbreakable'>${img.width.toFixed()}px by ${img.height.toFixed()}px</div>`,
+            ])
+            tableAllImages.push([])
+            return
+        }
+
+        tableAllImages.push([img.src])
+
+        if (img.width <= 1 && img.height <= 1) {
+            tableAllImages.push([
+                fileName,
+                `<span class='regular-info'>Pixel Image</span>`,
+                `<div class='unbreakable'>${img.width.toFixed()}px by ${img.height.toFixed()}px</div>`,
+            ])
+            tableAllImages.push([])
+            return
+        }
+
+        tableAllImages.push([
+            `<a class='image-in-list' href='${img.src}' title='${htmlEncode(img.src)}' target='_new'><img src='${
+                img.src
+            }'></a>`,
+        ])
+
+        if (!img.alt) {
+            tableAllImages.push([
+                fileName,
+                `<span class='missing-info'>No Alt Attribute</span>`,
+                `<div class='unbreakable'>${img.width.toFixed()}px by ${img.height.toFixed()}px</div>`,
+            ])
+            tableAllImages.push([])
+            return
+        }
+
+        tableAllImages.push([
+            fileName,
+            img.alt,
+            `<div class='unbreakable'>${img.width.toFixed()}px by ${img.height.toFixed()}px</div>`,
+        ])
+        tableAllImages.push([])
+    })
+
     const card = new Card(CardKind.report)
         .open(`Html`, `<code>&lt;img&gt;</code> Tags`, 'icon-html-tag')
         .addParagraph(`Found ${imgs.length} images in  <code>&lt;img&gt;</code> HTML tags.`)
@@ -144,6 +186,7 @@ export const imgCard = (report: Report, imgs: iImg[]): void => {
     const missingImages: string[] = []
     const imgPromises = imgs
         .filter(img => !img.src.startsWith('data:'))
+        .filter(img => img.width > 1 && img.height > 1)
         .map(img => File.exists(img.src, File.imageContentType).catch(() => missingImages.push(img.src)))
 
     Promise.allSettled(imgPromises).then(() => {

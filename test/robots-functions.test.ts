@@ -27,7 +27,7 @@ describe('getSiteMaps() and getRobotsTxt()', () => {
             }
         })
 
-        jest.spyOn(main, 'sendTaskToWorker').mockImplementation(() => {})
+        jest.spyOn(main, 'sendRenderTaskToWorker').mockImplementation(() => {})
     })
 
     afterEach(() => {
@@ -81,7 +81,7 @@ describe('getSiteMaps() and getRobotsTxt()', () => {
         fetchMock.mockResponse(req => {
             throw new Error('mock error')
         })
-        jest.spyOn(main, 'sendTaskToWorker').mockImplementation(() => {})
+        jest.spyOn(main, 'sendRenderTaskToWorker').mockImplementation(() => {})
     })
 
     afterEach(() => {

@@ -6,14 +6,19 @@
 // ----------------------------------------------------------------------------
 import {colorCode, Mode} from './colorCode'
 
-export const workerAction = (event: MessageEvent<any>) => {
-    let code = event.data.code
-    let id = event.data.id
-    let mode = event.data.mode as Mode
-    postMessage({
-        id: id,
-        code: colorCode(code, mode),
-    })
+export interface iWorkerRenderJob {
+    code: string,
+    id :string,
+    mode: Mode
+}
+
+export const workerAction = (event: MessageEvent<iWorkerRenderJob>) => {
+    const msg: iWorkerRenderJob = {
+        code: colorCode(event.data.code, event.data.mode),
+        id: event.data.id,
+        mode: event.data.mode as Mode
+    }
+    postMessage(msg)
 }
 
 onmessage = workerAction

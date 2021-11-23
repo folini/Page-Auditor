@@ -61,7 +61,7 @@
 
     --color-white: #fafafe;
     --color-bright-white: #fcfcfa;
-    --color-black: #202124;
+    --color-black: hsl(225deg 6% 35%);
     --tabs-bg-color: darkcyan;
 
     --tabs-fg-color: var(--color-white);
@@ -1308,28 +1308,62 @@ body#id-page-auditor {
     overflow: hidden;
 }
 
-:not(.card-tip) + .card-tip {
+:not(.card-tip) + .card-tip,
+.card-tip:first-child {
     margin-top: 24px;
     &:before {
         content: 'Tips & Recommendations';
         width: 100%;
         text-align: center;
         display: block;
-        padding-bottom: 16px;
+        padding-bottom: 8px;
         font-size: 1.2em;
+    }
+    .tip-title {
+        border-top-left-radius: 6px !important;
+        border-top-right-radius: 6px !important;
     }
 }
 
 .card-tip {
-    margin-bottom: 8px;
+    margin-bottom: 0 !important;
+
+    &:last-child {
+        .tip-title:is(.label-close) {
+            border-bottom-left-radius: 6px !important;
+            border-bottom-right-radius: 6px !important;
+            border-bottom-width: 1px !important;
+        }
+        .tip-body {
+            border-bottom-left-radius: 6px !important;
+            border-bottom-right-radius: 6px !important;
+            border-bottom-width: 1px !important;
+        }
+    }
 
     .tip-title {
+        border-radius: 0 !important;
+        padding-left: 6px !important;
+        &:before{ 
+            content:''
+        }
 
+        &.label-open {
+            border-bottom-style: dotted;
+        }
         &.label-close {
-            border-color: #9f860080;
+            border-bottom-width: 0;
             &:after {
-                content: '\f0eb';
-                color: #9f8600;
+                content: '\f107';
+            }
+            &:hover {
+                border-color: var(--border-color) !important;
+                color: #000;
+            }
+        }
+        &.label-open {
+            &:after {
+                content: '\f106';
             }
         }
         code {
@@ -1344,6 +1378,8 @@ body#id-page-auditor {
         background-color: #fff;
         padding-bottom: 16px;
         position: relative;
+        border-bottom-width: 0;
+        border-radius: 0;
 
         .tip-what-why-how {
             margin: 16px 0;
@@ -1379,7 +1415,13 @@ body#id-page-auditor {
             background-repeat: no-repeat;
             background-size: 100% 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%, 1px 100%,
                 1px 100%;
-            background-image: linear-gradient(90deg, rgb(1 128 0 / 30%), rgb(255 165 1 / 30%), rgb(255 165 1 / 30%), rgb(255 0 0 / 30%)),
+            background-image: linear-gradient(
+                    90deg,
+                    rgb(1 128 0 / 30%),
+                    rgb(255 165 1 / 30%),
+                    rgb(255 165 1 / 30%),
+                    rgb(255 0 0 / 30%)
+                ),
                 linear-gradient(var(--border-color), var(--border-color)),
                 linear-gradient(var(--border-color), var(--border-color)),
                 linear-gradient(var(--border-color), var(--border-color)),
@@ -1514,7 +1556,7 @@ body#id-page-auditor {
                 flex-direction: row;
                 flex-wrap: nowrap;
                 justify-content: space-between;
-                gap:10px;
+                gap: 10px;
                 padding-bottom: 16px;
 
                 .todo-class {
@@ -1538,7 +1580,7 @@ body#id-page-auditor {
                     border-color: #ff0000;
                 }
                 .todo-medium {
-                    color :#ffa500;
+                    color: #ffa500;
                     border-color: #ffa500;
                 }
                 .todo-minor {
@@ -1549,7 +1591,8 @@ body#id-page-auditor {
 
             .card-tip .tip-title {
                 background: linear-gradient(90deg, #fafafa, #fff);
-                &:after {
+                padding-left: 38px!important;
+                &:before {
                     content: attr(data-severity);
                     font-family: Roboto;
                     margin-top: -3px;
@@ -1646,6 +1689,12 @@ body#id-page-auditor {
         border-collapse: collapse;
 
         tr {
+            &.rows-separator {
+                display: none;
+                + tr {
+                    border-top: solid 1px var(--border-color) !important;
+                }
+            }
             + tr {
                 border-top: dotted 1px var(--border-color-light);
             }
@@ -1674,6 +1723,18 @@ body#id-page-auditor {
                     }
                 }
 
+                .image-in-list {
+                    text-align: center;
+                    line-height: 0;
+                    display: block;
+                    img {
+                        max-height: 200px;
+                        max-width: ~'calc(100% - 8px)';
+                        border: solid 1px var(--border-color);
+                        border-radius: 3px;
+                        padding: 4px;
+                    }
+                }
                 .regular-info {
                     color: darkgreen;
                 }
@@ -1778,7 +1839,7 @@ body#id-page-auditor {
         }
 
         code {
-            color: darkgreen;
+            color: darkblue;
         }
     }
 

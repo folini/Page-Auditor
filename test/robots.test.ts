@@ -27,7 +27,7 @@ describe('reportGenerator()', () => {
                 return Promise.resolve(MockData.SitemapXmlBodySample)
             }
         })
-        jest.spyOn(main, 'sendTaskToWorker').mockImplementation(() => {})
+        jest.spyOn(main, 'sendRenderTaskToWorker').mockImplementation(() => {})
     })
 
     afterEach(() => {

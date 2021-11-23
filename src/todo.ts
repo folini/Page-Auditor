@@ -25,7 +25,7 @@ export const open = (url: string, title: string) => {
     win.document.head.appendChild(style)
 
     const links = [...document.head.querySelectorAll('link')]
-    links.forEach(link => win.document.head.appendChild(link.cloneNode(true)))
+    links.forEach(link => win.document.head.appendChild(link)) //.cloneNode(true)))
 
     win.document.body.id = 'id-page-auditor-todo'
     win.document.body.className = 'todo-report'
@@ -87,13 +87,14 @@ export const open = (url: string, title: string) => {
     reportOuterContainer.append(context, divTodoSummary, reportInnerCOntainer)
 
     const cardsToCopy = [...shadowDoc.body.children]
+        .filter(card => parseInt(card.firstElementChild!.getAttribute('data-severity') as string) > severity.minor.min)
 
     cardsToCopy.forEach(card => {
         const severityValue = parseInt(card.firstElementChild!.getAttribute('data-severity')!)
         if (severityValue > severity.critical.min) {
             severity.critical.value++
             win.document.getElementById(severity.critical.divId)!.innerHTML = severity.critical.value.toFixed()
-        } else if(severityValue > severity.medium.min) {
+        } else if (severityValue > severity.medium.min) {
             severity.medium.value++
             win.document.getElementById(severity.medium.divId)!.innerHTML = severity.medium.value.toFixed()
         } else {
@@ -110,7 +111,7 @@ export const open = (url: string, title: string) => {
         )
         .map(child => {
             const titleDiv = child.getElementsByClassName('tip-title')!.item(0) as HTMLDivElement
-            titleDiv.innerHTML = titleDiv.innerHTML.replace(/^Tip #\d+\:/gi, '')
+            titleDiv.innerHTML = titleDiv.innerHTML
             titleDiv.style.setProperty(
                 '--severity-color',
                 severityColorMap(parseInt(titleDiv.getAttribute('data-severity') as string))
@@ -154,29 +155,27 @@ const severity = {
         max: 100,
         min: 75,
         color: '#ff0000',
-        value: 0
+        value: 0,
     },
     medium: {
         divId: 'id-todo-medium',
         max: 75,
         min: 25,
         color: '#ffa500',
-        value: 0
+        value: 0,
     },
     minor: {
         divId: 'id-todo-minor',
         max: 25,
         min: 0,
         color: '#008000',
-        value: 0
-    }
+        value: 0,
+    },
 }
 
-
-const severityColorMap = (severityValue: number) => (severityValue > severity.critical.min 
-    ? severity.critical.color 
-    : severityValue > severity.medium.min 
-    ? severity.medium.color 
-    : severity.minor.color)
-
-
+const severityColorMap = (severityValue: number) =>
+    severityValue > severity.critical.min
+        ? severity.critical.color
+        : severityValue > severity.medium.min
+        ? severity.medium.color
+        : severity.minor.color

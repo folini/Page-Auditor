@@ -56,6 +56,7 @@ export const codeInjector: CodeInjectorFunc = (): iDataFromInjector => {
 const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report: Report): void => {
     const dataFromInjector = data as iDataFromInjector
     const imgs = dataFromInjector.images
+    console.log(`FromInjector ${JSON.stringify(dataFromInjector)}`)
     if (imgs.length > 0) {
         HtmlCards.imgCard(report, imgs)
     }

@@ -72,7 +72,10 @@ export const read = (url: string, contentType: ContentType[]) =>
         })
         .catch(err => Promise.reject(err))
 
-export const name = (url: string) => url.split('/').at(-1)!.split('#')[0].split('?')[0]
+export const name = (url: string): string => {
+    const name = url.split('?')[0].split('#')[0]
+    return name.split('/').pop()!
+}
 
 export const rootDomain = (url: string) => {
     var domain = hostName(url),

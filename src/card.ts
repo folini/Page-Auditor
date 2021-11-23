@@ -171,12 +171,15 @@ export class Card {
             return content
         }
 
-        let url = `${content.startsWith('//') ? 'https' : ''}${content}`
+        console.log(`PRE URL = [${content}]`)
+        let url = `${content.startsWith('//') ? 'https:' : ''}${content}`
+        console.log(`NOW URL = [${url}]`)
         if (url.length > maxLen) {
             const ellipsis = '...'
-            const domain = new URL(content).origin + '/'
+            const domain = new URL(url).origin + '/'
             url = domain + ellipsis + url.substr(url.length - maxLen + domain.length + ellipsis.length)
         }
+        console.log(`POST URL = [${content}]`)
 
         return `<a href='${content}' title='${content}' target='_new'><code>${url}</code></a>`
     }
@@ -188,7 +191,12 @@ export class Card {
         html += '<table class="card-table">'
         html += '<tbody>'
         html += table
-            .map(row => `<tr>${row.map(col => `<td>${Card.#formatCell(col, 55)}</td>`).join('')}</tr>`)
+            .map(row => row.length === 0
+                ? `<tr class='rows-separator'><td colspan='99'></td></tr>`
+                : row.length === 1 
+                ? `<tr>${row.map(col => `<td colspan='99'>${Card.#formatCell(col, 55)}</td>`)}</tr>`
+                : `<tr>${row.map(col => `<td>${Card.#formatCell(col, 55)}</td>`).join('')}</tr>`
+            )
             .join('')
         html += '</tbody>'
         html += '</table>'
@@ -238,7 +246,7 @@ export class Card {
 
         const tipTitle = document.createElement('div')
         tipTitle.className = 'tip-title label-close'
-        tipTitle.innerHTML = `Tip #${Card.#tipNumber++}: ${title}`
+        tipTitle.innerHTML = title
         tipTitle.setAttribute('data-severity', severity > 0 ? severity.toString() : '')
 
         const tipBody = document.createElement('div')

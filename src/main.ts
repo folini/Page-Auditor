@@ -23,7 +23,7 @@ import * as Tips from './tips/tips'
 import * as Html from './cards/html'
 import * as Spinner from './spinner'
 import * as Todo from './todo'
-import { table } from 'console'
+import { iWorkerRenderJob as iRenderTask } from './worker'
 
 export type NoArgsNoReturnFunc = () => void
 export type CodeInjectorFunc = (() => any) | null
@@ -80,15 +80,27 @@ const sections: SectionType[] = [
     },
 ]
 
+const worker = new Worker('worker.js')
+
 document.addEventListener('DOMContentLoaded', () => {
     chrome.tabs.query({active: true, currentWindow: true}).then(tabs => {
         const tab = tabs[0]
         buildNavigationArea(sections)
-        activateReport(sections[0])
+        showReport(sections[0])
 
-        const reportPromise = sections.map(section => action(section, section.actions, tab))
+        const reportPromise = sections.map(section => generateReport(section, section.actions, tab))
         Promise.all(reportPromise).then(() => enableTodoBtn(tab))
     })
+})
+
+worker.addEventListener('message', (event: MessageEvent<iRenderTask>) => {
+    const elem = document.getElementById(event.data.id) as HTMLElement
+    elem.innerHTML = event.data.code
+    addCopyBtn(elem)
+})
+
+document.addEventListener('BeforeUnloadEvent', () => {
+    worker.terminate()
 })
 
 // ----------------------------------------------------------------------------
@@ -111,12 +123,12 @@ const buildNavigationArea = (sections: SectionType[]) => {
         reportDiv.id = section.reportId
         reportDiv.className = 'inner-report-container'
         reportContainer.append(reportDiv)
-        tab.addEventListener('click', () => activateReport(section))
+        tab.addEventListener('click', () => showReport(section))
         Spinner.show(reportDiv)
     })
 }
 
-async function action(section: SectionType, actions: sectionActions, tab: chrome.tabs.Tab) {
+async function generateReport(section: SectionType, actions: sectionActions, tab: chrome.tabs.Tab) {
     let response: chrome.scripting.InjectionResult[] = []
     const report = new Report(section.reportId)
     let data: any = undefined
@@ -130,6 +142,7 @@ async function action(section: SectionType, actions: sectionActions, tab: chrome
             data = response.length > 0 ? response[0].result : undefined
         }
         actions.reportGenerator(tab.url || '', data, report)
+        return Promise.resolve()
     } catch (err: any) {
         console.error(err)
         if (tab.url?.startsWith('chrome://') || tab.url?.startsWith('edge://')) {
@@ -144,10 +157,11 @@ async function action(section: SectionType, actions: sectionActions, tab: chrome
             Tips.Internal.unableToAnalyzeBrowserPages(card)
             report.completed()
         }
+        return Promise.reject()
     }
 }
 
-const activateReport = (activeSec: SectionType) => {
+const showReport = (activeSec: SectionType) => {
     sections.forEach(sec => {
         document.getElementById(sec.tabId)!.classList.remove('active')
         document.getElementById(sec.reportId)!.classList.remove('show')
@@ -157,34 +171,20 @@ const activateReport = (activeSec: SectionType) => {
     window.scrollTo(0, 0)
 }
 
-export const worker = new Worker('worker.js')
-
-worker.onmessage = event => {
-    let id = event.data.id
-    let code = event.data.code
-    const elem = document.getElementById(id) as HTMLElement
-    elem.innerHTML = code
-    addCopyToClipboard(elem)
+export const sendRenderTaskToWorker = (task: iRenderTask) => {
+    setTimeout(() => worker.postMessage(task), 100)
+    return
 }
 
-export const addCopyToClipboard = (elem: HTMLElement) => {
+export const addCopyBtn = (elem: HTMLElement) => {
     const copyDiv = elem.ownerDocument.createElement('div')
     copyDiv.className = 'icon-copy'
-    copyDiv.title = 'Copy code'
+    copyDiv.title = 'Copy code to clipboard'
     elem.insertBefore(copyDiv, elem.firstChild)
     copyDiv.addEventListener('click', () => Card.copyToClipboard(elem as HTMLDivElement))
 }
 
-export const sendTaskToWorker = (divId: string, mode: Mode, code: string) => {
-    setTimeout(() => worker.postMessage({id: divId, mode: mode, code: code}), 100)
-    return
-}
-
 export const disposableId = () => 'id-' + Math.random().toString(36).substring(2, 15)
-
-document.addEventListener('BeforeUnloadEvent', () => {
-    worker.terminate()
-})
 
 export const formatNumber = (num: number) => num.toLocaleString(undefined, {maximumFractionDigits: 0})
 

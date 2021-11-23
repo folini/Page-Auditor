@@ -73,7 +73,7 @@
   --ff-brand-color: #485787;
   --color-white: #fafafe;
   --color-bright-white: #fcfcfa;
-  --color-black: #202124;
+  --color-black: hsl(225, 6%, 35%);
   --tabs-bg-color: darkcyan;
   --tabs-fg-color: var(--color-white);
   --border-color: #dadce0;
@@ -1254,26 +1254,59 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
   border-radius: 0 0 6px 6px;
   overflow: hidden;
 }
-:not(.card-tip) + .card-tip {
+:not(.card-tip) + .card-tip,
+.card-tip:first-child {
   margin-top: 24px;
 }
-:not(.card-tip) + .card-tip:before {
+:not(.card-tip) + .card-tip:before,
+.card-tip:first-child:before {
   content: 'Tips & Recommendations';
   width: 100%;
   text-align: center;
   display: block;
-  padding-bottom: 16px;
+  padding-bottom: 8px;
   font-size: 1.2em;
 }
+:not(.card-tip) + .card-tip .tip-title,
+.card-tip:first-child .tip-title {
+  border-top-left-radius: 6px !important;
+  border-top-right-radius: 6px !important;
+}
 .card-tip {
-  margin-bottom: 8px;
+  margin-bottom: 0 !important;
+}
+.card-tip:last-child .tip-title:is(.label-close) {
+  border-bottom-left-radius: 6px !important;
+  border-bottom-right-radius: 6px !important;
+  border-bottom-width: 1px !important;
+}
+.card-tip:last-child .tip-body {
+  border-bottom-left-radius: 6px !important;
+  border-bottom-right-radius: 6px !important;
+  border-bottom-width: 1px !important;
+}
+.card-tip .tip-title {
+  border-radius: 0 !important;
+  padding-left: 6px !important;
+}
+.card-tip .tip-title:before {
+  content: '';
+}
+.card-tip .tip-title.label-open {
+  border-bottom-style: dotted;
 }
 .card-tip .tip-title.label-close {
-  border-color: #9f860080;
+  border-bottom-width: 0;
 }
 .card-tip .tip-title.label-close:after {
-  content: '\f0eb';
-  color: #9f8600;
+  content: '\f107';
+}
+.card-tip .tip-title.label-close:hover {
+  border-color: var(--border-color) !important;
+  color: #000;
+}
+.card-tip .tip-title.label-open:after {
+  content: '\f106';
 }
 .card-tip .tip-title code {
   background-color: transparent !important;
@@ -1285,6 +1318,8 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
   background-color: #fff;
   padding-bottom: 16px;
   position: relative;
+  border-bottom-width: 0;
+  border-radius: 0;
 }
 .card-tip .tip-body .tip-what-why-how {
   margin: 16px 0;
@@ -1463,8 +1498,9 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
 }
 .todo-report main #id-report-outer-container .card-tip .tip-title {
   background: linear-gradient(90deg, #fafafa, #fff);
+  padding-left: 38px!important;
 }
-.todo-report main #id-report-outer-container .card-tip .tip-title:after {
+.todo-report main #id-report-outer-container .card-tip .tip-title:before {
   content: attr(data-severity);
   font-family: Roboto;
   margin-top: -3px;
@@ -1546,6 +1582,12 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
   width: 100%;
   border-collapse: collapse;
 }
+.table-container table.card-table tr.rows-separator {
+  display: none;
+}
+.table-container table.card-table tr.rows-separator + tr {
+  border-top: solid 1px var(--border-color) !important;
+}
 .table-container table.card-table tr + tr {
   border-top: dotted 1px var(--border-color-light);
 }
@@ -1570,6 +1612,18 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
 }
 .table-container table.card-table tr td + td .small-btn {
   float: none;
+}
+.table-container table.card-table tr td .image-in-list {
+  text-align: center;
+  line-height: 0;
+  display: block;
+}
+.table-container table.card-table tr td .image-in-list img {
+  max-height: 200px;
+  max-width: calc(100% - 8px);
+  border: solid 1px var(--border-color);
+  border-radius: 3px;
+  padding: 4px;
 }
 .table-container table.card-table tr td .regular-info {
   color: darkgreen;
@@ -1661,7 +1715,7 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
   text-decoration: underline;
 }
 .box-card .card-body code {
-  color: darkgreen;
+  color: darkblue;
 }
 .box-card .card-footer {
   padding: 8px;

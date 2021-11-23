@@ -119,8 +119,6 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, report: Report): v
 
         const unsafeLinks = discoveredItem.scripts.filter(script => script.match(/^http\:\/\//))
         if (unsafeLinks.length > 0) {
-            console.log(`All[${discoveredItem.name}] = \n\t[${discoveredItem.scripts.join('\n\t')}]`)
-            console.log(`Unsafe[${discoveredItem.name}] = \n\t[${unsafeLinks.join('\n\t')}]`)
             Tips.Scripts.unsafeLinks(card, unsafeLinks)
         }
 
