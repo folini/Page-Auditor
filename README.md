@@ -32,6 +32,11 @@ Performing a _On-Page Technical SEO Analysis_ requires analyzing several (almost
 | -
 |![Screenshot 5 640x400 pixels](./web-store-images/5_Screenshot_640x400.png)|
 
+| To-Do Report
+| -
+|![Screenshot 5 640x400 pixels](./web-store-images/6_Screenshot_640x400.png)|
+
+
 
 ## License
 This _Google Chrome Extension_ is open source and it is released under [__BSD-3-Clause__](./LICENSE.md) license.
