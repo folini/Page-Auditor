@@ -80,7 +80,7 @@ const sections: SectionType[] = [
     },
 ]
 
-const worker = new Worker('worker.js')
+const worker = new Worker('worker.js', {})
 
 document.addEventListener('DOMContentLoaded', () => {
     chrome.tabs.query({active: true, currentWindow: true}).then(tabs => {
@@ -88,8 +88,21 @@ document.addEventListener('DOMContentLoaded', () => {
         buildNavigationArea(sections)
         showReport(sections[0])
 
-        const reportPromise = sections.map(section => generateReport(section, section.actions, tab))
-        Promise.all(reportPromise).then(() => enableTodoReportAccess(tab))
+        // Promises all imgs are loaded or failed
+        const imgPromises = [...document.images]
+            .filter(img => !img.complete)
+            .map(
+                img =>
+                    new Promise((resolve, reject) => {
+                        img.onload = resolve
+                        img.onerror = reject
+                    })
+            )
+
+        // Wait for all images to be loaded before starting generating reports
+        Promise.allSettled(imgPromises)
+            .then(() => sections.map(section => generateReport(section, section.actions, tab)))
+            .then(reportPromises => Promise.all(reportPromises).then(() => enableTodoReportAccess(tab)))
     })
 })
 

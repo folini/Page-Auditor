@@ -246,7 +246,7 @@ export const tagImageNotFound = (card: Card, platform: Platform, tag: iTag) => {
         platform === 'Twitter' ? Specs.twitterTags.twImage.textualSpecs : Specs.openGraphTags.ogImage.textualSpecs
     )
     card.addTip(
-        `<code>${tag.label}</code> Meta Tag is Missing. Replace it.`,
+        `Image in Meta Tag <code>${tag.label}</code> Is Missing. Upload it.`,
         [what, why, how],
         'Twitter' ? Specs.twitterTags.reference : Specs.openGraphTags.reference,
         65

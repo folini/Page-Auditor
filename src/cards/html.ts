@@ -45,7 +45,7 @@ export const codeInjector: CodeInjectorFunc = (): iDataFromInjector => {
             const alt = img.alt
             const dataSrc = img.getAttribute('data-src') || ''
             const src = img.src.length === 0 && dataSrc.length > 0 ? dataSrc : img.src
-            return {src: src, alt: alt, width: img.width, height: img.height} as iImg
+            return {src: src, alt: alt, width: img.naturalWidth, height: img.naturalHeight} as iImg
         }),
         title: document.title,
         h1Title: (document.querySelector('h1')?.textContent || '').replace('&nbsp;', ' ').replace(/\s+/g, ' ').trim(),
