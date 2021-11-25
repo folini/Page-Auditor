@@ -5,8 +5,6 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card} from '../card'
-import {codeBlock} from '../codeBlock'
-import {Mode} from '../colorCode'
 import {Specs} from '../specs'
 import {tipWhat, tipWhy, tipHow} from './tips'
 
@@ -19,7 +17,7 @@ export const unsafeLinks = (card: Card, urls: string[]) => {
             urls.length === 1 ? 'is' : 'are'
         } using the obsolete and unsafe <code>http:</code> protocol instead of the safest <code>https://</code> protocol.`
     )
-    const table = Card.createTable(
+    const table = Card.tableBlock(
         `List of ${urls.length} Scrip${plural} not using <code>https://</code> as protocol.`,
         urls.map(url => [url]),
         'list-style'
@@ -29,14 +27,14 @@ export const unsafeLinks = (card: Card, urls: string[]) => {
         `According to the most recent specs and recommendations, all links should always use the safest <code>https:</code> protocol.`
     )
     const how = tipHow(
-        `Edit the HTML of the page changing every occurrence of the old <code>http:</code> protocol with teh safest <code>http:</code>.`
+        `Edit the HTML of the page changing every occurrence of the old <code>http:</code> protocol with the safest <code>http:</code>.`
     )
-    const tableHTTP = Card.createTable(
+    const tableHTTP = Card.tableBlock(
         `List of unsafe links to Scrips`,
         urls.map(url => [url]),
         'list-style'
     )
-    const tableHTTPS = Card.createTable(
+    const tableHTTPS = Card.tableBlock(
         `List of proposed safer links to Scrips`,
         urls.map(url => [url.replace('https://', 'https://')]),
         'list-style'
@@ -60,7 +58,7 @@ export const scriptNotFound = (card: Card, scripts: string[]) => {
         `A broken link to a script can not be resolved by the browser and can affect either the user experience of visitors coming to your website as well the results of some analytics monitoring your page.`
     )
     const how = tipHow(`Edit the HTML of the page and fix the broken link.`)
-    const table = Card.createTable(
+    const table = Card.tableBlock(
         `List of ${scripts.length} Broken Links to Scrip${plural}.`,
         scripts.map(url => [url]),
         'list-style'

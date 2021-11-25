@@ -15,7 +15,7 @@ import {tipWhat, tipWhy, tipHow} from './tips'
 export const duplicateSitemapsLink = (card: Card, urls: string[]) => {
     urls = [...new Set(urls)]
     const what = tipWhat(`The <code>robots.txt</code> file links multiple times the same sitemap's url.`)
-    const table = Card.createTable(
+    const table = Card.tableBlock(
         `List of the duplicate Urls`,
         urls.map(url => [url]),
         'list-style'
@@ -47,12 +47,12 @@ export const unsafeSitemapLink = (card: Card, urls: string[]) => {
     const how = tipHow(
         `Update <code>robots.txt</code> replacing in all links <code>http:</code> with <code>https:</code> protocol.`
     )
-    const tableWrongUrls = Card.createTable(
+    const tableWrongUrls = Card.tableBlock(
         `List of Unsafe Urls`,
         urls.map(url => [url]),
         'list-style'
     )
-    const tableFixedUrls = Card.createTable(
+    const tableFixedUrls = Card.tableBlock(
         `Lis of How Urls Should Be`,
         urls.map(url => url.replace('http:', 'https:')).map(url => [url]),
         'list-style'
@@ -77,12 +77,12 @@ export const doubleDashSitemapLink = (card: Card, urls: string[]) => {
     const how = tipHow(
         `Update <code>robots.txt</code> replacing in all links <code>http:</code> with <code>https:</code> protocol.`
     )
-    const tableWrongUrls = Card.createTable(
+    const tableWrongUrls = Card.tableBlock(
         `List of ${urls.length} Url${plural} To Fix`,
         urls.map(url => [url]),
         'list-style'
     )
-    const tableFixedUrls = Card.createTable(
+    const tableFixedUrls = Card.tableBlock(
         `How Your Url${plural} Should Be Changed`,
         urls.map(url => url.replace(/(https?:.*)(\/\/)(.*)/i, '$1/$3')).map(url => [url]),
         'list-style'

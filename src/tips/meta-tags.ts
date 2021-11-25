@@ -177,7 +177,7 @@ export const tagDescriptionIsTooLong = (card: Card, descriptionTag: iTag) => {
         `If the description is longer than ${Specs.metaTags.descTag.maxLen} characters, Google will truncate it or will use a sentence arbitrarily selected from the page content.`
     )
     const how = tipHow(
-        `Rewrite teh description using less than ${Specs.metaTags.descTag.maxLen} characters and update the <code>${descriptionTag.label}</code> Meta tag accordingly.`
+        `Rewrite the description using less than ${Specs.metaTags.descTag.maxLen} characters and update the <code>${descriptionTag.label}</code> Meta tag accordingly.`
     )
     card.addTip(
         `Shorten the Meta Tag <code>${descriptionTag.label}</code>`,
@@ -199,7 +199,7 @@ export const tagDescriptionIsTooShort = (card: Card, descriptionTag: iTag) => {
         `If the description is shorter than ${Specs.metaTags.descTag.minLen} characters, Google might use a sentence arbitrarily selected from the page content.`
     )
     const how = tipHow(
-        `Rewrite teh description using more than ${Specs.metaTags.descTag.minLen} characters and update the <code>${descriptionTag.label}</code> Meta tag accordingly.`
+        `Rewrite the description using more than ${Specs.metaTags.descTag.minLen} characters and update the <code>${descriptionTag.label}</code> Meta tag accordingly.`
     )
     card.addTip(
         `The <code>${descriptionTag.label}</code> Meta Tag Is Too Short.`,

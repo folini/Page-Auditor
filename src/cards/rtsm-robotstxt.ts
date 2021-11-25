@@ -118,7 +118,7 @@ const robotsTxtCard = (url: string, robotsTxtBody: string): Card => {
         .addParagraph(`Found a <code>Robots.txt</code> file at the url:`)
         .addCodeBlock(url, Mode.txt)
         .addParagraph(robotsTxtDescription)
-        .addTable('Robots.txt Analysis', table)
+        .addHtmlElement(Card.tableBlock('Robots.txt Analysis', table))
         .addExpandableBlock(btnLabel, codeBlock(robotsTxtBody, Mode.txt, divId))
         .tag(`card-ok`)
 

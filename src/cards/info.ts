@@ -33,21 +33,25 @@ export class Info {
         }
 
         const card = existingCard ?? new Card(CardKind.info)
-        card.setTitle('Sitemap Analysis').addParagraph(msg1).addTable('Overall Sitemaps Analysis', tableAnalysis)
+        card.setTitle('Sitemap Analysis')
+            .addParagraph(msg1)
+            .addHtmlElement(Card.tableBlock('Overall Sitemaps Analysis', tableAnalysis))
 
         if (nDone > 0) {
             const table = sitemaps.doneList.map(sm => [sm.url])
-            card.addTable(`Successfully Loaded (${nDone})`, table, 'list-style')
+            card.addHtmlElement(Card.tableBlock(`Successfully Loaded (${nDone})`, table, 'list-style'))
         }
 
         if (nSkipped > 0) {
             const table = sitemaps.skippedList.map(sm => [sm.url])
-            card.addTable(`Not Tested (${nSkipped}) - Only ${maxSitemapsToLoad} are tested`, table, 'list-style')
+            card.addHtmlElement(
+                Card.tableBlock(`Not Tested (${nSkipped}) - Only ${maxSitemapsToLoad} are tested`, table, 'list-style')
+            )
         }
 
         if (nFailed > 0) {
             const table = sitemaps.failedList.map(sm => [sm.url])
-            card.addTable(`Not Found (${nFailed})`, table, 'list-style')
+            card.addHtmlElement(Card.tableBlock(`Not Found (${nFailed})`, table, 'list-style'))
         }
 
         return card

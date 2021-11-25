@@ -21,12 +21,12 @@ export const avoidRelativeUrls = (cardPromise: Promise<Card>, objectName: string
     const how = tipHow(
         `Update your page Structured Data using only absolute path names and removing the listed relative paths.`
     )
-    const tableRelativeUrls = Card.createTable(
+    const tableRelativeUrls = Card.tableBlock(
         `List of Relative Urls`,
         urls.map(url => [url]),
         'list-style'
     )
-    const tableAbsoluteUrls = Card.createTable(
+    const tableAbsoluteUrls = Card.tableBlock(
         `List of Fixed Urls`,
         urls.map(url => [`${new URL(pageUrl).origin}${url}`]),
         'list-style'
@@ -53,12 +53,12 @@ export const imageUrlMissingProtocol = (cardPromise: Promise<Card>, objectName: 
         `Update your page Structured Data using only complete urls.`,
         `This is the list of complete urls to use when replacing the relative urls:`
     )
-    const tableImgWithoutProtocol = Card.createTable(
+    const tableImgWithoutProtocol = Card.tableBlock(
         'Images Urls without protocol',
         urls.map(url => [url]),
         'list-style'
     )
-    const tableImgWithProtocol = Card.createTable(
+    const tableImgWithProtocol = Card.tableBlock(
         'Images Urls without protocol',
         urls.map(url => [`https:${url}`]),
         'list-style'
@@ -132,7 +132,7 @@ export const imagesNotFound = (cardPromise: Promise<Card>, images: iImageElement
             plural ? `a set of ${images.length.toFixed()} images` : `An image`
         } listed in the Structured Data.`
     )
-    const table = Card.createTable(
+    const table = Card.tableBlock(
         `List of Missing Images`,
         images.map(img => [img.src]),
         'list-style'

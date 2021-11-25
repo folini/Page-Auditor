@@ -152,7 +152,7 @@ export const metaTagsCard = (
     const card = new Card(CardKind.report)
         .open(`Detected Meta Tags`, tagCategory.title, tagCategory.cssClass)
         .addParagraph(tagCategory.description)
-        .addTable(`Tags Analysis`, table)
+        .addHtmlElement(Card.tableBlock(`Tags Analysis`, table))
         .addExpandableBlock('HTML Code', codeBlock(selectedTagsAsString, Mode.html))
         .tag('card-ok')
 

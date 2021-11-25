@@ -118,8 +118,8 @@ export const imgCard = (report: Report, imgs: iImg[]): void => {
     const card = new Card(CardKind.report)
         .open(`Html`, `<code>&lt;img&gt;</code> Tags`, 'icon-html-tag')
         .addParagraph(`Found ${imgs.length} <code>&lt;img&gt;</code> HTML tags.`)
-        .addTable(`<code>&lt;img&gt;</code> Tags Analysis`, table)
-        .addTable(`Image List`, imgArray2Table(imgs))
+        .addHtmlElement(Card.tableBlock(`<code>&lt;img&gt;</code> Tags Analysis`, table))
+        .addHtmlElement(Card.tableBlock(`Image List`, imgArray2Table(imgs)))
         .tag('card-ok')
 
     report.addCard(card)
@@ -182,7 +182,7 @@ export const imgArray2Table = (imgs: iImg[]) =>
             `<div class='cell-label'>Alt</div>`,
             `${
                 isPixel
-                    ? `This is a tracking Pixel, no need for the alt attribute`
+                    ? `Likely a tracking Pixel, no need for the alt attribute`
                     : !img.alt
                     ? `<span class='missing-info'>The Alt attribute is missing</span>`
                     : altIsPlaceholder(img.alt, File.name(img.src))

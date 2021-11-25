@@ -57,7 +57,7 @@ export const missingXmlExtension = (card: Card, urls: string[]) => {
             urls.length > 1 ? 'are' : 'is'
         } lacking the standard extension for XML files: <code>.xml</code>.`
     )
-    const table = Card.createTable(
+    const table = Card.tableBlock(
         `Sitemaps without .xml extension`,
         urls.map(url => [url]),
         'list-style'

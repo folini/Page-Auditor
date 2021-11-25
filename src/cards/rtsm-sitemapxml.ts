@@ -38,7 +38,7 @@ const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
                     .open(`Detected Sitemap #${sitemaps.doneList.length + 1} (Compressed)`, fileName, 'icon-sitemap')
                     .addParagraph(`Found a compressed <code>sitemap.xml</code> file at the url:`)
                     .addCodeBlock(sm.url, Mode.txt)
-                    .addTable('Sitemap Analysis', table)
+                    .addHtmlElement(Card.tableBlock('Sitemap Analysis', table))
                     .addParagraph(`Unable to display the content of compressed files.`)
                     .tag('card-ok')
                 report.addCard(card)
@@ -100,7 +100,7 @@ const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
                 .addParagraph(`Found a <code>sitemap.xml</code> file at the url:`)
                 .addCodeBlock(sm.url, Mode.txt)
                 .addParagraph(sitemapXmlDescription)
-                .addTable('Sitemap Analysis', table)
+                .addHtmlElement(Card.tableBlock('Sitemap Analysis', table))
                 .addExpandableBlock(btnLabel, codeBlock(sitemapBody, Mode.xml, divId))
                 .tag('card-ok')
 

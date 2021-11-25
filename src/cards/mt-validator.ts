@@ -100,7 +100,7 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
                 Tips.MetaTags.tagUrlIsRelativePath(card, 'Twitter', urlTag, canonical)
             } else if (urlTag.value.startsWith('http://')) {
                 Tips.MetaTags.tagUrlUsesObsoleteProtocol(card, 'Twitter', urlTag)
-            } else if (canonical.length > 0 && urlTag.value.toLowerCase() !== canonical.toLowerCase()) {
+            } else if (canonical.length > 0 && !areTheSameUrl(canonical, urlTag.value)) {
                 Tips.MetaTags.tagUrlIsNonCanonical(card, 'Twitter', urlTag, canonical)
             }
         }
@@ -257,7 +257,7 @@ export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[],
                 Tips.MetaTags.tagUrlIsRelativePath(card, 'Facebook', urlTag, canonical)
             } else if (urlTag.value.startsWith('http://')) {
                 Tips.MetaTags.tagUrlUsesObsoleteProtocol(card, 'Facebook', urlTag)
-            } else if (canonical.length > 0 && urlTag.value.toLowerCase() !== canonical.toLowerCase()) {
+            } else if (canonical.length > 0 && !areTheSameUrl(canonical, urlTag.value)) {
                 Tips.MetaTags.tagUrlIsNonCanonical(card, 'Facebook', urlTag, canonical)
             }
         }
@@ -393,4 +393,10 @@ export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[],
             Tips.MetaTags.tagIsMissing(card, 'Facebook', 'og:image')
         }
     }
+}
+
+const areTheSameUrl = (url1: string, url2: string) => {
+    const u1 = url1.toLowerCase()
+    const u2 = url2.toLowerCase()
+    return u1 === u2 || `${u1}/` === u2 || u1 === `${u2}/`
 }

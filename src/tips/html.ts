@@ -22,7 +22,7 @@ export const imgWithAltPlaceholder = (card: Card, images: iImg[]) => {
         } a placeholder for the <code>alt</code> attribute of the <code>img</code> HTML tag.`,
         `The count excludes images like the Facebook Pixel that are typically 1 pixel by 1 pixel in size and are not intended to contribute to the page content.`
     )
-    const table = Card.createTable(
+    const table = Card.tableBlock(
         `${images.length} Image${isPlural ? 's' : ''} WIth <code>alt</code> Placeholder`,
         imgArray2Table(images),
         'list-style'
@@ -55,7 +55,7 @@ export const imgWithoutAlt = (card: Card, images: iImg[]) => {
         } image${plural} in the HTML of the page are missing have the <code>alt</code> attribute of the <code>img</code> HTML tag.`,
         `The count excludes images like the Facebook Pixel that are typically 1 pixel by 1 pixel in size and are not intended to contribute to the page content.`
     )
-    const table = Card.createTable(
+    const table = Card.tableBlock(
         `${images.length} Image${plural} Without <code>alt</code> attribute`,
         imgArray2Table(images),
         'list-style'
@@ -81,7 +81,7 @@ export const imgWithoutAlt = (card: Card, images: iImg[]) => {
 export const imagesNotFound = (card: Card, images: string[]) => {
     const plural = images.length > 1 ? 's' : ''
     const what = tipWhat(`Unable to find the ${images.length} image${plural} used in the HTML code of the page`)
-    const table = Card.createTable(
+    const table = Card.tableBlock(
         `${images.length} Image${plural} Not Found`,
         images.map(image => [image]),
         'list-style'
@@ -168,7 +168,7 @@ export const titleShouldMatchH1 = (card: Card, title: string, h1Title: string) =
     const why = tipWhy(
         `The <code>&lt;title&gt;</code> tag is very important for SEO, and Google will use it for SERP.`,
         `The <code>&lt;h1&gt;</code> tag wil be used by search engines to better understand the content of the page.`,
-        `The impact of having different values for these two tags should be minimal, but SEO Best Practices recommend to match teh two tags.`
+        `The impact of having different values for these two tags should be minimal, but SEO Best Practices recommend to match the two tags.`
     )
     const how = tipHow(`Rewrite the title and the h1 tags to match exactly and replace them in the page HTML.`)
     card.addTip(

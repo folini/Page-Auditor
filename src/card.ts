@@ -174,7 +174,24 @@ export class Card {
         return `<a href='${content}' title='${content}' target='_new'><code>${compactUrl(content, maxLen)}</code></a>`
     }
 
-    public static createTable(title: string, table: string[][] | HTMLTableElement[], tableStyle: TableStyle) {
+    static #tableFromStrings(stringTable: string[][]) {
+        const table = document.createElement('table')
+
+        let html = ''
+        html += '<tbody>'
+        html += stringTable
+            .map(row =>
+                row.length === 1
+                    ? `<tr>${row.map(col => `<td colspan='99'>${Card.#formatCell(col, 55)}</td>`)}</tr>`
+                    : `<tr>${row.map(col => `<td>${Card.#formatCell(col, 55)}</td>`).join('')}</tr>`
+            )
+            .join('')
+        html += '</tbody>'
+        table.innerHTML = html
+        return table
+    }
+
+    public static tableBlock(title: string, tables: string[][]|HTMLTableElement[], tableStyle: TableStyle = 'table-style') {
         const tableContainerDiv = document.createElement('div')
         tableContainerDiv.className = 'table-container'
         const titleDiv = document.createElement('div')
@@ -183,34 +200,19 @@ export class Card {
         const bodyDiv = document.createElement('div')
         bodyDiv.className = 'body-close'
         tableContainerDiv.append(titleDiv, bodyDiv)
-
-        if (Array.isArray(table[0])) {
-            const stringTable = table as string[][]
-            let html = ''
-            html += '<table class="card-table">'
-            html += '<tbody>'
-            html += stringTable
-                .map(row =>
-                    row.length === 1
-                        ? `<tr>${row.map(col => `<td colspan='99'>${Card.#formatCell(col, 55)}</td>`)}</tr>`
-                        : `<tr>${row.map(col => `<td>${Card.#formatCell(col, 55)}</td>`).join('')}</tr>`
-                )
-                .join('')
-            html += '</tbody>'
-            html += '</table>'
-            html += `</div>`
-            bodyDiv.innerHTML = html
+        if (tables[0] instanceof Array) {
+            const strTable = tables as string[][]
+            bodyDiv.append(Card.#tableFromStrings(strTable))
         } else {
-            const htmlTable = table as HTMLTableElement[]
-            htmlTable.forEach(table => bodyDiv.append(table))
+            const tableElements = tables as HTMLTableElement[]
+            bodyDiv.append(...tableElements)
         }
 
         titleDiv.addEventListener('click', () => Card.toggleBlock(titleDiv))
         return tableContainerDiv
     }
 
-    public addTable(title: string, table: string[][] | HTMLTableElement[], tableStyle: TableStyle = 'table-style') {
-        const tableDiv = Card.createTable(title, table, tableStyle)
+    public addHtmlElement(tableDiv: HTMLDivElement) {
         this.#body.append(tableDiv)
         return this
     }
