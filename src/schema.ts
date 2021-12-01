@@ -67,10 +67,10 @@ export class Schema {
         this.#dictionary = {}
     }
 
-    static getSchemaCounter(schemaName : string) {
-        return Schema.#schemaCounter[schemaName]?? 0
+    static getSchemaCounter(schemaName: string) {
+        return Schema.#schemaCounter[schemaName] ?? 0
     }
-    
+
     static #addToDictionary(json: iJsonLD) {
         let id = Schema.getId(json)
         if (typeof id === 'string' && id.length > 0) {
@@ -120,7 +120,9 @@ export class Schema {
     }
 
     #openBox(label: string, schemaName: string) {
-        Schema.#schemaCounter[schemaName] = Schema.#schemaCounter[schemaName] ? Schema.#schemaCounter[schemaName]+1 : 1
+        Schema.#schemaCounter[schemaName] = Schema.#schemaCounter[schemaName]
+            ? Schema.#schemaCounter[schemaName] + 1
+            : 1
         const links: iLink[] = [
             {
                 url: `https://schema.org/${schemaName === 'Graph' ? '' : schemaName}`,
@@ -140,15 +142,14 @@ export class Schema {
             .join('')
 
         const blockIsOpen = this.#firstBoxDone && !Schema.#referenceBlocks
-        const labelOpenClosed = blockIsOpen ? ` label-open` : ` label-close`
+        const boxOpenClose = blockIsOpen ? ` box-open` : ` box-close`
         const labelReference = Schema.#referenceBlocks ? ` label-reference` : ''
         const labelShowIcon = this.#firstBoxDone ? ' label-json-no-icon' : ' label-json-icon'
-        const bodyOpenClosed = blockIsOpen ? ` body-open` : ` body-close`
 
         let openStr =
-            `<div class='sd-box'>` +
-            `<div class='sd-box-label ${labelOpenClosed}${labelShowIcon}${labelReference}'><span class='label-text'>${label}${linksHtml}</span></div>` +
-            `<div class='sd-box-body ${bodyOpenClosed}'>`
+            `<div class='box-sd ${boxOpenClose}'>` +
+            `<div class='box-label${labelShowIcon}${labelReference}'><span class='label-text'>${label}${linksHtml}</span></div>` +
+            `<div class='box-body'>`
         this.#firstBoxDone = true
 
         if (Schema.#referenceBlocks) {
@@ -373,10 +374,10 @@ export class Schema {
     }
 
     static enableOpenClose(div: HTMLDivElement) {
-        const boxLabels = [...div.getElementsByClassName(`sd-box-label`)] as HTMLDivElement[]
-        boxLabels.forEach(boxLabel => {
-            const boxBody = boxLabel.nextElementSibling as HTMLDivElement
-            boxLabel.addEventListener('click', () => Card.toggleBlock(boxLabel))
+        const boxes = [...div.getElementsByClassName(`box-sd`)] as HTMLDivElement[]
+        boxes.forEach(boxDiv => {
+            const labelDiv = boxDiv.firstElementChild as HTMLDivElement
+            labelDiv.addEventListener('click', () => Card.toggleBlock(boxDiv))
         })
     }
 

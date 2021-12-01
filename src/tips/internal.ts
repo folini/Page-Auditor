@@ -7,6 +7,7 @@
 import {Card} from '../card'
 import {Specs} from '../specs'
 import {tipWhat, tipWhy, tipHow} from './tips'
+import * as CardBlocks from '../card-blocks'
 
 // ----------------------------------------------------------------------------
 // INTERNAL ERROR TIPS
@@ -16,7 +17,7 @@ export const internalError = (card: Card) => {
     const how = tipHow(
         `Consider updating the "Page Auditor" Microsoft Edge and Google Chrome Extension to the latest version.`
     )
-    card.addTip(`Update Page Auditor to the latest version`, [what, why, how], Specs.robotsTxt.reference)
+    card.add(CardBlocks.tip(`Update Page Auditor to the latest version`, [what, why, how], Specs.robotsTxt.reference))
 }
 
 export const unableToAnalyzeBrowserPages = (card: Card) => {
@@ -25,5 +26,5 @@ export const unableToAnalyzeBrowserPages = (card: Card) => {
     const how = tipHow(
         `Consider opening any website before opening the "Page Auditor" Microsoft Edge and Google Chrome Extension`
     )
-    card.addTip(`Open a Regular WebSite or Web Page`, [what, why, how], Specs.robotsTxt.reference)
+    card.add(CardBlocks.tip(`Open a Regular WebSite or Web Page`, [what, why, how], Specs.robotsTxt.reference))
 }

@@ -8,7 +8,7 @@ import {MustBeUniqueOccurrences} from './sd'
 import {Card, CardKind} from '../card'
 import {Mode} from '../colorCode'
 import {disposableId} from '../main'
-import {codeBlock} from '../codeBlock'
+import * as CardBlocks from '../card-blocks'
 import {Report} from '../report'
 import * as Tips from '../tips/tips'
 import {Errors} from './errors'
@@ -29,10 +29,16 @@ export const ldJsonCard = (schema: Schema, tabUrl: string, occurrences: MustBeUn
     const structuredDataDescription = `Structured Data communicates content (data) to the Search Engines in an organized manner so they can display the content in the SERPs in an attractive manner.`
     const card = new Card(CardKind.report)
         .open(`Structured Data`, Schema.flattenName(schemaType), 'icon-ld-json')
-        .addParagraph(structuredDataDescription)
-        .addParagraph(schema.schemaToHtml())
-        .addExpandableBlock('JSON-LD Code', codeBlock(schema.getCodeAsString(), Mode.json, scriptId))
-        .tag('card-ok')
+        .add(CardBlocks.paragraph(structuredDataDescription))
+        .add(CardBlocks.paragraph(schema.schemaToHtml()))
+        .add(
+            CardBlocks.expandable(
+                'JSON-LD Code',
+                CardBlocks.code(schema.getCodeAsString(), Mode.json, scriptId),
+                `box-code`
+            )
+        )
+        .setTag('card-ok')
 
     Schema.enableOpenClose(card.getDiv())
 

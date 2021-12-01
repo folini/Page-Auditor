@@ -7,6 +7,7 @@
 import {Report} from '../report'
 import {Card, CardKind} from '../card'
 import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../main'
+import * as CardBlocks from '../card-blocks'
 
 const scriptClasses = require('../jsons/scriptClasses.json') as any[]
 
@@ -58,17 +59,20 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
         .addCard(
             new Card(CardKind.report)
                 .open('Credits', `Page Auditor for Technical SEO`, 'icon-fc')
-                .addParagraph(
-                    `<b>Page Auditor for Technical SEO</b> is a free Extension for 
+                .add(
+                    CardBlocks.paragraph(
+                        `<b>Page Auditor for Technical SEO</b> is a free Extension for 
                     <a href='https://www.microsoft.com/en-us/edge' target='_new'>Microsoft Edge</a> and 
                     <a href='https://www.google.com/chrome/' target='_new'>Google Chrome</a> created by 
                     <a href='https://www.linkedin.com/in/francofolini/' target='_new'>Franco Folini</a>.
                 <br><br>The purpose of <i>Page Auditor for Technical SEO</i> is to analyze and show, in a way that is simple and easy to understand, all SEO factors that can affect the SEO performance of a website or single webpage.
                 <br><br>When possible, <i>Page Auditor</i> also provides suggestions on how to improve the page SEO and to fix a diagnosed problem.`,
-                    'credits'
+                        'credits'
+                    )
                 )
-                .addParagraph(
-                    `<form action="https://www.paypal.com/donate" method="post" target="_new" style="margin-bottom:0">
+                .add(
+                    CardBlocks.paragraph(
+                        `<form action="https://www.paypal.com/donate" method="post" target="_new" style="margin-bottom:0">
                     <input type="hidden" name="business" value="UZ2HN43RZVJGA" />
                     <input type="hidden" name="no_recurring" value="0" />
                     <input type="hidden" name="item_name" value="Support the development and maintenance of the free 'Page Auditor' Microsoft Edge and google Chrome and Extension." />
@@ -77,31 +81,35 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
                         <input type="submit" name="submit" class='large-btn' value="Donate" border="0" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
                     </div>
                 </form>`,
-                    'support-form'
+                        'support-form'
+                    )
                 )
         )
         .addCard(
             new Card(CardKind.report)
                 .open('Credits', `About the Author`, 'icon-franco-avatar')
-                .addParagraph(
-                    `<b>Franco Folini</b> has a passion for Web Development and Digital Marketing.` +
-                        `<br><br>Franco teaches the <a href='https://bootcamp.berkeley.edu/digitalmarketing/' target='+new'>Digital Marketing Bootcamp</a> for UC Berkeley Extension, and this project was inspired by his students.` +
-                        `<br><br>Check out Franco's work and contacts on the following platforms:` +
-                        `<ul class='pointers'>` +
-                        bioLinks
-                            .map(
-                                link =>
-                                    `<li class='credits-pointer ${link.class}'><a href='${link.url}' target='_new'>${link.label}</a></li>`
-                            )
-                            .join('') +
-                        `</ul>`
+                .add(
+                    CardBlocks.paragraph(
+                        `<b>Franco Folini</b> has a passion for Web Development and Digital Marketing.` +
+                            `<br><br>Franco teaches the <a href='https://bootcamp.berkeley.edu/digitalmarketing/' target='+new'>Digital Marketing Bootcamp</a> for UC Berkeley Extension, and this project was inspired by his students.` +
+                            `<br><br>Check out Franco's work and contacts on the following platforms:` +
+                            `<ul class='pointers'>` +
+                            bioLinks
+                                .map(
+                                    link =>
+                                        `<li class='credits-pointer ${link.class}'><a href='${link.url}' target='_new'>${link.label}</a></li>`
+                                )
+                                .join('') +
+                            `</ul>`
+                    )
                 )
         )
         .addCard(
             new Card(CardKind.report)
                 .open(``, `Open-Source Project`, 'icon-open')
-                .addParagraph(
-                    `<b>Page Auditor</b> is an open source project created by <a target="_new" href='https://www.linkedin.com/in/francofolini/'>Franco Folini</a>. 
+                .add(
+                    CardBlocks.paragraph(
+                        `<b>Page Auditor</b> is an open source project created by <a target="_new" href='https://www.linkedin.com/in/francofolini/'>Franco Folini</a>. 
                         That means anybody is free to use, study, modify, and distribute the source code of project for any purpose, within the limits set by the license.
                         <br/><br/>
                         <b>Page Auditor</b> source code is distributed with a <a target="_new" href='https://github.com/folini/Page-Auditor/blob/main/LICENSE.md'>BSD 3-Clause License</a>. 
@@ -111,6 +119,7 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
                         <a target="_new" href='https://jestjs.io/'>JEST</a> testing tools.
                         <br/><br/>
                         You can access the source code on the <a target="_new" href='https://github.com/folini/Page-Auditor'>public project repository on GitHub</a>.`
+                    )
                 )
                 .setPreTitle('Intro')
         )

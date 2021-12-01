@@ -5,6 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card} from '../card'
+import * as CardBlocks from '../card-blocks'
 import {Specs} from '../specs'
 import {tipWhat, tipWhy, tipHow} from './tips'
 
@@ -17,7 +18,7 @@ export const unsafeLinks = (card: Card, urls: string[]) => {
             urls.length === 1 ? 'is' : 'are'
         } using the obsolete and unsafe <code>http:</code> protocol instead of the safest <code>https://</code> protocol.`
     )
-    const table = Card.tableBlock(
+    const table = CardBlocks.table(
         `List of ${urls.length} Scrip${plural} not using <code>https://</code> as protocol.`,
         urls.map(url => [url]),
         'list-style'
@@ -29,21 +30,23 @@ export const unsafeLinks = (card: Card, urls: string[]) => {
     const how = tipHow(
         `Edit the HTML of the page changing every occurrence of the old <code>http:</code> protocol with the safest <code>http:</code>.`
     )
-    const tableHTTP = Card.tableBlock(
+    const tableHTTP = CardBlocks.table(
         `List of unsafe links to Scrips`,
         urls.map(url => [url]),
         'list-style'
     )
-    const tableHTTPS = Card.tableBlock(
+    const tableHTTPS = CardBlocks.table(
         `List of proposed safer links to Scrips`,
         urls.map(url => [url.replace('https://', 'https://')]),
         'list-style'
     )
-    card.addTip(
-        `Change the Protocol of ${urls.length.toFixed()} JavaScript Link${plural}`,
-        [what, table, why, how, tableHTTP, tableHTTPS],
-        Specs.structuredData.reference,
-        30
+    card.add(
+        CardBlocks.tip(
+            `Change the Protocol of ${urls.length.toFixed()} JavaScript Link${plural}`,
+            [what, table, why, how, tableHTTP, tableHTTPS],
+            Specs.structuredData.reference,
+            30
+        )
     )
 }
 
@@ -58,16 +61,18 @@ export const scriptNotFound = (card: Card, scripts: string[]) => {
         `A broken link to a script can not be resolved by the browser and can affect either the user experience of visitors coming to your website as well the results of some analytics monitoring your page.`
     )
     const how = tipHow(`Edit the HTML of the page and fix the broken link.`)
-    const table = Card.tableBlock(
+    const table = CardBlocks.table(
         `List of ${scripts.length} Broken Links to Scrip${plural}.`,
         scripts.map(url => [url]),
         'list-style'
     )
 
-    card.addTip(
-        `Unable to locate ${scripts.length.toFixed()} JavaScript Link${plural}`,
-        [what, table, why, how, table],
-        Specs.structuredData.reference,
-        30
+    card.add(
+        CardBlocks.tip(
+            `Unable to locate ${scripts.length.toFixed()} JavaScript Link${plural}`,
+            [what, table, why, how, table],
+            Specs.structuredData.reference,
+            30
+        )
     )
 }

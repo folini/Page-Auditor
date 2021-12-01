@@ -13,6 +13,7 @@ import * as Tips from '../tips/tips'
 import {Specs} from '../specs'
 import {Mode} from '../colorCode'
 import {htmlEncode} from 'js-htmlencode'
+import * as CardBlocks from '../card-blocks'
 
 export const titleCard = (report: Report, title: string, h1Title: string): void => {
     if (title.length === 0) {
@@ -23,12 +24,14 @@ export const titleCard = (report: Report, title: string, h1Title: string): void 
 
     const card = new Card(CardKind.report)
         .open(`Html`, `<code>&lt;title&gt;</code> Tag`, 'icon-html-tag')
-        .tag('card-ok')
-        .addParagraph(`The page title from the <code>&lt;title&gt;</code> is:`)
-        .addCodeBlock(title, Mode.txt)
+        .setTag('card-ok')
+        .add(CardBlocks.paragraph(`The page title from the <code>&lt;title&gt;</code> is:`))
+        .add(CardBlocks.code(title, Mode.txt))
 
     if (h1Title.length > 0) {
-        card.addParagraph(`The document title from the <code>&lt;h1&gt;</code> tag is:`).addCodeBlock(h1Title, Mode.txt)
+        card.add(CardBlocks.paragraph(`The document title from the <code>&lt;h1&gt;</code> tag is:`)).add(
+            CardBlocks.code(h1Title, Mode.txt)
+        )
 
         if (title.trim() !== h1Title.trim()) {
             Tips.Html.titleShouldMatchH1(card, title, h1Title)
@@ -117,10 +120,10 @@ export const imgCard = (report: Report, imgs: iImg[]): void => {
 
     const card = new Card(CardKind.report)
         .open(`Html`, `<code>&lt;img&gt;</code> Tags`, 'icon-html-tag')
-        .addParagraph(`Found ${imgs.length} <code>&lt;img&gt;</code> HTML tags.`)
-        .addHtmlElement(Card.tableBlock(`<code>&lt;img&gt;</code> Tags Analysis`, table))
-        .addHtmlElement(Card.tableBlock(`Image List`, imgArray2Table(imgs)))
-        .tag('card-ok')
+        .add(CardBlocks.paragraph(`Found ${imgs.length} <code>&lt;img&gt;</code> HTML tags.`))
+        .add(CardBlocks.table(`<code>&lt;img&gt;</code> Tags Analysis`, table))
+        .add(CardBlocks.table(`Image List`, imgArray2Table(imgs)))
+        .setTag('card-ok')
 
     report.addCard(card)
 
@@ -186,7 +189,7 @@ export const imgArray2Table = (imgs: iImg[]) =>
                     : !img.alt
                     ? `<span class='missing-info'>The Alt attribute is missing</span>`
                     : altIsPlaceholder(img.alt, File.name(img.src))
-                    ? `<div class='missing-info'>The Alt attribute is just a placeholder</div>${img.alt}`
+                    ? `<div class='missing-info'>This Alt attribute is just a placeholder, use a more descriptive text.</div>${img.alt}`
                     : img.alt
             }`,
         ]
@@ -201,7 +204,7 @@ export const imgArray2Table = (imgs: iImg[]) =>
         }
 
         const table: HTMLTableElement = document.createElement('table')
-        table.className = 'card-table table-img'
+        table.className = 'table-img'
         const tBody = document.createElement('tbody')
         table.append(tBody)
 

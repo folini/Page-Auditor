@@ -5,6 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card, CardKind} from '../src/card'
+import * as CardBlocks from '../src/card-blocks'
 
 // Jest imports
 import 'jest-get-type'
@@ -65,7 +66,7 @@ import 'jest-extended'
 
 test('Error Card generates valid HTML', () => {
     const msg = '<div>Some error description</div>'
-    const data = new Card(CardKind.error).addParagraph(msg).getDiv().innerHTML
+    const data = new Card(CardKind.error).add(CardBlocks.paragraph(msg)).getDiv().innerHTML
     expect(data)
         .toBeString()
         .toContain(
@@ -81,7 +82,7 @@ test('Error Card generates valid HTML', () => {
 
 test('Suggestion Card generates valid HTML', () => {
     const msg = '<div>Some suggestion</div>'
-    const htmlCode = new Card(CardKind.suggestion).addParagraph(msg).getDiv().innerHTML
+    const htmlCode = new Card(CardKind.suggestion).add(CardBlocks.paragraph(msg)).getDiv().innerHTML
     expect(htmlCode)
         .toBeString()
         .toContain(

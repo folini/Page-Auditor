@@ -30,26 +30,24 @@ export const textContentType: ContentType[] = ['text/plain']
 export const jsContentType: ContentType[] = ['application/javascript', 'text/javascript']
 export const anyContentType: ContentType[] = ['*/*']
 
-export const exists = (url: string, contentTypes: ContentType[]): Promise<boolean> =>
+export const exists = (url: string, contentTypes: ContentType[]): Promise<void> =>
     fetch(url.replace('http:', 'https:'), {
         method: 'HEAD',
         cache: 'no-store',
         headers: contentTypes.map(cType => ['Content-Type', cType]),
     })
-        .then(r => {
-            return [200, 400, 405, 406].includes(r.status) ? true : false
-        })
-        .catch(() => false)
+        .then(response => ([200, 400, 405, 406].includes(response.status) ? true : false))
+        .catch(() => Promise.reject())
         .then(status => {
-            if (status) {
-                return true
+            if (status === true) {
+                return Promise.resolve()
             } else {
                 return fetch(url)
                     .then((response: Response) => {
-                        if (!response.ok || response.status !== 200) {
-                            return Promise.reject()
+                        if (response.ok || [200, 400, 405, 406].includes(response.status)) {
+                            return Promise.resolve()
                         }
-                        return Promise.resolve(true)
+                        return Promise.reject()
                     })
                     .catch(() => Promise.reject())
             }

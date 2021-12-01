@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------------
 import {Card, CardKind} from '../card'
 import {SmList, maxSitemapsToLoad} from '../sitemapList'
-import * as File from '../file'
+import * as CardBlocks from '../card-blocks'
 
 export class Info {
     public static sitemapsOverallAnalysis(sitemaps: SmList, existingCard: Card | undefined = undefined) {
@@ -34,24 +34,24 @@ export class Info {
 
         const card = existingCard ?? new Card(CardKind.info)
         card.setTitle('Sitemap Analysis')
-            .addParagraph(msg1)
-            .addHtmlElement(Card.tableBlock('Overall Sitemaps Analysis', tableAnalysis))
+            .add(CardBlocks.paragraph(msg1))
+            .add(CardBlocks.table('Overall Sitemaps Analysis', tableAnalysis))
 
         if (nDone > 0) {
             const table = sitemaps.doneList.map(sm => [sm.url])
-            card.addHtmlElement(Card.tableBlock(`Successfully Loaded (${nDone})`, table, 'list-style'))
+            card.add(CardBlocks.table(`Successfully Loaded (${nDone})`, table, 'list-style'))
         }
 
         if (nSkipped > 0) {
             const table = sitemaps.skippedList.map(sm => [sm.url])
-            card.addHtmlElement(
-                Card.tableBlock(`Not Tested (${nSkipped}) - Only ${maxSitemapsToLoad} are tested`, table, 'list-style')
+            card.add(
+                CardBlocks.table(`Not Tested (${nSkipped}) - Only ${maxSitemapsToLoad} are tested`, table, 'list-style')
             )
         }
 
         if (nFailed > 0) {
             const table = sitemaps.failedList.map(sm => [sm.url])
-            card.addHtmlElement(Card.tableBlock(`Not Found (${nFailed})`, table, 'list-style'))
+            card.add(CardBlocks.table(`Not Found (${nFailed})`, table, 'list-style'))
         }
 
         return card
@@ -59,6 +59,6 @@ export class Info {
 
     public static noScriptsOnThisPage() {
         const msg1 = `No External Scripts were found on this page.`
-        return new Card(CardKind.info).addParagraph(msg1).setTitle('No JavaScripts found on this page')
+        return new Card(CardKind.info).add(CardBlocks.paragraph(msg1)).setTitle('No JavaScripts found on this page')
     }
 }

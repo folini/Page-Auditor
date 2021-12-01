@@ -4,9 +4,7 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import {disposableId, compactUrl} from './main'
-import {codeBlock} from './codeBlock'
-import {Mode} from './colorCode'
+import * as CardBlocks from './card-blocks'
 import * as Todo from './todo'
 
 export interface iLink {
@@ -20,8 +18,6 @@ export enum CardKind {
     suggestion,
     info,
 }
-
-export type TableStyle = 'table-style' | 'list-style'
 
 export class Card {
     #div: HTMLDivElement
@@ -93,131 +89,12 @@ export class Card {
         return this
     }
 
-    public addCTA(links: iLink[]) {
-        let toolbar = this.#body.querySelector('.cta-toolbar')
-        if (toolbar === null) {
-            toolbar = document.createElement('div')
-            toolbar.className = 'cta-toolbar'
-            this.#footer.append(toolbar)
-        }
-        if (links.length > 0) {
-            this.#footer.style.display = 'block'
-        }
-        links.forEach(link => {
-            const btn = document.createElement('a')
-            btn.className = 'large-btn external-link'
-            btn.innerHTML = link.label
-            btn.href = link.url
-            btn.target = '_blank'
-            toolbar!.append(btn)
-        })
+    public add(div: HTMLDivElement | HTMLDivElement[]) {
+        this.#body.append(...(Array.isArray(div) ? div : [div]))
         return this
     }
 
-    #add(str: string) {
-        if (str.length === 0) {
-            return this
-        }
-        const tmpDiv = document.createElement('div')
-        tmpDiv.innerHTML = str
-        this.#body.append(...tmpDiv.childNodes)
-        return this
-    }
-
-    public addCodeBlock(code: string, mode: Mode) {
-        const divId = disposableId()
-        this.addParagraph(codeBlock(code, mode, divId))
-        return this
-    }
-
-    public addExpandableBlock(btnLabel: string, block: string) {
-        const div = document.createElement('div')
-        div.className = 'code-box'
-        const divTitle = document.createElement('div')
-        divTitle.className = 'code-label label-close'
-        divTitle.innerHTML = btnLabel
-        const divBody = document.createElement('div')
-        divBody.className = 'code-body body-close'
-        divBody.innerHTML = block
-        div.append(divTitle, divBody)
-
-        this.#body.append(div)
-        divTitle.addEventListener('click', () => Card.toggleBlock(divTitle))
-        return this
-    }
-
-    public addParagraph(text: string | undefined, cssClass: string = '', id: string = '') {
-        if (text === undefined || text.length === 0) {
-            return this
-        }
-        return this.#add(
-            `<div${cssClass !== '' ? ` class='${cssClass}'` : ``}${id === '' ? '' : ` id='${id}'`}>${text}</div>`
-        )
-    }
-
-    public addPreview(text: string, cssClass: string) {
-        this.addParagraph(text, cssClass)
-        const divTitle = this.#div.querySelector('.box-label') as HTMLDivElement
-        divTitle.addEventListener('click', () => Card.toggleBlock(divTitle))
-        return this
-    }
-
-    static #isUrl(url: string) {
-        return url.startsWith('http://') || url.startsWith('https://') || url.startsWith('//')
-    }
-
-    static #formatCell(content: string, maxLen: number) {
-        if (!Card.#isUrl(content)) {
-            return content
-        }
-
-        return `<a href='${content}' title='${content}' target='_new'><code>${compactUrl(content, maxLen)}</code></a>`
-    }
-
-    static #tableFromStrings(stringTable: string[][]) {
-        const table = document.createElement('table')
-
-        let html = ''
-        html += '<tbody>'
-        html += stringTable
-            .map(row =>
-                row.length === 1
-                    ? `<tr>${row.map(col => `<td colspan='99'>${Card.#formatCell(col, 55)}</td>`)}</tr>`
-                    : `<tr>${row.map(col => `<td>${Card.#formatCell(col, 55)}</td>`).join('')}</tr>`
-            )
-            .join('')
-        html += '</tbody>'
-        table.innerHTML = html
-        return table
-    }
-
-    public static tableBlock(title: string, tables: string[][]|HTMLTableElement[], tableStyle: TableStyle = 'table-style') {
-        const tableContainerDiv = document.createElement('div')
-        tableContainerDiv.className = 'table-container'
-        const titleDiv = document.createElement('div')
-        titleDiv.className = `label-close ` + tableStyle
-        titleDiv.innerHTML = title
-        const bodyDiv = document.createElement('div')
-        bodyDiv.className = 'body-close'
-        tableContainerDiv.append(titleDiv, bodyDiv)
-        if (tables[0] instanceof Array) {
-            const strTable = tables as string[][]
-            bodyDiv.append(Card.#tableFromStrings(strTable))
-        } else {
-            const tableElements = tables as HTMLTableElement[]
-            bodyDiv.append(...tableElements)
-        }
-
-        titleDiv.addEventListener('click', () => Card.toggleBlock(titleDiv))
-        return tableContainerDiv
-    }
-
-    public addHtmlElement(tableDiv: HTMLDivElement) {
-        this.#body.append(tableDiv)
-        return this
-    }
-
-    public tag(tagToAdd: string) {
+    public setTag(tagToAdd: string) {
         if (
             tagToAdd === 'card-ok' &&
             (this.#head.classList.contains('card-fix') || this.#head.classList.contains('card-error'))
@@ -236,60 +113,13 @@ export class Card {
 
     public addTipDiv(div: HTMLDivElement) {
         this.#body.append(div)
-        this.tag('card-fix')
+        this.setTag('card-fix')
         Todo.add(div.cloneNode(true) as HTMLElement)
         return this
     }
 
-    public addTip(title: string, divs: HTMLElement[], cta: iLink, severity: number = 0) {
-        const tipDiv = document.createElement('div')
-        tipDiv.className = 'card-tip'
-
-        const tipTitle = document.createElement('div')
-        tipTitle.className = 'tip-title label-close'
-        tipTitle.innerHTML = title
-        tipTitle.setAttribute('data-severity', severity > 0 ? severity.toString() : '')
-
-        const tipBody = document.createElement('div')
-        tipBody.className = 'tip-body body-close'
-        divs.filter(div => div.innerHTML.length > 0).map(div => tipBody.append(div))
-
-        if (severity > 0) {
-            const scaleLevel = document.createElement('div')
-            scaleLevel.className = 'tip-scale-level'
-            scaleLevel.style.width = `${severity.toFixed()}%`
-            scaleLevel.setAttribute('data-scale', `${severity.toFixed()}`)
-
-            const scaleDiv = document.createElement('div')
-            scaleDiv.className = 'tip-scale'
-            scaleDiv.append(scaleLevel)
-            tipBody.insertBefore(scaleDiv, tipBody.firstChild)
-
-            const scaleTitle = document.createElement('div')
-            scaleTitle.innerText = `Severity`
-            scaleTitle.className = 'tip-scale-title'
-            tipBody.insertBefore(scaleTitle, tipBody.firstChild)
-        }
-
-        const tipBtn = document.createElement('a')
-        tipBtn.className = 'large-btn external-link'
-        tipBtn.innerHTML = cta.label
-        tipBtn.target = '_blank'
-        tipBtn.href = cta.url as string
-
-        const tipCTA = document.createElement('div')
-        tipCTA.className = 'cta-toolbar'
-        tipCTA.append(tipBtn)
-
-        tipBody.append(tipCTA)
-        tipDiv.append(tipTitle, tipBody)
-        tipTitle.addEventListener('click', () => Card.toggleBlock(tipTitle))
-
-        return this.addTipDiv(tipDiv)
-    }
-
     public getTips() {
-        return [...this.#div.getElementsByClassName('card-tip')] as HTMLDivElement[]
+        return [...this.#div.getElementsByClassName('box-tip')] as HTMLDivElement[]
     }
 
     public hideElement = (selector: string) => {
@@ -299,28 +129,19 @@ export class Card {
         }
     }
 
-    static toggleBlock(label: HTMLElement) {
-        label.classList.toggle('label-close')
-        label.classList.toggle('label-open')
-        const body = label.nextElementSibling as HTMLElement
-        body.classList.toggle('body-open')
-        body.classList.toggle('body-close')
+    static toggleBlock(body: HTMLElement) {
+        body.classList.toggle('box-close')
+        body.classList.toggle('box-open')
     }
 
-    static openBlock(label: HTMLElement) {
-        label.classList.remove('label-close')
-        label.classList.add('label-open')
-        const body = label.nextElementSibling as HTMLElement
-        body.classList.remove('body-close')
-        body.classList.add('body-open')
+    static openBlock(body: HTMLElement) {
+        body.classList.remove('box-close')
+        body.classList.add('box-open')
     }
 
-    static closeBlock(label: HTMLElement) {
-        label.classList.remove('label-open')
-        label.classList.add('label-close')
-        const body = label.nextElementSibling as HTMLElement
-        body.classList.remove('body-open')
-        body.classList.add('body-close')
+    static closeBlock(body: HTMLElement) {
+        body.classList.remove('box-open')
+        body.classList.add('box-close')
     }
 
     public static copyToClipboard(div: HTMLElement) {

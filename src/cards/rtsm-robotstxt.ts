@@ -8,7 +8,7 @@ import * as Tips from '../tips/tips'
 import * as File from '../file'
 import {Report} from '../report'
 import {Card, CardKind} from '../card'
-import {codeBlock} from '../codeBlock'
+import * as CardBlocks from '../card-blocks'
 import {Errors} from './errors'
 import {Mode} from '../colorCode'
 import {disposableId, formatNumber} from '../main'
@@ -115,12 +115,12 @@ const robotsTxtCard = (url: string, robotsTxtBody: string): Card => {
 
     const card = new Card(CardKind.report)
         .open('Detected Robot.Txt', `Robots.txt file`, 'icon-rep')
-        .addParagraph(`Found a <code>Robots.txt</code> file at the url:`)
-        .addCodeBlock(url, Mode.txt)
-        .addParagraph(robotsTxtDescription)
-        .addHtmlElement(Card.tableBlock('Robots.txt Analysis', table))
-        .addExpandableBlock(btnLabel, codeBlock(robotsTxtBody, Mode.txt, divId))
-        .tag(`card-ok`)
+        .add(CardBlocks.paragraph(`Found a <code>Robots.txt</code> file at the url:`))
+        .add(CardBlocks.code(url, Mode.txt))
+        .add(CardBlocks.paragraph(robotsTxtDescription))
+        .add(CardBlocks.table('Robots.txt Analysis', table))
+        .add(CardBlocks.expandable(btnLabel, CardBlocks.code(robotsTxtBody, Mode.txt, divId), 'box-code'))
+        .setTag(`card-ok`)
 
     if (linksToSitemap.length === 0) {
         Tips.RobotsTxt.addSitemapLink(card, new URL(url).origin)

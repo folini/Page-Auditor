@@ -11,17 +11,30 @@ export * as MetaTags from './meta-tags'
 export * as StructuredData from './structured-data'
 export * as Html from './html'
 export * as Scripts from './scripts'
+import * as CardBlocks from '../card-blocks'
 
-export const tipWhat = (...msg: string[]) => tipWhatWhyHow(`What's Wrong?`, ...msg)
-export const tipWhy = (...msg: string[]) => tipWhatWhyHow(`Why To Fix It?`, ...msg)
-export const tipHow = (...msg: string[]) => tipWhatWhyHow(`How to Fix It?`, ...msg)
+export const tipWhat = (...msg: (string | CardBlocks.CardBlock)[]) => tipWhatWhyHow(`What's Wrong?`, ...msg)
+export const tipWhy = (...msg: (string | CardBlocks.CardBlock)[]) => tipWhatWhyHow(`Why To Fix It?`, ...msg)
+export const tipHow = (...msg: (string | CardBlocks.CardBlock)[]) => tipWhatWhyHow(`How to Fix It?`, ...msg)
 
-const tipWhatWhyHow = (label: string, ...msg: string[]) => {
+const tipWhatWhyHow = (tipTitle: string, ...msg: (string | CardBlocks.CardBlock)[]): CardBlocks.CardBlock => {
     const div = document.createElement('div')
     div.classList.add('tip-what-why-how')
-    div.innerHTML =
-        `<b>${label} </b>` +
-        msg.map(str => (str.startsWith(`<div class='code'`) ? `<div class='tip-code'>${str}</div>` : str)).join(' ') +
-        `</div>`
+    const labelSpan = document.createElement('span')
+    labelSpan.classList.add('tip-what-why-how-label')
+    labelSpan.innerHTML = tipTitle
+    div.append(labelSpan)
+    msg.forEach(tipMsg => {
+        if (typeof tipMsg === 'string') {
+            const span = document.createElement('span')
+            span.innerHTML = tipMsg
+            div.append(span)
+        } else if (tipMsg.classList.contains('code')) {
+            tipMsg.classList.add('tip-code')
+            div.append(tipMsg)
+        } else {
+            div.append(tipMsg)
+        }
+    })
     return div
 }

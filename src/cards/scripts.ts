@@ -8,7 +8,7 @@ import {Card, iLink, CardKind} from '../card'
 import {Report} from '../report'
 import {sectionActions, NoArgsNoReturnFunc, disposableId, CodeInjectorFunc} from '../main'
 import {Mode} from '../colorCode'
-import {codeBlock} from '../codeBlock'
+import * as CardBlocks from '../card-blocks'
 import {Errors} from './errors'
 import * as Tips from '../tips/tips'
 import * as File from '../file'
@@ -104,15 +104,18 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, report: Report): v
         if (discoveredItem.url.length > 0) {
             links.push({url: discoveredItem.url, label: `${discoveredItem.name} Reference`})
         }
-        const linksHtml = links.map(link => `<a href='${link.url}' class='small-btn' target='_blank'>${link.label}</a>`).join(' ')
+        const linksHtml = links
+            .map(link => `<a href='${link.url}' class='small-btn' target='_blank'>${link.label}</a>`)
+            .join(' ')
         const plural = discoveredItem.scripts.length > 1 ? 's' : ''
         const btnLabel = `${discoveredItem.scripts.length.toFixed()} Script${plural} `
-        const block = discoveredItem.scripts.map((script, j) => codeBlock(script, Mode.js)).join('')
+        const block = document.createElement('div')
+        block.append(...discoveredItem.scripts.map((script, j) => CardBlocks.code(script, Mode.js)))
         const card = new Card(CardKind.report)
             .open(discoveredItem.category, discoveredItem.name, discoveredItem.iconClass)
-            .addParagraph(discoveredItem.description)
-            .addExpandableBlock(btnLabel + linksHtml, block)
-            .tag('card-ok')
+            .add(CardBlocks.paragraph(discoveredItem.description))
+            .add(CardBlocks.expandable(btnLabel + linksHtml, block, `box-code`))
+            .setTag('card-ok')
         report.addCard(card)
 
         const unsafeLinks = discoveredItem.scripts.filter(script => script.match(/^http\:\/\//))

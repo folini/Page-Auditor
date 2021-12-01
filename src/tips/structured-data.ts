@@ -5,8 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card} from '../card'
-import {codeBlock} from '../codeBlock'
-import {Mode} from '../colorCode'
+import * as CardBlocks from '../card-blocks'
 import {Specs} from '../specs'
 import {iImageElement} from '../schema'
 import {tipWhat, tipWhy, tipHow} from './tips'
@@ -21,22 +20,24 @@ export const avoidRelativeUrls = (cardPromise: Promise<Card>, objectName: string
     const how = tipHow(
         `Update your page Structured Data using only absolute path names and removing the listed relative paths.`
     )
-    const tableRelativeUrls = Card.tableBlock(
+    const tableRelativeUrls = CardBlocks.table(
         `List of Relative Urls`,
         urls.map(url => [url]),
         'list-style'
     )
-    const tableAbsoluteUrls = Card.tableBlock(
+    const tableAbsoluteUrls = CardBlocks.table(
         `List of Fixed Urls`,
         urls.map(url => [`${new URL(pageUrl).origin}${url}`]),
         'list-style'
     )
     cardPromise.then(card =>
-        card.addTip(
-            `Rewrite URLs in "${objectName}" with Absolute Path`,
-            [what, why, how, tableRelativeUrls, tableAbsoluteUrls],
-            Specs.structuredData.reference,
-            50
+        card.add(
+            CardBlocks.tip(
+                `Rewrite URLs in "${objectName}" with Absolute Path`,
+                [what, why, how, tableRelativeUrls, tableAbsoluteUrls],
+                Specs.structuredData.reference,
+                50
+            )
         )
     )
 }
@@ -53,22 +54,24 @@ export const imageUrlMissingProtocol = (cardPromise: Promise<Card>, objectName: 
         `Update your page Structured Data using only complete urls.`,
         `This is the list of complete urls to use when replacing the relative urls:`
     )
-    const tableImgWithoutProtocol = Card.tableBlock(
+    const tableImgWithoutProtocol = CardBlocks.table(
         'Images Urls without protocol',
         urls.map(url => [url]),
         'list-style'
     )
-    const tableImgWithProtocol = Card.tableBlock(
+    const tableImgWithProtocol = CardBlocks.table(
         'Images Urls without protocol',
         urls.map(url => [`https:${url}`]),
         'list-style'
     )
     cardPromise.then(card =>
-        card.addTip(
-            `Rewrite URLs in "${objectName}" adding the <code>https</code> protocol`,
-            [what, why, how],
-            Specs.structuredData.reference,
-            25
+        card.add(
+            CardBlocks.tip(
+                `Rewrite URLs in "${objectName}" adding the <code>https</code> protocol`,
+                [what, why, how],
+                Specs.structuredData.reference,
+                25
+            )
         )
     )
 }
@@ -81,7 +84,14 @@ export const imageUrlIsEmpty = (cardPromise: Promise<Card>, objectName: string) 
         `If you don't intend to provide this url, just remove the property <code>${objectName}</code> from the page <code>JSON-LD</code>.`
     )
     cardPromise.then(card =>
-        card.addTip(`Replace the empty URL in "${objectName}".`, [what, why, how], Specs.structuredData.reference, 25)
+        card.add(
+            CardBlocks.tip(
+                `Replace the empty URL in "${objectName}".`,
+                [what, why, how],
+                Specs.structuredData.reference,
+                25
+            )
+        )
     )
 }
 
@@ -96,7 +106,14 @@ export const repeatedSchemas = (card: Card, objectName: string, occurrences: num
     const how = tipHow(
         `Consider removing the duplicates and merging the information about the ${objectName} into one single snippet.`
     )
-    card.addTip(`Merge the "${objectName}" Data Structures`, [what, why, how], Specs.structuredData.reference, 25)
+    card.add(
+        CardBlocks.tip(
+            `Merge the "${objectName}" Data Structures`,
+            [what, why, how],
+            Specs.structuredData.reference,
+            25
+        )
+    )
 }
 
 export const noStructuredData = (card: Card) => {
@@ -113,7 +130,7 @@ export const noStructuredData = (card: Card) => {
         `Add Structured Data to each page of your website. There are 3 available formats: JSON-LD, MicroData and RDFa. Google recommends to use <code>JSON-LD</code>.`,
         `<code>JSON-LD</code> is also the easiest format to create and to maintain.`
     )
-    card.addTip(`Add Structured Data To the Page`, [what, why, how], Specs.structuredData.howToUseIt, 85)
+    card.add(CardBlocks.tip(`Add Structured Data To the Page`, [what, why, how], Specs.structuredData.howToUseIt, 85))
 }
 
 export const invalidSyntax = (card: Card) => {
@@ -122,7 +139,7 @@ export const invalidSyntax = (card: Card) => {
         `Invalid Structured Data can block the Search Engine spiders/bots from efficiently indexing the page.`
     )
     const how = tipHow(`Fix the LD-JSON code to benefit from the inclusion of Structured Data in the page.`)
-    card.addTip(`Fix the Invalid Structured Data`, [what, why, how], Specs.structuredData.reference, 75)
+    card.add(CardBlocks.tip(`Fix the Invalid Structured Data`, [what, why, how], Specs.structuredData.reference, 75))
 }
 
 export const imagesNotFound = (cardPromise: Promise<Card>, images: iImageElement[]) => {
@@ -132,7 +149,7 @@ export const imagesNotFound = (cardPromise: Promise<Card>, images: iImageElement
             plural ? `a set of ${images.length.toFixed()} images` : `An image`
         } listed in the Structured Data.`
     )
-    const table = Card.tableBlock(
+    const table = CardBlocks.table(
         `List of Missing Images`,
         images.map(img => [img.src]),
         'list-style'
@@ -145,6 +162,13 @@ export const imagesNotFound = (cardPromise: Promise<Card>, images: iImageElement
         `If the image is missing, then upload the image at the specified url ASAP.`
     )
     cardPromise.then(card =>
-        card.addTip(`Add Missing Image To Structured Data`, [what, table, why, how], Specs.structuredData.reference, 75)
+        card.add(
+            CardBlocks.tip(
+                `Add Missing Image To Structured Data`,
+                [what, table, why, how],
+                Specs.structuredData.reference,
+                75
+            )
+        )
     )
 }

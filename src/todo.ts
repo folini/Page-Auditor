@@ -111,27 +111,27 @@ export const open = (url: string, title: string) => {
                 parseInt(a.firstElementChild!.getAttribute('data-severity') as string)
         )
         .map(child => {
-            const titleDiv = child.getElementsByClassName('tip-title')!.item(0) as HTMLDivElement
-            titleDiv.innerHTML = titleDiv.innerHTML
-            titleDiv.style.setProperty(
+            const labelDiv = child.getElementsByClassName('box-label')!.item(0) as HTMLDivElement
+            labelDiv.innerHTML = labelDiv.innerHTML
+            labelDiv.style.setProperty(
                 '--severity-color',
-                severityColorMap(parseInt(titleDiv.getAttribute('data-severity') as string))
+                severityColorMap(parseInt(labelDiv.getAttribute('data-severity') as string))
             )
             return child
         })
         .forEach(child => reportInnerCOntainer.append(child.cloneNode(true)))
 
-    const titles = [...reportInnerCOntainer.getElementsByClassName('label-close')]
+    const labels = [...reportInnerCOntainer.getElementsByClassName('label-close')]
 
-    titles.forEach(title => {
-        title.addEventListener('click', () => Card.Card.toggleBlock(title as HTMLElement))
+    labels.forEach(label => {
+        label.addEventListener('click', () => Card.Card.toggleBlock(label.parentElement as HTMLElement))
     })
 
     btn.addEventListener('click', () => {
         type Cmd = 'open' | 'close'
         const cmd = btn.innerText === 'Open All' ? 'open' : 'close'
         btn.innerText = cmd === 'open' ? 'Close All' : 'Open All'
-        titles.forEach(title =>
+        labels.forEach(title =>
             cmd === 'open' ? Card.Card.openBlock(title as HTMLElement) : Card.Card.closeBlock(title as HTMLElement)
         )
     })

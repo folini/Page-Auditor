@@ -11,7 +11,7 @@ import {Specs} from '../specs'
 import * as File from '../file'
 
 export interface iTagValidator {
-    (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string, tabUrl :string): void
+    (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string, tabUrl: string): void
 }
 
 export const noValidation = (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string, tabUrl: string) => {}
@@ -211,7 +211,6 @@ export const twitterTags = (card: Card, allTags: iTag[], selectedTags: iTag[], c
                     })
                     .catch(() => {
                         Tips.MetaTags.tagImageNotFound(card, 'Twitter', imgTag)
-                        card.hideElement(`.preview-img`)
                     })
             }
         }
@@ -373,7 +372,6 @@ export const openGraphTags = (card: Card, allTags: iTag[], selectedTags: iTag[],
                     })
                     .catch(() => {
                         Tips.MetaTags.tagImageNotFound(card, 'Facebook', imgTag)
-                        card.hideElement(`.preview-img`)
                     })
             }
             if (!imgTag.value.startsWith('http')) {

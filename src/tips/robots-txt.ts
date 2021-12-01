@@ -5,7 +5,7 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card} from '../card'
-import {codeBlock} from '../codeBlock'
+import * as CardBlocks from '../card-blocks'
 import {Mode} from '../colorCode'
 import {Specs} from '../specs'
 import {tipWhat, tipWhy, tipHow} from './tips'
@@ -15,7 +15,7 @@ import {tipWhat, tipWhy, tipHow} from './tips'
 export const duplicateSitemapsLink = (card: Card, urls: string[]) => {
     urls = [...new Set(urls)]
     const what = tipWhat(`The <code>robots.txt</code> file links multiple times the same sitemap's url.`)
-    const table = Card.tableBlock(
+    const table = CardBlocks.table(
         `List of the duplicate Urls`,
         urls.map(url => [url]),
         'list-style'
@@ -27,11 +27,13 @@ export const duplicateSitemapsLink = (card: Card, urls: string[]) => {
     const how = tipHow(
         `Update <code>robots.txt</code> making sure each <code>sitemap.xml</code> file is mentioned only one time.`
     )
-    card.addTip(
-        `Remove Duplicate <code>Sitemap.xml</code> Links`,
-        [what, table, why, how],
-        Specs.robotsTxt.reference,
-        25
+    card.add(
+        CardBlocks.tip(
+            `Remove Duplicate <code>Sitemap.xml</code> Links`,
+            [what, table, why, how],
+            Specs.robotsTxt.reference,
+            25
+        )
     )
 }
 
@@ -47,21 +49,23 @@ export const unsafeSitemapLink = (card: Card, urls: string[]) => {
     const how = tipHow(
         `Update <code>robots.txt</code> replacing in all links <code>http:</code> with <code>https:</code> protocol.`
     )
-    const tableWrongUrls = Card.tableBlock(
+    const tableWrongUrls = CardBlocks.table(
         `List of Unsafe Urls`,
         urls.map(url => [url]),
         'list-style'
     )
-    const tableFixedUrls = Card.tableBlock(
+    const tableFixedUrls = CardBlocks.table(
         `Lis of How Urls Should Be`,
         urls.map(url => url.replace('http:', 'https:')).map(url => [url]),
         'list-style'
     )
-    card.addTip(
-        `Update The Unsafe <code>Sitemap.xml</code> Link`,
-        [what, why, how, tableWrongUrls, tableFixedUrls],
-        Specs.robotsTxt.reference,
-        35
+    card.add(
+        CardBlocks.tip(
+            `Update The Unsafe <code>Sitemap.xml</code> Link`,
+            [what, why, how, tableWrongUrls, tableFixedUrls],
+            Specs.robotsTxt.reference,
+            35
+        )
     )
 }
 
@@ -77,21 +81,23 @@ export const doubleDashSitemapLink = (card: Card, urls: string[]) => {
     const how = tipHow(
         `Update <code>robots.txt</code> replacing in all links <code>http:</code> with <code>https:</code> protocol.`
     )
-    const tableWrongUrls = Card.tableBlock(
+    const tableWrongUrls = CardBlocks.table(
         `List of ${urls.length} Url${plural} To Fix`,
         urls.map(url => [url]),
         'list-style'
     )
-    const tableFixedUrls = Card.tableBlock(
+    const tableFixedUrls = CardBlocks.table(
         `How Your Url${plural} Should Be Changed`,
         urls.map(url => url.replace(/(https?:.*)(\/\/)(.*)/i, '$1/$3')).map(url => [url]),
         'list-style'
     )
-    card.addTip(
-        `Update The Syntactically Incorrect <code>Sitemap.xml</code> Links`,
-        [what, why, how, tableWrongUrls, tableFixedUrls],
-        Specs.robotsTxt.reference,
-        35
+    card.add(
+        CardBlocks.tip(
+            `Update The Syntactically Incorrect <code>Sitemap.xml</code> Links`,
+            [what, why, how, tableWrongUrls, tableFixedUrls],
+            Specs.robotsTxt.reference,
+            35
+        )
     )
 }
 
@@ -104,14 +110,16 @@ export const addSitemapLink = (card: Card, domain: string) => {
     const how = tipHow(
         `If you have a Sitemap-Index file, you can include the location of just that file, and you don't need to list each individual Sitemap listed in the index file.`,
         `Add the link to your <code>sitemap.xml</code> to the <code>robots.txt</code> file with a line similar to the following:`,
-        codeBlock(`Sitemap: ${domain}/sitemap.xml`, Mode.txt),
+        CardBlocks.code(`Sitemap: ${domain}/sitemap.xml`, Mode.txt),
         `This directive is independent of the user-agent line, so it doesn't matter where you place it in your file.`
     )
-    card.addTip(
-        `Link Your <code>Sitemap.xml</code> From <code>Robots.txt</code>`,
-        [what, why, how],
-        Specs.robotsTxt.reference,
-        50
+    card.add(
+        CardBlocks.tip(
+            `Link Your <code>Sitemap.xml</code> From <code>Robots.txt</code>`,
+            [what, why, how],
+            Specs.robotsTxt.reference,
+            50
+        )
     )
 }
 
@@ -124,7 +132,9 @@ export const malformedRobotsTxt = (card: Card) => {
         `But, it's important for the <code>robots.txt</code> file to be consistent with the standard syntax.`
     )
     const how = tipHow(`Double check the syntax of the <code>robots.txt</code> and update it ASAP.`)
-    card.addTip(`Fix Your <code>Robots.txt</code> File Syntax`, [what, why, how], Specs.robotsTxt.reference, 75)
+    card.add(
+        CardBlocks.tip(`Fix Your <code>Robots.txt</code> File Syntax`, [what, why, how], Specs.robotsTxt.reference, 75)
+    )
 }
 
 export const emptyRobotsTxt = (card: Card) => {
@@ -139,7 +149,14 @@ export const emptyRobotsTxt = (card: Card) => {
         `Typical examples of pages you don't want to be indexed are login pages, account pages, cart pages, order confirmation pages.`,
         `Also any temporary page you might have in your website should be disallowed in the <code>robots.txt</code> file.`
     )
-    card.addTip(`Add Content to the Empty <code>Robots.txt</code>`, [what, why, how], Specs.robotsTxt.reference, 40)
+    card.add(
+        CardBlocks.tip(
+            `Add Content to the Empty <code>Robots.txt</code>`,
+            [what, why, how],
+            Specs.robotsTxt.reference,
+            40
+        )
+    )
 }
 
 export const missingRobotsTxt = (card: Card) => {
@@ -154,14 +171,14 @@ export const missingRobotsTxt = (card: Card) => {
         `To begin, you can write as a simple text file and upload it to your website.`,
         `Many website platform provide tools or option to automatically create a <code>robots.txt</code> file for you.`
     )
-    card.addTip(`Add a <code>Robots.txt</code> file`, [what, why, how], Specs.robotsTxt.reference, 80)
+    card.add(CardBlocks.tip(`Add a <code>Robots.txt</code> file`, [what, why, how], Specs.robotsTxt.reference, 80))
 }
 
 export const sitemapLinkWithRelativePath = (card: Card, relUrl: string, absUrl: string) => {
     const what = tipWhat(
         `The <code>robots.txt</code> file lists <code>sitemap.xml</code> url with a relative path.`,
         `This is the incorrect line:`,
-        codeBlock(`Sitemap: ${relUrl}`, Mode.txt)
+        CardBlocks.code(`Sitemap: ${relUrl}`, Mode.txt)
     )
     const why = tipWhy(
         `All links to a sitemap from the <code>robots.txt</code> must be absolute!`,
@@ -171,13 +188,15 @@ export const sitemapLinkWithRelativePath = (card: Card, relUrl: string, absUrl: 
     const how = tipHow(
         `Update the link to your <code>sitemap.xml</code> from the <code>robots.txt</code> with an absolute path. Absolute paths starts with <code>https:</code>.`,
         `The correct line with the link should look like this:`,
-        codeBlock(`Sitemap: ${absUrl}`, Mode.txt)
+        CardBlocks.code(`Sitemap: ${absUrl}`, Mode.txt)
     )
-    card.addTip(
-        `Change links in your <code>Robots.txt</code> file to absolute`,
-        [what, why, how],
-        Specs.robotsTxt.reference,
-        60
+    card.add(
+        CardBlocks.tip(
+            `Change links in your <code>Robots.txt</code> file to absolute`,
+            [what, why, how],
+            Specs.robotsTxt.reference,
+            60
+        )
     )
 }
 
@@ -185,7 +204,7 @@ export const sitemapLinkedNotFound = (card: Card, url: string) => {
     const what = tipWhat(
         `The <code>robots.txt</code> file lists <code>sitemap.xml</code> url pointing to a file that doesn't exist.`,
         `This is the broken link:`,
-        codeBlock(url, Mode.txt)
+        CardBlocks.code(url, Mode.txt)
     )
     const why = tipWhy(
         `Linking your <code>sitemap.xml</code> from <code>robots.txt</code> makes the sitemap discoverable for all search-engines.`,
@@ -194,10 +213,12 @@ export const sitemapLinkedNotFound = (card: Card, url: string) => {
     const how = tipHow(
         `Move your sitemap to the location specified in the <code>robots.txt</code> or, keep the sitemap where it is and update the link.`
     )
-    card.addTip(
-        `Update the Broken Link in Your <code>Robots.txt</code> File`,
-        [what, why, how],
-        Specs.robotsTxt.reference,
-        50
+    card.add(
+        CardBlocks.tip(
+            `Update the Broken Link in Your <code>Robots.txt</code> File`,
+            [what, why, how],
+            Specs.robotsTxt.reference,
+            50
+        )
     )
 }

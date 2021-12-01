@@ -6,7 +6,7 @@
 // ----------------------------------------------------------------------------
 import {Card, CardKind} from '../card'
 import {Mode} from '../colorCode'
-import {codeBlock} from '../codeBlock'
+import * as CardBlocks from '../card-blocks'
 import {SmSource, iSmCandidate} from '../sitemapList'
 import {target as Platform} from '../../package.json'
 
@@ -18,10 +18,10 @@ export class Errors {
         const msg2 = `Please launch <i>Page Auditor for Technical SEO</i> on a regular web page.`
         return new Card(CardKind.error)
             .setLogo(Platform === 'Chrome' ? 'icon-chromium' : 'icon-edge')
-            .addParagraph(msg1)
-            .addParagraph(msg2)
+            .add(CardBlocks.paragraph(msg1))
+            .add(CardBlocks.paragraph(msg2))
             .setTitle(`Unable To Analyze <code>${Platform === 'Chrome' ? 'chrome:' : 'edge:'}</code> Tabs`)
-            .tag('card-error')
+            .setTag('card-error')
     }
 
     public static browser_TabUrlUndefined() {
@@ -29,10 +29,10 @@ export class Errors {
         const msg2 = `Please re-launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
         return new Card(CardKind.error)
             .setLogo(Platform === 'Chrome' ? 'icon-chromium' : 'icon-edge')
-            .addParagraph(msg1)
-            .addParagraph(msg2)
+            .add(CardBlocks.paragraph(msg1))
+            .add(CardBlocks.paragraph(msg2))
             .setTitle(`${Platform} Tab Undefined`)
-            .tag('card-error')
+            .setTag('card-error')
     }
 
     public static browser_UnableToAnalyzePage(url: string) {
@@ -40,11 +40,11 @@ export class Errors {
         const msg2 = `Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
         return new Card(CardKind.error)
             .setLogo(Platform === 'Chrome' ? 'icon-chromium' : 'icon-edge')
-            .addParagraph(msg1)
-            .addCodeBlock(url, Mode.txt)
-            .addParagraph(msg2)
+            .add(CardBlocks.paragraph(msg1))
+            .add(CardBlocks.paragraph(url, Mode.txt))
+            .add(CardBlocks.paragraph(msg2))
             .setTitle(`Unable To Analyze ${Platform} Pages`)
-            .tag('card-error')
+            .setTag('card-error')
     }
 
     // ------------------------------------------------------------------------
@@ -61,12 +61,12 @@ export class Errors {
         const btnLabel = `Invalid Sitemap.xml`
         return new Card(CardKind.error)
             .setLogo('icon-sitemap')
-            .addParagraph(msg1)
-            .addCodeBlock(sm.url, Mode.txt)
-            .addParagraph(msg2)
-            .addExpandableBlock(btnLabel, codeBlock(code, Mode.html))
+            .add(CardBlocks.paragraph(msg1))
+            .add(CardBlocks.code(sm.url, Mode.txt))
+            .add(CardBlocks.paragraph(msg2))
+            .add(CardBlocks.expandable(btnLabel, CardBlocks.code(code, Mode.html), `box-code`))
             .setTitle('Sitemap.xml Redirects to an HTML File')
-            .tag('card-error')
+            .setTag('card-error')
     }
 
     public static sitemap_404(sm: iSmCandidate) {
@@ -74,11 +74,11 @@ export class Errors {
         const msg2 = `Server returns 404 error code.`
         return new Card(CardKind.error)
             .setLogo('icon-sitemap')
-            .addParagraph(msg1)
-            .addCodeBlock(sm.url, Mode.txt)
-            .addParagraph(msg2)
+            .add(CardBlocks.paragraph(msg1))
+            .add(CardBlocks.code(sm.url, Mode.txt))
+            .add(CardBlocks.paragraph(msg2))
             .setTitle('Sitemap.xml Not Found, Code 404')
-            .tag('card-error')
+            .setTag('card-error')
     }
 
     public static sitemap_NotFound(sms: iSmCandidate[]) {
@@ -87,11 +87,11 @@ export class Errors {
         const msg2 = `File${plural} not found.`
         return new Card(CardKind.error)
             .setLogo('icon-sitemap')
-            .addParagraph(msg1)
-            .addCodeBlock(sms.map(sm => sm.url).join('<br/>'), Mode.txt)
-            .addParagraph(msg2)
+            .add(CardBlocks.paragraph(msg1))
+            .add(CardBlocks.code(sms.map(sm => sm.url).join('<br/>'), Mode.txt))
+            .add(CardBlocks.paragraph(msg2))
             .setTitle('Sitemap.xml Not Found')
-            .tag('card-error')
+            .setTag('card-error')
     }
 
     // ------------------------------------------------------------------------
@@ -102,12 +102,12 @@ export class Errors {
         const btnLabel = `Invalid Robots.Txt`
         return new Card(CardKind.error)
             .setLogo('icon-rep')
-            .addParagraph(msg1)
-            .addCodeBlock(url, Mode.txt)
-            .addParagraph(msg2)
-            .addExpandableBlock(btnLabel, codeBlock(code, Mode.html))
+            .add(CardBlocks.paragraph(msg1))
+            .add(CardBlocks.code(url, Mode.txt))
+            .add(CardBlocks.paragraph(msg2))
+            .add(CardBlocks.expandable(btnLabel, CardBlocks.code(code, Mode.html), `box-code`))
             .setTitle('Robots.Txt Redirects to an HTML File')
-            .tag('card-error')
+            .setTag('card-error')
     }
 
     public static robotsTxt_IsEmpty(url: string) {
@@ -115,10 +115,10 @@ export class Errors {
         const msg2 = `<code>Robots.Txt</code> should contain at least a directive or a comment.`
         return new Card(CardKind.error)
             .setLogo('icon-rep')
-            .addParagraph(msg1)
-            .addParagraph(msg2)
+            .add(CardBlocks.paragraph(msg1))
+            .add(CardBlocks.paragraph(msg2))
             .setTitle('The Robots.Txt File Is Empty')
-            .tag('card-error')
+            .setTag('card-error')
     }
 
     public static robotsTxt_OnlyComments(url: string, code: string) {
@@ -127,20 +127,20 @@ export class Errors {
         const btnLabel = `Robots.Txt`
         return new Card(CardKind.error)
             .setLogo('icon-rep')
-            .addParagraph(msg1)
-            .addParagraph(msg2)
-            .addExpandableBlock(btnLabel, codeBlock(code, Mode.html))
+            .add(CardBlocks.paragraph(msg1))
+            .add(CardBlocks.paragraph(msg2))
+            .add(CardBlocks.expandable(btnLabel, CardBlocks.code(code, Mode.html), `box-code`))
             .setTitle('Robots.Txt Contains Only Comments')
-            .tag('card-error')
+            .setTag('card-error')
     }
 
     public static robotsTxt_NotFound(url: string) {
         const msg1 = `<code>Robots.Txt</code> file at location <a target="_new" href="${url}">${url}</a> not found.`
         return new Card(CardKind.error)
             .setLogo('icon-rep')
-            .addParagraph(msg1)
+            .add(CardBlocks.paragraph(msg1))
             .setTitle('Robots.Txt Not Found')
-            .tag('card-error')
+            .setTag('card-error')
     }
 
     // ------------------------------------------------------------------------
@@ -149,9 +149,9 @@ export class Errors {
         const msg1 = `No JavaScript code script found.`
         return new Card(CardKind.error)
             .setLogo('icon-js')
-            .addParagraph(msg1)
+            .add(CardBlocks.paragraph(msg1))
             .setTitle('No Script Found')
-            .tag('card-error')
+            .setTag('card-error')
     }
 
     // ------------------------------------------------------------------------
@@ -160,27 +160,27 @@ export class Errors {
         const msg1 = `No Meta Tags found on page.`
         return new Card(CardKind.error)
             .setLogo('icon-tag')
-            .addParagraph(msg1)
+            .add(CardBlocks.paragraph(msg1))
             .setTitle('Page Has No Meta Tags')
-            .tag('card-error')
+            .setTag('card-error')
     }
 
     public static metaTags_noOpenGraphTags() {
         const msg1 = `The page is missing Meta Tags for Facebook (Open Graph).`
         return new Card(CardKind.error)
             .setLogo('icon-open-graph')
-            .addParagraph(msg1)
+            .add(CardBlocks.paragraph(msg1))
             .setTitle('Page Has No Open Graph Meta Tags')
-            .tag('card-error')
+            .setTag('card-error')
     }
 
     public static metaTags_noTwitterTags() {
         const msg1 = `The page is missing Meta Tags for Twitter.`
         return new Card(CardKind.error)
             .setLogo('icon-twitter')
-            .addParagraph(msg1)
+            .add(CardBlocks.paragraph(msg1))
             .setTitle('Page Has No Twitter Meta Tags')
-            .tag('card-error')
+            .setTag('card-error')
     }
 
     // ------------------------------------------------------------------------
@@ -189,30 +189,30 @@ export class Errors {
         const msg1 = `No <i>Structured Data</i> was found at location:`
         return new Card(CardKind.error)
             .setLogo('icon-micro-formats')
-            .addParagraph(msg1)
-            .addCodeBlock(url, Mode.txt)
+            .add(CardBlocks.paragraph(msg1))
+            .add(CardBlocks.code(url, Mode.txt))
             .setTitle('Page Has No Structured Data')
-            .tag('card-error')
+            .setTag('card-error')
     }
 
     public static sd_IsEmpty(url: string) {
         const msg1 = `The <i>Structured Data</i> snippet found at following location appears to be empty:`
         return new Card(CardKind.error)
             .setLogo('icon-micro-formats')
-            .addParagraph(msg1)
-            .addCodeBlock(url, Mode.txt)
+            .add(CardBlocks.paragraph(msg1))
+            .add(CardBlocks.code(url, Mode.txt))
             .setTitle('Structured Data Is Present But Empty')
-            .tag('card-error')
+            .setTag('card-error')
     }
 
     public static sd_InvalidJSON(json: string) {
         const msg1 = `A Structured data JSON script contains the following invalid JSON code.`
         return new Card(CardKind.error)
             .setLogo('icon-micro-formats')
-            .addParagraph(msg1)
-            .addExpandableBlock('Invalid JSON Code', codeBlock(json, Mode.txt))
+            .add(CardBlocks.paragraph(msg1))
+            .add(CardBlocks.expandable('Invalid JSON Code', CardBlocks.code(json, Mode.txt), `box-code`))
             .setTitle('Invalid LD-JSON Code')
-            .tag('card-error')
+            .setTag('card-error')
     }
 
     // ------------------------------------------------------------------------
@@ -222,10 +222,10 @@ export class Errors {
         const msg2 = `This is an internal error.`
         return new Card(CardKind.error)
             .setLogo('icon-error')
-            .addParagraph(msg1)
-            .addParagraph(msg2)
+            .add(CardBlocks.paragraph(msg1))
+            .add(CardBlocks.paragraph(msg2))
             .setTitle('Internal Error')
-            .tag('card-error')
+            .setTag('card-error')
     }
 
     public static internal_fromError(err: Error, optMsg: string = '') {
@@ -237,12 +237,12 @@ export class Errors {
         const msg5 = optMsg !== '' ? `<div>${optMsg}</div>` : ''
         return new Card(CardKind.error)
             .setLogo('icon-error')
-            .addParagraph(msg1)
-            .addParagraph(msg2)
-            .addParagraph(msg3)
-            .addParagraph(msg4)
-            .addParagraph(msg5)
+            .add(CardBlocks.paragraph(msg1))
+            .add(CardBlocks.paragraph(msg2))
+            .add(CardBlocks.paragraph(msg3))
+            .add(CardBlocks.paragraph(msg4))
+            .add(CardBlocks.paragraph(msg5))
             .setTitle('Generic Error')
-            .tag('card-error')
+            .setTag('card-error')
     }
 }

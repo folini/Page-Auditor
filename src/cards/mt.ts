@@ -7,7 +7,7 @@
 import * as Tips from '../tips/tips'
 import {Report} from '../report'
 import {Card, CardKind} from '../card'
-import {codeBlock} from '../codeBlock'
+import * as CardBlocks from '../card-blocks'
 import {Mode} from '../colorCode'
 import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../main'
 import {tagCategories, iTagCategory} from './mt-categories'
@@ -151,10 +151,10 @@ export const metaTagsCard = (
 
     const card = new Card(CardKind.report)
         .open(`Detected Meta Tags`, tagCategory.title, tagCategory.cssClass)
-        .addParagraph(tagCategory.description)
-        .addHtmlElement(Card.tableBlock(`Tags Analysis`, table))
-        .addExpandableBlock('HTML Code', codeBlock(selectedTagsAsString, Mode.html))
-        .tag('card-ok')
+        .add(CardBlocks.paragraph(tagCategory.description))
+        .add(CardBlocks.table(`Tags Analysis`, table))
+        .add(CardBlocks.expandable('HTML Code', CardBlocks.code(selectedTagsAsString, Mode.html), `box-code`))
+        .setTag('card-ok')
 
     tagCategory.previewer(card, allTags, selectedTags, canonical, title, url)
     tagCategory.validator(card, allTags, selectedTags, canonical, url)

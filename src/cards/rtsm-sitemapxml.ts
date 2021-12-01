@@ -8,7 +8,7 @@ import * as Tips from '../tips/tips'
 import * as File from '../file'
 import {Report} from '../report'
 import {Card, CardKind} from '../card'
-import {codeBlock} from '../codeBlock'
+import * as CardBlocks from '../card-blocks'
 import {Errors} from './errors'
 import {Mode} from '../colorCode'
 import {disposableId, formatNumber} from '../main'
@@ -36,11 +36,11 @@ const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
 
                 const card = new Card(CardKind.report)
                     .open(`Detected Sitemap #${sitemaps.doneList.length + 1} (Compressed)`, fileName, 'icon-sitemap')
-                    .addParagraph(`Found a compressed <code>sitemap.xml</code> file at the url:`)
-                    .addCodeBlock(sm.url, Mode.txt)
-                    .addHtmlElement(Card.tableBlock('Sitemap Analysis', table))
-                    .addParagraph(`Unable to display the content of compressed files.`)
-                    .tag('card-ok')
+                    .add(CardBlocks.paragraph(`Found a compressed <code>sitemap.xml</code> file at the url:`))
+                    .add(CardBlocks.code(sm.url, Mode.txt))
+                    .add(CardBlocks.table('Sitemap Analysis', table))
+                    .add(CardBlocks.paragraph(`Unable to display the content of compressed files.`))
+                    .setTag('card-ok')
                 report.addCard(card)
                 sitemaps.addDone(sm)
                 File.exists(sm.url, File.xmlContentType).catch(() =>
@@ -97,12 +97,12 @@ const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
 
             const card = new Card(CardKind.report)
                 .open(`Detected Sitemap  #${sitemaps.doneList.length + 1}`, fileName, 'icon-sitemap')
-                .addParagraph(`Found a <code>sitemap.xml</code> file at the url:`)
-                .addCodeBlock(sm.url, Mode.txt)
-                .addParagraph(sitemapXmlDescription)
-                .addHtmlElement(Card.tableBlock('Sitemap Analysis', table))
-                .addExpandableBlock(btnLabel, codeBlock(sitemapBody, Mode.xml, divId))
-                .tag('card-ok')
+                .add(CardBlocks.paragraph(`Found a <code>sitemap.xml</code> file at the url:`))
+                .add(CardBlocks.code(sm.url, Mode.txt))
+                .add(CardBlocks.paragraph(sitemapXmlDescription))
+                .add(CardBlocks.table('Sitemap Analysis', table))
+                .add(CardBlocks.expandable(btnLabel, CardBlocks.code(sitemapBody, Mode.xml, divId), 'box-code'))
+                .setTag('card-ok')
 
             report.addCard(card)
 

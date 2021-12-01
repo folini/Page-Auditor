@@ -7,6 +7,7 @@
 import {iTag} from './mt'
 import {Card} from '../card'
 import * as File from '../file'
+import * as CardBlocks from '../card-blocks'
 import {htmlEncode} from 'js-htmlencode'
 
 export interface iTagPreviewer {
@@ -40,16 +41,18 @@ export const stdTags: iTagPreviewer = (
     const description = selectedTags.find(m => m.label.toLowerCase() === 'description')?.value || ''
     const title = selectedTags.find(m => m.label.toLowerCase() === 'title')?.value || tabTitle
 
-    card.addPreview(
-        `<div class='box-label label-close'>Google SERP Preview</div>` +
-            `<div class='box-body body-close'>` +
-            `<div class='serp-body'>` +
-            `<div class='serp-card-url'>${tabUrl}</div>` +
-            `<div class='serp-card-title'>${title}</div>` +
-            `<div class='serp-card-description'>${description}</div>` +
-            `</div>` +
-            `</div>`,
-        'serp-card'
+    card.add(
+        CardBlocks.expandable(
+            `Google SERP Preview`,
+            CardBlocks.paragraph(
+                `<div class='serp-body'>` +
+                    `<div class='serp-card-url'>${tabUrl}</div>` +
+                    `<div class='serp-card-title'>${title}</div>` +
+                    `<div class='serp-card-description'>${description}</div>` +
+                    `</div>`
+            ),
+            'serp-card box-open'
+        )
     )
 }
 
@@ -85,7 +88,9 @@ export const twitterTags: iTagPreviewer = (
 
     url = File.rootDomain(url)
 
-    img = img.replace('http://', 'https://') || ''
+    if (img.startsWith('http://')) {
+        img = img.replace('http://', 'https://')
+    }
     if (img.startsWith('//')) {
         img = `https:${img}`
     }
@@ -93,23 +98,25 @@ export const twitterTags: iTagPreviewer = (
         img = `${new URL(tabUrl).origin}${img}`
     }
 
-    card.addPreview(
-        `<div class='box-label label-close'>Twitter Preview</div>` +
-            `<div class='box-body body-close'>` +
-            (img.length > 0 && img.startsWith('http') ? `<img class='preview-img' src='${img}'/>` : ``) +
-            `<div class='preview-legend'>` +
-            (url.length > 0 ? `<div class='twitter-card-domain'>${url}</div>` : '') +
-            `<div class='twitter-card-title'>${htmlEncode(title)}</div>` +
-            `<div class='twitter-card-description'>${htmlEncode(description)}</div>` +
-            `</div>` +
-            `</div>` +
-            `</div>`,
-        'twitter-card'
+    card.add(
+        CardBlocks.expandable(
+            'Twitter Preview',
+            CardBlocks.paragraph(
+                (img.length > 0 && img.startsWith('http') ? `<img class='preview-img' src='${img}'/>` : ``) +
+                    `<div class='preview-legend'>` +
+                    (url.length > 0 ? `<div class='twitter-card-domain'>${url}</div>` : '') +
+                    `<div class='twitter-card-title'>${htmlEncode(title)}</div>` +
+                    `<div class='twitter-card-description'>${htmlEncode(description)}</div>` +
+                    `</div>`
+            ),
+            'twitter-card'
+        )
     )
 
-    if (!img.startsWith('http')) {
-        card.hideElement(`.preview-img`)
-    }
+    File.exists(img, File.imageContentType).catch(() => {
+        const imgElement = card.getDiv().querySelector('.preview-img') as HTMLImageElement
+        imgElement.src = '../logos/_noRendering_400x200.png'
+    })
 }
 
 export const openGraphTags: iTagPreviewer = (
@@ -149,21 +156,23 @@ export const openGraphTags: iTagPreviewer = (
     }
     description = description.length < 214 ? description : description.substr(0, 214) + '...'
 
-    card.addPreview(
-        `<div class="box-label label-close">Facebook Preview</div>` +
-            `<div class='box-body body-close'>` +
-            (img.length > 0 ? `<img class='preview-img' src='${img}'/>` : ``) +
-            `<div class='preview-legend'>` +
-            (url.length > 0 ? `<div class='open-graph-card-domain'>${url.toUpperCase()}</div>` : '') +
-            `<h2>${htmlEncode(title)}</h2>` +
-            `<div class='og-description'>${htmlEncode(description)}</div>` +
-            `</div>` +
-            `</div>` +
-            `</div>`,
-        'facebook-card'
+    card.add(
+        CardBlocks.expandable(
+            'Facebook / Open-Graph Preview',
+            CardBlocks.paragraph(
+                (img.length > 0 ? `<img class='preview-img' src='${img}'/>` : ``) +
+                    `<div class='preview-legend'>` +
+                    (url.length > 0 ? `<div class='open-graph-card-domain'>${url.toUpperCase()}</div>` : '') +
+                    `<h2>${htmlEncode(title)}</h2>` +
+                    `<div class='og-description'>${htmlEncode(description)}</div>` +
+                    `</div>`
+            ),
+            'facebook-card'
+        )
     )
 
-    if (!img.startsWith('https://')) {
-        card.hideElement(`.preview-img`)
-    }
+    File.exists(img, File.imageContentType).catch(() => {
+        const imgElement = card.getDiv().querySelector('.preview-img') as HTMLImageElement
+        imgElement.src = '../logos/_noRendering_400x200.png'
+    })
 }
