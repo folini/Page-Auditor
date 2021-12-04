@@ -7,10 +7,6 @@
 import * as Card from './card'
 import {version as versionNumber} from '../package.json'
 
-const shadowDoc: Document = document.implementation.createHTMLDocument('ToDo List')
-
-export const add = (tip: HTMLElement) => shadowDoc.body.append(tip)
-
 export const open = (url: string, title: string) => {
     const width = 600
     const height = 800

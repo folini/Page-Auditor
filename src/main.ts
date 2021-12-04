@@ -10,10 +10,10 @@ import './styles/style.less'
 import './logos/Logo_256x256.png'
 
 import {Report} from './report'
-import {Mode} from './colorCode'
-import {Errors} from './cards/errors'
 import {Card} from './card'
 import {version as versionNumber} from '../package.json'
+import {iWorkerRenderJob as iRenderTask} from './worker'
+import * as Errors from './cards/errors'
 import * as JsonLd from './cards/sd'
 import * as Scripts from './cards/scripts'
 import * as Credits from './cards/about'
@@ -23,9 +23,7 @@ import * as Tips from './tips/tips'
 import * as Html from './cards/html'
 import * as Spinner from './spinner'
 import * as Todo from './todo'
-import {iWorkerRenderJob as iRenderTask} from './worker'
 
-export type NoArgsNoReturnFunc = () => void
 export type CodeInjectorFunc = (() => any) | null
 export type ReportGeneratorFunc = (url: string, data: any, report: Report) => void
 

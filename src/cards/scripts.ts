@@ -6,13 +6,13 @@
 // ----------------------------------------------------------------------------
 import {Card, iLink, CardKind} from '../card'
 import {Report} from '../report'
-import {sectionActions, NoArgsNoReturnFunc, disposableId, CodeInjectorFunc} from '../main'
+import {sectionActions, CodeInjectorFunc} from '../main'
 import {Mode} from '../colorCode'
 import * as CardBlocks from '../card-blocks'
-import {Errors} from './errors'
+import * as Errors from './errors'
 import * as Tips from '../tips/tips'
 import * as File from '../file'
-import {Info} from './info'
+import * as Info from './info'
 
 const listOfScriptClasses = require('../jsons/scriptClasses.json') as iTrackClass[]
 

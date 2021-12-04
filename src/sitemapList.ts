@@ -66,10 +66,6 @@ export class SmList {
         return sitemaps
     }
 
-    public static maxSitemapsToLoad() {
-        return maxSitemapsToLoad
-    }
-
     public withoutXmlExtension() {
         return [...this.doneList, ...this.skippedList, ...this.failedList]
             .map(sm => sm.url)

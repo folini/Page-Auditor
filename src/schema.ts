@@ -14,10 +14,6 @@ export interface iJsonLD {
     [name: string | '@type' | '@id']: string | string[] | iJsonLD[] | iJsonLD
 }
 
-export interface iJsonLevel {
-    depth: number
-}
-
 export interface iImageElement {
     src: string
     id: string

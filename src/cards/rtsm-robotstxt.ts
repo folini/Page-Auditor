@@ -9,7 +9,7 @@ import * as File from '../file'
 import {Report} from '../report'
 import {Card, CardKind} from '../card'
 import * as CardBlocks from '../card-blocks'
-import {Errors} from './errors'
+import * as Errors from './errors'
 import {Mode} from '../colorCode'
 import {disposableId, formatNumber} from '../main'
 

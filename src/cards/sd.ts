@@ -7,7 +7,7 @@
 import {Report} from '../report'
 import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../main'
 import {ldJsonCard} from './sd-functions'
-import {Errors} from './errors'
+import * as Errors from './errors'
 import * as Tips from '../tips/tips'
 import {Schema} from '../schema'
 import {Card} from '../card'

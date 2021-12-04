@@ -207,6 +207,7 @@
 			"yimg",
 			"youtube",
 			"zync"
-		]
+		],
+		"typescript.referencesCodeLens.enabled": true
 	}
 }

@@ -11,7 +11,7 @@ import * as CardBlocks from '../card-blocks'
 import {Mode} from '../colorCode'
 import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../main'
 import {tagCategories, iTagCategory} from './mt-categories'
-import {Errors} from './errors'
+import * as Errors from './errors'
 
 export interface iTag {
     label: string

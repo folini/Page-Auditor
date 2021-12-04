@@ -8,13 +8,15 @@ import {MustBeUniqueOccurrences} from './sd'
 import {Card, CardKind} from '../card'
 import {Mode} from '../colorCode'
 import {disposableId} from '../main'
-import * as CardBlocks from '../card-blocks'
 import {Report} from '../report'
-import * as Tips from '../tips/tips'
-import {Errors} from './errors'
 import {Schema} from '../schema'
+import * as CardBlocks from '../card-blocks'
+import * as Tips from '../tips/tips'
+import * as Errors from './errors'
 
 import '../logos/_noRendering_400x200.png'
+
+const schemaTypesWithMustBeUniqueOccurrences: string[] = ['Organization', 'WebSite', 'BreadcrumbList']
 
 export const ldJsonCard = (schema: Schema, tabUrl: string, occurrences: MustBeUniqueOccurrences, report: Report) => {
     if (schema.isEmpty()) {
@@ -51,7 +53,7 @@ export const ldJsonCard = (schema: Schema, tabUrl: string, occurrences: MustBeUn
         )
     }
 
-    ;['Organization', 'WebSite', 'BreadcrumbList']
+    schemaTypesWithMustBeUniqueOccurrences
         .filter(schema => schema === schemaType)
         .forEach(schemaType => {
             if (Schema.getSchemaCounter(schemaType) > 1) {
