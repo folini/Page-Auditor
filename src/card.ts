@@ -4,9 +4,6 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import * as CardBlocks from './card-blocks'
-import * as Todo from './todo'
-
 export interface iLink {
     label: string
     url: string
@@ -25,7 +22,6 @@ export class Card {
     #body: HTMLDivElement
     #kind: CardKind
     #footer: HTMLDivElement
-    static #tipNumber: number = 1
 
     constructor(kind: CardKind) {
         this.#div = document.createElement('div')
@@ -111,24 +107,6 @@ export class Card {
         return this
     }
 
-    public addTipDiv(div: HTMLDivElement) {
-        this.#body.append(div)
-        this.setTag('card-fix')
-        Todo.add(div.cloneNode(true) as HTMLElement)
-        return this
-    }
-
-    public getTips() {
-        return [...this.#div.getElementsByClassName('box-tip')] as HTMLDivElement[]
-    }
-
-    public hideElement = (selector: string) => {
-        const img = this.#div.querySelector(selector) as HTMLImageElement
-        if (img) {
-            img.style.display = 'none'
-        }
-    }
-
     static toggleBlock(body: HTMLElement) {
         body.classList.toggle('box-close')
         body.classList.toggle('box-open')
@@ -150,7 +128,7 @@ export class Card {
             .writeText(txt)
             .then(() => alert(`Code copied to clipboard: \n ${txt}`))
             .catch(() => {
-                // On the extension secondary window clipboard API doesn't work
+                // On the extension secondary window, clipboard API doesn't work
                 // We need to go the old way
                 const copyFrom = document.createElement('textarea')
                 copyFrom.textContent = txt

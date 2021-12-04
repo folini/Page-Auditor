@@ -130,7 +130,7 @@ export const metaTagsCard = (
             if (tag.label === 'twitter:creator' || tag.label === 'twitter:site') {
                 return {
                     label: tag.label,
-                    value: `<a href='https://twitter.com/${tag.value.substr(1)}'>${tag.value}</a>`,
+                    value: `<a target='_new' href='https://twitter.com/${tag.value.substr(1)}'>${tag.value}</a>`,
                 } as iTag
             }
             return {label: tag.label, value: tag.value} as iTag

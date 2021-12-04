@@ -5,7 +5,6 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Mode} from './colorCode'
-import * as Todo from './todo'
 import {htmlEncode} from 'js-htmlencode'
 import {html_beautify, js_beautify} from 'js-beautify'
 import {sendRenderTaskToWorker, disposableId, compactUrl} from './main'

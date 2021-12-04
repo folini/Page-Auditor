@@ -45,13 +45,11 @@ export const stdTags: iTagPreviewer = (
         CardBlocks.expandable(
             `Google SERP Preview`,
             CardBlocks.paragraph(
-                `<div class='serp-body'>` +
-                    `<div class='serp-card-url'>${tabUrl}</div>` +
-                    `<div class='serp-card-title'>${title}</div>` +
-                    `<div class='serp-card-description'>${description}</div>` +
-                    `</div>`
+                `<div class='serp-url'>${tabUrl}</div>` +
+                    `<div class='serp-title'>${title}</div>` +
+                    `<div class='serp-description'>${description}</div>`
             ),
-            'serp-card box-open'
+            'box-serp'
         )
     )
 }

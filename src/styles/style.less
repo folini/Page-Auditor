@@ -271,7 +271,7 @@ body#id-page-auditor {
         cursor: pointer;
 
         .box-label {
-            &:after {
+            &:before {
                 color: #1da1f2e6;
                 content: '\f099';
             }
@@ -302,7 +302,7 @@ body#id-page-auditor {
 
     .facebook-card {
         .box-label {
-            &:after {
+            &:before {
                 color: #4267b2e6;
                 content: '\f230';
             }
@@ -333,9 +333,9 @@ body#id-page-auditor {
         }
     }
 
-    .serp-card {
+    .box-serp {
         .box-label {
-            &:after {
+            &:before {
                 color: #058300;
                 content: '\f1a0';
             }
@@ -343,22 +343,22 @@ body#id-page-auditor {
         .box-body {
             padding: 12px;
 
-            .serp-body {
-                padding: 8px;
+            > div {
                 border: solid 1px var(--border-color);
                 box-shadow: var(--inner-box-shadow);
+                padding: 8px;
 
-                .serp-card-url {
+                .serp-url {
                     font-size: 14px;
                     color: #202124;
                     padding: 1px 0 2px 0;
                 }
-                .serp-card-title {
+                .serp-title {
                     color: #1a0dab;
                     font-size: 20px;
                     padding: 5px 0 0 0;
                 }
-                .serp-card-description {
+                .serp-description {
                     font-size: 14px;
                     color: #4d5156;
                     line-height: 22.12px;
@@ -1150,39 +1150,43 @@ body#id-page-auditor {
 
 .box-sd {
     margin: 8px 0;
-
-    .box-sd.box-open {
-        .box-label {
-            border-right: 0 !important;
-            border-top-right-radius: 0 !important;
+    .box-sd {
+        &.box-open {
+            > .box-label {
+                border-right: 0 !important;
+                border-top-right-radius: 0 !important;
+                transition: margin-right, border-top-right-radius, border-bottom-right-radius 0.6s ease-in-out;
+            }
+            > .box-body {
+                border-right: 0 !important;
+                border-bottom-right-radius: 0 !important;
+            }
         }
-        .box-body {
-            border-right: 0 !important;
-            border-bottom-right-radius: 0 !important;
-        }
-    }
-    .box-sd.box-close {
-        .box-label {
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-            border-right: none;
+        &.box-close {
+            > .box-label {
+                margin-right: 8px;
+                transition: margin-right, border-top-right-radius, border-bottom-right-radius 0.6s ease-in-out;
+            }
         }
     }
 
     .box-label {
         margin-top: 16px !important;
         &.label-reference {
-            background-color: #008b8b3d;
+            color: #008b8b;
             .label-text::before {
-                content: 'Reference To ';
+                content: 'Reference To "';
+            }
+            .label-text::after {
+                content: '"';
             }
         }
-        &.label-json-icon::after {
+        &.label-json-icon::before {
             content: '\f0e8';
             color: cadetblue;
         }
         &.label-json-no-icon {
-            padding-right: 8px;
+            padding-left: 8px !important;
         }
     }
 
@@ -1252,15 +1256,28 @@ body#id-page-auditor {
         }
     }
 
-    &::after {
+    &::before {
         font-family: 'FontAwesome';
         position: absolute;
         font-size: 22px;
-        right: 4px;
         top: 6px;
-        color: var(--color-black);
+        left: 4px;
+        top: 6px;
         width: 22px;
         text-align: center;
+        color: var(--color-black);
+    }
+
+    &::after {
+        font-family: 'FontAwesome';
+        content: '\f107';
+        position: absolute;
+        font-size: 22px;
+        top: 6px;
+        right: 4px;
+        width: 22px;
+        text-align: center;
+        color: var(--color-black);
     }
 
     .small-btn {
@@ -1271,14 +1288,9 @@ body#id-page-auditor {
 .box-close {
     > .box-label {
         border-radius: 6px;
-        &::before {
-            content: '\f196';
-            font-family: FontAwesome;
-            font-size: 18px;
-            position: absolute;
-            top: 9px;
-            left: 8px;
-            opacity: 0.7;
+        &::after {
+            transform: rotate(0deg);
+            transition: transform 0.4s ease-in-out;
         }
         &:hover {
             border-color: #bbb !important;
@@ -1292,14 +1304,10 @@ body#id-page-auditor {
 .box-open {
     > .box-label {
         border-radius: 6px 6px 0 0;
-        &::before {
-            content: '\f147';
-            font-family: FontAwesome;
-            font-size: 18px;
-            position: absolute;
-            top: 9px;
-            left: 8px;
-            opacity: 0.5;
+        border-bottom-color: #f0f0f0;
+        &::after {
+            transform: rotate(180deg);
+            transition: transform 0.4s ease-in-out;
         }
     }
 
@@ -1312,7 +1320,8 @@ body#id-page-auditor {
     }
 }
 
-:not(.box-tip) + .box-tip {
+:not(.box-tip) + .box-tip,
+.box-tip:first-child {
     margin-top: 24px;
     &:before {
         content: 'Tips & Recommendations';
@@ -1322,7 +1331,7 @@ body#id-page-auditor {
         padding-bottom: 8px;
         font-size: 1.2em;
     }
-    .box-label {
+    > .box-label {
         border-top-left-radius: 6px !important;
         border-top-right-radius: 6px !important;
     }
@@ -1331,7 +1340,7 @@ body#id-page-auditor {
 .box-tip {
     margin-bottom: 0 !important;
 
-    .box-label {
+    > .box-label {
         padding-left: 6px !important;
         &:before {
             content: '';
@@ -1344,7 +1353,7 @@ body#id-page-auditor {
         }
     }
 
-    .box-body {
+    > .box-body {
         padding: 16px;
         background-color: #fff;
         padding-bottom: 16px;
@@ -1461,11 +1470,8 @@ body#id-page-auditor {
     }
 
     &.box-open {
-        .box-label {
+        > .box-label {
             border-bottom-style: dotted;
-            &:after {
-                content: '\f106';
-            }
         }
         &:last-child {
             .box-body {
@@ -1477,13 +1483,9 @@ body#id-page-auditor {
     }
 
     &.box-close {
-        .box-label {
+        > .box-label {
             border-bottom-width: 0;
             border-radius: 0;
-
-            &:after {
-                content: '\f107';
-            }
             &:hover {
                 border-color: var(--border-color) !important;
                 color: #000;
@@ -1603,15 +1605,16 @@ body#id-page-auditor {
                 }
             }
 
-            .box-tip .box-label {
+            .box-tip > .box-label {
                 background: linear-gradient(90deg, #fafafa, #fff);
-                padding-left: 38px !important;
+                padding: 10px 22px 10px 40px !important;
+                border-radius: 0;
                 &:before {
                     content: attr(data-severity);
-                    font-family: Roboto;
-                    margin-top: -3px;
-                    margin-right: 4px;
+                    font-family: var(--body-font-family);
+                    margin-top: -1px;
                     opacity: 1;
+                    width: 28px;
                     color: var(--severity-color, #aaa);
                 }
             }
@@ -1685,16 +1688,15 @@ body#id-page-auditor {
 
 .box-table {
     &.table-style {
-        .box-label::after {
+        .box-label::before {
             content: '\f013';
             color: #3979a7ba;
         }
     }
     &.list-style {
-        .box-label::after {
+        .box-label::before {
             content: '\f0ca';
             color: #3979a7ba;
-            font-size: 20px;
         }
     }
     table {
@@ -1878,7 +1880,7 @@ body#id-page-auditor {
     }
 
     .box-code {
-        .box-label::after {
+        .box-label::before {
             content: '\f1c9';
             color: #06620d;
         }

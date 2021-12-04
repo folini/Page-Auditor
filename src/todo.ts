@@ -9,6 +9,8 @@ import {version as versionNumber} from '../package.json'
 
 const shadowDoc: Document = document.implementation.createHTMLDocument('ToDo List')
 
+export const add = (tip: HTMLElement) => shadowDoc.body.append(tip)
+
 export const open = (url: string, title: string) => {
     const width = 600
     const height = 800
@@ -21,12 +23,11 @@ export const open = (url: string, title: string) => {
         '_blank',
         `popup,width=${width},height=${height},screenX=${posX},screenY=${posY}`
     ) as Window
+    // Clone the style sheet from the extension window
     const style = document.head.querySelector('style')?.cloneNode(true) as HTMLStyleElement
     win.document.head.appendChild(style)
 
-    const links = [...document.head.querySelectorAll('link')]
-    links.forEach(link => win.document.head.appendChild(link)) //.cloneNode(true)))
-
+    // Create the ToDo Report
     win.document.body.id = 'id-page-auditor-todo'
     win.document.body.className = 'todo-report'
     const header = win.document.createElement('header')
@@ -82,25 +83,26 @@ export const open = (url: string, title: string) => {
     divTodoMinor.innerHTML = `<div class='todo-summary-label'>Minor Issues</div><div class='todo-summary-value' id='id-todo-minor'>0</div>`
     divTodoSummary.append(divTodoCritical, divTodoMedium, divTodoMinor)
 
-    const reportInnerCOntainer = win.document.createElement('div')
-    reportInnerCOntainer.className = 'inner-report-container show'
-    reportOuterContainer.append(context, divTodoSummary, reportInnerCOntainer)
+    const reportInnerContainer = win.document.createElement('div')
+    reportInnerContainer.className = 'inner-report-container show'
+    reportOuterContainer.append(context, divTodoSummary, reportInnerContainer)
 
-    const cardsToCopy = [...shadowDoc.body.children].filter(
-        card => parseInt(card.firstElementChild!.getAttribute('data-severity') as string) > severity.minor.min
-    )
+    // Get all the tips
+    const cardsToCopy = [...document.querySelectorAll(`.box-tip`)]
+        .filter(card => parseInt(card.firstElementChild!.getAttribute('data-severity') as string) > severity.minor.min)
+        .map(card => card.cloneNode(true) as HTMLElement)
 
     cardsToCopy.forEach(card => {
         const severityValue = parseInt(card.firstElementChild!.getAttribute('data-severity')!)
         if (severityValue > severity.critical.min) {
-            severity.critical.value++
-            win.document.getElementById(severity.critical.divId)!.innerHTML = severity.critical.value.toFixed()
+            severity.critical.numberOfIssues++
+            win.document.getElementById(severity.critical.divId)!.innerHTML = severity.critical.numberOfIssues.toFixed()
         } else if (severityValue > severity.medium.min) {
-            severity.medium.value++
-            win.document.getElementById(severity.medium.divId)!.innerHTML = severity.medium.value.toFixed()
+            severity.medium.numberOfIssues++
+            win.document.getElementById(severity.medium.divId)!.innerHTML = severity.medium.numberOfIssues.toFixed()
         } else {
-            severity.minor.value++
-            win.document.getElementById(severity.minor.divId)!.innerHTML = severity.minor.value.toFixed()
+            severity.minor.numberOfIssues++
+            win.document.getElementById(severity.minor.divId)!.innerHTML = severity.minor.numberOfIssues.toFixed()
         }
     })
 
@@ -119,9 +121,9 @@ export const open = (url: string, title: string) => {
             )
             return child
         })
-        .forEach(child => reportInnerCOntainer.append(child.cloneNode(true)))
+        .forEach(child => reportInnerContainer.append(child.cloneNode(true)))
 
-    const labels = [...reportInnerCOntainer.getElementsByClassName('label-close')]
+    const labels = [...reportInnerContainer.getElementsByClassName('box-label')]
 
     labels.forEach(label => {
         label.addEventListener('click', () => Card.Card.toggleBlock(label.parentElement as HTMLElement))
@@ -131,8 +133,10 @@ export const open = (url: string, title: string) => {
         type Cmd = 'open' | 'close'
         const cmd = btn.innerText === 'Open All' ? 'open' : 'close'
         btn.innerText = cmd === 'open' ? 'Close All' : 'Open All'
-        labels.forEach(title =>
-            cmd === 'open' ? Card.Card.openBlock(title as HTMLElement) : Card.Card.closeBlock(title as HTMLElement)
+        labels.forEach(label =>
+            cmd === 'open'
+                ? Card.Card.openBlock(label.parentElement as HTMLElement)
+                : Card.Card.closeBlock(label.parentElement as HTMLElement)
         )
     })
 
@@ -148,29 +152,27 @@ export const open = (url: string, title: string) => {
     })
 }
 
-export const add = (tip: HTMLElement) => shadowDoc.body.append(tip)
-
 const severity = {
     critical: {
         divId: 'id-todo-critical',
         max: 100,
         min: 75,
         color: '#ff0000',
-        value: 0,
+        numberOfIssues: 0,
     },
     medium: {
         divId: 'id-todo-medium',
         max: 75,
         min: 25,
         color: '#ffa500',
-        value: 0,
+        numberOfIssues: 0,
     },
     minor: {
         divId: 'id-todo-minor',
         max: 25,
         min: 0,
         color: '#008000',
-        value: 0,
+        numberOfIssues: 0,
     },
 }
 

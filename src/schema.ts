@@ -123,12 +123,7 @@ export class Schema {
         Schema.#schemaCounter[schemaName] = Schema.#schemaCounter[schemaName]
             ? Schema.#schemaCounter[schemaName] + 1
             : 1
-        const links: iLink[] = [
-            {
-                url: `https://schema.org/${schemaName === 'Graph' ? '' : schemaName}`,
-                label: `${schemaName} Schema`,
-            },
-        ]
+        const links: iLink[] = []
 
         if (!this.#firstBoxDone) {
             links.push({
@@ -155,6 +150,12 @@ export class Schema {
         if (Schema.#referenceBlocks) {
             openStr += `<div class='sd-description-line sd-block-intro'>This block is a reference to a block of information defined elsewhere. The items you see here are just a copy of the original; items.</div>`
         }
+
+        openStr += this.#string(
+            `https://schema.org/${schemaName === 'Graph' ? '' : schemaName}`,
+            `${schemaName} Schema`,
+            ''
+        )
 
         return openStr
     }

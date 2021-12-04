@@ -187,9 +187,9 @@ export const imgArray2Table = (imgs: iImg[]) =>
                 isPixel
                     ? `Likely a tracking Pixel, no need for the alt attribute`
                     : !img.alt
-                    ? `<span class='missing-info'>The Alt attribute is missing</span>`
+                    ? `<span class='missing-info'>The image is missing the Alt attribute.</span>`
                     : altIsPlaceholder(img.alt, File.name(img.src))
-                    ? `<div class='missing-info'>This Alt attribute is just a placeholder, use a more descriptive text.</div>${img.alt}`
+                    ? `<div class='missing-info'>The Alt attribute for this image is just a placeholder, use a more descriptive text.</div>${img.alt}`
                     : img.alt
             }`,
         ]

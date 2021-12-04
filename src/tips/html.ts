@@ -182,10 +182,10 @@ export const titleShouldMatchH1 = (card: Card, title: string, h1Title: string) =
         `The <code>&lt;h1&gt;</code> tag wil be used by search engines to better understand the content of the page.`,
         `The impact of having different values for these two tags should be minimal, but SEO Best Practices recommend to match the two tags.`
     )
-    const how = tipHow(`Rewrite the title and the h1 tags to match exactly and replace them in the page HTML.`)
+    const how = tipHow(`Rewrite the <code>&lt;title&gt;</code> and the <code>&lt;h1&gt;</code> tags to match exactly and replace them in the page HTML.`)
     card.add(
         CardBlocks.tip(
-            `The <code>&lt;title&gt;</code> Tag and the <code>&lt;h1&gt;</code> Tag Should Match`,
+            `The <code>&lt;title&gt;</code> and <code>&lt;h1&gt;</code> Tags Should Match`,
             [what, why, how],
             Specs.html.titleTag.reference,
             10
