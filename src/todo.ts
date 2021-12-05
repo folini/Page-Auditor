@@ -83,11 +83,12 @@ export const open = (url: string, title: string) => {
     reportInnerContainer.className = 'inner-report-container show'
     reportOuterContainer.append(context, divTodoSummary, reportInnerContainer)
 
-    // Get all the tips
+    // Get all the tips, clone and add them to the ToDo report
     const cardsToCopy = [...document.querySelectorAll(`.box-tip`)]
         .filter(card => parseInt(card.firstElementChild!.getAttribute('data-severity') as string) > severity.minor.min)
         .map(card => card.cloneNode(true) as HTMLElement)
 
+    // Populate 3 score cards
     cardsToCopy.forEach(card => {
         const severityValue = parseInt(card.firstElementChild!.getAttribute('data-severity')!)
         if (severityValue > severity.critical.min) {
@@ -117,14 +118,11 @@ export const open = (url: string, title: string) => {
             )
             return child
         })
-        .forEach(child => reportInnerContainer.append(child.cloneNode(true)))
+        .forEach(child => reportInnerContainer.append(child))
 
     const labels = [...reportInnerContainer.getElementsByClassName('box-label')]
 
-    labels.forEach(label => {
-        label.addEventListener('click', () => Card.Card.toggleBlock(label.parentElement as HTMLElement))
-    })
-
+        // Open / Close All button behavior
     btn.addEventListener('click', () => {
         type Cmd = 'open' | 'close'
         const cmd = btn.innerText === 'Open All' ? 'open' : 'close'
@@ -134,6 +132,11 @@ export const open = (url: string, title: string) => {
                 ? Card.Card.openBlock(label.parentElement as HTMLElement)
                 : Card.Card.closeBlock(label.parentElement as HTMLElement)
         )
+    })
+
+    // Recreate original events for each card
+    labels.forEach(label => {
+        label.addEventListener('click', () => Card.Card.toggleBlock(label.parentElement as HTMLElement))
     })
 
     const codeBlocks = [...document.getElementsByClassName('code')] as HTMLElement[]
