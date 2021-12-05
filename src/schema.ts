@@ -6,9 +6,9 @@
 // ----------------------------------------------------------------------------
 import {getLanguage, isLanguage} from './language-code'
 import {Card, iLink} from './card'
+import {disposableId} from './main'
 import * as Tips from './tips/tips'
 import * as File from './file'
-import {disposableId} from './main'
 
 export interface iJsonLD {
     [name: string | '@type' | '@id']: string | string[] | iJsonLD[] | iJsonLD

@@ -5,15 +5,15 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card} from '../card'
-import * as CardBlocks from '../card-blocks'
 import {Specs} from '../specs'
-import {tipWhat, tipWhy, tipHow} from './tips'
+import * as Tips from './tips'
+import * as CardBlocks from '../card-blocks'
 
 // ---------------------------------------------------------------------------------------------
 // SCRIPTS TIPS
 export const unsafeLinks = (card: Card, urls: string[]) => {
     const plural = urls.length > 1 ? 's' : ''
-    const what = tipWhat(
+    const what = Tips.what(
         `${urls.length > 1 ? 'Some' : 'One'} script${plural} included in the HTML of the page ${
             urls.length === 1 ? 'is' : 'are'
         } using the obsolete and unsafe <code>http:</code> protocol instead of the safest <code>https://</code> protocol.`
@@ -24,10 +24,10 @@ export const unsafeLinks = (card: Card, urls: string[]) => {
         'list-style'
     )
 
-    const why = tipWhy(
+    const why = Tips.why(
         `According to the most recent specs and recommendations, all links should always use the safest <code>https:</code> protocol.`
     )
-    const how = tipHow(
+    const how = Tips.how(
         `Edit the HTML of the page changing every occurrence of the old <code>http:</code> protocol with the safest <code>http:</code>.`
     )
     const tableHTTP = CardBlocks.table(
@@ -52,15 +52,15 @@ export const unsafeLinks = (card: Card, urls: string[]) => {
 
 export const scriptNotFound = (card: Card, scripts: string[]) => {
     const plural = scripts.length > 1 ? 's' : ''
-    const what = tipWhat(
+    const what = Tips.what(
         `${scripts.length > 1 ? 'Some' : 'One'} script${plural} included in the HTML of the page ${
             scripts.length === 1 ? 'is' : 'are'
         } is not available online, the link is broken.`
     )
-    const why = tipWhy(
+    const why = Tips.why(
         `A broken link to a script can not be resolved by the browser and can affect either the user experience of visitors coming to your website as well the results of some analytics monitoring your page.`
     )
-    const how = tipHow(`Edit the HTML of the page and fix the broken link.`)
+    const how = Tips.how(`Edit the HTML of the page and fix the broken link.`)
     const table = CardBlocks.table(
         `List of ${scripts.length} Broken Links to Scrip${plural}.`,
         scripts.map(url => [url]),

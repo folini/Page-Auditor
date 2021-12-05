@@ -5,18 +5,18 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card} from '../card'
-import * as CardBlocks from '../card-blocks'
 import {Mode} from '../colorCode'
 import {Specs} from '../specs'
-import {tipWhat, tipWhy, tipHow} from './tips'
+import * as Tips from './tips'
 import {iImg} from '../cards/html'
 import {imgArray2Table} from '../cards/html-cards'
+import * as CardBlocks from '../card-blocks'
 
 // ---------------------------------------------------------------------------------------------
 // HTML TIPS
 export const imgWithAltPlaceholder = (card: Card, images: iImg[]) => {
     const isPlural = images.length > 0
-    const what = tipWhat(
+    const what = Tips.what(
         `${isPlural ? 'Some' : 'One'} image${isPlural ? 's' : ''} in the HTML of the page ${
             isPlural ? 'have' : 'has'
         } a placeholder for the <code>alt</code> attribute of the <code>img</code> HTML tag.`,
@@ -28,12 +28,12 @@ export const imgWithAltPlaceholder = (card: Card, images: iImg[]) => {
         'list-style'
     )
 
-    const why = tipWhy(
+    const why = Tips.why(
         `The <code>alt</code> attribute of the <code>&lt;img&gt;</code> tags helps all search engine crawlers.`,
         `Images without a meaningful <code>alt</code> attribute can have a detrimental effect on the ranking of your web pages.`,
         `The <code>alt</code> attribute is also very important to make the page accessible to everybody including disabled people accessing the page with special devices.`
     )
-    const how = tipHow(
+    const how = Tips.how(
         `Edit the HTML of the page adding the missing <code>alt</code> attributes.`,
         `It is important to describe what is happening in the image and to avoid keyword "stuffing".`
     )
@@ -51,7 +51,7 @@ export const imgWithAltPlaceholder = (card: Card, images: iImg[]) => {
 
 export const imgWithoutAlt = (card: Card, images: iImg[]) => {
     const plural = images.length > 1 ? 's' : ''
-    const what = tipWhat(
+    const what = Tips.what(
         `${
             images.length > 1 ? 'Some' : 'One'
         } image${plural} in the HTML of the page are missing have the <code>alt</code> attribute of the <code>img</code> HTML tag.`,
@@ -63,12 +63,12 @@ export const imgWithoutAlt = (card: Card, images: iImg[]) => {
         'list-style'
     )
 
-    const why = tipWhy(
+    const why = Tips.why(
         `The <code>alt</code> attribute of the <code>&lt;img&gt;</code> tags helps all search engine crawlers.`,
         `Images without the <code>alt</code> attribute can have a detrimental effect on the ranking of your web pages.`,
         `The <code>alt</code> attribute is also very important to make the page accessible to everybody including disabled people accessing the page with special devices.`
     )
-    const how = tipHow(
+    const how = Tips.how(
         `Edit the HTML of the page adding the missing <code>alt</code> attributes.`,
         `It is important to describe what is happening in the image and to avoid keyword "stuffing".`
     )
@@ -84,17 +84,19 @@ export const imgWithoutAlt = (card: Card, images: iImg[]) => {
 
 export const imagesNotFound = (card: Card, images: string[]) => {
     const plural = images.length > 1 ? 's' : ''
-    const what = tipWhat(`Unable to find the ${images.length} image${plural} used in the HTML code of the page`)
+    const what = Tips.what(`Unable to find the ${images.length} image${plural} used in the HTML code of the page`)
     const table = CardBlocks.table(
         `${images.length} Image${plural} Not Found`,
         images.map(image => [image]),
         'list-style'
     )
-    const why = tipWhy(
+    const why = Tips.why(
         `While a few missing images should not directly affect the SEO of a page, they can compromise the user experience resulting in a higher bounce rate.`,
         `Over time an higher bounce rate can hurt the page reputation and the SEO performance.`
     )
-    const how = tipHow(`Upload the missing image or remove all the references to that image from the page's HTML code.`)
+    const how = Tips.how(
+        `Upload the missing image or remove all the references to that image from the page's HTML code.`
+    )
     card.add(
         CardBlocks.tip(
             images.length === 1 ? 'Add a Missing Image' : `Add the Missing ${images.length.toFixed()} Images`,
@@ -107,17 +109,17 @@ export const imagesNotFound = (card: Card, images: string[]) => {
 
 export const imgWithoutSrc = (card: Card, nImages: number) => {
     const plural = nImages > 1 ? 's' : ''
-    const what = tipWhat(
+    const what = Tips.what(
         `${
             nImages === 1 ? 'One' : nImages.toFixed()
         } image${plural} tags in the HTML code are missing the <code>src</code> attribute or its value.`,
         `They are missing the critical <code>src</code>attribute.`
     )
-    const why = tipWhy(
+    const why = Tips.why(
         `HTML Syntax requires all <code>&lt;img&gt;</code> tags to have a valid <code>src</code> attribute.`,
         `Omitting the <code>src</code> attribute, or leaving it empty, invalidates the syntax of the entire page anc can affect the search engines crawler indexing your page.`
     )
-    const how = tipHow(`Add the missing image url or remove the broken <code>&lt;img&gt;</code>.`)
+    const how = Tips.how(`Add the missing image url or remove the broken <code>&lt;img&gt;</code>.`)
     card.add(
         CardBlocks.tip(
             `Add the Missing <code>src</code> Attribute to ${nImages.toFixed()} <code>&lt;img&gt;</code> HTML Tags`,
@@ -130,16 +132,16 @@ export const imgWithoutSrc = (card: Card, nImages: number) => {
 
 export const imgWithInvalidSrc = (card: Card, nImages: number) => {
     const plural = nImages > 1 ? 's' : ''
-    const what = tipWhat(
+    const what = Tips.what(
         `The <code>src</code> attribute of ${
             nImages === 1 ? 'one' : nImages.toFixed()
         } image tag${plural} in the HTML code is incomplete or empty.`
     )
-    const why = tipWhy(
+    const why = Tips.why(
         `HTML Syntax requires all <code>&lt;img&gt;</code> tags to have a valid url as a value for the <code>src</code> attribute.`,
         `Providing an invalid <code>src</code> attribute invalidate the syntax of the entire page anc can affect the search engines crawler indexing your page.`
     )
-    const how = tipHow(`Replace the image url or remove the broken <code>&lt;img&gt;</code>.`)
+    const how = Tips.how(`Replace the image url or remove the broken <code>&lt;img&gt;</code>.`)
     card.add(
         CardBlocks.tip(
             `Replace the incorrect <code>src</code> Attribute for ${nImages.toFixed()} Images`,
@@ -151,10 +153,10 @@ export const imgWithInvalidSrc = (card: Card, nImages: number) => {
 }
 
 export const titleTooLong = (card: Card, title: string) => {
-    const what = tipWhat(
+    const what = Tips.what(
         `The <code>&lt;title&gt;</code> tag in the <code>&lt;head&gt;</code> section of the page is ${title.length} chars, longer than the max recommended length of ${Specs.html.titleTag.maxLen} chars.`
     )
-    const why = tipWhy(
+    const why = Tips.why(
         `While the length of the title doesn't have any direct impact on the page SEO,`,
         `the <code>&lt;title&gt;</code> tag is used by Google and other search engines to show a link to this page on SERP.`,
         `Anything over ${Specs.html.titleTag.maxLen} characters will be automatically truncated.`,
@@ -162,7 +164,7 @@ export const titleTooLong = (card: Card, title: string) => {
         `Your title could look like this:`,
         CardBlocks.code(`${title.substr(0, Specs.html.titleTag.maxLen)}...`, Mode.txt)
     )
-    const how = tipHow(
+    const how = Tips.how(
         `Rewrite the <code>&lt;title&gt;</code> of the page and replace the content of the <code>&lt;title&gt;</code> tag in the page HTML.`
     )
     card.add(
@@ -176,13 +178,13 @@ export const titleTooLong = (card: Card, title: string) => {
 }
 
 export const titleShouldMatchH1 = (card: Card, title: string, h1Title: string) => {
-    const what = tipWhat(`The <code>&lt;title&gt;</code> tag should match the <code>&lt;h1&gt;</code> tag.`)
-    const why = tipWhy(
+    const what = Tips.what(`The <code>&lt;title&gt;</code> tag should match the <code>&lt;h1&gt;</code> tag.`)
+    const why = Tips.why(
         `The <code>&lt;title&gt;</code> tag is very important for SEO, and Google will use it for SERP.`,
         `The <code>&lt;h1&gt;</code> tag wil be used by search engines to better understand the content of the page.`,
         `The impact of having different values for these two tags should be minimal, but SEO Best Practices recommend to match the two tags.`
     )
-    const how = tipHow(
+    const how = Tips.how(
         `Rewrite the <code>&lt;title&gt;</code> and the <code>&lt;h1&gt;</code> tags to match exactly and replace them in the page HTML.`
     )
     card.add(
@@ -196,13 +198,13 @@ export const titleShouldMatchH1 = (card: Card, title: string, h1Title: string) =
 }
 
 export const titleIsaPlaceholder = (card: Card, title: string) => {
-    const what = tipWhat(
+    const what = Tips.what(
         `The <code>&lt;title&gt;</code> tag for this page is set to <i>${title}</i>, just a placeholder.`
     )
-    const why = tipWhy(
+    const why = Tips.why(
         `The <code>&lt;title&gt;</code> tag is very important for SEO and should be clear, concise and able to attract clicks when used by Google in SERP.`
     )
-    const how = tipHow(`Write a good title and replace the placeholder in the page HTML.`)
+    const how = Tips.how(`Write a good title and replace the placeholder in the page HTML.`)
     card.add(
         CardBlocks.tip(
             `Replace the Placeholder in the <code>&lt;title&gt;</code> HTML Tag`,

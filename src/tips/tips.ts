@@ -13,9 +13,9 @@ export * as Html from './html'
 export * as Scripts from './scripts'
 import * as CardBlocks from '../card-blocks'
 
-export const tipWhat = (...msg: (string | CardBlocks.CardBlock)[]) => tipWhatWhyHow(`What's Wrong?`, ...msg)
-export const tipWhy = (...msg: (string | CardBlocks.CardBlock)[]) => tipWhatWhyHow(`Why To Fix It?`, ...msg)
-export const tipHow = (...msg: (string | CardBlocks.CardBlock)[]) => tipWhatWhyHow(`How to Fix It?`, ...msg)
+export const what = (...msg: (string | CardBlocks.CardBlock)[]) => tipWhatWhyHow(`What's Wrong?`, ...msg)
+export const why = (...msg: (string | CardBlocks.CardBlock)[]) => tipWhatWhyHow(`Why To Fix It?`, ...msg)
+export const how = (...msg: (string | CardBlocks.CardBlock)[]) => tipWhatWhyHow(`How to Fix It?`, ...msg)
 
 const tipWhatWhyHow = (tipTitle: string, ...msg: (string | CardBlocks.CardBlock)[]): CardBlocks.CardBlock => {
     const div = document.createElement('div')

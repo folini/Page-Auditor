@@ -8,11 +8,11 @@ import {Card, CardKind} from '../card'
 import {Report} from '../report'
 import {disposableId, compactUrl} from '../main'
 import {iImg} from './html'
-import * as File from '../file'
-import * as Tips from '../tips/tips'
 import {Specs} from '../specs'
 import {Mode} from '../colorCode'
 import {htmlEncode} from 'js-htmlencode'
+import * as File from '../file'
+import * as Tips from '../tips/tips'
 import * as CardBlocks from '../card-blocks'
 
 export const titleCard = (report: Report, title: string, h1Title: string): void => {
@@ -56,7 +56,7 @@ export const imgCard = (report: Report, imgs: iImg[]): void => {
     const imagesWithPlaceholderAlt = imgs
         .filter(img => img.width > 1 && img.height > 1)
         .filter(img => img.alt !== undefined && img.alt.trim().length > 0)
-        .filter(img => altIsPlaceholder(img.alt, File.name(img.src)))
+        .filter(img => isPlaceholder(img.alt, File.name(img.src)))
 
     const nOfImagesWithNoSrc = imgs.filter(img => img.src === undefined || img.src.trim().length === 0).length
     const nOfImagesOnePixel = imgs.filter(img => img.width <= 1 && img.height <= 1).length
@@ -188,7 +188,7 @@ export const imgArray2Table = (imgs: iImg[]) =>
                     ? `Likely a tracking Pixel, no need for the alt attribute`
                     : !img.alt
                     ? `<span class='missing-info'>The image is missing the Alt attribute.</span>`
-                    : altIsPlaceholder(img.alt, File.name(img.src))
+                    : isPlaceholder(img.alt, File.name(img.src))
                     ? `<div class='missing-info'>The Alt attribute for this image is just a placeholder, use a more descriptive text.</div>${img.alt}`
                     : img.alt
             }`,
@@ -226,5 +226,5 @@ export const imgArray2Table = (imgs: iImg[]) =>
         return table
     })
 
-const altIsPlaceholder = (alt: string, fileName: string) =>
+const isPlaceholder = (alt: string, fileName: string) =>
     alt.length <= 5 || alt === fileName || alt === fileName.replace(/\.\w*$/, '')
