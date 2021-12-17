@@ -78,8 +78,6 @@ const sections: SectionType[] = [
     },
 ]
 
-const worker = new Worker('worker.js', {})
-
 document.addEventListener('DOMContentLoaded', () => {
     chrome.tabs.query({active: true, currentWindow: true}).then(tabs => {
         const tab = tabs[0]
@@ -104,14 +102,11 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 })
 
-worker.addEventListener('message', (event: MessageEvent<iRenderTask>) => {
-    const elem = document.getElementById(event.data.id) as HTMLElement
-    elem.innerHTML = event.data.code
-    addCopyBtn(elem)
-})
-
 document.addEventListener('BeforeUnloadEvent', () => {
-    worker.terminate()
+    
+    if(worker!== undefined) {
+        worker.terminate()
+    }
 })
 
 // ----------------------------------------------------------------------------
@@ -145,7 +140,7 @@ async function generateReport(section: SectionType, actions: sectionActions, tab
     let data: any = undefined
 
     try {
-        if (actions.codeToInject !== null) {
+        if (actions.codeToInject !== null && actions.codeToInject !== undefined) {
             response = await chrome.scripting.executeScript({
                 target: {tabId: tab.id} as chrome.scripting.InjectionTarget,
                 function: actions.codeToInject,
@@ -182,9 +177,24 @@ const showReport = (activeSec: SectionType) => {
     window.scrollTo(0, 0)
 }
 
+let worker: Worker | undefined = undefined
+let workerQueue = 0
 export const sendRenderTaskToWorker = (task: iRenderTask) => {
-    setTimeout(() => worker.postMessage(task), 100)
-    return
+    if(worker === undefined) {
+        worker = new Worker('worker.js', {name: 'code-coloration-worker'})
+        worker.addEventListener('message', (event: MessageEvent<iRenderTask>) => {
+            const elem = document.getElementById(event.data.id) as HTMLElement
+            elem.innerHTML = event.data.code
+            addCopyBtn(elem)
+            workerQueue--
+            if(workerQueue === 0) {
+                worker!.terminate()
+                worker = undefined;
+            }
+        })
+    }
+    setTimeout(() => worker!.postMessage(task), 100)
+    workerQueue++
 }
 
 export const addCopyBtn = (elem: HTMLElement) => {
