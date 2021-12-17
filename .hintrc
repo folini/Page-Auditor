@@ -1,0 +1,11 @@
+{
+  "connector": {
+      "name": "connectorName"
+  },
+  "formatters": [],
+  "parsers": [],
+  "hints": {
+      "no-inline-styles": "error"
+  },
+  "hintsTimeout": 120000
+}
