@@ -10,7 +10,6 @@
       "dom",
       "dom.iterable"
     ],
-    "inlineSourceMap": true,
     "strictFunctionTypes": true,
     "strictBindCallApply": true,
     "noImplicitThis": true,
