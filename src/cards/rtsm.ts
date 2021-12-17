@@ -59,7 +59,12 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, _: any, report: Re
         .then(p => {
             Promise.allSettled(p).then(() => {
                 if (sitemaps.doneList.length === 0) {
-                    const card = Errors.sitemap_NotFound(sitemaps.failedList)
+                    let card: Card
+                    if (sitemaps.failedList.length > 0) {
+                        card = Errors.sitemap_ListedButNotFound(sitemaps.failedList)
+                    } else {
+                        card = Errors.sitemap_NotFound()
+                    }
                     Tips.Sitemap.missingSitemap(card)
                     report.addCard(card)
                 }

@@ -33,15 +33,15 @@ export class SmList {
     }
 
     #isFailed(sm: iSmCandidate) {
-        return this.failedList.filter(failedSm => failedSm.url === sm.url).length > 0
+        return this.failedList.find(failedSm => failedSm.url === sm.url) !== undefined
     }
 
     #isSkipped(sm: iSmCandidate) {
-        return this.skippedList.filter(skippedSm => skippedSm.url === sm.url).length > 0
+        return this.skippedList.find(skippedSm => skippedSm.url === sm.url) !== undefined
     }
 
     #isDone(sm: iSmCandidate) {
-        return this.doneList.filter(doneSm => doneSm.url === sm.url).length > 0
+        return this.doneList.find(doneSm => doneSm.url === sm.url) !== undefined
     }
 
     #removeToDo(sm: iSmCandidate) {
@@ -75,7 +75,12 @@ export class SmList {
     public addToDo(sms: iSmCandidate[]) {
         sms = sms.map(sm => SmList.#sanitizeSm(sm))
         sms.forEach(candidateSm => {
-            if (!this.#isFailed(candidateSm) && !this.#isSkipped(candidateSm) && !this.#isDone(candidateSm)) {
+            if (
+                candidateSm.url.length > 0 &&
+                !this.#isFailed(candidateSm) &&
+                !this.#isSkipped(candidateSm) &&
+                !this.#isDone(candidateSm)
+            ) {
                 this.toDoList.push(candidateSm)
             }
         })
@@ -89,7 +94,13 @@ export class SmList {
 
     public addFailed(sm: iSmCandidate) {
         sm = SmList.#sanitizeSm(sm)
-        if (!this.#isFailed(sm) && !this.#isSkipped(sm) && !this.#isDone(sm) && !(sm.source === SmSource.Default)) {
+        if (
+            sm.url.length > 0 &&
+            !this.#isFailed(sm) &&
+            !this.#isSkipped(sm) &&
+            !this.#isDone(sm) &&
+            !(sm.source === SmSource.Default)
+        ) {
             this.failedList.push(sm)
         }
         this.#removeToDo(sm)
@@ -97,7 +108,7 @@ export class SmList {
 
     public addSkipped(sm: iSmCandidate) {
         sm = SmList.#sanitizeSm(sm)
-        if (!this.#isFailed(sm) && !this.#isSkipped(sm) && !this.#isDone(sm)) {
+        if (sm.url.length > 0 && !this.#isFailed(sm) && !this.#isSkipped(sm) && !this.#isDone(sm)) {
             this.skippedList.push(sm)
         }
         this.#removeToDo(sm)
@@ -105,7 +116,7 @@ export class SmList {
 
     public addDone(sm: iSmCandidate) {
         sm = SmList.#sanitizeSm(sm)
-        if (!this.#isFailed(sm) && !this.#isSkipped(sm) && !this.#isDone(sm)) {
+        if (sm.url.length > 0 && !this.#isFailed(sm) && !this.#isSkipped(sm) && !this.#isDone(sm)) {
             this.doneList.push(sm)
         }
         this.#removeToDo(sm)

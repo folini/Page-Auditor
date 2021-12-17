@@ -9,6 +9,7 @@ import {Mode} from '../colorCode'
 import {Specs} from '../specs'
 import * as Tips from './tips'
 import * as CardBlocks from '../card-blocks'
+import * as Icons from './../icons'
 
 // ----------------------------------------------------------------------------
 // Robots TXT TIPS
@@ -18,7 +19,7 @@ export const duplicateSitemapsLink = (card: Card, urls: string[]) => {
     const table = CardBlocks.table(
         `List of the duplicate Urls`,
         urls.map(url => [url]),
-        'list-style'
+        Icons.list
     )
     const why = Tips.why(
         `Sitemaps files should always be linked from the <code>robots.txt</code> file, but only once.`,
@@ -52,12 +53,12 @@ export const unsafeSitemapLink = (card: Card, urls: string[]) => {
     const tableWrongUrls = CardBlocks.table(
         `List of Unsafe Urls`,
         urls.map(url => [url]),
-        'list-style'
+        Icons.list
     )
     const tableFixedUrls = CardBlocks.table(
         `Lis of How Urls Should Be`,
         urls.map(url => url.replace('http:', 'https:')).map(url => [url]),
-        'list-style'
+        Icons.list
     )
     card.add(
         CardBlocks.tip(
@@ -84,12 +85,12 @@ export const doubleDashSitemapLink = (card: Card, urls: string[]) => {
     const tableWrongUrls = CardBlocks.table(
         `List of ${urls.length} Url${plural} To Fix`,
         urls.map(url => [url]),
-        'list-style'
+        Icons.list
     )
     const tableFixedUrls = CardBlocks.table(
         `How Your Url${plural} Should Be Changed`,
         urls.map(url => url.replace(/(https?:.*)(\/\/)(.*)/i, '$1/$3')).map(url => [url]),
-        'list-style'
+        Icons.list
     )
     card.add(
         CardBlocks.tip(

@@ -13,6 +13,7 @@ import * as Errors from './errors'
 import * as Tips from '../tips/tips'
 import * as File from '../file'
 import * as Info from './info'
+import * as Icons from '../icons'
 
 const listOfScriptClasses = require('../jsons/scriptClasses.json') as iTrackClass[]
 
@@ -114,7 +115,7 @@ const reportGenerator = (tabUrl: string, untypedScripts: any, report: Report): v
         const card = new Card(CardKind.report)
             .open(discoveredItem.category, discoveredItem.name, discoveredItem.iconClass)
             .add(CardBlocks.paragraph(discoveredItem.description))
-            .add(CardBlocks.expandable(btnLabel + linksHtml, block, `box-code`))
+            .add(CardBlocks.expandable(btnLabel + linksHtml, block, Icons.code, `box-code`))
             .setTag('card-ok')
         report.addCard(card)
 

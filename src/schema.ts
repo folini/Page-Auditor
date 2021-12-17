@@ -9,6 +9,7 @@ import {Card, iLink} from './card'
 import {disposableId} from './main'
 import * as Tips from './tips/tips'
 import * as File from './file'
+import * as Icons from './icons'
 
 export interface iJsonLD {
     [name: string | '@type' | '@id']: string | string[] | iJsonLD[] | iJsonLD
@@ -135,11 +136,11 @@ export class Schema {
         const blockIsOpen = this.#firstBoxDone && !Schema.#referenceBlocks
         const boxOpenClose = blockIsOpen ? ` box-open` : ` box-close`
         const labelReference = Schema.#referenceBlocks ? ` label-reference` : ''
-        const labelShowIcon = this.#firstBoxDone ? ' label-json-no-icon' : ' label-json-icon'
+        const labelIcon = this.#firstBoxDone ? '' : Icons.hierarchy
 
         let openStr =
             `<div class='box-sd ${boxOpenClose}'>` +
-            `<div class='box-label${labelShowIcon}${labelReference}'><span class='label-text'>${label}${linksHtml}</span></div>` +
+            `<div class='box-label${labelReference}'>${labelIcon}<span class='label-text'>${label}${linksHtml}</span></div>` +
             `<div class='box-body'>`
         this.#firstBoxDone = true
 

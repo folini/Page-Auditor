@@ -5,10 +5,11 @@
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
 import {Card} from '../card'
-import * as CardBlocks from '../card-blocks'
 import {Specs} from '../specs'
 import {iImageElement} from '../schema'
+import * as CardBlocks from '../card-blocks'
 import * as Tips from './tips'
+import * as Icons from '../icons'
 
 // ---------------------------------------------------------------------------------------------
 // Structure Data TIPS
@@ -23,12 +24,12 @@ export const avoidRelativeUrls = (cardPromise: Promise<Card>, objectName: string
     const tableRelativeUrls = CardBlocks.table(
         `List of Relative Urls`,
         urls.map(url => [url]),
-        'list-style'
+        Icons.list
     )
     const tableAbsoluteUrls = CardBlocks.table(
         `List of Fixed Urls`,
         urls.map(url => [`${new URL(pageUrl).origin}${url}`]),
-        'list-style'
+        Icons.list
     )
     cardPromise.then(card =>
         card.add(
@@ -57,12 +58,12 @@ export const imageUrlMissingProtocol = (cardPromise: Promise<Card>, objectName: 
     const tableImgWithoutProtocol = CardBlocks.table(
         'Images Urls without protocol',
         urls.map(url => [url]),
-        'list-style'
+        Icons.list
     )
     const tableImgWithProtocol = CardBlocks.table(
         'Images Urls without protocol',
         urls.map(url => [`https:${url}`]),
-        'list-style'
+        Icons.list
     )
     cardPromise.then(card =>
         card.add(
@@ -153,8 +154,7 @@ export const imagesNotFound = (cardPromise: Promise<Card>, images: iImageElement
     )
     const table = CardBlocks.table(
         `List of Missing Images`,
-        images.map(img => [img.src]),
-        'list-style'
+        images.map(img => [img.src])
     )
     const why = Tips.why(
         `A broken link to a non-existent image can break the validity of the Structured Data and can invalidate the entire <code>JSON-LS</code>.`

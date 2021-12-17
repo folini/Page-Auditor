@@ -4,17 +4,18 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import * as Tips from '../tips/tips'
-import * as File from '../file'
 import {Report} from '../report'
 import {Card, CardKind} from '../card'
-import * as CardBlocks from '../card-blocks'
-import * as Errors from './errors'
 import {Mode} from '../colorCode'
 import {disposableId, formatNumber} from '../main'
 import {iSmCandidate, SmList, SmSource} from '../sitemapList'
 import {htmlDecode} from 'js-htmlencode'
 import {Specs} from '../specs'
+import * as Tips from '../tips/tips'
+import * as File from '../file'
+import * as CardBlocks from '../card-blocks'
+import * as Errors from './errors'
+import * as Icons from '../icons'
 
 const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
     File.read(sm.url, File.xmlContentType)
@@ -101,7 +102,14 @@ const sitemapCard = (sm: iSmCandidate, sitemaps: SmList, report: Report) =>
                 .add(CardBlocks.code(sm.url, Mode.txt))
                 .add(CardBlocks.paragraph(sitemapXmlDescription))
                 .add(CardBlocks.table('Sitemap Analysis', table))
-                .add(CardBlocks.expandable(btnLabel, CardBlocks.code(sitemapBody, Mode.xml, divId), 'box-code'))
+                .add(
+                    CardBlocks.expandable(
+                        btnLabel,
+                        CardBlocks.code(sitemapBody, Mode.xml, divId),
+                        Icons.code,
+                        'box-code'
+                    )
+                )
                 .setTag('card-ok')
 
             report.addCard(card)

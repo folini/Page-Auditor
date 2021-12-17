@@ -11,6 +11,7 @@ import * as Tips from './tips'
 import {iImg} from '../cards/html'
 import {imgArray2Table} from '../cards/html-cards'
 import * as CardBlocks from '../card-blocks'
+import * as Icons from '../icons'
 
 // ---------------------------------------------------------------------------------------------
 // HTML TIPS
@@ -25,7 +26,7 @@ export const imgWithAltPlaceholder = (card: Card, images: iImg[]) => {
     const table = CardBlocks.table(
         `${images.length} Image${isPlural ? 's' : ''} WIth <code>alt</code> Placeholder`,
         imgArray2Table(images),
-        'list-style'
+        Icons.list
     )
 
     const why = Tips.why(
@@ -60,7 +61,7 @@ export const imgWithoutAlt = (card: Card, images: iImg[]) => {
     const table = CardBlocks.table(
         `${images.length} Image${plural} Without <code>alt</code> attribute`,
         imgArray2Table(images),
-        'list-style'
+        Icons.list
     )
 
     const why = Tips.why(
@@ -88,7 +89,7 @@ export const imagesNotFound = (card: Card, images: string[]) => {
     const table = CardBlocks.table(
         `${images.length} Image${plural} Not Found`,
         images.map(image => [image]),
-        'list-style'
+        Icons.list
     )
     const why = Tips.why(
         `While a few missing images should not directly affect the SEO of a page, they can compromise the user experience resulting in a higher bounce rate.`,
