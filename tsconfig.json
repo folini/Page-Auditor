@@ -39,7 +39,7 @@
     "strictPropertyInitialization" : false,
 
     "paths": {
-      "Assets/*":     ["assets/*"],
+      "Assets/*":     ["src/assets/*"],
       "Components/*": ["src/components/*"],
       "Include/*":    ["src/shared/include/*"],
       "Modals/*":     ["src/shared/modals/*"],
