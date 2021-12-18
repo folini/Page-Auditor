@@ -113,7 +113,7 @@ export const twitterTags: iTagPreviewer = (
 
     File.exists(img, File.imageContentType).catch(() => {
         const imgElement = card.getDiv().querySelector('.preview-img') as HTMLImageElement
-        imgElement.src = '../logos/_noRendering_400x200.png'
+        imgElement.src = '../assets/logos/_noRendering_400x200.png'
     })
 }
 
@@ -171,6 +171,6 @@ export const openGraphTags: iTagPreviewer = (
 
     File.exists(img, File.imageContentType).catch(() => {
         const imgElement = card.getDiv().querySelector('.preview-img') as HTMLImageElement
-        imgElement.src = '../logos/_noRendering_400x200.png'
+        imgElement.src = '../assets/logos/_noRendering_400x200.png'
     })
 }

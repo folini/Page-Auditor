@@ -14,7 +14,7 @@ import * as CardBlocks from '../card-blocks'
 import * as Tips from '../tips/tips'
 import * as Errors from './errors'
 
-import '../logos/_noRendering_400x200.png'
+import '../assets/logos/_noRendering_400x200.png'
 
 const schemaTypesWithMustBeUniqueOccurrences: string[] = ['Organization', 'WebSite', 'BreadcrumbList']
 
