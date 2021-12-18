@@ -2,25 +2,88 @@
   "name": "page-auditor",
   "version": "1.10.20",
   "target": "Chrome",
+  "private": true,
   "description": "An open source Microsoft Edge and Google Chrome Extension to analyze Structured Data, Meta tags, and JavaScript from any web page",
   "main": "src/main.ts",
+  "license": "BSD-3-Clause",
+  "appCode": "pageAauditor",
+  "appCodeRelease": "visualizer",
+  "appName": "page-auditor",
+  "appType": "release",
+  "appFolder": "/",
+  "appAPI": "/api/",
+  "apiDev": "http://localhost:3000",
+  "apiProd": "https://",
+  "publishConfig": {},
+  "eslintConfig": {
+    "globals": {
+      "window": true
+    }
+  },
+  "build": {
+    "appId": "net.picla.page-auditor",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    }
+  },
+  "targets": {
+    "main": {
+      "includeNodeModules": {
+        "react": false,
+        "react-dom": false
+      },
+      "isLibrary": true
+    }
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "deprecated": false,
   "scripts": {
     "test": "jest --silent --detectOpenHandles",
     "test-coverage": "jest --coverage --silent",
-    "format": "prettier --write -l src test",
+    "format": "prettier --write -l src tests",
     "build": "webpack --progress --color --mode production --stats-error-details --config webpack.config.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/folini/Page-Auditor.git"
+    "url": "git+https://github.com/folini/Page-Auditor.git",
+    "help": "git+https://github.com/folini/Page-Auditor#readme"
   },
-  "author": "Franco Folini",
-  "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/folini/Page-Auditor/issues"
   },
   "homepage": "https://github.com/folini/Page-Auditor#readme",
+  "copyright": "Franco Folini",
+  "author": {
+    "name": "Franco Folini",
+    "url": "https://github.com/folini/"
+  },
+  "contributors": [
+    {
+      "name": "Dario Passariello",
+      "email": "dariopassariello@gamil.com",
+      "url": "https://dario.passariello.ca"
+    }
+  ],
+  "keywords": [
+    "folini",
+    "seo",
+    "page",
+    "auditor",
+    "window",
+    "meta",
+    "quality",
+    "code",
+    "powerful"
+  ],
   "devDependencies": {
+    "@babel/core": "^7.16.5",
+    "@babel/preset-env": "^7.16.5",
     "@babel/preset-typescript": "^7.15.0",
     "@types/chrome": "0.0.148",
     "@types/jest": "^27.0.1",
@@ -28,13 +91,14 @@
     "@types/jsdom": "^16.2.13",
     "@types/node": "^16.9.1",
     "@types/pako": "^1.0.2",
+    "babel-loader": "^8.2.3",
     "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.2.0",
     "file-loader": "^6.2.0",
-    "html-validate": "^5.3.0",
+    "html-validate": "^6.1.4",
     "jest-chain": "^1.1.5",
     "jest-environment-jsdom": "^27.1.0",
-    "jest-extended": "^0.11.5",
+    "jest-extended": "^1.2.0",
     "jest-fetch-mock": "^3.0.3",
     "js-beautify": "^1.14.0",
     "js-htmlencode": "^0.3.0",
@@ -51,10 +115,13 @@
     "ts-loader": "^9.2.5",
     "typescript": "^4.4.3",
     "util": "^0.12.4",
-    "webpack": "^5.52.1",
+    "webpack": "^5.65.0",
     "webpack-cli": "^4.8.0"
   },
   "dependencies": {
+    "dotenv": "^10.0.0",
+    "jshint": "^2.13.1",
+    "require": "^2.4.20",
     "schema-dts": "^1.0.0"
   }
 }
