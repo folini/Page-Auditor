@@ -1,6 +1,5 @@
-
-const webpack = require("webpack");
 const path = require('path');
+const webpack = require("webpack");
 const dotenv = require('dotenv').config({path: __dirname + '/.env'});
 const TerserPlugin = require("terser-webpack-plugin");
 
@@ -22,7 +21,7 @@ module.exports = {
 
   mode: 'production',
   devtool: "hidden-nosources-source-map",
-  target: ['web', 'node'],
+  target: 'web',
   cache: true,
 
   devServer: {
@@ -169,7 +168,7 @@ module.exports = {
 
   resolve: {
     alias: {
-      Assets:       path.resolve( __dirname, 'public/assets' ),
+      Assets:       path.resolve( __dirname, 'src/assets' ),
       Components:   path.resolve( __dirname, 'src/components' ),
       Include:      path.resolve( __dirname, 'src/shared/include' ),
       Modals:       path.resolve( __dirname, 'src/shared/modals' ),
@@ -185,7 +184,7 @@ module.exports = {
       Utils:        path.resolve( __dirname, 'src/utils' ),
       Validators:   path.resolve( __dirname, 'src/validators' ),
       Layout:       path.resolve( __dirname, 'src/layout' ),
-      Root:         path.resolve( __dirname, 'src' )
+      Root:         path.resolve( __dirname, 'src/' )
     },
     modules: [path.resolve('node_modules')],
     extensions: [".ts", ".tsx", ".js", ".css", ".less", ".sass", ".scss"],
