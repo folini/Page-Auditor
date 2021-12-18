@@ -1,4 +1,5 @@
 
+const webpack = require("webpack");
 const path = require('path');
 const dotenv = require('dotenv').config({path: __dirname + '/.env'});
 const TerserPlugin = require("terser-webpack-plugin");
@@ -21,8 +22,8 @@ module.exports = {
 
   mode: 'production',
   devtool: "hidden-nosources-source-map",
-  cache: true,
   target: ['web', 'node'],
+  cache: true,
 
   devServer: {
     // port: 3000,
