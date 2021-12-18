@@ -6,12 +6,12 @@
 // ----------------------------------------------------------------------------
 import './default.htm'
 import './manifest.json'
-import './styles/style.less'
-import './logos/Logo_256x256.png'
+import './styles/less/style.less'
+import './assets/logos/Logo_256x256.png'
 
 import {Report} from './report'
 import {Card} from './card'
-import {version as versionNumber} from '../package.json'
+
 import {iWorkerRenderJob as iRenderTask} from './worker'
 import * as Errors from './cards/errors'
 import * as JsonLd from './cards/sd'
@@ -23,6 +23,8 @@ import * as Tips from './tips/tips'
 import * as Html from './cards/html'
 import * as Spinner from './spinner'
 import * as Todo from './todo'
+
+let Platform = require('../package.json');
 
 export type CodeInjectorFunc = (() => any) | null
 export type ReportGeneratorFunc = (url: string, data: any, report: Report) => void
@@ -119,7 +121,7 @@ document.addEventListener('BeforeUnloadEvent', () => {
 // ----------------------------------------------------------------------------
 const buildNavigationArea = (sections: SectionType[]) => {
     const versionDiv = document.getElementById('id-version') as HTMLElement
-    versionDiv.innerHTML = `Ver. ${versionNumber}`
+    versionDiv.innerHTML = `Ver. ${ Platform.version }`
     const tabsContainer = document.getElementById('id-tabs') as HTMLUListElement
     const reportContainer = document.getElementById('id-report-outer-container') as HTMLDivElement
     sections.forEach((section, i) => {

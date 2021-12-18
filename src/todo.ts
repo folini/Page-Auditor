@@ -4,8 +4,10 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
+
 import * as Card from './card'
-import {version as versionNumber} from '../package.json'
+
+let Platform = require('../package.json');
 
 export const open = (url: string, title: string) => {
     const width = 600
@@ -30,7 +32,7 @@ export const open = (url: string, title: string) => {
 
     const version = win.document.createElement('div')
     version.id = 'id-version'
-    version.textContent = `Ver. ${versionNumber}`
+    version.textContent = `Ver. ${ Platform.version }`
 
     const btn = win.document.createElement('button')
     btn.id = 'btn-open-close'

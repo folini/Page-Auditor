@@ -8,29 +8,30 @@ import {Card, CardKind} from '../card'
 import {Mode} from '../colorCode'
 import * as CardBlocks from '../card-blocks'
 import {SmSource, iSmCandidate} from '../sitemapList'
-import {target as Platform} from '../../package.json'
+
+let Platform = require('../../package.json');
 
 // ------------------------------------------------------------------------
 // Google Chrome Errors
 export function browser_UnableToAnalyzeTabs() {
-    const msg1 = `<i>Page Auditor</i> can not run on empty tabs or browser internal tabs.`
-    const msg2 = `Please launch <i>Page Auditor for Technical SEO</i> on a regular web page.`
-    return new Card(CardKind.error)
-        .setLogo(Platform === 'Chrome' ? 'icon-chromium' : 'icon-edge')
-        .add(CardBlocks.paragraph(msg1))
-        .add(CardBlocks.paragraph(msg2))
-        .setTitle(`Unable To Analyze <code>${Platform === 'Chrome' ? 'chrome:' : 'edge:'}</code> Tabs`)
-        .setTag('card-error')
+  const msg1 = `<i>Page Auditor</i> can not run on empty tabs or browser internal tabs.`
+  const msg2 = `Please launch <i>Page Auditor for Technical SEO</i> on a regular web page.`
+  return new Card(CardKind.error)
+    .setLogo( Platform.target  === 'Chrome' ? 'icon-chromium' : 'icon-edge')
+    .add(CardBlocks.paragraph(msg1))
+    .add(CardBlocks.paragraph(msg2))
+    .setTitle(`Unable To Analyze <code>${Platform.target === 'Chrome' ? 'chrome:' : 'edge:'}</code> Tabs`)
+    .setTag('card-error')
 }
 
 export function browser_TabUrlUndefined() {
     const msg1 = `The current browser's tab is undefined.`
     const msg2 = `Please re-launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
     return new Card(CardKind.error)
-        .setLogo(Platform === 'Chrome' ? 'icon-chromium' : 'icon-edge')
+        .setLogo( Platform.target === 'Chrome' ? 'icon-chromium' : 'icon-edge')
         .add(CardBlocks.paragraph(msg1))
         .add(CardBlocks.paragraph(msg2))
-        .setTitle(`${Platform} Tab Undefined`)
+        .setTitle(`${ Platform.target } Tab Undefined`)
         .setTag('card-error')
 }
 
@@ -38,7 +39,7 @@ export function browser_UnableToAnalyzePage(url: string) {
     const msg1 = `<b>Page Auditor</b> can not run on page at the url:`
     const msg2 = `Please launch <b>Page Auditor for Technical SEO</b> on a regular web page.`
     return new Card(CardKind.error)
-        .setLogo(Platform === 'Chrome' ? 'icon-chromium' : 'icon-edge')
+        .setLogo( Platform.target === 'Chrome' ? 'icon-chromium' : 'icon-edge')
         .add(CardBlocks.paragraph(msg1))
         .add(CardBlocks.paragraph(url, Mode.txt))
         .add(CardBlocks.paragraph(msg2))
