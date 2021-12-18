@@ -359,756 +359,756 @@ body#id-page-auditor .pointers .credits-pointer a:hover {
     text-decoration: underline;
 }
 body#id-page-auditor .box-card.icon-ld-json > h2 {
-    background-image: url(../assets/logos/JSON-LD_100x100.png);
+    background-image: url(~Assets/logos/JSON-LD_100x100.png);
 }
 body#id-page-auditor .box-card.icon-error > h2 {
-    background-image: url(../assets/logos/ERROR_100x100.png);
+    background-image: url(~Assets/logos/ERROR_100x100.png);
 }
 body#id-page-auditor .box-card.icon-info > h2 {
-    background-image: url(../assets/logos/Info_100x100.png);
+    background-image: url(~Assets/logos/Info_100x100.png);
 }
 body#id-page-auditor .box-card.icon-OK > h2 {
-    background-image: url(../assets/logos/OK_100x100.png);
+    background-image: url(~Assets/logos/OK_100x100.png);
 }
 body#id-page-auditor .box-card.icon-suggestion > h2 {
     background-color: var(--card-suggestion-color) !important;
-    background-image: url(../assets/logos/Suggestion_100x100.png);
+    background-image: url(~Assets/logos/Suggestion_100x100.png);
     background-color: var(--var-card-suggestion-bg);
 }
 body#id-page-auditor .box-card.icon-google-ads > h2 {
-    background-image: url(../assets/logos/GoogleAds_100x100.png);
+    background-image: url(~Assets/logos/GoogleAds_100x100.png);
 }
 body#id-page-auditor .box-card.icon-double-click > h2 {
-    background-image: url(../assets/logos/DoubleClick_100x100.png);
+    background-image: url(~Assets/logos/DoubleClick_100x100.png);
 }
 body#id-page-auditor .box-card.icon-tag-manager > h2 {
-    background-image: url(../assets/logos/GoogleTagManager_100x100.png);
+    background-image: url(~Assets/logos/GoogleTagManager_100x100.png);
 }
 body#id-page-auditor .box-card.icon-facebook > h2 {
-    background-image: url(../assets/logos/Facebook_100x100.png);
+    background-image: url(~Assets/logos/Facebook_100x100.png);
 }
 body#id-page-auditor .box-card.icon-facebook-pixel > h2 {
-    background-image: url(../assets/logos/FacebookPixel_100x100.png);
+    background-image: url(~Assets/logos/FacebookPixel_100x100.png);
 }
 body#id-page-auditor .box-card.icon-twitter > h2 {
-    background-image: url(../assets/logos/TwitterAds_100x100.png);
+    background-image: url(~Assets/logos/TwitterAds_100x100.png);
 }
 body#id-page-auditor .box-card.icon-twitter-analytics > h2 {
-    background-image: url(../assets/logos/TwitterAnalytics_100x100.png);
+    background-image: url(~Assets/logos/TwitterAnalytics_100x100.png);
 }
 body#id-page-auditor .box-card.icon-bing-ads > h2 {
-    background-image: url(../assets/logos/BingAds_100x100.png);
+    background-image: url(~Assets/logos/BingAds_100x100.png);
 }
 body#id-page-auditor .box-card.icon-pinterest > h2 {
-    background-image: url(../assets/logos/Pinterest_100x100.png);
+    background-image: url(~Assets/logos/Pinterest_100x100.png);
 }
 body#id-page-auditor .box-card.icon-google-analytics-v3 > h2 {
-    background-image: url(../assets/logos/GoogleAnalyticsV3_100x100.png);
+    background-image: url(~Assets/logos/GoogleAnalyticsV3_100x100.png);
 }
 body#id-page-auditor .box-card.icon-podsights > h2 {
-    background-image: url(../assets/logos/Podsights_100x100.png);
+    background-image: url(~Assets/logos/Podsights_100x100.png);
 }
 body#id-page-auditor .box-card.icon-site-improve > h2 {
-    background-image: url(../assets/logos/SiteImprove_100x100.png);
+    background-image: url(~Assets/logos/SiteImprove_100x100.png);
 }
 body#id-page-auditor .box-card.icon-google > h2 {
-    background-image: url(../assets/logos/Google_100x100.png);
+    background-image: url(~Assets/logos/Google_100x100.png);
 }
 body#id-page-auditor .box-card.icon-web-stat > h2 {
-    background-image: url(../assets/logos/WebStat_100x100.png);
+    background-image: url(~Assets/logos/WebStat_100x100.png);
 }
 body#id-page-auditor .box-card.icon-replay-app > h2 {
-    background-image: url(../assets/logos/ReplayApp_100x100.png);
+    background-image: url(~Assets/logos/ReplayApp_100x100.png);
 }
 body#id-page-auditor .box-card.icon-cartkit > h2 {
-    background-image: url(../assets/logos/CartKit_100x100.png);
+    background-image: url(~Assets/logos/CartKit_100x100.png);
 }
 body#id-page-auditor .box-card.icon-heroku > h2 {
-    background-image: url(../assets/logos/Heroku_100x100.png);
+    background-image: url(~Assets/logos/Heroku_100x100.png);
 }
 body#id-page-auditor .box-card.icon-hubspot > h2 {
-    background-image: url(../assets/logos/Hubspot_100x100.png);
+    background-image: url(~Assets/logos/Hubspot_100x100.png);
 }
 body#id-page-auditor .box-card.icon-krux-pixel > h2 {
-    background-image: url(../assets/logos/KruxPixel_100x100.png);
+    background-image: url(~Assets/logos/KruxPixel_100x100.png);
 }
 body#id-page-auditor .box-card.icon-amazon-ads > h2 {
-    background-image: url(../assets/logos/AmazonAds_100x100.png);
+    background-image: url(~Assets/logos/AmazonAds_100x100.png);
 }
 body#id-page-auditor .box-card.icon-amazon > h2 {
-    background-image: url(../assets/logos/Amazon_100x100.png);
+    background-image: url(~Assets/logos/Amazon_100x100.png);
 }
 body#id-page-auditor .box-card.icon-segment-analytics > h2 {
-    background-image: url(../assets/logos/SegmentAnalytics_100x100.png);
+    background-image: url(~Assets/logos/SegmentAnalytics_100x100.png);
 }
 body#id-page-auditor .box-card.icon-warnermedia-analytics > h2 {
-    background-image: url(../assets/logos/TurnerAnalytics_100x100.png);
+    background-image: url(~Assets/logos/TurnerAnalytics_100x100.png);
 }
 body#id-page-auditor .box-card.icon-criteo > h2 {
-    background-image: url(../assets/logos/Criteo_100x100.png);
+    background-image: url(~Assets/logos/Criteo_100x100.png);
 }
 body#id-page-auditor .box-card.icon-zeta-global > h2 {
-    background-image: url(../assets/logos/Zeta_100x100.png);
+    background-image: url(~Assets/logos/Zeta_100x100.png);
 }
 body#id-page-auditor .box-card.icon-quantcast > h2 {
-    background-image: url(../assets/logos/QuantCast_100x100.png);
+    background-image: url(~Assets/logos/QuantCast_100x100.png);
 }
 body#id-page-auditor .box-card.icon-adform > h2 {
-    background-image: url(../assets/logos/AdForm_100x100.png);
+    background-image: url(~Assets/logos/AdForm_100x100.png);
 }
 body#id-page-auditor .box-card.icon-nativo > h2 {
-    background-image: url(../assets/logos/Nativo_100x100.png);
+    background-image: url(~Assets/logos/Nativo_100x100.png);
 }
 body#id-page-auditor .box-card.icon-drift > h2 {
-    background-image: url(../assets/logos/Drift_100x100.png);
+    background-image: url(~Assets/logos/Drift_100x100.png);
 }
 body#id-page-auditor .box-card.icon-neodata > h2 {
-    background-image: url(../assets/logos/NeodataGroup_100x100.png);
+    background-image: url(~Assets/logos/NeodataGroup_100x100.png);
 }
 body#id-page-auditor .box-card.icon-sophus3 > h2 {
-    background-image: url(../assets/logos/Sophus3_100x100.png);
+    background-image: url(~Assets/logos/Sophus3_100x100.png);
 }
 body#id-page-auditor .box-card.icon-drip > h2 {
-    background-image: url(../assets/logos/Drip_100x100.png);
+    background-image: url(~Assets/logos/Drip_100x100.png);
 }
 body#id-page-auditor .box-card.icon-crazy-egg > h2 {
-    background-image: url(../assets/logos/CrazyEgg_100x100.png);
+    background-image: url(~Assets/logos/CrazyEgg_100x100.png);
 }
 body#id-page-auditor .box-card.icon-leadfeeder > h2 {
-    background-image: url(../assets/logos/LeadFeeder_100x100.png);
+    background-image: url(~Assets/logos/LeadFeeder_100x100.png);
 }
 body#id-page-auditor .box-card.icon-outbrain > h2 {
-    background-image: url(../assets/logos/OutBrain_100x100.png);
+    background-image: url(~Assets/logos/OutBrain_100x100.png);
 }
 body#id-page-auditor .box-card.icon-qualtric > h2 {
-    background-image: url(../assets/logos/Qualtric_100x100.png);
+    background-image: url(~Assets/logos/Qualtric_100x100.png);
 }
 body#id-page-auditor .box-card.icon-avantlink > h2 {
-    background-image: url(../assets/logos/AvantLink_100x100.png);
+    background-image: url(~Assets/logos/AvantLink_100x100.png);
 }
 body#id-page-auditor .box-card.icon-scorecard > h2 {
-    background-image: url(../assets/logos/ScoreCard_100x100.png);
+    background-image: url(~Assets/logos/ScoreCard_100x100.png);
 }
 body#id-page-auditor .box-card.icon-taboola > h2 {
-    background-image: url(../assets/logos/Taboola_100x100.png);
+    background-image: url(~Assets/logos/Taboola_100x100.png);
 }
 body#id-page-auditor .box-card.icon-nielsen > h2 {
-    background-image: url(../assets/logos/Nielsen_100x100.png);
+    background-image: url(~Assets/logos/Nielsen_100x100.png);
 }
 body#id-page-auditor .box-card.icon-webtrekk > h2 {
-    background-image: url(../assets/logos/Webtrekk_100x100.png);
+    background-image: url(~Assets/logos/Webtrekk_100x100.png);
 }
 body#id-page-auditor .box-card.icon-iubenda > h2 {
-    background-image: url(../assets/logos/Iubenda_100x100.png);
+    background-image: url(~Assets/logos/Iubenda_100x100.png);
 }
 body#id-page-auditor .box-card.icon-cookielaw > h2 {
-    background-image: url(../assets/logos/Cookielaw_100x100.png);
+    background-image: url(~Assets/logos/Cookielaw_100x100.png);
 }
 body#id-page-auditor .box-card.icon-cxense > h2 {
-    background-image: url(../assets/logos/Cxense_100x100.png);
+    background-image: url(~Assets/logos/Cxense_100x100.png);
 }
 body#id-page-auditor .box-card.icon-fc > h2 {
-    background-image: url(../assets/logos/FC_100x100.png);
+    background-image: url(~Assets/logos/FC_100x100.png);
 }
 body#id-page-auditor .box-card.icon-franco-avatar > h2 {
-    background-image: url(../assets/logos/Avatar_200x200.png);
+    background-image: url(~Assets/logos/Avatar_200x200.png);
 }
 body#id-page-auditor .box-card.icon-tag > h2 {
-    background-image: url(../assets/logos/Tag_100x100.png);
+    background-image: url(~Assets/logos/Tag_100x100.png);
 }
 body#id-page-auditor .box-card.icon-open-graph > h2 {
-    background-image: url(../assets/logos/OpenGraph_100x100.png);
+    background-image: url(~Assets/logos/OpenGraph_100x100.png);
 }
 body#id-page-auditor .box-card.icon-swiftype > h2 {
-    background-image: url(../assets/logos/Swiftype_100x100.png);
+    background-image: url(~Assets/logos/Swiftype_100x100.png);
 }
 body#id-page-auditor .box-card.icon-rep > h2 {
-    background-image: url(../assets/logos/REP_100x100.png);
+    background-image: url(~Assets/logos/REP_100x100.png);
 }
 body#id-page-auditor .box-card.icon-lock > h2 {
-    background-image: url(../assets/logos/Lock_100x100.png);
+    background-image: url(~Assets/logos/Lock_100x100.png);
 }
 body#id-page-auditor .box-card.icon-seo > h2 {
-    background-image: url(../assets/logos/SEO_100x100.png);
+    background-image: url(~Assets/logos/SEO_100x100.png);
 }
 body#id-page-auditor .box-card.icon-chromium > h2 {
-    background-image: url(../assets/logos/Chromium_100x100.png);
+    background-image: url(~Assets/logos/Chromium_100x100.png);
 }
 body#id-page-auditor .box-card.icon-edge > h2 {
-    background-image: url(../assets/logos/Edge_100x100.png);
+    background-image: url(~Assets/logos/Edge_100x100.png);
 }
 body#id-page-auditor .box-card.icon-micro-formats > h2 {
-    background-image: url(../assets/logos/MicroFormats_100x100.png);
+    background-image: url(~Assets/logos/MicroFormats_100x100.png);
 }
 body#id-page-auditor .box-card.icon-apple > h2 {
-    background-image: url(../assets/logos/Apple_100x100.png);
+    background-image: url(~Assets/logos/Apple_100x100.png);
 }
 body#id-page-auditor .box-card.icon-windows > h2 {
-    background-image: url(../assets/logos/Windows_100x100.png);
+    background-image: url(~Assets/logos/Windows_100x100.png);
 }
 body#id-page-auditor .box-card.icon-shopify > h2 {
-    background-image: url(../assets/logos/Shopify_100x100.png);
+    background-image: url(~Assets/logos/Shopify_100x100.png);
 }
 body#id-page-auditor .box-card.icon-branch > h2 {
-    background-image: url(../assets/logos/Branch_100x100.png);
+    background-image: url(~Assets/logos/Branch_100x100.png);
 }
 body#id-page-auditor .box-card.icon-ie > h2 {
-    background-image: url(../assets/logos/IE_100x100.png);
+    background-image: url(~Assets/logos/IE_100x100.png);
 }
 body#id-page-auditor .box-card.icon-ms > h2 {
-    background-image: url(../assets/logos/MS_100x100.png);
+    background-image: url(~Assets/logos/MS_100x100.png);
 }
 body#id-page-auditor .box-card.icon-unclassified > h2 {
-    background-image: url(../assets/logos/Unclassified_100x100.png);
+    background-image: url(~Assets/logos/Unclassified_100x100.png);
 }
 body#id-page-auditor .box-card.icon-xandr > h2 {
-    background-image: url(../assets/logos/Xandr_100x100.png);
+    background-image: url(~Assets/logos/Xandr_100x100.png);
 }
 body#id-page-auditor .box-card.icon-ias > h2 {
-    background-image: url(../assets/logos/IAS_100x100.png);
+    background-image: url(~Assets/logos/IAS_100x100.png);
 }
 body#id-page-auditor .box-card.icon-wunderkind > h2 {
-    background-image: url(../assets/logos/Wunderkind_100x100.png);
+    background-image: url(~Assets/logos/Wunderkind_100x100.png);
 }
 body#id-page-auditor .box-card.icon-heap > h2 {
-    background-image: url(../assets/logos/Heap_100x100.png);
+    background-image: url(~Assets/logos/Heap_100x100.png);
 }
 body#id-page-auditor .box-card.icon-marketo > h2 {
-    background-image: url(../assets/logos/Marketo_100x100.png);
+    background-image: url(~Assets/logos/Marketo_100x100.png);
 }
 body#id-page-auditor .box-card.icon-vwo > h2 {
-    background-image: url(../assets/logos/VWO_100x100.png);
+    background-image: url(~Assets/logos/VWO_100x100.png);
 }
 body#id-page-auditor .box-card.icon-cookiebot > h2 {
-    background-image: url(../assets/logos/Cookiebot_100x100.png);
+    background-image: url(~Assets/logos/Cookiebot_100x100.png);
 }
 body#id-page-auditor .box-card.icon-pardot > h2 {
-    background-image: url(../assets/logos/Pardot_100x100.png);
+    background-image: url(~Assets/logos/Pardot_100x100.png);
 }
 body#id-page-auditor .box-card.icon-adroll > h2 {
-    background-image: url(../assets/logos/AdRoll_100x100.png);
+    background-image: url(~Assets/logos/AdRoll_100x100.png);
 }
 body#id-page-auditor .box-card.icon-quora > h2 {
-    background-image: url(../assets/logos/Quora_100x100.png);
+    background-image: url(~Assets/logos/Quora_100x100.png);
 }
 body#id-page-auditor .box-card.icon-hotjar > h2 {
-    background-image: url(../assets/logos/Hotjar_100x100.png);
+    background-image: url(~Assets/logos/Hotjar_100x100.png);
 }
 body#id-page-auditor .box-card.icon-trustpilot > h2 {
-    background-image: url(../assets/logos/Trustpilot_100x100.png);
+    background-image: url(~Assets/logos/Trustpilot_100x100.png);
 }
 body#id-page-auditor .box-card.icon-liveperson > h2 {
-    background-image: url(../assets/logos/LivePerson_100x100.png);
+    background-image: url(~Assets/logos/LivePerson_100x100.png);
 }
 body#id-page-auditor .box-card.icon-reddit > h2 {
-    background-image: url(../assets/logos/Reddit_100x100.png);
+    background-image: url(~Assets/logos/Reddit_100x100.png);
 }
 body#id-page-auditor .box-card.icon-buy-sell-ads > h2 {
-    background-image: url(../assets/logos/BuySellAds_100x100.png);
+    background-image: url(~Assets/logos/BuySellAds_100x100.png);
 }
 body#id-page-auditor .box-card.icon-cloudflare > h2 {
-    background-image: url(../assets/logos/CloudFlare_100x100.png);
+    background-image: url(~Assets/logos/CloudFlare_100x100.png);
 }
 body#id-page-auditor .box-card.icon-google-optimize > h2 {
-    background-image: url(../assets/logos/GoogleOptimize_100x100.png);
+    background-image: url(~Assets/logos/GoogleOptimize_100x100.png);
 }
 body#id-page-auditor .box-card.icon-firebase > h2 {
-    background-image: url(../assets/logos/Firebase_100x100.png);
+    background-image: url(~Assets/logos/Firebase_100x100.png);
 }
 body#id-page-auditor .box-card.icon-wordpress > h2 {
-    background-image: url(../assets/logos/Wordpress_100x100.png);
+    background-image: url(~Assets/logos/Wordpress_100x100.png);
 }
 body#id-page-auditor .box-card.icon-riskified > h2 {
-    background-image: url(../assets/logos/Riskified_100x100.png);
+    background-image: url(~Assets/logos/Riskified_100x100.png);
 }
 body#id-page-auditor .box-card.icon-onetrust > h2 {
-    background-image: url(../assets/logos/Onetrust_100x100.png);
+    background-image: url(~Assets/logos/Onetrust_100x100.png);
 }
 body#id-page-auditor .box-card.icon-amplitude > h2 {
-    background-image: url(../assets/logos/Amplitude_100x100.png);
+    background-image: url(~Assets/logos/Amplitude_100x100.png);
 }
 body#id-page-auditor .box-card.icon-new-relic > h2 {
-    background-image: url(../assets/logos/NewRelic_100x100.png);
+    background-image: url(~Assets/logos/NewRelic_100x100.png);
 }
 body#id-page-auditor .box-card.icon-squarespace > h2 {
-    background-image: url(../assets/logos/Squarespace_100x100.png);
+    background-image: url(~Assets/logos/Squarespace_100x100.png);
 }
 body#id-page-auditor .box-card.icon-stripe > h2 {
-    background-image: url(../assets/logos/Stripe_100x100.png);
+    background-image: url(~Assets/logos/Stripe_100x100.png);
 }
 body#id-page-auditor .box-card.icon-apps-flyer > h2 {
-    background-image: url(../assets/logos/AppsFlyer_100x100.png);
+    background-image: url(~Assets/logos/AppsFlyer_100x100.png);
 }
 body#id-page-auditor .box-card.icon-appcues > h2 {
-    background-image: url(../assets/logos/Appcues_100x100.png);
+    background-image: url(~Assets/logos/Appcues_100x100.png);
 }
 body#id-page-auditor .box-card.icon-brand-metrics > h2 {
-    background-image: url(../assets/logos/BrandMetrics_100x100.png);
+    background-image: url(~Assets/logos/BrandMetrics_100x100.png);
 }
 body#id-page-auditor .box-card.icon-parrable > h2 {
-    background-image: url(../assets/logos/Parrable_100x100.png);
+    background-image: url(~Assets/logos/Parrable_100x100.png);
 }
 body#id-page-auditor .box-card.icon-neustar > h2 {
-    background-image: url(../assets/logos/Neustar_100x100.png);
+    background-image: url(~Assets/logos/Neustar_100x100.png);
 }
 body#id-page-auditor .box-card.icon-thetradedesk > h2 {
-    background-image: url(../assets/logos/TheTradeDesk_100x100.png);
+    background-image: url(~Assets/logos/TheTradeDesk_100x100.png);
 }
 body#id-page-auditor .box-card.icon-tidio > h2 {
-    background-image: url(../assets/logos/TIDIO_100x100.png);
+    background-image: url(~Assets/logos/TIDIO_100x100.png);
 }
 body#id-page-auditor .box-card.icon-jquery > h2 {
-    background-image: url(../assets/logos/jQuery_100x100.png);
+    background-image: url(~Assets/logos/jQuery_100x100.png);
 }
 body#id-page-auditor .box-card.icon-tapfiliate > h2 {
-    background-image: url(../assets/logos/Tapfiliate_100x100.png);
+    background-image: url(~Assets/logos/Tapfiliate_100x100.png);
 }
 body#id-page-auditor .box-card.icon-intercom > h2 {
-    background-image: url(../assets/logos/Intercom_100x100.png);
+    background-image: url(~Assets/logos/Intercom_100x100.png);
 }
 body#id-page-auditor .box-card.icon-clearbit > h2 {
-    background-image: url(../assets/logos/Clearbit_100x100.png);
+    background-image: url(~Assets/logos/Clearbit_100x100.png);
 }
 body#id-page-auditor .box-card.icon-chartbeat > h2 {
-    background-image: url(../assets/logos/Chartbeat_100x100.png);
+    background-image: url(~Assets/logos/Chartbeat_100x100.png);
 }
 body#id-page-auditor .box-card.icon-onetag > h2 {
-    background-image: url(../assets/logos/Onetag_100x100.png);
+    background-image: url(~Assets/logos/Onetag_100x100.png);
 }
 body#id-page-auditor .box-card.icon-insurads > h2 {
-    background-image: url(../assets/logos/InsurAds_100x100.png);
+    background-image: url(~Assets/logos/InsurAds_100x100.png);
 }
 body#id-page-auditor .box-card.icon-userzoom > h2 {
-    background-image: url(../assets/logos/UserZoom_100x100.png);
+    background-image: url(~Assets/logos/UserZoom_100x100.png);
 }
 body#id-page-auditor .box-card.icon-consensu > h2 {
-    background-image: url(../assets/logos/Consensu_100x100.png);
+    background-image: url(~Assets/logos/Consensu_100x100.png);
 }
 body#id-page-auditor .box-card.icon-adobe > h2 {
-    background-image: url(../assets/logos/Adobe_100x100.png);
+    background-image: url(~Assets/logos/Adobe_100x100.png);
 }
 body#id-page-auditor .box-card.icon-tiktok > h2 {
-    background-image: url(../assets/logos/TikTok_100x100.png);
+    background-image: url(~Assets/logos/TikTok_100x100.png);
 }
 body#id-page-auditor .box-card.icon-youtube > h2 {
-    background-image: url(../assets/logos/YouTube_100x100.png);
+    background-image: url(~Assets/logos/YouTube_100x100.png);
 }
 body#id-page-auditor .box-card.icon-snapchat > h2 {
-    background-image: url(../assets/logos/SnapChat_100x100.png);
+    background-image: url(~Assets/logos/SnapChat_100x100.png);
 }
 body#id-page-auditor .box-card.icon-contentsquare > h2 {
-    background-image: url(../assets/logos/ContentSquare_100x100.png);
+    background-image: url(~Assets/logos/ContentSquare_100x100.png);
 }
 body#id-page-auditor .box-card.icon-user1st > h2 {
-    background-image: url(../assets/logos/USER1st_100x100.png);
+    background-image: url(~Assets/logos/USER1st_100x100.png);
 }
 body#id-page-auditor .box-card.icon-fontawesome > h2 {
-    background-image: url(../assets/logos/FontAwesome_100x100.png);
+    background-image: url(~Assets/logos/FontAwesome_100x100.png);
 }
 body#id-page-auditor .box-card.icon-cloudfront > h2 {
-    background-image: url(../assets/logos/Cloudfront_100x100.png);
+    background-image: url(~Assets/logos/Cloudfront_100x100.png);
 }
 body#id-page-auditor .box-card.icon-aws > h2 {
-    background-image: url(../assets/logos/AWS_100x100.png);
+    background-image: url(~Assets/logos/AWS_100x100.png);
 }
 body#id-page-auditor .box-card.icon-js > h2 {
-    background-image: url(../assets/logos/JS_100x100.png);
+    background-image: url(~Assets/logos/JS_100x100.png);
 }
 body#id-page-auditor .box-card.icon-mailchimp > h2 {
-    background-image: url(../assets/logos/Mailchimp_100x100.png);
+    background-image: url(~Assets/logos/Mailchimp_100x100.png);
 }
 body#id-page-auditor .box-card.icon-yahoo > h2 {
-    background-image: url(../assets/logos/Yahoo_100x100.png);
+    background-image: url(~Assets/logos/Yahoo_100x100.png);
 }
 body#id-page-auditor .box-card.icon-jivox > h2 {
-    background-image: url(../assets/logos/Jivox_100x100.png);
+    background-image: url(~Assets/logos/Jivox_100x100.png);
 }
 body#id-page-auditor .box-card.icon-leadlander > h2 {
-    background-image: url(../assets/logos/LeadLander_100x100.png);
+    background-image: url(~Assets/logos/LeadLander_100x100.png);
 }
 body#id-page-auditor .box-card.icon-fastly > h2 {
-    background-image: url(../assets/logos/Fastly_100x100.png);
+    background-image: url(~Assets/logos/Fastly_100x100.png);
 }
 body#id-page-auditor .box-card.icon-demandbase > h2 {
-    background-image: url(../assets/logos/Demandbase_100x100.png);
+    background-image: url(~Assets/logos/Demandbase_100x100.png);
 }
 body#id-page-auditor .box-card.icon-adlightning > h2 {
-    background-image: url(../assets/logos/AdLightning_100x100.png);
+    background-image: url(~Assets/logos/AdLightning_100x100.png);
 }
 body#id-page-auditor .box-card.icon-mather > h2 {
-    background-image: url(../assets/logos/Mather_100x100.png);
+    background-image: url(~Assets/logos/Mather_100x100.png);
 }
 body#id-page-auditor .box-card.icon-lytics > h2 {
-    background-image: url(../assets/logos/Lytics_100x100.png);
+    background-image: url(~Assets/logos/Lytics_100x100.png);
 }
 body#id-page-auditor .box-card.icon-sitemap > h2 {
-    background-image: url(../assets/logos/Sitemap_100x100.png);
+    background-image: url(~Assets/logos/Sitemap_100x100.png);
 }
 body#id-page-auditor .box-card.icon-moat > h2 {
-    background-image: url(../assets/logos/MOAT_100x100.png);
+    background-image: url(~Assets/logos/MOAT_100x100.png);
 }
 body#id-page-auditor .box-card.icon-rich-audience > h2 {
-    background-image: url(../assets/logos/RichAudience_100x100.png);
+    background-image: url(~Assets/logos/RichAudience_100x100.png);
 }
 body#id-page-auditor .box-card.icon-gladly > h2 {
-    background-image: url(../assets/logos/Gladly_100x100.png);
+    background-image: url(~Assets/logos/Gladly_100x100.png);
 }
 body#id-page-auditor .box-card.icon-channel-advisor > h2 {
-    background-image: url(../assets/logos/ChannelAdvisor_100x100.png);
+    background-image: url(~Assets/logos/ChannelAdvisor_100x100.png);
 }
 body#id-page-auditor .box-card.icon-tealium > h2 {
-    background-image: url(../assets/logos/Tealium_100x100.png);
+    background-image: url(~Assets/logos/Tealium_100x100.png);
 }
 body#id-page-auditor .box-card.icon-algonomy > h2 {
-    background-image: url(../assets/logos/Algonomy_100x100.png);
+    background-image: url(~Assets/logos/Algonomy_100x100.png);
 }
 body#id-page-auditor .box-card.icon-teads > h2 {
-    background-image: url(../assets/logos/Teads_100x100.png);
+    background-image: url(~Assets/logos/Teads_100x100.png);
 }
 body#id-page-auditor .box-card.icon-salesforce > h2 {
-    background-image: url(../assets/logos/SalesForce_100x100.png);
+    background-image: url(~Assets/logos/SalesForce_100x100.png);
 }
 body#id-page-auditor .box-card.icon-lotame > h2 {
-    background-image: url(../assets/logos/Lotame_100x100.png);
+    background-image: url(~Assets/logos/Lotame_100x100.png);
 }
 body#id-page-auditor .box-card.icon-movableink > h2 {
-    background-image: url(../assets/logos/MovableInk_100x100.png);
+    background-image: url(~Assets/logos/MovableInk_100x100.png);
 }
 body#id-page-auditor .box-card.icon-skai > h2 {
-    background-image: url(../assets/logos/Skai_100x100.png);
+    background-image: url(~Assets/logos/Skai_100x100.png);
 }
 body#id-page-auditor .box-card.icon-zync > h2 {
-    background-image: url(../assets/logos/Zync_100x100.png);
+    background-image: url(~Assets/logos/Zync_100x100.png);
 }
 body#id-page-auditor .box-card.icon-bombora > h2 {
-    background-image: url(../assets/logos/Bombora_100x100.png);
+    background-image: url(~Assets/logos/Bombora_100x100.png);
 }
 body#id-page-auditor .box-card.icon-why > h2 {
-    background-image: url(../assets/logos/Why_100x100.png);
+    background-image: url(~Assets/logos/Why_100x100.png);
 }
 body#id-page-auditor .box-card.icon-how > h2 {
-    background-image: url(../assets/logos/How_100x100.png);
+    background-image: url(~Assets/logos/How_100x100.png);
 }
 body#id-page-auditor .box-card.icon-open > h2 {
-    background-image: url(../assets/logos/Open_100x100.png);
+    background-image: url(~Assets/logos/Open_100x100.png);
 }
 body#id-page-auditor .box-card.icon-unpkg > h2 {
-    background-image: url(../assets/logos/unpkg_100x100.png);
+    background-image: url(~Assets/logos/unpkg_100x100.png);
 }
 body#id-page-auditor .box-card.icon-ethers > h2 {
-    background-image: url(../assets/logos/Ethers_100x100.png);
+    background-image: url(~Assets/logos/Ethers_100x100.png);
 }
 body#id-page-auditor .box-card.icon-fonts > h2 {
-    background-image: url(../assets/logos/Fonts_100x100.png);
+    background-image: url(~Assets/logos/Fonts_100x100.png);
 }
 body#id-page-auditor .box-card.icon-ada > h2 {
-    background-image: url(../assets/logos/Ada_100x100.png);
+    background-image: url(~Assets/logos/Ada_100x100.png);
 }
 body#id-page-auditor .box-card.icon-linkedin > h2 {
-    background-image: url(../assets/logos/LinkedInAds_100x100.png);
+    background-image: url(~Assets/logos/LinkedInAds_100x100.png);
 }
 body#id-page-auditor .box-card.icon-wordpress > h2 {
-    background-image: url(../assets/logos/Wordpress_100x100.png);
+    background-image: url(~Assets/logos/Wordpress_100x100.png);
 }
 body#id-page-auditor .box-card.icon-fastcomments > h2 {
-    background-image: url(../assets/logos/FastComments_100x100.png);
+    background-image: url(~Assets/logos/FastComments_100x100.png);
 }
 body#id-page-auditor .box-card.icon-noibu > h2 {
-    background-image: url(../assets/logos/Noibu_100x100.png);
+    background-image: url(~Assets/logos/Noibu_100x100.png);
 }
 body#id-page-auditor .box-card.icon-zendesk > h2 {
-    background-image: url(../assets/logos/ZenDesk_100x100.png);
+    background-image: url(~Assets/logos/ZenDesk_100x100.png);
 }
 body#id-page-auditor .box-card.icon-salesloft > h2 {
-    background-image: url(../assets/logos/Salesloft_100x100.png);
+    background-image: url(~Assets/logos/Salesloft_100x100.png);
 }
 body#id-page-auditor .box-card.icon-americaneagle > h2 {
-    background-image: url(../assets/logos/AmericanEagle_100x100.png);
+    background-image: url(~Assets/logos/AmericanEagle_100x100.png);
 }
 body#id-page-auditor .box-card.icon-yotpo > h2 {
-    background-image: url(../assets/logos/Yotpo_100x100.png);
+    background-image: url(~Assets/logos/Yotpo_100x100.png);
 }
 body#id-page-auditor .box-card.icon-datadome > h2 {
-    background-image: url(../assets/logos/DataDome_100x100.png);
+    background-image: url(~Assets/logos/DataDome_100x100.png);
 }
 body#id-page-auditor .box-card.icon-impact > h2 {
-    background-image: url(../assets/logos/Impact_100x100.png);
+    background-image: url(~Assets/logos/Impact_100x100.png);
 }
 body#id-page-auditor .box-card.icon-pendo > h2 {
-    background-image: url(../assets/logos/Pendo_100x100.png);
+    background-image: url(~Assets/logos/Pendo_100x100.png);
 }
 body#id-page-auditor .box-card.icon-wistia > h2 {
-    background-image: url(../assets/logos/Wistia_100x100.png);
+    background-image: url(~Assets/logos/Wistia_100x100.png);
 }
 body#id-page-auditor .box-card.icon-disqus > h2 {
-    background-image: url(../assets/logos/Disqus_100x100.png);
+    background-image: url(~Assets/logos/Disqus_100x100.png);
 }
 body#id-page-auditor .box-card.icon-ga-connector > h2 {
-    background-image: url(../assets/logos/GaConnector_100x100.png);
+    background-image: url(~Assets/logos/GaConnector_100x100.png);
 }
 body#id-page-auditor .box-card.icon-fullstory > h2 {
-    background-image: url(../assets/logos/FullStory_100x100.png);
+    background-image: url(~Assets/logos/FullStory_100x100.png);
 }
 body#id-page-auditor .box-card.icon-speedcurve > h2 {
-    background-image: url(../assets/logos/SpeedCurve_100x100.png);
+    background-image: url(~Assets/logos/SpeedCurve_100x100.png);
 }
 body#id-page-auditor .box-card.icon-satismeter > h2 {
-    background-image: url(../assets/logos/SatisMeter_100x100.png);
+    background-image: url(~Assets/logos/SatisMeter_100x100.png);
 }
 body#id-page-auditor .box-card.icon-profitwell > h2 {
-    background-image: url(../assets/logos/ProfitWell_100x100.png);
+    background-image: url(~Assets/logos/ProfitWell_100x100.png);
 }
 body#id-page-auditor .box-card.icon-elevio > h2 {
-    background-image: url(../assets/logos/Elevio_100x100.png);
+    background-image: url(~Assets/logos/Elevio_100x100.png);
 }
 body#id-page-auditor .box-card.icon-headway-app > h2 {
-    background-image: url(../assets/logos/HeadwayApp_100x100.png);
+    background-image: url(~Assets/logos/HeadwayApp_100x100.png);
 }
 body#id-page-auditor .box-card.icon-typekit > h2 {
-    background-image: url(../assets/logos/Typekit_100x100.png);
+    background-image: url(~Assets/logos/Typekit_100x100.png);
 }
 body#id-page-auditor .box-card.icon-ocelot > h2 {
-    background-image: url(../assets/logos/Ocelot_100x100.png);
+    background-image: url(~Assets/logos/Ocelot_100x100.png);
 }
 body#id-page-auditor .box-card.icon-zoominfo > h2 {
-    background-image: url(../assets/logos/Zoominfo_100x100.png);
+    background-image: url(~Assets/logos/Zoominfo_100x100.png);
 }
 body#id-page-auditor .box-card.icon-iterate > h2 {
-    background-image: url(../assets/logos/Iterate_100x100.png);
+    background-image: url(~Assets/logos/Iterate_100x100.png);
 }
 body#id-page-auditor .box-card.icon-bluekai > h2 {
-    background-image: url(../assets/logos/Bluekai_100x100.png);
+    background-image: url(~Assets/logos/Bluekai_100x100.png);
 }
 body#id-page-auditor .box-card.icon-geoedge > h2 {
-    background-image: url(../assets/logos/Geoedge_100x100.png);
+    background-image: url(~Assets/logos/Geoedge_100x100.png);
 }
 body#id-page-auditor .box-card.icon-akamai > h2 {
-    background-image: url(../assets/logos/Akamai_100x100.png);
+    background-image: url(~Assets/logos/Akamai_100x100.png);
 }
 body#id-page-auditor .box-card.icon-media-net > h2 {
-    background-image: url(../assets/logos/MediaNet_100x100.png);
+    background-image: url(~Assets/logos/MediaNet_100x100.png);
 }
 body#id-page-auditor .box-card.icon-cookiepro > h2 {
-    background-image: url(../assets/logos/CookiePro_100x100.png);
+    background-image: url(~Assets/logos/CookiePro_100x100.png);
 }
 body#id-page-auditor .box-card.icon-ensighten > h2 {
-    background-image: url(../assets/logos/Ensighten_100x100.png);
+    background-image: url(~Assets/logos/Ensighten_100x100.png);
 }
 body#id-page-auditor .box-card.icon-mediamath > h2 {
-    background-image: url(../assets/logos/MediaMath_100x100.png);
+    background-image: url(~Assets/logos/MediaMath_100x100.png);
 }
 body#id-page-auditor .box-card.icon-liveramp > h2 {
-    background-image: url(../assets/logos/LiveRamp_100x100.png);
+    background-image: url(~Assets/logos/LiveRamp_100x100.png);
 }
 body#id-page-auditor .box-card.icon-bugherd > h2 {
-    background-image: url(../assets/logos/BugHerd_100x100.png);
+    background-image: url(~Assets/logos/BugHerd_100x100.png);
 }
 body#id-page-auditor .box-card.icon-sharpspring > h2 {
-    background-image: url(../assets/logos/SharpSpring_100x100.png);
+    background-image: url(~Assets/logos/SharpSpring_100x100.png);
 }
 body#id-page-auditor .box-card.icon-sumo > h2 {
-    background-image: url(../assets/logos/Sumo_100x100.png);
+    background-image: url(~Assets/logos/Sumo_100x100.png);
 }
 body#id-page-auditor .box-card.icon-lead-forensics > h2 {
-    background-image: url(../assets/logos/LeadForensics_100x100.png);
+    background-image: url(~Assets/logos/LeadForensics_100x100.png);
 }
 body#id-page-auditor .box-card.icon-clickcease > h2 {
-    background-image: url(../assets/logos/Clickcease_100x100.png);
+    background-image: url(~Assets/logos/Clickcease_100x100.png);
 }
 body#id-page-auditor .box-card.icon-marin > h2 {
-    background-image: url(../assets/logos/Marin_100x100.png);
+    background-image: url(~Assets/logos/Marin_100x100.png);
 }
 body#id-page-auditor .box-card.icon-osano > h2 {
-    background-image: url(../assets/logos/Osano_100x100.png);
+    background-image: url(~Assets/logos/Osano_100x100.png);
 }
 body#id-page-auditor .box-card.icon-osano > h2 {
-    background-image: url(../assets/logos/Osano_100x100.png);
+    background-image: url(~Assets/logos/Osano_100x100.png);
 }
 body#id-page-auditor .box-card.icon-movinghub > h2 {
-    background-image: url(../assets/logos/Movinghub_100x100.png);
+    background-image: url(~Assets/logos/Movinghub_100x100.png);
 }
 body#id-page-auditor .box-card.icon-bootstrap > h2 {
-    background-image: url(../assets/logos/Bootstrap_100x100.png);
+    background-image: url(~Assets/logos/Bootstrap_100x100.png);
 }
 body#id-page-auditor .box-card.icon-github > h2 {
-    background-image: url(../assets/logos/Github_100x100.png);
+    background-image: url(~Assets/logos/Github_100x100.png);
 }
 body#id-page-auditor .box-card.icon-carbonads > h2 {
-    background-image: url(../assets/logos/CarbonAds_100x100.png);
+    background-image: url(~Assets/logos/CarbonAds_100x100.png);
 }
 body#id-page-auditor .box-card.icon-baidu > h2 {
-    background-image: url(../assets/logos/Baidu_100x100.png);
+    background-image: url(~Assets/logos/Baidu_100x100.png);
 }
 body#id-page-auditor .box-card.icon-cookie-script > h2 {
-    background-image: url(../assets/logos/CookieScript_100x100.png);
+    background-image: url(~Assets/logos/CookieScript_100x100.png);
 }
 body#id-page-auditor .box-card.icon-justuno > h2 {
-    background-image: url(../assets/logos/JustUno_100x100.png);
+    background-image: url(~Assets/logos/JustUno_100x100.png);
 }
 body#id-page-auditor .box-card.icon-order-logic > h2 {
-    background-image: url(../assets/logos/OrderLogic_100x100.png);
+    background-image: url(~Assets/logos/OrderLogic_100x100.png);
 }
 body#id-page-auditor .box-card.icon-shogun > h2 {
-    background-image: url(../assets/logos/Shogun_100x100.png);
+    background-image: url(~Assets/logos/Shogun_100x100.png);
 }
 body#id-page-auditor .box-card.icon-optinmonster > h2 {
-    background-image: url(../assets/logos/OptinMonster_100x100.png);
+    background-image: url(~Assets/logos/OptinMonster_100x100.png);
 }
 body#id-page-auditor .box-card.icon-33across > h2 {
-    background-image: url(../assets/logos/33Across_100x100.png);
+    background-image: url(~Assets/logos/33Across_100x100.png);
 }
 body#id-page-auditor .box-card.icon-conversant > h2 {
-    background-image: url(../assets/logos/Conversant_100x100.png);
+    background-image: url(~Assets/logos/Conversant_100x100.png);
 }
 body#id-page-auditor .box-card.icon-paypal > h2 {
-    background-image: url(../assets/logos/PayPal_100x100.png);
+    background-image: url(~Assets/logos/PayPal_100x100.png);
 }
 body#id-page-auditor .box-card.icon-addtoany > h2 {
-    background-image: url(../assets/logos/AddToAny_100x100.png);
+    background-image: url(~Assets/logos/AddToAny_100x100.png);
 }
 body#id-page-auditor .box-card.icon-tune > h2 {
-    background-image: url(../assets/logos/Tune_100x100.png);
+    background-image: url(~Assets/logos/Tune_100x100.png);
 }
 body#id-page-auditor .box-card.icon-subbly > h2 {
-    background-image: url(../assets/logos/Subbly_100x100.png);
+    background-image: url(~Assets/logos/Subbly_100x100.png);
 }
 body#id-page-auditor .box-card.icon-netweek > h2 {
-    background-image: url(../assets/logos/NetWeek_100x100.png);
+    background-image: url(~Assets/logos/NetWeek_100x100.png);
 }
 body#id-page-auditor .box-card.icon-jsdelivr > h2 {
-    background-image: url(../assets/logos/JsDelivr_100x100.png);
+    background-image: url(~Assets/logos/JsDelivr_100x100.png);
 }
 body#id-page-auditor .box-card.icon-vimeo > h2 {
-    background-image: url(../assets/logos/Vimeo_100x100.png);
+    background-image: url(~Assets/logos/Vimeo_100x100.png);
 }
 body#id-page-auditor .box-card.icon-sharethis > h2 {
-    background-image: url(../assets/logos/ShareThis_100x100.png);
+    background-image: url(~Assets/logos/ShareThis_100x100.png);
 }
 body#id-page-auditor .box-card.icon-polyfill > h2 {
-    background-image: url(../assets/logos/Polyfill_100x100.png);
+    background-image: url(~Assets/logos/Polyfill_100x100.png);
 }
 body#id-page-auditor .box-card.icon-4cite > h2 {
-    background-image: url(../assets/logos/4cite_100x100.png);
+    background-image: url(~Assets/logos/4cite_100x100.png);
 }
 body#id-page-auditor .box-card.icon-igodigital > h2 {
-    background-image: url(../assets/logos/IGoDigital_100x100.png);
+    background-image: url(~Assets/logos/IGoDigital_100x100.png);
 }
 body#id-page-auditor .box-card.icon-oracle > h2 {
-    background-image: url(../assets/logos/Oracle_100x100.png);
+    background-image: url(~Assets/logos/Oracle_100x100.png);
 }
 body#id-page-auditor .box-card.icon-trustarc > h2 {
-    background-image: url(../assets/logos/TrustArc_100x100.png);
+    background-image: url(~Assets/logos/TrustArc_100x100.png);
 }
 body#id-page-auditor .box-card.icon-accessibleweb > h2 {
-    background-image: url(../assets/logos/AccessibleWeb_100x100.png);
+    background-image: url(~Assets/logos/AccessibleWeb_100x100.png);
 }
 body#id-page-auditor .box-card.icon-attentive > h2 {
-    background-image: url(../assets/logos/Attentive_100x100.png);
+    background-image: url(~Assets/logos/Attentive_100x100.png);
 }
 body#id-page-auditor .box-card.icon-klarna > h2 {
-    background-image: url(../assets/logos/Klarna_100x100.png);
+    background-image: url(~Assets/logos/Klarna_100x100.png);
 }
 body#id-page-auditor .box-card.icon-abtasty > h2 {
-    background-image: url(../assets/logos/AbTasty_100x100.png);
+    background-image: url(~Assets/logos/AbTasty_100x100.png);
 }
 body#id-page-auditor .box-card.icon-didomi > h2 {
-    background-image: url(../assets/logos/Didomi_100x100.png);
+    background-image: url(~Assets/logos/Didomi_100x100.png);
 }
 body#id-page-auditor .box-card.icon-source-forge > h2 {
-    background-image: url(../assets/logos/SourceForge_100x100.png);
+    background-image: url(~Assets/logos/SourceForge_100x100.png);
 }
 body#id-page-auditor .box-card.icon-unbounce > h2 {
-    background-image: url(../assets/logos/Unbounce_100x100.png);
+    background-image: url(~Assets/logos/Unbounce_100x100.png);
 }
 body#id-page-auditor .box-card.icon-discourse > h2 {
-    background-image: url(../assets/logos/Discourse_100x100.png);
+    background-image: url(~Assets/logos/Discourse_100x100.png);
 }
 body#id-page-auditor .box-card.icon-kissmetrics > h2 {
-    background-image: url(../assets/logos/KissMetrics_100x100.png);
+    background-image: url(~Assets/logos/KissMetrics_100x100.png);
 }
 body#id-page-auditor .box-card.icon-subscribers > h2 {
-    background-image: url(../assets/logos/Subscribers_100x100.png);
+    background-image: url(~Assets/logos/Subscribers_100x100.png);
 }
 body#id-page-auditor .box-card.icon-azure > h2 {
-    background-image: url(../assets/logos/Azure_100x100.png);
+    background-image: url(~Assets/logos/Azure_100x100.png);
 }
 body#id-page-auditor .box-card.icon-digital-ocean > h2 {
-    background-image: url(../assets/logos/DigitalOcean_100x100.png);
+    background-image: url(~Assets/logos/DigitalOcean_100x100.png);
 }
 body#id-page-auditor .box-card.icon-hull > h2 {
-    background-image: url(../assets/logos/Hull_100x100.png);
+    background-image: url(~Assets/logos/Hull_100x100.png);
 }
 body#id-page-auditor .box-card.icon-chilipiper > h2 {
-    background-image: url(../assets/logos/ChiliPiper_100x100.png);
+    background-image: url(~Assets/logos/ChiliPiper_100x100.png);
 }
 body#id-page-auditor .box-card.icon-sentry > h2 {
-    background-image: url(../assets/logos/Sentry_100x100.png);
+    background-image: url(~Assets/logos/Sentry_100x100.png);
 }
 body#id-page-auditor .box-card.icon-customer > h2 {
-    background-image: url(../assets/logos/Customer_100x100.png);
+    background-image: url(~Assets/logos/Customer_100x100.png);
 }
 body#id-page-auditor .box-card.icon-mutiny > h2 {
-    background-image: url(../assets/logos/Mutiny_100x100.png);
+    background-image: url(~Assets/logos/Mutiny_100x100.png);
 }
 body#id-page-auditor .box-card.icon-jetboost > h2 {
-    background-image: url(../assets/logos/JetBoost_100x100.png);
+    background-image: url(~Assets/logos/JetBoost_100x100.png);
 }
 body#id-page-auditor .box-card.icon-webflow > h2 {
-    background-image: url(../assets/logos/Webflow_100x100.png);
+    background-image: url(~Assets/logos/Webflow_100x100.png);
 }
 body#id-page-auditor .box-card.icon-treasuredata > h2 {
-    background-image: url(../assets/logos/TreasureData_100x100.png);
+    background-image: url(~Assets/logos/TreasureData_100x100.png);
 }
 body#id-page-auditor .box-card.icon-onesignal > h2 {
-    background-image: url(../assets/logos/OneSignal_100x100.png);
+    background-image: url(~Assets/logos/OneSignal_100x100.png);
 }
 body#id-page-auditor .box-card.icon-mixpanel > h2 {
-    background-image: url(../assets/logos/Mixpanel_100x100.png);
+    background-image: url(~Assets/logos/Mixpanel_100x100.png);
 }
 body#id-page-auditor .box-card.icon-wisepops > h2 {
-    background-image: url(../assets/logos/Wisepops_100x100.png);
+    background-image: url(~Assets/logos/Wisepops_100x100.png);
 }
 body#id-page-auditor .box-card.icon-web-analytics-italia > h2 {
-    background-image: url(../assets/logos/WebAnalyticsItalia_100x100.png);
+    background-image: url(~Assets/logos/WebAnalyticsItalia_100x100.png);
 }
 body#id-page-auditor .box-card.icon-quantum-metric > h2 {
-    background-image: url(../assets/logos/QuantumMetric_100x100.png);
+    background-image: url(~Assets/logos/QuantumMetric_100x100.png);
 }
 body#id-page-auditor .box-card.icon-ramp-metrics > h2 {
-    background-image: url(../assets/logos/RampMetrics_100x100.png);
+    background-image: url(~Assets/logos/RampMetrics_100x100.png);
 }
 body#id-page-auditor .box-card.icon-wix > h2 {
-    background-image: url(../assets/logos/Wix_100x100.png);
+    background-image: url(~Assets/logos/Wix_100x100.png);
 }
 body#id-page-auditor .box-card.icon-lead-champion > h2 {
-    background-image: url(../assets/logos/LeadChampion_100x100.png);
+    background-image: url(~Assets/logos/LeadChampion_100x100.png);
 }
 body#id-page-auditor .box-card.icon-tawk > h2 {
-    background-image: url(../assets/logos/Tawk_100x100.png);
+    background-image: url(~Assets/logos/Tawk_100x100.png);
 }
 body#id-page-auditor .box-card.icon-addthis > h2 {
-    background-image: url(../assets/logos/AddThis_100x100.png);
+    background-image: url(~Assets/logos/AddThis_100x100.png);
 }
 body#id-page-auditor .box-card.icon-zoho > h2 {
-    background-image: url(../assets/logos/Zoho_100x100.png);
+    background-image: url(~Assets/logos/Zoho_100x100.png);
 }
 body#id-page-auditor .box-card.icon-html-tag > h2 {
-    background-image: url(../assets/logos/HtmlTag_100x100.png);
+    background-image: url(~Assets/logos/HtmlTag_100x100.png);
 }
 body#id-page-auditor .icon-linkedin:not(.box-card) {
-    background-image: url(../assets/logos/LinkedInAds_100x100.png);
+    background-image: url(~Assets/logos/LinkedInAds_100x100.png);
 }
 body#id-page-auditor .icon-medium:not(.box-card) {
-    background-image: url(../assets/logos/Medium_100x100.png);
+    background-image: url(~Assets/logos/Medium_100x100.png);
 }
 body#id-page-auditor .icon-wordpress:not(.box-card) {
-    background-image: url(../assets/logos/Wordpress_100x100.png);
+    background-image: url(~Assets/logos/Wordpress_100x100.png);
 }
 body#id-page-auditor .icon-git:not(.box-card) {
-    background-image: url(../assets/logos/Git_100x100.png);
+    background-image: url(~Assets/logos/Git_100x100.png);
 }
 body#id-page-auditor .icon-gmail:not(.box-card) {
-    background-image: url(../assets/logos/Gmail_100x100.png);
+    background-image: url(~Assets/logos/Gmail_100x100.png);
 }
 .box-sd {
     margin: 8px 0;
@@ -1699,13 +1699,13 @@ body#id-page-auditor .icon-gmail:not(.box-card) {
     content: '';
 }
 .box-card h2.cardTitle.card-ok:after {
-    background-image: url(../assets/logos/OK_100x100.png);
+    background-image: url(~Assets/logos/OK_100x100.png);
 }
 .box-card h2.cardTitle.card-fix:after {
-    background-image: url(../assets/logos/WARNING_100x100.png);
+    background-image: url(~Assets/logos/WARNING_100x100.png);
 }
 .box-card h2.cardTitle.card-error:after {
-    background-image: url(../assets/logos/ERROR_100x100.png);
+    background-image: url(~Assets/logos/ERROR_100x100.png);
 }
 .box-card h2.cardTitle .cardPreTitle {
     font-variant: small-caps;
