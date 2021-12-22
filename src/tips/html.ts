@@ -7,9 +7,9 @@
 import {Card} from '../card'
 import {Mode} from '../colorCode'
 import {Specs} from '../specs'
-import * as Tips from './tips'
 import {iImg} from '../cards/html'
 import {imgArray2Table} from '../cards/html-cards'
+import * as Tips from './tips'
 import * as CardBlocks from '../card-blocks'
 
 // ---------------------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ export const imgWithoutAlt = (card: Card, images: iImg[]) => {
     const what = Tips.what(
         `${
             images.length > 1 ? 'Some' : 'One'
-        } image${plural} in the HTML of the page are missing have the <code>alt</code> attribute of the <code>img</code> HTML tag.`,
+        } image${plural} in the HTML of the page are missing have the <code>alt</code> attribute of the <code>&lt;img&gt;</code> HTML tag.`,
         `The count excludes images like the Facebook Pixel that are typically 1 pixel by 1 pixel in size and are not intended to contribute to the page content.`
     )
     const table = CardBlocks.table(
@@ -161,7 +161,7 @@ export const titleTooLong = (card: Card, title: string) => {
         `the <code>&lt;title&gt;</code> tag is used by Google and other search engines to show a link to this page on SERP.`,
         `Anything over ${Specs.html.titleTag.maxLen} characters will be automatically truncated.`,
         `Automatic truncation of the title can compromise your title transforming it into some obscure sentence.`,
-        `Your title could look like this:`,
+        `Your truncated title could look like this:`,
         CardBlocks.code(`${title.substr(0, Specs.html.titleTag.maxLen)}...`, Mode.txt)
     )
     const how = Tips.how(
