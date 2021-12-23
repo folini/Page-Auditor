@@ -11,6 +11,7 @@ coverage/
 /out
 /build
 
+
 # internal
 /backup
 \#OLD
@@ -34,3 +35,4 @@ yarn-error.log*
 
 # custom
 src/styles/style.css
+src/styles/css/style.css

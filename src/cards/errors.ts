@@ -7,14 +7,10 @@
 import {Card, CardKind} from '../card'
 import {Mode} from '../colorCode'
 import {SmSource, iSmCandidate} from '../sitemapList'
-<<<<<<< HEAD
-import {target as Platform} from '../../package.json'
 import * as CardBlocks from '../card-blocks'
 import * as Icons from '../icons'
-=======
 
 let Platform = require('../../package.json');
->>>>>>> pr/3
 
 // ------------------------------------------------------------------------
 // Google Chrome Errors
