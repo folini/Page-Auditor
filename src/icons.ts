@@ -12,4 +12,4 @@ export const facebook = `<i class="fab fa-facebook-square" style="color:#3b5998b
 export const hierarchy = `<i class="fas fa-sitemap" style="color:orange;font-size:17px;"></i>`
 export const list = `<i class="fas fa-list-ul" style="color:#3979a7ba;font-size:20px;top:7px;"></i>`
 export const link = `<i class="fas fa-external-link-alt" style="left:5px;position:absolute;top:7px;"></i>`
-export const expandable = `<i class="fas fa-chevron-down" style="color:#54575fc4;float:right;position:relative;top:-2px;padding:0 4px;"></i>`
+export const expandable = `<i class="fas fa-chevron-down" style="color:#54575fc4;float:right;position:relative;top:-2px;padding-right:4px;"></i>`

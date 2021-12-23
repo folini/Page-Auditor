@@ -6,9 +6,10 @@
 // ----------------------------------------------------------------------------
 import {iTag} from './mt'
 import {Card} from '../card'
+import {htmlEncode} from 'js-htmlencode'
 import * as File from '../file'
 import * as CardBlocks from '../card-blocks'
-import {htmlEncode} from 'js-htmlencode'
+import * as Icons from './../icons'
 
 export interface iTagPreviewer {
     (card: Card, allTags: iTag[], selectedTags: iTag[], canonical: string, title: string, url: string): void
@@ -49,6 +50,7 @@ export const stdTags: iTagPreviewer = (
                     `<div class='serp-title'>${title}</div>` +
                     `<div class='serp-description'>${description}</div>`
             ),
+            Icons.google,
             'box-serp'
         )
     )
@@ -107,6 +109,7 @@ export const twitterTags: iTagPreviewer = (
                     `<div class='twitter-card-description'>${htmlEncode(description)}</div>` +
                     `</div>`
             ),
+            Icons.twitter,
             'twitter-card'
         )
     )
@@ -165,6 +168,7 @@ export const openGraphTags: iTagPreviewer = (
                     `<div class='og-description'>${htmlEncode(description)}</div>` +
                     `</div>`
             ),
+            Icons.facebook,
             'facebook-card'
         )
     )

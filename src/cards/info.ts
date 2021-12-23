@@ -7,6 +7,7 @@
 import {Card, CardKind} from '../card'
 import {SmList, maxSitemapsToLoad} from '../sitemapList'
 import * as CardBlocks from '../card-blocks'
+import * as Icons from '../icons'
 
 export function sitemapsOverallAnalysis(sitemaps: SmList, existingCard: Card | undefined = undefined) {
     const nFailed = sitemaps.failedList.length
@@ -38,19 +39,17 @@ export function sitemapsOverallAnalysis(sitemaps: SmList, existingCard: Card | u
 
     if (nDone > 0) {
         const table = sitemaps.doneList.map(sm => [sm.url])
-        card.add(CardBlocks.table(`Successfully Loaded (${nDone})`, table, 'list-style'))
+        card.add(CardBlocks.table(`Successfully Loaded (${nDone})`, table, Icons.list))
     }
 
     if (nSkipped > 0) {
         const table = sitemaps.skippedList.map(sm => [sm.url])
-        card.add(
-            CardBlocks.table(`Not Tested (${nSkipped}) - Only ${maxSitemapsToLoad} are tested`, table, 'list-style')
-        )
+        card.add(CardBlocks.table(`Not Tested (${nSkipped}) - Only ${maxSitemapsToLoad} are tested`, table, Icons.list))
     }
 
     if (nFailed > 0) {
         const table = sitemaps.failedList.map(sm => [sm.url])
-        card.add(CardBlocks.table(`Not Found (${nFailed})`, table, 'list-style'))
+        card.add(CardBlocks.table(`Not Found (${nFailed})`, table, Icons.list))
     }
 
     return card

@@ -6,10 +6,15 @@
 // ----------------------------------------------------------------------------
 import {Card, CardKind} from '../card'
 import {Mode} from '../colorCode'
-import * as CardBlocks from '../card-blocks'
 import {SmSource, iSmCandidate} from '../sitemapList'
+<<<<<<< HEAD
+import {target as Platform} from '../../package.json'
+import * as CardBlocks from '../card-blocks'
+import * as Icons from '../icons'
+=======
 
 let Platform = require('../../package.json');
+>>>>>>> pr/3
 
 // ------------------------------------------------------------------------
 // Google Chrome Errors
@@ -64,7 +69,7 @@ export function sitemap_IsARedirect(sm: iSmCandidate, code: string) {
         .add(CardBlocks.paragraph(msg1))
         .add(CardBlocks.code(sm.url, Mode.txt))
         .add(CardBlocks.paragraph(msg2))
-        .add(CardBlocks.expandable(btnLabel, CardBlocks.code(code, Mode.html), `box-code`))
+        .add(CardBlocks.expandable(btnLabel, CardBlocks.code(code, Mode.html), Icons.code, `box-code`))
         .setTitle('Sitemap.xml Redirects to an HTML File')
         .setTag('card-error')
 }
@@ -81,7 +86,7 @@ export function sitemap_404(sm: iSmCandidate) {
         .setTag('card-error')
 }
 
-export function sitemap_NotFound(sms: iSmCandidate[]) {
+export function sitemap_ListedButNotFound(sms: iSmCandidate[]) {
     const plural = sms.length > 1 ? 's' : ''
     const msg1 = `No <code>Sitemap.xml</code> file${plural} detected at at location${plural}:`
     const msg2 = `File${plural} not found.`
@@ -90,6 +95,15 @@ export function sitemap_NotFound(sms: iSmCandidate[]) {
         .add(CardBlocks.paragraph(msg1))
         .add(CardBlocks.code(sms.map(sm => sm.url).join('<br/>'), Mode.txt))
         .add(CardBlocks.paragraph(msg2))
+        .setTitle('Sitemap.xml Listed But Not Found')
+        .setTag('card-error')
+}
+
+export function sitemap_NotFound() {
+    const msg1 = `No <code>Sitemap.xml</code> file detected for this website.`
+    return new Card(CardKind.error)
+        .setLogo('icon-sitemap')
+        .add(CardBlocks.paragraph(msg1))
         .setTitle('Sitemap.xml Not Found')
         .setTag('card-error')
 }
@@ -105,7 +119,7 @@ export function robotsTxt_IsARedirect(url: string, code: string) {
         .add(CardBlocks.paragraph(msg1))
         .add(CardBlocks.code(url, Mode.txt))
         .add(CardBlocks.paragraph(msg2))
-        .add(CardBlocks.expandable(btnLabel, CardBlocks.code(code, Mode.html), `box-code`))
+        .add(CardBlocks.expandable(btnLabel, CardBlocks.code(code, Mode.html), Icons.code, `box-code`))
         .setTitle('Robots.Txt Redirects to an HTML File')
         .setTag('card-error')
 }
@@ -129,7 +143,7 @@ export function robotsTxt_OnlyComments(url: string, code: string) {
         .setLogo('icon-rep')
         .add(CardBlocks.paragraph(msg1))
         .add(CardBlocks.paragraph(msg2))
-        .add(CardBlocks.expandable(btnLabel, CardBlocks.code(code, Mode.html), `box-code`))
+        .add(CardBlocks.expandable(btnLabel, CardBlocks.code(code, Mode.html), Icons.code, `box-code`))
         .setTitle('Robots.Txt Contains Only Comments')
         .setTag('card-error')
 }
@@ -210,7 +224,7 @@ export function sd_InvalidJSON(json: string) {
     return new Card(CardKind.error)
         .setLogo('icon-micro-formats')
         .add(CardBlocks.paragraph(msg1))
-        .add(CardBlocks.expandable('Invalid JSON Code', CardBlocks.code(json, Mode.txt), `box-code`))
+        .add(CardBlocks.expandable('Invalid JSON Code', CardBlocks.code(json, Mode.txt), Icons.code, `box-code`))
         .setTitle('Invalid LD-JSON Code')
         .setTag('card-error')
 }

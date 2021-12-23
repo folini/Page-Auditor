@@ -107,19 +107,22 @@ export class Card {
         return this
     }
 
-    static toggleBlock(body: HTMLElement) {
-        body.classList.toggle('box-close')
-        body.classList.toggle('box-open')
+    static toggleBlock(box: HTMLElement) {
+        box.classList.toggle('box-close')
+        box.classList.toggle('box-open')
+        box.querySelector('.fa-chevron-down')?.classList.toggle('fa-rotate-180')
     }
 
-    static openBlock(body: HTMLElement) {
-        body.classList.remove('box-close')
-        body.classList.add('box-open')
+    static openBlock(box: HTMLElement) {
+        box.classList.remove('box-close')
+        box.classList.add('box-open')
+        box.querySelector('.fa-chevron-down')?.classList.add('fa-rotate-180')
     }
 
-    static closeBlock(body: HTMLElement) {
-        body.classList.remove('box-open')
-        body.classList.add('box-close')
+    static closeBlock(box: HTMLElement) {
+        box.classList.remove('box-open')
+        box.classList.add('box-close')
+        box.querySelector('.fa-chevron-down')?.classList.add('fa-rotate-180')
     }
 
     public static copyToClipboard(div: HTMLElement) {

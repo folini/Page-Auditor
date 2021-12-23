@@ -1,4 +1,14 @@
 {
+<<<<<<< HEAD
+    "manifest_version": 3,
+    "name": "Page Auditor for Technical SEO",
+    "description": "PageAuditor for Technical SEO is a project created by Franco Folini to analyze tracking codes, Structured Data, meta-tags, and more.",
+    "version": "1.10.21",
+    "icons": {
+        "256": "logos/Logo_256x256.png"
+    },
+    "content_scripts": [
+=======
   "manifest_version": 3,
 
   "theme_color": "#000000",
@@ -26,6 +36,7 @@
       "description": "PageAuditor for Technical SEO is a project created by Franco Folini to analyze tracking codes, Structured Data, meta-tags, and more.",
       "url": "/?source=web",
       "icons": [
+>>>>>>> pr/3
         {
           "src": "/assets/meta/android-icon-192x192.png", "sizes": "192x192",
           "256": "/assets/logos/Logo_256x256.png"

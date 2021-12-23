@@ -4,14 +4,15 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import * as Tips from '../tips/tips'
-import * as File from '../file'
 import {Report} from '../report'
 import {Card, CardKind} from '../card'
-import * as CardBlocks from '../card-blocks'
-import * as Errors from './errors'
 import {Mode} from '../colorCode'
 import {disposableId, formatNumber} from '../main'
+import * as Tips from '../tips/tips'
+import * as File from '../file'
+import * as CardBlocks from '../card-blocks'
+import * as Errors from './errors'
+import * as Icons from '../icons'
 
 export const processRobotsTxt = (robotsTxtBody: string, url: string, report: Report) => {
     if (robotsTxtBody.match(/page not found/gim) !== null || robotsTxtBody.match(/error 404/gim) !== null) {
@@ -119,7 +120,7 @@ const robotsTxtCard = (url: string, robotsTxtBody: string): Card => {
         .add(CardBlocks.code(url, Mode.txt))
         .add(CardBlocks.paragraph(robotsTxtDescription))
         .add(CardBlocks.table('Robots.txt Analysis', table))
-        .add(CardBlocks.expandable(btnLabel, CardBlocks.code(robotsTxtBody, Mode.txt, divId), 'box-code'))
+        .add(CardBlocks.expandable(btnLabel, CardBlocks.code(robotsTxtBody, Mode.txt, divId), Icons.code, 'box-code'))
         .setTag(`card-ok`)
 
     if (linksToSitemap.length === 0) {

@@ -4,14 +4,15 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import * as Tips from '../tips/tips'
 import {Report} from '../report'
 import {Card, CardKind} from '../card'
-import * as CardBlocks from '../card-blocks'
 import {Mode} from '../colorCode'
 import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../main'
 import {tagCategories, iTagCategory} from './mt-categories'
+import * as CardBlocks from '../card-blocks'
+import * as Tips from '../tips/tips'
 import * as Errors from './errors'
+import * as Icons from './../icons'
 
 export interface iTag {
     label: string
@@ -153,7 +154,9 @@ export const metaTagsCard = (
         .open(`Detected Meta Tags`, tagCategory.title, tagCategory.cssClass)
         .add(CardBlocks.paragraph(tagCategory.description))
         .add(CardBlocks.table(`Tags Analysis`, table))
-        .add(CardBlocks.expandable('HTML Code', CardBlocks.code(selectedTagsAsString, Mode.html), `box-code`))
+        .add(
+            CardBlocks.expandable('HTML Code', CardBlocks.code(selectedTagsAsString, Mode.html), Icons.code, 'box-code')
+        )
         .setTag('card-ok')
 
     tagCategory.previewer(card, allTags, selectedTags, canonical, title, url)

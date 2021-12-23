@@ -13,6 +13,7 @@ import {Schema} from '../schema'
 import * as CardBlocks from '../card-blocks'
 import * as Tips from '../tips/tips'
 import * as Errors from './errors'
+import * as Icons from './../icons'
 
 import 'Assets/logos/_noRendering_400x200.png'
 
@@ -37,6 +38,7 @@ export const ldJsonCard = (schema: Schema, tabUrl: string, occurrences: MustBeUn
             CardBlocks.expandable(
                 'JSON-LD Code',
                 CardBlocks.code(schema.getCodeAsString(), Mode.json, scriptId),
+                Icons.code,
                 `box-code`
             )
         )

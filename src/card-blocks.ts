@@ -9,10 +9,11 @@ import {htmlEncode} from 'js-htmlencode'
 import {html_beautify, js_beautify} from 'js-beautify'
 import {sendRenderTaskToWorker, disposableId, compactUrl} from './main'
 import {Card, iLink} from './card'
+import * as Icons from './icons'
 
 export type CardBlock = HTMLDivElement
 
-export type TableStyle = 'table-style' | 'list-style'
+export const tag = (tagName: string) => `<code>&lt;${tagName}&gt;</code>`
 
 export const paragraph = (text: string, cssClass: string = '', id: string = ''): CardBlock => {
     const div = document.createElement('div')
@@ -62,7 +63,7 @@ export const code = (code: string, mode: Mode, id: string = ''): CardBlock => {
     return div
 }
 
-export const expandable = (label: string, block: CardBlock, cssClass: string = ''): CardBlock => {
+export const expandable = (label: string, block: CardBlock, icon = '', cssClass = ''): CardBlock => {
     const boxDiv = document.createElement('div')
     boxDiv.className = 'box-close'
     if (cssClass !== '') {
@@ -71,7 +72,7 @@ export const expandable = (label: string, block: CardBlock, cssClass: string = '
 
     const labelDiv = document.createElement('div')
     labelDiv.className = 'box-label'
-    labelDiv.innerHTML = label
+    labelDiv.innerHTML = icon + label + Icons.expandable
 
     const bodyDiv = document.createElement('div')
     bodyDiv.className = 'box-body'
@@ -82,17 +83,13 @@ export const expandable = (label: string, block: CardBlock, cssClass: string = '
     return boxDiv
 }
 
-export const table = (
-    label: string,
-    tables: string[][] | HTMLTableElement[],
-    tableStyle: TableStyle = 'table-style'
-): CardBlock => {
+export const table = (label: string, tables: string[][] | HTMLTableElement[], icon = Icons.gear): CardBlock => {
     const boxDiv = document.createElement('div')
-    boxDiv.className = `box-table box-close ${tableStyle}`
+    boxDiv.className = `box-table box-close`
 
     const labelDiv = document.createElement('div')
     labelDiv.className = `box-label`
-    labelDiv.innerHTML = label
+    labelDiv.innerHTML = icon + label + Icons.expandable
 
     const bodyDiv = document.createElement('div')
     bodyDiv.className = 'box-body'
@@ -140,7 +137,7 @@ export const tip = (label: string, divs: HTMLElement[], cta: iLink, severity: nu
 
     const labelDiv = document.createElement('div')
     labelDiv.className = 'box-label'
-    labelDiv.innerHTML = label
+    labelDiv.innerHTML = label + Icons.expandable
     labelDiv.setAttribute('data-severity', severity > 0 ? severity.toString() : '')
 
     const bodyDiv = document.createElement('div')
@@ -165,8 +162,8 @@ export const tip = (label: string, divs: HTMLElement[], cta: iLink, severity: nu
     }
 
     const tipBtn = document.createElement('a')
-    tipBtn.className = 'large-btn external-link'
-    tipBtn.innerHTML = cta.label
+    tipBtn.className = 'large-btn'
+    tipBtn.innerHTML = Icons.link + cta.label
     tipBtn.target = '_blank'
     tipBtn.href = cta.url as string
 

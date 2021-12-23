@@ -10,7 +10,7 @@ import * as Card from './card'
 let Platform = require('../package.json');
 
 export const open = (url: string, title: string) => {
-    const width = 600
+    const width = 620
     const height = 800
     const screenWidth = window.screen.width
     const screenHeight = window.screen.height
@@ -19,13 +19,15 @@ export const open = (url: string, title: string) => {
     const win = window.open(
         '',
         '_blank',
-        `popup,width=${width},height=${height},screenX=${posX},screenY=${posY}`
+        `popup=1,width=${width},height=${height},screenX=${posX},screenY=${posY}`
     ) as Window
-    // Clone the style sheet from the extension window
-    const style = document.head.querySelector('style')?.cloneNode(true) as HTMLStyleElement
-    win.document.head.appendChild(style)
+
+    // Clone the style sheet and links from the extension window HEAD section
+    const styles = [...document.head.querySelectorAll('style,link')].map(element => element.cloneNode(true))
+    win.document.head.append(...styles)
 
     // Create the ToDo Report
+    win.document.title = `ToDo Report`
     win.document.body.id = 'id-page-auditor-todo'
     win.document.body.className = 'todo-report'
     const header = win.document.createElement('header')
@@ -70,14 +72,17 @@ export const open = (url: string, title: string) => {
 
     const divTodoSummary = win.document.createElement('div')
     divTodoSummary.className = 'todo-summary'
+
     const divTodoCritical = win.document.createElement('div')
-    divTodoCritical.className = 'todo-class todo-critical'
+    divTodoCritical.className = 'todo-score-card todo-critical'
     divTodoCritical.innerHTML = `<div class='todo-summary-label'>Critical Issues</div><div class='todo-summary-value' id='id-todo-critical'>0</div>`
+
     const divTodoMedium = win.document.createElement('div')
-    divTodoMedium.className = 'todo-class todo-medium'
+    divTodoMedium.className = 'todo-score-card todo-medium'
     divTodoMedium.innerHTML = `<div class='todo-summary-label'>Medium Issues</div><div class='todo-summary-value' id='id-todo-medium'>0</div>`
+
     const divTodoMinor = win.document.createElement('div')
-    divTodoMinor.className = 'todo-class todo-minor'
+    divTodoMinor.className = 'todo-score-card todo-minor'
     divTodoMinor.innerHTML = `<div class='todo-summary-label'>Minor Issues</div><div class='todo-summary-value' id='id-todo-minor'>0</div>`
     divTodoSummary.append(divTodoCritical, divTodoMedium, divTodoMinor)
 
@@ -105,6 +110,7 @@ export const open = (url: string, title: string) => {
         }
     })
 
+    // Sort report by severity, and display severity for each tip
     cardsToCopy
         .sort(
             (a, b) =>
@@ -124,14 +130,14 @@ export const open = (url: string, title: string) => {
 
     const labels = [...reportInnerContainer.getElementsByClassName('box-label')]
 
-        // Open / Close All button behavior
+    // [Open All] / [Close All] buttons behavior
     btn.addEventListener('click', () => {
         type Cmd = 'open' | 'close'
         const cmd = btn.innerText === 'Open All' ? 'open' : 'close'
         btn.innerText = cmd === 'open' ? 'Close All' : 'Open All'
         labels.forEach(label =>
             cmd === 'open'
-                ? Card.Card.openBlock(label.parentElement as HTMLElement)
+                ? Card.Card.openBlock(label.parentElement as HTMLElement )
                 : Card.Card.closeBlock(label.parentElement as HTMLElement)
         )
     })

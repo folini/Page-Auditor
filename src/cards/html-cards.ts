@@ -14,6 +14,7 @@ import {htmlEncode} from 'js-htmlencode'
 import * as File from '../file'
 import * as Tips from '../tips/tips'
 import * as CardBlocks from '../card-blocks'
+import * as Icons from '../icons'
 
 export const titleCard = (report: Report, title: string, h1Title: string): void => {
     if (title.length === 0) {
@@ -23,13 +24,13 @@ export const titleCard = (report: Report, title: string, h1Title: string): void 
     }
 
     const card = new Card(CardKind.report)
-        .open(`Html`, `<code>&lt;title&gt;</code> Tag`, 'icon-html-tag')
+        .open(`Html`, `${CardBlocks.tag(`title`)} Tag`, 'icon-html-tag')
         .setTag('card-ok')
-        .add(CardBlocks.paragraph(`The page title from the <code>&lt;title&gt;</code> is:`))
+        .add(CardBlocks.paragraph(`The page's title listed in the ${CardBlocks.tag(`title`)} HTML Tag is:`))
         .add(CardBlocks.code(title, Mode.txt))
 
     if (h1Title.length > 0) {
-        card.add(CardBlocks.paragraph(`The document title from the <code>&lt;h1&gt;</code> tag is:`)).add(
+        card.add(CardBlocks.paragraph(`The document title from the ${CardBlocks.tag(`h1`)} tag is:`)).add(
             CardBlocks.code(h1Title, Mode.txt)
         )
 
@@ -119,10 +120,10 @@ export const imgCard = (report: Report, imgs: iImg[]): void => {
     }
 
     const card = new Card(CardKind.report)
-        .open(`Html`, `<code>&lt;img&gt;</code> Tags`, 'icon-html-tag')
-        .add(CardBlocks.paragraph(`Found ${imgs.length} <code>&lt;img&gt;</code> HTML tags.`))
-        .add(CardBlocks.table(`<code>&lt;img&gt;</code> Tags Analysis`, table))
-        .add(CardBlocks.table(`Image List`, imgArray2Table(imgs)))
+        .open(`Html`, `${CardBlocks.tag(`img`)} Tags`, 'icon-html-tag')
+        .add(CardBlocks.paragraph(`Found ${imgs.length} ${CardBlocks.tag(`img`)} HTML tags.`))
+        .add(CardBlocks.table(`${CardBlocks.tag(`img`)} Tags Analysis`, table))
+        .add(CardBlocks.table(`Image List`, imgArray2Table(imgs), Icons.list))
         .setTag('card-ok')
 
     report.addCard(card)
@@ -189,7 +190,7 @@ export const imgArray2Table = (imgs: iImg[]) =>
                     : !img.alt
                     ? `<span class='missing-info'>The image is missing the Alt attribute.</span>`
                     : isPlaceholder(img.alt, File.name(img.src))
-                    ? `<div class='missing-info'>The Alt attribute for this image is just a placeholder, use a more descriptive text.</div>${img.alt}`
+                    ? `${img.alt}<div class='missing-info'>Note: The Alt attribute for this image is just a placeholder, use a more descriptive text.</div>`
                     : img.alt
             }`,
         ]

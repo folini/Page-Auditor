@@ -11,6 +11,7 @@ import {formatNumber} from '../main'
 import {SmSource} from '../sitemapList'
 import * as Tips from './tips'
 import * as CardBlocks from '../card-blocks'
+import * as Icons from '../icons'
 
 // ------------------------------------------------------------------------
 // SITEMAP XML TIPS
@@ -60,7 +61,7 @@ export const missingXmlExtension = (card: Card, urls: string[]) => {
     const table = CardBlocks.table(
         `Sitemaps without .xml extension`,
         urls.map(url => [url]),
-        'list-style'
+        Icons.list
     )
     const why = Tips.why(
         `Google crawler can handle even sitemaps without the proper extension.`,

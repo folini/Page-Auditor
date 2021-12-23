@@ -8,6 +8,7 @@ import {Card} from '../card'
 import {Specs} from '../specs'
 import * as Tips from './tips'
 import * as CardBlocks from '../card-blocks'
+import * as Icons from '../icons'
 
 // ---------------------------------------------------------------------------------------------
 // SCRIPTS TIPS
@@ -21,7 +22,7 @@ export const unsafeLinks = (card: Card, urls: string[]) => {
     const table = CardBlocks.table(
         `List of ${urls.length} Scrip${plural} not using <code>https://</code> as protocol.`,
         urls.map(url => [url]),
-        'list-style'
+        Icons.list
     )
 
     const why = Tips.why(
@@ -33,12 +34,12 @@ export const unsafeLinks = (card: Card, urls: string[]) => {
     const tableHTTP = CardBlocks.table(
         `List of unsafe links to Scrips`,
         urls.map(url => [url]),
-        'list-style'
+        Icons.list
     )
     const tableHTTPS = CardBlocks.table(
         `List of proposed safer links to Scrips`,
         urls.map(url => [url.replace('https://', 'https://')]),
-        'list-style'
+        Icons.list
     )
     card.add(
         CardBlocks.tip(
@@ -64,7 +65,7 @@ export const scriptNotFound = (card: Card, scripts: string[]) => {
     const table = CardBlocks.table(
         `List of ${scripts.length} Broken Links to Scrip${plural}.`,
         scripts.map(url => [url]),
-        'list-style'
+        Icons.list
     )
 
     card.add(

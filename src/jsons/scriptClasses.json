@@ -665,7 +665,7 @@
         "patterns": [
             "(.|/)doubleclick.net/",
             "(.|/)googleadservices.com/",
-            "(.|/)adservice.google/",
+            "(.|/)adservice.google",
             "/adsense/",
             "(.|/)googlesyndication.com/"
         ],
@@ -1773,5 +1773,29 @@
         "iconClass": "icon-jquery",
         "description": "jQuery is a JavaScript library designed to simplify HTML DOM tree traversal and manipulation, as well as event handling, CSS animation, and Ajax. It is free, open-source software using the permissive MIT License.",
         "url": "https://jquery.com/"
+    },
+    {
+        "patterns": ["(.|/)inspectlet.com/", "(.|/)inspectlet.io/"],
+        "name": "Inspectlet",
+        "category": "User Behavior Monitoring",
+        "iconClass": "icon-inspectlet",
+        "description": "Inspectlet monitors your site's visitors in real-time and relays this information back to the servers, where it's compiled and presented to you.",
+        "url": "https://inspectlet.com/"
+    },
+    {
+        "patterns": ["(.|/)dropbox.com/"],
+        "name": "Dropbox",
+        "category": "Cloud Storage",
+        "iconClass": "icon-dropbox",
+        "description": "Dropbox is a file hosting service operated by the American company Dropbox, Inc., headquartered in San Francisco, California, US that offers cloud storage, file synchronization, personal cloud, and client software.",
+        "url": "https://dropbox.com/"
+    },
+    {
+        "patterns": ["(.|/)box.com/"],
+        "name": "Box",
+        "category": "Cloud Storage and Collaboration",
+        "iconClass": "icon-box",
+        "description": "Box, Inc. is a public company based in Redwood City, California. It develops and markets cloud-based content management, collaboration, and file sharing tools for businesses.",
+        "url": "https://box.com/"
     }
 ]
