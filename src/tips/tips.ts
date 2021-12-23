@@ -27,7 +27,7 @@ const tipWhatWhyHow = (tipTitle: string, ...msg: (string | CardBlocks.CardBlock)
     msg.forEach(tipMsg => {
         if (typeof tipMsg === 'string') {
             const span = document.createElement('span')
-            span.innerHTML = tipMsg
+            span.innerHTML = tipMsg + ' '
             div.append(span)
         } else if (tipMsg.classList.contains('code')) {
             tipMsg.classList.add('tip-code')
