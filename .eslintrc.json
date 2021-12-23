@@ -1,0 +1,36 @@
+{
+  "eslint.autoFixOnSave": false,
+  "eslint.validate": [],
+
+  "env": {
+    "browser": false,
+    "node": true,
+    "jest": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "ecmaFeatures": {
+      "modules": true,
+      "impliedStrict": true
+    }
+  },
+  "plugins": [
+    "node",
+    "promise",
+    "jest",
+    "unicorn"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:node/recommended",
+    "plugin:promise/recommended",
+    "plugin:jest/recommended",
+    "plugin:unicorn/recommended"
+  ],
+  "rules": {
+    "no-console": 0,
+    "no-process-exit": 0,
+    "unicorn/no-process-exit": 0,
+    "semi": ["error", "never"]
+  }
+}

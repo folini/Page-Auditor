@@ -1,29 +1,72 @@
-// TOP LEVEL TSCONFIG
 {
-    "compileOnSave": true,
-    "compilerOptions": {
-        "noEmit": false,
-        "outDir": "dist",
-        "module": "ES2020",
-        "target": "ES2020",
-        "moduleResolution": "node",
-        "allowJs": false,
-        /* "sourceMap": true, */
-        "inlineSourceMap": true,
-        "removeComments": true,
-        "strict": true,
-        "noImplicitAny": true,
-        "strictNullChecks": true,
-        "strictFunctionTypes": true,
-        "strictBindCallApply": true,
-        "strictPropertyInitialization": true,
-        "noImplicitThis": true,
-        "alwaysStrict": true,
-        "resolveJsonModule": true,
-        "esModuleInterop": true,
-        "allowSyntheticDefaultImports": true,
-        "types": ["node", "chrome", "jest"],
-        "baseUrl": "./",
-    },
-    "exclude": ["node_modules"]
+  "compileOnSave": true,
+  "compilerOptions": {
+    "lib" : [
+      "es2020",
+      "es2016.array.include",
+      "es2017.object",
+      "es5",
+      "es6",
+      "dom",
+      "dom.iterable"
+    ],
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "types": ["node", "chrome", "jest"],
+    "importHelpers": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "baseUrl" : ".",
+    "outDir" : "./build/",
+    "module" : "commonjs",
+    "preserveConstEnums" : true,
+    "removeComments" : true,
+    "sourceMap" : true,
+    "target" : "es2020",
+    "moduleResolution" : "node",
+    "allowJs" : true,
+    "noEmit" : true,
+    "strict" : true,
+    "esModuleInterop" : true,
+    "jsx" : "react",
+    "strictNullChecks" : false,
+    "noImplicitAny" : false,
+    "strictPropertyInitialization" : false,
+
+    "paths": {
+      "Assets/*":     ["src/assets/*"],
+      "Components/*": ["src/components/*"],
+      "Include/*":    ["src/shared/include/*"],
+      "Modals/*":     ["src/shared/modals/*"],
+      "Reports/*":    ["src/shared/reports/*"],
+      "Shared/*":     ["src/shared/*"],
+      "App/*":        ["src/app/*"],
+      "Config/*":     ["src/config/*"],
+      "Data/*":       ["src/data/*"],
+      "Pages/*":      ["src/pages/*"],
+      "Scripts/*":    ["src/scripts/*"],
+      "Styles/*":     ["src/styles/*"],
+      "Typing/*":     ["src/typing/*"],
+      "Utils/*":      ["src/utils/*"],
+      "Validators/*": ["src/validators/*"],
+      "Layout/*":     ["src/layout/*"],
+      "Root/*":       ["src/*"]
+    }
+
+  },
+
+  "includes" : [
+    "./*"
+  ],
+
+  "exclude": [
+    "node_modules",
+    ".OLD"
+  ]
+
 }

@@ -178,7 +178,7 @@ export class Schema {
                 missingImages.forEach(imgObj => {
                     const imgTag = card.getDiv().querySelector(`#${imgObj.id}`) as HTMLImageElement | undefined
                     if (imgTag) {
-                        imgTag.src = `../logos/_noRendering_400x200.png`
+                        imgTag.src = `Assets/logos/_noRendering_400x200.png`
                     }
                 })
                 Tips.StructuredData.imagesNotFound(this.#cardPromise!, missingImages)
@@ -338,7 +338,7 @@ export class Schema {
         if (sd.startsWith('//')) {
             Tips.StructuredData.imageUrlMissingProtocol(this.#cardPromise!, label, [sd])
             sd = `https:${sd}`
-            src = `../logos/_noRendering_400x200.png`
+            src = `Assets/logos/_noRendering_400x200.png`
         }
 
         if (sd.startsWith('/')) {
@@ -349,7 +349,7 @@ export class Schema {
 
         if (sd.length === 0) {
             Tips.StructuredData.imageUrlIsEmpty(this.#cardPromise!, label)
-            src = `../logos/_noRendering_400x200.png`
+            src = `Assets/logos/_noRendering_400x200.png`
         }
 
         const imgId = disposableId()

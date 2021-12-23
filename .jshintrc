@@ -1,0 +1,14 @@
+{
+  "esversion": 11,
+  "asi": false,
+  "esnext": false,
+  "laxbreak":true,
+  "moz": true,
+  "boss": true,
+  "node": true,
+  "validthis": true,
+  "globals": {
+    "EventEmitter": true,
+    "Promise": true
+  }
+}
