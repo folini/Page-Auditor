@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require("webpack");
+const CopyPlugin = require("copy-webpack-plugin");
 const dotenv = require('dotenv').config({path: __dirname + '/.env'});
 const TerserPlugin = require("terser-webpack-plugin");
 
@@ -26,14 +27,14 @@ module.exports = {
 
   devServer: {
     // port: 3000,
-    http2: true,
-    https: true,
+    // http2: true,
+    // https: true,
     compress: true,
     magicHtml: false,
     hot: false,
     liveReload: false,
     historyApiFallback: true,
-    contentBase: './build',
+    contentBase: './dist',
     open: false,
 
     headers: {
@@ -58,7 +59,7 @@ module.exports = {
 
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, 'build'),
+    path: path.resolve(__dirname, 'dist'),
     publicPath: '',
     clean: true,
   },
@@ -70,7 +71,14 @@ module.exports = {
 
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin()],
+    minimizer: [new TerserPlugin(
+      {
+        terserOptions: {
+            keep_classnames: true,
+            keep_fnames: true
+        }
+      }
+    )],
     moduleIds: 'named',
   },
 
@@ -108,7 +116,7 @@ module.exports = {
               modules: true,
             }
           },{
-            loader: "less-loader"
+            loader: "less-loader",
           },
         ],
       },
@@ -130,6 +138,7 @@ module.exports = {
         ],
         include: /\.module\.s?(c|a)ss$/,
       },
+
       {
         test: /\.s?css$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
@@ -139,7 +148,9 @@ module.exports = {
       // All assets
       {
         test: /\.(woff(2)?|ttf|eot|svg|png|jpe?g|gif)(\?v=\d+\.\d+\.\d+)?$/,
-        type: 'asset/resource',
+        //type: 'asset/resource',
+        loader: 'file-loader',
+        //options: {name: '[name].[ext]'},
       },
 
       // {
@@ -196,6 +207,22 @@ module.exports = {
       'process.env.NODE_ENV': JSON.stringify('production'),
       'process.env': dotenv.parsed,
       'process.env.debug': false
+    }),
+
+    new CopyPlugin({
+      patterns: [
+        {
+          from: "./src/assets/",
+          to: "./assets/",
+          // globOptions: {
+          //   ignore: ['**/documents']
+          // }
+        },
+        {
+          from: "./src/manifest.json",
+          to: "./manifest.json",
+        }
+      ],
     }),
 
   ].filter(Boolean)

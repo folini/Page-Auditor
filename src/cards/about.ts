@@ -9,7 +9,7 @@ import {Card, CardKind} from '../card'
 import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../main'
 import * as CardBlocks from '../card-blocks'
 
-const scriptClasses = require('../jsons/scriptClasses.json') as any[]
+const scriptClasses = require('../data/scriptClasses.json') as any[]
 
 const bioLinks = [
     {
@@ -61,9 +61,9 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
                 .open('Credits', `Page Auditor for Technical SEO`, 'icon-fc')
                 .add(
                     CardBlocks.paragraph(
-                        `<b>Page Auditor for Technical SEO</b> is a free Extension for 
-                    <a href='https://www.microsoft.com/en-us/edge' target='_new'>Microsoft Edge</a> and 
-                    <a href='https://www.google.com/chrome/' target='_new'>Google Chrome</a> created by 
+                        `<b>Page Auditor for Technical SEO</b> is a free Extension for
+                    <a href='https://www.microsoft.com/en-us/edge' target='_new'>Microsoft Edge</a> and
+                    <a href='https://www.google.com/chrome/' target='_new'>Google Chrome</a> created by
                     <a href='https://www.linkedin.com/in/francofolini/' target='_new'>Franco Folini</a>.
                 <br><br>The purpose of <i>Page Auditor for Technical SEO</i> is to analyze and show, in a way that is simple and easy to understand, all SEO factors that can affect the SEO performance of a website or single webpage.
                 <br><br>When possible, <i>Page Auditor</i> also provides suggestions on how to improve the page SEO and to fix a diagnosed problem.`,
@@ -109,13 +109,13 @@ const reportGenerator: ReportGeneratorFunc = (tabUrl: string, data: any, report:
                 .open(``, `Open-Source Project`, 'icon-open')
                 .add(
                     CardBlocks.paragraph(
-                        `<b>Page Auditor</b> is an open source project created by <a target="_new" href='https://www.linkedin.com/in/francofolini/'>Franco Folini</a>. 
+                        `<b>Page Auditor</b> is an open source project created by <a target="_new" href='https://www.linkedin.com/in/francofolini/'>Franco Folini</a>.
                         That means anybody is free to use, study, modify, and distribute the source code of project for any purpose, within the limits set by the license.
                         <br/><br/>
-                        <b>Page Auditor</b> source code is distributed with a <a target="_new" href='https://github.com/folini/Page-Auditor/blob/main/LICENSE.md'>BSD 3-Clause License</a>. 
+                        <b>Page Auditor</b> source code is distributed with a <a target="_new" href='https://github.com/folini/Page-Auditor/blob/main/LICENSE.md'>BSD 3-Clause License</a>.
                         <br/><br/>
                         The <b>Page Auditor</b> has been created using <a target="_new" href='https://www.typescriptlang.org/'>Typescript</a>. If you are not familiar with development, TypeScript is a superset of the famous JavaScript.
-                        The project has been developed <a href='https://code.visualstudio.com/'>Visual Studio Code</a> and extensively tested using the 
+                        The project has been developed <a href='https://code.visualstudio.com/'>Visual Studio Code</a> and extensively tested using the
                         <a target="_new" href='https://jestjs.io/'>JEST</a> testing tools.
                         <br/><br/>
                         You can access the source code on the <a target="_new" href='https://github.com/folini/Page-Auditor'>public project repository on GitHub</a>.`
