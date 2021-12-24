@@ -7,7 +7,7 @@
 import './default.htm'
 import './manifest.json'
 import './styles/less/style.less'
-import './assets/logos/Logo_256x256.png'
+import 'Assets/logos/Logo_256x256.png'
 
 import {Report} from './report'
 import {Card} from './card'
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 document.addEventListener('BeforeUnloadEvent', () => {
-    
+
     if(worker!== undefined) {
         worker.terminate()
     }

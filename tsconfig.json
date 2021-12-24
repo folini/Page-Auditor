@@ -41,9 +41,9 @@
     "paths": {
       "Assets/*":     ["src/assets/*"],
       "Components/*": ["src/components/*"],
-      "Include/*":    ["src/shared/include/*"],
-      "Modals/*":     ["src/shared/modals/*"],
-      "Reports/*":    ["src/shared/reports/*"],
+      "Include/*":    ["src/include/*"],
+      "Modals/*":     ["src/modals/*"],
+      "Reports/*":    ["src/reports/*"],
       "Shared/*":     ["src/shared/*"],
       "App/*":        ["src/app/*"],
       "Config/*":     ["src/config/*"],
