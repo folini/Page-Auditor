@@ -7,7 +7,6 @@
 import {Card, CardKind} from '../card'
 import {Mode} from '../colorCode'
 import {SmSource, iSmCandidate} from '../sitemapList'
-
 import * as CardBlocks from '../card-blocks'
 import * as Icons from '../icons'
 
