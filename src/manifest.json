@@ -8,15 +8,9 @@
     "256": "/assets/logos/Logo_256x256.png"
   },
 
-  "content_scripts": [
-    {
-      "src": "/assets/meta/android-icon-192x192.png", "sizes": "192x192",
-      "256": "/assets/logos/Logo_256x256.png",
-      "matches": ["https://*/*"],
-      "js": ["main.js"],
-      "run_at": "document_idle"
-    }
-  ],
+  "background": {
+    "service_worker": "worker.js"
+  },
 
   "action": {
     "default_title": "Page Auditor for Technical SEO",
