@@ -11,7 +11,7 @@
 
 let Platform = require('../package.json');
 
-import 'Root/default.htm'
+import 'Root/html/default.htm'
 import 'Root/manifest.json'
 
 import 'Config/styles'
