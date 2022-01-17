@@ -26,7 +26,7 @@
     "module" : "commonjs",
     "preserveConstEnums" : true,
     "removeComments" : true,
-    "sourceMap" : true,
+    //"sourceMap" : true,
     "target" : "es2020",
     "moduleResolution" : "node",
     "allowJs" : true,

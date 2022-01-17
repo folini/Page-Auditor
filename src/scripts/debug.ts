@@ -4,7 +4,7 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import * as HTML from './cards/html'
+import * as HTML from '../scripts/cards/html'
 import * as SitemapList from './sitemapList'
 
 export const iImgToString = (img: HTML.iImg[] | HTML.iImg): string => {

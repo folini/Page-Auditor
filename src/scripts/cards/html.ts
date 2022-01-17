@@ -7,7 +7,7 @@
 import {Report} from '../report'
 import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc, disposableId} from '../../main'
 import * as HtmlCards from './html-cards'
-import {iImgToString} from 'src/debug'
+import {iImgToString} from '../debug'
 
 export interface iImg {
     src: string

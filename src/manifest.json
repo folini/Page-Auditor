@@ -46,7 +46,7 @@
       "all_frames": false,
       "matches": ["<all_urls>"],
       "js": ["/main.js"],
-      "run_at": "document_idle"
+      "run_at": "document_end"
     }
   ],
 

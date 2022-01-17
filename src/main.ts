@@ -3,14 +3,20 @@
 //
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
+//
+// Contributors:
+// *************
+// Dario Passariello - dariopassariello@gmail.com
 // ----------------------------------------------------------------------------
 
 let Platform = require('../package.json');
 
 import 'Root/default.htm'
 import 'Root/manifest.json'
-import 'Root/styles'
-//import 'Assets/logos/Logo_256x256.png'
+
+import 'Config/styles'
+import 'Config/script'
+
 
 import { Report } from 'Root/scripts/report'
 import { Card } from 'Root/scripts/card'
@@ -124,23 +130,30 @@ const buildNavigationArea = (sections: SectionType[]) => {
 
   const versionDiv = document.getElementById('id-version') as HTMLElement
   versionDiv.innerHTML = `Ver. ${ Platform.version }`
+
   const tabsContainer = document.getElementById('id-tabs') as HTMLUListElement
   const reportContainer = document.getElementById('id-report-outer-container') as HTMLDivElement
-  sections.forEach((section, i) => {
-    const sep = document.createElement('li')
-    sep.className = i === 0 ? 'gap-mini' : 'gap-sep'
-    tabsContainer.append(sep)
-    const tab = document.createElement('li')
-    tab.id = section.tabId
-    tab.innerHTML = section.name
-    tabsContainer.append(tab)
-    const reportDiv = document.createElement('div')
-    reportDiv.id = section.reportId
-    reportDiv.className = 'inner-report-container'
-    reportContainer.append(reportDiv)
-    tab.addEventListener('click', () => showReport(section))
-    Spinner.show(reportDiv)
-  })
+
+    sections.forEach((section, i) => {
+
+      //const sep = document.createElement('li')
+      //sep.className = i === 0 ? 'gap-mini' : 'gap-sep'
+      //tabsContainer.append('gap-mini')
+
+      const tab = document.createElement('li')
+      tab.id = section.tabId
+      tab.innerHTML = section.name
+      tabsContainer.append(tab)
+
+      const reportDiv = document.createElement('div')
+      reportDiv.id = section.reportId
+      reportDiv.className = 'inner-report-container'
+      reportContainer.append(reportDiv)
+
+      tab.addEventListener('click', () => showReport(section))
+      Spinner.show(reportDiv)
+    })
+
 }
 
 async function generateReport(section: SectionType, actions: sectionActions, tab: chrome.tabs.Tab) {
@@ -221,7 +234,7 @@ export const formatNumber = (num: number) => num.toLocaleString(undefined, {maxi
 const enableTodoReportAccess = (tab: chrome.tabs.Tab) => {
   const btn = document.getElementById('btn-todo') as HTMLButtonElement
   btn.style.display = 'block'
-  btn.addEventListener('click', () => Todo.open(tab.url!, tab.title!))
+  btn.addEventListener('click', () => Todo.open(tab.url!, tab.title!, 620, 600 ))
 }
 
 export const compactUrl = (url: string, maxLen: number) => {

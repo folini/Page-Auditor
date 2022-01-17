@@ -9,9 +9,7 @@ import * as Card from './card'
 
 let Platform = require('../../package.json');
 
-export const open = (url: string, title: string) => {
-    const width = 620
-    const height = 800
+export const open = (url: string, title: string, width: number = 540 , height: number = 540) => {
     const screenWidth = window.screen.width
     const screenHeight = window.screen.height
     const posX = Math.round((screenWidth - width) / 2)
@@ -27,6 +25,7 @@ export const open = (url: string, title: string) => {
     win.document.head.append(...styles)
 
     // Create the ToDo Report
+
     win.document.title = `ToDo Report`
     win.document.body.id = 'id-page-auditor-todo'
     win.document.body.className = 'todo-report'

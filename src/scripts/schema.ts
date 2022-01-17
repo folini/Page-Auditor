@@ -7,7 +7,7 @@
 import {getLanguage, isLanguage} from './language-code'
 import {Card, iLink} from './card'
 import {disposableId} from '../main'
-import * as Tips from './tips/tips'
+import * as Tips from '../scripts/tips/tips'
 import * as File from './file'
 import * as Icons from './icons'
 

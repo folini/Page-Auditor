@@ -131,9 +131,17 @@ const TerserPlugin = require("terser-webpack-plugin");
           exclude: [ /node_modules/, /.OLD/ ],
           options: {
             //plugins: ['react-hot-loader/babel'],
-            cacheDirectory: argv.mode === 'development' ? true : false,
+            //cacheDirectory: argv.mode === 'development' ? true : false,
           },
         },
+        // {
+        //   test: /\.(ts|tsx|js|jsx)$/,
+        //   loader: 'ts-loader',
+        //   exclude: [ /node_modules/, /.OLD/ ],
+        //   options: {
+        //     configFile: 'tsconfig.json'
+        //   }
+        // },
 
         // html loader
         {
