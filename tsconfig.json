@@ -43,7 +43,6 @@
       "Components/*": ["src/components/*"],
       "Include/*":    ["src/include/*"],
       "Modals/*":     ["src/modals/*"],
-      "Reports/*":    ["src/reports/*"],
       "Shared/*":     ["src/shared/*"],
       "App/*":        ["src/app/*"],
       "Config/*":     ["src/config/*"],
@@ -51,9 +50,6 @@
       "Pages/*":      ["src/pages/*"],
       "Scripts/*":    ["src/scripts/*"],
       "Styles/*":     ["src/styles/*"],
-      "Typing/*":     ["src/typing/*"],
-      "Utils/*":      ["src/utils/*"],
-      "Validators/*": ["src/validators/*"],
       "Layout/*":     ["src/layout/*"],
       "Root/*":       ["src/*"]
     }

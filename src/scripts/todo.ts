@@ -7,7 +7,7 @@
 
 import * as Card from './card'
 
-let Platform = require('../package.json');
+let Platform = require('../../package.json');
 
 export const open = (url: string, title: string) => {
     const width = 620

@@ -15,7 +15,7 @@ import * as Tips from '../tips/tips'
 import * as Errors from './errors'
 import * as Icons from './../icons'
 
-import 'Assets/logos/_noRendering_400x200.png'
+//import 'Assets/logos/_noRendering_400x200.png'
 
 const schemaTypesWithMustBeUniqueOccurrences: string[] = ['Organization', 'WebSite', 'BreadcrumbList']
 

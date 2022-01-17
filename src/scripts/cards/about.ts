@@ -9,7 +9,7 @@ import {Card, CardKind} from '../card'
 import {sectionActions, ReportGeneratorFunc, CodeInjectorFunc} from '../../main'
 import * as CardBlocks from '../card-blocks'
 
-const scriptClasses = require('../data/scriptClasses.json') as any[]
+const scriptClasses = require('Data/scriptClasses.json') as any[]
 
 const bioLinks = [
     {

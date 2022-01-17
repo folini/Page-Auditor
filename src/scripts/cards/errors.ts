@@ -11,7 +11,7 @@ import {SmSource, iSmCandidate} from '../sitemapList'
 import * as CardBlocks from '../card-blocks'
 import * as Icons from '../icons'
 
-let Platform = require('../../package.json');
+let Platform = require('../../../package.json');
 
 // ------------------------------------------------------------------------
 // Google Chrome Errors

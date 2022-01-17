@@ -15,7 +15,7 @@ import * as File from '../file'
 import * as Info from './info'
 import * as Icons from '../icons'
 
-const listOfScriptClasses = require('../data/scriptClasses.json') as iTrackClass[]
+const listOfScriptClasses = require('Data/scriptClasses.json') as iTrackClass[]
 
 interface iTrackClass {
     patterns: string[]

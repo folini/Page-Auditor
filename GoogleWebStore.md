@@ -1,11 +1,12 @@
-# Google Web Store Creative 
+# Google Web Store Creative
 
-## Description 
+## Description
+
 > The following description must be in plain text without any formatting. The description is intended for copy & past to [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole/).
 
-A Chrome Extension, based on open-source code, to analyze the elements of a web page that can impact the on-page SEO performance. "Page Auditor" can perform a technical SEO audit of any web page. It will checks and displays, in human-readable, well organized, reports, all the information from a web, including: 
+A Chrome Extension, based on open-source code, to analyze the elements of a web page that can impact the on-page SEO performance. "Page Auditor" can perform a technical SEO audit of any web page. It will checks and displays, in human-readable, well organized, reports, all the information from a web, including:
 
-* Structured Data. The report provides excellent visualization and detailed explanation to help understand the content of LD-JSON fields. 
+* Structured Data. The report provides excellent visualization and detailed explanation to help understand the content of LD-JSON fields.
 
 * JavaScript code. The report scans the page and creates detailed reports explaining the purpose of each script included or embedded in the page, and it identifies the code that is tracking the page visitors or used to insert ads into the page. For each block of code, it will also provide links to the company behind it.
 

@@ -9,7 +9,7 @@ import {Report} from '../report'
 import {sectionActions, ReportGeneratorFunc} from '../../main'
 import * as CardBlocks from '../card-blocks'
 
-const scriptClasses = require('../data/scriptClasses.json') as any[]
+const scriptClasses = require('Data/scriptClasses.json') as any[]
 
 const suggestedSites = [
     {label: 'CNN', url: 'https://cnn.com/'},
