@@ -10,9 +10,9 @@
     "url": "https://github.com/folini/"
   },
 
-  "options_page": "/default.htm#options",
+  "options_page": "/options.htm",
   "options_ui": {
-    "page": "/default.htm#options"
+    "page": "/options.htm"
   },
 
   "permissions": [

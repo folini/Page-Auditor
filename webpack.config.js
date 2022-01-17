@@ -230,6 +230,13 @@ const TerserPlugin = require("terser-webpack-plugin");
             }
           },
           {
+            from: "./src/html/",
+            to: "./",
+            globOptions: {
+              gitignore: true,
+            }
+          },
+          {
             from: "./src/manifest.json",
             to: "./manifest.json",
             globOptions: {
