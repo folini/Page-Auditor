@@ -4,25 +4,26 @@
 // This source code is licensed under the BSD 3-Clause License found in the
 // LICENSE file in the root directory of this source tree.
 // ----------------------------------------------------------------------------
-import './default.htm'
-import './manifest.json'
-import './styles/less/style.less'
+import 'Root/default.htm'
+import 'Root/manifest.json'
+import 'Root/styles/less/style.less'
+
 import 'Assets/logos/Logo_256x256.png'
 
-import {Report} from './report'
-import {Card} from './card'
+import { Report } from 'Root/scripts/report'
+import { Card } from 'Root/scripts/card'
+import { iWorkerRenderJob as iRenderTask } from 'Root/scripts/worker'
 
-import {iWorkerRenderJob as iRenderTask} from './worker'
-import * as Errors from './cards/errors'
-import * as JsonLd from './cards/sd'
-import * as Scripts from './cards/scripts'
-import * as Credits from './cards/about'
-import * as Meta from './cards/mt'
-import * as Robots from './cards/rtsm'
-import * as Tips from './tips/tips'
-import * as Html from './cards/html'
-import * as Spinner from './spinner'
-import * as Todo from './todo'
+import * as Errors from 'Root/scripts/cards/errors'
+import * as JsonLd from 'Root/scripts/cards/sd'
+import * as Scripts from 'Root/scripts/cards/scripts'
+import * as Credits from 'Root/scripts/cards/about'
+import * as Meta from 'Root/scripts/cards/mt'
+import * as Robots from 'Root/scripts/cards/rtsm'
+import * as Tips from 'Root/scripts/tips/tips'
+import * as Html from 'Root/scripts/cards/html'
+import * as Spinner from 'Root/scripts/spinner'
+import * as Todo from 'Root/scripts/todo'
 
 let Platform = require('../package.json');
 
@@ -81,7 +82,9 @@ const sections: SectionType[] = [
 ]
 
 document.addEventListener('DOMContentLoaded', () => {
+
     chrome.tabs.query({active: true, currentWindow: true}).then(tabs => {
+
         const tab = tabs[0]
         buildNavigationArea(sections)
         showReport(sections[0])
@@ -102,19 +105,23 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(() => sections.map(section => generateReport(section, section.actions, tab)))
             .then(reportPromises => Promise.all(reportPromises).then(() => enableTodoReportAccess(tab)))
     })
+
 })
 
 document.addEventListener('BeforeUnloadEvent', () => {
 
-    if(worker!== undefined) {
+    if( worker !== undefined ) {
         worker.terminate()
     }
+
 })
 
 // ----------------------------------------------------------------------------
 // FUNCTIONS
 // ----------------------------------------------------------------------------
+
 const buildNavigationArea = (sections: SectionType[]) => {
+
     const versionDiv = document.getElementById('id-version') as HTMLElement
     versionDiv.innerHTML = `Ver. ${ Platform.version }`
     const tabsContainer = document.getElementById('id-tabs') as HTMLUListElement

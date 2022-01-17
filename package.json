@@ -4,8 +4,23 @@
   "target": "Chrome",
   "private": true,
   "description": "An open source Microsoft Edge and Google Chrome Extension to analyze Structured Data, Meta tags, and JavaScript from any web page",
-  "main": "src/main.ts",
   "license": "BSD-3-Clause",
+  "copyright": "Franco Folini",
+  "main": "src/main.js",
+
+  "author": {
+    "name": "Franco Folini",
+    "url": "https://github.com/folini/"
+  },
+
+  "contributors": [
+    {
+      "name": "Dario Passariello",
+      "email": "dariopassariello@gamil.com",
+      "url": "https://dario.passariello.ca"
+    }
+  ],
+
   "appCode": "page-Auditor",
   "appCodeRelease": "reborn",
   "appName": "page-auditor",
@@ -14,12 +29,15 @@
   "appAPI": "/api/",
   "apiDev": "http://localhost:3000",
   "apiProd": "https://",
+
   "publishConfig": {},
+
   "eslintConfig": {
     "globals": {
       "window": true
     }
   },
+
   "build": {
     "appId": "net.picla.page-auditor",
     "files": [
@@ -30,6 +48,7 @@
       "buildResources": "assets"
     }
   },
+
   "targets": {
     "main": {
       "includeNodeModules": {
@@ -39,38 +58,32 @@
       "isLibrary": true
     }
   },
+
   "engines": {
     "node": ">=0.10.0"
   },
+
   "deprecated": false,
   "scripts": {
-    "start": "webpack serve --config webpack.dev.js",
+    "build": "webpack --progress --color --mode=production --config=webpack.config.js",
+    "start": "webpack serve --progress --color --mode=development --config=webpack.config.js",
     "test": "jest --silent --detectOpenHandles",
     "test-coverage": "jest --coverage --silent",
-    "format": "prettier --write -l src tests",
-    "build": "webpack --progress --color --mode production --stats-error-details --config webpack.config.js"
+    "format": "prettier --write -l src tests"
   },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/folini/Page-Auditor.git",
     "help": "git+https://github.com/folini/Page-Auditor#readme"
   },
+
   "bugs": {
     "url": "https://github.com/folini/Page-Auditor/issues"
   },
+
   "homepage": "https://github.com/folini/Page-Auditor#readme",
-  "copyright": "Franco Folini",
-  "author": {
-    "name": "Franco Folini",
-    "url": "https://github.com/folini/"
-  },
-  "contributors": [
-    {
-      "name": "Dario Passariello",
-      "email": "dariopassariello@gamil.com",
-      "url": "https://dario.passariello.ca"
-    }
-  ],
+
   "keywords": [
     "folini",
     "seo",
@@ -82,6 +95,7 @@
     "code",
     "powerful"
   ],
+
   "devDependencies": {
     "@babel/core": "^7.16.5",
     "@babel/plugin-transform-runtime": "^7.16.5",
@@ -121,6 +135,7 @@
     "webpack-cli": "^4.8.0",
     "webpack-dev-server": "^4.7.1"
   },
+
   "dependencies": {
     "dotenv": "^10.0.0",
     "jshint": "^2.13.1",
@@ -128,4 +143,5 @@
     "schema-dts": "^1.0.0",
     "terser-webpack-plugin": "^5.3.0"
   }
+
 }
