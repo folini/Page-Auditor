@@ -16,6 +16,8 @@ coverage/
 /backup
 \#OLD
 .OLD
+.bak
+.sql
 
 # misc
 .webpack

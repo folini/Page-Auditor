@@ -4,8 +4,20 @@
   "target": "Chrome",
   "private": true,
   "description": "An open source Microsoft Edge and Google Chrome Extension to analyze Structured Data, Meta tags, and JavaScript from any web page",
-  "main": "src/main.ts",
   "license": "BSD-3-Clause",
+  "copyright": "Franco Folini",
+  "main": "src/main.js",
+  "author": {
+    "name": "Franco Folini",
+    "url": "https://github.com/folini/"
+  },
+  "contributors": [
+    {
+      "name": "Dario Passariello",
+      "email": "dariopassariello@gamil.com",
+      "url": "https://dario.passariello.ca"
+    }
+  ],
   "appCode": "page-Auditor",
   "appCodeRelease": "reborn",
   "appName": "page-auditor",
@@ -44,11 +56,11 @@
   },
   "deprecated": false,
   "scripts": {
-    "start": "webpack serve --config webpack.dev.js",
+    "build": "webpack --progress --color --mode=production --config=webpack.config.js",
+    "start": "webpack serve --progress --color --mode=development --config=webpack.config.js",
     "test": "jest --silent --detectOpenHandles",
     "test-coverage": "jest --coverage --silent",
-    "format": "prettier --write -l src tests",
-    "build": "webpack --progress --color --mode production --stats-error-details --config webpack.config.js"
+    "format": "prettier --write -l src tests"
   },
   "repository": {
     "type": "git",
@@ -59,18 +71,6 @@
     "url": "https://github.com/folini/Page-Auditor/issues"
   },
   "homepage": "https://github.com/folini/Page-Auditor#readme",
-  "copyright": "Franco Folini",
-  "author": {
-    "name": "Franco Folini",
-    "url": "https://github.com/folini/"
-  },
-  "contributors": [
-    {
-      "name": "Dario Passariello",
-      "email": "dariopassariello@gamil.com",
-      "url": "https://dario.passariello.ca"
-    }
-  ],
   "keywords": [
     "folini",
     "seo",
@@ -122,6 +122,7 @@
     "webpack-dev-server": "^4.7.1"
   },
   "dependencies": {
+    "@babel/plugin-transform-regenerator": "^7.16.7",
     "dotenv": "^10.0.0",
     "jshint": "^2.13.1",
     "require": "^0.4.4",
